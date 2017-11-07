@@ -1,0 +1,73 @@
+:host {
+  display: block;
+  position: relative;
+  overflow: hidden !important;
+}
+
+.native-scrollbar-container {
+  position: relative;
+  overflow: hidden !important;
+  width: 100%;
+  height: 100%;
+
+  &.scrollbar-autohide > .native-scrollbar {
+    opacity: 0;
+    transition: opacity 120ms ease-out;
+  }
+
+  &.scrollbar-autohide:hover > .native-scrollbar,
+  &.scrollbar-autohide:active > .native-scrollbar,
+  &.scrollbar-autohide:focus > .native-scrollbar {
+    opacity: 1;
+    transition: opacity 340ms ease-out;
+  }
+}
+
+.native-scrollbar {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  z-index: 1;
+  border-radius: 3px;
+  &.scrollbar-vertical {
+    width: 6px;
+    top: 2px;
+    .scrollbar-thumb {
+      width: 100%;
+    }
+  }
+  &.scrollbar-horizontal {
+    height: 6px;
+    left: 2px;
+    .scrollbar-thumb {
+      height: 100%;
+    }
+  }
+  &.track-not {
+    display: none;
+  }
+}
+
+.scrollbar-thumb {
+  position: relative;
+  display: block;
+  width: 0;
+  height: 0;
+  cursor: pointer;
+  border-radius: inherit;
+  background-color: rgba(0, 0, 0, .2);
+  transform: translate3d(0, 0, 0);
+
+  &:hover,
+  &:active {
+    background-color: rgba(0, 0, 0, .3);
+  }
+}
+
+.native-scrollbar-view {
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+  transform: translate3d(0, 0, 0);
+  -webkit-overflow-scrolling: touch;
+}

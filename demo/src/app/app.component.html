@@ -1,0 +1,18 @@
+<app-header></app-header>
+<div>
+	<!--<router-outlet></router-outlet>-->
+</div>
+
+
+<div class="container">
+  <button (click)="test()">Resize Content</button>
+  <native-scrollbar [style.height.px]="500">
+    <div class="test">
+      {{ content }}
+    </div>
+  </native-scrollbar>
+</div>
+
+
+
+<app-footer></app-footer>
