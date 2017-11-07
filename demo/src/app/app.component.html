@@ -1,0 +1,18 @@
+<app-header></app-header>
+<div>
+	<!--<router-outlet></router-outlet>-->
+</div>
+
+
+<div class="container">
+  <button (click)="test()">Resize Content</button>
+  <ng-scrollbar [style.height.px]="500">
+    <div class="test">
+      {{ content }}
+    </div>
+  </ng-scrollbar>
+</div>
+
+
+
+<app-footer></app-footer>
