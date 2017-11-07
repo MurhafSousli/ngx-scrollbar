@@ -4,51 +4,51 @@
   overflow: hidden !important;
 }
 
-.native-scrollbar-container {
+.ng-scrollbar-container {
   position: relative;
   overflow: hidden !important;
   width: 100%;
   height: 100%;
 
-  &.scrollbar-autohide > .native-scrollbar {
+  &.ng-scrollbar-autohide > .ng-scrollbar {
     opacity: 0;
     transition: opacity 120ms ease-out;
   }
 
-  &.scrollbar-autohide:hover > .native-scrollbar,
-  &.scrollbar-autohide:active > .native-scrollbar,
-  &.scrollbar-autohide:focus > .native-scrollbar {
+  &.ng-scrollbar-autohide:hover > .ng-scrollbar,
+  &.ng-scrollbar-autohide:active > .ng-scrollbar,
+  &.ng-scrollbar-autohide:focus > .ng-scrollbar {
     opacity: 1;
     transition: opacity 340ms ease-out;
   }
 }
 
-.native-scrollbar {
+.ng-scrollbar {
   position: absolute;
   right: 2px;
   bottom: 2px;
   z-index: 1;
   border-radius: 3px;
-  &.scrollbar-vertical {
+  &.ng-scrollbar-vertical {
     width: 6px;
     top: 2px;
-    .scrollbar-thumb {
+    .ng-scrollbar-thumb {
       width: 100%;
     }
   }
-  &.scrollbar-horizontal {
+  &.ng-scrollbar-horizontal {
     height: 6px;
     left: 2px;
-    .scrollbar-thumb {
+    .ng-scrollbar-thumb {
       height: 100%;
     }
   }
-  &.track-not {
+  &.ng-scrollbar-disabled {
     display: none;
   }
 }
 
-.scrollbar-thumb {
+.ng-scrollbar-thumb {
   position: relative;
   display: block;
   width: 0;
@@ -64,7 +64,7 @@
   }
 }
 
-.native-scrollbar-view {
+.ng-scrollbar-view {
   width: 100%;
   height: 100%;
   overflow: scroll;

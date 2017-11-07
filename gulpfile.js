@@ -337,7 +337,6 @@ gulp.task('rollup-bundle', (cb) => {
       // Angular dependencies
       '@angular/core': 'ng.core',
       '@angular/common': 'ng.common',
-      '@angular/cdk': 'ng.cdk',
 
       // Rxjs dependencies
       'rxjs/Subject': 'Rx',
@@ -377,14 +376,14 @@ gulp.task('rollup-bundle', (cb) => {
       plugins: rollupBaseConfig.plugins.concat([rollupUglify({})])
     });
 
-    // ESM+ES5 flat native-scrollbar bundle.
+    // ESM+ES5 flat scrollbar bundle.
     const fesm5config = Object.assign({}, rollupBaseConfig, {
       input: es5Input,
       file: path.join(distFolder, `${config.libraryName}.es5.js`),
       format: 'es'
     });
 
-    // ESM+ES2015 flat native-scrollbar bundle.
+    // ESM+ES2015 flat scrollbar bundle.
     const fesm2015config = Object.assign({}, rollupBaseConfig, {
       input: es2015Input,
       file: path.join(distFolder, `${config.libraryName}.js`),

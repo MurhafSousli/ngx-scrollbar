@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ObserversModule } from '@angular/cdk/observers';
-import { ScrollbarComponent } from './native-scrollbar.component';
+import { ScrollbarComponent } from './scrollbar.component';
 
 @NgModule({
-  imports: [CommonModule, ObserversModule],
+  imports: [CommonModule],
   declarations: [ScrollbarComponent],
   exports: [ScrollbarComponent]
 })

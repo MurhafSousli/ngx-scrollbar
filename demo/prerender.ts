@@ -10,7 +10,7 @@ enableProdMode();
 
 // Express Engine
 import { ngExpressEngine } from '@nguniversal/express-engine';
-// Import native-scrollbar map for lazy loading
+// Import scrollbar map for lazy loading
 import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
 import { renderModuleFactory } from '@angular/platform-server';
 import { ROUTES } from './static.paths';

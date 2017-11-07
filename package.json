@@ -1,7 +1,7 @@
 {
   "name": "ngx-scrollbar",
-  "description": "Angular library built with ❤ using ngx-library yeoman generator.",
-  "version": "0.0.1",
+  "description": "Custom overlay-scrollbars with native scrolling mechanism for Angular",
+  "version": "0.5.0",
   "filename": "./src/ngx-scrollbar.js",
   "homepage": "http://github.com/murhafsousli/ngx-scrollbar",
   "author": {
@@ -14,9 +14,9 @@
   },
   "license": "MIT",
   "keywords": [
-    "ng",
     "angular",
-    "library"
+    "scrollbar",
+    "custom"
   ],
   "bugs": {
     "url": "http://github.com/murhafsousli/ngx-scrollbar/issues"
@@ -31,7 +31,6 @@
     "check-travis": " travis-status --repo=murhafsousli/ngx-scrollbar --branch=master --fail-pending || echo 'Not yet passing'"
   },
   "dependencies": {
-    "@angular/cdk": "5.0.0-rc0",
     "@angular/common": "5.0.0",
     "@angular/core": "5.0.0"
   },

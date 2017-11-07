@@ -1,3 +1,3 @@
-export { ScrollbarModule } from './native-scrollbar/native-scrollbar.module';
-export { ScrollbarComponent } from './native-scrollbar/native-scrollbar.component';
-export { ScrollBarEvent } from './native-scrollbar/native-scrollbar.model'
+export { ScrollbarModule } from './scrollbar/scrollbar.module';
+export { ScrollbarComponent } from './scrollbar/scrollbar.component';
+export { ScrollBarEvent } from './scrollbar/scrollbar.model'

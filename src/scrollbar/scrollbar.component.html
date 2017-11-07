@@ -1,32 +1,32 @@
 <div *ngIf="state$ | async as state"
-     class="native-scrollbar-container"
-     [class.scrollbar-autohide]="autoHide">
+     class="ng-scrollbar-container"
+     [class.ng-scrollbar-autohide]="autoHide">
 
   <div #barX
-       class="native-scrollbar scrollbar-horizontal"
-       [class.track-not]="!trackX"
+       class="ng-scrollbar ng-scrollbar-horizontal"
+       [class.ng-scrollbar-disabled]="!trackX"
        (mousedown)="barWorker$.next({e: $event, axis: 'x'})">
 
     <div #thumbX
-         class="scrollbar-thumb"
+         class="ng-scrollbar-thumb"
          [ngStyle]="state.thumbXStyle"
          (mousedown)="thumbWorker$.next({e: $event, axis: 'x'})"></div>
 
   </div>
 
   <div #barY
-       class="native-scrollbar scrollbar-vertical"
-       [class.track-not]="!trackY"
+       class="ng-scrollbar ng-scrollbar-vertical"
+       [class.ng-scrollbar-disabled]="!trackY"
        (mousedown)="barWorker$.next({e: $event, axis: 'y'})">
 
     <div #thumbY
-         class="scrollbar-thumb"
+         class="ng-scrollbar-thumb"
          [ngStyle]="state.thumbYStyle"
          (mousedown)="thumbWorker$.next({e: $event, axis: 'y'})"></div>
 
   </div>
 
-  <div #view class="native-scrollbar-view"
+  <div #view class="ng-scrollbar-view"
        [ngStyle]="state.viewStyle"
        [scrollTop]="state.scrollTop"
        [scrollLeft]="state.scrollLeft"

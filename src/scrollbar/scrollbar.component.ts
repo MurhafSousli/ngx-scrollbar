@@ -20,12 +20,12 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/take';
 
-import { ScrollBarState, ScrollBarEvent } from './native-scrollbar.model';
+import { ScrollBarState, ScrollBarEvent } from './scrollbar.model';
 
 @Component({
-  selector: 'native-scrollbar',
-  templateUrl: 'native-scrollbar.component.html',
-  styleUrls: ['native-scrollbar.component.scss'],
+  selector: 'ng-scrollbar',
+  templateUrl: 'scrollbar.component.html',
+  styleUrls: ['scrollbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScrollbarComponent implements AfterViewInit, OnDestroy {
@@ -132,7 +132,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
 
   /**
    *  Worker for scrolling
-   * @returns {Observable<any>}
+   * @return Observable<any>
    */
   private scrollWorker(): Observable<any> {
     return this.scrollWorker$.switchMap((event: MouseEvent) => {
@@ -163,7 +163,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
 
   /**
    * Worker for dragging scrollbar thumbs
-   * @returns {Observable<any>}
+   * @return Observable<any>
    */
   private thumbWorker(): Observable<any> {
     return this.thumbWorker$.switchMap((event: ScrollBarEvent) => {
@@ -210,7 +210,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
 
   /**
    * Worker for scrolling on scrollbar click (not the thumb)
-   * @returns {Observable<any>}
+   * @return Observable<any>
    */
   private barWorker(): Observable<any> {
     return this.barWorker$.switchMap((event: ScrollBarEvent) => {
@@ -235,7 +235,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
 
   /**
    * Calculate Thumb X Size
-   * @returns {number}
+   * @return number
    */
   private calculateThumbXSize(): number {
     this._naturalThumbSizeX = this.barX.clientWidth / this.view.scrollWidth * this.barX.clientWidth;
@@ -245,7 +245,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
 
   /**
    * Calculate Thumb Y Size
-   * @returns {number}
+   * @return number
    */
   private calculateThumbYSize(): number {
     this._naturalThumbSizeY = this.barY.clientHeight / this.view.scrollHeight * this.barY.clientHeight;
@@ -255,9 +255,9 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
 
   /**
    * Get scrollbar thumb size
-   * @param {number} naturalThumbSize
-   * @param {number} scrollMax
-   * @returns {number}
+   * @param naturalThumbSize
+   * @param scrollMax
+   * @return number
    */
   private scrollBoundaries(naturalThumbSize: number, scrollMax: number): number {
     if (naturalThumbSize < this.minThumbSize) {
@@ -271,9 +271,9 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
 
   /**
    * Set horizontal scrollbar thumb style
-   * @param {number} x
-   * @param {number} width
-   * @returns {any}
+   * @param x
+   * @param width
+   * @return any
    */
   private scrollbarXStyle(x: number, width: number): any {
     return {
@@ -286,9 +286,9 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
 
   /**
    * Set vertical scrollbar thumb style
-   * @param {number} y
-   * @param {number} height
-   * @returns {any}
+   * @param y
+   * @param height
+   * @return any
    */
   private scrollbarYStyle(y: number, height: number): any {
     return {
@@ -301,8 +301,8 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
 
   /**
    * Hide original scrollbars
-   * @param {number} size
-   * @returns {any}
+   * @param size
+   * @return any
    */
   private viewStyle(size: number): any {
     return {
@@ -313,7 +313,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
 
   /**
    * Get the original scrollbar width to hide them
-   * @returns {number}
+   * @return number
    */
   private getScrollbarWidth(): number {
     const e = this.renderer.createElement('div');
