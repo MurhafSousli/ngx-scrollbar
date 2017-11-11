@@ -66,7 +66,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
   @ViewChild('view') viewRef: ElementRef;
 
   @Input() autoHide = false;
-  @Input() trackX = true;
+  @Input() trackX = false;
   @Input() trackY = true;
   @Output() scrollState = new EventEmitter<MouseEvent>();
 

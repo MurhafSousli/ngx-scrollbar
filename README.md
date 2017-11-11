@@ -69,7 +69,7 @@ The component should have a fixed height
 
  - **[trackX]**: boolean
 
-  Horizontal scrollbar, default `true`
+  Horizontal scrollbar, default `false`
 
  - **[trackY]**: boolean
 
