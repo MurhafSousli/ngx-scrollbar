@@ -1,18 +1,117 @@
-<app-header></app-header>
-<div>
-	<!--<router-outlet></router-outlet>-->
-</div>
+<ng-scrollbar class="wrapper">
 
+  <div class="container">
+    <app-header></app-header>
 
-<div class="container">
-  <button (click)="test()">Resize Content</button>
-  <ng-scrollbar [style.height.px]="500">
-    <div class="test">
-      {{ content }}
+    <div class="example example1">
+      <ng-scrollbar class="sample" [trackX]="false">
+        <ul>
+          <li>scroll more</li>
+          <li>scroll more content</li>
+          <li>scroll more</li>
+          <li>scroll more content</li>
+          <li>scroll more</li>
+          <li>scroll more content</li>
+          <li>scroll more</li>
+          <li>scroll more content</li>
+          <li>scroll more content</li>
+          <li>scroll more content</li>
+          <li>Hey</li>
+        </ul>
+      </ng-scrollbar>
     </div>
-  </ng-scrollbar>
-</div>
+
+    <div class="style-source">
+      <b>Source image and inspiration from <a href="https://dribbble.com/shots/544224-Notepad-Full-Version">Matt
+        Gentile</a></b>
+    </div>
+
+    <div class="example example2">
+      <div class="sample">
+        <header>Title</header>
+        <ng-scrollbar>
+          <ul>
+            <li></li>
+            <li class="not">Clean the house</li>
+            <li class="ok">Take out the thrash</li>
+            <li class="not">Do the dishes</li>
+            <li class="ok">Feed the dog</li>
+            <li class="ok">Mow the law</li>
+            <li class="not">Clean the pool</li>
+            <li class="ok">Have a beer</li>
+            <li class="not">Clean the house</li>
+            <li class="ok">Take out the thrash</li>
+            <li class="not">Do the dishes</li>
+            <li class="ok">Feed the dog</li>
+            <li class="ok">Mow the law</li>
+            <li class="not">Clean the pool</li>
+            <li class="ok">Have a beer</li>
+            <li class="not">Clean the house</li>
+            <li class="ok">Take out the thrash</li>
+            <li class="not">Do the dishes</li>
+            <li class="ok">Feed the dog</li>
+            <li class="ok">Mow the law</li>
+            <li class="not">Clean the pool</li>
+            <li class="ok">Have a beer</li>
+            <li></li>
+          </ul>
+        </ng-scrollbar>
+      </div>
+    </div>
+
+    <div class="style-source">
+      <b>Source image and inspiration from <a href="https://dribbble.com/shots/229317-Code">Orman Clark</a></b>
+    </div>
+
+    <div class="example example3">
+      <ng-scrollbar class="sample" [trackX]="false">
+        <div class="box-inner">
+          <h2 class="title">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
+          <p class="meta">Posted 9 hours ago by <a href="">noeldelgado</a></p>
+          <div class="text">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis facere debitis ullam, quae quidem, impedit
+              culpa nam repellat in voluptatibus esse ab harum, hic? Aliquam nesciunt voluptates repellendus assumenda
+              labore.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro quos voluptate doloribus. Optio unde
+              inventore, tempore nemo repellat expedita! Quod, accusamus nobis iure. Aliquam quibusdam, nemo explicabo
+              ipsum provident asperiores.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, qui, rem! Debitis cum maiores iste,
+              possimus! Obcaecati accusamus eaque expedita quo soluta quis, repudiandae similique, veritatis repellendus
+              facere suscipit! Et!</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum doloremque repellat praesentium quae et
+              consectetur iure quos porro, provident voluptates reprehenderit a. Accusamus ut, quaerat asperiores
+              blanditiis voluptate, sint facilis.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus beatae inventore nobis esse
+              temporibus exercitationem eos illo minima non magnam, provident sit doloribus maiores odio in animi quidem
+              unde. Perferendis.</p>
+          </div>
+        </div>
+      </ng-scrollbar>
+    </div>
+
+
+    <div class="style-source">
+      <b>Source image and inspiration from <a href="https://dribbble.com/shots/295529-Transparent-Box">Orman Clark</a></b>
+    </div>
+
+    <div class="example example4">
+      <ng-scrollbar class="sample" [trackX]="false">
+        <div class="inner">
+          <b>Lorem ipsum dolor sit amet</b>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet mollitia vero quam, nisi possimus dolorem asperiores, molestiae sit voluptatibus alias consequuntur laudantium repellat ea quidem quaerat rerum perspiciatis iste adipisci.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda earum facilis sed nihil numquam at accusamus eum error eaque alias hic sint rem consequatur impedit tempore, dolor, quos, quae esse?</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore maiores maxime corrupti quisquam. Dignissimos sunt error voluptatibus repellat consequatur illo, aliquid nihil maxime veniam repudiandae, provident et sit, reiciendis dicta.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae id amet deserunt voluptate maiores sunt aut eligendi totam nesciunt magnam illo consectetur aspernatur at voluptatem, qui unde ullam omnis voluptates.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id assumenda et fugiat placeat enim quas, voluptas odio aperiam in quibusdam beatae eaque minima. Consequuntur pariatur, doloremque, odit dolorem ullam sunt!</p>
+        </div>
+      </ng-scrollbar>
+    </div>
+
+  </div>
 
 
 
-<app-footer></app-footer>
+  <app-footer></app-footer>
+
+</ng-scrollbar>
+
