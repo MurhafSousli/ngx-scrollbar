@@ -9,7 +9,8 @@ import {
   EventEmitter,
   ViewChild,
   Renderer2,
-  ElementRef
+  ElementRef,
+  ViewEncapsulation
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -26,7 +27,8 @@ import { ScrollBarState, ScrollBarEvent } from './scrollbar.model';
   selector: 'ng-scrollbar',
   templateUrl: 'scrollbar.component.html',
   styleUrls: ['scrollbar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class ScrollbarComponent implements AfterViewInit, OnDestroy {
 
@@ -96,8 +98,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
 
     const config: MutationObserverInit = {
       subtree: true,
-      childList: true,
-      characterData: true
+      childList: true
     };
 
     this.observer.observe(this.view, config);
@@ -112,6 +113,9 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  /**
+   * Update when content changes
+   */
   onContentChanged() {
     Observable.of({}).take(1).subscribe(() => {
       this.setState({
@@ -151,7 +155,6 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
         this.setState({
           thumbXStyle: this.scrollbarXStyle(thumbXPosition, this.calculateThumbXSize()),
           thumbYStyle: this.scrollbarYStyle(thumbYPosition, this.calculateThumbYSize()),
-
           viewStyle: this.viewStyle(this.SCROLLBAR_WIDTH)
         });
 
@@ -174,6 +177,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
 
           /** Start dragging scrollbar on mouseMove */
           const startDrag = (e: MouseEvent) => {
+
             if (scrollEvent.axis === 'y' && this._prevPageY) {
 
               const offset = e.clientY - this.barY.getBoundingClientRect().top;

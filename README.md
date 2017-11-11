@@ -14,6 +14,7 @@ ___
  - [Usage](#usage) 
  - [Issues](#issues)    
  - [Author](#author)
+ - [Credit](#credit)
 
 <a name="installation"/>
 
@@ -88,3 +89,8 @@ If you identify any errors in the library, or have an idea for an improvement, p
  - [github/murhafsousli](https://github.com/MurhafSousli)
  - [twitter/murhafsousli](https://twitter.com/MurhafSousli)
 
+<a name="credit"/>
+
+## Credit 
+
+ - Inspired by [gemini-scrollbar](https://github.com/noeldelgado/gemini-scrollbar) by [Noel Delgado](http://pixelia.me/)
