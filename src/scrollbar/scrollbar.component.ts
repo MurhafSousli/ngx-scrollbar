@@ -215,7 +215,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
   barXWorker(e: MouseEvent) {
     if (e.target === e.currentTarget) {
       const offset = e.offsetX - this._naturalThumbSizeX * .5;
-      const thumbPositionPercentage = offset * 100 / this.barY.clientWidth;
+      const thumbPositionPercentage = offset * 100 / this.barX.clientWidth;
       const scrollLeft = thumbPositionPercentage * this.view.scrollWidth / 100;
       this.renderer.setProperty(this.view, 'scrollLeft', scrollLeft);
     }
