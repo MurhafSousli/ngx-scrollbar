@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0
+
+ - Refactor(Scrollbar Component)
+ - Fix(dragging scrollbars) closes [#3](https://github.com/MurhafSousli/ngx-scrollbar/issues/3)
+
 ## 1.0.1
 
  - Change `trackX` input to `false` by default
