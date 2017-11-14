@@ -12,7 +12,7 @@ ___
  - [Live Demo](https://MurhafSousli.github.io/ngx-scrollbar)
  - [Installation](#installation)
  - [Usage](#usage) 
- - [Scroll view dynamically](#scrollto)
+ - [Scroll To](#scrollto)
  - [Issues](#issues)    
  - [Author](#author)
  - [Credit](#credit)
@@ -81,32 +81,32 @@ The component should have a fixed height
 
 ## Scroll the view dynamically
 
-Scrollbar component has 2 functions to scroll the view to a specific position
+Scrollbar component has 2 helper functions allows you to scroll the view to a specific position
 
 ```ts
-// scroll horizontally function
+// scroll horizontally
 scrollElement.scrollXTo(position, duration?);
 
-// scroll horizontally function
+// scroll vertically
 scrollElement.scrollYTo(position, duration?);
 ```
 
-Scroll right from the template
+It can be used directly from the template
 
 ```html
-<ng-scrollbar #scrollable>
+<ng-scrollbar #scrollEl>
   <!-- Content -->
 </ng-scrollbar>
 
-<button (click)="scrollable.scrollYTo(0)">Scroll to top</button>
+<button (click)="scrollEl.scrollYTo(0)">Scroll to top</button>
 ```
-or 
+Or use the `ViewChild` decorator to get the scrollbar component reference
 
 ```ts
-@ViewChild(ScrollbarComponent) scrollingEl: ScrollbarComponent;
+@ViewChild(ScrollbarComponent) scrollEl: ScrollbarComponent;
 
 scrollToTop() {
-   this.scrollingEl.scrollYTo(0);
+   this.scrollEl.scrollYTo(0);
 }
 ```
 
