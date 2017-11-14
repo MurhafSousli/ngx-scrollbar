@@ -81,7 +81,7 @@ The component should have a fixed height
 
 ## Scroll the view dynamically
 
-Scrollbar component has 2 helper functions allows you to scroll the view to a specific position
+Scrollbar component has 2 helper functions that allow you to scroll the view to a specific position
 
 ```ts
 // scroll horizontally
@@ -100,7 +100,7 @@ It can be used directly from the template
 
 <button (click)="scrollEl.scrollYTo(0)">Scroll to top</button>
 ```
-Or use the `ViewChild` decorator to get the scrollbar component reference
+Or use the `ViewChild` decorator to get a reference of the scrollbar component 
 
 ```ts
 @ViewChild(ScrollbarComponent) scrollEl: ScrollbarComponent;
