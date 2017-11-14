@@ -17,8 +17,12 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/observable/empty';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/takeWhile';
+import 'rxjs/add/operator/expand';
+import 'rxjs/add/operator/delay';
 
 @Component({
   selector: 'ng-scrollbar',
@@ -41,6 +45,10 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
   private _naturalThumbSizeX = 0;
   private _prevPageY = 0;
   private _prevPageX = 0;
+
+  /** store current thumb position */
+  private _currXPos = 0;
+  private _currYPos = 0;
 
   private minThumbSize = 20;
   private observer: MutationObserver;
@@ -124,8 +132,8 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    */
   onContentChanged() {
     Observable.of({}).take(1).subscribe(() => {
-      this.setThumbXPosition(0, this.calculateThumbXSize());
-      this.setThumbYPosition(0, this.calculateThumbYSize());
+      this.setThumbXPosition(this._currXPos, this.calculateThumbXSize());
+      this.setThumbYPosition(this._currYPos, this.calculateThumbYSize());
     });
   }
 
@@ -235,6 +243,52 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
+   * Scroll horizontally
+   * @param to
+   * @param duration
+   */
+  scrollXTo(to: number, duration = 200) {
+
+    Observable.of(duration)
+      .takeWhile(() => duration > 0)
+      .expand(d => {
+        if (d > 0) {
+          const difference = to - this.view.scrollLeft;
+          const perTick = difference / d * 10;
+          this.renderer.setProperty(this.view, 'scrollLeft', this.view.scrollLeft + perTick);
+          return Observable.of(d - 10).delay(10);
+        } else {
+          duration = d;
+          return Observable.empty();
+        }
+      })
+      .subscribe();
+  }
+
+  /**
+   * Scroll vertically
+   * @param to
+   * @param duration
+   */
+  scrollYTo(to: number, duration = 200) {
+
+    Observable.of(duration)
+      .takeWhile(() => duration > 0)
+      .expand(d => {
+        if (d > 0) {
+          const difference = to - this.view.scrollTop;
+          const perTick = difference / d * 10;
+          this.renderer.setProperty(this.view, 'scrollTop', this.view.scrollTop + perTick);
+          return Observable.of(d - 10).delay(10);
+        } else {
+          duration = d;
+          return Observable.empty();
+        }
+      })
+      .subscribe();
+  }
+
+  /**
    * Calculate Thumb X Size
    * @return number
    */
@@ -281,6 +335,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
     this.renderer.setStyle(this.thumbX, 'webkitTransform', `translate3d(${x}px, 0, 0)`);
     this.renderer.setStyle(this.thumbX, 'transform', `translate3d(${x}px, 0, 0)`);
     this.renderer.setStyle(this.thumbX, 'width', width + 'px');
+    this._currXPos = x;
   }
 
   /**
@@ -294,6 +349,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
     this.renderer.setStyle(this.thumbY, 'webkitTransform', `translate3d(0, ${y}px, 0)`);
     this.renderer.setStyle(this.thumbY, 'transform', `translate3d(0, ${y}px, 0)`);
     this.renderer.setStyle(this.thumbY, 'height', height + 'px');
+    this._currYPos = y;
   }
 
   /**

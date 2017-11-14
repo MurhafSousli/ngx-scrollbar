@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.0
+
+ - Feature(ScrollTo function): Add animated scroll to a specific position
+ - Fix(scrollbar positions when content is changed)
+
 ## 1.1.0
 
  - Refactor(Scrollbar Component)
