@@ -343,9 +343,13 @@ gulp.task('rollup-bundle', (cb) => {
       'rxjs/Observable': 'Rx',
       'rxjs/BehaviorSubject': 'Rx',
       'rxjs/add/observable/of': 'Rx.Observable',
+      'rxjs/add/observable/empty': 'Rx.Observable',
       'rxjs/add/observable/fromEvent': 'Rx.Observable',
       'rxjs/add/operator/do': 'Rx.Observable.prototype',
-      'rxjs/add/operator/take': 'Rx.Observable.prototype'
+      'rxjs/add/operator/take': 'Rx.Observable.prototype',
+      'rxjs/add/operator/delay': 'Rx.Observable.prototype',
+      'rxjs/add/operator/takeWhile': 'Rx.Observable.prototype',
+      'rxjs/add/operator/expand': 'Rx.Observable.prototype'
     };
     const rollupBaseConfig = {
       name: _.camelCase(config.libraryName),
