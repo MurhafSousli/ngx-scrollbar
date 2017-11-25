@@ -106,7 +106,7 @@ In your template
 
 ### Scrollbar functions
 
-To use **Scrollbar** functions, you will need to get the component reference from the template
+To use *Scrollbar* functions, you will need to get the component reference from the template. this can be done  using the `@ViewChild` decortator, for example:
 
 ```ts
 @ViewChild(ScrollbarComponent) scrollRef: ScrollbarComponent;
@@ -115,13 +115,13 @@ To use **Scrollbar** functions, you will need to get the component reference fro
 #### Update scrollbars manually
 
 ```ts
-tsscrollRef.update()
+scrollRef.update()
 ```
 
 #### Scroll horizontally
 
 ```ts
-scrollRef.scrollXTo(position: number, duration?: number)
+scrollRef.scrollXTo(position, duration?)
 ```
 
 - **Position:** scrolling position on X axis in pixels.
@@ -130,7 +130,7 @@ scrollRef.scrollXTo(position: number, duration?: number)
 #### Scroll vertically
 
 ```ts
-scrollRef.scrollYTo(position: number, duration?: number)
+scrollRef.scrollYTo(position, duration?)
 ```
 
 - **Position:** scrolling position on Y axis in pixels.
