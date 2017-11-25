@@ -109,54 +109,54 @@ In your template
 To use **Scrollbar** functions, you will need to get the component reference from the template
 
 ```ts
-@ViewChild(ScrollbarComponent) scrollEl: ScrollbarComponent;
+@ViewChild(ScrollbarComponent) scrollRef: ScrollbarComponent;
 ```
 
 Update scrollbars manually
 
-- `scrollElement.update()`
+```ts
+tsscrollRef.update()
+```
 
-Scroll element horizontally
+Scroll horizontally
 
-- `scrollElement.scrollXTo(position: number, duration?: number)`
-  - Position: scrolling position on X axis in pixels.
-  - Duration: time to reach position in milliseconds, default 200ms.
+```ts
+scrollRef.scrollXTo(position: number, duration?: number)
+```
 
-Scroll element vertically
+- Position: scrolling position on X axis in pixels.
+- Duration: time to reach position in milliseconds, default 200ms.
 
-- `scrollElement.scrollYTo(position: number, duration?: number)`
-  - Position: scrolling position on Y axis in pixels.
-  - Duration: time to reach position in milliseconds, default 200ms.
+Scroll vertically
+
+```ts
+scrollRef.scrollYTo(position: number, duration?: number)
+```
+
+- Position: scrolling position on Y axis in pixels.
+- Duration: time to reach position in milliseconds, default 200ms.
 
 <a name="scrollto">
 
 ## Dynamic scrolling example
 
-```ts
-// scroll horizontally
-scrollElement.scrollXTo(position, duration?);
-
-// scroll vertically
-scrollElement.scrollYTo(position, duration?);
-```
-
-It can be used directly from the template
+Scroll to top directly from the template
 
 ```html
-<ng-scrollbar #scrollEl>
+<ng-scrollbar #scrollRef>
   <!-- Content -->
 </ng-scrollbar>
 
-<button (click)="scrollEl.scrollYTo(0)">Scroll to top</button>
+<button (click)="scrollRef.scrollYTo(0)">Scroll to top</button>
 ```
 
-Or use the `ViewChild` decorator to get a reference of the scrollbar component 
+Or using the `@ViewChild` decorator
 
 ```ts
-@ViewChild(ScrollbarComponent) scrollEl: ScrollbarComponent;
+@ViewChild(ScrollbarComponent) scrollRef: ScrollbarComponent;
 
 scrollToTop() {
-   this.scrollEl.scrollYTo(0);
+   this.scrollRef.scrollYTo(0);
 }
 ```
 
@@ -165,7 +165,7 @@ scrollToTop() {
 ```ts
 export class AppComponent implements OnInit {
 
-  @ViewChild(ScrollbarComponent) scrollEl: ScrollbarComponent;
+  @ViewChild(ScrollbarComponent) scrollRef: ScrollbarComponent;
 
   constructor(private router: Router) {
   }
@@ -175,8 +175,8 @@ export class AppComponent implements OnInit {
     this.router.events
       .filter(event => event instanceof NavigationEnd)
       .subscribe((event: NavigationEnd) => {
-        if (this.scrollEl) {
-          this.scrollEl.scrollYTo(0);
+        if (this.scrollRef) {
+          this.scrollRef.scrollYTo(0);
         }
       });
   }
