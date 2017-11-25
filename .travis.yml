@@ -1,12 +1,16 @@
+sudo: required
+dist: trusty
+
 language: node_js
 
 node_js:
-  - "node"
-  - "8"
-  - "7"
   - "6"
 
-script: yarn test
+script: npm run packagr
+
+language: node_js
+node_js:
+  - "6"
 
 cache:
   yarn: true
