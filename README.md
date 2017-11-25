@@ -112,29 +112,29 @@ To use **Scrollbar** functions, you will need to get the component reference fro
 @ViewChild(ScrollbarComponent) scrollRef: ScrollbarComponent;
 ```
 
-Update scrollbars manually
+#### Update scrollbars manually
 
 ```ts
 tsscrollRef.update()
 ```
 
-Scroll horizontally
+#### Scroll horizontally
 
 ```ts
 scrollRef.scrollXTo(position: number, duration?: number)
 ```
 
-- Position: scrolling position on X axis in pixels.
-- Duration: time to reach position in milliseconds, default 200ms.
+- **Position:** scrolling position on X axis in pixels.
+- **Duration:** time to reach position in milliseconds, default 200ms.
 
-Scroll vertically
+#### Scroll vertically
 
 ```ts
 scrollRef.scrollYTo(position: number, duration?: number)
 ```
 
-- Position: scrolling position on Y axis in pixels.
-- Duration: time to reach position in milliseconds, default 200ms.
+- **Position:** scrolling position on Y axis in pixels.
+- **Duration:** time to reach position in milliseconds, default 200ms.
 
 <a name="scrollto">
 
