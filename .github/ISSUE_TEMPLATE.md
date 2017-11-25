@@ -5,6 +5,7 @@ IF YOU DON'T FILL OUT THE FOLLOWING INFORMATION YOUR ISSUE MIGHT BE CLOSED WITHO
 ```
 - [ ] bug report -> please search issues before submitting
 - [ ] feature request
+- [ ] question
 ```
 
 ### OS and Version?

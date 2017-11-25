@@ -1,21 +1,29 @@
-# Angular Custom Scrollbar
+<p align="center">
+  <img height="200px" width="200px" style="text-align: center;" src="https://raw.githubusercontent.com/MurhafSousli/ngx-scrollbar/dev/src/assets/logo.svg">
+  <h1 align="center">Angular Custom Scrollbar</h1>
+</p>
 
-Custom overlay-scrollbars with native scrolling mechanism for Angular
-___
 [![npm](https://img.shields.io/badge/demo-online-ed1c46.svg)](https://murhafsousli.github.io/ngx-scrollbar/)
 [![npm](https://img.shields.io/npm/v/ngx-scrollbar.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-scrollbar)
 [![Build Status](https://travis-ci.org/MurhafSousli/ngx-scrollbar.svg?branch=master)](https://www.npmjs.com/package/ngx-scrollbar)
 [![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](/LICENSE)
 
+Custom overlay-scrollbars with native scrolling mechanism for Angular
+
+___
+
 ## Table of Contents
 
-- [Live Demo](https://MurhafSousli.github.io/ngx-scrollbar)
+- [Live Demo](https://MurhafSousli.github.io/ngx-scrollbar/)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Scroll To](#scrollto)
+- [Options](#options)
+- [Dynamic scrolling](#scrollto)
+- [Development](#development)
 - [Issues](#issues)
 - [Author](#author)
 - [Credit](#credit)
+- [More plugins](#more-plugins)
 
 <a name="installation"/>
 
@@ -57,16 +65,16 @@ import { ScrollbarModule } from 'ngx-scrollbar';
 In your template
 
 ```html
-<ng-scrollbar [style.height.px]="500">
+<ng-scrollbar>
   <!-- Content -->
 </ng-scrollbar>
 ```
 
-The component should have a fixed height
+<a name="options">
 
-- **[autoHide]**: boolean
+## Options
 
-  Hide scrollbars, and show them on hover, default `false`
+### Scrollbar inputs
 
 - **[trackX]**: boolean
 
@@ -75,6 +83,14 @@ The component should have a fixed height
 - **[trackY]**: boolean
 
   Vertical scrollbar, default `true`
+
+- **[autoHide]**: boolean
+
+  Hide scrollbars, and show them on hover, default `false`
+
+- **[autoUpdate]**: boolean
+
+  Auto-update scrollbars on content changes, default: `true`
 
 - **[viewClass]**: string
 
@@ -88,46 +104,68 @@ The component should have a fixed height
 
   Add custom class to scrollbars' thumbnails
 
-<a name="scrollto">
+### Scrollbar functions
 
-## Scroll the view dynamically
-
-Scrollbar component has 2 helper functions that allow you to scroll the view to a specific position
+To use *Scrollbar* functions, you will need to get the component reference from the template. this can be done  using the `@ViewChild` decortator, for example:
 
 ```ts
-// scroll horizontally
-scrollElement.scrollXTo(position, duration?);
-
-// scroll vertically
-scrollElement.scrollYTo(position, duration?);
+@ViewChild(ScrollbarComponent) scrollRef: ScrollbarComponent;
 ```
 
-It can be used directly from the template
+#### Update scrollbars manually
+
+```ts
+scrollRef.update()
+```
+
+#### Scroll horizontally
+
+```ts
+scrollRef.scrollXTo(position, duration?)
+```
+
+- **Position:** scrolling position on X axis in pixels.
+- **Duration:** time to reach position in milliseconds, default 200ms.
+
+#### Scroll vertically
+
+```ts
+scrollRef.scrollYTo(position, duration?)
+```
+
+- **Position:** scrolling position on Y axis in pixels.
+- **Duration:** time to reach position in milliseconds, default 200ms.
+
+<a name="scrollto">
+
+## Dynamic scrolling example
+
+Scroll to top directly from the template
 
 ```html
-<ng-scrollbar #scrollEl>
+<ng-scrollbar #scrollRef>
   <!-- Content -->
 </ng-scrollbar>
 
-<button (click)="scrollEl.scrollYTo(0)">Scroll to top</button>
+<button (click)="scrollRef.scrollYTo(0)">Scroll to top</button>
 ```
 
-Or use the `ViewChild` decorator to get a reference of the scrollbar component 
+Or using the `@ViewChild` decorator
 
 ```ts
-@ViewChild(ScrollbarComponent) scrollEl: ScrollbarComponent;
+@ViewChild(ScrollbarComponent) scrollRef: ScrollbarComponent;
 
 scrollToTop() {
-   this.scrollEl.scrollYTo(0);
+   this.scrollRef.scrollYTo(0);
 }
 ```
 
-#### Scroll to top on route change
+### Scroll to top on route change
 
 ```ts
 export class AppComponent implements OnInit {
 
-  @ViewChild(ScrollbarComponent) scrollEl: ScrollbarComponent;
+  @ViewChild(ScrollbarComponent) scrollRef: ScrollbarComponent;
 
   constructor(private router: Router) {
   }
@@ -137,8 +175,8 @@ export class AppComponent implements OnInit {
     this.router.events
       .filter(event => event instanceof NavigationEnd)
       .subscribe((event: NavigationEnd) => {
-        if (this.scrollEl) {
-          this.scrollEl.scrollYTo(0);
+        if (this.scrollRef) {
+          this.scrollRef.scrollYTo(0);
         }
       });
   }
@@ -146,11 +184,23 @@ export class AppComponent implements OnInit {
 }
 ```
 
+<a name="development"/>
+
+## Development
+
+This project uses [ng-packagr](https://github.com/dherges/ng-packagr) for development.
+
+Use the following command to build
+
+```bash
+$ npm run packagr
+```
+
 <a name="issues"/>
 
 ## Issues
 
-If you identify any errors in the library, or have an idea for an improvement, please open an [issue](https://github.com/MurhafSousli/ngx-scrollbar/issues). I am excited to see what the community thinks of this project, and I would love your input!
+If you identify any errors in the library, or have an idea for an improvement, please open an [issue](https://github.com/MurhafSousli/ngx-scrollbar/issues).
 
 <a name="author"/>
 
@@ -163,3 +213,17 @@ If you identify any errors in the library, or have an idea for an improvement, p
 ## Credit
 
 - Inspired by [gemini-scrollbar](https://github.com/noeldelgado/gemini-scrollbar).
+
+<a name="more-plugins"/>
+
+## More plugins
+
+- [ngx-sharebuttons](https://github.com/MurhafSousli/ngx-sharebuttons)
+- [ng-gallery](https://github.com/MurhafSousli/ng-gallery)
+- [ngx-progressbar](https://github.com/MurhafSousli/ngx-progressbar)
+- [ngx-scrollbar](https://github.com/MurhafSousli/ngx-scrollbar)
+- [ngx-bar-rating](https://github.com/MurhafSousli/ngx-bar-rating)
+- [ngx-disqus](https://github.com/MurhafSousli/ngx-disqus)
+- [ngx-wordpress](https://github.com/MurhafSousli/ngx-wordpress)
+- [ngx-highlightjs](https://github.com/MurhafSousli/ngx-highlightjs)
+- [ng-teximate](https://github.com/MurhafSousli/ng-teximate)
