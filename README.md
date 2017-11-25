@@ -18,7 +18,7 @@ ___
 - [Installation](#installation)
 - [Usage](#usage)
 - [Options](#options)
-- [Scroll To](#scrollto)
+- [Dynamic scrolling](#scrollto)
 - [Development](#development)
 - [Issues](#issues)
 - [Author](#author)
@@ -106,27 +106,31 @@ In your template
 
 ### Scrollbar functions
 
+To use **Scrollbar** functions, you will need to get the component reference from the template
+
+```ts
+@ViewChild(ScrollbarComponent) scrollEl: ScrollbarComponent;
+```
+
 Update scrollbars manually
 
-- **scrollElement.update()**
+- `scrollElement.update()`
 
 Scroll element horizontally
 
-- **scrollElement.scrollXTo(position: number, duration?: number)**
+- `scrollElement.scrollXTo(position: number, duration?: number)`
   - Position: scrolling position on X axis in pixels.
   - Duration: time to reach position in milliseconds, default 200ms.
 
 Scroll element vertically
 
-- **scrollElement.scrollYTo(position: number, duration?: number)**
+- `scrollElement.scrollYTo(position: number, duration?: number)`
   - Position: scrolling position on Y axis in pixels.
   - Duration: time to reach position in milliseconds, default 200ms.
 
 <a name="scrollto">
 
-## Manual scroll example
-
-Scrollbar component has 2 helper functions that allow you to scroll the view to a specific position
+## Dynamic scrolling example
 
 ```ts
 // scroll horizontally
