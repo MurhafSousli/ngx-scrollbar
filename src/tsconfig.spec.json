@@ -1,15 +1,20 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "",
+    "outDir": "../out-tsc/spec",
+    "baseUrl": "./",
     "module": "commonjs",
-    "declaration": false,
-    "emitDecoratorMetadata": true,
-    "typeRoots": [
-      "../node_modules/@types"
+    "target": "es5",
+    "types": [
+      "jasmine",
+      "node"
     ]
   },
-  "awesomeTypescriptLoaderOptions": {
-    "useWebpackText": true
-  }
+  "files": [
+    "test.ts"
+  ],
+  "include": [
+    "**/*.spec.ts",
+    "**/*.d.ts"
+  ]
 }
