@@ -3,19 +3,19 @@
 Custom overlay-scrollbars with native scrolling mechanism for Angular
 ___
 [![npm](https://img.shields.io/badge/demo-online-ed1c46.svg)](https://murhafsousli.github.io/ngx-scrollbar/)
-[![npm](https://img.shields.io/npm/v/ngx-scrollbar.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-scrollbar) 
-[![Build Status](https://travis-ci.org/MurhafSousli/ngx-scrollbar.svg?branch=master)](https://www.npmjs.com/package/ngx-scrollbar) 
+[![npm](https://img.shields.io/npm/v/ngx-scrollbar.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-scrollbar)
+[![Build Status](https://travis-ci.org/MurhafSousli/ngx-scrollbar.svg?branch=master)](https://www.npmjs.com/package/ngx-scrollbar)
 [![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](/LICENSE)
 
-## Table of Contents 
- 
- - [Live Demo](https://MurhafSousli.github.io/ngx-scrollbar)
- - [Installation](#installation)
- - [Usage](#usage) 
- - [Scroll To](#scrollto)
- - [Issues](#issues)    
- - [Author](#author)
- - [Credit](#credit)
+## Table of Contents
+
+- [Live Demo](https://MurhafSousli.github.io/ngx-scrollbar)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Scroll To](#scrollto)
+- [Issues](#issues)
+- [Author](#author)
+- [Credit](#credit)
 
 <a name="installation"/>
 
@@ -30,6 +30,7 @@ Install it with npm
 If you are using SystemJS, you should also adjust your configuration to point to the UMD bundle.
 
 In your systemjs config file, map needs to tell the System loader where to look for `ngx-scrollbar`:
+
 ```js
 map: {
   'ngx-scrollbar': 'node_modules/ngx-scrollbar/bundles/ngx-scrollbar.umd.js',
@@ -63,19 +64,29 @@ In your template
 
 The component should have a fixed height
 
-
- - **[autoHide]**: boolean
+- **[autoHide]**: boolean
 
   Hide scrollbars, and show them on hover, default `false`
 
- - **[trackX]**: boolean
+- **[trackX]**: boolean
 
   Horizontal scrollbar, default `false`
 
- - **[trackY]**: boolean
+- **[trackY]**: boolean
 
   Vertical scrollbar, default `true`
 
+- **[viewClass]**: string
+
+  Add custom class to the view
+
+- **[barClass]**: string
+
+  Add custom class to scrollbars
+
+- **[thumbClass]**: string
+
+  Add custom class to scrollbars' thumbnails
 
 <a name="scrollto">
 
@@ -100,6 +111,7 @@ It can be used directly from the template
 
 <button (click)="scrollEl.scrollYTo(0)">Scroll to top</button>
 ```
+
 Or use the `ViewChild` decorator to get a reference of the scrollbar component 
 
 ```ts
@@ -144,11 +156,10 @@ If you identify any errors in the library, or have an idea for an improvement, p
 
 ## Author
 
- - [github/murhafsousli](https://github.com/MurhafSousli)
- - [twitter/murhafsousli](https://twitter.com/MurhafSousli)
+- Murhaf Sousli [Github](https://github.com/MurhafSousli), [Twitter](https://twitter.com/MurhafSousli)
 
 <a name="credit"/>
 
-## Credit 
+## Credit
 
- - Inspired by [gemini-scrollbar](https://github.com/noeldelgado/gemini-scrollbar) by [Noel Delgado](http://pixelia.me/)
+- Inspired by [gemini-scrollbar](https://github.com/noeldelgado/gemini-scrollbar).

@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+@import '~bootstrap/scss/mixins';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/reboot';
+@import '~font-awesome/css/font-awesome.css';
+@import 'assets/buttons';
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  color: #686C6E;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+app-root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+ng-scrollbar {
+  flex: 1;
+}
+
+.style-source {
+  opacity: 0.5;
+  text-align: center;
+  margin-bottom: 6em;
+  font-size: 0.6em;
+}
+
+// WRAPPER SCROLLBAR
+.main-bar {
+  &.-vertical {
+    top: 6px;
+    left: 6px;
+    right: initial;
+    bottom: 6px;
+    background-color: rgba(0, 0, 0, 0.1);
+    >.ng-scrollbar-thumb {
+      background-color: #28A6C6;
+    }
+  }
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  overflow: hidden;
+}
+
+ul {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.ng-scrollbar-thumb {
+  background-color: #007bff;
+}
+
+.sample {
+  border-radius: 3px;
+}
+
+.example {
+  margin: 0.5em;
+  font-size: 0.8em;
+  border-radius: 3px;
+  padding: 3em;
+  box-shadow: 0 0 0 2px #E4E9EB;
+  text-shadow: none;
+  margin-bottom: 2em;
+}
