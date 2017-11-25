@@ -1,4 +1,7 @@
-# Angular Custom Scrollbar
+<p align="center">
+  <img height="200px" width="200px" style="text-align: center;" src="src/assets/logo.svg?raw=true">
+  <h1 align="center">Angular Custom Scrollbar</h1>
+</p>
 
 Custom overlay-scrollbars with native scrolling mechanism for Angular
 ___
@@ -9,13 +12,16 @@ ___
 
 ## Table of Contents
 
-- [Live Demo](https://MurhafSousli.github.io/ngx-scrollbar)
+- [Live Demo](https://MurhafSousli.github.io/ngx-scrollbar/)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Options](#options)
 - [Scroll To](#scrollto)
+- [Development](#development)
 - [Issues](#issues)
 - [Author](#author)
 - [Credit](#credit)
+- [More plugins](#more-plugins)
 
 <a name="installation"/>
 
@@ -57,12 +63,14 @@ import { ScrollbarModule } from 'ngx-scrollbar';
 In your template
 
 ```html
-<ng-scrollbar [style.height.px]="500">
+<ng-scrollbar>
   <!-- Content -->
 </ng-scrollbar>
 ```
 
-The component should have a fixed height
+<a name="options">
+
+### Scrollbar inputs
 
 - **[autoHide]**: boolean
 
@@ -76,6 +84,10 @@ The component should have a fixed height
 
   Vertical scrollbar, default `true`
 
+- **[autoUpdate]**: boolean
+
+  Auto-update scrollbars on content changes, default: `true`
+
 - **[viewClass]**: string
 
   Add custom class to the view
@@ -87,6 +99,20 @@ The component should have a fixed height
 - **[thumbClass]**: string
 
   Add custom class to scrollbars' thumbnails
+
+### Scrollbar functions
+
+- **update()**
+
+Update scrollbars manually when content changes
+
+- **scrollXTo(position: number, duration?: number)**
+
+Scroll element horizontally where position is `left` in px and duration is in milliseconds.
+
+- **scrollYTo(position: number, duration?: number)**
+
+Scroll element vertically where position is `top` in px and duration is in milliseconds.
 
 <a name="scrollto">
 
@@ -146,11 +172,23 @@ export class AppComponent implements OnInit {
 }
 ```
 
+<a name="development"/>
+
+## Development
+
+This project uses [ng-packagr](https://github.com/dherges/ng-packagr) for development.
+
+Use the following command to build
+
+```bash
+$ npm run packagr
+```
+
 <a name="issues"/>
 
 ## Issues
 
-If you identify any errors in the library, or have an idea for an improvement, please open an [issue](https://github.com/MurhafSousli/ngx-scrollbar/issues). I am excited to see what the community thinks of this project, and I would love your input!
+If you identify any errors in the library, or have an idea for an improvement, please open an [issue](https://github.com/MurhafSousli/ngx-scrollbar/issues).
 
 <a name="author"/>
 
@@ -163,3 +201,17 @@ If you identify any errors in the library, or have an idea for an improvement, p
 ## Credit
 
 - Inspired by [gemini-scrollbar](https://github.com/noeldelgado/gemini-scrollbar).
+
+<a name="more-plugins"/>
+
+## More plugins
+
+- [ngx-sharebuttons](https://github.com/MurhafSousli/ngx-sharebuttons)
+- [ng-gallery](https://github.com/MurhafSousli/ng-gallery)
+- [ngx-progressbar](https://github.com/MurhafSousli/ngx-progressbar)
+- [ngx-scrollbar](https://github.com/MurhafSousli/ngx-scrollbar)
+- [ngx-bar-rating](https://github.com/MurhafSousli/ngx-bar-rating)
+- [ngx-disqus](https://github.com/MurhafSousli/ngx-disqus)
+- [ngx-wordpress](https://github.com/MurhafSousli/ngx-wordpress)
+- [ngx-highlightjs](https://github.com/MurhafSousli/ngx-highlightjs)
+- [ng-teximate](https://github.com/MurhafSousli/ng-teximate)

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.0
+
+- Feature(autoUpdate): Add `[autoUpdate]` option to automatically update on content changes
+- Feature(Update function): Add `update()` function to manually update scrollbars
+- Enhancement: Add `height: 100%` to the component style
+
 ## 1.3.0
 
 - Feature(custom classes) `[viewClass]`, `[barClass]` and `[thumbClass]` inputs to add custom classes

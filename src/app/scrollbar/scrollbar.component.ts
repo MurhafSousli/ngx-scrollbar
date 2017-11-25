@@ -70,6 +70,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
   @ViewChild('thumbY') thumbYRef: ElementRef;
   @ViewChild('view') viewRef: ElementRef;
 
+  @Input() autoUpdate = true;
   @Input() autoHide = false;
   @Input() trackX = false;
   @Input() trackY = true;
@@ -118,15 +119,17 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
     /** Initialize calculation variables */
     this.scrollWorker(null);
 
-    /** Observe content changes */
-    this.observer = new MutationObserver(() => this.onContentChanged());
+    if (this.autoUpdate) {
+      /** Observe content changes */
+      this.observer = new MutationObserver(() => this.update());
 
-    const config: MutationObserverInit = {
-      subtree: true,
-      childList: true
-    };
+      const config: MutationObserverInit = {
+        subtree: true,
+        childList: true
+      };
 
-    this.observer.observe(this.view, config);
+      this.observer.observe(this.view, config);
+    }
   }
 
   ngOnDestroy() {
@@ -147,7 +150,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
   /**
    * Update when content changes
    */
-  onContentChanged() {
+  update() {
     Observable.of({}).take(1).subscribe(() => {
       this.setThumbXPosition(this._currXPos, this.calculateThumbXSize());
       this.setThumbYPosition(this._currYPos, this.calculateThumbYSize());

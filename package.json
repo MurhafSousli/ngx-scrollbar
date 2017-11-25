@@ -1,6 +1,26 @@
 {
   "name": "ngx-scrollbar",
-  "version": "1.3.0",
+  "description": "Custom overlay-scrollbars with native scrolling mechanism for Angular",
+  "version": "1.4.0",
+  "homepage": "http://github.com/murhafsousli/ngx-scrollbar",
+  "author": {
+    "name": "Murhaf Sousli",
+    "url": "http://github.com/murhafsousli"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/murhafsousli/ngx-scrollbar.git"
+  },
+  "keywords": [
+    "angular",
+    "scrollbar",
+    "scrollbars",
+    "simplebar",
+    "custombar"
+  ],
+  "bugs": {
+    "url": "http://github.com/murhafsousli/ngx-scrollbar/issues"
+  },
   "license": "MIT",
   "scripts": {
     "ng": "ng",
