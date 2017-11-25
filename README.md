@@ -1,5 +1,5 @@
 <p align="center">
-  <img height="200px" width="200px" style="text-align: center;" src="src/assets/logo.svg?raw=true">
+  <img height="200px" width="200px" style="text-align: center;" src="https://raw.githubusercontent.com/MurhafSousli/ngx-scrollbar/dev/src/assets/logo.svg">
   <h1 align="center">Angular Custom Scrollbar</h1>
 </p>
 
@@ -72,11 +72,9 @@ In your template
 
 <a name="options">
 
+## Options
+
 ### Scrollbar inputs
-
-- **[autoHide]**: boolean
-
-  Hide scrollbars, and show them on hover, default `false`
 
 - **[trackX]**: boolean
 
@@ -85,6 +83,10 @@ In your template
 - **[trackY]**: boolean
 
   Vertical scrollbar, default `true`
+
+- **[autoHide]**: boolean
+
+  Hide scrollbars, and show them on hover, default `false`
 
 - **[autoUpdate]**: boolean
 
@@ -104,21 +106,25 @@ In your template
 
 ### Scrollbar functions
 
-- **update()**
+Update scrollbars manually
 
-Update scrollbars manually when content changes
+- **scrollElement.update()**
 
-- **scrollXTo(position: number, duration?: number)**
+Scroll element horizontally
 
-Scroll element horizontally where position is `left` in px and duration is in milliseconds.
+- **scrollElement.scrollXTo(position: number, duration?: number)**
+  - Position: scrolling position on X axis in pixels.
+  - Duration: time to reach position in milliseconds, default 200ms.
 
-- **scrollYTo(position: number, duration?: number)**
+Scroll element vertically
 
-Scroll element vertically where position is `top` in px and duration is in milliseconds.
+- **scrollElement.scrollYTo(position: number, duration?: number)**
+  - Position: scrolling position on Y axis in pixels.
+  - Duration: time to reach position in milliseconds, default 200ms.
 
 <a name="scrollto">
 
-## Scroll the view dynamically
+## Manual scroll example
 
 Scrollbar component has 2 helper functions that allow you to scroll the view to a specific position
 
@@ -150,7 +156,7 @@ scrollToTop() {
 }
 ```
 
-#### Scroll to top on route change
+### Scroll to top on route change
 
 ```ts
 export class AppComponent implements OnInit {
