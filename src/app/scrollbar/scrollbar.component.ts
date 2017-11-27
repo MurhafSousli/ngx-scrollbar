@@ -13,16 +13,12 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/observable/empty';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/takeWhile';
-import 'rxjs/add/operator/expand';
-import 'rxjs/add/operator/delay';
+import { of } from 'rxjs/observable/of';
+import { fromEvent } from 'rxjs/observable/fromEvent';
+import { empty } from 'rxjs/observable/empty';
+
+import { tap, take, takeWhile, expand, delay } from 'rxjs/operators';
 
 @Component({
   selector: 'ng-scrollbar',
@@ -74,9 +70,9 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
   @Input() autoHide = false;
   @Input() trackX = false;
   @Input() trackY = true;
-  @Input() viewClass;
-  @Input() barClass;
-  @Input() thumbClass;
+  @Input() viewClass: string;
+  @Input() barClass: string;
+  @Input() thumbClass: string;
   @Output() scrollState = new EventEmitter<MouseEvent>();
 
   constructor(private renderer: Renderer2, @Inject(DOCUMENT) private document: any) {
@@ -89,14 +85,14 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
     this.thumbY = this.thumbYRef.nativeElement;
     this.view = this.viewRef.nativeElement;
 
-    this.viewScrollSub$ = Observable.fromEvent(this.view, 'scroll', (e) => this.scrollWorker(e)).subscribe();
+    this.viewScrollSub$ = fromEvent(this.view, 'scroll', (e) => this.scrollWorker(e)).subscribe();
     if (this.trackX) {
-      this.barXClickSub$ = Observable.fromEvent(this.barX, 'mousedown', (e) => this.barXWorker(e)).subscribe();
-      this.thumbXDragSub$ = Observable.fromEvent(this.thumbX, 'mousedown', (e) => this.thumbXWorker(e)).subscribe();
+      this.barXClickSub$ = fromEvent(this.barX, 'mousedown', (e) => this.barXWorker(e)).subscribe();
+      this.thumbXDragSub$ = fromEvent(this.thumbX, 'mousedown', (e) => this.thumbXWorker(e)).subscribe();
     }
     if (this.trackY) {
-      this.barYClickSub$ = Observable.fromEvent(this.barY, 'mousedown', (e) => this.barYWorker(e)).subscribe();
-      this.thumbYDragSub$ = Observable.fromEvent(this.thumbY, 'mousedown', (e) => this.thumbYWorker(e)).subscribe();
+      this.barYClickSub$ = fromEvent(this.barY, 'mousedown', (e) => this.barYWorker(e)).subscribe();
+      this.thumbYDragSub$ = fromEvent(this.thumbY, 'mousedown', (e) => this.thumbYWorker(e)).subscribe();
     }
 
     if (this.barClass) {
@@ -151,10 +147,13 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    * Update when content changes
    */
   update() {
-    Observable.of({}).take(1).subscribe(() => {
-      this.setThumbXPosition(this._currXPos, this.calculateThumbXSize());
-      this.setThumbYPosition(this._currYPos, this.calculateThumbYSize());
-    });
+    of({}).pipe(
+      take(1),
+      tap(() => {
+        this.setThumbXPosition(this._currXPos, this.calculateThumbXSize());
+        this.setThumbYPosition(this._currYPos, this.calculateThumbYSize());
+      })
+    ).subscribe();
   }
 
   /**
@@ -203,8 +202,8 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
 
     /** Disable selection while dragging scrollbars */
     const disableSelection = this.renderer.listen(this.document, 'selectstart', () => false);
-    const mouseMoveSub$ = Observable.fromEvent(this.document.body, 'mousemove', startDrag).subscribe();
-    const mouseUpSub$ = Observable.fromEvent(this.document.body, 'mouseup', endDrag).subscribe();
+    const mouseMoveSub$ = fromEvent(this.document.body, 'mousemove', startDrag).subscribe();
+    const mouseUpSub$ = fromEvent(this.document.body, 'mouseup', endDrag).subscribe();
   }
 
   /**
@@ -232,8 +231,8 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
 
     /** Disable selection while dragging scrollbars */
     const disableSelection = this.renderer.listen(this.document, 'selectstart', () => false);
-    const mouseMoveSub$ = Observable.fromEvent(this.document.body, 'mousemove', startDrag).subscribe();
-    const mouseUpSub$ = Observable.fromEvent(this.document.body, 'mouseup', endDrag).subscribe();
+    const mouseMoveSub$ = fromEvent(this.document.body, 'mousemove', startDrag).subscribe();
+    const mouseUpSub$ = fromEvent(this.document.body, 'mouseup', endDrag).subscribe();
   }
 
   /**
@@ -269,20 +268,20 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    */
   scrollXTo(to: number, duration = 200) {
 
-    Observable.of(duration)
-      .takeWhile(() => duration > 0)
-      .expand(d => {
+    of(duration).pipe(
+      takeWhile(() => duration > 0),
+      expand(d => {
         if (d > 0) {
           const difference = to - this.view.scrollLeft;
           const perTick = difference / d * 10;
           this.renderer.setProperty(this.view, 'scrollLeft', this.view.scrollLeft + perTick);
-          return Observable.of(d - 10).delay(10);
+          return of(d - 10).pipe(delay(10));
         } else {
           duration = d;
-          return Observable.empty();
+          return empty();
         }
       })
-      .subscribe();
+    ).subscribe();
   }
 
   /**
@@ -292,20 +291,20 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    */
   scrollYTo(to: number, duration = 200) {
 
-    Observable.of(duration)
-      .takeWhile(() => duration > 0)
-      .expand(d => {
+    of(duration).pipe(
+      takeWhile(() => duration > 0),
+      expand(d => {
         if (d > 0) {
           const difference = to - this.view.scrollTop;
           const perTick = difference / d * 10;
           this.renderer.setProperty(this.view, 'scrollTop', this.view.scrollTop + perTick);
-          return Observable.of(d - 10).delay(10);
+          return of(d - 10).pipe(delay(10));
         } else {
           duration = d;
-          return Observable.empty();
+          return empty();
         }
       })
-      .subscribe();
+    ).subscribe();
   }
 
   /**

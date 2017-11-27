@@ -45,6 +45,8 @@ map: {
 }
 ```
 
+Here is a [stackblitz](https://stackblitz.com/edit/ngx-scrollbar)
+
 <a name="usage"/>
 
 ## Usage

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.1
+
+- Refactor with RxJS 5.5 pipe style
+
 ## 1.4.0
 
 - Feature(autoUpdate): Add `[autoUpdate]` option to automatically update on content changes
