@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.4.1
+## 1.4.2
 
 - Refactor with RxJS 5.5 pipe style
 

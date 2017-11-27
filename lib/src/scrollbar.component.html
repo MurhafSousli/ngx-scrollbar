@@ -1,0 +1,15 @@
+<div class="ng-scrollbar-container" [class.ng-scrollbar-autohide]="autoHide">
+
+  <div #barX class="ng-scrollbar -horizontal" [class.ng-scrollbar-disabled]="!trackX">
+    <div #thumbX class="ng-scrollbar-thumb"></div>
+  </div>
+
+  <div #barY class="ng-scrollbar -vertical" [class.ng-scrollbar-disabled]="!trackY">
+    <div #thumbY class="ng-scrollbar-thumb"></div>
+  </div>
+
+  <div #view class="ng-scrollbar-view {{viewClass}}">
+    <ng-content></ng-content>
+  </div>
+</div>
+
