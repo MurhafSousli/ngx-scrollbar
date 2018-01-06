@@ -1,10 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
-@import '~bootstrap/scss/mixins';
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/reboot';
+@import '~normalize.css';
 @import '~font-awesome/css/font-awesome.css';
 @import 'assets/buttons';
+
 *,
 *::before,
 *::after {
@@ -49,15 +47,13 @@ ng-scrollbar {
 
 // WRAPPER SCROLLBAR
 .main-bar {
-  &.-vertical {
-    top: 6px;
-    left: 6px;
-    right: initial;
-    bottom: 6px;
-    background-color: rgba(0, 0, 0, 0.1);
-    >.ng-scrollbar-thumb {
-      background-color: #28A6C6;
-    }
+  top: 6px;
+  left: 6px;
+  right: initial;
+  bottom: 6px;
+  background-color: rgba(0, 0, 0, 0.1);
+  > .ng-scrollbar-thumb {
+    background-color: #28A6C6;
   }
 }
 
