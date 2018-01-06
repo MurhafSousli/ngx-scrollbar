@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.5.0
+
+- Refactor: bind a state instead of using renderer
+- Refactor: Make classes inputs reactive
+- Improve performance: run code using NgZone
+- Support Universal: remove unsupported interfaces in Universal like `MouseEvent`
+
 ## 1.4.2
 
 - Refactor with RxJS 5.5 pipe style
