@@ -1,18 +1,14 @@
-<ng-container *ngIf="state$ | async; let state">
-  <div class="ng-scrollbar-container" [class.ng-scrollbar-autohide]="autoHide">
+<div class="ng-scrollbar-container" [class.ng-scrollbar-autohide]="autoHide">
 
-    <div #barX class="ng-scrollbar -horizontal {{barClass}}" [class.ng-scrollbar-disabled]="!trackX">
-      <div #thumbX class="ng-scrollbar-thumb {{thumbClass}}" [ngStyle]="state.thumbXStyle"></div>
-    </div>
-
-    <div #barY class="ng-scrollbar -vertical {{barClass}}" [class.ng-scrollbar-disabled]="!trackY">
-      <div #thumbY class="ng-scrollbar-thumb {{thumbClass}}" [ngStyle]="state.thumbYStyle"></div>
-    </div>
-
-    <div #view class="ng-scrollbar-view {{viewClass}}" [ngStyle]="state.viewStyle"
-         [scrollTop]="state.scrollTop" [scrollLeft]="state.scrollLeft">
-      <ng-content></ng-content>
-    </div>
+  <div #barX class="ng-scrollbar -horizontal {{barClass}}" [class.ng-scrollbar-disabled]="!trackX">
+    <div #thumbX class="ng-scrollbar-thumb {{thumbClass}}"></div>
   </div>
-</ng-container>
 
+  <div #barY class="ng-scrollbar -vertical {{barClass}}" [class.ng-scrollbar-disabled]="!trackY">
+    <div #thumbY class="ng-scrollbar-thumb {{thumbClass}}"></div>
+  </div>
+
+  <div #view class="ng-scrollbar-view {{viewClass}}">
+    <ng-content></ng-content>
+  </div>
+</div>
