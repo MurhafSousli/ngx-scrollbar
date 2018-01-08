@@ -32,7 +32,8 @@ export interface ScrollState {
   templateUrl: 'scrollbar.component.html',
   styleUrls: ['scrollbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  preserveWhitespaces: false
 })
 export class ScrollbarComponent implements AfterViewInit, OnDestroy {
 
