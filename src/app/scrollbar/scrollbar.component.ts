@@ -84,7 +84,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
 
       this.hideNativeScrollbars();
 
-      /** Initialize scrollbars*/
+      /** Initialize scrollbars */
       this.scrollWorker(null);
 
       this.scrollSub$ = fromEvent(this.view, 'scroll', (e) => this.scrollWorker(e)).subscribe();
@@ -126,6 +126,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    * @param duration
    */
   scrollXTo(to: number, duration = 200) {
+
     this.zone.runOutsideAngular(() => {
       of(duration).pipe(
         takeWhile(() => duration > 0),
@@ -180,7 +181,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    * Scroll Worker
    * @param e - Mouse Event
    */
-  scrollWorker(e: any) {
+  private scrollWorker(e: any) {
     this._thumbSizeX = this.thumbX.clientWidth;
     this._thumbSizeY = this.thumbY.clientHeight;
 
@@ -201,7 +202,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    * Horizontal scrollbar click worker
    * @param e - Mouse Event
    */
-  barXWorker(e: any) {
+  private barXWorker(e: any) {
     if (e.target === e.currentTarget) {
       const offset = e.offsetX - this._naturalThumbSizeX * .5;
       const thumbPositionPercentage = offset * 100 / this.barX.clientWidth;
@@ -214,7 +215,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    * Vertical scrollbar click worker
    * @param e - Mouse Event
    */
-  barYWorker(e: any) {
+  private barYWorker(e: any) {
     if (e.target === e.currentTarget) {
       const offset = e.offsetY - this._naturalThumbSizeY * .5;
       const thumbPositionPercentage = offset * 100 / this.barY.clientHeight;
@@ -227,7 +228,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    * Horizontal thumb worker
    * @param e - Mouse Event
    */
-  thumbXWorker(e: any) {
+  private thumbXWorker(e: any) {
 
     /** Start dragging scrollbar on mouseMove */
     const startDrag = (event: any) => {
@@ -256,7 +257,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    * Vertical thumb worker
    * @param e - Mouse Event
    */
-  thumbYWorker(e: any) {
+  private thumbYWorker(e: any) {
 
     /** Start dragging scrollbar on mouseMove */
     const startDrag = (event: any) => {
@@ -314,8 +315,9 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    * @param width
    */
   private setThumbXPosition(x: number, width: number) {
-    this.renderer.setStyle(this.thumbX, 'webkitTransform', `translate3d(${x}px, 0, 0)`);
-    this.renderer.setStyle(this.thumbX, 'transform', `translate3d(${x}px, 0, 0)`);
+    const transform = `translate3d(${x}px, 0, 0)`;
+    this.renderer.setStyle(this.thumbX, 'webkitTransform', transform);
+    this.renderer.setStyle(this.thumbX, 'transform', transform);
     this.renderer.setStyle(this.thumbX, 'width', width + 'px');
     this._currXPos = x;
   }
@@ -326,8 +328,9 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    * @param height
    */
   private setThumbYPosition(y: number, height: number) {
-    this.renderer.setStyle(this.thumbY, 'webkitTransform', `translate3d(0, ${y}px, 0)`);
-    this.renderer.setStyle(this.thumbY, 'transform', `translate3d(0, ${y}px, 0)`);
+    const transform = `translate3d(0, ${y}px, 0)`;
+    this.renderer.setStyle(this.thumbY, 'webkitTransform', transform);
+    this.renderer.setStyle(this.thumbY, 'transform', transform);
     this.renderer.setStyle(this.thumbY, 'height', height + 'px');
     this._currYPos = y;
   }
@@ -336,9 +339,9 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    * Hide native scrollbars
    */
   private hideNativeScrollbars() {
-    const size = this.getNativeScrollbarWidth();
-    this.renderer.setStyle(this.view, 'width', `calc(100% + ${size}px)`);
-    this.renderer.setStyle(this.view, 'height', `calc(100% + ${size}px)`);
+    const size = `calc(100% + ${this.getNativeScrollbarWidth()}px)`;
+    this.renderer.setStyle(this.view, 'width', size);
+    this.renderer.setStyle(this.view, 'height', size);
   }
 
   /**

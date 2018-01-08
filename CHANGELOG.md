@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.5.4
+## 1.5.5
 
 - Regret: use renderer again, remove the state architecture.
 - Fix wrong subscriptions, closes [#12](https://github.com/MurhafSousli/ngx-scrollbar/issues/12).
