@@ -11,13 +11,13 @@ import {
   ViewEncapsulation,
   NgZone
 } from '@angular/core';
-import {DOCUMENT} from '@angular/common';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Subscription} from 'rxjs/Subscription';
-import {of} from 'rxjs/observable/of';
-import {fromEvent} from 'rxjs/observable/fromEvent';
-import {empty} from 'rxjs/observable/empty';
-import {tap, takeWhile, expand, delay} from 'rxjs/operators';
+import { DOCUMENT } from '@angular/common';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscription } from 'rxjs/Subscription';
+import { of } from 'rxjs/observable/of';
+import { fromEvent } from 'rxjs/observable/fromEvent';
+import { empty } from 'rxjs/observable/empty';
+import { tap, takeWhile, expand, delay } from 'rxjs/operators';
 
 export interface ScrollState {
   viewStyle?: any;
@@ -111,7 +111,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
       if (this.autoUpdate) {
         /** Observe content changes */
         this.observer = new MutationObserver(() => this.update());
-        this.observer.observe(this.view, {subtree: true, childList: true});
+        this.observer.observe(this.view, { subtree: true, childList: true });
       }
     });
   }
@@ -146,7 +146,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
             const difference = to - this.view.scrollLeft;
             const perTick = difference / d * 10;
             const scrollLeft = this.view.scrollLeft + perTick;
-            this.setState({scrollLeft});
+            this.setState({ scrollLeft });
             return of(d - 10).pipe(delay(10));
           } else {
             duration = d;
@@ -171,7 +171,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
             const difference = to - this.view.scrollTop;
             const perTick = difference / d * 10;
             const scrollTop = this.view.scrollTop + perTick;
-            this.setState({scrollTop});
+            this.setState({ scrollTop });
             return of(d - 10).pipe(delay(10));
           } else {
             duration = d;
@@ -197,7 +197,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    * @param state
    */
   private setState(state: ScrollState) {
-    state = {...this.state$.getValue(), ...state};
+    state = { ...this.state$.getValue(), ...state };
     this.zone.run(() => this.state$.next(state));
   }
 
@@ -232,7 +232,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
       const offset = e.offsetX - this._naturalThumbSizeX * .5;
       const thumbPositionPercentage = offset * 100 / this.barX.clientWidth;
       const scrollLeft = thumbPositionPercentage * this.view.scrollWidth / 100;
-      this.setState({scrollLeft});
+      this.setState({ scrollLeft });
     }
   }
 
@@ -245,7 +245,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
       const offset = e.offsetY - this._naturalThumbSizeY * .5;
       const thumbPositionPercentage = offset * 100 / this.barY.clientHeight;
       const scrollTop = thumbPositionPercentage * this.view.scrollHeight / 100;
-      this.setState({scrollTop});
+      this.setState({ scrollTop });
     }
   }
 
@@ -261,7 +261,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
       const offset = event.clientX - this.barX.getBoundingClientRect().left;
       const thumbClickPosition = this._thumbSizeX - this._prevPageX;
       const scrollLeft = this._scrollLeftMax * (offset - thumbClickPosition) / this._trackLeftMax;
-      this.setState({scrollLeft});
+      this.setState({ scrollLeft });
     });
 
     /** Reset and remove listeners on mouseUp */
@@ -290,7 +290,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
       const offset = event.clientY - this.barY.getBoundingClientRect().top;
       const thumbClickPosition = this._thumbSizeY - this._prevPageY;
       const scrollTop = this._scrollTopMax * (offset - thumbClickPosition) / this._trackTopMax;
-      this.setState({scrollTop});
+      this.setState({ scrollTop });
     });
 
     /** Reset and remove listeners on mouseUp */
@@ -374,7 +374,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
       width: calculatedSize,
       height: calculatedSize
     };
-    this.setState({viewStyle});
+    this.setState({ viewStyle });
   }
 
   /**
