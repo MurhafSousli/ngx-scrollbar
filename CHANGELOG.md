@@ -1,6 +1,12 @@
 # Changelog
 
-## 1.5.0
+## 1.5.4
+
+- Regret: use renderer again, remove the state architecture.
+- Fix wrong subscriptions, closes [#12](https://github.com/MurhafSousli/ngx-scrollbar/issues/12).
+- Fix the tiny delay before rendering scrollbars thumbnails (which was introduced in v1.5.0).
+
+## 1.5.0 (deprecated)
 
 - Refactor: bind a state instead of using renderer
 - Refactor: Make classes inputs reactive
