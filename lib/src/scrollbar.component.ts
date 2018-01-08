@@ -104,8 +104,8 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
         this.thumbXSub$ = fromEvent(this.thumbX, 'mousedown').pipe(tap(e => this.thumbXWorker(e))).subscribe();
       }
       if (this.trackY) {
-        this.barXSub$ = fromEvent(this.barY, 'mousedown').pipe(tap(e => this.barYWorker(e))).subscribe();
-        this.thumbXSub$ = fromEvent(this.thumbY, 'mousedown').pipe(tap(e => this.thumbYWorker(e))).subscribe();
+        this.barYSub$ = fromEvent(this.barY, 'mousedown').pipe(tap(e => this.barYWorker(e))).subscribe();
+        this.thumbYSub$ = fromEvent(this.thumbY, 'mousedown').pipe(tap(e => this.thumbYWorker(e))).subscribe();
       }
 
       if (this.autoUpdate) {
