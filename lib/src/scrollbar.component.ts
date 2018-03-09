@@ -41,13 +41,13 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
   private _prevPageX = 0;
   private _currXPos = 0;
   private _currYPos = 0;
-  private minThumbSize = 20;
-  private scrollSub$: Subscription;
-  private barXSub$: Subscription;
-  private barYSub$: Subscription;
-  private thumbXSub$: Subscription;
-  private thumbYSub$: Subscription;
-  private observer: MutationObserver;
+  private _minThumbSize = 20;
+  private _scrollSub$: Subscription;
+  private _barXSub$: Subscription;
+  private _barYSub$: Subscription;
+  private _thumbXSub$: Subscription;
+  private _thumbYSub$: Subscription;
+  private _observer: MutationObserver;
 
   barX: HTMLElement;
   barY: HTMLElement;
@@ -87,38 +87,38 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
       /** Initialize scrollbars */
       this.scrollWorker(null);
 
-      this.scrollSub$ = fromEvent(this.view, 'scroll', (e) => this.scrollWorker(e)).subscribe();
+      this._scrollSub$ = fromEvent(this.view, 'scroll', (e) => this.scrollWorker(e)).subscribe();
       if (this.trackX) {
-        this.barXSub$ = fromEvent(this.barX, 'mousedown', (e) => this.barXWorker(e)).subscribe();
-        this.thumbXSub$ = fromEvent(this.thumbX, 'mousedown', (e) => this.thumbXWorker(e)).subscribe();
+        this._barXSub$ = fromEvent(this.barX, 'mousedown', (e) => this.barXWorker(e)).subscribe();
+        this._thumbXSub$ = fromEvent(this.thumbX, 'mousedown', (e) => this.thumbXWorker(e)).subscribe();
       }
       if (this.trackY) {
-        this.barYSub$ = fromEvent(this.barY, 'mousedown', (e) => this.barYWorker(e)).subscribe();
-        this.thumbYSub$ = fromEvent(this.thumbY, 'mousedown', (e) => this.thumbYWorker(e)).subscribe();
+        this._barYSub$ = fromEvent(this.barY, 'mousedown', (e) => this.barYWorker(e)).subscribe();
+        this._thumbYSub$ = fromEvent(this.thumbY, 'mousedown', (e) => this.thumbYWorker(e)).subscribe();
       }
 
       if (this.autoUpdate) {
         /** Observe content changes */
-        this.observer = new MutationObserver(() => this.update());
-        this.observer.observe(this.view, { subtree: true, childList: true });
+        this._observer = new MutationObserver(() => this.update());
+        this._observer.observe(this.view, { subtree: true, childList: true });
       }
     });
   }
 
   ngOnDestroy() {
-    if (this.scrollSub$) {
-      this.scrollSub$.unsubscribe();
+    if (this._scrollSub$) {
+      this._scrollSub$.unsubscribe();
     }
     if (this.trackX) {
-      this.barXSub$.unsubscribe();
-      this.thumbXSub$.unsubscribe();
+      this._barXSub$.unsubscribe();
+      this._thumbXSub$.unsubscribe();
     }
     if (this.trackY) {
-      this.barYSub$.unsubscribe();
-      this.thumbYSub$.unsubscribe();
+      this._barYSub$.unsubscribe();
+      this._thumbYSub$.unsubscribe();
     }
-    if (this.observer) {
-      this.observer.disconnect();
+    if (this._observer) {
+      this._observer.disconnect();
     }
   }
 
@@ -308,7 +308,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    * @param scrollMax
    */
   private scrollBoundaries(naturalThumbSize: number, scrollMax: number): number {
-    return (naturalThumbSize < this.minThumbSize) ? this.minThumbSize : scrollMax ? naturalThumbSize : 0;
+    return (naturalThumbSize < this._minThumbSize) ? this._minThumbSize : scrollMax ? naturalThumbSize : 0;
   }
 
   /**
