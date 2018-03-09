@@ -106,7 +106,9 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.scrollSub$.unsubscribe();
+    if (this.scrollSub$) {
+      this.scrollSub$.unsubscribe();
+    }
     if (this.trackX) {
       this.barXSub$.unsubscribe();
       this.thumbXSub$.unsubscribe();
