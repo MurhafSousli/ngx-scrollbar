@@ -221,7 +221,7 @@ If you identify any errors in the library, or have an idea for an improvement, p
 ## More plugins
 
 - [ngx-sharebuttons](https://github.com/MurhafSousli/ngx-sharebuttons)
-- [ng-gallery](https://github.com/MurhafSousli/ng-gallery)
+- [ngx-gallery](https://github.com/MurhafSousli/ngx-gallery)
 - [ngx-progressbar](https://github.com/MurhafSousli/ngx-progressbar)
 - [ngx-scrollbar](https://github.com/MurhafSousli/ngx-scrollbar)
 - [ngx-bar-rating](https://github.com/MurhafSousli/ngx-bar-rating)
