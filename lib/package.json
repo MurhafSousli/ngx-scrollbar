@@ -1,7 +1,7 @@
 {
   "name": "ngx-scrollbar",
   "description": "Custom overlay-scrollbars with native scrolling mechanism for Angular",
-  "version": "1.5.6",
+  "version": "1.5.7",
   "keywords": [
     "angular",
     "scrollbar",
