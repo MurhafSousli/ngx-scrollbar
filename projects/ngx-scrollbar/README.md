@@ -105,6 +105,10 @@ In your template
 - **[thumbClass]**: string
 
   Add custom class to scrollbars' thumbnails
+  
+- **(scrollState)**:
+
+  Stream that emits that component has been scrolled.
 
 ### Scrollbar functions
 

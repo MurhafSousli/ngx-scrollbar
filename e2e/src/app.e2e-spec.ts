@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('ngx-scrollbar App', () => {
+describe('workspace-project App', () => {
   let page: AppPage;
 
   beforeEach(() => {
