@@ -6,7 +6,7 @@ language: node_js
 node_js:
   - "8"
 
-script: npm run packagr
+script: ng build ngx-scrollbar
 
 cache:
   yarn: true

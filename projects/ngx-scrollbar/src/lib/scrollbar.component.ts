@@ -13,11 +13,8 @@ import {
   NgZone
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { Subscription } from 'rxjs/Subscription';
-import { of } from 'rxjs/observable/of';
-import { fromEvent } from 'rxjs/observable/fromEvent';
-import { empty } from 'rxjs/observable/empty';
-import { takeWhile, expand, delay } from 'rxjs/operators';
+import { Subscription, fromEvent, of, EMPTY } from 'rxjs';
+import { tap, takeWhile, expand, delay } from 'rxjs/operators';
 
 @Component({
   selector: 'ng-scrollbar',
@@ -87,14 +84,14 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
       /** Initialize scrollbars */
       this.scrollWorker(null);
 
-      this._scrollSub$ = fromEvent(this.view, 'scroll', (e) => this.scrollWorker(e)).subscribe();
+      this._scrollSub$ = fromEvent(this.view, 'scroll').pipe(tap((e) => this.scrollWorker(e))).subscribe();
       if (this.trackX) {
-        this._barXSub$ = fromEvent(this.barX, 'mousedown', (e) => this.barXWorker(e)).subscribe();
-        this._thumbXSub$ = fromEvent(this.thumbX, 'mousedown', (e) => this.thumbXWorker(e)).subscribe();
+        this._barXSub$ = fromEvent(this.barX, 'mousedown').pipe(tap((e) => this.barXWorker(e))).subscribe();
+        this._thumbXSub$ = fromEvent(this.thumbX, 'mousedown').pipe(tap((e) => this.thumbXWorker(e))).subscribe();
       }
       if (this.trackY) {
-        this._barYSub$ = fromEvent(this.barY, 'mousedown', (e) => this.barYWorker(e)).subscribe();
-        this._thumbYSub$ = fromEvent(this.thumbY, 'mousedown', (e) => this.thumbYWorker(e)).subscribe();
+        this._barYSub$ = fromEvent(this.barY, 'mousedown').pipe(tap((e) => this.barYWorker(e))).subscribe();
+        this._thumbYSub$ = fromEvent(this.thumbY, 'mousedown').pipe(tap((e) => this.thumbYWorker(e))).subscribe();
       }
 
       if (this.autoUpdate) {
@@ -140,7 +137,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
             return of(d - 10).pipe(delay(10));
           } else {
             duration = d;
-            return empty();
+            return EMPTY;
           }
         })
       ).subscribe();
@@ -164,7 +161,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
             return of(d - 10).pipe(delay(10));
           } else {
             duration = d;
-            return empty();
+            return EMPTY;
           }
         })
       ).subscribe();

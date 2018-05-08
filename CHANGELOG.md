@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0
+
+- Upgrade to Angular 6, closes [#26](https://github.com/MurhafSousli/ngx-scrollbar/issues/26) in [#27](https://github.com/MurhafSousli/ngx-scrollbar/pull/27).
+
 ## 1.5.7
 
 - Remove pointer from scrollbar to default
