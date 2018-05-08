@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.7
+
+- Remove pointer from scrollbar to default
+
 ## 1.5.6
 
 - Fixes a bug: Check if the subscription is defined before unsubscribing, closes [#18](https://github.com/MurhafSousli/ngx-scrollbar/issues/18).
