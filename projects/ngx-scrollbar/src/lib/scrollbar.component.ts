@@ -229,9 +229,11 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    */
   private thumbXWorker(e: any) {
 
+    const downOffsetX = e.offsetX;
+
     /** Start dragging scrollbar on mouseMove */
     const startDrag = (event: any) => {
-      this._prevPageX = this._thumbSizeX - e.offsetX;
+      this._prevPageX = this._thumbSizeX - downOffsetX;
       const offset = event.clientX - this.barX.getBoundingClientRect().left;
       const thumbClickPosition = this._thumbSizeX - this._prevPageX;
       const scrollLeft = this._scrollLeftMax * (offset - thumbClickPosition) / this._trackLeftMax;
@@ -258,9 +260,11 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    */
   private thumbYWorker(e: any) {
 
+    const downOffsetY = e.offsetY;
+
     /** Start dragging scrollbar on mouseMove */
     const startDrag = (event: any) => {
-      this._prevPageY = this._thumbSizeY - e.offsetY;
+      this._prevPageY = this._thumbSizeY - downOffsetY;
       const offset = event.clientY - this.barY.getBoundingClientRect().top;
       const thumbClickPosition = this._thumbSizeY - this._prevPageY;
       const scrollTop = this._scrollTopMax * (offset - thumbClickPosition) / this._trackTopMax;
