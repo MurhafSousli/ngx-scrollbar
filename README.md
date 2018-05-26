@@ -131,7 +131,7 @@ scrollRef.scrollXTo(position, duration?)
 ```
 
 - **Position:** scrolling position on X axis in pixels.
-- **Duration:** time to reach position in milliseconds, default 200ms.
+- **Duration:** time to reach position in milliseconds, default null.
 
 #### Scroll vertically
 
@@ -140,7 +140,7 @@ scrollRef.scrollYTo(position, duration?)
 ```
 
 - **Position:** scrolling position on Y axis in pixels.
-- **Duration:** time to reach position in milliseconds, default 200ms.
+- **Duration:** time to reach position in milliseconds, default null.
 
 <a name="scrollto">
 
@@ -194,12 +194,10 @@ export class AppComponent implements OnInit {
 
 ## Development
 
-This project uses [ng-packagr](https://github.com/dherges/ng-packagr) for development.
-
-Use the following command to build
+This project uses Angular CLI 6 for development.
 
 ```bash
-$ npm run packagr
+$ ng build ngx-scrollbar --prod
 ```
 
 <a name="issues"/>

@@ -130,12 +130,11 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    * @param to
    * @param duration
    */
-  scrollXTo(to: number, duration = 200) {
-
-    this.zone.runOutsideAngular(() => {
+  scrollXTo(to: number, duration?: number) {
+    if (duration) {
       of(duration).pipe(
         takeWhile(() => duration > 0),
-        expand(d => {
+        expand((d: number) => {
           if (d > 0) {
             const difference = to - this.view.scrollLeft;
             const perTick = difference / d * 10;
@@ -147,7 +146,9 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
           }
         })
       ).subscribe();
-    });
+    } else {
+      this.renderer.setProperty(this.view, 'scrollLeft', to);
+    }
   }
 
   /**
@@ -155,11 +156,11 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    * @param to
    * @param duration
    */
-  scrollYTo(to: number, duration = 200) {
-    this.zone.runOutsideAngular(() => {
+  scrollYTo(to: number, duration?: number) {
+    if (duration) {
       of(duration).pipe(
         takeWhile(() => duration > 0),
-        expand(d => {
+        expand((d: number) => {
           if (d > 0) {
             const difference = to - this.view.scrollTop;
             const perTick = difference / d * 10;
@@ -171,7 +172,9 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
           }
         })
       ).subscribe();
-    });
+    } else {
+      this.renderer.setProperty(this.view, 'scrollTop', to);
+    }
   }
 
   /**
