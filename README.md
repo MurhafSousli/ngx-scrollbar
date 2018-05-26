@@ -194,12 +194,10 @@ export class AppComponent implements OnInit {
 
 ## Development
 
-This project uses [ng-packagr](https://github.com/dherges/ng-packagr) for development.
-
-Use the following command to build
+This project uses Angular CLI 6 for development.
 
 ```bash
-$ npm run packagr
+$ ng build ngx-scrollbar --prod
 ```
 
 <a name="issues"/>
