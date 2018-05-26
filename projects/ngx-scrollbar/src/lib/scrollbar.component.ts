@@ -42,8 +42,6 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
   private _scrollTopMax = 0;
   private _naturalThumbSizeY = 0;
   private _naturalThumbSizeX = 0;
-  private _prevPageY = 0;
-  private _prevPageX = 0;
   private _currXPos = 0;
   private _currYPos = 0;
   private _minThumbSize = 20;
@@ -240,17 +238,17 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
     const mousemove$ = fromEvent(this.document, 'mousemove');
     return mousedown$.pipe(
       tap(() => this.document.onselectstart = () => false),
-      map(mousedownEvent => mousedownEvent['offsetX']),
-      mergeMap(mousedownOffsetX => mousemove$.pipe(
+      map((mousedownEvent: any) => mousedownEvent.offsetX),
+      mergeMap((mousedownOffsetX: number) => mousemove$.pipe(
         takeUntil(mouseup$.pipe(tap(() => this.document.onselectstart = null))),
-        map(mousemoveEvent => mousemoveEvent['clientX']),
-        tap(mousemoveClientX => {
+        map((mousemoveEvent: any) => mousemoveEvent.clientX),
+        tap((mousemoveClientX: number) => {
           const offset = mousemoveClientX - this.barX.getBoundingClientRect().left;
           const scroll = this._scrollLeftMax * (offset - mousedownOffsetX) / this._trackLeftMax;
           this.renderer.setProperty(this.view, 'scrollLeft', scroll);
         })
       ))
-    ).subscribe()
+    ).subscribe();
   }
 
   /**
@@ -262,17 +260,17 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
     const mousemove$ = fromEvent(this.document, 'mousemove');
     return mousedown$.pipe(
       tap(() => this.document.onselectstart = () => false),
-      map(mousedownEvent => mousedownEvent['offsetY']),
-      mergeMap(mousedownOffsetY => mousemove$.pipe(
+      map((mousedownEvent: any) => mousedownEvent.offsetY),
+      mergeMap((mousedownOffsetY: number) => mousemove$.pipe(
         takeUntil(mouseup$.pipe(tap(() => this.document.onselectstart = null))),
-        map(mousemoveEvent => mousemoveEvent['clientY']),
-        tap(mousemoveClientY => {
+        map((mousemoveEvent: any) => mousemoveEvent.clientY),
+        tap((mousemoveClientY: number) => {
           const offset = mousemoveClientY - this.barY.getBoundingClientRect().top;
           const scroll = this._scrollTopMax * (offset - mousedownOffsetY) / this._trackTopMax;
           this.renderer.setProperty(this.view, 'scrollTop', scroll);
         })
       ))
-    ).subscribe()
+    ).subscribe();
   }
 
   /**
