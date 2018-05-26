@@ -14,7 +14,15 @@ import {
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Subscription, fromEvent, of, EMPTY } from 'rxjs';
-import { tap, takeWhile, expand, delay } from 'rxjs/operators';
+import {
+  delay,
+  expand,
+  map,
+  mergeMap,
+  takeUntil,
+  takeWhile,
+  tap
+} from 'rxjs/operators';
 
 @Component({
   selector: 'ng-scrollbar',
@@ -87,11 +95,11 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
       this._scrollSub$ = fromEvent(this.view, 'scroll').pipe(tap((e) => this.scrollWorker(e))).subscribe();
       if (this.trackX) {
         this._barXSub$ = fromEvent(this.barX, 'mousedown').pipe(tap((e) => this.barXWorker(e))).subscribe();
-        this._thumbXSub$ = fromEvent(this.thumbX, 'mousedown').pipe(tap((e) => this.thumbXWorker(e))).subscribe();
+        this._thumbXSub$ = this.startThumbXWorker();
       }
       if (this.trackY) {
         this._barYSub$ = fromEvent(this.barY, 'mousedown').pipe(tap((e) => this.barYWorker(e))).subscribe();
-        this._thumbYSub$ = fromEvent(this.thumbY, 'mousedown').pipe(tap((e) => this.thumbYWorker(e))).subscribe();
+        this._thumbYSub$ = this.startThumbYWorker();
       }
 
       if (this.autoUpdate) {
@@ -224,65 +232,47 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Horizontal thumb worker
-   * @param e - Mouse Event
+   * Start horizontal thumb worker
    */
-  private thumbXWorker(e: any) {
-
-    const downOffsetX = e.offsetX;
-
-    /** Start dragging scrollbar on mouseMove */
-    const startDrag = (event: any) => {
-      this._prevPageX = this._thumbSizeX - downOffsetX;
-      const offset = event.clientX - this.barX.getBoundingClientRect().left;
-      const thumbClickPosition = this._thumbSizeX - this._prevPageX;
-      const scrollLeft = this._scrollLeftMax * (offset - thumbClickPosition) / this._trackLeftMax;
-      this.renderer.setProperty(this.view, 'scrollLeft', scrollLeft);
-    };
-
-    /** Reset and remove listeners on mouseUp */
-    const endDrag = () => {
-      this.document.onselectstart = null;
-      mouseMoveSub$.unsubscribe();
-      mouseUpSub$.unsubscribe();
-      this._prevPageX = 0;
-    };
-
-    /** Disable selection while dragging scrollbars */
-    this.document.onselectstart = () => false;
-    const mouseMoveSub$ = fromEvent(this.document.body, 'mousemove', startDrag).subscribe();
-    const mouseUpSub$ = fromEvent(this.document.body, 'mouseup', endDrag).subscribe();
+  private startThumbXWorker(): Subscription {
+    const mousedown$ = fromEvent(this.thumbX, 'mousedown');
+    const mouseup$ = fromEvent(this.document, 'mouseup');
+    const mousemove$ = fromEvent(this.document, 'mousemove');
+    return mousedown$.pipe(
+      tap(() => this.document.onselectstart = () => false),
+      map(mousedownEvent => mousedownEvent['offsetX']),
+      mergeMap(mousedownOffsetX => mousemove$.pipe(
+        takeUntil(mouseup$.pipe(tap(() => this.document.onselectstart = null))),
+        map(mousemoveEvent => mousemoveEvent['clientX']),
+        tap(mousemoveClientX => {
+          const offset = mousemoveClientX - this.barX.getBoundingClientRect().left;
+          const scroll = this._scrollLeftMax * (offset - mousedownOffsetX) / this._trackLeftMax;
+          this.renderer.setProperty(this.view, 'scrollLeft', scroll);
+        })
+      ))
+    ).subscribe()
   }
 
   /**
-   * Vertical thumb worker
-   * @param e - Mouse Event
+   * Start vertical thumb worker
    */
-  private thumbYWorker(e: any) {
-
-    const downOffsetY = e.offsetY;
-
-    /** Start dragging scrollbar on mouseMove */
-    const startDrag = (event: any) => {
-      this._prevPageY = this._thumbSizeY - downOffsetY;
-      const offset = event.clientY - this.barY.getBoundingClientRect().top;
-      const thumbClickPosition = this._thumbSizeY - this._prevPageY;
-      const scrollTop = this._scrollTopMax * (offset - thumbClickPosition) / this._trackTopMax;
-      this.renderer.setProperty(this.view, 'scrollTop', scrollTop);
-    };
-
-    /** Reset and remove listeners on mouseUp */
-    const endDrag = () => {
-      this.document.onselectstart = null;
-      mouseMoveSub$.unsubscribe();
-      mouseUpSub$.unsubscribe();
-      this._prevPageY = 0;
-    };
-
-    /** Disable selection while dragging scrollbars */
-    this.document.onselectstart = () => false;
-    const mouseMoveSub$ = fromEvent(this.document.body, 'mousemove', startDrag).subscribe();
-    const mouseUpSub$ = fromEvent(this.document.body, 'mouseup', endDrag).subscribe();
+  private startThumbYWorker(): Subscription {
+    const mousedown$ = fromEvent(this.thumbY, 'mousedown');
+    const mouseup$ = fromEvent(this.document, 'mouseup');
+    const mousemove$ = fromEvent(this.document, 'mousemove');
+    return mousedown$.pipe(
+      tap(() => this.document.onselectstart = () => false),
+      map(mousedownEvent => mousedownEvent['offsetY']),
+      mergeMap(mousedownOffsetY => mousemove$.pipe(
+        takeUntil(mouseup$.pipe(tap(() => this.document.onselectstart = null))),
+        map(mousemoveEvent => mousemoveEvent['clientY']),
+        tap(mousemoveClientY => {
+          const offset = mousemoveClientY - this.barY.getBoundingClientRect().top;
+          const scroll = this._scrollTopMax * (offset - mousedownOffsetY) / this._trackTopMax;
+          this.renderer.setProperty(this.view, 'scrollTop', scroll);
+        })
+      ))
+    ).subscribe()
   }
 
   /**
