@@ -131,7 +131,7 @@ scrollRef.scrollXTo(position, duration?)
 ```
 
 - **Position:** scrolling position on X axis in pixels.
-- **Duration:** time to reach position in milliseconds, default 200ms.
+- **Duration:** time to reach position in milliseconds, default null.
 
 #### Scroll vertically
 
@@ -140,7 +140,7 @@ scrollRef.scrollYTo(position, duration?)
 ```
 
 - **Position:** scrolling position on Y axis in pixels.
-- **Duration:** time to reach position in milliseconds, default 200ms.
+- **Duration:** time to reach position in milliseconds, default null.
 
 <a name="scrollto">
 
