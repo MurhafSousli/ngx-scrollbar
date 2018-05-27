@@ -8,7 +8,7 @@
       <button class="btn-gradient green mini" (click)="scrollEl.scrollYTo(800, 300)">Example 2</button>
       <button class="btn-gradient purple mini" (click)="scrollEl.scrollYTo(1200, 400)">Example 3</button>
       <button class="btn-gradient cyan mini" (click)="scrollEl.scrollYTo(1700, 500)">Example 4</button>
-      <button class="btn-gradient blue mini" (click)="scrollEl.scrollYTo(2100, 600)">Example 5</button>
+      <button class="btn-gradient blue mini" (click)="scrollEl.scrollToBottom(600)">Example 5</button>
     </div>
 
     <app-example1></app-example1>
@@ -22,7 +22,7 @@
     <app-example5></app-example5>
 
     <div class="scroll-buttons">
-      <button class="btn-gradient red small" (click)="scrollEl.scrollYTo(0, 500)">Scroll to top</button>
+      <button class="btn-gradient red small" (click)="scrollEl.scrollToTop(500)">Scroll to top</button>
     </div>
 
     <app-footer></app-footer>
