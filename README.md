@@ -142,6 +142,38 @@ scrollRef.scrollYTo(position, duration?)
 - **Position:** scrolling position on Y axis in pixels.
 - **Duration:** time to reach position in milliseconds, default null.
 
+#### Scroll to top
+
+```ts
+scrollRef.scrollToTop(duration?)
+```
+
+- **Duration:** time to reach position in milliseconds, default null.
+
+#### Scroll to bottom
+
+```ts
+scrollRef.scrollToBottom(duration?)
+```
+
+- **Duration:** time to reach position in milliseconds, default null.
+
+#### Scroll to left
+
+```ts
+scrollRef.scrollToLeft(duration?)
+```
+
+- **Duration:** time to reach position in milliseconds, default null.
+
+#### Scroll to right
+
+```ts
+scrollRef.scrollToRight(duration?)
+```
+
+- **Duration:** time to reach position in milliseconds, default null.
+
 <a name="scrollto">
 
 ## Dynamic scrolling example
