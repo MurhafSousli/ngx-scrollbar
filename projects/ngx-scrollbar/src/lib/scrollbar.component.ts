@@ -178,6 +178,38 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
+   * Scroll view to top
+   * @param duration
+   */
+  scrollToTop(duration?: number) {
+    this.scrollYTo(0, duration);
+  }
+
+  /**
+   * Scroll view to bottom
+   * @param duration
+   */
+  scrollToBottom(duration?: number) {
+    this.scrollYTo(this.view.scrollHeight, duration);
+  }
+
+  /**
+   * Scroll view to max right
+   * @param duration
+   */
+  scrollToRight(duration?: number) {
+    this.scrollXTo(this.view.scrollWidth, duration);
+  }
+
+  /**
+   * Scroll view to max left
+   * @param duration
+   */
+  scrollToLeft(duration?: number) {
+    this.scrollXTo(0, duration);
+  }
+
+  /**
    * Update thumbnails
    */
   update() {
