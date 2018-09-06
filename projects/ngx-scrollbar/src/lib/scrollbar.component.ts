@@ -100,7 +100,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
         this._thumbYSub$ = this.startThumbYWorker();
       }
 
-      if (this.autoUpdate) {
+      if (this.autoUpdate && typeof MutationObserver !== 'undefined') {
         /** Observe content changes */
         this._observer = new MutationObserver(() => this.update());
         this._observer.observe(this.view, { subtree: true, childList: true });
