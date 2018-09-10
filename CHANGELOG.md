@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.0
+
+- fix(ScrollbarComponent): fix SSR by checking if the `MutationObserver` code is running on the browser, in [86adf42](https://github.com/MurhafSousli/ngx-scrollbar/pull/55/commits/86adf42ff9bd1f1594df8ae38ddfe1d32152bf75).
+- refactor(ScrollbarComponent): General refactor, in [3d406a3](https://github.com/MurhafSousli/ngx-scrollbar/pull/56/commits/3d406a30b9163e931fddeb448fe40f3c23b9f055).
+- Update dependencies
+
 ## 2.1.0
 
 - feat(ScrollbarComponent): Adds `scrollToTop`, `scrollToBottom`, `scrollToRight`, `scrollToLeft` functions, closes [#39](https://github.com/MurhafSousli/ngx-scrollbar/issues/39) in [664982d](https://github.com/MurhafSousli/ngx-scrollbar/commit/664982dd9011586bad53ebcbd58c6f9dd0ecd419).

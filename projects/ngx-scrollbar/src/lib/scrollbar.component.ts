@@ -1,36 +1,28 @@
 import {
-  Component,
   Inject,
-  ChangeDetectionStrategy,
-  AfterViewInit,
-  OnDestroy,
+  Component,
   Input,
   Output,
-  EventEmitter,
   ViewChild,
+  AfterViewInit,
+  OnDestroy,
   Renderer2,
+  EventEmitter,
   ViewEncapsulation,
-  NgZone
+  ChangeDetectionStrategy,
+  NgZone,
+  PLATFORM_ID
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-import { Subscription, fromEvent, of, EMPTY } from 'rxjs';
-import {
-  delay,
-  expand,
-  map,
-  mergeMap,
-  takeUntil,
-  takeWhile,
-  tap
-} from 'rxjs/operators';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Subscription, fromEvent, of, EMPTY, SubscriptionLike } from 'rxjs';
+import { delay, expand, map, mergeMap, takeUntil, takeWhile, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'ng-scrollbar',
   templateUrl: 'scrollbar.component.html',
   styleUrls: ['scrollbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  preserveWhitespaces: false
+  encapsulation: ViewEncapsulation.None
 })
 export class ScrollbarComponent implements AfterViewInit, OnDestroy {
 
@@ -45,11 +37,11 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
   private _currXPos = 0;
   private _currYPos = 0;
   private _minThumbSize = 20;
-  private _scrollSub$: Subscription;
-  private _barXSub$: Subscription;
-  private _barYSub$: Subscription;
-  private _thumbXSub$: Subscription;
-  private _thumbYSub$: Subscription;
+  private _barXSub$: SubscriptionLike = Subscription.EMPTY;
+  private _barYSub$: SubscriptionLike = Subscription.EMPTY;
+  private _thumbXSub$: SubscriptionLike = Subscription.EMPTY;
+  private _thumbYSub$: SubscriptionLike = Subscription.EMPTY;
+  private _scrollSub$: SubscriptionLike = Subscription.EMPTY;
   private _observer: MutationObserver;
 
   barX: HTMLElement;
@@ -73,7 +65,10 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
   @Input() thumbClass: string;
   @Output() scrollState = new EventEmitter<any>();
 
-  constructor(private zone: NgZone, private renderer: Renderer2, @Inject(DOCUMENT) private document: any) {
+  constructor(private zone: NgZone,
+              private renderer: Renderer2,
+              @Inject(DOCUMENT) private document: any,
+              @Inject(PLATFORM_ID) private platform: Object) {
   }
 
   ngAfterViewInit() {
@@ -100,26 +95,20 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
         this._thumbYSub$ = this.startThumbYWorker();
       }
 
-      if (this.autoUpdate && typeof MutationObserver !== 'undefined') {
+      if (isPlatformBrowser(this.platform) && this.autoUpdate) {
         /** Observe content changes */
         this._observer = new MutationObserver(() => this.update());
-        this._observer.observe(this.view, { subtree: true, childList: true });
+        this._observer.observe(this.view, {subtree: true, childList: true});
       }
     });
   }
 
   ngOnDestroy() {
-    if (this._scrollSub$) {
-      this._scrollSub$.unsubscribe();
-    }
-    if (this.trackX) {
-      this._barXSub$.unsubscribe();
-      this._thumbXSub$.unsubscribe();
-    }
-    if (this.trackY) {
-      this._barYSub$.unsubscribe();
-      this._thumbYSub$.unsubscribe();
-    }
+    this._barXSub$.unsubscribe();
+    this._barYSub$.unsubscribe();
+    this._thumbXSub$.unsubscribe();
+    this._thumbYSub$.unsubscribe();
+    this._scrollSub$.unsubscribe();
     if (this._observer) {
       this._observer.disconnect();
     }
@@ -268,18 +257,18 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    * Start horizontal thumb worker
    */
   private startThumbXWorker(): Subscription {
-    const mousedown$ = fromEvent(this.thumbX, 'mousedown');
-    const mouseup$ = fromEvent(this.document, 'mouseup');
-    const mousemove$ = fromEvent(this.document, 'mousemove');
-    return mousedown$.pipe(
+    const mouseDown$ = fromEvent(this.thumbX, 'mousedown');
+    const mouseUp$ = fromEvent(this.document, 'mouseup');
+    const mouseMove$ = fromEvent(this.document, 'mousemove');
+    return mouseDown$.pipe(
       tap(() => this.document.onselectstart = () => false),
-      map((mousedownEvent: any) => mousedownEvent.offsetX),
-      mergeMap((mousedownOffsetX: number) => mousemove$.pipe(
-        takeUntil(mouseup$.pipe(tap(() => this.document.onselectstart = null))),
-        map((mousemoveEvent: any) => mousemoveEvent.clientX),
-        tap((mousemoveClientX: number) => {
-          const offset = mousemoveClientX - this.barX.getBoundingClientRect().left;
-          const scroll = this._scrollLeftMax * (offset - mousedownOffsetX) / this._trackLeftMax;
+      map((mouseDownEvent: any) => mouseDownEvent.offsetX),
+      mergeMap((mouseDownOffsetX: number) => mouseMove$.pipe(
+        takeUntil(mouseUp$.pipe(tap(() => this.document.onselectstart = null))),
+        map((mouseMoveEvent: any) => mouseMoveEvent.clientX),
+        tap((mouseMoveClientX: number) => {
+          const offset = mouseMoveClientX - this.barX.getBoundingClientRect().left;
+          const scroll = this._scrollLeftMax * (offset - mouseDownOffsetX) / this._trackLeftMax;
           this.renderer.setProperty(this.view, 'scrollLeft', scroll);
         })
       ))
@@ -290,18 +279,18 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    * Start vertical thumb worker
    */
   private startThumbYWorker(): Subscription {
-    const mousedown$ = fromEvent(this.thumbY, 'mousedown');
-    const mouseup$ = fromEvent(this.document, 'mouseup');
-    const mousemove$ = fromEvent(this.document, 'mousemove');
-    return mousedown$.pipe(
+    const mouseDown$ = fromEvent(this.thumbY, 'mousedown');
+    const mouseUp$ = fromEvent(this.document, 'mouseup');
+    const mouseMove$ = fromEvent(this.document, 'mousemove');
+    return mouseDown$.pipe(
       tap(() => this.document.onselectstart = () => false),
-      map((mousedownEvent: any) => mousedownEvent.offsetY),
-      mergeMap((mousedownOffsetY: number) => mousemove$.pipe(
-        takeUntil(mouseup$.pipe(tap(() => this.document.onselectstart = null))),
-        map((mousemoveEvent: any) => mousemoveEvent.clientY),
-        tap((mousemoveClientY: number) => {
-          const offset = mousemoveClientY - this.barY.getBoundingClientRect().top;
-          const scroll = this._scrollTopMax * (offset - mousedownOffsetY) / this._trackTopMax;
+      map((mouseDownEvent: any) => mouseDownEvent.offsetY),
+      mergeMap((mouseDownOffsetY: number) => mouseMove$.pipe(
+        takeUntil(mouseUp$.pipe(tap(() => this.document.onselectstart = null))),
+        map((mouseMoveEvent: any) => mouseMoveEvent.clientY),
+        tap((mouseMoveClientY: number) => {
+          const offset = mouseMoveClientY - this.barY.getBoundingClientRect().top;
+          const scroll = this._scrollTopMax * (offset - mouseDownOffsetY) / this._trackTopMax;
           this.renderer.setProperty(this.view, 'scrollTop', scroll);
         })
       ))
@@ -342,7 +331,6 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    */
   private setThumbXPosition(x: number, width: number) {
     const transform = `translate3d(${x}px, 0, 0)`;
-    this.renderer.setStyle(this.thumbX, 'webkitTransform', transform);
     this.renderer.setStyle(this.thumbX, 'transform', transform);
     this.renderer.setStyle(this.thumbX, 'width', width + 'px');
     this._currXPos = x;
@@ -355,7 +343,6 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    */
   private setThumbYPosition(y: number, height: number) {
     const transform = `translate3d(0, ${y}px, 0)`;
-    this.renderer.setStyle(this.thumbY, 'webkitTransform', transform);
     this.renderer.setStyle(this.thumbY, 'transform', transform);
     this.renderer.setStyle(this.thumbY, 'height', height + 'px');
     this._currYPos = y;
