@@ -22,6 +22,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "build-demo": "ng build --prod --base-href https://murhafsousli.github.io/ngx-scrollbar/",
     "build-lib": "ng build ngx-scrollbar --prod",
     "link-lib": "npm link dist/ngx-scrollbar && npm link ngx-scrollbar",
     "publish-lib": "npm publish dist/ngx-scrollbar"
