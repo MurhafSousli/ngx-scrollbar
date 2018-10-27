@@ -352,9 +352,9 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
    * Hide native scrollbars
    */
   private hideNativeScrollbars() {
-    const size = `calc(100% + ${this.getNativeScrollbarWidth()}px)`;
-    this.renderer.setStyle(this.view, 'width', size);
-    this.renderer.setStyle(this.view, 'height', size);
+    const size = this.getNativeScrollbarWidth() + 'px';
+    this.renderer.setStyle(this.view, 'right', size);
+    this.renderer.setStyle(this.view, 'bottom', size);
   }
 
   /**
@@ -369,7 +369,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
     element.style.overflow = 'scroll';
     element.style.msOverflowStyle = 'scrollbar';
     this.document.body.appendChild(element);
-    const sw = element.offsetWidth - element.clientWidth;
+    const sw = element.clientWidth - element.offsetWidth;
     this.document.body.removeChild(element);
     return sw;
   }
