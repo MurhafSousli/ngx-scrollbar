@@ -126,55 +126,82 @@ To use *Scrollbar* functions, you will need to get the component reference from 
 scrollRef.update()
 ```
 
+#### Scroll to position
+
+```ts
+scrollRef.scrollTo(toX, toY, duration?, easeFunc?).subscribe()
+```
+
+- **ToX:** x position.
+- **ToY:** y position.
+- **Duration:** time to reach position in milliseconds, default null.
+- **EaseFunc:** the easing function for the smooth scroll.
+
+#### Scroll to element
+
+```ts
+scrollRef.scrollToElement(selector, duration?, easeFunc?).subscribe()
+```
+
+- **Selector:** target element selector.
+- **Duration:** time to reach position in milliseconds, default null.
+- **EaseFunc:** the easing function for the smooth scroll.
+
 #### Scroll horizontally
 
 ```ts
-scrollRef.scrollXTo(position, duration?)
+scrollRef.scrollXTo(position, duration?, easeFunc?).subscribe()
 ```
 
 - **Position:** scrolling position on X axis in pixels.
 - **Duration:** time to reach position in milliseconds, default null.
+- **EaseFunc:** the easing function for the smooth scroll.
 
 #### Scroll vertically
 
 ```ts
-scrollRef.scrollYTo(position, duration?)
+scrollRef.scrollYTo(position, duration?, easeFunc?).subscribe()
 ```
 
 - **Position:** scrolling position on Y axis in pixels.
 - **Duration:** time to reach position in milliseconds, default null.
+- **EaseFunc:** the easing function for the smooth scroll.
 
 #### Scroll to top
 
 ```ts
-scrollRef.scrollToTop(duration?)
+scrollRef.scrollToTop(duration?, easeFunc?).subscribe()
 ```
 
 - **Duration:** time to reach position in milliseconds, default null.
+- **EaseFunc:** the easing function for the smooth scroll.
 
 #### Scroll to bottom
 
 ```ts
-scrollRef.scrollToBottom(duration?)
+scrollRef.scrollToBottom(duration?, easeFunc?).subscribe()
 ```
 
 - **Duration:** time to reach position in milliseconds, default null.
+- **EaseFunc:** the easing function for the smooth scroll.
 
 #### Scroll to left
 
 ```ts
-scrollRef.scrollToLeft(duration?)
+scrollRef.scrollToLeft(duration?, easeFunc?).subscribe()
 ```
 
 - **Duration:** time to reach position in milliseconds, default null.
+- **EaseFunc:** the easing function for the smooth scroll.
 
 #### Scroll to right
 
 ```ts
-scrollRef.scrollToRight(duration?)
+scrollRef.scrollToRight(duration?, easeFunc?).subscribe()
 ```
 
 - **Duration:** time to reach position in milliseconds, default null.
+- **EaseFunc:** the easing function for the smooth scroll.
 
 <a name="scrollto">
 
