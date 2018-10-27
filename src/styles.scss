@@ -52,12 +52,13 @@ ng-scrollbar {
   right: initial;
   bottom: 6px;
   background-color: rgba(0, 0, 0, 0.1);
-  > .ng-scrollbar-thumb {
-    background-color: #28A6C6;
-  }
+}
+.blue-bg {
+  background-color: #28A6C6 !important;
 }
 
 .container {
+  padding: 0 1em;
   max-width: 500px;
   margin: auto;
   overflow: hidden;
