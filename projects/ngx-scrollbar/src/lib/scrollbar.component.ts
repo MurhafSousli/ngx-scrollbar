@@ -1,20 +1,22 @@
 import {
-  Inject,
   Component,
+  Inject,
   Input,
   Output,
   ViewChild,
   AfterViewInit,
   OnDestroy,
+  NgZone,
   Renderer2,
   EventEmitter,
   ChangeDetectionStrategy,
-  NgZone,
   PLATFORM_ID
 } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { CdkScrollable } from '@angular/cdk/scrolling';
-import { delay, expand, map, mergeMap, takeUntil, takeWhile, tap } from 'rxjs/operators';
+import { from, fromEvent, Observable, of, Subscription, SubscriptionLike } from 'rxjs';
+import { map, mergeMap, takeUntil, tap } from 'rxjs/operators';
+import { easeInOutQuad, smoothScroll, SmoothScrollEaseFunc, SmoothScrollOptions } from './smooth-scroll';
 
 @Component({
   selector: 'ng-scrollbar',
@@ -71,35 +73,37 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
+    if (isPlatformBrowser(this.platform)) {
+      this.zone.runOutsideAngular(() => {
+        this.barX = this.barXRef.nativeElement;
+        this.barY = this.barYRef.nativeElement;
+        this.thumbX = this.thumbXRef.nativeElement;
+        this.thumbY = this.thumbYRef.nativeElement;
+        this.view = this.viewRef.nativeElement;
 
-    this.zone.runOutsideAngular(() => {
-      this.barX = this.barXRef.nativeElement;
-      this.barY = this.barYRef.nativeElement;
-      this.thumbX = this.thumbXRef.nativeElement;
-      this.thumbY = this.thumbYRef.nativeElement;
-      this.view = this.viewRef.nativeElement;
+        this.hideNativeScrollbars();
 
-      this.hideNativeScrollbars();
-
-      /** Initialize scrollbars */
-      this.scrollWorker(null);
+        // Initialize scrollbars
+        this.scrollWorker(null);
 
         this._scrollSub$ = this.scrollable.elementScrolled().pipe(tap((e) => this.scrollWorker(e))).subscribe();
-      if (this.trackX) {
-        this._barXSub$ = fromEvent(this.barX, 'mousedown').pipe(tap((e) => this.barXWorker(e))).subscribe();
-        this._thumbXSub$ = this.startThumbXWorker();
-      }
-      if (this.trackY) {
-        this._barYSub$ = fromEvent(this.barY, 'mousedown').pipe(tap((e) => this.barYWorker(e))).subscribe();
-        this._thumbYSub$ = this.startThumbYWorker();
-      }
 
-      if (isPlatformBrowser(this.platform) && this.autoUpdate) {
-        /** Observe content changes */
-        this._observer = new MutationObserver(() => this.update());
-        this._observer.observe(this.view, {subtree: true, childList: true});
-      }
-    });
+        if (this.trackX) {
+          this._barXSub$ = fromEvent(this.barX, 'mousedown').pipe(tap((e) => this.barXWorker(e))).subscribe();
+          this._thumbXSub$ = this.startThumbXWorker();
+        }
+        if (this.trackY) {
+          this._barYSub$ = fromEvent(this.barY, 'mousedown').pipe(tap((e) => this.barYWorker(e))).subscribe();
+          this._thumbYSub$ = this.startThumbYWorker();
+        }
+
+        if (this.autoUpdate) {
+          // Observe content changes
+          this._observer = new MutationObserver(() => this.update());
+          this._observer.observe(this.view, {subtree: true, childList: true});
+        }
+      });
+    }
   }
 
   ngOnDestroy() {
@@ -113,88 +117,51 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  /**
-   * Scroll horizontally
-   * @param to
-   * @param duration
-   */
-  scrollXTo(to: number, duration?: number) {
+  scrollTo(toX: number, toY: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+    const scrollFunc = (left: number, top: number) => this.scrollable.scrollTo({left, top});
     if (duration) {
-      of(duration).pipe(
-        takeWhile(() => duration > 0),
-        expand((d: number) => {
-          if (d > 0) {
-            const difference = to - this.view.scrollLeft;
-            const perTick = difference / d * 10;
-            this.renderer.setProperty(this.view, 'scrollLeft', this.view.scrollLeft + perTick);
-            return of(d - 10).pipe(delay(10));
-          } else {
-            duration = d;
-            return EMPTY;
-          }
-        })
-      ).subscribe();
-    } else {
-      this.renderer.setProperty(this.view, 'scrollLeft', to);
+      const options: SmoothScrollOptions = {
+        toX,
+        toY,
+        duration,
+        scrollFunc,
+        easeFunc: easeFunc || easeInOutQuad,
+        startX: this.view.scrollLeft,
+        startY: this.view.scrollTop
+      };
+      return from(smoothScroll(options));
     }
+    scrollFunc(toX, toY);
+    return of<void>();
   }
 
-  /**
-   * Scroll vertically
-   * @param to
-   * @param duration
-   */
-  scrollYTo(to: number, duration?: number) {
-    if (duration) {
-      of(duration).pipe(
-        takeWhile(() => duration > 0),
-        expand((d: number) => {
-          if (d > 0) {
-            const difference = to - this.view.scrollTop;
-            const perTick = difference / d * 10;
-            this.renderer.setProperty(this.view, 'scrollTop', this.view.scrollTop + perTick);
-            return of(d - 10).pipe(delay(10));
-          } else {
-            duration = d;
-            return EMPTY;
-          }
-        })
-      ).subscribe();
-    } else {
-      this.renderer.setProperty(this.view, 'scrollTop', to);
-    }
+  scrollToElement(selector: string, duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+    const target: HTMLElement = this.view.querySelector(selector);
+    return target ? this.scrollTo(target.offsetLeft, target.offsetTop, duration, easeFunc) : of<void>();
   }
 
-  /**
-   * Scroll view to top
-   * @param duration
-   */
-  scrollToTop(duration?: number) {
-    this.scrollYTo(0, duration);
+  scrollXTo(to: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+    return this.scrollTo(to, undefined, duration, easeFunc);
   }
 
-  /**
-   * Scroll view to bottom
-   * @param duration
-   */
-  scrollToBottom(duration?: number) {
-    this.scrollYTo(this.view.scrollHeight, duration);
+  scrollYTo(to: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+    return this.scrollTo(undefined, to, duration, easeFunc);
   }
 
-  /**
-   * Scroll view to max right
-   * @param duration
-   */
-  scrollToRight(duration?: number) {
-    this.scrollXTo(this.view.scrollWidth, duration);
+  scrollToTop(duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+    return this.scrollYTo(0, duration, easeFunc);
   }
 
-  /**
-   * Scroll view to max left
-   * @param duration
-   */
-  scrollToLeft(duration?: number) {
-    this.scrollXTo(0, duration);
+  scrollToBottom(duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+    return this.scrollYTo(this.view.scrollHeight, duration, easeFunc);
+  }
+
+  scrollToRight(duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+    return this.scrollXTo(this.view.scrollWidth, duration, easeFunc);
+  }
+
+  scrollToLeft(duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+    return this.scrollXTo(0, duration, easeFunc);
   }
 
   /**
