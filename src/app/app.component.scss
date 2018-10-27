@@ -1,6 +1,7 @@
 .scroll-buttons {
   margin: 1em 0 3em;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
 }

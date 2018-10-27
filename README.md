@@ -6,6 +6,8 @@
 [![npm](https://img.shields.io/badge/demo-online-ed1c46.svg)](https://murhafsousli.github.io/ngx-scrollbar/)
 [![npm](https://img.shields.io/npm/v/ngx-scrollbar.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-scrollbar)
 [![Build Status](https://travis-ci.org/MurhafSousli/ngx-scrollbar.svg?branch=master)](https://www.npmjs.com/package/ngx-scrollbar)
+[![npm](https://img.shields.io/npm/dt/ngx-scrollbar.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-scrollbar)
+[![npm](https://img.shields.io/npm/dm/ngx-scrollbar.svg)](https://www.npmjs.com/package/ngx-scrollbar)
 [![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](/LICENSE)
 
 Custom overlay-scrollbars with native scrolling mechanism for Angular
@@ -124,55 +126,82 @@ To use *Scrollbar* functions, you will need to get the component reference from 
 scrollRef.update()
 ```
 
+#### Scroll to position
+
+```ts
+scrollRef.scrollTo(toX, toY, duration?, easeFunc?).subscribe()
+```
+
+- **ToX:** x position.
+- **ToY:** y position.
+- **Duration:** time to reach position in milliseconds, default null.
+- **EaseFunc:** the easing function for the smooth scroll.
+
+#### Scroll to element
+
+```ts
+scrollRef.scrollToElement(selector, duration?, easeFunc?).subscribe()
+```
+
+- **Selector:** target element selector.
+- **Duration:** time to reach position in milliseconds, default null.
+- **EaseFunc:** the easing function for the smooth scroll.
+
 #### Scroll horizontally
 
 ```ts
-scrollRef.scrollXTo(position, duration?)
+scrollRef.scrollXTo(position, duration?, easeFunc?).subscribe()
 ```
 
 - **Position:** scrolling position on X axis in pixels.
 - **Duration:** time to reach position in milliseconds, default null.
+- **EaseFunc:** the easing function for the smooth scroll.
 
 #### Scroll vertically
 
 ```ts
-scrollRef.scrollYTo(position, duration?)
+scrollRef.scrollYTo(position, duration?, easeFunc?).subscribe()
 ```
 
 - **Position:** scrolling position on Y axis in pixels.
 - **Duration:** time to reach position in milliseconds, default null.
+- **EaseFunc:** the easing function for the smooth scroll.
 
 #### Scroll to top
 
 ```ts
-scrollRef.scrollToTop(duration?)
+scrollRef.scrollToTop(duration?, easeFunc?).subscribe()
 ```
 
 - **Duration:** time to reach position in milliseconds, default null.
+- **EaseFunc:** the easing function for the smooth scroll.
 
 #### Scroll to bottom
 
 ```ts
-scrollRef.scrollToBottom(duration?)
+scrollRef.scrollToBottom(duration?, easeFunc?).subscribe()
 ```
 
 - **Duration:** time to reach position in milliseconds, default null.
+- **EaseFunc:** the easing function for the smooth scroll.
 
 #### Scroll to left
 
 ```ts
-scrollRef.scrollToLeft(duration?)
+scrollRef.scrollToLeft(duration?, easeFunc?).subscribe()
 ```
 
 - **Duration:** time to reach position in milliseconds, default null.
+- **EaseFunc:** the easing function for the smooth scroll.
 
 #### Scroll to right
 
 ```ts
-scrollRef.scrollToRight(duration?)
+scrollRef.scrollToRight(duration?, easeFunc?).subscribe()
 ```
 
 - **Duration:** time to reach position in milliseconds, default null.
+- **EaseFunc:** the easing function for the smooth scroll.
 
 <a name="scrollto">
 

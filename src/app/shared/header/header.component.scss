@@ -21,10 +21,14 @@
 
 .badges{
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  a, iframe {
+    margin-top: 7px;
+  }
   a {
-    display: flex;
     margin-left: 7px;
+    display: flex;
   }
 }

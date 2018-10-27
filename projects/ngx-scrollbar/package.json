@@ -1,6 +1,6 @@
 {
   "name": "ngx-scrollbar",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Custom overlay-scrollbars with native scrolling mechanism for Angular.",
   "homepage": "http://github.com/murhafsousli/ngx-scrollbar",
   "author": {
@@ -16,7 +16,8 @@
   },
   "license": "MIT",
   "peerDependencies": {
-    "@angular/common": "^6.0.0",
-    "@angular/core": "^6.0.0"
+    "@angular/common": ">=6.0.0",
+    "@angular/core": ">=6.0.0",
+    "@angular/cdk": ">=7.0.0"
   }
 }

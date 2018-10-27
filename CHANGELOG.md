@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.3.0
+
+- feat(ScrollbarComponent): All scrollTo functions return an observable that emits when the scroll function is done.
+- feat(ScrollbarComponent): Add `scrollTo` and `scrollToElement` functions, in [6acdf70](https://github.com/MurhafSousli/ngx-scrollbar/pull/66/commits/6acdf705aaaefa65beeb468425c09c30c85b670b).
+- feat(ScrollbarComponent): Add cross-browser smooth scroll, in [6acdf70](https://github.com/MurhafSousli/ngx-scrollbar/pull/66/commits/6acdf705aaaefa65beeb468425c09c30c85b670b).
+- fix peerDependencies for Angular >= 6, in [6c78229](https://github.com/MurhafSousli/ngx-scrollbar/pull/66/commits/6c782295a643fbdd5d4fada06caa0a39e4388bfe).
+- fix(ScrollbarComponent): Scrollbar are not shown on init, closes [#48](https://github.com/MurhafSousli/ngx-scrollbar/issues/48) in [bac70d5](https://github.com/MurhafSousli/ngx-scrollbar/pull/66/commits/bac70d585405d814bd7d4d713b733b4612f44dc7).
+- refactor(ScrollbarComponent): Use right and bottom to hide the native scrollbars, in [91b6b6f](https://github.com/MurhafSousli/ngx-scrollbar/pull/66/commits/91b6b6f29f9a0dac4c2a37b6d3cc3a06edeab1e8).
+- refactor(ScrollbarComponent): Encapsulate component styles, in [0fd9b92](https://github.com/MurhafSousli/ngx-scrollbar/pull/66/commits/0fd9b92fc86486e60ff326696e0a5d567bcbff7c).
+- enhance(ScrollbarComponent): Use CDK ScrollModule instead of native scroll event, in [d5d59b3](https://github.com/MurhafSousli/ngx-scrollbar/pull/66/commits/d5d59b36f999fa3811ee37a0eabb20eea9949734).
+
+### Breaking changes:
+
+- Must subscribe on any *scrollTo* function you use, e.g. `ScrollbarComponent.scrollToBottom().subscribe()`
+
 ## 2.2.0
 
 - fix(ScrollbarComponent): fix SSR by checking if the `MutationObserver` code is running on the browser, in [86adf42](https://github.com/MurhafSousli/ngx-scrollbar/pull/55/commits/86adf42ff9bd1f1594df8ae38ddfe1d32152bf75).
