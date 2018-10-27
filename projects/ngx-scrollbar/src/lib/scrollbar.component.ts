@@ -8,7 +8,6 @@ import {
   OnDestroy,
   Renderer2,
   EventEmitter,
-  ViewEncapsulation,
   ChangeDetectionStrategy,
   NgZone,
   PLATFORM_ID
@@ -21,8 +20,7 @@ import { delay, expand, map, mergeMap, takeUntil, takeWhile, tap } from 'rxjs/op
   selector: 'ng-scrollbar',
   templateUrl: 'scrollbar.component.html',
   styleUrls: ['scrollbar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScrollbarComponent implements AfterViewInit, OnDestroy {
 
