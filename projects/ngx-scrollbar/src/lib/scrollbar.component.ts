@@ -84,7 +84,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
         this.hideNativeScrollbars();
 
         // Initialize scrollbars
-        this.scrollWorker(null);
+        setTimeout(() => this.scrollWorker(null), 200);
 
         this._scrollSub$ = this.scrollable.elementScrolled().pipe(tap((e) => this.scrollWorker(e))).subscribe();
 
