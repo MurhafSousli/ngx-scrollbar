@@ -14,7 +14,7 @@ import {
   PLATFORM_ID
 } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Subscription, fromEvent, of, EMPTY, SubscriptionLike } from 'rxjs';
+import { CdkScrollable } from '@angular/cdk/scrolling';
 import { delay, expand, map, mergeMap, takeUntil, takeWhile, tap } from 'rxjs/operators';
 
 @Component({
@@ -55,6 +55,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
   @ViewChild('thumbX') thumbXRef;
   @ViewChild('thumbY') thumbYRef;
   @ViewChild('view') viewRef;
+  @ViewChild(CdkScrollable) scrollable: CdkScrollable;
 
   @Input() autoUpdate = true;
   @Input() autoHide = false;
@@ -85,7 +86,7 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
       /** Initialize scrollbars */
       this.scrollWorker(null);
 
-      this._scrollSub$ = fromEvent(this.view, 'scroll').pipe(tap((e) => this.scrollWorker(e))).subscribe();
+        this._scrollSub$ = this.scrollable.elementScrolled().pipe(tap((e) => this.scrollWorker(e))).subscribe();
       if (this.trackX) {
         this._barXSub$ = fromEvent(this.barX, 'mousedown').pipe(tap((e) => this.barXWorker(e))).subscribe();
         this._thumbXSub$ = this.startThumbXWorker();
@@ -235,8 +236,8 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
     if (e.target === e.currentTarget) {
       const offset = e.offsetX - this._naturalThumbSizeX * .5;
       const thumbPositionPercentage = offset * 100 / this.barX.clientWidth;
-      const scrollLeft = thumbPositionPercentage * this.view.scrollWidth / 100;
-      this.renderer.setProperty(this.view, 'scrollLeft', scrollLeft);
+      const left = thumbPositionPercentage * this.view.scrollWidth / 100;
+      this.scrollable.scrollTo({left});
     }
   }
 
@@ -248,8 +249,8 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
     if (e.target === e.currentTarget) {
       const offset = e.offsetY - this._naturalThumbSizeY * .5;
       const thumbPositionPercentage = offset * 100 / this.barY.clientHeight;
-      const scrollTop = thumbPositionPercentage * this.view.scrollHeight / 100;
-      this.renderer.setProperty(this.view, 'scrollTop', scrollTop);
+      const top = thumbPositionPercentage * this.view.scrollHeight / 100;
+      this.scrollable.scrollTo({top});
     }
   }
 
@@ -268,8 +269,8 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
         map((mouseMoveEvent: any) => mouseMoveEvent.clientX),
         tap((mouseMoveClientX: number) => {
           const offset = mouseMoveClientX - this.barX.getBoundingClientRect().left;
-          const scroll = this._scrollLeftMax * (offset - mouseDownOffsetX) / this._trackLeftMax;
-          this.renderer.setProperty(this.view, 'scrollLeft', scroll);
+          const left = this._scrollLeftMax * (offset - mouseDownOffsetX) / this._trackLeftMax;
+          this.scrollable.scrollTo({left});
         })
       ))
     ).subscribe();
@@ -290,8 +291,8 @@ export class ScrollbarComponent implements AfterViewInit, OnDestroy {
         map((mouseMoveEvent: any) => mouseMoveEvent.clientY),
         tap((mouseMoveClientY: number) => {
           const offset = mouseMoveClientY - this.barY.getBoundingClientRect().top;
-          const scroll = this._scrollTopMax * (offset - mouseDownOffsetY) / this._trackTopMax;
-          this.renderer.setProperty(this.view, 'scrollTop', scroll);
+          const top = this._scrollTopMax * (offset - mouseDownOffsetY) / this._trackTopMax;
+          this.scrollable.scrollTo({top});
         })
       ))
     ).subscribe();
