@@ -1,4 +1,4 @@
-ng-scrollbar {
+:host {
   display: block;
   position: relative;
   height: 100%;
@@ -68,8 +68,6 @@ ng-scrollbar {
 }
 
 .ng-scrollbar-view {
-  //width: 100%;
-  //height: 100%;
   position: absolute;
   top: 0;
   right: 0;
@@ -79,6 +77,6 @@ ng-scrollbar {
   transform: translate3d(0, 0, 0);
   -webkit-overflow-scrolling: touch;
   ::-webkit-scrollbar {
-    background: transparent; /* optional: just make scrollbar invisible */
+    background: transparent;
   }
 }
