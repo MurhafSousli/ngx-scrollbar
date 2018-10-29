@@ -31,9 +31,13 @@ ___
 
 ## Installation
 
-Install it with npm
+**NPM**
 
-`npm install ngx-scrollbar --save`
+`npm i -S ngx-scrollbar @angular/cdk`
+
+**YARN**
+
+`yarn add ngx-scrollbar @angular/cdk`
 
 ### SystemJS
 
@@ -291,4 +295,4 @@ If you identify any errors in the library, or have an idea for an improvement, p
 - [ngx-disqus](https://github.com/MurhafSousli/ngx-disqus)
 - [ngx-wordpress](https://github.com/MurhafSousli/ngx-wordpress)
 - [ngx-highlightjs](https://github.com/MurhafSousli/ngx-highlightjs)
-- [ng-teximate](https://github.com/MurhafSousli/ng-teximate)
+- [ngx-teximate](https://github.com/MurhafSousli/ngx-teximate)
