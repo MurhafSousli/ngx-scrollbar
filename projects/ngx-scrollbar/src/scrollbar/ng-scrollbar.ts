@@ -16,7 +16,7 @@ import { CdkScrollable } from '@angular/cdk/scrolling';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, BehaviorSubject, Subscription, SubscriptionLike, Subject } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
-import { SmoothScroll, SmoothScrollEaseFunc } from '../smooth-scroll';
+import { SmoothScroll, SmoothScrollEaseFunc } from '../smooth-scroll/smooth-scroll';
 
 interface ViewStyle {
   right: string | number;
@@ -83,8 +83,10 @@ export class NgScrollbar implements OnInit, AfterViewInit, OnDestroy {
   view: HTMLElement;
   /** Observe content changes */
   private _observer: MutationObserver;
-  private _contentObserver = new Subject();
-  contentObserver = this._contentObserver.asObservable();
+
+  /** Steam that emits when scrollbar thumbnail needs to update (for internal uses) */
+  private _updateObserver = new Subject();
+  updateObserver = this._updateObserver.asObservable();
 
   constructor(private zone: NgZone,
               private breakpointObserver: BreakpointObserver,
@@ -123,7 +125,7 @@ export class NgScrollbar implements OnInit, AfterViewInit, OnDestroy {
    * Update scrollbar thumbnail position
    */
   update() {
-    this._contentObserver.next();
+    this._updateObserver.next();
   }
 
   /**
