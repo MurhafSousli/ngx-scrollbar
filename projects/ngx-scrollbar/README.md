@@ -106,7 +106,7 @@ Here is a [stackblitz](https://stackblitz.com/edit/ngx-scrollbar)
 
   Add custom class to scrollbars' thumbnails, default: `null`
   
-- **[barScrollToDuration]**: number
+- **[scrollToDuration]**: number
 
   The smooth scroll duration when a scrollbar is clicked, default `400`.
   
