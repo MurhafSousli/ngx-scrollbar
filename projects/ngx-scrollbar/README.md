@@ -4,13 +4,14 @@
 </p>
 
 [![npm](https://img.shields.io/badge/demo-online-ed1c46.svg)](https://murhafsousli.github.io/ngx-scrollbar/)
+[![npm](https://img.shields.io/badge/stackblitz-online-orange.svg)](https://stackblitz.com/edit/ngx-scrollbar)
 [![npm](https://img.shields.io/npm/v/ngx-scrollbar.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-scrollbar)
 [![Build Status](https://travis-ci.org/MurhafSousli/ngx-scrollbar.svg?branch=master)](https://www.npmjs.com/package/ngx-scrollbar)
 [![npm](https://img.shields.io/npm/dt/ngx-scrollbar.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-scrollbar)
 [![npm](https://img.shields.io/npm/dm/ngx-scrollbar.svg)](https://www.npmjs.com/package/ngx-scrollbar)
 [![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](/LICENSE)
 
-Custom overlay-scrollbars with native scrolling mechanism for Angular
+Custom overlay-scrollbars with native scrolling mechanism for Angular, it also provides a cross-browser smooth scroll directive.
 
 ___
 
@@ -21,6 +22,7 @@ ___
 - [Usage](#usage)
 - [Options](#options)
 - [Dynamic scrolling](#scrollto)
+- [Smooth scroll](#smoothscroll)
 - [Development](#development)
 - [Issues](#issues)
 - [Author](#author)
@@ -53,15 +55,15 @@ Here is a [stackblitz](https://stackblitz.com/edit/ngx-scrollbar)
 
 ## Usage
 
-Import `ScrollbarModule` in the root module
+Import `NgScrollbarModule` in your module
 
 ```js
-import { ScrollbarModule } from 'ngx-scrollbar';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 
 @NgModule({
   imports: [
     // ...
-    ScrollbarModule
+    NgScrollbarModule
   ]
 })
 ```
@@ -90,7 +92,7 @@ In your template
 
 - **[autoHide]**: boolean
 
-  Hide scrollbars, and show them on hover, default `false`
+  Show scrollbar on mouse hover only, default `false`
 
 - **[autoUpdate]**: boolean
 
@@ -98,42 +100,54 @@ In your template
 
 - **[viewClass]**: string
 
-  Add custom class to the view
+  Add custom class to the view, default: `null`
 
 - **[barClass]**: string
 
-  Add custom class to scrollbars
+  Add custom class to scrollbars, default: `null`
 
 - **[thumbClass]**: string
 
-  Add custom class to scrollbars' thumbnails
+  Add custom class to scrollbars' thumbnails, default: `null`
   
-- **(scrollState)**:
+- **[barScrollToDuration]**: number
 
-  Stream that emits that component has been scrolled.
+  The smooth scroll duration when a scrollbar is clicked, default `400`.
+  
+- **[disableOnBreakpoints]**: Array of the CDK Breakpoints
+
+  Disable custom scrollbars on specific breakpoints, default: `[Breakpoints.HandsetLandscape, Breakpoints.HandsetPortrait]`
+
+ > Because it is not possible to hide the native scrollbars on mobile browsers, the only solution is to fallback to the native scrollbars, to disable this option give it false value.
 
 ### Scrollbar functions
 
-To use *Scrollbar* functions, you will need to get the component reference from the template. this can be done  using the `@ViewChild` decortator, for example:
+To use *NgScrollbar* functions, you will need to get the component reference from the template. this can be done using the `@ViewChild` decorator, for example:
 
 ```ts
-@ViewChild(ScrollbarComponent) scrollRef: ScrollbarComponent;
+@ViewChild(ScrollbarComponent) scrollRef: NgScrollbar;
 ```
 
 #### Update scrollbars manually
+
+Sometimes the content changes, if the `autoUpdate` feature did not catch them or it was disabled, you can still update the scrollbars manually, for example:
 
 ```ts
 scrollRef.update()
 ```
 
+## Scroll functions
+
+All scroll functions return a cold observable that requires calling `subscribe()`, it will emits once scrolling is done and unsubscribe itself, *no need to unsubscribe from the function manually.*
+
 #### Scroll to position
 
 ```ts
-scrollRef.scrollTo(toX, toY, duration?, easeFunc?).subscribe()
+scrollRef.scrollTo(options: ScrollToOptions).subscribe()
 ```
 
-- **ToX:** x position.
-- **ToY:** y position.
+- **Left:** x position.
+- **Top:** y position.
 - **Duration:** time to reach position in milliseconds, default null.
 - **EaseFunc:** the easing function for the smooth scroll.
 
@@ -196,8 +210,12 @@ scrollRef.scrollToLeft(duration?, easeFunc?).subscribe()
 
 #### Scroll to right
 
+Observable that emits once scrolling to right is done
+
 ```ts
-scrollRef.scrollToRight(duration?, easeFunc?).subscribe()
+scrollRef.scrollToRight(duration?, easeFunc?).subscribe(() => {
+  console.log('scrollToRight is done')
+})
 ```
 
 - **Duration:** time to reach position in milliseconds, default null.
@@ -210,11 +228,11 @@ scrollRef.scrollToRight(duration?, easeFunc?).subscribe()
 Scroll to top directly from the template
 
 ```html
-<ng-scrollbar #scrollRef>
+<ng-scrollbar #scrollbarRef>
   <!-- Content -->
 </ng-scrollbar>
 
-<button (click)="scrollRef.scrollYTo(0)">Scroll to top</button>
+<button (click)="scrollbarRef.scrollToTop(500)">Scroll to top</button>
 ```
 
 Or using the `@ViewChild` decorator
@@ -223,7 +241,7 @@ Or using the `@ViewChild` decorator
 @ViewChild(ScrollbarComponent) scrollRef: ScrollbarComponent;
 
 scrollToTop() {
-   this.scrollRef.scrollYTo(0);
+   this.scrollRef.scrollToElement('#usage');
 }
 ```
 
@@ -243,7 +261,7 @@ export class AppComponent implements OnInit {
       .filter(event => event instanceof NavigationEnd)
       .subscribe((event: NavigationEnd) => {
         if (this.scrollRef) {
-          this.scrollRef.scrollYTo(0);
+          this.scrollRef.scrollToTop();
         }
       });
   }
@@ -251,14 +269,47 @@ export class AppComponent implements OnInit {
 }
 ```
 
+<a name="smoothscroll"/>
+
+## Smooth Scroll Module
+
+In version 3.0.0, The `SmoothScrollModule` has been added as an independent module
+
+```ts
+import { SmoothScrollModule } from 'ngx-scrollbar';
+
+@NgModule({
+  imports: [
+    // ...
+    SmoothScrollModule
+  ]
+})
+```
+
+Use the `[smoothScroll]` directive on a scrollable container.
+
+```html
+<div smoothScroll #scrollable class="scrollable-container}">
+  <!-- child elements -->
+</div>
+
+<button (click)="scrollable.scrollToBottom(500)">Scroll to bottom</button>
+```
+
 <a name="development"/>
 
 ## Development
 
-This project uses Angular CLI 6 for development.
+This project uses the Angular CLI for building the library.
 
 ```bash
 $ ng build ngx-scrollbar --prod
+```
+
+or 
+
+```bash
+$ npm run build-lib
 ```
 
 <a name="issues"/>
@@ -291,4 +342,4 @@ If you identify any errors in the library, or have an idea for an improvement, p
 - [ngx-disqus](https://github.com/MurhafSousli/ngx-disqus)
 - [ngx-wordpress](https://github.com/MurhafSousli/ngx-wordpress)
 - [ngx-highlightjs](https://github.com/MurhafSousli/ngx-highlightjs)
-- [ng-teximate](https://github.com/MurhafSousli/ng-teximate)
+- [ngx-teximate](https://github.com/MurhafSousli/ngx-teximate)

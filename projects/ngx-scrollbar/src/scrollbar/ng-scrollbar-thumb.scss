@@ -1,0 +1,44 @@
+.ng-scrollbar {
+  position: absolute;
+  z-index: 1;
+  border-radius: 4px;
+}
+
+.ng-scrollbar-inner {
+  padding: 1em;
+}
+
+.-vertical {
+  right: 6px;
+  top: 6px;
+  bottom: 6px;
+  width: 8px;
+  .ng-scrollbar-thumb {
+    width: 100%;
+  }
+}
+
+.-horizontal {
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  height: 8px;
+  .ng-scrollbar-thumb {
+    height: 100%;
+  }
+}
+
+.ng-scrollbar-thumb {
+  position: relative;
+  display: block;
+  width: 0;
+  height: 0;
+  border-radius: inherit;
+  background-color: rgba(0, 0, 0, .2); //dodgerblue;
+  transform: translate3d(0, 0, 0);
+
+  &:hover,
+  &:active {
+    background-color: rgba(0, 0, 0, .3);
+  }
+}

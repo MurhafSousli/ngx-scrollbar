@@ -1,3 +1,3 @@
-export * from './lib/scrollbar.module';
-export * from './lib/scrollbar.component';
-export * from './lib/smooth-scroll';
+export * from './scrollbar/ng-scrollbar.module';
+export * from './scrollbar/ng-scrollbar';
+export * from './smooth-scroll/smooth-scroll';
