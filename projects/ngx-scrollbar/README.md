@@ -33,9 +33,17 @@ ___
 
 ## Installation
 
-Install it with npm
+**NPM**
 
-`npm install ngx-scrollbar --save`
+```bash
+npm i -S ngx-scrollbar @angular/cdk
+```
+
+**YARN**
+
+```bash
+yarn add ngx-scrollbar @angular/cdk
+```
 
 ### SystemJS
 
