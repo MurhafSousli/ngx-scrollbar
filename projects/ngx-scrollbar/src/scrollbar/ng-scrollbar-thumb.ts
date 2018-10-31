@@ -58,17 +58,18 @@ const axis: Axis = {
   selector: 'ng-scrollbar-thumb',
   styleUrls: ['./ng-scrollbar-thumb.scss'],
   template: `
-    <div #bar class="ng-scrollbar -{{orientation}} {{barClass}}" (mousedown)="onMouseDown($event)">
+    <div #bar class="ng-scrollbar ng-scrollbar-{{orientation}} {{barClass}}" (mousedown)="onMouseDown($event)">
       <div #thumb class="ng-scrollbar-thumb {{thumbClass}}" [ngStyle]="scrollbarStyle | async"></div>
     </div>
   `
 })
 export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
 
-  @Input() orientation: string;
   @Input() barClass: string;
   @Input() thumbClass: string;
   @Input() scrollToDuration: number;
+  @Input() orientation: 'vertical' | 'horizontal';
+
   @ViewChild('bar') bar: ElementRef;
   @ViewChild('thumb') thumb: ElementRef;
 
