@@ -1,5 +1,24 @@
 # Changelog
 
+## 3.0.0
+
+- feat(SmoothScroll): Add `[smoothScroll]` directive which can be imported independently e.g. `import {SmoothScrollModule} from 'ngx-scrollbar'`.
+- feat(NgScrollbar): Add `[disableOnBreakpoints]` to disable the custom scrollbars on certain breakpoints.
+- refactor(NgScrollbar): Improve performance by removing `(scrollState)` output which causes a change detection on each emit.
+- fix(NgScrollbar): Fallback to native scrollbars on mobile, closes [#59](https://github.com/MurhafSousli/ngx-scrollbar/issues/59).
+- enhance(NgScrollbar): Improve component default styles.
+
+### Breaking Changes
+
+- The component class name has changed from `ScrollbarComponent` to `NgScrollbar`.
+- The module class name has changed from `ScrollbarModule` to `NgScrollbarModule`.
+- `(scrollState)` output is removed, to get the scroll event use the component ref, example:
+
+```ts
+@ViewChild(NgScrollbar) ngScrollbar: NgScrollbar;
+ngScrollbar.scrollable.elementScrolled().subscribe(e => console.log(e))
+```
+
 ## 2.3.0
 
 - feat(ScrollbarComponent): All scrollTo functions return an observable that emits when the scroll function is done.
