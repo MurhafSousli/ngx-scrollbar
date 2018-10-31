@@ -4,11 +4,11 @@
     <app-header></app-header>
 
     <div class="scroll-buttons">
-      <button class="btn-gradient orange mini" (click)="scrollEl.scrollYTo(350, 500).subscribe()">Example 1</button>
-      <button class="btn-gradient green mini" (click)="scrollEl.scrollYTo(800, 500).subscribe()">Example 2</button>
-      <button class="btn-gradient purple mini" (click)="scrollEl.scrollYTo(1200, 500).subscribe()">Example 3</button>
-      <button class="btn-gradient cyan mini" (click)="scrollEl.scrollYTo(1700, 600).subscribe()">Example 4</button>
-      <button class="btn-gradient blue mini" (click)="scrollEl.scrollToBottom(700).subscribe()">Example 5</button>
+      <button class="btn-gradient orange mini" (click)="scrollEl.scrollToElement('app-example1', 500).subscribe()">Example 1</button>
+      <button class="btn-gradient green mini" (click)="scrollEl.scrollToElement('app-example2', 500).subscribe()">Example 2</button>
+      <button class="btn-gradient purple mini" (click)="scrollEl.scrollToElement('app-example3', 500).subscribe()">Example 3</button>
+      <button class="btn-gradient cyan mini" (click)="scrollEl.scrollToElement('app-example4', 600).subscribe()">Example 4</button>
+      <button class="btn-gradient blue mini" (click)="scrollEl.scrollToElement('app-example5', 800).subscribe()">Example 5</button>
     </div>
 
     <app-example1></app-example1>
@@ -27,6 +27,5 @@
 
     <app-footer></app-footer>
   </div>
-
 </ng-scrollbar>
 

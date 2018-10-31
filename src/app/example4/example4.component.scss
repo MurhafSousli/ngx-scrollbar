@@ -21,13 +21,12 @@
       width: 6px;
       bottom: 20px;
     }
-  }
-
-  .ng-scrollbar-thumb {
-    background-color: #F8F8F8;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(0, 0, 0, 0.5);
-    &:hover, &:active {
+    .ng-scrollbar-thumb {
       background-color: #F8F8F8;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(0, 0, 0, 0.5);
+      &:hover, &:active {
+        background-color: #F8F8F8;
+      }
     }
   }
 

@@ -17,6 +17,9 @@
     .ng-scrollbar-thumb {
       background-color: #fff;
       box-shadow: 0 0 0 2px #D85426;
+      &:hover, &:active {
+        background-color: #fff;
+      }
     }
   }
 
