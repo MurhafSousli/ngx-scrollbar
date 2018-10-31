@@ -45,20 +45,6 @@ npm i -S ngx-scrollbar @angular/cdk
 yarn add ngx-scrollbar @angular/cdk
 ```
 
-### SystemJS
-
-If you are using SystemJS, you should also adjust your configuration to point to the UMD bundle.
-
-In your systemjs config file, map needs to tell the System loader where to look for `ngx-scrollbar`:
-
-```js
-map: {
-  'ngx-scrollbar': 'node_modules/ngx-scrollbar/bundles/ngx-scrollbar.umd.js',
-}
-```
-
-Here is a [stackblitz](https://stackblitz.com/edit/ngx-scrollbar)
-
 <a name="usage"/>
 
 ## Usage
@@ -83,6 +69,8 @@ In your template
   <!-- Content -->
 </ng-scrollbar>
 ```
+
+Here is a [stackblitz](https://stackblitz.com/edit/ngx-scrollbar)
 
 <a name="options">
 
