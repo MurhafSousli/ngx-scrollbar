@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { ScrollbarModule } from 'ngx-scrollbar';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 import { Example1Component } from './example1/example1.component';
@@ -22,7 +22,7 @@ import { Example5Component } from './example5/example5.component';
   imports: [
     BrowserModule,
     SharedModule,
-    ScrollbarModule
+    NgScrollbarModule
   ],
   bootstrap: [AppComponent]
 })

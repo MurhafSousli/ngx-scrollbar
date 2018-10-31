@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-example2',
@@ -6,11 +6,87 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./example2.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class Example2Component implements OnInit {
+export class Example2Component {
 
-  constructor() { }
+  list = [
+    {
+      title: 'Clean the house',
+      completed: false
+    },
+    {
+      title: 'Take out the thrash',
+      completed: true
+    },
+    {
+      title: 'Do the dishes',
+      completed: false
+    },
+    {
+      title: 'Feed the dog',
+      completed: true
+    },
+    {
+      title: 'Mow the law',
+      completed: true
+    },
+    {
+      title: 'Clean the house',
+      completed: false
+    },
+    {
+      title: 'Take out the thrash',
+      completed: true
+    },
+    {
+      title: 'Do the dishes',
+      completed: false
+    },
+    {
+      title: 'Feed the dog',
+      completed: true
+    },
+    {
+      title: 'Mow the law',
+      completed: true
+    },
+    {
+      title: 'Clean the house',
+      completed: false
+    },
+    {
+      title: 'Take out the thrash',
+      completed: true
+    },
+    {
+      title: 'Do the dishes',
+      completed: false
+    },
+    {
+      title: 'Feed the dog',
+      completed: true
+    },
+    {
+      title: 'Mow the law',
+      completed: true
+    },
+    {
+      title: 'Clean the house',
+      completed: false
+    },
+    {
+      title: 'Have a beer',
+      completed: true
+    }
+  ];
 
-  ngOnInit() {
+  addItem() {
+    this.list = [
+      ...this.list, ...[
+        {
+          title: 'Clean the house',
+          completed: false
+        }
+      ]
+    ];
   }
-
 }
