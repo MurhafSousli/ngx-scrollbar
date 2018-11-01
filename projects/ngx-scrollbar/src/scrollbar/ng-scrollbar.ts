@@ -161,8 +161,8 @@ export class NgScrollbar implements OnInit, AfterViewInit, OnDestroy {
     return this.smoothScroll.scrollTo(options);
   }
 
-  scrollToElement(selector: string, duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
-    return this.smoothScroll.scrollToElement(selector, duration, easeFunc);
+  scrollToElement(selector: string, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+    return this.smoothScroll.scrollToElement(selector, offset, duration, easeFunc);
   }
 
   scrollXTo(to: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
