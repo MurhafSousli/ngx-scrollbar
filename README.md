@@ -196,7 +196,7 @@ setCode(code: string) {
 To use *NgScrollbar* functions, you will need to get the component reference from the template. this can be done using the `@ViewChild` decorator, for example:
 
 ```ts
-@ViewChild(ScrollbarComponent) scrollRef: NgScrollbar;
+@ViewChild(NgScrollbar) scrollRef: NgScrollbar;
 ```
 
 ## Scroll functions
@@ -362,7 +362,7 @@ The easiest way to use custom styles is to give each part of the scrollbar a cus
 
 ## Smooth Scroll Module
 
-In version 3.0.0, The `SmoothScrollModule` has been added as an independent module
+Since v3.0.0, The `SmoothScrollModule` is added as an independent module, the scrollable element does not have to be `<ng-scrollbar>`.
 
 ```ts
 import { SmoothScrollModule } from 'ngx-scrollbar';
