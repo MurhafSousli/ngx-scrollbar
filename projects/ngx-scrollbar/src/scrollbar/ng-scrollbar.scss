@@ -38,3 +38,11 @@
     background: transparent;
   }
 }
+
+/** Show scrollbar only when thumb is greater than 0 */
+ng-scrollbar-thumb {
+  display: none;
+  &.ng-scrollbar-visible {
+    display: block;
+  }
+}

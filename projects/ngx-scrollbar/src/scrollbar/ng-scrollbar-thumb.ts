@@ -6,6 +6,7 @@ import {
   OnInit,
   AfterViewInit,
   OnDestroy,
+  HostBinding,
   NgZone,
   ElementRef,
   forwardRef
@@ -72,6 +73,9 @@ export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('bar') bar: ElementRef;
   @ViewChild('thumb') thumb: ElementRef;
+  @HostBinding('class.ng-scrollbar-visible') get visibility(): boolean {
+    return !!this._scrollMax;
+  }
 
   private _minThumbSize = 20;
   private _naturalThumbSize = 0;
