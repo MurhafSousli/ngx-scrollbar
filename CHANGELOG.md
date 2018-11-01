@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.1.0
+
+- feat(NgScrollbar, SmoothScroll): Add offset value in `scrollToElement()` in [937374c](https://github.com/MurhafSousli/ngx-scrollbar/pull/73/commits/937374c4c7b48052376690a1d947d6bf2b7f2a89).
+- fix(NgScrollbar): Fix scrollbar view on dynamic height, closes [#72](https://github.com/MurhafSousli/ngx-scrollbar/issues/72) in [3ea592f](https://github.com/MurhafSousli/ngx-scrollbar/pull/73/commits/3ea592f1524c9f125790169901d855fc75bd1181).
+- enhance(NgScrollbar): Hide the scrollbar when its thumbnail size is 0, in [55f37e6](https://github.com/MurhafSousli/ngx-scrollbar/pull/73/commits/55f37e65e72e40f9fef5e093df59a04ec5a530f6).
+- enhance(NgScrollbar): Add a smooth transition on scrollbar thumbnail size, in [937374c](https://github.com/MurhafSousli/ngx-scrollbar/pull/73/commits/8b59b649d24d53bb4e5ece0222ff66929f8d9227).
+- enhance(NgScrollbarThumb): Move scrollbar thumb styles to `NgScrollbar` component styles, removes the need to add `!important` to override the styles, in [8b59b64](https://github.com/MurhafSousli/ngx-scrollbar/pull/73/commits/8b59b649d24d53bb4e5ece0222ff66929f8d9227).
+- enhance(NgScrollbarThumb): Use `OnPush` change detection, in [b05ee45](https://github.com/MurhafSousli/ngx-scrollbar/pull/73/commits/b05ee450af87070eecfde3c958c4bfc81cea9cdb).
+
+
 ## 3.0.0
 
 - feat(SmoothScroll): Add `[smoothScroll]` directive which can be imported independently e.g. `import {SmoothScrollModule} from 'ngx-scrollbar'`.

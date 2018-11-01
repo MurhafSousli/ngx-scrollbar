@@ -1,7 +1,7 @@
 :host {
   display: block;
   position: relative;
-  height: 100%;
+  min-height: 100%;
   overflow: hidden !important;
   /** Auto hide scrollbars */
   ::ng-deep {
@@ -18,23 +18,72 @@
   }
 }
 
-.ng-scrollbar-container {
+.ng-scrollbar-container,
+.ng-scrollbar-view {
   position: relative;
+}
+
+.ng-scrollbar-container {
   overflow: hidden !important;
   width: 100%;
   height: 100%;
 }
 
 .ng-scrollbar-view {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
   overflow: auto;
   transform: translate3d(0, 0, 0);
   -webkit-overflow-scrolling: touch;
   ::-webkit-scrollbar {
     background: transparent;
+  }
+}
+
+/** Show scrollbar only when thumb is greater than 0 */
+ng-scrollbar-thumb {
+  display: none;
+  &.ng-scrollbar-visible {
+    display: block;
+  }
+}
+
+::ng-deep {
+  .ng-scrollbar {
+    position: absolute;
+    z-index: 1;
+    border-radius: 4px;
+  }
+
+  .ng-scrollbar-thumb {
+    position: relative;
+    width: 0;
+    height: 0;
+    border-radius: inherit;
+    background-color: rgba(0, 0, 0, .2);
+    transform: translate3d(0, 0, 0);
+    &:hover,
+    &:active {
+      background-color: rgba(0, 0, 0, .3);
+    }
+  }
+
+  .ng-scrollbar-vertical {
+    right: 6px;
+    top: 6px;
+    bottom: 6px;
+    width: 8px;
+    .ng-scrollbar-thumb {
+      width: 100%;
+    }
+  }
+
+  .ng-scrollbar-horizontal {
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    height: 8px;
+    .ng-scrollbar-thumb {
+      height: 100%;
+      transition: height 150ms ease-out;
+    }
   }
 }

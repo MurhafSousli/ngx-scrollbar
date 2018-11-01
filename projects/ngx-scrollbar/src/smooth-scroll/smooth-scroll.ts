@@ -66,9 +66,9 @@ export class SmoothScroll {
     return of<void>();
   }
 
-  scrollToElement(selector: string, duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+  scrollToElement(selector: string, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
     const target: HTMLElement = this.view.querySelector(selector);
-    return target ? this.scrollTo({left: target.offsetLeft, top: target.offsetTop, duration, easeFunc}) : of<void>();
+    return target ? this.scrollTo({left: target.offsetLeft, top: target.offsetTop - offset, duration, easeFunc}) : of<void>();
   }
 
   scrollXTo(left: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {

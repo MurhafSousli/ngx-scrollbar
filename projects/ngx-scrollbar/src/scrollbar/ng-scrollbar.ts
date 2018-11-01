@@ -19,17 +19,17 @@ import { filter, tap } from 'rxjs/operators';
 import { SmoothScroll, SmoothScrollEaseFunc } from '../smooth-scroll/smooth-scroll';
 
 interface ViewStyle {
-  right: string | number;
-  bottom: string | number;
-  paddingRight: string | number;
-  paddingBottom: string | number;
+  width: string;
+  height: string;
+  paddingRight: string;
+  paddingBottom: string;
 }
 
 const defaultState: ViewStyle = {
-  right: 0,
-  bottom: 0,
-  paddingRight: 0,
-  paddingBottom: 0
+  width: '100%',
+  height: '100%',
+  paddingRight: '0',
+  paddingBottom: '0'
 };
 
 @Component({
@@ -135,14 +135,16 @@ export class NgScrollbar implements OnInit, AfterViewInit, OnDestroy {
     this.disabled = false;
     // Hide native scrollbars
     const scrollWidth = this.getNativeScrollbarWidth();
-    const size = `-${scrollWidth}px`;
-    const padding = `${scrollWidth}px`;
-    this._state.next({
-      right: this.trackY ? size : 0,
-      bottom: this.trackX ? size : 0,
-      paddingRight: this.trackY ? padding : 0,
-      paddingBottom: this.trackX ? padding : 0
-    });
+    let width = '100%', height = '100%', paddingRight = '0', paddingBottom = '0';
+    if (this.trackY) {
+      width = `calc(100% + ${scrollWidth}px)`;
+      paddingRight = `${scrollWidth}px`;
+    }
+    if (this.trackX) {
+      height = `calc(100% + ${scrollWidth}px)`;
+      paddingBottom = `${scrollWidth}px`;
+    }
+    this._state.next({width, height, paddingRight, paddingBottom});
   }
 
   /**
@@ -159,8 +161,8 @@ export class NgScrollbar implements OnInit, AfterViewInit, OnDestroy {
     return this.smoothScroll.scrollTo(options);
   }
 
-  scrollToElement(selector: string, duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
-    return this.smoothScroll.scrollToElement(selector, duration, easeFunc);
+  scrollToElement(selector: string, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+    return this.smoothScroll.scrollToElement(selector, offset, duration, easeFunc);
   }
 
   scrollXTo(to: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {

@@ -13,7 +13,7 @@
     padding: 1em;
   }
 
-  .ng-scrollbar {
+  .scroll-bar {
     background-color: rgba(0, 0, 0, 0.15);
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.5);
     border-radius: 3px;
@@ -21,12 +21,12 @@
       width: 6px;
       bottom: 20px;
     }
-    .ng-scrollbar-thumb {
+  }
+  .scroll-thumb {
+    background-color: #F8F8F8;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(0, 0, 0, 0.5);
+    &:hover, &:active {
       background-color: #F8F8F8;
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(0, 0, 0, 0.5);
-      &:hover, &:active {
-        background-color: #F8F8F8;
-      }
     }
   }
 

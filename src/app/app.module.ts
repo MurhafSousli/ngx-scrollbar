@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+// import { NgScrollbarModule } from '../../projects/ngx-scrollbar/src/public_api';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
