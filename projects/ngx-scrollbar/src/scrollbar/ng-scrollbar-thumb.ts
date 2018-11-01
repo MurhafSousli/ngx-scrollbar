@@ -1,14 +1,15 @@
 import {
   Component,
   Inject,
-  Input,
-  ViewChild,
   OnInit,
   AfterViewInit,
   OnDestroy,
+  Input,
+  ViewChild,
   HostBinding,
   NgZone,
   ElementRef,
+  ChangeDetectionStrategy,
   forwardRef
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
@@ -57,7 +58,7 @@ const axis: Axis = {
 
 @Component({
   selector: 'ng-scrollbar-thumb',
-  styleUrls: ['./ng-scrollbar-thumb.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div #bar class="ng-scrollbar ng-scrollbar-{{orientation}} {{barClass}}" (mousedown)="onMouseDown($event)">
       <div #thumb class="ng-scrollbar-thumb {{thumbClass}}" [ngStyle]="scrollbarStyle | async"></div>
