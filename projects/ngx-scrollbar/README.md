@@ -22,6 +22,7 @@ ___
 - [Usage](#usage)
 - [Options](#options)
 - [Dynamic scrolling](#scrollto)
+- [Styling](#styling)
 - [Smooth scroll](#smoothscroll)
 - [Development](#development)
 - [Issues](#issues)
@@ -44,20 +45,6 @@ npm i -S ngx-scrollbar @angular/cdk
 ```bash
 yarn add ngx-scrollbar @angular/cdk
 ```
-
-### SystemJS
-
-If you are using SystemJS, you should also adjust your configuration to point to the UMD bundle.
-
-In your systemjs config file, map needs to tell the System loader where to look for `ngx-scrollbar`:
-
-```js
-map: {
-  'ngx-scrollbar': 'node_modules/ngx-scrollbar/bundles/ngx-scrollbar.umd.js',
-}
-```
-
-Here is a [stackblitz](https://stackblitz.com/edit/ngx-scrollbar)
 
 <a name="usage"/>
 
@@ -83,6 +70,8 @@ In your template
   <!-- Content -->
 </ng-scrollbar>
 ```
+
+Here is a [stackblitz](https://stackblitz.com/edit/ngx-scrollbar)
 
 <a name="options">
 
@@ -118,7 +107,7 @@ In your template
 
   Add custom class to scrollbars' thumbnails, default: `null`
   
-- **[barScrollToDuration]**: number
+- **[scrollToDuration]**: number
 
   The smooth scroll duration when a scrollbar is clicked, default `400`.
   
@@ -128,20 +117,86 @@ In your template
 
  > Because it is not possible to hide the native scrollbars on mobile browsers, the only solution is to fallback to the native scrollbars, to disable this option give it false value.
 
+#### Update scrollbars manually
+
+By default the input `[autoUpdate]` is true, which uses the `MutationObserver` to observe child elements changes and update the sizes of the scrollbars, however this does not include text changes so if you want to update the scrollbars on text changes, then you need to do that manually.
+
+##### Dynamic text example:
+
+```ts
+Component({
+  selector: 'text-area-example',
+  template: `
+    <ng-scrollbar>
+      <div class="text-content">
+        {{text}}
+      </div>
+    </ng-scrollbar>
+  `
+})
+export class AppComponent implements OnInit { 
+   @ViewChild(NgScrollbar) textScrollbar: NgScrollbar;
+
+   setText(value: string) {
+     this.text = value;
+     // wait for the new text value to render before updating the scrollbar
+     setTimeout(() => {
+       this.textScrollbar.update();
+     }, 200);
+   }
+}
+```
+
+##### Text area example:
+
+```ts
+Component({
+  selector: 'text-area-example',
+  template: `
+    <ng-scrollbar>
+      <textarea [(ngModel)]="text"></textarea>
+    </ng-scrollbar>
+  `
+})
+export class AppComponent implements OnInit { 
+   @ViewChild(NgScrollbar) textScrollbar: NgScrollbar;
+
+   setText(value: string) {
+     this.text = value;
+     // wait for the new text value to render before updating the scrollbar
+     setTimeout(() => {
+       this.textAreaScrollbar.update();
+     }, 200);
+   }
+}
+```
+
+You can also automatically resize the `<text-area>` with the [CDK Text-field](https://material.angular.io/cdk/text-field/overview).
+
+```html
+<ng-scrollbar>
+  <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" [(ngModel)]="code"></textarea>
+</ng-scrollbar>
+```
+```ts
+@ViewChild(NgScrollbar) textAreaScrollbar: NgScrollbar;
+@ViewChild(CdkTextareaAutosize) textareaAutosize: CdkTextareaAutosize;
+  
+setCode(code: string) {
+  this.code = code;
+  this.textareaAutosize.resizeToFitContent();
+  setTimeout(() => {
+    this.textAreaScrollbar.update();
+  }, 200);
+}
+```
+
 ### Scrollbar functions
 
 To use *NgScrollbar* functions, you will need to get the component reference from the template. this can be done using the `@ViewChild` decorator, for example:
 
 ```ts
 @ViewChild(ScrollbarComponent) scrollRef: NgScrollbar;
-```
-
-#### Update scrollbars manually
-
-Sometimes the content changes, if the `autoUpdate` feature did not catch them or it was disabled, you can still update the scrollbars manually, for example:
-
-```ts
-scrollRef.update()
 ```
 
 ## Scroll functions
@@ -258,7 +313,7 @@ scrollToTop() {
 ```ts
 export class AppComponent implements OnInit {
 
-  @ViewChild(ScrollbarComponent) scrollRef: ScrollbarComponent;
+  @ViewChild(NgScrollbar) scrollRef: NgScrollbar;
 
   constructor(private router: Router) {
   }
@@ -276,6 +331,32 @@ export class AppComponent implements OnInit {
 
 }
 ```
+
+<a name="styling"/>
+
+## Styling
+
+The easiest way to use custom styles is to give each part of the scrollbar a custom class
+
+```html
+<ng-scrollbar barClass="scroll-bar" thumbClass="scroll-thumbs">
+  <!-- child elements... -->
+</ng-scrollbar>
+```
+```scss
+.scroll-bar {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  border-radius: 4px;
+}
+.scroll-thumbs {
+  background-color: rgba(161, 27, 27, 0.4) !important;
+  &:hover,
+  &:active {
+    background-color: rgba(161, 27, 27, 0.7) !important;
+  }
+}
+```
+
 
 <a name="smoothscroll"/>
 
