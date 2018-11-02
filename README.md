@@ -21,9 +21,9 @@ ___
 - [Installation](#installation)
 - [Usage](#usage)
 - [Options](#options)
-- [Dynamic scrolling](#scrollto)
+- [Scroll Functions](#scroll-functions)
 - [Styling](#styling)
-- [Smooth scroll](#smoothscroll)
+- [Smooth Scroll](#smooth-scroll)
 - [Development](#development)
 - [Issues](#issues)
 - [Author](#author)
@@ -191,6 +191,8 @@ setCode(code: string) {
 }
 ```
 
+<a name="scroll-function"> 
+
 ### Scrollbar functions
 
 To use *NgScrollbar* functions, you will need to get the component reference from the template. this can be done using the `@ViewChild` decorator, for example:
@@ -217,10 +219,11 @@ scrollRef.scrollTo(options: ScrollToOptions).subscribe()
 #### Scroll to element
 
 ```ts
-scrollRef.scrollToElement(selector, duration?, easeFunc?).subscribe()
+scrollRef.scrollToElement(selector, offset?, duration?, easeFunc?).subscribe()
 ```
 
 - **Selector:** target element selector.
+- **Offset:** Set scroll offset, default 0.
 - **Duration:** time to reach position in milliseconds, default null.
 - **EaseFunc:** the easing function for the smooth scroll.
 
@@ -283,8 +286,6 @@ scrollRef.scrollToRight(duration?, easeFunc?).subscribe(() => {
 
 - **Duration:** time to reach position in milliseconds, default null.
 - **EaseFunc:** the easing function for the smooth scroll.
-
-<a name="scrollto">
 
 ## Dynamic scrolling example
 
@@ -358,11 +359,13 @@ The easiest way to use custom styles is to give each part of the scrollbar a cus
 ```
 
 
-<a name="smoothscroll"/>
+<a name="smooth-scroll"/>
 
-## Smooth Scroll Module
+## Smooth Scroll
 
-Since v3.0.0, The `SmoothScrollModule` is added as an independent module, the scrollable element does not have to be `<ng-scrollbar>`.
+The `[smoothScroll]` directive allows you to scroll the host element smoothly using the scroll functions that works on cross-browser.
+
+Since v3.0.0, The `SmoothScrollModule` has been added as an independent module, the scrollable element does not have to be `<ng-scrollbar>`.
 
 ```ts
 import { SmoothScrollModule } from 'ngx-scrollbar';
@@ -374,9 +377,6 @@ import { SmoothScrollModule } from 'ngx-scrollbar';
   ]
 })
 ```
-
-Use the `[smoothScroll]` directive on a scrollable container.
-
 ```html
 <div smoothScroll #scrollable class="scrollable-container}">
   <!-- child elements -->
@@ -384,6 +384,8 @@ Use the `[smoothScroll]` directive on a scrollable container.
 
 <button (click)="scrollable.scrollToBottom(500)">Scroll to bottom</button>
 ```
+
+See all [Scroll Functions](#scroll-functions).
 
 <a name="development"/>
 
