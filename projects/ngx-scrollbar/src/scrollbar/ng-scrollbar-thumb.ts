@@ -18,13 +18,13 @@ import { mergeMap, pluck, takeUntil, tap, throttleTime } from 'rxjs/operators';
 import { NgScrollbar } from './ng-scrollbar';
 
 interface AxisProperties {
-  offset: string;
-  scroll: string;
-  client: string;
-  position: string;
-  clientSize: string;
-  scrollSize: string;
-  thumbnailSize: string;
+  offsetYOrX: string;
+  scrollTopLeft: string;
+  clientYOrX: string;
+  topOrLeft: string;
+  clientHeightOrWidth: string;
+  scrollHeightOrWidth: string;
+  heightOrWidth: string;
   transform: (val: number) => string;
 }
 
@@ -35,23 +35,23 @@ interface Axis {
 
 const axis: Axis = {
   vertical: {
-    position: 'top',
-    offset: 'offsetY',
-    client: 'clientY',
-    scroll: 'scrollTop',
-    clientSize: 'clientHeight',
-    scrollSize: 'scrollHeight',
-    thumbnailSize: 'height',
+    topOrLeft: 'top',
+    offsetYOrX: 'offsetY',
+    clientYOrX: 'clientY',
+    heightOrWidth: 'height',
+    scrollTopLeft: 'scrollTop',
+    clientHeightOrWidth: 'clientHeight',
+    scrollHeightOrWidth: 'scrollHeight',
     transform: (val: number) => `translate3d(0, ${val}px, 0)`
   },
   horizontal: {
-    position: 'left',
-    offset: 'offsetX',
-    client: 'clientX',
-    scroll: 'scrollLeft',
-    clientSize: 'clientWidth',
-    scrollSize: 'scrollWidth',
-    thumbnailSize: 'width',
+    topOrLeft: 'left',
+    offsetYOrX: 'offsetX',
+    clientYOrX: 'clientX',
+    heightOrWidth: 'width',
+    scrollTopLeft: 'scrollLeft',
+    clientHeightOrWidth: 'clientWidth',
+    scrollHeightOrWidth: 'scrollWidth',
     transform: (val: number) => `translate3d(${val}px, 0, 0)`
   }
 };
@@ -60,7 +60,7 @@ const axis: Axis = {
   selector: 'ng-scrollbar-thumb',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div #bar class="ng-scrollbar ng-scrollbar-{{orientation}} {{barClass}}" (mousedown)="onMouseDown($event)">
+    <div #bar class="ng-scrollbar ng-scrollbar-{{orientation}} {{barClass}}" (mousedown)="onScrollbarClick($event)">
       <div #thumb class="ng-scrollbar-thumb {{thumbClass}}" [ngStyle]="scrollbarStyle | async"></div>
     </div>
   `
@@ -104,11 +104,11 @@ export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
    * Calculate scrollbar thumbnail size
    */
   get thumbSize(): number {
-    const scrollBarClientSize = this.bar.nativeElement[this.axis.clientSize];
-    const viewClientSize = this._view[this.axis.clientSize];
-    const viewScrollSize = this._view[this.axis.scrollSize];
-    this._naturalThumbSize = scrollBarClientSize / viewScrollSize * scrollBarClientSize;
-    this._scrollMax = viewScrollSize - viewClientSize;
+    const scrollBarClientHeightOrWidth = this.bar.nativeElement[this.axis.clientHeightOrWidth];
+    const viewClientHeightOrWidth = this._view[this.axis.clientHeightOrWidth];
+    const viewScrollHeightOrWidth = this._view[this.axis.scrollHeightOrWidth];
+    this._naturalThumbSize = scrollBarClientHeightOrWidth / viewScrollHeightOrWidth * scrollBarClientHeightOrWidth;
+    this._scrollMax = viewScrollHeightOrWidth - viewClientHeightOrWidth;
     return this.scrollBoundaries(this._naturalThumbSize, this._scrollMax);
   }
 
@@ -150,26 +150,26 @@ export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
    * Scrollbar click
    * @param e Mouse event
    */
-  onMouseDown(e: any) {
+  onScrollbarClick(e: any) {
     if (e.target === e.currentTarget) {
-      const offset = e[this.axis.offset] - this._naturalThumbSize * .5;
-      const thumbPositionPercentage = offset * 100 / this.bar.nativeElement[this.axis.clientSize];
-      const value = thumbPositionPercentage * this._view[this.axis.scrollSize] / 100;
-      this.ngScrollbar.scrollTo({[this.axis.position]: value, duration: this.scrollToDuration} as any).subscribe();
+      const offsetYOrX = e[this.axis.offsetYOrX] - this._naturalThumbSize * .5;
+      const thumbPositionPercentage = offsetYOrX * 100 / this.bar.nativeElement[this.axis.clientHeightOrWidth];
+      const value = thumbPositionPercentage * this._view[this.axis.scrollHeightOrWidth] / 100;
+      this.ngScrollbar.scrollTo({[this.axis.topOrLeft]: value, duration: this.scrollToDuration} as any).subscribe();
     }
   }
 
   /**
-   * Update scrollbars thumbnails position
+   * Update scrollbars thumbnails topOrLeft
    */
   private updateThumbsPosition() {
-    this._thumbSize = this.thumb.nativeElement[this.axis.clientSize];
-    this._trackMax = this.bar.nativeElement[this.axis.clientSize] - this._thumbSize;
-    this._currPos = this._view[this.axis.scroll] * this._trackMax / this._scrollMax;
+    this._thumbSize = this.thumb.nativeElement[this.axis.clientHeightOrWidth];
+    this._trackMax = this.bar.nativeElement[this.axis.clientHeightOrWidth] - this._thumbSize;
+    this._currPos = this._view[this.axis.scrollTopLeft] * this._trackMax / this._scrollMax;
     this.zone.run(() =>
       this.updateState({
         transform: this.axis.transform(this._currPos),
-        [this.axis.thumbnailSize]: `${this.thumbSize}px`
+        [this.axis.heightOrWidth]: `${this.thumbSize}px`
       })
     );
   }
@@ -189,13 +189,14 @@ export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
         // Initialize trackMax for before start dragging
         this._trackMax = this.bar.nativeElement[this.axis.clientHeightOrWidth] - this._thumbSize;
       }),
+      pluck(this.axis.offsetYOrX),
       mergeMap((mouseDownOffset: number) => mouseMove$.pipe(
         takeUntil(mouseUp$),
-        pluck(this.axis.client),
+        pluck(this.axis.clientYOrX),
         tap((mouseMoveClient: number) => {
-          const offset = mouseMoveClient - this.bar.nativeElement.getBoundingClientRect()[this.axis.position];
-          const value = this._scrollMax * (offset - mouseDownOffset) / this._trackMax;
-          this.ngScrollbar.scrollable.scrollTo({[this.axis.position]: value});
+          const offsetYOrX = mouseMoveClient - this.bar.nativeElement.getBoundingClientRect()[this.axis.topOrLeft];
+          const value = this._scrollMax * (offsetYOrX - mouseDownOffset) / this._trackMax;
+          this.ngScrollbar.scrollable.scrollTo({[this.axis.topOrLeft]: value});
         })
       ))
     );
@@ -214,11 +215,11 @@ export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
    * Initialize scrollbar thumbnail size
    */
   private initScrollbarThumbSize() {
-    this.updateState({[this.axis.thumbnailSize]: `${this.thumbSize}px`});
+    this.updateState({[this.axis.heightOrWidth]: `${this.thumbSize}px`});
     // Update state again to fix wrong size in Firefox
-    setTimeout(() => this.updateState({[this.axis.thumbnailSize]: `${this.thumbSize}px`}), 200);
+    setTimeout(() => this.updateState({[this.axis.heightOrWidth]: `${this.thumbSize}px`}), 200);
     // Sometimes firefox needs more than 200ms, update one more time to ensure the size is correct
-    setTimeout(() => this.updateState({[this.axis.thumbnailSize]: `${this.thumbSize}px`}), 500);
+    setTimeout(() => this.updateState({[this.axis.heightOrWidth]: `${this.thumbSize}px`}), 500);
   }
 
   private updateState(state: any) {
