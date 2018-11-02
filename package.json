@@ -37,6 +37,7 @@
     "@angular/platform-browser": "^7.0.2",
     "@angular/platform-browser-dynamic": "^7.0.2",
     "@angular/router": "^7.0.2",
+    "classlist.js": "^1.1.20150312",
     "core-js": "^2.5.7",
     "font-awesome": "^4.7.0",
     "normalize.css": "^8.0.0",
