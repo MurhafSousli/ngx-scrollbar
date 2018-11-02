@@ -122,9 +122,6 @@ export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    // Initialize trackMax to activate scrollbar thumbnail drag event
-    this._trackMax = this.bar.nativeElement[this.axis.clientSize] - this._thumbSize;
-
     // Start view scroll event
     this._scroll$ = this.ngScrollbar.scrollable.elementScrolled().subscribe(() => this.updateThumbsPosition());
 
@@ -187,8 +184,11 @@ export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
       tap(() => this.document.onselectstart = null)
     );
     return mouseDown$.pipe(
-      tap(() => this.document.onselectstart = () => false),
-      pluck(this.axis.offset),
+      tap(() => {
+        this.document.onselectstart = () => false;
+        // Initialize trackMax for before start dragging
+        this._trackMax = this.bar.nativeElement[this.axis.clientHeightOrWidth] - this._thumbSize;
+      }),
       mergeMap((mouseDownOffset: number) => mouseMove$.pipe(
         takeUntil(mouseUp$),
         pluck(this.axis.client),
