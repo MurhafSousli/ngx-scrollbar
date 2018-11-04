@@ -71,6 +71,14 @@ In your template
 </ng-scrollbar>
 ```
 
+In your CSS/SCSS
+
+```scss
+ng-scrollbar {
+  height: 100%;
+}
+```
+
 Here is a [stackblitz](https://stackblitz.com/edit/ngx-scrollbar)
 
 <a name="options">
