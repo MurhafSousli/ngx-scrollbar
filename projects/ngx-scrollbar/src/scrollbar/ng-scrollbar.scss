@@ -3,19 +3,6 @@
   position: relative;
   min-height: 100%;
   overflow: hidden !important;
-  /** Auto hide scrollbars */
-  ::ng-deep {
-    .ng-scrollbar-auto-hide .ng-scrollbar {
-      opacity: 0;
-      transition: opacity 120ms ease-out;
-    }
-    .ng-scrollbar-auto-hide:hover .ng-scrollbar,
-    .ng-scrollbar-auto-hide:active .ng-scrollbar,
-    .ng-scrollbar-auto-hide:focus .ng-scrollbar {
-      opacity: 1;
-      transition: opacity 340ms ease-out;
-    }
-  }
 }
 
 .ng-scrollbar-container,
@@ -47,6 +34,21 @@ ng-scrollbar-thumb {
 }
 
 ::ng-deep {
+  /** Auto hide scrollbars */
+  .ng-scrollbar-auto-hide {
+    .ng-scrollbar {
+      opacity: 0;
+      transition: opacity 120ms ease-out;
+    }
+    
+    &:hover .ng-scrollbar,
+    &:active .ng-scrollbar,
+    &:focus .ng-scrollbar {
+      opacity: 1;
+      transition: opacity 340ms ease-out;
+    }
+  }
+
   .ng-scrollbar {
     position: absolute;
     z-index: 1;
