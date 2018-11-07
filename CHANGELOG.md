@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.1
+
+- fix(NgScrollbar): Fix `autoHide` option styles, closes [#76](https://github.com/MurhafSousli/ngx-scrollbar/issues/76) in [a94dd6a](https://github.com/MurhafSousli/ngx-scrollbar/pull/77/commits/a94dd6a03632f9548054a8d585388ec18efc5a6e).
+
 ## 3.1.0
 
 - feat(NgScrollbar, SmoothScroll): Add offset value in `scrollToElement()` in [937374c](https://github.com/MurhafSousli/ngx-scrollbar/pull/73/commits/937374c4c7b48052376690a1d947d6bf2b7f2a89).
