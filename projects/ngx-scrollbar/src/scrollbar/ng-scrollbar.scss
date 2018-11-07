@@ -41,11 +41,13 @@ ng-scrollbar-thumb {
       transition: opacity 120ms ease-out;
     }
     
-    &:hover .ng-scrollbar,
-    &:active .ng-scrollbar,
-    &:focus .ng-scrollbar {
-      opacity: 1;
-      transition: opacity 340ms ease-out;
+    &:hover,
+    &:active,
+    &:focus {
+      .ng-scrollbar {
+        opacity: 1;
+        transition: opacity 340ms ease-out;
+      }
     }
   }
 
