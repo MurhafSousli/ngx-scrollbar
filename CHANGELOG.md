@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.1.2
+
+- refactor(NgScrollbar): Remove `padding` from view port styles and use container `bottom` and `right` to hide the native scrollbars, in [0f98686](https://github.com/MurhafSousli/ngx-scrollbar/pull/79/commits/0f986862974d7ba6e5c44175920f5aa2e79b6f77).
+- regret(NgScrollbar): return `height: 100%` on component styles.
+
 ## 3.1.1
 
 - fix(NgScrollbar): Fix `autoHide` option styles, closes [#76](https://github.com/MurhafSousli/ngx-scrollbar/issues/76) in [a94dd6a](https://github.com/MurhafSousli/ngx-scrollbar/pull/77/commits/a94dd6a03632f9548054a8d585388ec18efc5a6e).
