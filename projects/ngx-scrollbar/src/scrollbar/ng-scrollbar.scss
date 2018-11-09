@@ -1,8 +1,9 @@
 :host {
   display: block;
   position: relative;
-  min-height: 100%;
-  overflow: hidden !important;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
 .ng-scrollbar-container,
@@ -11,9 +12,11 @@
 }
 
 .ng-scrollbar-container {
-  overflow: hidden !important;
+  overflow: hidden;
   width: 100%;
   height: 100%;
+  top: 0;
+  left: 0;
 }
 
 .ng-scrollbar-view {
@@ -40,7 +43,7 @@ ng-scrollbar-thumb {
       opacity: 0;
       transition: opacity 120ms ease-out;
     }
-    
+
     &:hover,
     &:active,
     &:focus {
@@ -62,11 +65,11 @@ ng-scrollbar-thumb {
     width: 0;
     height: 0;
     border-radius: inherit;
-    background-color: rgba(0, 0, 0, .2);
+    background-color: rgba(0, 0, 0, 0.2);
     transform: translate3d(0, 0, 0);
     &:hover,
     &:active {
-      background-color: rgba(0, 0, 0, .3);
+      background-color: rgba(0, 0, 0, 0.3);
     }
   }
 

@@ -1,28 +1,15 @@
-<div class="ng-scrollbar-container">
+<div class="ng-scrollbar-container" [ngStyle]="(state | async).container">
 
-  <div cdkScrollable
-       smoothScroll
-       class="ng-scrollbar-view {{viewClass}}"
-       [ngStyle]="viewStyle | async">
-      <ng-content></ng-content>
+  <div cdkScrollable smoothScroll class="ng-scrollbar-view {{viewClass}}" [ngStyle]="(state | async).view">
+    <ng-content></ng-content>
   </div>
 
-  <ng-scrollbar-thumb
-    *ngIf="!disabled && trackY"
-    orientation="vertical"
-    [barClass]="barClass"
-    [thumbClass]="thumbClass"
+  <ng-scrollbar-thumb *ngIf="!disabled && trackY" orientation="vertical" [barClass]="barClass" [thumbClass]="thumbClass"
     [scrollToDuration]="scrollToDuration">
   </ng-scrollbar-thumb>
 
-  <ng-scrollbar-thumb
-    *ngIf="!disabled && trackX"
-    orientation="horizontal"
-    [barClass]="barClass"
-    [thumbClass]="thumbClass"
+  <ng-scrollbar-thumb *ngIf="!disabled && trackX" orientation="horizontal" [barClass]="barClass" [thumbClass]="thumbClass"
     [scrollToDuration]="scrollToDuration">
   </ng-scrollbar-thumb>
 
 </div>
-
-
