@@ -7,7 +7,6 @@ import {
   OnInit,
   AfterViewInit,
   OnDestroy,
-  NgZone,
   ChangeDetectionStrategy,
   PLATFORM_ID
 } from '@angular/core';
@@ -19,17 +18,25 @@ import { filter, tap } from 'rxjs/operators';
 import { SmoothScroll, SmoothScrollEaseFunc } from '../smooth-scroll/smooth-scroll';
 
 interface ViewStyle {
-  width: string;
-  height: string;
-  paddingRight: string;
-  paddingBottom: string;
+  container: {
+    bottom: string;
+    right: string;
+  };
+  view: {
+    width: string,
+    height: string
+  };
 }
 
 const defaultState: ViewStyle = {
-  width: '100%',
-  height: '100%',
-  paddingRight: '0',
-  paddingBottom: '0'
+  container: {
+    bottom: '0',
+    right: '0'
+  },
+  view: {
+    width: '100%',
+    height: '100%'
+  }
 };
 
 @Component({
@@ -74,7 +81,7 @@ export class NgScrollbar implements OnInit, AfterViewInit, OnDestroy {
   private _breakpointSub$: SubscriptionLike = Subscription.EMPTY;
   /** Viewport styles state */
   private _state = new BehaviorSubject<ViewStyle>(defaultState);
-  viewStyle = this._state.asObservable();
+  state = this._state.asObservable();
   /** Check if view has been initialized */
   viewInitialized = false;
   /** Weather custom scrollbars are disabled */
@@ -88,8 +95,7 @@ export class NgScrollbar implements OnInit, AfterViewInit, OnDestroy {
   private _updateObserver = new Subject();
   updateObserver = this._updateObserver.asObservable();
 
-  constructor(private zone: NgZone,
-              private breakpointObserver: BreakpointObserver,
+  constructor(private breakpointObserver: BreakpointObserver,
               @Inject(DOCUMENT) private document: any,
               @Inject(PLATFORM_ID) private platform: Object) {
   }
@@ -135,16 +141,25 @@ export class NgScrollbar implements OnInit, AfterViewInit, OnDestroy {
     this.disabled = false;
     // Hide native scrollbars
     const scrollWidth = this.getNativeScrollbarWidth();
-    let width = '100%', height = '100%', paddingRight = '0', paddingBottom = '0';
+    let width = '100%', height = '100%', bottom = '0', right = '0';
     if (this.trackY) {
       width = `calc(100% + ${scrollWidth}px)`;
-      paddingRight = `${scrollWidth}px`;
+      right = `${scrollWidth}px`;
     }
     if (this.trackX) {
       height = `calc(100% + ${scrollWidth}px)`;
-      paddingBottom = `${scrollWidth}px`;
+      bottom = `${scrollWidth}px`;
     }
-    this._state.next({width, height, paddingRight, paddingBottom});
+    this._state.next({
+      container: {
+        bottom,
+        right
+      },
+      view: {
+        width,
+        height
+      }
+    });
   }
 
   /**
