@@ -67,6 +67,7 @@ ng-scrollbar-thumb {
     border-radius: inherit;
     background-color: rgba(0, 0, 0, 0.2);
     transform: translate3d(0, 0, 0);
+    transition: height ease-out 150ms;
     &:hover,
     &:active {
       background-color: rgba(0, 0, 0, 0.3);
@@ -90,7 +91,6 @@ ng-scrollbar-thumb {
     height: 8px;
     .ng-scrollbar-thumb {
       height: 100%;
-      transition: height 150ms ease-out;
     }
   }
 }
