@@ -124,7 +124,10 @@ export class NgScrollbar implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy();
+    this._breakpointSub$.unsubscribe();
+    if (this._observer) {
+      this._observer.disconnect();
+    }
   }
 
   /**
@@ -169,7 +172,9 @@ export class NgScrollbar implements OnInit, AfterViewInit, OnDestroy {
     this.disabled = true;
     // Show Native Scrollbars
     this._state.next(defaultState);
-    this.destroy();
+    if (this._observer) {
+      this._observer.disconnect();
+    }
   }
 
   scrollTo(options: ScrollToOptions): Observable<void> {
@@ -224,13 +229,4 @@ export class NgScrollbar implements OnInit, AfterViewInit, OnDestroy {
     return 0;
   }
 
-  /**
-   * Destroy all streams
-   */
-  private destroy() {
-    this._breakpointSub$.unsubscribe();
-    if (this._observer) {
-      this._observer.disconnect();
-    }
-  }
 }
