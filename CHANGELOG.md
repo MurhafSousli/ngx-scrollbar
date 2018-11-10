@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.1.3
+
+- enhance(NgScrollbar): Use `animationFrameScheduler` to set scrollbar thumb position, in [717d221](https://github.com/MurhafSousli/ngx-scrollbar/commit/717d221dc66905a07861605082eb61040bbe544f).
+- enhance(NgScrollbar): Add a smooth transition on scrollbar thumbnail size, in [8da5c31](https://github.com/MurhafSousli/ngx-scrollbar/pull/82/commits/8da5c31224c464fcdca6164a8fc739ddb489c92a).
+- fix(NgScrollbar): Enable back the scrollbar after it was disabled, closes [#81](https://github.com/MurhafSousli/ngx-scrollbar/issues/81) in [9ce2f56](https://github.com/MurhafSousli/ngx-scrollbar/pull/83/commits/9ce2f5666ba99b0eb76b9cf5b41a28b764c4f8d1).
+
 ## 3.1.2
 
 - refactor(NgScrollbar): Remove `padding` from view port styles and use container `bottom` and `right` to hide the native scrollbars, in [0f98686](https://github.com/MurhafSousli/ngx-scrollbar/pull/79/commits/0f986862974d7ba6e5c44175920f5aa2e79b6f77).
@@ -15,7 +21,6 @@
 - fix(NgScrollbar): Fix scrollbar view on dynamic height, closes [#72](https://github.com/MurhafSousli/ngx-scrollbar/issues/72) in [3ea592f](https://github.com/MurhafSousli/ngx-scrollbar/pull/73/commits/3ea592f1524c9f125790169901d855fc75bd1181).
 - fix(NgScrollbar): Fix scrollbar dragging in prod, in [f109322](https://github.com/MurhafSousli/ngx-scrollbar/pull/74/commits/f1093220aa4d74c188b4b220511fb4a9b0900883).
 - enhance(NgScrollbar): Hide the scrollbar when its thumbnail size is 0, in [55f37e6](https://github.com/MurhafSousli/ngx-scrollbar/pull/73/commits/55f37e65e72e40f9fef5e093df59a04ec5a530f6).
-- enhance(NgScrollbar): Add a smooth transition on scrollbar thumbnail size, in [937374c](https://github.com/MurhafSousli/ngx-scrollbar/pull/73/commits/8b59b649d24d53bb4e5ece0222ff66929f8d9227).
 - enhance(NgScrollbarThumb): Move scrollbar thumb styles to `NgScrollbar` component styles, removes the need to add `!important` to override the styles, in [8b59b64](https://github.com/MurhafSousli/ngx-scrollbar/pull/73/commits/8b59b649d24d53bb4e5ece0222ff66929f8d9227).
 - enhance(NgScrollbarThumb): Use `OnPush` change detection, in [b05ee45](https://github.com/MurhafSousli/ngx-scrollbar/pull/73/commits/b05ee450af87070eecfde3c958c4bfc81cea9cdb).
 
