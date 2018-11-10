@@ -13,7 +13,7 @@ import {
   forwardRef
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { fromEvent, Observable, BehaviorSubject, Subscription, SubscriptionLike } from 'rxjs';
+import { fromEvent, Observable, BehaviorSubject, Subscription, SubscriptionLike, animationFrameScheduler } from 'rxjs';
 import { mergeMap, pluck, takeUntil, tap, throttleTime } from 'rxjs/operators';
 import { NgScrollbar } from './ng-scrollbar';
 
@@ -123,7 +123,8 @@ export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     // Start view scroll event
-    this._scroll$ = this.ngScrollbar.scrollable.elementScrolled().subscribe(() => this.updateThumbsPosition());
+    this._scroll$ = this.ngScrollbar.scrollable.elementScrolled()
+      .subscribe(() => animationFrameScheduler.schedule(() => this.updateThumbsPosition()));
 
     // Start scrollbar thumbnail drag events
     this.zone.runOutsideAngular(() =>
