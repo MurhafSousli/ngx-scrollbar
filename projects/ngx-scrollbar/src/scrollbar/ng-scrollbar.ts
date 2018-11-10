@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { CdkScrollable } from '@angular/cdk/scrolling';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { Observable, BehaviorSubject, Subscription, SubscriptionLike, Subject } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { SmoothScroll, SmoothScrollEaseFunc } from '../smooth-scroll/smooth-scroll';
@@ -106,7 +106,7 @@ export class NgScrollbar implements OnInit, AfterViewInit, OnDestroy {
     if (this.disableOnBreakpoints) {
       this._breakpointSub$ = this.breakpointObserver.observe(this.disableOnBreakpoints).pipe(
         filter(() => this.viewInitialized),
-        tap(result => result.matches ? this.disable() : this.enable())
+        tap((result: BreakpointState) => result.matches ? this.disable() : this.enable())
       ).subscribe();
     } else {
       this.enable();
