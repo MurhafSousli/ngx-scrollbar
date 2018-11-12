@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { fromEvent, Observable, BehaviorSubject, Subscription, SubscriptionLike, animationFrameScheduler } from 'rxjs';
-import { mergeMap, pluck, takeUntil, tap, throttleTime } from 'rxjs/operators';
+import { mergeMap, pluck, takeUntil, tap, auditTime } from 'rxjs/operators';
 import { NgScrollbar } from './ng-scrollbar';
 
 interface AxisProperties {
@@ -133,7 +133,7 @@ export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
 
     // Update scrollbar thumbnail size on content changes
     this._updateObserver$ = this.ngScrollbar.updateObserver.pipe(
-      throttleTime(200),
+      auditTime(200),
       tap(() => this.updateThumbsPosition())
     ).subscribe();
 
