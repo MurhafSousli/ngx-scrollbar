@@ -70,6 +70,11 @@ export class NgScrollbar implements OnInit, AfterViewInit, OnDestroy {
     Breakpoints.HandsetPortrait
   ];
 
+  /** Disable custom scrollbars and switch back to native scrollbars */
+  @Input('disabled') set disableScrollbars(disable: boolean) {
+    disable ? this.disable() : this.enable();
+  }
+
   @ViewChild(CdkScrollable) scrollable: CdkScrollable;
   @ViewChild(SmoothScroll) smoothScroll: SmoothScroll;
 
