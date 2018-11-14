@@ -134,7 +134,10 @@ export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
     // Update scrollbar thumbnail size on content changes
     this._updateObserver$ = this.ngScrollbar.updateObserver.pipe(
       throttleTime(200),
-      tap(() => this.updateThumbsPosition())
+      tap(() => this.updateThumbsPosition()),
+      // Make sure scrollbar thumbnail position is correct after the new content is rendered
+      debounceTime(200),
+      tap(() => this.updateThumbsPosition()),
     ).subscribe();
 
     // Initialize scrollbar thumbnail size
