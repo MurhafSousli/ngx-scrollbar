@@ -4,39 +4,39 @@ import {
   Input,
   HostBinding,
   ViewChild,
-  OnInit,
   AfterViewInit,
   OnDestroy,
+  ElementRef,
   ChangeDetectionStrategy,
   PLATFORM_ID
 } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
-import { Observable, BehaviorSubject, Subscription, SubscriptionLike, Subject } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { Observable, Subject, BehaviorSubject, Subscription, SubscriptionLike } from 'rxjs';
+import { map, tap, throttleTime } from 'rxjs/operators';
 import { SmoothScroll, SmoothScrollEaseFunc } from '../smooth-scroll/smooth-scroll';
 
-interface ViewStyle {
-  container: {
-    bottom: string;
-    right: string;
+interface NgScrollbarState {
+  viewStyle?: {
+    width?: string;
+    height?: string;
+    paddingRight?: string;
+    paddingBottom?: string;
   };
-  view: {
-    width: string,
-    height: string
-  };
+  displayX?: boolean;
+  displayY?: boolean;
 }
 
-const defaultState: ViewStyle = {
-  container: {
-    bottom: '0',
-    right: '0'
-  },
-  view: {
+const defaultState: NgScrollbarState = {
+  viewStyle: {
     width: '100%',
-    height: '100%'
-  }
+    height: '100%',
+    paddingRight: '0',
+    paddingBottom: '0',
+  },
+  displayX: false,
+  displayY: false
 };
 
 @Component({
@@ -45,7 +45,7 @@ const defaultState: ViewStyle = {
   styleUrls: ['ng-scrollbar.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NgScrollbar implements OnInit, AfterViewInit, OnDestroy {
+export class NgScrollbar implements AfterViewInit, OnDestroy {
 
   /** Horizontal custom scrollbar */
   @Input() trackX = false;
@@ -63,29 +63,43 @@ export class NgScrollbar implements OnInit, AfterViewInit, OnDestroy {
   @Input() thumbClass: string;
   /** The smooth scroll duration when a scrollbar is clicked */
   @Input() scrollToDuration = 400;
-
+  /** Use overlay scrollbars */
+  @Input() overlay: boolean;
   /** Disable custom scrollbars on specific breakpoints */
   @Input() disableOnBreakpoints = [
     Breakpoints.HandsetLandscape,
     Breakpoints.HandsetPortrait
   ];
 
+  /** Disable custom scrollbars and switch back to native scrollbars */
+  @Input('disabled') set disableScrollbars(disable: boolean) {
+    disable ? this.disable() : this.enable();
+  }
+
+  disabled = false;
+
   @ViewChild(CdkScrollable) scrollable: CdkScrollable;
   @ViewChild(SmoothScroll) smoothScroll: SmoothScroll;
+  @ViewChild('vertical', {read: ElementRef}) verticalScrollbar: ElementRef;
+  @ViewChild('horizontal', {read: ElementRef}) horizontalScrollbar: ElementRef;
 
   @HostBinding('class.ng-scrollbar-auto-hide') get autoHideClass() {
     return this.autoHide;
   }
 
+  /** Native scrollbar size */
+  private _nativeScrollbarSize: number;
+
+  /** Scrollbar state */
+  private _state = new BehaviorSubject<NgScrollbarState>(defaultState);
+  viewStyle: Observable<any> = this._state.pipe(map((state: NgScrollbarState) => state.viewStyle));
+  displayX: Observable<boolean> = this._state.pipe(map((state: NgScrollbarState) => state.displayX));
+  displayY: Observable<boolean> = this._state.pipe(map((state: NgScrollbarState) => state.displayY));
+
+  /** Mutation observer subscription */
+  private _updateObserverSub$: SubscriptionLike = Subscription.EMPTY;
   /** CDK breakpoint subscription */
   private _breakpointSub$: SubscriptionLike = Subscription.EMPTY;
-  /** Viewport styles state */
-  private _state = new BehaviorSubject<ViewStyle>(defaultState);
-  state = this._state.asObservable();
-  /** Check if view has been initialized */
-  viewInitialized = false;
-  /** Weather custom scrollbars are disabled */
-  disabled = false;
   /** Viewport Element */
   view: HTMLElement;
   /** Observe content changes */
@@ -100,31 +114,29 @@ export class NgScrollbar implements OnInit, AfterViewInit, OnDestroy {
               @Inject(PLATFORM_ID) private platform: Object) {
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.view = this.scrollable.getElementRef().nativeElement;
 
     if (this.disableOnBreakpoints) {
+      // Enable/Disable custom scrollbar on breakpoints (Used to disable scrollbars on mobile phones)
       this._breakpointSub$ = this.breakpointObserver.observe(this.disableOnBreakpoints).pipe(
-        filter(() => this.viewInitialized),
+        // filter(() => this.viewInitialized),
         tap((result: BreakpointState) => result.matches ? this.disable() : this.enable())
       ).subscribe();
     } else {
       this.enable();
     }
-  }
 
-  ngAfterViewInit() {
-    this.viewInitialized = true;
-
-    if (this.autoUpdate) {
-      // Observe content changes
-      this._observer = new MutationObserver(() => this.update());
-      this._observer.observe(this.view, {subtree: true, childList: true});
-    }
+    // Update state on content changes
+    this._updateObserverSub$ = this.updateObserver.pipe(
+      throttleTime(200),
+      tap(() => this.updateState())
+    ).subscribe();
   }
 
   ngOnDestroy() {
     this._breakpointSub$.unsubscribe();
+    this._updateObserverSub$.unsubscribe();
     if (this._observer) {
       this._observer.disconnect();
     }
@@ -134,35 +146,27 @@ export class NgScrollbar implements OnInit, AfterViewInit, OnDestroy {
    * Update scrollbar thumbnail position
    */
   update() {
-    this._updateObserver.next();
+    if (!this.disabled) {
+      this._updateObserver.next();
+    }
   }
 
   /**
    * Enable custom scrollbar
    */
   enable() {
-    this.disabled = false;
-    // Hide native scrollbars
-    const scrollWidth = this.getNativeScrollbarWidth();
-    let width = '100%', height = '100%', bottom = '0', right = '0';
-    if (this.trackY) {
-      width = `calc(100% + ${scrollWidth}px)`;
-      right = `${scrollWidth}px`;
-    }
-    if (this.trackX) {
-      height = `calc(100% + ${scrollWidth}px)`;
-      bottom = `${scrollWidth}px`;
-    }
-    this._state.next({
-      container: {
-        bottom,
-        right
-      },
-      view: {
-        width,
-        height
+    if (this.view) {
+      this.disabled = false;
+      // Hide native scrollbars
+      this._nativeScrollbarSize = this.getNativeScrollbarWidth();
+      this.updateState();
+
+      if (this.autoUpdate) {
+        // Observe content changes
+        this._observer = new MutationObserver(() => this.update());
+        this._observer.observe(this.view, {subtree: true, childList: true, characterData: true});
       }
-    });
+    }
   }
 
   /**
@@ -207,6 +211,27 @@ export class NgScrollbar implements OnInit, AfterViewInit, OnDestroy {
 
   scrollToLeft(duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
     return this.smoothScroll.scrollToLeft(duration, easeFunc);
+  }
+
+  private updateState() {
+    let width = '100%', height = '100%', paddingBottom = '0', paddingRight = '0', displayY = false, displayX = false;
+    if (this.trackY) {
+      // Check if vertical scrollbar should be displayed
+      if (this.view.scrollHeight > this.view.clientHeight) {
+        displayY = true;
+        width = `calc(100% + ${this._nativeScrollbarSize}px)`;
+        paddingRight = this.overlay ? '0' : `${this._nativeScrollbarSize}px`;
+      }
+    }
+    if (this.trackX) {
+      // Check if horizontal scrollbar should be displayed
+      if (this.view.scrollWidth > this.view.clientWidth) {
+        displayX = true;
+        height = `calc(100% + ${this._nativeScrollbarSize}px)`;
+        paddingBottom = this.overlay ? '0' : `${this._nativeScrollbarSize}px`;
+      }
+    }
+    this._state.next({viewStyle: {width, height, paddingBottom, paddingRight}, displayX, displayY});
   }
 
   /**

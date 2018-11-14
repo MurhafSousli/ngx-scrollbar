@@ -1,20 +1,18 @@
 :host {
   display: block;
-  position: relative;
-  height: 100%;
-  width: 100%;
   overflow: hidden;
 }
 
+:host,
 .ng-scrollbar-container,
 .ng-scrollbar-view {
   position: relative;
+  height: 100%;
+  width: 100%;
 }
 
 .ng-scrollbar-container {
   overflow: hidden;
-  width: 100%;
-  height: 100%;
   top: 0;
   left: 0;
 }

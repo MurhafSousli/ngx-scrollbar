@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { NgScrollbar } from 'ngx-scrollbar';
 
 @Component({
   selector: 'app-example2',
   templateUrl: './example2.component.html',
   styleUrls: ['./example2.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Example2Component {
 
@@ -80,7 +80,7 @@ export class Example2Component {
     }
   ];
 
-  addItem() {
+  addItem(scrollbars: NgScrollbar) {
     this.list = [
       ...this.list, ...[
         {
@@ -89,5 +89,6 @@ export class Example2Component {
         }
       ]
     ];
+    scrollbars.scrollToBottom(200).subscribe();
   }
 }

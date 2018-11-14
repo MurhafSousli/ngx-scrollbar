@@ -3,22 +3,6 @@
 @import '~font-awesome/css/font-awesome.css';
 @import 'assets/buttons';
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  height: 100%;
-}
-
-body {
-  font-family: 'Roboto', sans-serif;
-  color: #686C6E;
-}
-
 h1 {
   font-size: 2.5rem;
 }
@@ -26,16 +10,6 @@ h1 {
 a {
   color: #007bff;
   text-decoration: none;
-}
-
-app-root {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-ng-scrollbar {
-  flex: 1;
 }
 
 .style-source {
@@ -51,16 +25,6 @@ ng-scrollbar {
   right: initial;
   background-color: rgba(0, 0, 0, 0.1);
 }
-.blue-bg {
-  background-color: #28A6C6 !important;
-}
-
-.container {
-  padding: 0 1em;
-  max-width: 500px;
-  margin: auto;
-  overflow: hidden;
-}
 
 ul {
   position: relative;
@@ -69,15 +33,13 @@ ul {
   list-style-type: none;
 }
 
-.ng-scrollbar-thumb {
-  background-color: #007bff;
-}
-
 .sample {
   border-radius: 3px;
 }
 
 .example {
+  position: relative;
+  overflow: hidden;
   margin: 0.5em;
   font-size: 0.8em;
   border-radius: 3px;

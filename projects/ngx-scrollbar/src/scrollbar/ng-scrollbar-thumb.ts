@@ -1,20 +1,18 @@
 import {
   Component,
   Inject,
-  OnInit,
   AfterViewInit,
   OnDestroy,
   Input,
   ViewChild,
-  HostBinding,
   NgZone,
   ElementRef,
   ChangeDetectionStrategy,
   forwardRef
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { fromEvent, Observable, BehaviorSubject, Subscription, SubscriptionLike, animationFrameScheduler } from 'rxjs';
-import { mergeMap, pluck, takeUntil, tap, throttleTime } from 'rxjs/operators';
+import { of, fromEvent, Observable, BehaviorSubject, Subscription, SubscriptionLike, animationFrameScheduler } from 'rxjs';
+import { debounceTime, throttleTime, delay, mergeMap, pluck, take, takeUntil, tap } from 'rxjs/operators';
 import { NgScrollbar } from './ng-scrollbar';
 
 interface AxisProperties {
@@ -65,18 +63,19 @@ const axis: Axis = {
     </div>
   `
 })
-export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
+export class NgScrollbarThumb implements AfterViewInit, OnDestroy {
 
+  /** Scrollbar class */
   @Input() barClass: string;
+  /** Scrollbar thumbnail class */
   @Input() thumbClass: string;
+  /** The scroll duration when scrollbar (not the thumbnail) is clicked */
   @Input() scrollToDuration: number;
+  /** Scrollbar orientation */
   @Input() orientation: 'vertical' | 'horizontal';
 
   @ViewChild('bar') bar: ElementRef;
   @ViewChild('thumb') thumb: ElementRef;
-  @HostBinding('class.ng-scrollbar-visible') get visibility(): boolean {
-    return !!this._scrollMax;
-  }
 
   private _minThumbSize = 20;
   private _naturalThumbSize = 0;
@@ -91,6 +90,8 @@ export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
   private _state = new BehaviorSubject<any>({
     transform: 'translate3d(0, 0, 0)'
   });
+
+  /** Scrollbar styles */
   scrollbarStyle = this._state.asObservable();
 
   /**
@@ -117,14 +118,11 @@ export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
               @Inject(forwardRef(() => NgScrollbar)) private ngScrollbar: NgScrollbar) {
   }
 
-  ngOnInit() {
-    this._view = this.ngScrollbar.scrollable.getElementRef().nativeElement;
-  }
-
   ngAfterViewInit() {
+    this._view = this.ngScrollbar.scrollable.getElementRef().nativeElement;
     // Start view scroll event
     this._scroll$ = this.ngScrollbar.scrollable.elementScrolled()
-      .subscribe(() => animationFrameScheduler.schedule(() => this.updateThumbsPosition()));
+      .subscribe(() => this.updateThumbsPosition());
 
     // Start scrollbar thumbnail drag events
     this.zone.runOutsideAngular(() =>
@@ -134,11 +132,14 @@ export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
     // Update scrollbar thumbnail size on content changes
     this._updateObserver$ = this.ngScrollbar.updateObserver.pipe(
       throttleTime(200),
-      tap(() => this.updateThumbsPosition())
+      tap(() => this.updateThumbsPosition()),
+      // Make sure scrollbar thumbnail position is correct after the new content is rendered
+      debounceTime(200),
+      tap(() => this.updateThumbsPosition()),
     ).subscribe();
 
     // Initialize scrollbar thumbnail size
-    this.initScrollbarThumbSize();
+    this.initScrollbarThumbSize().subscribe();
   }
 
   ngOnDestroy() {
@@ -168,10 +169,12 @@ export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
     this._trackMax = this.bar.nativeElement[this.axis.clientHeightOrWidth] - this._thumbSize;
     this._currPos = this._view[this.axis.scrollTopLeft] * this._trackMax / this._scrollMax;
     this.zone.run(() =>
-      this.updateState({
-        transform: this.axis.transform(this._currPos),
-        [this.axis.heightOrWidth]: `${this.thumbSize}px`
-      })
+      animationFrameScheduler.schedule(() =>
+        this.updateState({
+          transform: this.axis.transform(this._currPos),
+          [this.axis.heightOrWidth]: `${this.thumbSize}px`
+        })
+      )
     );
   }
 
@@ -215,12 +218,17 @@ export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
   /**
    * Initialize scrollbar thumbnail size
    */
-  private initScrollbarThumbSize() {
-    this.updateState({[this.axis.heightOrWidth]: `${this.thumbSize}px`});
-    // Update state again to fix wrong size in Firefox
-    setTimeout(() => this.updateState({[this.axis.heightOrWidth]: `${this.thumbSize}px`}), 200);
-    // Sometimes firefox needs more than 200ms, update one more time to ensure the size is correct
-    setTimeout(() => this.updateState({[this.axis.heightOrWidth]: `${this.thumbSize}px`}), 500);
+  private initScrollbarThumbSize(): Observable<any> {
+    return of({}).pipe(
+      tap(() => this.updateState({[this.axis.heightOrWidth]: `${this.thumbSize}px`})),
+      // Update state again to fix wrong size in Firefox
+      delay(300),
+      tap(() => this.updateState({[this.axis.heightOrWidth]: `${this.thumbSize}px`})),
+      // Sometimes firefox needs more than 200ms, update one more time to ensure the size is correct
+      delay(300),
+      tap(() => this.updateState({[this.axis.heightOrWidth]: `${this.thumbSize}px`})),
+      take(1)
+    );
   }
 
   private updateState(state: any) {

@@ -7,7 +7,7 @@
     ngx-scrollbar
   </title>
   <base href=".">
-  <meta name="description" content="Custom overlay-scrollbars with native scrolling mechanism for Angular." />
+  <meta name="description" content="Custom overlay-scrollbars with native scrolling mechanism for Angular."/>
 
   <!-- Twitter Card data -->
   <meta name="twitter:card" content="summary">
@@ -20,12 +20,12 @@
   <meta name="twitter:image" content="https://murhafsousli.github.io/ngx-scrollbar/assets/logo.svg">
 
   <!-- Open Graph data -->
-  <meta property="og:title" content="ngx-scrollbar" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://murhafsousli.github.io/ngx-scrollbar" />
-  <meta property="og:image" content="https://murhafsousli.github.io/ngx-scrollbar/assets/logo.svg" />
-  <meta property="og:description" content="Custom overlay-scrollbars with native scrolling mechanism for Angular." />
-  <meta property="og:site_name" content="ngx-scrollbar" />
+  <meta property="og:title" content="ngx-scrollbar"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="https://murhafsousli.github.io/ngx-scrollbar"/>
+  <meta property="og:image" content="https://murhafsousli.github.io/ngx-scrollbar/assets/logo.svg"/>
+  <meta property="og:description" content="Custom overlay-scrollbars with native scrolling mechanism for Angular."/>
+  <meta property="og:site_name" content="ngx-scrollbar"/>
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -38,9 +38,221 @@
   <link rel="mask-icon" href="assets/icons/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="theme-color" content="#ffffff">
 </head>
+<style>
+  @-webkit-keyframes dancing-dots-jump {
+    0% {
+      top: 0;
+    }
+    55% {
+      top: 0;
+      text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+    }
+    60% {
+      top: -20px;
+      text-shadow: 5px 20px 5px rgba(0, 0, 0, 0.5);
+    }
+    80% {
+      top: 4px;
+      text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+    }
+    90% {
+      top: -3px;
+      text-shadow: 0px 3px 1px rgba(0, 0, 0, 0.5);
+    }
+    95% {
+      top: 1px;
+      text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+    }
+    100% {
+      top: 0;
+      text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+    }
+  }
 
-<body>
-  <app-root>Loading...</app-root>
+  @-moz-keyframes dancing-dots-jump {
+    0% {
+      top: 0;
+    }
+    55% {
+      top: 0;
+      text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+    }
+    60% {
+      top: -20px;
+      text-shadow: 5px 20px 5px rgba(0, 0, 0, 0.5);
+    }
+    80% {
+      top: 4px;
+      text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+    }
+    90% {
+      top: -3px;
+      text-shadow: 0px 3px 1px rgba(0, 0, 0, 0.5);
+    }
+    95% {
+      top: 1px;
+      text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+    }
+    100% {
+      top: 0;
+      text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  @-moz-keyframes shake-me {
+    0% {
+      margin-left: 0;
+    }
+    10% {
+      margin-left: -2px;
+      margin-top: 33px;
+    }
+    20% {
+      margin-left: 2px;
+    }
+    30% {
+      margin-left: -3px;
+    }
+    40% {
+      margin-left: 3px;
+      margin-top: 27px;
+    }
+    50% {
+      margin-left: -2px;
+    }
+    60% {
+      margin-left: 4px;
+    }
+    70% {
+      margin-left: -6px;
+    }
+    80% {
+      margin-left: 3px;
+    }
+    90% {
+      margin-left: -2px;
+    }
+    100% {
+      margin-left: 3px;
+    }
+  }
+
+  @-moz-keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0.7;
+    }
+  }
+
+  #dancing-dots-text {
+    width: 200px;
+    padding: 30px 50px;
+    text-align: center;
+  }
+
+  #dancing-dots-text:hover {
+    -webkit-animation-duration: 300ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-name: shake-me;
+    -moz-animation-duration: 300ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-name: shake-me;
+  }
+
+  #dancing-dots-text span {
+    text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+  }
+
+  #dancing-dots-text span span {
+    -webkit-animation-duration: 1000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-name: dancing-dots-jump;
+    -moz-animation-duration: 1000ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-name: dancing-dots-jump;
+    padding: 1px;
+    position: relative;
+  }
+
+  #dancing-dots-text span span:nth-child(1) {
+    -webkit-animation-delay: 50ms;
+    -moz-animation-delay: 50ms;
+  }
+
+  #dancing-dots-text span span:nth-child(2) {
+    -webkit-animation-delay: 250ms;
+    -moz-animation-delay: 250ms;
+  }
+
+  #dancing-dots-text span span:nth-child(3) {
+    -webkit-animation-delay: 450ms;
+    -moz-animation-delay: 450ms;
+  }
+
+  #dancing-dots-text span span:nth-child(4) {
+    -webkit-animation-delay: 650ms;
+    -moz-animation-delay: 650ms;
+  }
+
+  #dancing-dots-text span span:nth-child(5) {
+    -webkit-animation-delay: 850ms;
+    -moz-animation-delay: 850ms;
+  }
+
+  .loader-wrapper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-family: monospace;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    font-family: 'Roboto', sans-serif;
+    color: #686C6E;
+  }
+
+  app-root {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .container {
+    padding: 0 1em;
+    max-width: 500px;
+    margin: auto;
+    overflow: hidden;
+  }
+</style>
+<body class="white-bg">
+<app-root>
+  <div class="loader-wrapper">
+    <img width="100px" height="100px" src="assets/logo.svg" alt="logo">
+    <div id="dancing-dots-text">
+      Loading<span><span>.</span><span>.</span><span>.</span><span>.</span><span>.</span></span>
+    </div>
+  </div>
+</app-root>
 </body>
 
 </html>
