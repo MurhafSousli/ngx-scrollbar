@@ -1,12 +1,10 @@
 import {
   Component,
   Inject,
-  OnInit,
   AfterViewInit,
   OnDestroy,
   Input,
   ViewChild,
-  HostBinding,
   NgZone,
   ElementRef,
   ChangeDetectionStrategy,
@@ -65,18 +63,19 @@ const axis: Axis = {
     </div>
   `
 })
-export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
+export class NgScrollbarThumb implements AfterViewInit, OnDestroy {
 
+  /** Scrollbar class */
   @Input() barClass: string;
+  /** Scrollbar thumbnail class */
   @Input() thumbClass: string;
+  /** The scroll duration when scrollbar (not the thumbnail) is clicked */
   @Input() scrollToDuration: number;
+  /** Scrollbar orientation */
   @Input() orientation: 'vertical' | 'horizontal';
 
   @ViewChild('bar') bar: ElementRef;
   @ViewChild('thumb') thumb: ElementRef;
-  @HostBinding('class.ng-scrollbar-visible') get visibility(): boolean {
-    return !!this._scrollMax;
-  }
 
   private _minThumbSize = 20;
   private _naturalThumbSize = 0;
@@ -91,6 +90,8 @@ export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
   private _state = new BehaviorSubject<any>({
     transform: 'translate3d(0, 0, 0)'
   });
+
+  /** Scrollbar styles */
   scrollbarStyle = this._state.asObservable();
 
   /**
@@ -117,14 +118,11 @@ export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
               @Inject(forwardRef(() => NgScrollbar)) private ngScrollbar: NgScrollbar) {
   }
 
-  ngOnInit() {
-    this._view = this.ngScrollbar.scrollable.getElementRef().nativeElement;
-  }
-
   ngAfterViewInit() {
+    this._view = this.ngScrollbar.scrollable.getElementRef().nativeElement;
     // Start view scroll event
     this._scroll$ = this.ngScrollbar.scrollable.elementScrolled()
-      .subscribe(() => animationFrameScheduler.schedule(() => this.updateThumbsPosition()));
+      .subscribe(() => this.updateThumbsPosition());
 
     // Start scrollbar thumbnail drag events
     this.zone.runOutsideAngular(() =>
@@ -171,10 +169,12 @@ export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
     this._trackMax = this.bar.nativeElement[this.axis.clientHeightOrWidth] - this._thumbSize;
     this._currPos = this._view[this.axis.scrollTopLeft] * this._trackMax / this._scrollMax;
     this.zone.run(() =>
-      this.updateState({
-        transform: this.axis.transform(this._currPos),
-        [this.axis.heightOrWidth]: `${this.thumbSize}px`
-      })
+      animationFrameScheduler.schedule(() =>
+        this.updateState({
+          transform: this.axis.transform(this._currPos),
+          [this.axis.heightOrWidth]: `${this.thumbSize}px`
+        })
+      )
     );
   }
 
