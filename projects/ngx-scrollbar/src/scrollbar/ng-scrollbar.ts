@@ -139,7 +139,9 @@ export class NgScrollbar implements OnInit, AfterViewInit, OnDestroy {
    * Update scrollbar thumbnail position
    */
   update() {
-    this._updateObserver.next();
+    if (!this.disabled) {
+      this._updateObserver.next();
+    }
   }
 
   /**
