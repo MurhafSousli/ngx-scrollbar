@@ -1,5 +1,16 @@
 # Changelog
 
+## 3.2.0
+
+- feat(NgScrollbar): Add `[overlay]` input to make scrollbars position appears over content.
+- feat(NgScrollbar): Add `[disabled]` input to enable/disable the custom scrollbars, in [9ac7f8d](https://github.com/MurhafSousli/ngx-scrollbar/pull/87/commits/9ac7f8d12a1e8fb4c6e4dde7a5f5527fafbf20b4).
+- feat(NgScrollbar): Add `characterData: true` to MutationObserver to update on text changes, remove the need to manually update the scrollbars.
+- fix(NgScrollbar): Content goes out of the container when scroll bar is not present, closes [#86](https://github.com/MurhafSousli/ngx-scrollbar/issues/86) in [c8d9505](https://github.com/MurhafSousli/ngx-scrollbar/commit/c8d95051253ac36c1940c359fa52c94f8a953698).
+- enhance(NgScrollbar): Don't update scrollbar if disabled, in [7f154e9](https://github.com/MurhafSousli/ngx-scrollbar/pull/87/commits/7f154e9fd81cb0207bf7363488cddbba22eadce3).
+- enhance(NgScrollbarThumb): Make sure the last emit from MutationObserver is not ignored by `throttleTime`, in [fff2083](https://github.com/MurhafSousli/ngx-scrollbar/pull/87/commits/fff208328ce65f865fdd18ad3abb9e3e62362158).
+- refactor(NgScrollbar, NgScrollbarThumb): Set scrollbar display value from parent component.
+- refactor(NgScrollbarThumb): Use rxjs syntax to initialize scrollbar thumbnail size, in [f201736](https://github.com/MurhafSousli/ngx-scrollbar/pull/87/commits/f2017360d6a9f005145356a1c98fd67bf69846af).
+
 ## 3.1.3
 
 - enhance(NgScrollbar): Use `animationFrameScheduler` to set scrollbar thumb position, in [717d221](https://github.com/MurhafSousli/ngx-scrollbar/commit/717d221dc66905a07861605082eb61040bbe544f).
