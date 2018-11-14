@@ -13,8 +13,8 @@ import {
   forwardRef
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { fromEvent, Observable, BehaviorSubject, Subscription, SubscriptionLike, animationFrameScheduler } from 'rxjs';
-import { mergeMap, pluck, takeUntil, tap, auditTime } from 'rxjs/operators';
+import { of, fromEvent, Observable, BehaviorSubject, Subscription, SubscriptionLike, animationFrameScheduler } from 'rxjs';
+import { debounceTime, throttleTime, delay, mergeMap, pluck, take, takeUntil, tap } from 'rxjs/operators';
 import { NgScrollbar } from './ng-scrollbar';
 
 interface AxisProperties {
@@ -141,7 +141,7 @@ export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
     ).subscribe();
 
     // Initialize scrollbar thumbnail size
-    this.initScrollbarThumbSize();
+    this.initScrollbarThumbSize().subscribe();
   }
 
   ngOnDestroy() {
@@ -218,12 +218,17 @@ export class NgScrollbarThumb implements OnInit, AfterViewInit, OnDestroy {
   /**
    * Initialize scrollbar thumbnail size
    */
-  private initScrollbarThumbSize() {
-    this.updateState({[this.axis.heightOrWidth]: `${this.thumbSize}px`});
-    // Update state again to fix wrong size in Firefox
-    setTimeout(() => this.updateState({[this.axis.heightOrWidth]: `${this.thumbSize}px`}), 200);
-    // Sometimes firefox needs more than 200ms, update one more time to ensure the size is correct
-    setTimeout(() => this.updateState({[this.axis.heightOrWidth]: `${this.thumbSize}px`}), 500);
+  private initScrollbarThumbSize(): Observable<any> {
+    return of({}).pipe(
+      tap(() => this.updateState({[this.axis.heightOrWidth]: `${this.thumbSize}px`})),
+      // Update state again to fix wrong size in Firefox
+      delay(300),
+      tap(() => this.updateState({[this.axis.heightOrWidth]: `${this.thumbSize}px`})),
+      // Sometimes firefox needs more than 200ms, update one more time to ensure the size is correct
+      delay(300),
+      tap(() => this.updateState({[this.axis.heightOrWidth]: `${this.thumbSize}px`})),
+      take(1)
+    );
   }
 
   private updateState(state: any) {
