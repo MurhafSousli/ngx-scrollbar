@@ -8,109 +8,111 @@
   box-shadow: 0 0 0 2px #E4E9EB;
   position: relative;
 
-  .scroll-bar.ng-scrollbar-vertical {
-    width: 6px;
-    top: 14px;
-    right: 10px;
-    bottom: 14px;
-    background-color: rgba(0, 0, 0, 0.1);
+  ::ng-deep {
+    .scroll-bar.ng-scrollbar-vertical {
+      width: 6px;
+      top: 14px;
+      right: 10px;
+      bottom: 14px;
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+    ng-scrollbar {
+      height: 200px;
+      border: 1px solid rgba(0, 0, 0, 0.25);
+    }
   }
-  ng-scrollbar {
-    height: 200px;
-    border: 1px solid rgba(0, 0, 0, 0.25);
-  }
+}
 
-  button {
+button {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+}
+
+.sample {
+  padding: 0;
+  position: relative;
+  width: 200px;
+  background-color: #fff;
+  &:before,
+  &:after {
+    content: '';
     position: absolute;
-    top: 1em;
-    right: 1em;
+    top: 100%;
+    left: 0;
+    height: 3px;
+    border-width: 0 1px 1px;
+    border-style: none solid solid;
+    border-color: rgba(0, 0, 0, 0.25);
   }
-
-  .sample {
-    padding: 0;
-    position: relative;
-    width: 200px;
-    background-color: #fff;
+  &:before {
+    width: 96%;
+    margin-left: 2%;
+    background-color: #ebebeb;
+  }
+  &:after {
+    width: 94%;
+    margin: 3px 0 0 3%;
+    background-color: #e0e0e0;
+  }
+  header {
+    font-size: 1.1em;
+    padding: .2em;
+    letter-spacing: 1px;
+    background-image: linear-gradient(to bottom, #3d434a, #242931);
+    color: white;
+    text-shadow: 0 -1px 0 #1c2026;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 3px 3px 0 0;
+  }
+  ul {
+    position: absolute;
+    width: 100%;
     &:before,
     &:after {
       content: '';
       position: absolute;
-      top: 100%;
-      left: 0;
-      height: 3px;
-      border-width: 0 1px 1px;
-      border-style: none solid solid;
-      border-color: rgba(0, 0, 0, 0.25);
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      height: 100%;
+      background-color: #FBCACB;
     }
     &:before {
-      width: 96%;
-      margin-left: 2%;
-      background-color: #ebebeb;
+      left: 2em;
     }
     &:after {
-      width: 94%;
-      margin: 3px 0 0 3%;
-      background-color: #e0e0e0;
+      left: 2.4em;
     }
-    header {
-      font-size: 1.1em;
-      padding: .2em;
-      letter-spacing: 1px;
-      background-image: linear-gradient(to bottom, #3d434a, #242931);
-      color: white;
-      text-shadow: 0 -1px 0 #1c2026;
-      text-align: center;
-      font-weight: bold;
-      border-radius: 3px 3px 0 0;
+  }
+  li {
+    color: #242931;
+    font-size: 12px;
+    line-height: 24px;
+    padding: .25em 1em .25em 3.6em;
+    min-height: 27px;
+    border-bottom: 1px solid #B8DBFC;
+    font-weight: bold;
+    &:last-child {
+      border-bottom: none;
     }
-    ul {
+    &:before,
+    &:after {
       position: absolute;
-      width: 100%;
-      &:before,
-      &:after {
-        content: '';
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 1px;
-        height: 100%;
-        background-color: #FBCACB;
-      }
+      left: 0.7em;
+    }
+    &.ok {
       &:before {
-        left: 2em;
-      }
-      &:after {
-        left: 2.4em;
+        content: '✔';
+        color: #518F29;
       }
     }
-    li {
-      color: #242931;
-      font-size: 12px;
-      line-height: 24px;
-      padding: .25em 1em .25em 3.6em;
-      min-height: 27px;
-      border-bottom: 1px solid #B8DBFC;
-      font-weight: bold;
-      &:last-child {
-        border-bottom: none;
-      }
-      &:before,
+    &.not {
+      color: gray;
       &:after {
-        position: absolute;
-        left: 0.7em;
-      }
-      &.ok {
-        &:before {
-          content: '✔';
-          color: #518F29;
-        }
-      }
-      &.not {
-        color: gray;
-        &:after {
-          content: '✖';
-          color: #FBCACB;
-        }
+        content: '✖';
+        color: #FBCACB;
       }
     }
   }

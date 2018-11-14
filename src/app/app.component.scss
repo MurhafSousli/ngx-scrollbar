@@ -1,3 +1,11 @@
+:host {
+  ::ng-deep {
+    .blue-bg {
+      background-color: #28A6C6;
+    }
+  }
+}
+
 .scroll-buttons {
   margin: 1em 0 3em;
   display: flex;

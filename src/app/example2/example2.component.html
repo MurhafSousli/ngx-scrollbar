@@ -1,7 +1,7 @@
 <div class="example example2">
   <div class="sample">
     <header>TODO</header>
-    <ng-scrollbar barClass="scroll-bar" thumbClass="scroll-thumb">
+    <ng-scrollbar #scrollbars barClass="scroll-bar" thumbClass="scroll-thumb">
       <ul>
         <li></li>
         <li *ngFor="let item of list"
@@ -12,7 +12,7 @@
     </ng-scrollbar>
   </div>
 
-  <button class="btn-gradient blue mini" (click)="addItem()">Add task</button>
+  <button class="btn-gradient blue mini" (click)="addItem(scrollbars)">Add task</button>
 </div>
 
 <div class="style-source">
