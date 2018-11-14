@@ -239,7 +239,7 @@ scrollRef.scrollToRight(duration?, easeFunc?).subscribe()
 Or using the `@ViewChild` decorator
 
 ```ts
-@ViewChild(ScrollbarComponent) scrollRef: ScrollbarComponent;
+@ViewChild(NgScrollbar) scrollRef: NgScrollbar;
 
 scrollToUsageSection() {
   this.scrollRef.scrollToElement('#usage');
