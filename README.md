@@ -108,6 +108,14 @@ Here is a [stackblitz](https://stackblitz.com/edit/ngx-scrollbar)
 
   Add custom class to scrollbars' thumbnails, default: `null`
   
+- **[overlay]**: boolean
+
+  Make scrollbars position appears over content, default: `false`
+  
+- **[disabled]**: boolean
+
+  Disable the custom scrollbars and use the native ones instead, default: `false`
+  
 - **[scrollToDuration]**: number
 
   The smooth scroll duration when a scrollbar is clicked, default `400`.
@@ -261,34 +269,6 @@ export class AppComponent {
 
 #### Update scrollbars manually
 
-By default the input `[autoUpdate]` is true, which uses the `MutationObserver` to observe child elements changes and update the sizes of the scrollbars, however this does not include text changes so to make the scrollbars responsive with your dynamic text, you will need to trigger the update function manually.
-
-**Dynamic text example:**
-
-```ts
-Component({
-  selector: 'text-area-example',
-  template: `
-    <ng-scrollbar>
-      <div class="text-content">
-        {{text}}
-      </div>
-    </ng-scrollbar>
-  `
-})
-export class AppComponent implements OnInit {
-   @ViewChild(NgScrollbar) textScrollbar: NgScrollbar;
-
-   setText(value: string) {
-     this.text = value;
-     // wait for the new text value to render before updating the scrollbar
-     setTimeout(() => {
-       this.textScrollbar.update();
-     }, 200);
-   }
-}
-```
-
 **Text area example:**
 
 ```ts
@@ -305,7 +285,7 @@ export class AppComponent implements OnInit {
 
    setText(value: string) {
      this.text = value;
-     // wait for the new text value to render before updating the scrollbar
+     // You might need to give a tiny delay before updating the scrollbar
      setTimeout(() => {
        this.textAreaScrollbar.update();
      }, 200);
