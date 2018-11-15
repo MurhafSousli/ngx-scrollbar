@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.1
+
+- enhance(NgScrollbar): Keep native scrollbars hidden when the component is disabled,closes [#88](https://github.com/MurhafSousli/ngx-scrollbar/issues/88) in [4762a7e](https://github.com/MurhafSousli/ngx-scrollbar/pull/89/commits/4762a7ea9e4ce1203659e14cabee87f36e21a5b8) and [3ef3d8a](https://github.com/MurhafSousli/ngx-scrollbar/pull/89/commits/3ef3d8a965947b368973b97c1cd2a81ee351d74d).
+- enhance(NgScrollbar): Push the native scrollbars 1px more to fix its appearance in Edge browser.
+- refactor(NgScrollbarThumb): Refactor scrollbar initializer function, in [5dbcc22](https://github.com/MurhafSousli/ngx-scrollbar/pull/89/commits/5dbcc22280077e4ea0674fc554a7bf034bfea859).
+
 ## 3.2.0
 
 - feat(NgScrollbar): Add `[overlay]` input to make scrollbars position appears over content.

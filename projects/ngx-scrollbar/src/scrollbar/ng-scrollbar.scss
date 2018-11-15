@@ -18,7 +18,7 @@
 }
 
 .ng-scrollbar-view {
-  overflow: auto;
+  overflow: scroll;
   transform: translate3d(0, 0, 0);
   -webkit-overflow-scrolling: touch;
   ::-webkit-scrollbar {
