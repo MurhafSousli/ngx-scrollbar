@@ -1,16 +1,4 @@
-import {
-  Component,
-  Inject,
-  Input,
-  HostBinding,
-  ViewChild,
-  AfterViewInit,
-  OnDestroy,
-  ElementRef,
-  ChangeDetectionStrategy,
-  PLATFORM_ID
-} from '@angular/core';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Component, Input, HostBinding, ViewChild, AfterViewInit, OnDestroy, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { Observable, Subject, BehaviorSubject, Subscription, SubscriptionLike } from 'rxjs';
@@ -30,8 +18,6 @@ interface NgScrollbarState {
 
 const defaultState: NgScrollbarState = {
   viewStyle: {
-    width: '100%',
-    height: '100%',
     paddingRight: '0',
     paddingBottom: '0',
   },
@@ -88,7 +74,7 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   }
 
   /** Native scrollbar size */
-  private _nativeScrollbarSize: number;
+  private _nativeScrollbarSize: string;
 
   /** Scrollbar state */
   private _state = new BehaviorSubject<NgScrollbarState>(defaultState);
@@ -109,9 +95,7 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   private _updateObserver = new Subject();
   updateObserver = this._updateObserver.asObservable();
 
-  constructor(private breakpointObserver: BreakpointObserver,
-              @Inject(DOCUMENT) private document: any,
-              @Inject(PLATFORM_ID) private platform: Object) {
+  constructor(private breakpointObserver: BreakpointObserver) {
   }
 
   ngAfterViewInit() {
@@ -158,7 +142,7 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
     if (this.view) {
       this.disabled = false;
       // Hide native scrollbars
-      this._nativeScrollbarSize = this.getNativeScrollbarWidth();
+      this._nativeScrollbarSize = `${this.view.offsetWidth - this.view.clientWidth + 1}px`;
       this.updateState();
 
       if (this.autoUpdate) {
@@ -175,7 +159,7 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   disable() {
     this.disabled = true;
     // Show Native Scrollbars
-    this._state.next(defaultState);
+    this.resetState();
     if (this._observer) {
       this._observer.disconnect();
     }
@@ -214,44 +198,43 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   }
 
   private updateState() {
-    let width = '100%', height = '100%', paddingBottom = '0', paddingRight = '0', displayY = false, displayX = false;
+    let paddingBottom = '0', paddingRight = '0', displayY = false, displayX = false;
+    const size = `calc(100% + ${this._nativeScrollbarSize})`;
     if (this.trackY) {
       // Check if vertical scrollbar should be displayed
       if (this.view.scrollHeight > this.view.clientHeight) {
         displayY = true;
-        width = `calc(100% + ${this._nativeScrollbarSize}px)`;
-        paddingRight = this.overlay ? '0' : `${this._nativeScrollbarSize}px`;
+        paddingRight = this.overlay ? '0' : this._nativeScrollbarSize;
       }
     }
     if (this.trackX) {
       // Check if horizontal scrollbar should be displayed
       if (this.view.scrollWidth > this.view.clientWidth) {
         displayX = true;
-        height = `calc(100% + ${this._nativeScrollbarSize}px)`;
-        paddingBottom = this.overlay ? '0' : `${this._nativeScrollbarSize}px`;
+        paddingBottom = this.overlay ? '0' : this._nativeScrollbarSize;
       }
     }
-    this._state.next({viewStyle: {width, height, paddingBottom, paddingRight}, displayX, displayY});
+    this._state.next({
+      viewStyle: {
+        width: size,
+        height: size,
+        paddingBottom,
+        paddingRight
+      },
+      displayX,
+      displayY
+    });
   }
 
-  /**
-   * Get the native scrollbar width
-   */
-  private getNativeScrollbarWidth(): number {
-    if (isPlatformBrowser(this.platform)) {
-      const element = this.document.createElement('div');
-      element.style.position = 'absolute';
-      element.style.top = '-9999px';
-      element.style.width = '100px';
-      element.style.height = '100px';
-      element.style.overflow = 'scroll';
-      element.style.msOverflowStyle = 'scrollbar';
-      this.document.body.appendChild(element);
-      const sw = element.offsetWidth - element.clientWidth;
-      this.document.body.removeChild(element);
-      return sw;
-    }
-    return 0;
+  private resetState() {
+    this._state.next({
+      viewStyle: {
+        ...this._state.value.viewStyle,
+        ...defaultState.viewStyle
+      },
+      displayX: defaultState.displayX,
+      displayY: defaultState.displayY
+    });
   }
 
 }
