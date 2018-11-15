@@ -11,8 +11,8 @@ import {
   forwardRef
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { of, fromEvent, Observable, BehaviorSubject, Subscription, SubscriptionLike, animationFrameScheduler } from 'rxjs';
-import { debounceTime, throttleTime, delay, mergeMap, pluck, take, takeUntil, tap } from 'rxjs/operators';
+import { fromEvent, Observable, BehaviorSubject, Subscription, SubscriptionLike, animationFrameScheduler } from 'rxjs';
+import { debounceTime, throttleTime, mergeMap, pluck, takeUntil, tap } from 'rxjs/operators';
 import { NgScrollbar } from './ng-scrollbar';
 
 interface AxisProperties {
@@ -138,8 +138,8 @@ export class NgScrollbarThumb implements AfterViewInit, OnDestroy {
       tap(() => this.updateThumbsPosition()),
     ).subscribe();
 
-    // Initialize scrollbar thumbnail size
-    this.initScrollbarThumbSize().subscribe();
+    // Initialize scrollbar
+    setTimeout(() => this.updateThumbsPosition(), 200);
   }
 
   ngOnDestroy() {
@@ -213,22 +213,6 @@ export class NgScrollbarThumb implements AfterViewInit, OnDestroy {
    */
   private scrollBoundaries(naturalThumbSize: number, scrollMax: number): number {
     return (naturalThumbSize < this._minThumbSize) ? this._minThumbSize : scrollMax ? naturalThumbSize : 0;
-  }
-
-  /**
-   * Initialize scrollbar thumbnail size
-   */
-  private initScrollbarThumbSize(): Observable<any> {
-    return of({}).pipe(
-      tap(() => this.updateState({[this.axis.heightOrWidth]: `${this.thumbSize}px`})),
-      // Update state again to fix wrong size in Firefox
-      delay(300),
-      tap(() => this.updateState({[this.axis.heightOrWidth]: `${this.thumbSize}px`})),
-      // Sometimes firefox needs more than 200ms, update one more time to ensure the size is correct
-      delay(300),
-      tap(() => this.updateState({[this.axis.heightOrWidth]: `${this.thumbSize}px`})),
-      take(1)
-    );
   }
 
   private updateState(state: any) {
