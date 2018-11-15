@@ -122,7 +122,7 @@ export class NgScrollbarThumb implements AfterViewInit, OnDestroy {
     this._view = this.ngScrollbar.scrollable.getElementRef().nativeElement;
     // Start view scroll event
     this._scroll$ = this.ngScrollbar.scrollable.elementScrolled()
-      .subscribe(() => this.updateThumbsPosition());
+      .subscribe(() => this.updateState());
 
     // Start scrollbar thumbnail drag events
     this.zone.runOutsideAngular(() =>
@@ -132,14 +132,14 @@ export class NgScrollbarThumb implements AfterViewInit, OnDestroy {
     // Update scrollbar thumbnail size on content changes
     this._updateObserver$ = this.ngScrollbar.updateObserver.pipe(
       throttleTime(200),
-      tap(() => this.updateThumbsPosition()),
+      tap(() => this.updateState()),
       // Make sure scrollbar thumbnail position is correct after the new content is rendered
       debounceTime(200),
-      tap(() => this.updateThumbsPosition()),
+      tap(() => this.updateState()),
     ).subscribe();
 
     // Initialize scrollbar
-    setTimeout(() => this.updateThumbsPosition(), 200);
+    setTimeout(() => this.updateState(), 200);
   }
 
   ngOnDestroy() {
@@ -162,9 +162,9 @@ export class NgScrollbarThumb implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Update scrollbars thumbnails topOrLeft
+   * Update scrollbar state
    */
-  private updateThumbsPosition() {
+  private updateState() {
     this._thumbSize = this.thumb.nativeElement[this.axis.clientHeightOrWidth];
     this._trackMax = this.bar.nativeElement[this.axis.clientHeightOrWidth] - this._thumbSize;
     this._currPos = this._view[this.axis.scrollTopLeft] * this._trackMax / this._scrollMax;
