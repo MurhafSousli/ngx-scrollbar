@@ -84,7 +84,7 @@ export class SmoothScroll {
   }
 
   scrollToBottom(duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
-    return this.scrollYTo(this.view.scrollHeight, duration, easeFunc);
+    return this.scrollYTo(this.view.scrollHeight - this.view.clientHeight, duration, easeFunc);
   }
 
   scrollToRight(duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
@@ -99,7 +99,7 @@ export class SmoothScroll {
 export function smoothScroll(options: SmoothScrollOptions): Promise<void> {
   return new Promise(resolve => {
     let currentTime = 0;
-    const increment = 20;
+    const increment = 10;
     let valX = options.offsetLeft;
     let valY = options.offsetTop;
 
