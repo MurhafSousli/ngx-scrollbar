@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.2.2
+
+- fix(SmoothScroll): Fix smooth scroll `duration` and `scrollToBottom()`, closes [#90](https://github.com/MurhafSousli/ngx-scrollbar/issues/90) in [c4e03d4](https://github.com/MurhafSousli/ngx-scrollbar/pull/91/commits/c4e03d479bc1d347635559789daeb55ea1de04cf).
+
 ## 3.2.1
 
 - enhance(NgScrollbar): Keep native scrollbars hidden when the component is disabled,closes [#88](https://github.com/MurhafSousli/ngx-scrollbar/issues/88) in [4762a7e](https://github.com/MurhafSousli/ngx-scrollbar/pull/89/commits/4762a7ea9e4ce1203659e14cabee87f36e21a5b8) and [3ef3d8a](https://github.com/MurhafSousli/ngx-scrollbar/pull/89/commits/3ef3d8a965947b368973b97c1cd2a81ee351d74d).
