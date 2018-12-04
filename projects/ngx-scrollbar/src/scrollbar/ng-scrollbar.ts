@@ -101,13 +101,13 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.view = this.scrollable.getElementRef().nativeElement;
 
-    if (this.disableOnBreakpoints) {
+    if (this.disableOnBreakpoints && !this.disabled) {
       // Enable/Disable custom scrollbar on breakpoints (Used to disable scrollbars on mobile phones)
       this._breakpointSub$ = this.breakpointObserver.observe(this.disableOnBreakpoints).pipe(
         // filter(() => this.viewInitialized),
         tap((result: BreakpointState) => result.matches ? this.disable() : this.enable())
       ).subscribe();
-    } else {
+    } else if (!this.disabled) {
       this.enable();
     }
 
