@@ -145,7 +145,7 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
       this._nativeScrollbarSize = `${this.view.offsetWidth - this.view.clientWidth + 1}px`;
       this.updateState();
 
-      if (this.autoUpdate) {
+      if (this.autoUpdate && typeof MutationObserver !== 'undefined') {
         // Observe content changes
         this._observer = new MutationObserver(() => this.update());
         this._observer.observe(this.view, {subtree: true, childList: true, characterData: true});
