@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.3.0
+
+- fix(NgScrollbar): Avoid enable execution if disabled, in [d51d07e](https://github.com/MurhafSousli/ngx-scrollbar/pull/98/commits/d51d07e66b4c0de9f53351d76709f785f83fe3fa).
+- fix(NgScrollbar): fix server-side rendering crash, in [edde8ff](https://github.com/MurhafSousli/ngx-scrollbar/pull/98/commits/edde8ff3af930a8d89a932d2815db9fbfb10ece2).
+- enhance(NgScrollbar): Avoid overriding scrollbar component `box-sizing` value, closes [#96](https://github.com/MurhafSousli/ngx-scrollbar/issues/96) in [d51d07e](https://github.com/MurhafSousli/ngx-scrollbar/pull/98/commits/d51d07e66b4c0de9f53351d76709f785f83fe3fa).
+- refactor(NgScrollbarThumb): Use vertical and horizontal component for clearer code, in ([49ac18b](https://github.com/MurhafSousli/ngx-scrollbar/pull/98/commits/49ac18b21d173c08ac3d3b027aa5b468aba33cd2) and [83fc884](https://github.com/MurhafSousli/ngx-scrollbar/pull/98/commits/83fc88474084954a885c02413abefc0b11f9dced).
+- ci: test Node.js 8, 10 and 11 ([189b849](https://github.com/MurhafSousli/ngx-scrollbar/pull/98/commits/189b849ac3734a381151796732ac3a6bb358807e)).
+
 ## 3.2.2
 
 - fix(SmoothScroll): Fix smooth scroll `duration` and `scrollToBottom()`, closes [#90](https://github.com/MurhafSousli/ngx-scrollbar/issues/90) in [c4e03d4](https://github.com/MurhafSousli/ngx-scrollbar/pull/91/commits/c4e03d479bc1d347635559789daeb55ea1de04cf).
