@@ -13,7 +13,7 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
-import { Observable, Subject, BehaviorSubject, Subscription, SubscriptionLike } from 'rxjs';
+import { Observable, Subject, BehaviorSubject, Subscription } from 'rxjs';
 import { map, tap, throttleTime } from 'rxjs/operators';
 import { SmoothScroll, SmoothScrollEaseFunc } from '../smooth-scroll/smooth-scroll';
 import { NgScrollbarVertical } from './ng-scrollbar-vertical';
@@ -97,9 +97,9 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   displayY: Observable<boolean> = this._state.pipe(map((state: NgScrollbarState) => state.displayY));
 
   /** Mutation observer subscription */
-  private _updateObserverSub$: SubscriptionLike = Subscription.EMPTY;
+  private _updateObserverSub$ = Subscription.EMPTY;
   /** CDK breakpoint subscription */
-  private _breakpointSub$: SubscriptionLike = Subscription.EMPTY;
+  private _breakpointSub$ = Subscription.EMPTY;
   /** Viewport Element */
   view: HTMLElement;
   /** Observe content changes */
