@@ -18,6 +18,7 @@
 }
 
 .ng-scrollbar-view {
+  box-sizing: content-box;
   overflow: scroll;
   transform: translate3d(0, 0, 0);
   -webkit-overflow-scrolling: touch;
