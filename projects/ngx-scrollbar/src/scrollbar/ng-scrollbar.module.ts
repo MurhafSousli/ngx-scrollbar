@@ -4,18 +4,20 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { LayoutModule } from '@angular/cdk/layout';
 import { SmoothScrollModule } from '../smooth-scroll/smooth-scroll.module';
 import { NgScrollbar } from './ng-scrollbar';
-import { NgScrollbarThumb } from './ng-scrollbar-thumb';
+import { NgScrollbarVertical } from './ng-scrollbar-vertical';
+import { NgScrollbarHorizontal } from './ng-scrollbar-horizontal';
 
 @NgModule({
   imports: [
     CommonModule,
     ScrollingModule,
-    SmoothScrollModule,
-    LayoutModule
+    LayoutModule,
+    SmoothScrollModule
   ],
   declarations: [
     NgScrollbar,
-    NgScrollbarThumb
+    NgScrollbarVertical,
+    NgScrollbarHorizontal
   ],
   exports: [
     NgScrollbar

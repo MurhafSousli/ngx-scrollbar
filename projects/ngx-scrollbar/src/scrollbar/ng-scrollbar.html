@@ -4,22 +4,18 @@
     <ng-content></ng-content>
   </div>
 
-  <ng-scrollbar-thumb #vertical
-                      *ngIf="!disabled && trackY"
-                      orientation="vertical"
-                      [class.ng-scrollbar-visible]="displayY | async"
-                      [barClass]="barClass"
-                      [thumbClass]="thumbClass"
-                      [scrollToDuration]="scrollToDuration">
-  </ng-scrollbar-thumb>
+  <ng-scrollbar-vertical *ngIf="!disabled && trackY"
+                         [class.ng-scrollbar-visible]="displayY | async"
+                         [barClass]="barClass"
+                         [thumbClass]="thumbClass"
+                         [scrollToDuration]="scrollToDuration">
+  </ng-scrollbar-vertical>
 
-  <ng-scrollbar-thumb #horizontal
-                      *ngIf="!disabled && trackX"
-                      orientation="horizontal"
-                      [class.ng-scrollbar-visible]="displayX | async"
-                      [barClass]="barClass"
-                      [thumbClass]="thumbClass"
-                      [scrollToDuration]="scrollToDuration">
-  </ng-scrollbar-thumb>
+  <ng-scrollbar-horizontal *ngIf="!disabled && trackX"
+                           [class.ng-scrollbar-visible]="displayX | async"
+                           [barClass]="barClass"
+                           [thumbClass]="thumbClass"
+                           [scrollToDuration]="scrollToDuration">
+  </ng-scrollbar-horizontal>
 
 </div>
