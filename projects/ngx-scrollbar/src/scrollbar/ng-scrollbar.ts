@@ -62,7 +62,7 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   /** Scrollbars thumbnails class */
   @Input() thumbClass: string;
   /** The smooth scroll duration when a scrollbar is clicked */
-  @Input() scrollToDuration = 400;
+  @Input() scrollToDuration = 300;
   /** Use overlay scrollbars */
   @Input() overlay: boolean;
   /** Disable custom scrollbars on specific breakpoints */
