@@ -2,11 +2,16 @@ sudo: required
 dist: trusty
 
 language: node_js
-
 node_js:
+  - "node"
+  - "10"
   - "8"
 
-script: ng build ngx-scrollbar
+script: npm run build-lib
+
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.12.3
+  - export PATH=$HOME/.yarn/bin:$PATH
 
 cache:
   yarn: true
