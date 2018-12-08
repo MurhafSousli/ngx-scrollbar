@@ -4,14 +4,16 @@
     <ng-content></ng-content>
   </div>
 
-  <ng-scrollbar-vertical *ngIf="!disabled && trackY"
+  <ng-scrollbar-vertical #vertical
+                         *ngIf="!disabled && trackY"
                          [class.ng-scrollbar-visible]="displayY | async"
                          [barClass]="barClass"
                          [thumbClass]="thumbClass"
                          [scrollToDuration]="scrollToDuration">
   </ng-scrollbar-vertical>
 
-  <ng-scrollbar-horizontal *ngIf="!disabled && trackX"
+  <ng-scrollbar-horizontal #horizontal
+                           *ngIf="!disabled && trackX"
                            [class.ng-scrollbar-visible]="displayX | async"
                            [barClass]="barClass"
                            [thumbClass]="thumbClass"

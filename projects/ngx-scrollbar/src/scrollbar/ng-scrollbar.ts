@@ -16,8 +16,6 @@ import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/l
 import { Observable, Subject, BehaviorSubject, Subscription } from 'rxjs';
 import { map, tap, filter, throttleTime } from 'rxjs/operators';
 import { SmoothScroll, SmoothScrollEaseFunc } from '../smooth-scroll/smooth-scroll';
-import { NgScrollbarVertical } from './ng-scrollbar-vertical';
-import { NgScrollbarHorizontal } from './ng-scrollbar-horizontal';
 
 interface NgScrollbarState {
   viewStyle?: {
@@ -85,8 +83,8 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
 
   @ViewChild(CdkScrollable) scrollable: CdkScrollable;
   @ViewChild(SmoothScroll) smoothScroll: SmoothScroll;
-  @ViewChild(NgScrollbarVertical, {read: ElementRef}) verticalScrollbar: ElementRef;
-  @ViewChild(NgScrollbarHorizontal, {read: ElementRef}) horizontalScrollbar: ElementRef;
+  @ViewChild('vertical', {read: ElementRef}) verticalScrollbar: ElementRef;
+  @ViewChild('horizontal', {read: ElementRef}) horizontalScrollbar: ElementRef;
 
   @HostBinding('class.ng-scrollbar-auto-hide') get autoHideClass() {
     return this.autoHide;
