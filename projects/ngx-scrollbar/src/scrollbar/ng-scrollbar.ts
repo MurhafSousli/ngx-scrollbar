@@ -1,4 +1,16 @@
-import { Component, Input, HostBinding, ViewChild, AfterViewInit, OnDestroy, ElementRef, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Inject,
+  Input,
+  HostBinding,
+  ViewChild,
+  AfterViewInit,
+  OnDestroy,
+  ElementRef,
+  ChangeDetectionStrategy,
+  PLATFORM_ID
+} from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { Observable, Subject, BehaviorSubject, Subscription, SubscriptionLike } from 'rxjs';
@@ -97,7 +109,8 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   private _updateObserver = new Subject();
   updateObserver = this._updateObserver.asObservable();
 
-  constructor(private breakpointObserver: BreakpointObserver) {
+  constructor(private breakpointObserver: BreakpointObserver,
+              @Inject(PLATFORM_ID) private _platform: Object) {
   }
 
   ngAfterViewInit() {
@@ -147,7 +160,7 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
       this._nativeScrollbarSize = `${this.view.offsetWidth - this.view.clientWidth + 1}px`;
       this.updateState();
 
-      if (this.autoUpdate) {
+      if (this.autoUpdate && isPlatformBrowser(this._platform)) {
         // Observe content changes
         this._observer = new MutationObserver(() => this.update());
         this._observer.observe(this.view, {subtree: true, childList: true, characterData: true});
