@@ -32,6 +32,8 @@ const defaultState: NgScrollbarState = {
   viewStyle: {
     paddingRight: '0',
     paddingBottom: '0',
+    width: '100%',
+    height: '100%'
   },
   displayX: false,
   displayY: false
@@ -176,8 +178,8 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
    */
   disable() {
     this._disabled = true;
-    // Show Native Scrollbars
-    this.resetState();
+    // Reset and bring back native scrollbars
+    this._state.next(defaultState);
     if (this._observer) {
       this._observer.disconnect();
     }
@@ -241,17 +243,6 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
       },
       displayX,
       displayY
-    });
-  }
-
-  private resetState() {
-    this._state.next({
-      viewStyle: {
-        ...this._state.value.viewStyle,
-        ...defaultState.viewStyle
-      },
-      displayX: defaultState.displayX,
-      displayY: defaultState.displayY
     });
   }
 
