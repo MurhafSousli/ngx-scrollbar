@@ -1,5 +1,5 @@
 import { Component, Inject, NgZone, ChangeDetectionStrategy, forwardRef, PLATFORM_ID } from '@angular/core';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import { fromEvent, Observable, animationFrameScheduler } from 'rxjs';
 import { mergeMap, pluck, takeUntil, tap } from 'rxjs/operators';
 import { NgScrollbar } from './ng-scrollbar';
@@ -29,10 +29,10 @@ export class NgScrollbarHorizontal extends NgScrollbarThumb {
   }
 
   constructor(@Inject(DOCUMENT) protected _document: any,
-              @Inject(PLATFORM_ID) private _platform: Object,
               @Inject(forwardRef(() => NgScrollbar)) protected _parent: NgScrollbar,
+              @Inject(PLATFORM_ID) _platform: Object,
               protected _zone: NgZone) {
-    super(_parent, _zone);
+    super(_parent, _platform, _zone);
   }
 
   /**
@@ -56,14 +56,12 @@ export class NgScrollbarHorizontal extends NgScrollbarThumb {
     this._trackMax = this.bar.nativeElement.clientWidth - this._thumbSize;
     this._currPos = this._view.scrollLeft * this._trackMax / this._scrollMax;
     this._zone.run(() => {
-      if (isPlatformBrowser(this._platform)) {
-        animationFrameScheduler.schedule(() =>
-          this.updateState({
-            transform: `translate3d(${this._currPos}px, 0, 0)`,
-            width: `${this.thumbSize}px`
-          })
-        )
-      }
+      animationFrameScheduler.schedule(() =>
+        this.updateState({
+          transform: `translate3d(${this._currPos}px, 0, 0)`,
+          width: `${this.thumbSize}px`
+        })
+      );
     });
   }
 

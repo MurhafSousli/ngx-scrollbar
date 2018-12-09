@@ -29,9 +29,8 @@ export class SmoothScroll {
 
   private readonly view: HTMLElement;
 
-  constructor(
-    @Inject(PLATFORM_ID) private _platform: Object,
-    el: ElementRef) {
+  constructor(@Inject(PLATFORM_ID) private _platform: Object,
+              el: ElementRef) {
     this.view = el.nativeElement;
   }
 
@@ -122,14 +121,16 @@ export function smoothScroll(options: SmoothScrollOptions): Promise<void> {
       options.scrollFunc(valX, valY);
       // do the animation unless its over
       if (currentTime < options.duration) {
-        if (isPlatformBrowser(this._platform)) {
-          animationFrameScheduler.schedule(animateScroll);
-        }
+        animationFrameScheduler.schedule(animateScroll);
       } else {
         resolve();
       }
     };
-    animateScroll();
+
+    // Avoid SSR error
+    if (isPlatformBrowser(this._platform)) {
+      animateScroll();
+    }
   });
 }
 
