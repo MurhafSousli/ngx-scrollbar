@@ -2,7 +2,6 @@ import {
   Component,
   Inject,
   Input,
-  HostBinding,
   ViewChild,
   AfterViewInit,
   OnDestroy,
@@ -43,7 +42,12 @@ const defaultState: NgScrollbarState = {
   selector: 'ng-scrollbar',
   templateUrl: 'ng-scrollbar.html',
   styleUrls: ['ng-scrollbar.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[attr.trackX]': 'trackX',
+    '[attr.trackY]': 'trackY',
+    '[class.ng-scrollbar-auto-hide]': 'autoHide'
+  }
 })
 export class NgScrollbar implements AfterViewInit, OnDestroy {
 
@@ -87,10 +91,6 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   @ViewChild(SmoothScroll) smoothScroll: SmoothScroll;
   @ViewChild('vertical', {read: ElementRef}) verticalScrollbar: ElementRef;
   @ViewChild('horizontal', {read: ElementRef}) horizontalScrollbar: ElementRef;
-
-  @HostBinding('class.ng-scrollbar-auto-hide') get autoHideClass() {
-    return this.autoHide;
-  }
 
   /** Native scrollbar size */
   private _nativeScrollbarSize: string;
