@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.3.1
+
+- fix(NgScrollbar): fix server-side rendering crash, in [9c14b18](https://github.com/MurhafSousli/ngx-scrollbar/pull/100/commits/9c14b18a758b366bc3009ea951f399a09726aa2c) and [b02f4be](https://github.com/MurhafSousli/ngx-scrollbar/pull/100/commits/b02f4be7a8700791c8123c132c3cd7a8a9716992).
+
 ## 3.3.0
 
 - fix(NgScrollbar): Avoid enable execution if disabled, in [d51d07e](https://github.com/MurhafSousli/ngx-scrollbar/pull/98/commits/d51d07e66b4c0de9f53351d76709f785f83fe3fa).
