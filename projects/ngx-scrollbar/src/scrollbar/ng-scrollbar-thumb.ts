@@ -1,4 +1,5 @@
 import { AfterViewInit, OnDestroy, Input, ViewChild, NgZone, ElementRef } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { debounceTime, throttleTime, tap } from 'rxjs/operators';
 import { NgScrollbar } from './ng-scrollbar';
@@ -37,31 +38,35 @@ export class NgScrollbarThumb implements AfterViewInit, OnDestroy {
   }
 
   constructor(protected _parent: NgScrollbar,
+              protected _platform: Object,
               protected _zone: NgZone) {
   }
 
   ngAfterViewInit() {
-    this._view = this._parent.scrollable.getElementRef().nativeElement;
-    // Start view scroll event
-    this._scroll$ = this._parent.scrollable.elementScrolled()
-      .subscribe(() => this.updateScrollbar());
+    // Avoid SSR Error
+    if (isPlatformBrowser(this._platform)) {
+      this._view = this._parent.scrollable.getElementRef().nativeElement;
+      // Start view scroll event
+      this._scroll$ = this._parent.scrollable.elementScrolled()
+        .subscribe(() => this.updateScrollbar());
 
-    // Start scrollbar thumbnail drag events
-    this._zone.runOutsideAngular(() =>
-      this._thumbDrag$ = this.startThumbEvents().subscribe()
-    );
+      // Start scrollbar thumbnail drag events
+      this._zone.runOutsideAngular(() =>
+        this._thumbDrag$ = this.startThumbEvents().subscribe()
+      );
 
-    // Update scrollbar thumbnail size on content changes
-    this._updateObserver$ = this._parent.updateObserver.pipe(
-      throttleTime(200),
-      tap(() => this.updateScrollbar()),
-      // Make sure scrollbar thumbnail position is correct after the new content is rendered
-      debounceTime(200),
-      tap(() => this.updateScrollbar()),
-    ).subscribe();
+      // Update scrollbar thumbnail size on content changes
+      this._updateObserver$ = this._parent.updateObserver.pipe(
+        throttleTime(200),
+        tap(() => this.updateScrollbar()),
+        // Make sure scrollbar thumbnail position is correct after the new content is rendered
+        debounceTime(200),
+        tap(() => this.updateScrollbar()),
+      ).subscribe();
 
-    // Initialize scrollbar
-    setTimeout(() => this.updateScrollbar(), 200);
+      // Initialize scrollbar
+      setTimeout(() => this.updateScrollbar(), 200);
+    }
   }
 
   ngOnDestroy() {

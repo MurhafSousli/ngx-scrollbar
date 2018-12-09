@@ -1,4 +1,5 @@
-import { Directive, ElementRef } from '@angular/core';
+import { Directive, ElementRef, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { supportsScrollBehavior } from '@angular/cdk/platform';
 import { Observable, from, of, animationFrameScheduler } from 'rxjs';
 
@@ -28,7 +29,8 @@ export class SmoothScroll {
 
   private readonly view: HTMLElement;
 
-  constructor(el: ElementRef) {
+  constructor(@Inject(PLATFORM_ID) private _platform: Object,
+              el: ElementRef) {
     this.view = el.nativeElement;
   }
 
@@ -124,7 +126,11 @@ export function smoothScroll(options: SmoothScrollOptions): Promise<void> {
         resolve();
       }
     };
-    animateScroll();
+
+    // Avoid SSR error
+    if (isPlatformBrowser(this._platform)) {
+      animateScroll();
+    }
   });
 }
 
