@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.3.2
+
+- enhance: Show native scrollbars when disabled, closes [#99](https://github.com/MurhafSousli/ngx-scrollbar/issues/99) in [1bb5a08](https://github.com/MurhafSousli/ngx-scrollbar/pull/103/commits/1bb5a087aeb4e3deeebd6024b09e8b562f76dde6).
+- enhance: Remove `overflow: scroll` when disabled, in [39badee](https://github.com/MurhafSousli/ngx-scrollbar/pull/103/commits/39badeef79b239d6f486ee8efb8cf82d747f893a) and [d5dcbdb](https://github.com/MurhafSousli/ngx-scrollbar/pull/103/commits/d5dcbdb31bddd8ddd40dc7088b78d2b0b46071ef).
+
 ## 3.3.1
 
 - fix(NgScrollbar): fix server-side rendering crash, in [9c14b18](https://github.com/MurhafSousli/ngx-scrollbar/pull/100/commits/9c14b18a758b366bc3009ea951f399a09726aa2c) and [b02f4be](https://github.com/MurhafSousli/ngx-scrollbar/pull/100/commits/b02f4be7a8700791c8123c132c3cd7a8a9716992).

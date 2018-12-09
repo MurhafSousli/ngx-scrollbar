@@ -1,6 +1,12 @@
 :host {
   display: block;
   overflow: hidden;
+  &[trackY='true'] .ng-scrollbar-view {
+    overflow-y: scroll;
+  }
+  &[trackX='true'] .ng-scrollbar-view {
+    overflow-x: scroll;
+  }
 }
 
 :host,
@@ -19,7 +25,6 @@
 
 .ng-scrollbar-view {
   box-sizing: content-box;
-  overflow: scroll;
   transform: translate3d(0, 0, 0);
   -webkit-overflow-scrolling: touch;
   ::-webkit-scrollbar {
