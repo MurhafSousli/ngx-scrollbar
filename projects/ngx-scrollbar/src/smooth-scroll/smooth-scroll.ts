@@ -44,27 +44,30 @@ export class SmoothScroll {
   }
 
   scrollTo(options: ScrollToOptions): Observable<void> {
-    const scrollFunc = (left: number, top: number) => {
-      if (supportsScrollBehavior()) {
-        this.view.scrollTo({top, left});
-      } else {
-        this.view.scrollTop = top;
-        this.view.scrollLeft = left;
-      }
-    };
-    if (options.duration) {
-      const smoothScrollOptions: SmoothScrollOptions = {
-        top: options.top,
-        left: options.left,
-        duration: options.duration,
-        easeFunc: options.easeFunc || easeInOutQuad,
-        offsetTop: this.view.scrollTop,
-        offsetLeft: this.view.scrollLeft,
-        scrollFunc
+    // Avoid SSR error
+    if (isPlatformBrowser(this._platform)) {
+      const scrollFunc = (left: number, top: number) => {
+        if (supportsScrollBehavior()) {
+          this.view.scrollTo({top, left});
+        } else {
+          this.view.scrollTop = top;
+          this.view.scrollLeft = left;
+        }
       };
-      return from(smoothScroll(smoothScrollOptions));
+      if (options.duration) {
+        const smoothScrollOptions: SmoothScrollOptions = {
+          top: options.top,
+          left: options.left,
+          duration: options.duration,
+          easeFunc: options.easeFunc || easeInOutQuad,
+          offsetTop: this.view.scrollTop,
+          offsetLeft: this.view.scrollLeft,
+          scrollFunc
+        };
+        return from(smoothScroll(smoothScrollOptions));
+      }
+      this.scrollFunc(options.left, options.top);
     }
-    this.scrollFunc(options.left, options.top);
     return of<void>();
   }
 
@@ -126,11 +129,7 @@ export function smoothScroll(options: SmoothScrollOptions): Promise<void> {
         resolve();
       }
     };
-
-    // Avoid SSR error
-    if (isPlatformBrowser(this._platform)) {
-      animateScroll();
-    }
+    animateScroll();
   });
 }
 

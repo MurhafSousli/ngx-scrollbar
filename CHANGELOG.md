@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.3.3
+
+- fix smooth scroll error which was introduced in 3.3.1 ([40540bb](https://github.com/MurhafSousli/ngx-scrollbar/pull/104/commits/40540bbe41ddc22868c716ae0118f0f2c628f763)).
+
 ## 3.3.2
 
 - enhance: Show native scrollbars when disabled, closes [#99](https://github.com/MurhafSousli/ngx-scrollbar/issues/99) in [1bb5a08](https://github.com/MurhafSousli/ngx-scrollbar/pull/103/commits/1bb5a087aeb4e3deeebd6024b09e8b562f76dde6).
