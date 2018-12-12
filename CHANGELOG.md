@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.3.4
+
+- Fix breakpoints unable to enable the scrollbar after it was disabled, closes [#109](https://github.com/MurhafSousli/ngx-scrollbar/issues/109) in [3485d68](https://github.com/MurhafSousli/ngx-scrollbar/commit/3485d68db9a2a822d0a87b4a7a06438700e485b1).
+
 ## 3.3.3
 
 - fix smooth scroll error which was introduced in 3.3.1 ([40540bb](https://github.com/MurhafSousli/ngx-scrollbar/pull/104/commits/40540bbe41ddc22868c716ae0118f0f2c628f763)).
