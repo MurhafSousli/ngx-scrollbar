@@ -25,7 +25,7 @@
 
 .ng-scrollbar-view {
   box-sizing: content-box;
-  transform: translate3d(0, 0, 0);
+  transform: translateZ(0);
   -webkit-overflow-scrolling: touch;
   ::-webkit-scrollbar {
     background: transparent;
