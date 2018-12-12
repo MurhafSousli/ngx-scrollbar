@@ -13,7 +13,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { Observable, Subject, BehaviorSubject, Subscription } from 'rxjs';
-import { map, tap, filter, throttleTime } from 'rxjs/operators';
+import { map, tap, throttleTime } from 'rxjs/operators';
 import { SmoothScroll, SmoothScrollEaseFunc } from '../smooth-scroll/smooth-scroll';
 
 interface NgScrollbarState {
@@ -121,14 +121,15 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.view = this.scrollable.getElementRef().nativeElement;
 
-    if (this.disableOnBreakpoints && !this.disabled) {
-      // Enable/Disable custom scrollbar on breakpoints (Used to disable scrollbars on mobile phones)
-      this._breakpointSub$ = this.breakpointObserver.observe(this.disableOnBreakpoints).pipe(
-        filter(() => !this.disabled),
-        tap((result: BreakpointState) => result.matches ? this.disable() : this.enable())
-      ).subscribe();
-    } else if (!this.disabled) {
-      this.enable();
+    if (!this.disabled) {
+      if (this.disableOnBreakpoints) {
+        // Enable/Disable custom scrollbar on breakpoints (Used to disable scrollbars on mobile phones)
+        this._breakpointSub$ = this.breakpointObserver.observe(this.disableOnBreakpoints).pipe(
+          tap((result: BreakpointState) => result.matches ? this.disable() : this.enable())
+        ).subscribe();
+      } else {
+        this.enable();
+      }
     }
 
     // Update state on content changes
