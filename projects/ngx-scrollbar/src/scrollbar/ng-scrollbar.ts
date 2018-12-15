@@ -89,8 +89,8 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
 
   @ViewChild(CdkScrollable) scrollable: CdkScrollable;
   @ViewChild(SmoothScroll) smoothScroll: SmoothScroll;
-  @ViewChild('vertical', {read: ElementRef}) verticalScrollbar: ElementRef;
-  @ViewChild('horizontal', {read: ElementRef}) horizontalScrollbar: ElementRef;
+  @ViewChild('y', {read: ElementRef}) verticalScrollbar: ElementRef;
+  @ViewChild('x', {read: ElementRef}) horizontalScrollbar: ElementRef;
 
   /** Native scrollbar size */
   private _nativeScrollbarSize: string;
@@ -114,7 +114,8 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   private _updateObserver = new Subject();
   updateObserver = this._updateObserver.asObservable();
 
-  constructor(private breakpointObserver: BreakpointObserver,
+  constructor(private _changeDetectorRef: ChangeDetectorRef,
+              private _breakpointObserver: BreakpointObserver,
               @Inject(PLATFORM_ID) private _platform: Object) {
   }
 
@@ -126,7 +127,7 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
       if (!this.disabled) {
         if (this.disableOnBreakpoints) {
           // Enable/Disable custom scrollbar on breakpoints (Used to disable scrollbars on mobile phones)
-          this._breakpointSub$ = this.breakpointObserver.observe(this.disableOnBreakpoints).pipe(
+          this._breakpointSub$ = this._breakpointObserver.observe(this.disableOnBreakpoints).pipe(
             tap((result: BreakpointState) => result.matches ? this.disable() : this.enable())
           ).subscribe();
         } else {

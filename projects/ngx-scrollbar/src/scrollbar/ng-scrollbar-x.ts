@@ -7,7 +7,7 @@ import { NgScrollbar } from './ng-scrollbar';
 import { NgScrollbarThumb } from './ng-scrollbar-thumb';
 
 @Component({
-  selector: 'ng-scrollbar-horizontal',
+  selector: 'ng-scrollbar-x',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div #bar class="ng-scrollbar {{barClass}}" (mousedown)="onScrollbarHolderClick($event)">
@@ -15,7 +15,7 @@ import { NgScrollbarThumb } from './ng-scrollbar-thumb';
     </div>
   `
 })
-export class NgScrollbarHorizontal extends NgScrollbarThumb {
+export class NgScrollbarX extends NgScrollbarThumb {
 
   /**
    * Calculate scrollbar thumbnail size
