@@ -1,36 +1,38 @@
 import { Component, Inject, NgZone, ChangeDetectionStrategy, forwardRef, PLATFORM_ID } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { Directionality } from '@angular/cdk/bidi';
 import { fromEvent, Observable, animationFrameScheduler } from 'rxjs';
 import { mergeMap, pluck, takeUntil, tap } from 'rxjs/operators';
 import { NgScrollbar } from './ng-scrollbar';
 import { NgScrollbarThumb } from './ng-scrollbar-thumb';
 
 @Component({
-  selector: 'ng-scrollbar-vertical',
+  selector: 'ng-scrollbar-x',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div #bar class="ng-scrollbar ng-scrollbar-vertical {{barClass}}" (mousedown)="onScrollbarHolderClick($event)">
+    <div #bar class="ng-scrollbar {{barClass}}" (mousedown)="onScrollbarHolderClick($event)">
       <div #thumb class="ng-scrollbar-thumb {{thumbClass}}" [ngStyle]="scrollbarStyle | async"></div>
     </div>
   `
 })
-export class NgScrollbarVertical extends NgScrollbarThumb {
+export class NgScrollbarX extends NgScrollbarThumb {
 
   /**
    * Calculate scrollbar thumbnail size
    */
   get thumbSize(): number {
-    const barClientHeight = this.bar.nativeElement.clientHeight;
-    const viewClientHeight = this._view.clientHeight;
-    const viewScrollHeight = this._view.scrollHeight;
-    this._naturalThumbSize = barClientHeight / viewScrollHeight * barClientHeight;
-    this._scrollMax = viewScrollHeight - viewClientHeight;
+    const barClientWidth = this.bar.nativeElement.clientWidth;
+    const viewClientWidth = this._view.clientWidth;
+    const viewScrollWidth = this._view.scrollWidth;
+    this._naturalThumbSize = barClientWidth / viewScrollWidth * barClientWidth;
+    this._scrollMax = viewScrollWidth - viewClientWidth;
     return this.scrollBoundaries(this._naturalThumbSize, this._scrollMax);
   }
 
   constructor(@Inject(DOCUMENT) protected _document: any,
               @Inject(forwardRef(() => NgScrollbar)) protected _parent: NgScrollbar,
               @Inject(PLATFORM_ID) _platform: Object,
+              protected _dir: Directionality,
               protected _zone: NgZone) {
     super(_parent, _platform, _zone);
   }
@@ -41,10 +43,10 @@ export class NgScrollbarVertical extends NgScrollbarThumb {
    */
   onScrollbarHolderClick(e: any) {
     if (e.target === e.currentTarget) {
-      const offsetY = e.offsetY - this._naturalThumbSize * .5;
-      const thumbPositionPercentage = offsetY * 100 / this.bar.nativeElement.clientHeight;
-      const value = thumbPositionPercentage * this._view.scrollHeight / 100;
-      this._parent.scrollTo({top: value, duration: this.scrollToDuration} as any).subscribe();
+      const offsetX = e.offsetX - this._naturalThumbSize * .5;
+      const thumbPositionPercentage = offsetX * 100 / this.bar.nativeElement.clientWidth;
+      const value = thumbPositionPercentage * this._view.scrollWidth / 100;
+      this._parent.scrollTo({left: value, duration: this.scrollToDuration} as any).subscribe();
     }
   }
 
@@ -52,14 +54,14 @@ export class NgScrollbarVertical extends NgScrollbarThumb {
    * Update scrollbar
    */
   protected updateScrollbar() {
-    this._thumbSize = this.thumb.nativeElement.clientHeight;
-    this._trackMax = this.bar.nativeElement.clientHeight - this._thumbSize;
-    this._currPos = this._view.scrollTop * this._trackMax / this._scrollMax;
+    this._thumbSize = this.thumb.nativeElement.clientWidth;
+    this._trackMax = this.bar.nativeElement.clientWidth - this._thumbSize;
+    this._currPos = this._view.scrollLeft * this._trackMax / this._scrollMax;
     this._zone.run(() => {
       animationFrameScheduler.schedule(() =>
         this.updateState({
-          transform: `translate3d(0, ${this._currPos}px, 0)`,
-          height: `${this.thumbSize}px`
+          transform: `translate3d(${this._dir.value === 'rtl' ? this._currPos - this._trackMax : this._currPos}px, 0, 0)`,
+          width: `${this.thumbSize}px`
         })
       );
     });
@@ -78,16 +80,19 @@ export class NgScrollbarVertical extends NgScrollbarThumb {
       tap(() => {
         this._document.onselectstart = () => false;
         // Initialize trackMax for before start dragging
-        this._trackMax = this.bar.nativeElement.clientHeight - this._thumbSize;
+        this._trackMax = this.bar.nativeElement.clientWidth - this._thumbSize;
       }),
-      pluck('offsetY'),
+      pluck('offsetX'),
       mergeMap((mouseDownOffset: number) => mouseMove$.pipe(
         takeUntil(mouseUp$),
-        pluck('clientY'),
+        pluck('clientX'),
         tap((mouseMoveClient: number) => {
-          const offsetY = mouseMoveClient - this.bar.nativeElement.getBoundingClientRect().top;
-          const value = this._scrollMax * (offsetY - mouseDownOffset) / this._trackMax;
-          this._parent.scrollable.scrollTo({top: value});
+          const offsetX = mouseMoveClient - this.bar.nativeElement.getBoundingClientRect().left;
+          let value = this._scrollMax * (offsetX - mouseDownOffset) / this._trackMax;
+          if (this._dir.value === 'rtl') {
+            value = value === 0 ? offsetX - this._trackMax : value;
+          }
+          this._parent.scrollable.scrollTo({left: value});
         })
       ))
     );

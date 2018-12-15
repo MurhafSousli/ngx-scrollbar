@@ -1,0 +1,18 @@
+.input {
+  display: flex;
+  padding: 5px;
+
+  span {
+    width: 200px;
+    display: flex;
+    align-items: center;
+  }
+
+  input {
+    flex: 1;
+    color: rgba(0, 0, 0, 0.7);
+    border-color: #98987838;
+    border-radius: 4px;
+    padding: 5px;
+  }
+}

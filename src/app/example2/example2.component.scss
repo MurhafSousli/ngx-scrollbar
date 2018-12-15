@@ -8,18 +8,14 @@
   box-shadow: 0 0 0 2px #E4E9EB;
   position: relative;
 
-  ::ng-deep {
-    .scroll-bar.ng-scrollbar-vertical {
-      width: 6px;
-      top: 14px;
-      right: 10px;
-      bottom: 14px;
-      background-color: rgba(0, 0, 0, 0.1);
-    }
-    ng-scrollbar {
-      height: 200px;
-      border: 1px solid rgba(0, 0, 0, 0.25);
-    }
+  ng-scrollbar {
+    --scrollbar-size: 6px;
+    --scrollbar-padding: 25px 15px;
+    --scrollbar-color: rgba(0, 0, 0, 0.1);
+    --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
+    --scrollbar-thumb-hover-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    height: 200px;
   }
 }
 

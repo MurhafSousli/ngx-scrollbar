@@ -1,25 +1,26 @@
-<ng-scrollbar #scrollEl barClass="main-bar" thumbClass="blue-bg">
+<ng-scrollbar #scrollable [invertY]="true" [compact]="true">
 
   <div class="container">
     <app-header></app-header>
 
     <div class="scroll-buttons">
-      <button class="btn-gradient orange mini" (click)="scrollEl.scrollToElement('app-example1', 200, 500).subscribe()">
+      <button class="btn-gradient orange mini" (click)="scrollable.scrollToElement('app-example1', 200, 500).subscribe()">
         Example 1
       </button>
-      <button class="btn-gradient green mini" (click)="scrollEl.scrollToElement('app-example2', 200, 500).subscribe()">
+      <button class="btn-gradient green mini" (click)="scrollable.scrollToElement('app-example2', 200, 500).subscribe()">
         Example 2
       </button>
-      <button class="btn-gradient purple mini" (click)="scrollEl.scrollToElement('app-example3', 200, 500).subscribe()">
+      <button class="btn-gradient purple mini" (click)="scrollable.scrollToElement('app-example3', 200, 500).subscribe()">
         Example 3
       </button>
-      <button class="btn-gradient cyan mini" (click)="scrollEl.scrollToElement('app-example4', 200, 600).subscribe()">
+      <button class="btn-gradient cyan mini" (click)="scrollable.scrollToElement('app-example4', 200, 600).subscribe()">
         Example 4
       </button>
-      <button class="btn-gradient blue mini" (click)="scrollEl.scrollToElement('app-example5', 200, 800).subscribe()">
+      <button class="btn-gradient blue mini" (click)="scrollable.scrollToElement('app-example5', 200, 800).subscribe()">
         Example 5
       </button>
     </div>
+    <app-example-x></app-example-x>
 
     <app-example1></app-example1>
 
@@ -32,7 +33,7 @@
     <app-example5></app-example5>
 
     <div class="scroll-buttons">
-      <button class="btn-gradient red small" (click)="scrollEl.scrollToTop(800).subscribe()">Scroll to top</button>
+      <button class="btn-gradient red small" (click)="scrollable.scrollToTop(800).subscribe()">Scroll to top</button>
     </div>
 
     <app-footer></app-footer>

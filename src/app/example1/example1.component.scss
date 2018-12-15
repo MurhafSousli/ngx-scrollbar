@@ -3,20 +3,22 @@
   color: rgba(255, 255, 255, 0.9);
   padding: 0;
 
+  ng-scrollbar {
+    --scrollbar-thumb-color: #fff;
+    --scrollbar-thumb-hover-color: #fff;
+    --scrollbar-border-radius: 5px;
+    --scrollbar-padding: 0 10px;
+    --scrollbar-size: 10px;
+    --scroll-view-margin: 10px;
+  }
+
   ::ng-deep {
     .scroll-bar {
       box-shadow: inset 0 0 0 2px #fff;
-      border-radius: 5px;
-      &.ng-scrollbar-vertical {
-        width: 10px;
-      }
     }
+
     .scroll-thumb {
-      background-color: #fff;
       box-shadow: 0 0 0 2px #D85426;
-      &:hover, &:active {
-        background-color: #fff;
-      }
     }
   }
 }
@@ -27,15 +29,11 @@
 
 .buttons-container {
   background-color: #ff7a4c;
-  padding: 1em 3em;
+  padding: 1em 2.4em;
 }
 
 .sample {
   height: 200px;
-}
-
-.inner {
-  padding: 1.2em;
 }
 
 li {

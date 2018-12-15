@@ -1,48 +1,148 @@
 :host {
   display: block;
   overflow: hidden;
-  &[trackY='true'] .ng-scrollbar-view {
+  --scrollbar-color: transparent;
+  --scrollbar-container-color: transparent;
+  --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
+  --scrollbar-thumb-hover-color: rgba(0, 0, 0, 0.3);
+  --scrollbar-border-radius: 4px;
+  --scrollbar-size: 6px;
+  --scrollbar-padding: 8px;
+  --scroll-view-margin: 0;
+  --scroll-view-color: transparent;
+
+  // Add overflow-y to the view only when vertical scrollbar is shown
+  &[trackY='true'] .ng-scroll-view {
     overflow-y: scroll;
   }
-  &[trackX='true'] .ng-scrollbar-view {
+
+  // Add overflow-x to the view only when horizontal scrollbar is shown
+  &[trackX='true'] .ng-scroll-view {
     overflow-x: scroll;
   }
 }
 
+ng-scrollbar-y {
+  top: 0;
+  bottom: 0;
+}
+
+ng-scrollbar-x {
+  left: 0;
+  right: 0;
+}
+
 :host,
-.ng-scrollbar-container,
-.ng-scrollbar-view {
+.ng-scrollbar-layout,
+.ng-scroll-view {
   position: relative;
   height: 100%;
   width: 100%;
 }
 
-.ng-scrollbar-container {
+.ng-scroll-view-container {
+  flex: 1;
+  position: relative;
   overflow: hidden;
-  top: 0;
-  left: 0;
+  margin: var(--scroll-view-margin);
 }
 
-.ng-scrollbar-view {
+.ng-scrollbar-layout {
+  display: flex;
+}
+
+:host {
+
+  > .ng-scrollbar-x-layout {
+    flex-direction: column;
+
+    &.ng-scrollbar-invert {
+      flex-direction: column-reverse;
+    }
+
+    > .ng-scrollbar-y-layout {
+      flex-direction: row;
+
+      &.ng-scrollbar-invert {
+        flex-direction: row-reverse;
+      }
+    }
+  }
+
+  &[compact='true'] {
+
+    > .ng-scrollbar-x-layout {
+      flex-direction: column;
+
+      > ng-scrollbar-x {
+        position: absolute;
+      }
+
+      &.ng-scrollbar-invert {
+        flex-direction: column;
+      }
+
+      > .ng-scrollbar-y-layout {
+        flex-direction: row-reverse;
+
+        > ng-scrollbar-y {
+          position: absolute;
+        }
+
+        &.ng-scrollbar-invert {
+          flex-direction: row;
+        }
+      }
+    }
+  }
+}
+
+.ng-scroll-view {
   box-sizing: content-box;
   transform: translateZ(0);
+  background: var(--scroll-view-color);
   -webkit-overflow-scrolling: touch;
+
   ::-webkit-scrollbar {
     background: transparent;
   }
 }
 
-/** Show scrollbar only when thumb is greater than 0 */
-ng-scrollbar-thumb {
+/** Show scrollbars only when the content is larger than scroll view */
+ng-scrollbar-x, ng-scrollbar-y {
   display: none;
+  box-sizing: border-box;
+  padding: var(--scrollbar-padding);
+  background: var(--scrollbar-container-color);
+
   &.ng-scrollbar-visible {
     display: block;
   }
 }
 
 ::ng-deep {
+  ng-scrollbar-y {
+    .ng-scrollbar {
+      width: var(--scrollbar-size);
+    }
+
+    .ng-scrollbar-thumb {
+      width: 100%;
+    }
+  }
+
+  ng-scrollbar-x {
+    .ng-scrollbar {
+      height: var(--scrollbar-size);
+    }
+
+    .ng-scrollbar-thumb {
+      height: 100%;
+    }
+  }
+
   /** Auto hide scrollbars */
-  .ng-scrollbar-auto-hide {
+  &[autoHide='true'] {
     .ng-scrollbar {
       opacity: 0;
       transition: opacity 120ms ease-out;
@@ -59,42 +159,27 @@ ng-scrollbar-thumb {
   }
 
   .ng-scrollbar {
-    position: absolute;
+    height: 100%;
+    width: 100%;
     z-index: 1;
-    border-radius: 4px;
+    border-radius: var(--scrollbar-border-radius);
+    background-color: var(--scrollbar-color);
   }
 
   .ng-scrollbar-thumb {
+    box-sizing: border-box;
     position: relative;
     width: 0;
     height: 0;
     border-radius: inherit;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: var(--scrollbar-thumb-color);
     transform: translate3d(0, 0, 0);
     transition: height ease-out 150ms;
+
     &:hover,
     &:active {
-      background-color: rgba(0, 0, 0, 0.3);
+      background-color: var(--scrollbar-thumb-hover-color);
     }
   }
 
-  .ng-scrollbar-vertical {
-    right: 6px;
-    top: 6px;
-    bottom: 6px;
-    width: 8px;
-    .ng-scrollbar-thumb {
-      width: 100%;
-    }
-  }
-
-  .ng-scrollbar-horizontal {
-    left: 6px;
-    right: 6px;
-    bottom: 6px;
-    height: 8px;
-    .ng-scrollbar-thumb {
-      height: 100%;
-    }
-  }
 }

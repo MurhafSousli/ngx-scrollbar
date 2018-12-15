@@ -6,25 +6,25 @@ import { NgScrollbar } from './ng-scrollbar';
 import { NgScrollbarThumb } from './ng-scrollbar-thumb';
 
 @Component({
-  selector: 'ng-scrollbar-horizontal',
+  selector: 'ng-scrollbar-y',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div #bar class="ng-scrollbar ng-scrollbar-horizontal {{barClass}}" (mousedown)="onScrollbarHolderClick($event)">
+    <div #bar class="ng-scrollbar {{barClass}}" (mousedown)="onScrollbarHolderClick($event)">
       <div #thumb class="ng-scrollbar-thumb {{thumbClass}}" [ngStyle]="scrollbarStyle | async"></div>
     </div>
   `
 })
-export class NgScrollbarHorizontal extends NgScrollbarThumb {
+export class NgScrollbarY extends NgScrollbarThumb {
 
   /**
    * Calculate scrollbar thumbnail size
    */
   get thumbSize(): number {
-    const barClientWidth = this.bar.nativeElement.clientWidth;
-    const viewClientWidth = this._view.clientWidth;
-    const viewScrollWidth = this._view.scrollWidth;
-    this._naturalThumbSize = barClientWidth / viewScrollWidth * barClientWidth;
-    this._scrollMax = viewScrollWidth - viewClientWidth;
+    const barClientHeight = this.bar.nativeElement.clientHeight;
+    const viewClientHeight = this._view.clientHeight;
+    const viewScrollHeight = this._view.scrollHeight;
+    this._naturalThumbSize = barClientHeight / viewScrollHeight * barClientHeight;
+    this._scrollMax = viewScrollHeight - viewClientHeight;
     return this.scrollBoundaries(this._naturalThumbSize, this._scrollMax);
   }
 
@@ -41,10 +41,10 @@ export class NgScrollbarHorizontal extends NgScrollbarThumb {
    */
   onScrollbarHolderClick(e: any) {
     if (e.target === e.currentTarget) {
-      const offsetX = e.offsetX - this._naturalThumbSize * .5;
-      const thumbPositionPercentage = offsetX * 100 / this.bar.nativeElement.clientWidth;
-      const value = thumbPositionPercentage * this._view.scrollWidth / 100;
-      this._parent.scrollTo({left: value, duration: this.scrollToDuration} as any).subscribe();
+      const offsetY = e.offsetY - this._naturalThumbSize * .5;
+      const thumbPositionPercentage = offsetY * 100 / this.bar.nativeElement.clientHeight;
+      const value = thumbPositionPercentage * this._view.scrollHeight / 100;
+      this._parent.scrollTo({top: value, duration: this.scrollToDuration} as any).subscribe();
     }
   }
 
@@ -52,14 +52,14 @@ export class NgScrollbarHorizontal extends NgScrollbarThumb {
    * Update scrollbar
    */
   protected updateScrollbar() {
-    this._thumbSize = this.thumb.nativeElement.clientWidth;
-    this._trackMax = this.bar.nativeElement.clientWidth - this._thumbSize;
-    this._currPos = this._view.scrollLeft * this._trackMax / this._scrollMax;
+    this._thumbSize = this.thumb.nativeElement.clientHeight;
+    this._trackMax = this.bar.nativeElement.clientHeight - this._thumbSize;
+    this._currPos = this._view.scrollTop * this._trackMax / this._scrollMax;
     this._zone.run(() => {
       animationFrameScheduler.schedule(() =>
         this.updateState({
-          transform: `translate3d(${this._currPos}px, 0, 0)`,
-          width: `${this.thumbSize}px`
+          transform: `translate3d(0, ${this._currPos}px, 0)`,
+          height: `${this.thumbSize}px`
         })
       );
     });
@@ -78,16 +78,16 @@ export class NgScrollbarHorizontal extends NgScrollbarThumb {
       tap(() => {
         this._document.onselectstart = () => false;
         // Initialize trackMax for before start dragging
-        this._trackMax = this.bar.nativeElement.clientWidth - this._thumbSize;
+        this._trackMax = this.bar.nativeElement.clientHeight - this._thumbSize;
       }),
-      pluck('offsetX'),
+      pluck('offsetY'),
       mergeMap((mouseDownOffset: number) => mouseMove$.pipe(
         takeUntil(mouseUp$),
-        pluck('clientX'),
+        pluck('clientY'),
         tap((mouseMoveClient: number) => {
-          const offsetX = mouseMoveClient - this.bar.nativeElement.getBoundingClientRect().left;
-          const value = this._scrollMax * (offsetX - mouseDownOffset) / this._trackMax;
-          this._parent.scrollable.scrollTo({left: value});
+          const offsetY = mouseMoveClient - this.bar.nativeElement.getBoundingClientRect().top;
+          const value = this._scrollMax * (offsetY - mouseDownOffset) / this._trackMax;
+          this._parent.scrollable.scrollTo({top: value});
         })
       ))
     );
