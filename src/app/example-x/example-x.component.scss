@@ -1,0 +1,27 @@
+.exampleX {
+  background-color: #f3f3f3;
+  padding: 0;
+  margin-bottom: 6em;
+
+  .sample {
+    height: 200px;
+  }
+
+  ng-scrollbar {
+    --scrollbar-color: rgba(0, 0, 0, 0.15);
+    --scrollbar-thumb-color: rgba(32, 178, 170, 0.9);
+    --scrollbar-thumb-hover-color: rgba(39,208,199,0.9);
+    --scroll-view-color: rgba(0, 254, 230, 0.15);
+    --scrollbar-size: 8px;
+    --scrollbar-border-radius: 10px;
+    --scrollbar-container-color: rgba(117, 117, 117, 0.15);
+    --scroll-view-margin: 0;
+    max-height: 200px;
+    border-radius: 0;
+  }
+
+  app-css-variables-form {
+    display: block;
+    margin: 1em;
+  }
+}

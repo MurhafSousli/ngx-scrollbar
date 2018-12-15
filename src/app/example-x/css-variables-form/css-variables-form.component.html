@@ -1,0 +1,60 @@
+<form [formGroup]="form">
+  <div class="input">
+    <span>Scrollbar Padding</span>
+    <input type="text" formControlName="padding">
+  </div>
+  <div class="input">
+    <span>Scroll View Margin</span>
+    <input type="text" formControlName="viewMargin">
+  </div>
+  <div class="input">
+    <span>Scrollbar Size</span>
+    <input type="text" formControlName="size">
+  </div>
+
+  <div class="input">
+    <span>Scroll View Color</span>
+    <input type="text"
+           formControlName="viewColor"
+           [colorPicker]="form.get('viewColor').value"
+           [value]="form.get('viewColor').value"
+           (colorPickerChange)="form.get('viewColor').setValue($event)">
+  </div>
+
+  <div class="input">
+    <span>Scrollbar Container Color</span>
+    <input type="text"
+           formControlName="containerColor"
+           [colorPicker]="form.get('containerColor').value"
+           [value]="form.get('containerColor').value"
+           (colorPickerChange)="form.get('containerColor').setValue($event)">
+  </div>
+  <div class="input">
+    <span>Scrollbar Color</span>
+    <input type="text"
+           formControlName="color"
+           [colorPicker]="form.get('color').value"
+           [value]="form.get('color').value"
+           (colorPickerChange)="form.get('color').setValue($event)">
+  </div>
+  <div class="input">
+    <span>Scrollbar Thumb Color</span>
+    <input type="text"
+           formControlName="thumbColor"
+           [colorPicker]="form.get('thumbColor').value"
+           [value]="form.get('thumbColor').value"
+           (colorPickerChange)="form.get('thumbColor').setValue($event)">
+  </div>
+  <div class="input">
+    <span>Scrollbar Thumb Hover Color</span>
+    <input type="text"
+           formControlName="thumbHoverColor"
+           [colorPicker]="form.get('thumbHoverColor').value"
+           [value]="form.get('thumbHoverColor').value"
+           (colorPickerChange)="form.get('thumbHoverColor').setValue($event)">
+  </div>
+  <div class="input">
+    <span>Scrollbar Border Radius</span>
+    <input type="text" formControlName="borderRadius">
+  </div>
+</form>

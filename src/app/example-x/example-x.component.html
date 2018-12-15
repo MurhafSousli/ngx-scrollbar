@@ -1,0 +1,55 @@
+<div class="example exampleX">
+  <ng-scrollbar class="sample" [trackX]="true" [compact]="compact" [invertY]="invert" [style]="cssVariables">
+    <div class="inner">
+      Lorem ipsum dolor sit amet
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet mollitia vero quam, nisi possimus dolorem
+      asperiores, molestiae sit voluptatibus alias consequuntur laudantium repellat ea quidem quaerat rerum perspiciatis
+      iste adipisci.
+
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore maiores maxime corrupti quisquam. Dignissimos
+      sunt error voluptatibus repellat consequatur illo, aliquid nihil maxime veniam repudiandae, provident et sit,
+      reiciendis dicta.
+
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae id amet deserunt voluptate maiores sunt aut
+      eligendi totam nesciunt magnam illo consectetur aspernatur at voluptatem, qui unde ullam omnis voluptates.
+
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore maiores maxime corrupti quisquam. Dignissimos
+      sunt error voluptatibus repellat consequatur illo, aliquid nihil maxime veniam repudiandae, provident et sit,
+      reiciendis dicta.
+
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae id amet deserunt voluptate maiores sunt aut
+      eligendi totam nesciunt magnam illo consectetur aspernatur at voluptatem, qui unde ullam omnis voluptates.
+
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id assumenda et fugiat placeat enim quas, voluptas odio
+      aperiam in quibusdam beatae eaque minima. Consequuntur pariatur, doloremque, odit dolorem ullam sunt!
+      Lorem ipsum dolor sit amet
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet mollitia vero quam, nisi possimus dolorem
+      asperiores, molestiae sit voluptatibus alias consequuntur laudantium repellat ea quidem quaerat rerum perspiciatis
+      iste adipisci.
+
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore maiores maxime corrupti quisquam. Dignissimos
+      sunt error voluptatibus repellat consequatur illo, aliquid nihil maxime veniam repudiandae, provident et sit,
+      reiciendis dicta.
+
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae id amet deserunt voluptate maiores sunt aut
+      eligendi totam nesciunt magnam illo consectetur aspernatur at voluptatem, qui unde ullam omnis voluptates.
+
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id assumenda et fugiat placeat enim quas, voluptas odio
+      aperiam in quibusdam beatae eaque minima. Consequuntur pariatur, doloremque, odit dolorem ullam sunt!
+    </div>
+  </ng-scrollbar>
+
+  <div style="border-bottom: 2px solid rgba(0,0,0,0.1)"></div>
+
+  <div style="margin: 1em">
+    <button class="btn-gradient orange mini" (click)="compact = !compact">
+      Compact {{ compact ? '[ON]' : '[OFF]'}}</button>
+    <button class="btn-gradient blue mini" (click)="invert = !invert">Invert {{ invert ? '[ON]' : '[OFF]'}}</button>
+    <button class="btn-gradient cyan mini" (click)="more = !more">{{ more ? 'Less' : 'More'}} options</button>
+  </div>
+
+  <ng-container *ngIf="more">
+    <div style="border-bottom: 2px solid rgba(0,0,0,0.1)"></div>
+    <app-css-variables-form (value)="setStyle($event)"></app-css-variables-form>
+  </ng-container>
+</div>

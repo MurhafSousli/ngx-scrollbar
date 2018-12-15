@@ -1,18 +1,19 @@
-:host {
-  ::ng-deep {
-    .blue-bg {
-      background-color: #28A6C6;
-    }
-  }
-}
-
 .scroll-buttons {
   margin: 1em 0 3em;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+
   button {
     flex: 1;
   }
+}
+
+ng-scrollbar {
+  --scrollbar-gap: 6px;
+  --scrollbar-color: rgba(0, 0, 0, 0.1);
+  --scrollbar-thumb-hover-color: rgba(0, 0, 0, 0.3);
+  --scrollbar-thumb-color: #28A6C6;
+  --scrollbar-size: 8px;
 }
