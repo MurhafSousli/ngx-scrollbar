@@ -1,23 +1,34 @@
-<div class="ng-scrollbar-container">
+<div class="ng-scrollbar-layout ng-scrollbar-x-layout"
+     [class.ng-scrollbar-invert]="invertX">
 
-  <div cdkScrollable smoothScroll class="ng-scrollbar-view {{viewClass}}" [ngStyle]="viewStyle | async">
-    <ng-content></ng-content>
+  <div class="ng-scrollbar-layout ng-scrollbar-y-layout"
+       [class.ng-scrollbar-invert]="invertY">
+
+    <div class="ng-scroll-view-container">
+      <div #view
+           cdkScrollable
+           smoothScroll
+           class="ng-scroll-view {{viewClass}}"
+           [ngStyle]="hideNativeScrollbars">
+        <ng-content></ng-content>
+      </div>
+    </div>
+
+    <ng-scrollbar-y #y
+                    *ngIf="!disabled && trackY"
+                    [class.ng-scrollbar-visible]="view.scrollHeight > view.clientHeight"
+                    [barClass]="barClass"
+                    [thumbClass]="thumbClass"
+                    [scrollToDuration]="scrollToDuration">
+    </ng-scrollbar-y>
   </div>
 
-  <ng-scrollbar-vertical #vertical
-                         *ngIf="!disabled && trackY"
-                         [class.ng-scrollbar-visible]="displayY | async"
-                         [barClass]="barClass"
-                         [thumbClass]="thumbClass"
-                         [scrollToDuration]="scrollToDuration">
-  </ng-scrollbar-vertical>
-
-  <ng-scrollbar-horizontal #horizontal
-                           *ngIf="!disabled && trackX"
-                           [class.ng-scrollbar-visible]="displayX | async"
-                           [barClass]="barClass"
-                           [thumbClass]="thumbClass"
-                           [scrollToDuration]="scrollToDuration">
-  </ng-scrollbar-horizontal>
+  <ng-scrollbar-x #x
+                  *ngIf="!disabled && trackX"
+                  [class.ng-scrollbar-visible]="view.scrollWidth > view.clientWidth"
+                  [barClass]="barClass"
+                  [thumbClass]="thumbClass"
+                  [scrollToDuration]="scrollToDuration">
+  </ng-scrollbar-x>
 
 </div>
