@@ -87,6 +87,14 @@ Here is a [stackblitz](https://stackblitz.com/edit/ngx-scrollbar)
 - **[trackY]**: boolean
 
   Vertical scrollbar, default `true`
+  
+- **[invertX]**: boolean
+
+  Invert horizontal scrollbar position, default `false`
+
+- **[invertY]**: boolean
+
+  Invert vertical scrollbar position, default `false`
 
 - **[autoHide]**: boolean
 
@@ -108,7 +116,7 @@ Here is a [stackblitz](https://stackblitz.com/edit/ngx-scrollbar)
 
   Add custom class to scrollbars' thumbnails, default: `null`
   
-- **[overlay]**: boolean
+- **[compact]**: boolean
 
   Make scrollbars position appears over content, default: `false`
   
@@ -318,24 +326,45 @@ setCode(code: string) {
 
 ## Styling
 
-The easiest way to use custom styles is to give each part of the scrollbar a custom class
+Since `v3.4.0`, you can customize the scrollbar styles from the following CSS variables
 
 ```html
-<ng-scrollbar barClass="scroll-bar" thumbClass="scroll-thumbs">
+<ng-scrollbar class="my-scrollbar">
+  <!-- content -->
+</ng-scrollbar>
+```
+```scss
+.my-scrollbar {
+  --scrollbar-color: transparent;
+  --scrollbar-container-color: transparent;
+  --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
+  --scrollbar-thumb-hover-color: rgba(0, 0, 0, 0.3);
+  --scrollbar-border-radius: 4px;
+  --scrollbar-size: 6px;
+  --scrollbar-padding: 8px;
+  --scroll-view-margin: 0;
+  --scroll-view-color: transparent;
+}
+```
+
+You can also use custom classes to override the styles
+
+```html
+<ng-scrollbar barClass="scrollbar" thumbClass="scrollbar-thumbs">
   <!-- content -->
 </ng-scrollbar>
 ```
 ```scss
 ::ng-deep {
-  .scroll-bar {
-    background-color: rgba(0, 0, 0, 0.4) !important;
+  ng-scrollbar.scrollbar {
+    background-color: rgba(0, 0, 0, 0.4);
     border-radius: 4px;
   }
-  .scroll-thumbs {
-    background-color: rgba(161, 27, 27, 0.4) !important;
+  ng-scrollbar.scrollbar-thumbs {
+    background-color: rgba(161, 27, 27, 0.4);
     &:hover,
     &:active {
-      background-color: rgba(161, 27, 27, 0.7) !important;
+      background-color: rgba(161, 27, 27, 0.7);
     }
   }
 }
