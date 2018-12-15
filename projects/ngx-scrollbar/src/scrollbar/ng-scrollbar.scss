@@ -159,13 +159,15 @@ ng-scrollbar-x, ng-scrollbar-y {
   }
 
   .ng-scrollbar {
-    position: absolute;
+    height: 100%;
+    width: 100%;
     z-index: 1;
     border-radius: var(--scrollbar-border-radius);
     background-color: var(--scrollbar-color);
   }
 
   .ng-scrollbar-thumb {
+    box-sizing: border-box;
     position: relative;
     width: 0;
     height: 0;
@@ -173,29 +175,11 @@ ng-scrollbar-x, ng-scrollbar-y {
     background-color: var(--scrollbar-thumb-color);
     transform: translate3d(0, 0, 0);
     transition: height ease-out 150ms;
+
     &:hover,
     &:active {
       background-color: var(--scrollbar-thumb-hover-color);
     }
   }
 
-  .ng-scrollbar-vertical {
-    right: 6px;
-    top: 6px;
-    bottom: 6px;
-    width: 8px;
-    .ng-scrollbar-thumb {
-      width: 100%;
-    }
-  }
-
-  .ng-scrollbar-horizontal {
-    left: 6px;
-    right: 6px;
-    bottom: 6px;
-    height: 8px;
-    .ng-scrollbar-thumb {
-      height: 100%;
-    }
-  }
 }
