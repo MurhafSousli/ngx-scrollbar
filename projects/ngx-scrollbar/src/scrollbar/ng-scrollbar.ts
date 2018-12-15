@@ -49,6 +49,10 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   @Input() scrollToDuration = 300;
   /** Compact mode */
   @Input() compact: boolean;
+  /** Invert vertical scrollbar position, if set the scrollbar will be on the right */
+  @Input() invertY: boolean;
+  /** Invert horizontal scrollbar position, if set the scrollbar will go the top */
+  @Input() invertX: boolean;
   /** Disable custom scrollbars on specific breakpoints */
   @Input() disableOnBreakpoints = [
     Breakpoints.HandsetLandscape,
