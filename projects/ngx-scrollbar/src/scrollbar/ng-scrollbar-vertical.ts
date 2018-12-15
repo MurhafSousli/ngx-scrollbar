@@ -9,7 +9,7 @@ import { NgScrollbarThumb } from './ng-scrollbar-thumb';
   selector: 'ng-scrollbar-vertical',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div #bar class="ng-scrollbar ng-scrollbar-vertical {{barClass}}" (mousedown)="onScrollbarHolderClick($event)">
+    <div #bar class="ng-scrollbar {{barClass}}" (mousedown)="onScrollbarHolderClick($event)">
       <div #thumb class="ng-scrollbar-thumb {{thumbClass}}" [ngStyle]="scrollbarStyle | async"></div>
     </div>
   `
