@@ -1,5 +1,6 @@
 import { Component, Inject, NgZone, ChangeDetectionStrategy, forwardRef, PLATFORM_ID } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { Directionality } from '@angular/cdk/bidi';
 import { fromEvent, Observable, animationFrameScheduler } from 'rxjs';
 import { mergeMap, pluck, takeUntil, tap } from 'rxjs/operators';
 import { NgScrollbar } from './ng-scrollbar';
@@ -31,6 +32,7 @@ export class NgScrollbarHorizontal extends NgScrollbarThumb {
   constructor(@Inject(DOCUMENT) protected _document: any,
               @Inject(forwardRef(() => NgScrollbar)) protected _parent: NgScrollbar,
               @Inject(PLATFORM_ID) _platform: Object,
+              protected _dir: Directionality,
               protected _zone: NgZone) {
     super(_parent, _platform, _zone);
   }
@@ -58,7 +60,7 @@ export class NgScrollbarHorizontal extends NgScrollbarThumb {
     this._zone.run(() => {
       animationFrameScheduler.schedule(() =>
         this.updateState({
-          transform: `translate3d(${this._currPos}px, 0, 0)`,
+          transform: `translate3d(${this._dir.value === 'rtl' ? this._currPos - this._trackMax : this._currPos}px, 0, 0)`,
           width: `${this.thumbSize}px`
         })
       );
@@ -86,7 +88,10 @@ export class NgScrollbarHorizontal extends NgScrollbarThumb {
         pluck('clientX'),
         tap((mouseMoveClient: number) => {
           const offsetX = mouseMoveClient - this.bar.nativeElement.getBoundingClientRect().left;
-          const value = this._scrollMax * (offsetX - mouseDownOffset) / this._trackMax;
+          let value = this._scrollMax * (offsetX - mouseDownOffset) / this._trackMax;
+          if (this._dir.value === 'rtl') {
+            value = value === 0 ? offsetX - this._trackMax : value;
+          }
           this._parent.scrollable.scrollTo({left: value});
         })
       ))
