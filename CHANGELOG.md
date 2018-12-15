@@ -1,5 +1,18 @@
 # Changelog
 
+## 4.0.0
+
+- feat(RTL Support): Fix horizontal scrollbar on RTL, in [9d992e6](https://github.com/MurhafSousli/ngx-scrollbar/pull/111/commits/9d992e6bf92343eb266b266aecfd36fd80d62ce9).
+- feat: Add `invertX` and `invertY` inputs to invert scrollbars position, in [3571b63](https://github.com/MurhafSousli/ngx-scrollbar/pull/111/commits/3571b63a0c0ccd5d8efb054f84a0bc272075d422).
+- feat: Add CSS variables to ease styling the component, in [33ed138](https://github.com/MurhafSousli/ngx-scrollbar/pull/111/commits/33ed138b87614d5e953cc2a5b3bfad888e720e49).
+- enhance: Improve layout using flex-box.
+- refactor: Rename `[overlay]` to `[compact]`
+- fix: Using the default change detection strategy with `[disabledOnBreakpoints]="false"` produces `ExpressionChangedAfterItHasBeenCheckedError`, closes [#108](https://github.com/MurhafSousli/ngx-scrollbar/issues/108) in []().
+
+### Breaking changes
+
+- The input `[overlay]` has been renamed to `[compact]`
+
 ## 3.3.4
 
 - Fix breakpoints unable to enable the scrollbar after it was disabled, closes [#109](https://github.com/MurhafSousli/ngx-scrollbar/issues/109) in [3485d68](https://github.com/MurhafSousli/ngx-scrollbar/commit/3485d68db9a2a822d0a87b4a7a06438700e485b1).
