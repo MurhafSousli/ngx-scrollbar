@@ -46,7 +46,7 @@ const defaultState: NgScrollbarState = {
   host: {
     '[attr.trackX]': 'trackX',
     '[attr.trackY]': 'trackY',
-    '[class.ng-scrollbar-auto-hide]': 'autoHide'
+    '[attr.compact]': 'compact',
   }
 })
 export class NgScrollbar implements AfterViewInit, OnDestroy {
@@ -67,8 +67,8 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   @Input() thumbClass: string;
   /** The smooth scroll duration when a scrollbar is clicked */
   @Input() scrollToDuration = 300;
-  /** Use overlay scrollbars */
-  @Input() overlay: boolean;
+  /** Compact mode */
+  @Input() compact: boolean;
   /** Disable custom scrollbars on specific breakpoints */
   @Input() disableOnBreakpoints = [
     Breakpoints.HandsetLandscape,
