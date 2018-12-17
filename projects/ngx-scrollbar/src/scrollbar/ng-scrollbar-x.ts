@@ -68,7 +68,7 @@ export class NgScrollbarX extends NgScrollbarThumb {
   }
 
   /**
-   * Start vertical thumb worker
+   * Start horizontal thumb worker
    */
   protected startThumbEvents(): Observable<any> {
     const mouseDown$ = fromEvent(this.thumb.nativeElement, 'mousedown');
