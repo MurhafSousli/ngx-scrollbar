@@ -76,10 +76,15 @@ ng-scrollbar-x {
 
       > ng-scrollbar-x {
         position: absolute;
+        bottom: 0;
       }
 
       &.ng-scrollbar-invert {
         flex-direction: column;
+        > ng-scrollbar-x {
+          top: 0;
+          bottom: unset;
+        }
       }
 
       > .ng-scrollbar-y-layout {
