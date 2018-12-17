@@ -149,6 +149,16 @@ To use *NgScrollbar* functions, you will need to get the component reference fro
 @ViewChild(NgScrollbar) scrollRef: NgScrollbar;
 ```
 
+**Example:** Subscribe to `NgScrollbar` scroll event
+
+```ts
+@ViewChild(NgScrollbar) scrollbarRef: NgScrollbar;
+
+ngAfterViewInit() {
+  this.scrollbarRef.scrollable.elementScrolled().subscribe(e => console.log(e))
+}
+```
+
 ## Scroll functions
 
 All scroll functions return a cold observable that requires calling `subscribe()`, it will emits once scrolling is done and unsubscribe itself, *no need to unsubscribe from the function manually.*
