@@ -12,12 +12,12 @@
   --scroll-view-color: transparent;
 
   // Add overflow-y to the view only when vertical scrollbar is shown
-  &[trackY='true'] .ng-scroll-view {
+  &[trackY='true'] > .ng-scrollbar-layout > .ng-scrollbar-layout > .ng-scroll-view-container > .ng-scroll-view {
     overflow-y: scroll;
   }
 
   // Add overflow-x to the view only when horizontal scrollbar is shown
-  &[trackX='true'] .ng-scroll-view {
+  &[trackX='true'] > .ng-scrollbar-layout > .ng-scrollbar-layout > .ng-scroll-view-container > .ng-scroll-view {
     overflow-x: scroll;
   }
 
