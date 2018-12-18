@@ -1,5 +1,19 @@
 # Changelog
 
+## 4.1.0
+
+- feat: Fix horizontal scrollbar position, closes [#113](https://github.com/MurhafSousli/ngx-scrollbar/issues/113) in [c435932](https://github.com/MurhafSousli/ngx-scrollbar/commit/c43593248197eac41c71a64ec58d3870887764ba).
+- feat: Ability to always show scrollbars even if content is not scrollable, closes [#112](https://github.com/MurhafSousli/ngx-scrollbar/issues/112) in [2df15de](https://github.com/MurhafSousli/ngx-scrollbar/commit/2df15de703a08eb703fcfed4f6775820bd02c2c4).
+- refactor: Add `[shown]` input and remove `[autoHide]`, Ability to always show scrollbars.
+
+### Breaking changes
+
+- The `[autoHide]` input has been removed in favor of `[shown]`.
+
+**Before:** `[autoHide]="true"` shows scrollbar only when mouse is over the scroll view.
+
+**After:** Use `shown="hover"` or `[shown]="'hover'"`.
+
 ## 4.0.0
 
 - feat(RTL Support): Fix horizontal scrollbar on RTL, in [9d992e6](https://github.com/MurhafSousli/ngx-scrollbar/pull/111/commits/9d992e6bf92343eb266b266aecfd36fd80d62ce9).
