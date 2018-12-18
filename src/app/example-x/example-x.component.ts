@@ -10,7 +10,8 @@ import { NgScrollbar } from 'ngx-scrollbar';
 })
 export class ExampleXComponent {
   compact = false;
-  invert = false;
+  invertY = false;
+  invertX = false;
   more = false;
   cssVariables: SafeStyle;
   @ViewChild(NgScrollbar, {read: ElementRef}) private _scrollable: ElementRef;

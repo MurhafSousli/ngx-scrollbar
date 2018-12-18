@@ -20,16 +20,79 @@
   &[trackX='true'] .ng-scroll-view {
     overflow-x: scroll;
   }
-}
 
-ng-scrollbar-y {
-  top: 0;
-  bottom: 0;
-}
+  // Scrollbar X position
+  > .ng-scrollbar-x-layout {
+    flex-direction: column;
 
-ng-scrollbar-x {
-  left: 0;
-  right: 0;
+    &.ng-scrollbar-invert {
+      flex-direction: column-reverse;
+    }
+  }
+
+  // Scrollbar Y position
+  > .ng-scrollbar-x-layout > .ng-scrollbar-y-layout {
+    flex-direction: row;
+
+    &.ng-scrollbar-invert {
+      flex-direction: row-reverse;
+    }
+  }
+
+  // Compact mode, scrollbars are contained in the scroll view
+  &[compact='true'] {
+
+    // Scrollbar X position in compact mode
+    > .ng-scrollbar-x-layout {
+      flex-direction: column;
+
+      > ng-scrollbar-x {
+        position: absolute;
+        bottom: 0;
+      }
+
+      &.ng-scrollbar-invert {
+        flex-direction: column-reverse;
+
+        > ng-scrollbar-x {
+          top: 0;
+          bottom: unset;
+        }
+      }
+    }
+
+    // Scrollbar Y position in compact mode
+    > .ng-scrollbar-x-layout > .ng-scrollbar-y-layout {
+      flex-direction: row-reverse;
+
+      > ng-scrollbar-y {
+        position: absolute;
+      }
+
+      &.ng-scrollbar-invert {
+        flex-direction: row;
+      }
+    }
+  }
+
+  // Auto hide scrollbars
+  &[autoHide='true'] {
+    > .ng-scrollbar-layout > ng-scrollbar-x,
+    > .ng-scrollbar-layout > .ng-scrollbar-layout > ng-scrollbar-y {
+      opacity: 0;
+      transition: opacity 120ms ease-out;
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+      > .ng-scrollbar-layout > ng-scrollbar-x,
+      > .ng-scrollbar-layout > .ng-scrollbar-layout > ng-scrollbar-y {
+        opacity: 1;
+        transition: opacity 340ms ease-out;
+      }
+    }
+  }
 }
 
 :host,
@@ -51,52 +114,6 @@ ng-scrollbar-x {
   display: flex;
 }
 
-:host {
-
-  > .ng-scrollbar-x-layout {
-    flex-direction: column;
-
-    &.ng-scrollbar-invert {
-      flex-direction: column-reverse;
-    }
-
-    > .ng-scrollbar-y-layout {
-      flex-direction: row;
-
-      &.ng-scrollbar-invert {
-        flex-direction: row-reverse;
-      }
-    }
-  }
-
-  &[compact='true'] {
-
-    > .ng-scrollbar-x-layout {
-      flex-direction: column;
-
-      > ng-scrollbar-x {
-        position: absolute;
-      }
-
-      &.ng-scrollbar-invert {
-        flex-direction: column;
-      }
-
-      > .ng-scrollbar-y-layout {
-        flex-direction: row-reverse;
-
-        > ng-scrollbar-y {
-          position: absolute;
-        }
-
-        &.ng-scrollbar-invert {
-          flex-direction: row;
-        }
-      }
-    }
-  }
-}
-
 .ng-scroll-view {
   box-sizing: content-box;
   transform: translateZ(0);
@@ -108,7 +125,7 @@ ng-scrollbar-x {
   }
 }
 
-/** Show scrollbars only when the content is larger than scroll view */
+// Show scrollbars only when the content is larger than scroll view
 ng-scrollbar-x, ng-scrollbar-y {
   display: none;
   box-sizing: border-box;
@@ -118,6 +135,16 @@ ng-scrollbar-x, ng-scrollbar-y {
   &.ng-scrollbar-visible {
     display: block;
   }
+}
+
+ng-scrollbar-y {
+  top: 0;
+  bottom: 0;
+}
+
+ng-scrollbar-x {
+  left: 0;
+  right: 0;
 }
 
 ::ng-deep {
@@ -138,23 +165,6 @@ ng-scrollbar-x, ng-scrollbar-y {
 
     .ng-scrollbar-thumb {
       height: 100%;
-    }
-  }
-
-  /** Auto hide scrollbars */
-  &[autoHide='true'] {
-    .ng-scrollbar {
-      opacity: 0;
-      transition: opacity 120ms ease-out;
-    }
-
-    &:hover,
-    &:active,
-    &:focus {
-      .ng-scrollbar {
-        opacity: 1;
-        transition: opacity 340ms ease-out;
-      }
     }
   }
 

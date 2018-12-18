@@ -96,9 +96,13 @@ Here is a [stackblitz](https://stackblitz.com/edit/ngx-scrollbar)
 
   Invert vertical scrollbar position, default `false`
 
-- **[autoHide]**: boolean
+- **[shown]**: 'native' | 'hover' | 'always', default `native`
 
-  Show scrollbar on mouse hover only, default `false`
+  Configure when scrollbars should be shown.
+  
+  - `native`: scrollbars are shown when content is scrollable.
+  - `hover`: scrollbars are shown when mouse is over the view port (and content is scrollable).
+  - `always`: scrollbars are always shown.
 
 - **[autoUpdate]**: boolean
 
@@ -147,6 +151,16 @@ To use *NgScrollbar* functions, you will need to get the component reference fro
 
 ```ts
 @ViewChild(NgScrollbar) scrollRef: NgScrollbar;
+```
+
+**Example:** Subscribe to `NgScrollbar` scroll event
+
+```ts
+@ViewChild(NgScrollbar) scrollbarRef: NgScrollbar;
+
+ngAfterViewInit() {
+  this.scrollbarRef.scrollable.elementScrolled().subscribe(e => console.log(e))
+}
 ```
 
 ## Scroll functions
