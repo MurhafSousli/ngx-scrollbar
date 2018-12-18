@@ -23,15 +23,6 @@
 }
 
 ng-scrollbar-y {
-  top: 0;
-  bottom: 0;
-}
-
-ng-scrollbar-x {
-  left: 0;
-  right: 0;
-}
-
 :host,
 .ng-scrollbar-layout,
 .ng-scroll-view {
@@ -123,6 +114,16 @@ ng-scrollbar-x, ng-scrollbar-y {
   &.ng-scrollbar-visible {
     display: block;
   }
+}
+
+ng-scrollbar-y {
+  top: 0;
+  bottom: 0;
+}
+
+ng-scrollbar-x {
+  left: 0;
+  right: 0;
 }
 
 ::ng-deep {
