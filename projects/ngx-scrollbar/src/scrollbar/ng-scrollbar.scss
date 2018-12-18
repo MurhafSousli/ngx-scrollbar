@@ -44,33 +44,30 @@
 
     // Scrollbar X position in compact mode
     > .ng-scrollbar-x-layout {
-      flex-direction: column;
 
       > ng-scrollbar-x {
         position: absolute;
         bottom: 0;
       }
 
-      &.ng-scrollbar-invert {
-        flex-direction: column-reverse;
-
-        > ng-scrollbar-x {
-          top: 0;
-          bottom: unset;
-        }
+      &.ng-scrollbar-invert > ng-scrollbar-x {
+        top: 0;
+        bottom: unset;
       }
     }
 
     // Scrollbar Y position in compact mode
     > .ng-scrollbar-x-layout > .ng-scrollbar-y-layout {
-      flex-direction: row-reverse;
 
       > ng-scrollbar-y {
         position: absolute;
+        right: 0;
+        left: unset;
       }
 
-      &.ng-scrollbar-invert {
-        flex-direction: row;
+      &.ng-scrollbar-invert > ng-scrollbar-y {
+        right: unset;
+        left: 0;
       }
     }
   }
