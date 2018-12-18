@@ -16,7 +16,7 @@
 
     <ng-scrollbar-y #y
                     *ngIf="!disabled && trackY"
-                    [class.ng-scrollbar-visible]="view.scrollHeight > view.clientHeight"
+                    [class.ng-scrollbar-visible]="shown === 'always' || view.scrollHeight > view.clientHeight"
                     [barClass]="barClass"
                     [thumbClass]="thumbClass"
                     [scrollToDuration]="scrollToDuration">
@@ -25,7 +25,7 @@
 
   <ng-scrollbar-x #x
                   *ngIf="!disabled && trackX"
-                  [class.ng-scrollbar-visible]="view.scrollWidth > view.clientWidth"
+                  [class.ng-scrollbar-visible]="shown === 'always' || view.scrollWidth > view.clientWidth"
                   [barClass]="barClass"
                   [thumbClass]="thumbClass"
                   [scrollToDuration]="scrollToDuration">

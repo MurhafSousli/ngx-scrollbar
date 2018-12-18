@@ -26,7 +26,7 @@ import { SmoothScroll, SmoothScrollEaseFunc } from '../smooth-scroll/smooth-scro
     '[attr.trackX]': 'trackX',
     '[attr.trackY]': 'trackY',
     '[attr.compact]': 'compact',
-    '[attr.autoHide]': 'autoHide'
+    '[attr.autoHide]': 'shown === "hover"'
   }
 })
 export class NgScrollbar implements AfterViewInit, OnDestroy {
@@ -35,8 +35,8 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   @Input() trackX = false;
   /** Vertical custom Scrollbar */
   @Input() trackY = true;
-  /** Auto hide scrollbars on mouse leave */
-  @Input() autoHide = false;
+  /** Scrollbar visibility */
+  @Input() shown: 'hover' | 'always' | 'native' = 'native';
   /** Auto update scrollbars on content changes (Mutation Observer) */
   @Input() autoUpdate = true;
   /** Viewport class */
