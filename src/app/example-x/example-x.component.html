@@ -1,5 +1,6 @@
 <div class="example exampleX">
-  <ng-scrollbar class="sample" [trackX]="true" [compact]="compact" [invertY]="invert" [style]="cssVariables">
+  <ng-scrollbar class="sample" [trackX]="true" [compact]="compact" [invertY]="invertY" [invertX]="invertX"
+                [style]="cssVariables">
     <div class="inner">
       Lorem ipsum dolor sit amet
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet mollitia vero quam, nisi possimus dolorem
@@ -41,10 +42,11 @@
 
   <div style="border-bottom: 2px solid rgba(0,0,0,0.1)"></div>
 
-  <div style="margin: 1em">
+  <div style="margin: 0.5em">
     <button class="btn-gradient orange mini" (click)="compact = !compact">
       Compact {{ compact ? '[ON]' : '[OFF]'}}</button>
-    <button class="btn-gradient blue mini" (click)="invert = !invert">Invert {{ invert ? '[ON]' : '[OFF]'}}</button>
+    <button class="btn-gradient blue mini" (click)="invertX = !invertX">InvertX {{ invertX ? '[ON]' : '[OFF]'}}</button>
+    <button class="btn-gradient blue mini" (click)="invertY = !invertY">InvertY {{ invertY ? '[ON]' : '[OFF]'}}</button>
     <button class="btn-gradient cyan mini" (click)="more = !more">{{ more ? 'Less' : 'More'}} options</button>
   </div>
 
