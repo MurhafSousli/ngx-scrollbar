@@ -19,7 +19,8 @@ import { SmoothScroll, SmoothScrollEaseFunc } from '../smooth-scroll/smooth-scro
 
 // Native scrollbar size is 17px on all browsers,
 // This value will be used to push the native scrollbar out of the scroll view to hide them
-const NATIVE_SCROLLBAR_SIZE = '30px';
+// An extra 1px is added to hide them properly on Edge browser
+const NATIVE_SCROLLBAR_SIZE = '18px';
 
 @Component({
   selector: 'ng-scrollbar',
