@@ -23,24 +23,6 @@
 }
 
 ng-scrollbar-y {
-:host,
-.ng-scrollbar-layout,
-.ng-scroll-view {
-  position: relative;
-  height: 100%;
-  width: 100%;
-}
-
-.ng-scroll-view-container {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-  margin: var(--scroll-view-margin);
-}
-
-.ng-scrollbar-layout {
-  display: flex;
-}
 
 :host {
 
@@ -93,6 +75,25 @@ ng-scrollbar-y {
   }
 }
 
+:host,
+.ng-scrollbar-layout,
+.ng-scroll-view {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.ng-scroll-view-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  margin: var(--scroll-view-margin);
+}
+
+.ng-scrollbar-layout {
+  display: flex;
+}
+
 .ng-scroll-view {
   box-sizing: content-box;
   transform: translateZ(0);
@@ -104,7 +105,7 @@ ng-scrollbar-y {
   }
 }
 
-/** Show scrollbars only when the content is larger than scroll view */
+// Show scrollbars only when the content is larger than scroll view
 ng-scrollbar-x, ng-scrollbar-y {
   display: none;
   box-sizing: border-box;
