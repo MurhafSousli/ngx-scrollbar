@@ -100,15 +100,18 @@
   width: 100%;
 }
 
+.ng-scrollbar-layout {
+  display: flex;
+  // Fix horizontal scrollbar in non-compact mode on Firefox and Edge
+  // https://stackoverflow.com/questions/53873943/flexbox-column-child-goes-out-of-bound-in-edge
+  min-height: 0;
+}
+
 .ng-scroll-view-container {
   flex: 1;
   position: relative;
   overflow: hidden;
   margin: var(--scroll-view-margin);
-}
-
-.ng-scrollbar-layout {
-  display: flex;
 }
 
 .ng-scroll-view {
