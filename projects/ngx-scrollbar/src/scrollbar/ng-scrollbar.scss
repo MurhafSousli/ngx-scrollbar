@@ -116,10 +116,6 @@
   transform: translateZ(0);
   background: var(--scroll-view-color);
   -webkit-overflow-scrolling: touch;
-
-  ::-webkit-scrollbar {
-    background: transparent;
-  }
 }
 
 // Show scrollbars only when the content is larger than scroll view
