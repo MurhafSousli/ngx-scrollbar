@@ -1,5 +1,13 @@
 # Changelog
 
+## 4.1.1
+
+- fix: Horizontal scrollbar in non-compact mode on Firefox and Edge, in [35ae8d4](https://github.com/MurhafSousli/ngx-scrollbar/pull/117/commits/35ae8d45130e3c19506249328fff3c2fbd48bce2)
+- fix: Remove webkit-scrollbar transparent background, closes [#106](https://github.com/MurhafSousli/ngx-scrollbar/issues/106) in [7fe3749](https://github.com/MurhafSousli/ngx-scrollbar/pull/117/commits/7fe3749757e44e13ce6c9bbb1c6989f844bf2a35).
+- fix: in some cases, native scrollbar are shown after it is enabled, in [59124ff](https://github.com/MurhafSousli/ngx-scrollbar/commit/59124ff4facc714bfbe63330591d558ff67c263e).
+- fix: Nested `<ng-scrollbar>`s inherit overflow style, in [9c83b22](https://github.com/MurhafSousli/ngx-scrollbar/pull/116/commits/9c83b2220cbdfd03eab1efeaa22fe0d17cccebf9).
+- fix: Compact mode on Edge, in [2be44c6](https://github.com/MurhafSousli/ngx-scrollbar/pull/116/commits/2be44c617a87af8b5b09202a55a5b58f5b7d32fc).
+
 ## 4.1.0
 
 - feat: Fix horizontal scrollbar position, closes [#113](https://github.com/MurhafSousli/ngx-scrollbar/issues/113) in [c435932](https://github.com/MurhafSousli/ngx-scrollbar/commit/c43593248197eac41c71a64ec58d3870887764ba).
