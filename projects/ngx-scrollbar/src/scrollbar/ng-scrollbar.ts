@@ -15,7 +15,7 @@ import { CdkScrollable } from '@angular/cdk/scrolling';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { tap, throttleTime } from 'rxjs/operators';
-import { SmoothScroll, SmoothScrollEaseFunc } from '../smooth-scroll/smooth-scroll';
+import { ScrollToOptions, SmoothScroll, SmoothScrollEaseFunc } from '../smooth-scroll/smooth-scroll';
 
 // Native scrollbar size is 17px on all browsers,
 // This value will be used to push the native scrollbar out of the scroll view to hide them
