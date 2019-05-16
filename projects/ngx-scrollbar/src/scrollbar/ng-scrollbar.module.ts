@@ -7,6 +7,7 @@ import { SmoothScrollModule } from '../smooth-scroll/smooth-scroll.module';
 import { NgScrollbar } from './ng-scrollbar';
 import { NgScrollbarY } from './ng-scrollbar-y';
 import { NgScrollbarX } from './ng-scrollbar-x';
+import { NgScrollbarView } from './ng-scrollbar-view';
 
 @NgModule({
   imports: [
@@ -19,10 +20,13 @@ import { NgScrollbarX } from './ng-scrollbar-x';
   declarations: [
     NgScrollbar,
     NgScrollbarY,
-    NgScrollbarX
+    NgScrollbarX,
+    NgScrollbarView
   ],
   exports: [
-    NgScrollbar
+    NgScrollbar,
+    NgScrollbarView,
+    SmoothScrollModule
   ]
 })
 export class NgScrollbarModule {

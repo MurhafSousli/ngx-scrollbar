@@ -25,6 +25,7 @@ ___
 - [Styling](#styling)
 - [Update scrollbars manually](#manual-update)
 - [Smooth Scroll](#smooth-scroll)
+- [Virtual Scroll](#virtual-scroll)
 - [Development](#development)
 - [Issues](#issues)
 - [Author](#author)
@@ -412,6 +413,25 @@ import { SmoothScrollModule } from 'ngx-scrollbar';
 ```
 
 See all [Scroll Functions](#scroll-functions).
+
+
+<a name="virtual-scroll"/>
+
+## Virtual Scroll
+
+Since **v4.2.0**, `NgScrollbar` added support for virtual scrolling using the [**CdkVirtualScrollViewport**](https://material.angular.io/cdk/scrolling/overview#virtual-scrolling)
+
+To use virtual scroll, you will need to add the `ngScrollbarView` directive along with `smoothScroll` directive on `<CdkVirtualScrollViewport>`.
+
+Example:
+
+```html
+<ng-scrollbar #scrollbar>
+  <cdk-virtual-scroll-viewport ngScrollbarView smoothScroll [ngStyle]="scrollbar.hideNativeScrollbars" itemSize="50">
+    <div *cdkVirtualFor="let item of items">{{item}}</div>
+  </cdk-virtual-scroll-viewport>
+</ng-scrollbar>
+```
 
 <a name="development"/>
 

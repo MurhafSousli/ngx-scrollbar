@@ -45,7 +45,7 @@ export class NgScrollbarThumb implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     // Avoid SSR Error
     if (isPlatformBrowser(this._platform)) {
-      this._view = this._parent.scrollable.getElementRef().nativeElement;
+      this._view = this._parent.view;
       // Start view scroll event
       this._scroll$ = this._parent.scrollable.elementScrolled()
         .subscribe(() => this.updateScrollbar());

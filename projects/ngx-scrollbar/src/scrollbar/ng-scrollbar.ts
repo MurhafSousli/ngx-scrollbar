@@ -3,6 +3,7 @@ import {
   Inject,
   Input,
   ViewChild,
+  ContentChild,
   AfterViewInit,
   OnDestroy,
   ElementRef,
@@ -10,12 +11,13 @@ import {
   ChangeDetectionStrategy,
   PLATFORM_ID
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { CdkScrollable } from '@angular/cdk/scrolling';
-import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { tap, throttleTime } from 'rxjs/operators';
-import { ScrollToOptions, SmoothScroll, SmoothScrollEaseFunc } from '../smooth-scroll/smooth-scroll';
+import {isPlatformBrowser} from '@angular/common';
+import {CdkScrollable, CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
+import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
+import {Observable, Subject, Subscription} from 'rxjs';
+import {tap, throttleTime} from 'rxjs/operators';
+import {ScrollToOptions, SmoothScroll, SmoothScrollEaseFunc} from '../smooth-scroll/smooth-scroll';
+import {NgScrollbarView} from './ng-scrollbar-view';
 
 // Native scrollbar size is 17px on all browsers,
 // This value will be used to push the native scrollbar out of the scroll view to hide them
@@ -28,6 +30,7 @@ const NATIVE_SCROLLBAR_SIZE = '18px';
   styleUrls: ['ng-scrollbar.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
+    '[attr.customView]': '!!customViewPort',
     '[attr.trackX]': 'trackX',
     '[attr.trackY]': 'trackY',
     '[attr.compact]': 'compact',
@@ -76,10 +79,35 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
 
   private _disabled = false;
 
-  @ViewChild(CdkScrollable) scrollable: CdkScrollable;
-  @ViewChild(SmoothScroll) smoothScroll: SmoothScroll;
+  /** Scrollbars ElementRef */
   @ViewChild('y', {read: ElementRef}) verticalScrollbar: ElementRef;
   @ViewChild('x', {read: ElementRef}) horizontalScrollbar: ElementRef;
+
+  /** Default viewport and smoothScroll references */
+  @ViewChild(CdkScrollable) scrollViewport: CdkScrollable;
+  @ViewChild(SmoothScroll) viewSmoothScroll: SmoothScroll;
+
+  /** Virtual viewport and smoothScroll references */
+  @ContentChild(NgScrollbarView) customViewPort: NgScrollbarView;
+
+  /** Viewport Element */
+  get view(): HTMLElement {
+    return this.customViewPort
+      ? this.customViewPort.virtualScrollViewport.getElementRef().nativeElement
+      : this.scrollViewport.getElementRef().nativeElement;
+  }
+
+  get scrollable(): CdkScrollable | CdkVirtualScrollViewport {
+    return this.customViewPort
+      ? this.customViewPort.virtualScrollViewport
+      : this.scrollViewport;
+  }
+
+  get smoothScroll(): SmoothScroll {
+    return this.customViewPort
+      ? this.customViewPort.smoothScroll
+      : this.viewSmoothScroll;
+  }
 
   get hideNativeScrollbars(): any {
     const size = this.disabled ? '100%' : `calc(100% + ${NATIVE_SCROLLBAR_SIZE})`;
@@ -93,8 +121,6 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   private _updateObserverSub$ = Subscription.EMPTY;
   /** CDK breakpoint subscription */
   private _breakpointSub$ = Subscription.EMPTY;
-  /** Viewport Element */
-  view: HTMLElement;
   /** Observe content changes */
   private _observer: MutationObserver;
 
@@ -107,9 +133,15 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
               @Inject(PLATFORM_ID) private _platform: Object) {
   }
 
-  ngAfterViewInit() {
-    this.view = this.scrollable.getElementRef().nativeElement;
+  showScrollbarY() {
+    return this.shown === 'always' || this.view.scrollHeight > this.view.clientHeight;
+  }
 
+  showScrollbarX() {
+    return this.shown === 'always' || this.view.scrollWidth > this.view.clientWidth;
+  }
+
+  ngAfterViewInit() {
     // Avoid 'expression has changed after it was checked' error when 'disableOnBreakpoints' is set to false
     Promise.resolve().then(() => {
       if (!this.disabled) {
@@ -157,7 +189,7 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
       // Update view
       this._changeDetectorRef.markForCheck();
 
-      if (this.autoUpdate && isPlatformBrowser(this._platform)) {
+      if (!this.customViewPort && this.autoUpdate && isPlatformBrowser(this._platform)) {
         // Observe content changes
         this._observer = new MutationObserver(() => this.update());
         this._observer.observe(this.view, {subtree: true, childList: true, characterData: true});
