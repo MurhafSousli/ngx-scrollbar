@@ -426,8 +426,8 @@ To use virtual scroll, you will need to add the `ngScrollbarView` directive alon
 Example:
 
 ```html
-<ng-scrollbar #scrollbar>
-  <cdk-virtual-scroll-viewport ngScrollbarView smoothScroll [ngStyle]="scrollbar.hideNativeScrollbars" itemSize="50">
+<ng-scrollbar>
+  <cdk-virtual-scroll-viewport ngScrollbarView smoothScroll itemSize="50">
     <div *cdkVirtualFor="let item of items">{{item}}</div>
   </cdk-virtual-scroll-viewport>
 </ng-scrollbar>

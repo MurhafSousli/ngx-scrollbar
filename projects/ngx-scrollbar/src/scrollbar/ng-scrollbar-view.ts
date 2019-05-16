@@ -16,5 +16,4 @@ export class NgScrollbarView {
       throw new Error('NgScrollBar: add [smoothScroll] directive is required with [NgScrollbarView]');
     }
   }
-
 }
