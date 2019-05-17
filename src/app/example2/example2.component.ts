@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NgScrollbar } from 'ngx-scrollbar';
+// import { NgScrollbar } from '../../../projects/ngx-scrollbar/src/public_api';
 
 @Component({
   selector: 'app-example2',

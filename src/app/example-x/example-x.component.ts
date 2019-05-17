@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ViewChild, Component, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { NgScrollbar } from 'ngx-scrollbar';
+// import { NgScrollbar } from '../../../projects/ngx-scrollbar/src/public_api';
 
 @Component({
   selector: 'app-example-x',
