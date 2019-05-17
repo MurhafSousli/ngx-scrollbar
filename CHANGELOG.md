@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.2.0
+
+- feat: Add support for virtual scrolling, closes [#140](https://github.com/MurhafSousli/ngx-scrollbar/pull/140) in [aaf5dc5](https://github.com/MurhafSousli/ngx-scrollbar/pull/140/commits/aaf5dc5a2d80ed9bc075f581ff3eb66062f00f73).
+- enhance: Update scrollbars on window resize [#123](https://github.com/MurhafSousli/ngx-scrollbar/pull/123) in [252e769](https://github.com/MurhafSousli/ngx-scrollbar/pull/142/commits/252e7692b02fc3bfdbc759a5a5296ad696acf9ad).
+
 ## 4.1.1
 
 - fix: Horizontal scrollbar in non-compact mode on Firefox and Edge, in [35ae8d4](https://github.com/MurhafSousli/ngx-scrollbar/pull/117/commits/35ae8d45130e3c19506249328fff3c2fbd48bce2)
