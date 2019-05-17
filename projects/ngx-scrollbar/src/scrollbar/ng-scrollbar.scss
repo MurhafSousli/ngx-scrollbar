@@ -188,4 +188,29 @@ ng-scrollbar-x {
     }
   }
 
+  // In case of virtual scroll view port is used
+  cdk-virtual-scroll-viewport {
+    height: 100%;
+  }
+
+  ng-scrollbar {
+    // Hide the overflow from the default viewport
+    &[customView='true'] .ng-scroll-view{
+      overflow: hidden !important;
+    }
+
+    // Add overflow-y to the view only when vertical scrollbar is shown
+    &[trackY='true'] > .ng-scrollbar-layout > .ng-scrollbar-layout > .ng-scroll-view-container {
+      > .ng-scroll-view, > cdk-virtual-scroll-viewport {
+        overflow-y: scroll;
+      }
+    }
+
+    // Add overflow-x to the view only when horizontal scrollbar is shown
+    &[trackX='true'] > .ng-scrollbar-layout > .ng-scrollbar-layout > .ng-scroll-view-container {
+      > .ng-scroll-view, > cdk-virtual-scroll-viewport {
+        overflow-x: scroll;
+      }
+    }
+  }
 }
