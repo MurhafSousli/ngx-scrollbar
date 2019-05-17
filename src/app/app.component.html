@@ -19,6 +19,9 @@
       <button class="btn-gradient blue mini" (click)="scrollable.scrollToElement('app-example5', 200, 800).subscribe()">
         Example 5
       </button>
+      <button class="btn-gradient yellow mini" (click)="scrollable.scrollToElement('app-example-virtual-scroll', 200, 800).subscribe()">
+        Virtual Scroll Example
+      </button>
     </div>
     <app-example-x></app-example-x>
 
@@ -31,6 +34,8 @@
     <app-example4></app-example4>
 
     <app-example5></app-example5>
+
+    <app-example-virtual-scroll></app-example-virtual-scroll>
 
     <div class="scroll-buttons">
       <button class="btn-gradient red small" (click)="scrollable.scrollToTop(800).subscribe()">Scroll to top</button>
