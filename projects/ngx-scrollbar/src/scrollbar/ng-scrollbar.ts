@@ -14,8 +14,8 @@ import {
 import {isPlatformBrowser} from '@angular/common';
 import {CdkScrollable, CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
-import {Observable, Subject, Subscription} from 'rxjs';
-import {tap, throttleTime} from 'rxjs/operators';
+import {fromEvent, Observable, Subject} from 'rxjs';
+import {takeUntil, tap, throttleTime} from 'rxjs/operators';
 import {ScrollToOptions, SmoothScroll, SmoothScrollEaseFunc} from '../smooth-scroll/smooth-scroll';
 import {NgScrollbarView} from './ng-scrollbar-view';
 
@@ -117,10 +117,8 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
     };
   }
 
-  /** Mutation observer subscription */
-  private _updateObserverSub$ = Subscription.EMPTY;
-  /** CDK breakpoint subscription */
-  private _breakpointSub$ = Subscription.EMPTY;
+  /** Unsubscribe component observables on destroy */
+  private _unsubscribe$ = new Subject();
   /** Observe content changes */
   private _observer: MutationObserver;
 
@@ -147,8 +145,9 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
       if (!this.disabled) {
         if (this.disableOnBreakpoints) {
           // Enable/Disable custom scrollbar on breakpoints (Used to disable scrollbars on mobile phones)
-          this._breakpointSub$ = this._breakpointObserver.observe(this.disableOnBreakpoints).pipe(
-            tap((result: BreakpointState) => result.matches ? this.disable() : this.enable())
+          this._breakpointObserver.observe(this.disableOnBreakpoints).pipe(
+            tap((result: BreakpointState) => result.matches ? this.disable() : this.enable()),
+            takeUntil(this._unsubscribe$)
           ).subscribe();
         } else {
           this.enable();
@@ -156,16 +155,27 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
       }
 
       // Update state on content changes
-      this._updateObserverSub$ = this.updateObserver.pipe(
+      this.updateObserver.pipe(
         throttleTime(200),
-        tap(() => this._changeDetectorRef.markForCheck())
+        tap(() => this._changeDetectorRef.markForCheck()),
+        takeUntil(this._unsubscribe$)
       ).subscribe();
+
+
+      if (isPlatformBrowser(this._platform)) {
+        // Update on window resize
+        fromEvent(window, 'resize').pipe(
+          throttleTime(200),
+          tap(() => this.update()),
+          takeUntil(this._unsubscribe$)
+        ).subscribe();
+      }
     });
   }
 
   ngOnDestroy() {
-    this._breakpointSub$.unsubscribe();
-    this._updateObserverSub$.unsubscribe();
+    this._unsubscribe$.next();
+    this._unsubscribe$.complete();
     if (this._observer) {
       this._observer.disconnect();
     }
