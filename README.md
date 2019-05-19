@@ -164,6 +164,60 @@ ngAfterViewInit() {
 }
 ```
 
+We use the property `ScrollbarRef.scrollable` to get the scroll event, See [CdkScrollable API](https://material.angular.io/cdk/scrolling/api#CdkScrollable).
+
+ > Note: in order to avoid hitting change detection for every scroll event, all of the events emitted from this stream will be run outside the Angular zone. If you need to update any data bindings as a result of a scroll event, you have to run the callback using `NgZone.run`.
+
+This means that if you are using the scroll event to update the UI, you will need to use `ngZone`.
+
+**Example:** Change header title on scroll event
+
+```ts
+@Component({
+  selector: 'app-page-title',
+  template: `
+    <ng-scrollbar>
+      <div class="page-title" [style.fontSize]="size$ | async">
+        <h1>Hello World</h1>
+      </div>   
+      
+      <div [innerHTML]="longScrollableText"></div>
+    </ng-scrollbar>
+  `
+})
+export class PageTitleComponent {
+
+  // Stream that will update title font size on scroll down
+  size$ = new Subject();
+
+  // Unsubscriber for elementScrolled stream.
+  unsubscriber$ = Subscription.EMPTY;
+
+  // Get NgScrollbar reference
+  @ViewChild(NgScrollbar) scrollbarRef: NgScrollbar;
+  
+  // long text that make ng-scrollbar scrollable
+  longScrollableText = `...`
+  
+  constructor(private ngZone: NgZone) {
+  }
+  
+  ngAfterViewInit() {
+    this.scrollbarRef.scrollable.elementScrolled().pipe(
+      map((e: any) => e.target.scrollTop > 50 ? '0.75em' : '1em'),
+      tap((size: string) => this.ngZone.run(() => this.size$.next(size)))
+    ).subscribe();
+  }
+  
+  ngOnDestroy() {
+    this.unsubscriber$.unsubscribe();
+  }
+}
+```
+
+Check out the example in this [stackblitz](https://stackblitz.com/edit/ngx-scrollbar?file=src%2Fapp%2Fscroll-event%2Fscroll-event%2Fscroll-event.component.ts)
+
+
 ## Scroll functions
 
 All scroll functions return a cold observable that requires calling `subscribe()`, it will emits once scrolling is done and unsubscribe itself, *no need to unsubscribe from the function manually.*
@@ -292,6 +346,8 @@ export class AppComponent {
 
 #### Update scrollbars manually
 
+`NgScrollbar` component updates properly, but in case something went wrong or you need to update the scrollbar manually, you can call the update method to fix it, e.g. `myScrollbar.update()`.
+
 **Text area example:**
 
 ```ts
@@ -414,16 +470,16 @@ import { SmoothScrollModule } from 'ngx-scrollbar';
 
 See all [Scroll Functions](#scroll-functions).
 
-
+Subscribe to `NgScrollbar` scroll event
 <a name="virtual-scroll"/>
 
 ## Virtual Scroll
 
-Since **v4.2.0**, `NgScrollbar` added support for virtual scrolling using the [**CdkVirtualScrollViewport**](https://material.angular.io/cdk/scrolling/overview#virtual-scrolling)
+Since **v4.2.0**, `NgScrollbar` has added support for virtual scrolling using the [**CdkVirtualScrollViewport**](https://material.angular.io/cdk/scrolling/overview#virtual-scrolling)
 
 To use virtual scroll, you will need to add the `ngScrollbarView` directive along with `smoothScroll` directive on `<CdkVirtualScrollViewport>`.
 
-Example:
+**Example:**
 
 ```html
 <ng-scrollbar>
@@ -432,6 +488,8 @@ Example:
   </cdk-virtual-scroll-viewport>
 </ng-scrollbar>
 ```
+
+Here is a [stackblitz example](https://ngx-scrollbar.stackblitz.io/#/lazy-test)
 
 <a name="development"/>
 
