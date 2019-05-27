@@ -203,7 +203,8 @@ export class PageTitleComponent {
   }
   
   ngAfterViewInit() {
-    this.scrollbarRef.scrollable.elementScrolled().pipe(
+    // Subscribe to <ng-scrollbar> scroll event
+    this.unsubscriber$ = this.scrollbarRef.scrollable.elementScrolled().pipe(
       map((e: any) => e.target.scrollTop > 50 ? '0.75em' : '1em'),
       tap((size: string) => this.ngZone.run(() => this.size$.next(size)))
     ).subscribe();
