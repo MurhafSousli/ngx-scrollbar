@@ -90,6 +90,33 @@
       }
     }
   }
+
+  // Hide the overflow from the default viewport
+  &[customView='true'] .ng-scroll-view {
+    overflow: hidden !important;
+  }
+
+  &[disabled="true"] {
+    .ng-scroll-view {
+      @extend .show-native-scrollbars;
+    }
+    ::ng-deep {
+      .ng-scroll-view > .ng-custom-scroll-view {
+        @extend .show-native-scrollbars;
+      }
+    }
+  }
+
+  &[disabled="false"] {
+    .ng-scroll-view {
+      @extend .hide-native-scrollbars;
+    }
+    ::ng-deep {
+      .ng-scroll-view > .ng-custom-scroll-view {
+        @extend .hide-native-scrollbars;
+      }
+    }
+  }
 }
 
 :host,
@@ -188,29 +215,20 @@ ng-scrollbar-x {
     }
   }
 
-  // In case of virtual scroll view port is used
-  cdk-virtual-scroll-viewport {
+  // In case of custom view port is used
+  .ng-custom-scroll-view {
     height: 100%;
   }
+}
 
-  ng-scrollbar {
-    // Hide the overflow from the default viewport
-    &[customView='true'] .ng-scroll-view{
-      overflow: hidden !important;
-    }
+.show-native-scrollbars {
+  margin: 0 !important;
+  padding: 0 !important;
+}
 
-    // Add overflow-y to the view only when vertical scrollbar is shown
-    &[trackY='true'] > .ng-scrollbar-layout > .ng-scrollbar-layout > .ng-scroll-view-container {
-      > .ng-scroll-view, > cdk-virtual-scroll-viewport {
-        overflow-y: scroll;
-      }
-    }
-
-    // Add overflow-x to the view only when horizontal scrollbar is shown
-    &[trackX='true'] > .ng-scrollbar-layout > .ng-scrollbar-layout > .ng-scroll-view-container {
-      > .ng-scroll-view, > cdk-virtual-scroll-viewport {
-        overflow-x: scroll;
-      }
-    }
-  }
+.hide-native-scrollbars {
+  margin-right: -30px !important;
+  padding-right: 30px !important;
+  margin-bottom: -30px !important;
+  padding-bottom: 30px !important;
 }

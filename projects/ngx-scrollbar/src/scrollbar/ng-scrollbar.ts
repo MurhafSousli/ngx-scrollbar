@@ -19,11 +19,6 @@ import {takeUntil, tap, throttleTime} from 'rxjs/operators';
 import {ScrollToOptions, SmoothScroll, SmoothScrollEaseFunc} from '../smooth-scroll/smooth-scroll';
 import {NgScrollbarView} from './ng-scrollbar-view';
 
-// Native scrollbar size is 17px on all browsers,
-// This value will be used to push the native scrollbar out of the scroll view to hide them
-// An extra 1px is added to hide them properly on Edge browser
-const NATIVE_SCROLLBAR_SIZE = '18px';
-
 @Component({
   selector: 'ng-scrollbar',
   templateUrl: 'ng-scrollbar.html',
@@ -34,7 +29,8 @@ const NATIVE_SCROLLBAR_SIZE = '18px';
     '[attr.trackX]': 'trackX',
     '[attr.trackY]': 'trackY',
     '[attr.compact]': 'compact',
-    '[attr.autoHide]': 'shown === "hover"'
+    '[attr.autoHide]': 'shown === "hover"',
+    '[attr.disabled]': 'disabled'
   }
 })
 export class NgScrollbar implements AfterViewInit, OnDestroy {
@@ -107,14 +103,6 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
     return this.customViewPort
       ? this.customViewPort.smoothScroll
       : this.viewSmoothScroll;
-  }
-
-  get hideNativeScrollbars(): any {
-    const size = this.disabled ? '100%' : `calc(100% + ${NATIVE_SCROLLBAR_SIZE})`;
-    return {
-      width: this.trackY ? size : '100%',
-      height: this.trackX ? size : '100%'
-    };
   }
 
   /** Unsubscribe component observables on destroy */
