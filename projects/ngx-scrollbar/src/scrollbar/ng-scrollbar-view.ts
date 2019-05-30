@@ -3,7 +3,10 @@ import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 import {SmoothScroll} from '../smooth-scroll/smooth-scroll';
 
 @Directive({
-  selector: '[ngScrollbarView]'
+  selector: '[ngScrollbarView]',
+  host: {
+    '[class.ng-custom-scroll-view]': 'true'
+  }
 })
 export class NgScrollbarView {
 
