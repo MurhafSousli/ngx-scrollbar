@@ -1,4 +1,4 @@
-import { Component, Inject, NgZone, ChangeDetectionStrategy, forwardRef, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, NgZone, ChangeDetectionStrategy, forwardRef, PLATFORM_ID, Host } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Directionality } from '@angular/cdk/bidi';
 import { fromEvent, Observable, animationFrameScheduler } from 'rxjs';
@@ -30,7 +30,7 @@ export class NgScrollbarX extends NgScrollbarThumb {
   }
 
   constructor(@Inject(DOCUMENT) protected _document: any,
-              @Inject(forwardRef(() => NgScrollbar)) protected _parent: NgScrollbar,
+              @Host() protected _parent: NgScrollbar,
               @Inject(PLATFORM_ID) _platform: Object,
               protected _dir: Directionality,
               protected _zone: NgZone) {
