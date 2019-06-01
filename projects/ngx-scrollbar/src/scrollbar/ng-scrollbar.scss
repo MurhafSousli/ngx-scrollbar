@@ -5,77 +5,55 @@
   --scrollbar-container-color: transparent;
   --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
   --scrollbar-thumb-hover-color: rgba(0, 0, 0, 0.3);
-  --scrollbar-border-radius: 4px;
-  --scrollbar-size: 6px;
+  --scrollbar-border-radius: 7px;
+  --scrollbar-size: 5px;
   --scrollbar-padding: 8px;
   --scroll-view-margin: 0;
   --scroll-view-color: transparent;
 
   // Add overflow-y to the view only when vertical scrollbar is shown
-  &[trackY='true'] > .ng-scrollbar-layout > .ng-scrollbar-layout > .ng-scroll-view-container > .ng-scroll-view {
+  &[trackY="true"] > .ng-scrollbar-grid-container > .ng-scroll-view-container > .ng-scroll-view {
     overflow-y: scroll;
   }
 
   // Add overflow-x to the view only when horizontal scrollbar is shown
-  &[trackX='true'] > .ng-scrollbar-layout > .ng-scrollbar-layout > .ng-scroll-view-container > .ng-scroll-view {
+  &[trackX="true"] > .ng-scrollbar-grid-container > .ng-scroll-view-container > .ng-scroll-view {
     overflow-x: scroll;
   }
 
-  // Scrollbar X position
-  > .ng-scrollbar-x-layout {
-    flex-direction: column;
-
-    &.ng-scrollbar-invert {
-      flex-direction: column-reverse;
-    }
-  }
-
-  // Scrollbar Y position
-  > .ng-scrollbar-x-layout > .ng-scrollbar-y-layout {
-    flex-direction: row;
-
-    &.ng-scrollbar-invert {
-      flex-direction: row-reverse;
-    }
-  }
-
   // Compact mode, scrollbars are contained in the scroll view
-  &[compact='true'] {
-
+  &[compact="true"] {
     // Scrollbar X position in compact mode
-    > .ng-scrollbar-x-layout {
-
-      > ng-scrollbar-x {
+    > .ng-scrollbar-grid-container {
+      ng-scrollbar-x {
         position: absolute;
         bottom: 0;
       }
 
-      &.ng-scrollbar-invert > ng-scrollbar-x {
-        top: 0;
-        bottom: unset;
-      }
-    }
-
-    // Scrollbar Y position in compact mode
-    > .ng-scrollbar-x-layout > .ng-scrollbar-y-layout {
-
-      > ng-scrollbar-y {
+      ng-scrollbar-y {
         position: absolute;
         right: 0;
         left: unset;
       }
-
-      &.ng-scrollbar-invert > ng-scrollbar-y {
-        right: unset;
-        left: 0;
+    }
+    &.ng-scrollbar-invert {
+      > .ng-scrollbar-grid-container {
+        ng-scrollbar-x {
+          top: 0;
+          bottom: unset;
+        }
+        ng-scrollbar-y {
+          right: unset;
+          left: 0;
+        }
       }
     }
   }
 
   // Auto hide scrollbars
-  &[autoHide='true'] {
-    > .ng-scrollbar-layout > ng-scrollbar-x,
-    > .ng-scrollbar-layout > .ng-scrollbar-layout > ng-scrollbar-y {
+  &[autoHide="true"] {
+    > .ng-scrollbar-grid-container ng-scrollbar-x,
+    > .ng-scrollbar-grid-container ng-scrollbar-y {
       opacity: 0;
       transition: opacity 120ms ease-out;
     }
@@ -83,8 +61,8 @@
     &:hover,
     &:active,
     &:focus {
-      > .ng-scrollbar-layout > ng-scrollbar-x,
-      > .ng-scrollbar-layout > .ng-scrollbar-layout > ng-scrollbar-y {
+      > .ng-scrollbar-grid-container ng-scrollbar-x,
+      > .ng-scrollbar-grid-container ng-scrollbar-y {
         opacity: 1;
         transition: opacity 340ms ease-out;
       }
@@ -92,7 +70,7 @@
   }
 
   // Hide the overflow from the default viewport
-  &[customView='true'] .ng-scroll-view {
+  &[customView="true"] .ng-scroll-view {
     overflow: hidden !important;
   }
 
@@ -149,7 +127,8 @@
 }
 
 // Show scrollbars only when the content is larger than scroll view
-ng-scrollbar-x, ng-scrollbar-y {
+ng-scrollbar-x,
+ng-scrollbar-y {
   display: none;
   box-sizing: border-box;
   padding: var(--scrollbar-padding);
@@ -219,6 +198,26 @@ ng-scrollbar-x {
   .ng-custom-scroll-view {
     height: 100%;
   }
+
+  ng-scrollbar[trackY="true"][trackX="true"] {
+    ng-scrollbar-x {
+      padding-right: calc((var(--scrollbar-padding) + var(--scrollbar-size)) * 2);
+    }
+    ng-scrollbar-y {
+      padding-bottom: calc((var(--scrollbar-padding) + var(--scrollbar-size)) * 2);
+    }
+  }
+
+  .ng-scroll-view {
+    grid-area: "scroll-view";
+  }
+
+  ng-scrollbar-x {
+    grid-area: "horizontal-scrollbar";
+  }
+  ng-scrollbar-y {
+    grid-area: "vertical-scrollbar";
+  }
 }
 
 .show-native-scrollbars {
@@ -227,8 +226,18 @@ ng-scrollbar-x {
 }
 
 .hide-native-scrollbars {
-  margin-right: -30px !important;
-  padding-right: 30px !important;
-  margin-bottom: -30px !important;
-  padding-bottom: 30px !important;
+  margin: -30px !important;
+  padding: 30px !important;
+}
+
+.ng-scrollbar-grid-container {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 0;
+  grid-row-gap: 0;
+  justify-items: stretch;
+  align-items: stretch;
+  grid-template-areas: "scroll-view vertical-scrollbar horizontal-scrollbar";
 }

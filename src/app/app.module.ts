@@ -2,8 +2,8 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {ScrollingModule} from '@angular/cdk/scrolling';
-import {NgScrollbarModule} from 'ngx-scrollbar';
-// import {NgScrollbarModule} from '../../projects/ngx-scrollbar/src/public_api';
+// import {NgScrollbarModule} from 'ngx-scrollbar';
+import {NgScrollbarModule} from '../../projects/ngx-scrollbar/src/public_api';
 import {ColorPickerModule} from './color-picker';
 import {SharedModule} from './shared/shared.module';
 

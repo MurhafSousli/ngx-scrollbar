@@ -1,4 +1,33 @@
-<div class="ng-scrollbar-layout ng-scrollbar-x-layout"
+<div class="ng-scrollbar-grid-container" [class.ng-scrollbar-invert]="invertY">
+
+  <div class="ng-scroll-view-container">
+    <div #view
+         cdkScrollable
+         smoothScroll
+         class="ng-scroll-view {{viewClass}}">
+      <ng-content></ng-content>
+    </div>
+  </div>
+
+  <ng-scrollbar-y #y
+                  *ngIf="!disabled && trackY"
+                  [class.ng-scrollbar-visible]="showScrollbarY()"
+                  [barClass]="barClass"
+                  [thumbClass]="thumbClass"
+                  [scrollToDuration]="scrollToDuration">
+  </ng-scrollbar-y>
+
+  <ng-scrollbar-x #x
+                  *ngIf="!disabled && trackX"
+                  [class.ng-scrollbar-visible]="showScrollbarX()"
+                  [barClass]="barClass"
+                  [thumbClass]="thumbClass"
+                  [scrollToDuration]="scrollToDuration">
+  </ng-scrollbar-x>
+</div>
+
+
+<!-- <div class="ng-scrollbar-layout ng-scrollbar-x-layout"
      [class.ng-scrollbar-invert]="invertX">
 
   <div class="ng-scrollbar-layout ng-scrollbar-y-layout"
@@ -30,4 +59,4 @@
                   [scrollToDuration]="scrollToDuration">
   </ng-scrollbar-x>
 
-</div>
+</div> -->
