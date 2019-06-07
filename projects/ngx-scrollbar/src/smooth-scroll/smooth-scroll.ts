@@ -43,7 +43,7 @@ export class SmoothScroll {
     }
   }
 
-  scrollTo(options: ScrollToOptions): Observable<void> {
+  scrollTo(options: ScrollToOptions): Promise<void> {
     // Avoid SSR error
     if (isPlatformBrowser(this._platform)) {
       const scrollFunc = (left: number, top: number) => {
@@ -64,39 +64,39 @@ export class SmoothScroll {
           offsetLeft: this.view.scrollLeft,
           scrollFunc
         };
-        return from(smoothScroll(smoothScrollOptions));
+        return smoothScroll(smoothScrollOptions);
       }
       this.scrollFunc(options.left, options.top);
     }
-    return of<void>();
+    return Promise.resolve();
   }
 
-  scrollToElement(selector: string, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+  scrollToElement(selector: string, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
     const target: HTMLElement = this.view.querySelector(selector);
-    return target ? this.scrollTo({left: target.offsetLeft, top: target.offsetTop - offset, duration, easeFunc}) : of<void>();
+    return target ? this.scrollTo({left: target.offsetLeft, top: target.offsetTop - offset, duration, easeFunc}) : Promise.resolve();
   }
 
-  scrollXTo(left: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+  scrollXTo(left: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
     return this.scrollTo({left, duration, easeFunc});
   }
 
-  scrollYTo(top: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+  scrollYTo(top: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
     return this.scrollTo({top, duration, easeFunc});
   }
 
-  scrollToTop(duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+  scrollToTop(duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
     return this.scrollYTo(0, duration, easeFunc);
   }
 
-  scrollToBottom(duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+  scrollToBottom(duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
     return this.scrollYTo(this.view.scrollHeight - this.view.clientHeight, duration, easeFunc);
   }
 
-  scrollToRight(duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+  scrollToRight(duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
     return this.scrollXTo(this.view.scrollWidth, duration, easeFunc);
   }
 
-  scrollToLeft(duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+  scrollToLeft(duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
     return this.scrollXTo(0, duration, easeFunc);
   }
 }

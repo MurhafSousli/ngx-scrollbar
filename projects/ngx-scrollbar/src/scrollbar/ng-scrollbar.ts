@@ -205,35 +205,35 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
     }
   }
 
-  scrollTo(options: ScrollToOptions): Observable<void> {
+  scrollTo(options: ScrollToOptions): Promise<void> {
     return this.smoothScroll.scrollTo(options);
   }
 
-  scrollToElement(selector: string, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+  scrollToElement(selector: string, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
     return this.smoothScroll.scrollToElement(selector, offset, duration, easeFunc);
   }
 
-  scrollXTo(to: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+  scrollXTo(to: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
     return this.smoothScroll.scrollXTo(to, duration, easeFunc);
   }
 
-  scrollYTo(to: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+  scrollYTo(to: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
     return this.smoothScroll.scrollYTo(to, duration, easeFunc);
   }
 
-  scrollToTop(duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+  scrollToTop(duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
     return this.smoothScroll.scrollToTop(duration, easeFunc);
   }
 
-  scrollToBottom(duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+  scrollToBottom(duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
     return this.smoothScroll.scrollToBottom(duration, easeFunc);
   }
 
-  scrollToRight(duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+  scrollToRight(duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
     return this.smoothScroll.scrollToRight(duration, easeFunc);
   }
 
-  scrollToLeft(duration?: number, easeFunc?: SmoothScrollEaseFunc): Observable<void> {
+  scrollToLeft(duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
     return this.smoothScroll.scrollToLeft(duration, easeFunc);
   }
 }
