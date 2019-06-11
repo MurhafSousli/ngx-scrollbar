@@ -151,8 +151,8 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
 
 
       if (isPlatformBrowser(this._platform)) {
-        // Update on window resize
-        fromEvent(window, 'resize').pipe(
+        // Update scrollbars when window is re-sized
+        fromEvent(document.defaultView, 'resize').pipe(
           throttleTime(200),
           tap(() => this.update()),
           takeUntil(this._unsubscribe$)
