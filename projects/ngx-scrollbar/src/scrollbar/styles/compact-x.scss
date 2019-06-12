@@ -17,12 +17,24 @@
 
   // If both scrollbars are visible
   &[direction="both"] {
-    &[invertY="false"] > ng-scrollbar-x {
-      right: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
+    &[invertY="false"] {
+      &[dir="ltr"] > ng-scrollbar-x {
+        right: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
+      }
+
+      &[dir="rtl"] > ng-scrollbar-x {
+        left: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
+      }
     }
 
-    &[invertY="true"] > ng-scrollbar-x {
-      left: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
+    &[invertY="true"] {
+      &[dir="ltr"] > ng-scrollbar-x {
+        left: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
+      }
+
+      &[dir="rtl"] > ng-scrollbar-x {
+        right: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
+      }
     }
   }
 }

@@ -1,6 +1,5 @@
 import { Component, Inject, NgZone, ChangeDetectionStrategy, PLATFORM_ID, Host } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { Directionality } from '@angular/cdk/bidi';
 import { fromEvent, Observable, animationFrameScheduler } from 'rxjs';
 import { mergeMap, pluck, takeUntil, tap } from 'rxjs/operators';
 
@@ -33,7 +32,6 @@ export class NgScrollbarX extends NgScrollbarThumb {
   constructor(@Inject(DOCUMENT) protected document: any,
               @Host() protected parent: NgScrollbar,
               @Inject(PLATFORM_ID) platform: Object,
-              protected dir: Directionality,
               protected zone: NgZone) {
     super(parent, platform, zone);
   }
@@ -66,7 +64,7 @@ export class NgScrollbarX extends NgScrollbarThumb {
     this.zone.run(() => {
       animationFrameScheduler.schedule(() =>
         this.updateState({
-          transform: `translate3d(${this.dir.value === 'rtl' ? this.currPos - this.trackMax : this.currPos}px, 0, 0)`,
+          transform: `translate3d(${this.currPos}px, 0, 0)`,
           width: `${this.thumbnailSize}px`
         })
       );
@@ -86,7 +84,7 @@ export class NgScrollbarX extends NgScrollbarThumb {
       tap(() => {
         this.document.onselectstart = () => false;
         // Initialize trackMax for before start dragging
-        this.trackMax = this.bar.nativeElement.clientWidth - this.thumbSize;
+        this.trackMax = this.bar.nativeElement.clientWidth - this.thumbnailSize;
       }),
       pluck('offsetX'),
       mergeMap((mouseDownOffset: number) => mouseMove$.pipe(
@@ -94,10 +92,13 @@ export class NgScrollbarX extends NgScrollbarThumb {
         pluck('clientX'),
         tap((mouseMoveClient: number) => {
           const offsetX = mouseMoveClient - this.bar.nativeElement.getBoundingClientRect().left;
-          let value = this.scrollMax * (offsetX - mouseDownOffset) / this.trackMax;
-          if (this.dir.value === 'rtl') {
-            value = value === 0 ? offsetX - this.trackMax : value;
-          }
+          const value = this.scrollMax * (offsetX - mouseDownOffset) / this.trackMax;
+          /**
+           * TODO: fix RTL
+           */
+          // if (this.dir.value === 'rtl') {
+            // value = value === 0 ? this.trackMax - offsetX : value;
+          // }
           this.parent.scrollable.scrollTo({left: value});
         })
       ))
