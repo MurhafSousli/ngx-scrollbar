@@ -6,18 +6,15 @@ import {
   ContentChild,
   AfterViewInit,
   OnDestroy,
-  ElementRef,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
   PLATFORM_ID
 } from '@angular/core';
-import {isPlatformBrowser} from '@angular/common';
-import {CdkScrollable, CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
-import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
-import {fromEvent, Observable, Subject} from 'rxjs';
-import {takeUntil, tap, throttleTime} from 'rxjs/operators';
-import {ScrollToOptions, SmoothScroll, SmoothScrollEaseFunc} from '../smooth-scroll/smooth-scroll';
-import {NgScrollbarView} from './ng-scrollbar-view';
+import { isPlatformBrowser } from '@angular/common';
+import { CdkScrollable, CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { fromEvent, Observable, Subject } from 'rxjs';
+import { pairwise, takeUntil, tap, throttleTime, filter, pluck, map } from 'rxjs/operators';
 
 import {
   NG_SCROLLBAR_DEFAULT_OPTIONS,
@@ -115,6 +112,14 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
       : this.viewSmoothScroll;
   }
 
+  get verticalScrollEvent(): Observable<any> {
+    return this.getScrollEventByDirection('vertical');
+  }
+
+  get horizontalScrollEvent(): Observable<any> {
+    return this.getScrollEventByDirection('horizontal');
+  }
+
   get showScrollbarY(): boolean {
     return this.visibility === 'always' || this.view.scrollHeight > this.view.clientHeight;
   }
@@ -138,12 +143,16 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
               @Inject(PLATFORM_ID) private _platform: Object) {
   }
 
-  showScrollbarY() {
+  private getScrollEventByDirection(direction: 'vertical' | 'horizontal') {
     const scrollProperty = direction === 'vertical' ? 'scrollTop' : 'scrollLeft';
     let event: any;
     return this.scrollable.elementScrolled().pipe(
       tap((e: any) => event = e),
       pluck('target', scrollProperty),
+      pairwise(),
+      filter(([prev, curr]) => prev !== curr),
+      map(() => event)
+    );
   }
 
   ngAfterViewInit() {
