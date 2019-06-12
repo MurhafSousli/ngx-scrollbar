@@ -15,8 +15,8 @@ import { CdkScrollable, CdkVirtualScrollViewport } from '@angular/cdk/scrolling'
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { fromEvent, Observable, Subject } from 'rxjs';
 import { pairwise, takeUntil, tap, throttleTime, filter, pluck, map } from 'rxjs/operators';
-import { VirtualScrollView } from '../virtual-scroll';
-import { ScrollToOptions, SmoothScroll, SmoothScrollEaseFunc } from '../smooth-scroll';
+import { VirtualScrollView } from '../virtual-scroll/virtual-scroll-view';
+import { ScrollToOptions, SmoothScroll, SmoothScrollEaseFunc } from '../smooth-scroll/smooth-scroll';
 import {
   NG_SCROLLBAR_DEFAULT_OPTIONS,
   NgScrollbarAppearance,

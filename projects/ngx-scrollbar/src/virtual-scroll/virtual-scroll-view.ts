@@ -1,6 +1,6 @@
 import { Directive, Optional } from '@angular/core';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { SmoothScroll } from '../smooth-scroll';
+import { SmoothScroll } from '../smooth-scroll/smooth-scroll';
 
 @Directive({
   selector: '[virtualScrollView]',

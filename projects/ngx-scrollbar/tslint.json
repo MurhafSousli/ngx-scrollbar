@@ -1,16 +1,20 @@
 {
-    "extends": "../../tslint.json",
-    "rules": {
-        "directive-selector": [
-            true,
-            "attribute",
-            "camelCase"
-        ],
-        "component-selector": [
-            true,
-            "element",
-            "kebab-case"
-        ],
-        "use-host-property-decorator": false
-    }
+  "extends": "../../tslint.json",
+  "rules": {
+    "directive-selector": [
+      true,
+      "attribute",
+      "camelCase"
+    ],
+    "component-selector": [
+      true,
+      "element",
+      "kebab-case"
+    ],
+    "use-host-property-decorator": false,
+    "no-inferrable-types": false,
+    "no-input-rename": false,
+    "directive-class-suffix": false,
+    "component-class-suffix": false
+  }
 }

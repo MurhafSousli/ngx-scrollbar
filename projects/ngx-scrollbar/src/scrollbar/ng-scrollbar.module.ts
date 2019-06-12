@@ -4,7 +4,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { LayoutModule } from '@angular/cdk/layout';
 import { BidiModule } from '@angular/cdk/bidi';
 import { ObserversModule } from '@angular/cdk/observers';
-import { SmoothScrollModule } from '../smooth-scroll';
+import { SmoothScrollModule } from '../smooth-scroll/smooth-scroll.module';
 
 import { NgScrollbar } from './ng-scrollbar';
 import { NgScrollbarY } from './scrollbars/ng-scrollbar-y';
