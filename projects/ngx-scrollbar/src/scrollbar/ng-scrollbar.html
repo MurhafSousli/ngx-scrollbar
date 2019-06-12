@@ -1,62 +1,29 @@
-<div class="ng-scrollbar-grid-container" [class.ng-scrollbar-invert]="invertY">
-
-  <div class="ng-scroll-view-container">
-    <div #view
-         cdkScrollable
-         smoothScroll
-         class="ng-scroll-view {{viewClass}}">
-      <ng-content></ng-content>
-    </div>
+<div class="ng-scroll-view-container">
+  <div cdkScrollable
+       smoothScroll
+       class="ng-scroll-view {{viewClass}}"
+       (cdkObserveContent)="update()"
+       [cdkObserveContentDisabled]="disabled || customViewPort || !autoUpdate">
+    <ng-content></ng-content>
   </div>
+</div>
 
-  <ng-scrollbar-y #y
-                  *ngIf="!disabled && trackY"
-                  [class.ng-scrollbar-visible]="showScrollbarY()"
+<!--TODO: use output to run scrollTo function instead of passing scrollto duration -->
+
+<ng-container *ngIf="!disabled">
+  <ng-scrollbar-y *ngIf="direction === 'both' || direction === 'vertical'"
+                  [class.ng-scrollbar-visible]="showScrollbarY"
                   [barClass]="barClass"
                   [thumbClass]="thumbClass"
                   [scrollToDuration]="scrollToDuration">
   </ng-scrollbar-y>
 
-  <ng-scrollbar-x #x
-                  *ngIf="!disabled && trackX"
-                  [class.ng-scrollbar-visible]="showScrollbarX()"
+  <ng-scrollbar-x *ngIf="direction === 'both' || direction === 'horizontal'"
+                  [class.ng-scrollbar-visible]="showScrollbarX"
                   [barClass]="barClass"
                   [thumbClass]="thumbClass"
                   [scrollToDuration]="scrollToDuration">
   </ng-scrollbar-x>
-</div>
+</ng-container>
 
-
-<!-- <div class="ng-scrollbar-layout ng-scrollbar-x-layout"
-     [class.ng-scrollbar-invert]="invertX">
-
-  <div class="ng-scrollbar-layout ng-scrollbar-y-layout"
-       [class.ng-scrollbar-invert]="invertY">
-
-    <div class="ng-scroll-view-container">
-      <div #view
-           cdkScrollable
-           smoothScroll
-           class="ng-scroll-view {{viewClass}}">
-        <ng-content></ng-content>
-      </div>
-    </div>
-
-    <ng-scrollbar-y #y
-                    *ngIf="!disabled && trackY"
-                    [class.ng-scrollbar-visible]="showScrollbarY()"
-                    [barClass]="barClass"
-                    [thumbClass]="thumbClass"
-                    [scrollToDuration]="scrollToDuration">
-    </ng-scrollbar-y>
-  </div>
-
-  <ng-scrollbar-x #x
-                  *ngIf="!disabled && trackX"
-                  [class.ng-scrollbar-visible]="showScrollbarX()"
-                  [barClass]="barClass"
-                  [thumbClass]="thumbClass"
-                  [scrollToDuration]="scrollToDuration">
-  </ng-scrollbar-x>
-
-</div> -->
+<span style="grid-area: empty"></span>

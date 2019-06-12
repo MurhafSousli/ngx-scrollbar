@@ -1,0 +1,24 @@
+@import "../styles/compact-y";
+
+::ng-deep {
+  ng-scrollbar, [ngScrollbar] {
+    > ng-scrollbar-y {
+      grid-area: scrollbar-y;
+      width: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
+
+      > .ng-scrollbar {
+        width: var(--scrollbar-size);
+        height: calc(100% - var(--scrollbar-size) * 2);
+
+        > .ng-scrollbar-thumb {
+          width: 100%;
+        }
+      }
+    }
+
+    // Compact Mode
+    &[appearance="compact"] {
+      @include compactVerticalScrollbarStyles();
+    }
+  }
+}

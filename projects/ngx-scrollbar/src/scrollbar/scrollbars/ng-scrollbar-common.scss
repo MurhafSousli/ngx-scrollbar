@@ -1,0 +1,36 @@
+::ng-deep {
+  ng-scrollbar, [ngScrollbar] {
+    display: none;
+    box-sizing: border-box;
+    //padding: var(--scrollbar-padding);
+    background: var(--scrollbar-container-color);
+    > .ng-scrollbar-visible {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .ng-scrollbar {
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    border-radius: var(--scrollbar-border-radius);
+    background-color: var(--scrollbar-color);
+  }
+
+  .ng-scrollbar-thumb {
+    box-sizing: border-box;
+    position: relative;
+    border-radius: inherit;
+    background-color: var(--scrollbar-thumb-color);
+    transform: translate3d(0, 0, 0);
+    transition: height ease-out 150ms, width ease-out 150ms;
+
+    &:hover,
+    &:active {
+      background-color: var(--scrollbar-thumb-hover-color);
+    }
+  }
+
+}

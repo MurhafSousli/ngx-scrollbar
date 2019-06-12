@@ -2,7 +2,7 @@ import { AfterViewInit, OnDestroy, Input, ViewChild, NgZone, ElementRef } from '
 import { isPlatformBrowser } from '@angular/common';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { debounceTime, throttleTime, tap } from 'rxjs/operators';
-import { NgScrollbar } from './ng-scrollbar';
+import { NgScrollbar } from '../ng-scrollbar';
 
 export class NgScrollbarThumb implements AfterViewInit, OnDestroy {
 
@@ -46,9 +46,8 @@ export class NgScrollbarThumb implements AfterViewInit, OnDestroy {
     // Avoid SSR Error
     if (isPlatformBrowser(this._platform)) {
       this._view = this._parent.view;
-      // Start view scroll event
-      this._scroll$ = this._parent.scrollable.elementScrolled()
-        .subscribe(() => this.updateScrollbar());
+
+      this.listenToScrollEvent();
 
       // Start scrollbar thumbnail drag events
       this._zone.runOutsideAngular(() =>
@@ -75,17 +74,20 @@ export class NgScrollbarThumb implements AfterViewInit, OnDestroy {
     this._updateObserver$.unsubscribe();
   }
 
+  protected listenToScrollEvent(): void {
+  }
+
   /**
    * Scrollbar click
    * @param e Mouse event
    */
-  onScrollbarHolderClick(e: any) {
+  onScrollbarHolderClick(e: any): void {
   }
 
   /**
    * Update scrollbar
    */
-  protected updateScrollbar() {
+  protected updateScrollbar(): void {
   }
 
   /**
@@ -104,7 +106,7 @@ export class NgScrollbarThumb implements AfterViewInit, OnDestroy {
     return (naturalThumbSize < this._minThumbSize) ? this._minThumbSize : scrollMax ? naturalThumbSize : 0;
   }
 
-  protected updateState(state: any) {
+  protected updateState(state: any): void {
     this._state.next({...this._state.value, ...state});
   }
 }

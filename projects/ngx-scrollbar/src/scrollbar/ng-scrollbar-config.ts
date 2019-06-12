@@ -1,14 +1,13 @@
 import { InjectionToken } from '@angular/core';
 import { Breakpoints } from '@angular/cdk/layout';
 
-export type NgScrollbarReachedPoint = 'left' | 'top' | 'bottom' | 'right';
 export type NgScrollbarAppearance = 'standard' | 'compact';
-export type NgScrollbarTrack = 'vertical' | 'horizontal' | 'both';
+export type NgScrollbarDirection = 'vertical' | 'horizontal' | 'both';
 export type NgScrollbarVisibility = 'hover' | 'always' | 'native';
 
 export interface NgScrollbarDefaultOptions {
   /** track: a string used to set the tracking directions */
-  track?: NgScrollbarTrack;
+  direction?: NgScrollbarDirection;
   /** appearance: a string used to set the tracking directions */
   appearance?: NgScrollbarAppearance;
   /** visibility: a string used to set the tracking directions */
@@ -39,7 +38,7 @@ export const NG_SCROLLBAR_DEFAULT_OPTIONS =
       viewClass: '',
       barClass: '',
       thumbClass: '',
-      track: 'vertical',
+      direction: 'vertical',
       appearance: 'standard',
       visibility: 'native',
       invertX: false,

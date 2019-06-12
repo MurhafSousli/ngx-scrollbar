@@ -1,19 +1,20 @@
-import { Component, Inject, NgZone, ChangeDetectionStrategy, forwardRef, PLATFORM_ID, Host } from '@angular/core';
+import { Component, Inject, NgZone, ChangeDetectionStrategy, PLATFORM_ID, Host } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Directionality } from '@angular/cdk/bidi';
 import { fromEvent, Observable, animationFrameScheduler } from 'rxjs';
 import { mergeMap, pluck, takeUntil, tap } from 'rxjs/operators';
-import { NgScrollbar } from './ng-scrollbar';
+
+import { NgScrollbar } from '../ng-scrollbar';
 import { NgScrollbarThumb } from './ng-scrollbar-thumb';
 
 @Component({
   selector: 'ng-scrollbar-x',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <div #bar class="ng-scrollbar {{barClass}}" (mousedown)="onScrollbarHolderClick($event)">
-      <div #thumb class="ng-scrollbar-thumb {{thumbClass}}" [ngStyle]="scrollbarStyle | async"></div>
-    </div>
-  `
+  templateUrl: './ng-scrollbar.html',
+  styleUrls: [
+    './ng-scrollbar-common.scss',
+    './ng-scrollbar-x.scss'
+  ]
 })
 export class NgScrollbarX extends NgScrollbarThumb {
 
@@ -37,23 +38,28 @@ export class NgScrollbarX extends NgScrollbarThumb {
     super(_parent, _platform, _zone);
   }
 
+  protected listenToScrollEvent(): void {
+    this._scroll$ = this._parent.horizontalScrollEvent.subscribe(() => this.updateScrollbar());
+  }
+
+
   /**
    * Scrollbar click
    * @param e Mouse event
    */
-  onScrollbarHolderClick(e: any) {
+  onScrollbarHolderClick(e: any): void {
     if (e.target === e.currentTarget) {
       const offsetX = e.offsetX - this._naturalThumbSize * .5;
       const thumbPositionPercentage = offsetX * 100 / this.bar.nativeElement.clientWidth;
       const value = thumbPositionPercentage * this._view.scrollWidth / 100;
-      this._parent.scrollTo({left: value, duration: this.scrollToDuration} as any).subscribe();
+      this._parent.scrollTo({left: value, duration: this.scrollToDuration});
     }
   }
 
   /**
    * Update scrollbar
    */
-  protected updateScrollbar() {
+  protected updateScrollbar(): void {
     this._thumbSize = this.thumb.nativeElement.clientWidth;
     this._trackMax = this.bar.nativeElement.clientWidth - this._thumbSize;
     this._currPos = this._view.scrollLeft * this._trackMax / this._scrollMax;

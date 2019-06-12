@@ -1,0 +1,16 @@
+:host {
+  // Auto hide scrollbars
+  &[visibility="hover"] > .ng-scrollbar-grid-container > .ng-scrollbar-visible {
+    opacity: 0;
+    transition: opacity 120ms ease-out;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    > .ng-scrollbar-visible {
+      opacity: 1;
+      transition: opacity 340ms ease-out;
+    }
+  }
+}

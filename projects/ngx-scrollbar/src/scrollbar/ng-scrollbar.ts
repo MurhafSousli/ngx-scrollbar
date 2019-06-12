@@ -33,47 +33,53 @@ import {
   styleUrls: ['ng-scrollbar.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
+    '[attr.invertX]': 'invertX',
+    '[attr.invertY]': 'invertY',
+    '[attr.direction]': 'direction',
+    '[attr.appearance]': 'appearance',
+    '[attr.visibility]': 'visibility',
     '[attr.customView]': '!!customViewPort',
-    '[attr.trackX]': 'trackX',
-    '[attr.trackY]': 'trackY',
-    '[attr.compact]': 'compact',
-    '[attr.autoHide]': 'shown === "hover"',
     '[attr.disabled]': 'disabled'
   }
 })
 export class NgScrollbar implements AfterViewInit, OnDestroy {
 
-  /** Horizontal custom scrollbar */
-  @Input() trackX = false;
-  /** Vertical custom Scrollbar */
-  @Input() trackY = true;
+  /** Scroll direction to track */
+  @Input() direction: NgScrollbarDirection = this.globalOptions.direction;
+
   /** Scrollbar visibility */
-  @Input() shown: 'hover' | 'always' | 'native' = 'native';
-  /** Auto update scrollbars on content changes (Mutation Observer) */
-  @Input() autoUpdate = true;
+  @Input() visibility: NgScrollbarVisibility = this.globalOptions.visibility;
+
+  /** Scrollbar appearance */
+  @Input() appearance: NgScrollbarAppearance = this.globalOptions.appearance;
+
   /** Viewport class */
-  @Input() viewClass: string;
+  @Input() viewClass: string = this.globalOptions.viewClass;
+
   /** Scrollbars class */
-  @Input() barClass: string;
+  @Input() barClass: string = this.globalOptions.barClass;
+
   /** Scrollbars thumbnails class */
-  @Input() thumbClass: string;
+  @Input() thumbClass: string = this.globalOptions.thumbClass;
+
   /** The smooth scroll duration when a scrollbar is clicked */
-  @Input() scrollToDuration = 300;
-  /** Compact mode */
-  @Input() compact: boolean;
+  @Input() scrollToDuration = this.globalOptions.scrollToDuration;
+
   /** Invert vertical scrollbar position, if set the scrollbar will be on the right */
-  @Input() invertY: boolean;
+  @Input() invertY: boolean = this.globalOptions.invertY;
+
   /** Invert horizontal scrollbar position, if set the scrollbar will go the top */
-  @Input() invertX: boolean;
+  @Input() invertX: boolean = this.globalOptions.invertX;
+
   /** Disable custom scrollbars on specific breakpoints */
-  @Input() disableOnBreakpoints = [
-    Breakpoints.HandsetLandscape,
-    Breakpoints.HandsetPortrait
-  ];
+  @Input() disableOnBreakpoints: string[] | string = this.globalOptions.disableOnBreakpoints;
+
+  /** Auto update scrollbars on content changes (Mutation Observer) */
+  @Input() autoUpdate: boolean = this.globalOptions.autoUpdate;
 
   /** Disable custom scrollbars and switch back to native scrollbars */
   @Input('disabled')
-  get disabled() {
+  get disabled(): boolean {
     return this._disabled;
   }
 
@@ -81,11 +87,7 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
     disable ? this.disable() : this.enable();
   }
 
-  private _disabled = false;
-
-  /** Scrollbars ElementRef */
-  @ViewChild('y', {read: ElementRef}) verticalScrollbar: ElementRef;
-  @ViewChild('x', {read: ElementRef}) horizontalScrollbar: ElementRef;
+  private _disabled: boolean = false;
 
   /** Default viewport and smoothScroll references */
   @ViewChild(CdkScrollable) scrollViewport: CdkScrollable;
@@ -113,6 +115,14 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
       : this.viewSmoothScroll;
   }
 
+  get showScrollbarY(): boolean {
+    return this.visibility === 'always' || this.view.scrollHeight > this.view.clientHeight;
+  }
+
+  get showScrollbarX(): boolean {
+    return this.visibility === 'always' || this.view.scrollWidth > this.view.clientWidth;
+  }
+
   /** Unsubscribe component observables on destroy */
   private _unsubscribe$ = new Subject();
   /** Observe content changes */
@@ -129,11 +139,11 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   }
 
   showScrollbarY() {
-    return this.shown === 'always' || this.view.scrollHeight > this.view.clientHeight;
-  }
-
-  showScrollbarX() {
-    return this.shown === 'always' || this.view.scrollWidth > this.view.clientWidth;
+    const scrollProperty = direction === 'vertical' ? 'scrollTop' : 'scrollLeft';
+    let event: any;
+    return this.scrollable.elementScrolled().pipe(
+      tap((e: any) => event = e),
+      pluck('target', scrollProperty),
   }
 
   ngAfterViewInit() {

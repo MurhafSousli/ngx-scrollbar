@@ -1,0 +1,29 @@
+@mixin compactHorizontalScrollbarStyles() {
+  > ng-scrollbar-x {
+    position: absolute;
+    left: 0;
+    right: 0;
+  }
+
+  &[invertX="false"] > ng-scrollbar-x {
+    top: unset;
+    bottom: 0;
+  }
+
+  &[invertX="true"] > ng-scrollbar-x {
+    top: 0;
+    bottom: unset;
+  }
+
+  // If both scrollbars are visible
+  &[direction="both"] {
+    &[invertY="false"] > ng-scrollbar-x {
+      right: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
+    }
+
+    &[invertY="true"] > ng-scrollbar-x {
+      left: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
+    }
+  }
+}
+

@@ -1,0 +1,12 @@
+@mixin hideNativeScrollbar() {
+  &[disabled="false"] {
+    .ng-scroll-view,
+    ::ng-deep .ng-scroll-view > .ng-virtual-scroll-view {
+      scrollbar-width: none; /* Firefox 64 */
+      -ms-overflow-style: none; /* IE 11 */
+      &::-webkit-scrollbar { /** Webkit */
+        display: none;
+      }
+    }
+  }
+}

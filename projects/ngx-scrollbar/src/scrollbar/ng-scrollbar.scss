@@ -1,6 +1,8 @@
+@import "./styles/hide-native-scrollbars";
+@import "./styles/visibility";
+
 :host {
-  display: block;
-  overflow: hidden;
+  // CSS variables used to customized the look of the scrollbar component
   --scrollbar-color: transparent;
   --scrollbar-container-color: transparent;
   --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
@@ -9,235 +11,91 @@
   --scrollbar-size: 5px;
   --scrollbar-padding: 8px;
   --scroll-view-margin: 0;
-  --scroll-view-color: transparent;
 
-  // Add overflow-y to the view only when vertical scrollbar is shown
-  &[trackY="true"] > .ng-scrollbar-grid-container > .ng-scroll-view-container > .ng-scroll-view {
-    overflow-y: scroll;
-  }
-
-  // Add overflow-x to the view only when horizontal scrollbar is shown
-  &[trackX="true"] > .ng-scrollbar-grid-container > .ng-scroll-view-container > .ng-scroll-view {
-    overflow-x: scroll;
-  }
-
-  // Compact mode, scrollbars are contained in the scroll view
-  &[compact="true"] {
-    // Scrollbar X position in compact mode
-    > .ng-scrollbar-grid-container {
-      ng-scrollbar-x {
-        position: absolute;
-        bottom: 0;
-      }
-
-      ng-scrollbar-y {
-        position: absolute;
-        right: 0;
-        left: unset;
-      }
-    }
-    &.ng-scrollbar-invert {
-      > .ng-scrollbar-grid-container {
-        ng-scrollbar-x {
-          top: 0;
-          bottom: unset;
-        }
-        ng-scrollbar-y {
-          right: unset;
-          left: 0;
-        }
-      }
-    }
-  }
-
-  // Auto hide scrollbars
-  &[autoHide="true"] {
-    > .ng-scrollbar-grid-container ng-scrollbar-x,
-    > .ng-scrollbar-grid-container ng-scrollbar-y {
-      opacity: 0;
-      transition: opacity 120ms ease-out;
-    }
-
-    &:hover,
-    &:active,
-    &:focus {
-      > .ng-scrollbar-grid-container ng-scrollbar-x,
-      > .ng-scrollbar-grid-container ng-scrollbar-y {
-        opacity: 1;
-        transition: opacity 340ms ease-out;
-      }
-    }
-  }
-
-  // Hide the overflow from the default viewport
-  &[customView="true"] .ng-scroll-view {
-    overflow: hidden !important;
-  }
-
-  &[disabled="true"] {
-    .ng-scroll-view {
-      @extend .show-native-scrollbars;
-    }
-    ::ng-deep {
-      .ng-scroll-view > .ng-custom-scroll-view {
-        @extend .show-native-scrollbars;
-      }
-    }
-  }
-
-  &[disabled="false"] {
-    .ng-scroll-view {
-      @extend .hide-native-scrollbars;
-    }
-    ::ng-deep {
-      .ng-scroll-view > .ng-custom-scroll-view {
-        @extend .hide-native-scrollbars;
-      }
-    }
-  }
-}
-
-:host,
-.ng-scrollbar-layout,
-.ng-scroll-view {
+  overflow: hidden;
   position: relative;
   height: 100%;
-  width: 100%;
-}
+  display: grid;
+  justify-items: stretch;
+  align-items: stretch;
+  grid-column-gap: 0;
+  grid-row-gap: 0;
+  grid-template-areas:
+    "scroll-view    scrollbar-y"
+    "scrollbar-x    empty";
+  grid-template-columns: 1fr fit-content(100%);
+  grid-template-rows: 1fr fit-content(100%);
 
-.ng-scrollbar-layout {
-  display: flex;
-  // Fix horizontal scrollbar in non-compact mode on Firefox and Edge
-  // https://stackoverflow.com/questions/53873943/flexbox-column-child-goes-out-of-bound-in-edge
-  min-height: 0;
+  &[invertY="true"] {
+    grid-template-columns: fit-content(100%) 1fr;
+    grid-template-areas:
+      "scrollbar-y    scroll-view"
+      "empty          scrollbar-x";
+  }
+
+  &[invertX="true"] {
+    grid-template-rows: fit-content(100%) 1fr;
+    grid-template-areas:
+      "scrollbar-x    empty"
+      "scroll-view    scrollbar-y";
+  }
+
+  &[invertY="true"][invertX="true"] {
+    grid-template-columns: fit-content(100%) 1fr;
+    grid-template-rows: fit-content(100%) 1fr;
+    grid-template-areas:
+      "empty          scrollbar-x"
+      "scrollbar-y    scroll-view";
+  }
+
+  &[appearance="compact"] {
+    > .ng-scroll-view-container {
+      position: initial;
+    }
+  }
+
+  &[customView="false"] {
+    &[direction="both"],
+    &[direction="horizontal"] {
+      > .ng-scroll-view-container > .ng-scroll-view {
+        overflow-x: scroll;
+      }
+    }
+
+    &[direction="both"],
+    &[direction="vertical"] {
+      > .ng-scroll-view-container > .ng-scroll-view {
+        overflow-y: scroll;
+      }
+    }
+  }
+
+  @include hideNativeScrollbar();
 }
 
 .ng-scroll-view-container {
-  flex: 1;
-  position: relative;
   overflow: hidden;
+  position: relative;
+  grid-area: scroll-view;
   margin: var(--scroll-view-margin);
 }
 
 .ng-scroll-view {
-  box-sizing: content-box;
-  transform: translateZ(0);
-  background: var(--scroll-view-color);
-  -webkit-overflow-scrolling: touch;
-}
-
-// Show scrollbars only when the content is larger than scroll view
-ng-scrollbar-x,
-ng-scrollbar-y {
-  display: none;
+  overflow: hidden;
   box-sizing: border-box;
-  padding: var(--scrollbar-padding);
-  background: var(--scrollbar-container-color);
-
-  &.ng-scrollbar-visible {
-    display: block;
-  }
-}
-
-ng-scrollbar-y {
+  transform: translateZ(0);
+  overscroll-behavior: contain contain;
+  -webkit-overflow-scrolling: touch;
+  contain: content;
+  position: absolute;
+  left: 0;
+  right: 0;
   top: 0;
   bottom: 0;
 }
 
-ng-scrollbar-x {
-  left: 0;
-  right: 0;
-}
-
 ::ng-deep {
-  ng-scrollbar-y {
-    .ng-scrollbar {
-      width: var(--scrollbar-size);
-    }
-
-    .ng-scrollbar-thumb {
-      width: 100%;
-    }
-  }
-
-  ng-scrollbar-x {
-    .ng-scrollbar {
-      height: var(--scrollbar-size);
-    }
-
-    .ng-scrollbar-thumb {
-      height: 100%;
-    }
-  }
-
-  .ng-scrollbar {
-    height: 100%;
-    width: 100%;
-    z-index: 1;
-    border-radius: var(--scrollbar-border-radius);
-    background-color: var(--scrollbar-color);
-  }
-
-  .ng-scrollbar-thumb {
-    box-sizing: border-box;
-    position: relative;
-    width: 0;
-    height: 0;
-    border-radius: inherit;
-    background-color: var(--scrollbar-thumb-color);
-    transform: translate3d(0, 0, 0);
-    transition: height ease-out 150ms;
-
-    &:hover,
-    &:active {
-      background-color: var(--scrollbar-thumb-hover-color);
-    }
-  }
-
-  // In case of custom view port is used
-  .ng-custom-scroll-view {
+  .ng-virtual-scroll-view {
     height: 100%;
   }
-
-  ng-scrollbar[trackY="true"][trackX="true"] {
-    ng-scrollbar-x {
-      padding-right: calc((var(--scrollbar-padding) + var(--scrollbar-size)) * 2);
-    }
-    ng-scrollbar-y {
-      padding-bottom: calc((var(--scrollbar-padding) + var(--scrollbar-size)) * 2);
-    }
-  }
-
-  .ng-scroll-view {
-    grid-area: "scroll-view";
-  }
-
-  ng-scrollbar-x {
-    grid-area: "horizontal-scrollbar";
-  }
-  ng-scrollbar-y {
-    grid-area: "vertical-scrollbar";
-  }
-}
-
-.show-native-scrollbars {
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.hide-native-scrollbars {
-  margin: -30px !important;
-  padding: 30px !important;
-}
-
-.ng-scrollbar-grid-container {
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-  grid-column-gap: 0;
-  grid-row-gap: 0;
-  justify-items: stretch;
-  align-items: stretch;
-  grid-template-areas: "scroll-view vertical-scrollbar horizontal-scrollbar";
 }
