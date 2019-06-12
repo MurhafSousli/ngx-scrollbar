@@ -19,6 +19,14 @@ import {takeUntil, tap, throttleTime} from 'rxjs/operators';
 import {ScrollToOptions, SmoothScroll, SmoothScrollEaseFunc} from '../smooth-scroll/smooth-scroll';
 import {NgScrollbarView} from './ng-scrollbar-view';
 
+import {
+  NG_SCROLLBAR_DEFAULT_OPTIONS,
+  NgScrollbarAppearance,
+  NgScrollbarDefaultOptions,
+  NgScrollbarDirection,
+  NgScrollbarVisibility
+} from './ng-scrollbar-config';
+
 @Component({
   selector: 'ng-scrollbar',
   templateUrl: 'ng-scrollbar.html',
@@ -116,6 +124,7 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
 
   constructor(private _changeDetectorRef: ChangeDetectorRef,
               private _breakpointObserver: BreakpointObserver,
+              @Inject(NG_SCROLLBAR_DEFAULT_OPTIONS) private globalOptions: NgScrollbarDefaultOptions,
               @Inject(PLATFORM_ID) private _platform: Object) {
   }
 
