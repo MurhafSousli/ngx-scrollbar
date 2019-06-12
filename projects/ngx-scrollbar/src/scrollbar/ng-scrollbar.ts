@@ -26,7 +26,8 @@ import {
 } from './ng-scrollbar-config';
 
 @Component({
-  selector: 'ng-scrollbar',
+  selector: 'ng-scrollbar, [ngScrollbar]',
+  exportAs: 'ngScrollbar',
   templateUrl: 'ng-scrollbar.html',
   styleUrls: ['ng-scrollbar.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
