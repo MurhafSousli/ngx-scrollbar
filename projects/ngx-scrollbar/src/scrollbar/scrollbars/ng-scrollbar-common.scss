@@ -1,9 +1,12 @@
 ::ng-deep {
+
   ng-scrollbar, [ngScrollbar] {
-    display: none;
-    box-sizing: border-box;
-    //padding: var(--scrollbar-padding);
     background: var(--scrollbar-container-color);
+
+    > ng-scrollbar-y, > ng-scrollbar-x {
+      display: none;
+      box-sizing: border-box;
+    }
     > .ng-scrollbar-visible {
       display: flex;
       justify-content: center;
