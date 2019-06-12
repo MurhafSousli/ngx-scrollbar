@@ -79,14 +79,14 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   /** Disable custom scrollbars and switch back to native scrollbars */
   @Input('disabled')
   get disabled(): boolean {
-    return this._disabled;
+    return this.disabledFlag;
   }
 
   set disabled(disable: boolean) {
     disable ? this.disable() : this.enable();
   }
 
-  private _disabled: boolean = false;
+  private disabledFlag: boolean = false;
 
   /** Default viewport and smoothScroll references */
   @ViewChild(CdkScrollable) scrollViewport: CdkScrollable;
@@ -102,12 +102,14 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
       : this.scrollViewport.getElementRef().nativeElement;
   }
 
+  /** Returns the scrollable view reference */
   get scrollable(): CdkScrollable | CdkVirtualScrollViewport {
     return this.customViewPort
       ? this.customViewPort.virtualScrollViewport
       : this.scrollViewport;
   }
 
+  /** Returns the smoothScroll directive reference */
   get smoothScroll(): SmoothScroll {
     return this.customViewPort
       ? this.customViewPort.smoothScroll
@@ -131,18 +133,16 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   }
 
   /** Unsubscribe component observables on destroy */
-  private _unsubscribe$ = new Subject();
-  /** Observe content changes */
-  private _observer: MutationObserver;
+  private unsubscriber = new Subject();
 
-  /** Steam that emits when scrollbar thumbnail needs to update (for internal uses) */
-  private _updateObserver = new Subject();
-  updateObserver = this._updateObserver.asObservable();
+  /** Steam that emits when scrollbar thumbnail needs to be updated (for internal uses) */
+  private updater = new Subject();
+  updateObserver = this.updater.asObservable();
 
-  constructor(private _changeDetectorRef: ChangeDetectorRef,
-              private _breakpointObserver: BreakpointObserver,
+  constructor(private changeDetectorRef: ChangeDetectorRef,
+              private breakpointObserver: BreakpointObserver,
               @Inject(NG_SCROLLBAR_DEFAULT_OPTIONS) private globalOptions: NgScrollbarDefaultOptions,
-              @Inject(PLATFORM_ID) private _platform: Object) {
+              @Inject(PLATFORM_ID) private platform: Object) {
   }
 
   private getScrollEventByDirection(direction: 'vertical' | 'horizontal') {
@@ -163,9 +163,9 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
       if (!this.disabled) {
         if (this.disableOnBreakpoints) {
           // Enable/Disable custom scrollbar on breakpoints (Used to disable scrollbars on mobile phones)
-          this._breakpointObserver.observe(this.disableOnBreakpoints).pipe(
+          this.breakpointObserver.observe(this.disableOnBreakpoints).pipe(
             tap((result: BreakpointState) => result.matches ? this.disable() : this.enable()),
-            takeUntil(this._unsubscribe$)
+            takeUntil(this.unsubscriber)
           ).subscribe();
         } else {
           this.enable();
@@ -175,37 +175,32 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
       // Update state on content changes
       this.updateObserver.pipe(
         throttleTime(200),
-        tap(() => this._changeDetectorRef.markForCheck()),
-        takeUntil(this._unsubscribe$)
+        tap(() => this.changeDetectorRef.markForCheck()),
+        takeUntil(this.unsubscriber)
       ).subscribe();
 
 
-      if (isPlatformBrowser(this._platform)) {
+      if (isPlatformBrowser(this.platform)) {
         // Update scrollbars when window is re-sized
         fromEvent(document.defaultView, 'resize').pipe(
           throttleTime(200),
           tap(() => this.update()),
-          takeUntil(this._unsubscribe$)
+          takeUntil(this.unsubscriber)
         ).subscribe();
       }
     });
   }
 
   ngOnDestroy() {
-    this._unsubscribe$.next();
-    this._unsubscribe$.complete();
-    if (this._observer) {
-      this._observer.disconnect();
-    }
+    this.unsubscriber.next();
+    this.unsubscriber.complete();
   }
 
   /**
    * Update scrollbar thumbnail position
    */
   update() {
-    if (!this.disabled) {
-      this._updateObserver.next();
-    }
+    this.updater.next();
   }
 
   /**
@@ -213,15 +208,9 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
    */
   enable() {
     if (this.view) {
-      this._disabled = false;
-      // Update view
-      this._changeDetectorRef.markForCheck();
-
-      if (!this.customViewPort && this.autoUpdate && isPlatformBrowser(this._platform)) {
-        // Observe content changes
-        this._observer = new MutationObserver(() => this.update());
-        this._observer.observe(this.view, {subtree: true, childList: true, characterData: true});
-      }
+      this.disabledFlag = false;
+      // Mark for a check to update scrollbar state
+      this.changeDetectorRef.markForCheck();
     }
   }
 
@@ -229,10 +218,7 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
    * Disable custom scrollbar
    */
   disable() {
-    this._disabled = true;
-    if (this._observer) {
-      this._observer.disconnect();
-    }
+    this.disabledFlag = true;
   }
 
   scrollTo(options: ScrollToOptions): Promise<void> {

@@ -16,46 +16,46 @@ export class NgScrollbarThumb implements AfterViewInit, OnDestroy {
   @ViewChild('bar') bar: ElementRef;
   @ViewChild('thumb') thumb: ElementRef;
 
-  protected _minThumbSize = 20;
-  protected _naturalThumbSize = 0;
-  protected _thumbSize = 0;
-  protected _trackMax = 0;
-  protected _scrollMax = 0;
-  protected _currPos = 0;
-  protected _scroll$ = Subscription.EMPTY;
-  protected _thumbDrag$ = Subscription.EMPTY;
-  protected _updateObserver$ = Subscription.EMPTY;
-  protected _view: HTMLElement;
-  protected _state = new BehaviorSubject<any>({
+  protected minThumbSize = 20;
+  protected naturalThumbSize = 0;
+  protected thumbSize = 0;
+  protected trackMax = 0;
+  protected scrollMax = 0;
+  protected currPos = 0;
+  protected scroll$ = Subscription.EMPTY;
+  protected thumbDrag$ = Subscription.EMPTY;
+  protected updateObserver$ = Subscription.EMPTY;
+  protected view: HTMLElement;
+  protected state = new BehaviorSubject<any>({
     transform: 'translate3d(0, 0, 0)'
   });
 
   /** Scrollbar styles */
-  readonly scrollbarStyle = this._state.asObservable();
+  readonly scrollbarStyle = this.state.asObservable();
 
-  get thumbSize(): number {
+  get thumbnailSize(): number {
     return 0;
   }
 
-  constructor(protected _parent: NgScrollbar,
-              protected _platform: Object,
-              protected _zone: NgZone) {
+  constructor(protected parent: NgScrollbar,
+              protected platform: Object,
+              protected zone: NgZone) {
   }
 
   ngAfterViewInit() {
     // Avoid SSR Error
-    if (isPlatformBrowser(this._platform)) {
-      this._view = this._parent.view;
+    if (isPlatformBrowser(this.platform)) {
+      this.view = this.parent.view;
 
       this.listenToScrollEvent();
 
       // Start scrollbar thumbnail drag events
-      this._zone.runOutsideAngular(() =>
-        this._thumbDrag$ = this.startThumbEvents().subscribe()
+      this.zone.runOutsideAngular(() =>
+        this.thumbDrag$ = this.startThumbEvents().subscribe()
       );
 
       // Update scrollbar thumbnail size on content changes
-      this._updateObserver$ = this._parent.updateObserver.pipe(
+      this.updateObserver$ = this.parent.updateObserver.pipe(
         throttleTime(200),
         tap(() => this.updateScrollbar()),
         // Make sure scrollbar thumbnail position is correct after the new content is rendered
@@ -69,9 +69,9 @@ export class NgScrollbarThumb implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._scroll$.unsubscribe();
-    this._thumbDrag$.unsubscribe();
-    this._updateObserver$.unsubscribe();
+    this.scroll$.unsubscribe();
+    this.thumbDrag$.unsubscribe();
+    this.updateObserver$.unsubscribe();
   }
 
   protected listenToScrollEvent(): void {
@@ -103,10 +103,10 @@ export class NgScrollbarThumb implements AfterViewInit, OnDestroy {
    * @param scrollMax
    */
   protected scrollBoundaries(naturalThumbSize: number, scrollMax: number): number {
-    return (naturalThumbSize < this._minThumbSize) ? this._minThumbSize : scrollMax ? naturalThumbSize : 0;
+    return (naturalThumbSize < this.minThumbSize) ? this.minThumbSize : scrollMax ? naturalThumbSize : 0;
   }
 
   protected updateState(state: any): void {
-    this._state.next({...this._state.value, ...state});
+    this.state.next({...this.state.value, ...state});
   }
 }

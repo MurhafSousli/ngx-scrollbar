@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Host,
-  Inject,
-  NgZone,
-  PLATFORM_ID
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Host, Inject, NgZone, PLATFORM_ID } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { animationFrameScheduler, fromEvent, Observable } from 'rxjs';
 import { mergeMap, pluck, takeUntil, tap } from 'rxjs/operators';
@@ -27,24 +20,24 @@ export class NgScrollbarY extends NgScrollbarThumb {
   /**
    * Calculate scrollbar thumbnail size
    */
-  get thumbSize(): number {
+  get thumbnailSize(): number {
     const barClientHeight = this.bar.nativeElement.clientHeight;
-    const viewClientHeight = this._view.clientHeight;
-    const viewScrollHeight = this._view.scrollHeight;
-    this._naturalThumbSize = barClientHeight / viewScrollHeight * barClientHeight;
-    this._scrollMax = viewScrollHeight - viewClientHeight;
-    return this.scrollBoundaries(this._naturalThumbSize, this._scrollMax);
+    const viewClientHeight = this.view.clientHeight;
+    const viewScrollHeight = this.view.scrollHeight;
+    this.naturalThumbSize = barClientHeight / viewScrollHeight * barClientHeight;
+    this.scrollMax = viewScrollHeight - viewClientHeight;
+    return this.scrollBoundaries(this.naturalThumbSize, this.scrollMax);
   }
 
-  constructor(@Inject(DOCUMENT) protected _document: any,
-              @Host() protected _parent: NgScrollbar,
-              @Inject(PLATFORM_ID) _platform: Object,
-              protected _zone: NgZone) {
-    super(_parent, _platform, _zone);
+  constructor(@Inject(DOCUMENT) protected document: any,
+              @Host() protected parent: NgScrollbar,
+              @Inject(PLATFORM_ID) platform: Object,
+              protected zone: NgZone) {
+    super(parent, platform, zone);
   }
 
   protected listenToScrollEvent(): void {
-    this._scroll$ = this._parent.verticalScrollEvent.subscribe(() => this.updateScrollbar());
+    this.scroll$ = this.parent.verticalScrollEvent.subscribe(() => this.updateScrollbar());
   }
 
   /**
@@ -53,10 +46,10 @@ export class NgScrollbarY extends NgScrollbarThumb {
    */
   onScrollbarHolderClick(e: any): void {
     if (e.target === e.currentTarget) {
-      const offsetY = e.offsetY - this._naturalThumbSize * .5;
+      const offsetY = e.offsetY - this.naturalThumbSize * .5;
       const thumbPositionPercentage = offsetY * 100 / this.bar.nativeElement.clientHeight;
-      const value = thumbPositionPercentage * this._view.scrollHeight / 100;
-      this._parent.scrollTo({top: value, duration: this.scrollToDuration});
+      const value = thumbPositionPercentage * this.view.scrollHeight / 100;
+      this.parent.scrollTo({top: value, duration: this.scrollToDuration});
     }
   }
 
@@ -64,14 +57,14 @@ export class NgScrollbarY extends NgScrollbarThumb {
    * Update scrollbar
    */
   protected updateScrollbar(): void {
-    this._thumbSize = this.thumb.nativeElement.clientHeight;
-    this._trackMax = this.bar.nativeElement.clientHeight - this._thumbSize;
-    this._currPos = this._view.scrollTop * this._trackMax / this._scrollMax;
-    this._zone.run(() => {
+    this.thumbSize = this.thumb.nativeElement.clientHeight;
+    this.trackMax = this.bar.nativeElement.clientHeight - this.thumbSize;
+    this.currPos = this.view.scrollTop * this.trackMax / this.scrollMax;
+    this.zone.run(() => {
       animationFrameScheduler.schedule(() =>
         this.updateState({
-          transform: `translate3d(0, ${this._currPos}px, 0)`,
-          height: `${this.thumbSize}px`
+          transform: `translate3d(0, ${this.currPos}px, 0)`,
+          height: `${this.thumbnailSize}px`
         })
       );
     });
@@ -82,15 +75,15 @@ export class NgScrollbarY extends NgScrollbarThumb {
    */
   protected startThumbEvents(): Observable<any> {
     const mouseDown$ = fromEvent(this.thumb.nativeElement, 'mousedown');
-    const mouseMove$ = fromEvent(this._document, 'mousemove');
-    const mouseUp$ = fromEvent(this._document, 'mouseup').pipe(
-      tap(() => this._document.onselectstart = null)
+    const mouseMove$ = fromEvent(this.document, 'mousemove');
+    const mouseUp$ = fromEvent(this.document, 'mouseup').pipe(
+      tap(() => this.document.onselectstart = null)
     );
     return mouseDown$.pipe(
       tap(() => {
-        this._document.onselectstart = () => false;
+        this.document.onselectstart = () => false;
         // Initialize trackMax for before start dragging
-        this._trackMax = this.bar.nativeElement.clientHeight - this._thumbSize;
+        this.trackMax = this.bar.nativeElement.clientHeight - this.thumbSize;
       }),
       pluck('offsetY'),
       mergeMap((mouseDownOffset: number) => mouseMove$.pipe(
@@ -98,8 +91,8 @@ export class NgScrollbarY extends NgScrollbarThumb {
         pluck('clientY'),
         tap((mouseMoveClient: number) => {
           const offsetY = mouseMoveClient - this.bar.nativeElement.getBoundingClientRect().top;
-          const value = this._scrollMax * (offsetY - mouseDownOffset) / this._trackMax;
-          this._parent.scrollable.scrollTo({top: value});
+          const value = this.scrollMax * (offsetY - mouseDownOffset) / this.trackMax;
+          this.parent.scrollable.scrollTo({top: value});
         })
       ))
     );

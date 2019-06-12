@@ -1,7 +1,7 @@
 import { Directive, ElementRef, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { supportsScrollBehavior } from '@angular/cdk/platform';
-import { Observable, from, of, animationFrameScheduler } from 'rxjs';
+import { animationFrameScheduler } from 'rxjs';
 
 export type SmoothScrollEaseFunc = (t: number, s: number, c: number, d: number) => number;
 
@@ -29,7 +29,7 @@ export class SmoothScroll {
 
   private readonly view: HTMLElement;
 
-  constructor(@Inject(PLATFORM_ID) private _platform: Object,
+  constructor(@Inject(PLATFORM_ID) private platform: Object,
               el: ElementRef) {
     this.view = el.nativeElement;
   }
@@ -45,7 +45,7 @@ export class SmoothScroll {
 
   scrollTo(options: ScrollToOptions): Promise<void> {
     // Avoid SSR error
-    if (isPlatformBrowser(this._platform)) {
+    if (isPlatformBrowser(this.platform)) {
       const scrollFunc = (left: number, top: number) => {
         if (supportsScrollBehavior()) {
           this.view.scrollTo({top, left});
