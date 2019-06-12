@@ -13,6 +13,7 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { CdkScrollable, CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { Directionality } from '@angular/cdk/bidi';
 import { fromEvent, Observable, Subject } from 'rxjs';
 import { pairwise, takeUntil, tap, throttleTime, filter, pluck, map } from 'rxjs/operators';
 import { VirtualScrollView } from '../virtual-scroll/virtual-scroll-view';
@@ -38,7 +39,8 @@ import {
     '[attr.appearance]': 'appearance',
     '[attr.visibility]': 'visibility',
     '[attr.customView]': '!!customViewPort',
-    '[attr.disabled]': 'disabled'
+    '[attr.disabled]': 'disabled',
+    '[attr.dir]': 'dir.value'
   }
 })
 export class NgScrollbar implements AfterViewInit, OnDestroy {
@@ -141,6 +143,7 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private breakpointObserver: BreakpointObserver,
+              public dir: Directionality,
               @Inject(NG_SCROLLBAR_DEFAULT_OPTIONS) private globalOptions: NgScrollbarDefaultOptions,
               @Inject(PLATFORM_ID) private platform: Object) {
   }

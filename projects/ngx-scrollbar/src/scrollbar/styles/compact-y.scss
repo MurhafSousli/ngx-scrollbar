@@ -6,14 +6,27 @@
   }
 
   // Default position
-  &[invertY="false"] > ng-scrollbar-y {
-    right: 0;
-    left: unset;
+  &[invertY="false"] {
+    &[dir="ltr"] > ng-scrollbar-y {
+      right: 0;
+      left: unset;
+    }
+
+    &[dir="rtl"] > ng-scrollbar-y {
+      right: unset;
+      left: 0;
+    }
   }
   // Invert position
-  &[invertY="true"] > ng-scrollbar-y {
-    right: unset;
-    left: 0;
+  &[invertY="true"] {
+    &[dir="ltr"] > ng-scrollbar-y {
+      right: unset;
+      left: 0;
+    }
+    &[dir="rtl"] > ng-scrollbar-y {
+      right: 0;
+      left: unset;
+    }
   }
 
   // If both scrollbars are visible
