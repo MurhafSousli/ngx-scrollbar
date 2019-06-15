@@ -1,5 +1,5 @@
 @mixin compactVerticalScrollbarStyles() {
-  > ng-scrollbar-y {
+  > .ng-custom-scrollbar[type="vertical"] {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -7,23 +7,23 @@
 
   // Default position
   &[invertY="false"] {
-    &[dir="ltr"] > ng-scrollbar-y {
+    &[dir="ltr"] > .ng-custom-scrollbar[type="vertical"] {
       right: 0;
       left: unset;
     }
 
-    &[dir="rtl"] > ng-scrollbar-y {
+    &[dir="rtl"] > .ng-custom-scrollbar[type="vertical"] {
       right: unset;
       left: 0;
     }
   }
   // Invert position
   &[invertY="true"] {
-    &[dir="ltr"] > ng-scrollbar-y {
+    &[dir="ltr"] > .ng-custom-scrollbar[type="vertical"] {
       right: unset;
       left: 0;
     }
-    &[dir="rtl"] > ng-scrollbar-y {
+    &[dir="rtl"] > .ng-custom-scrollbar[type="vertical"] {
       right: 0;
       left: unset;
     }
@@ -31,11 +31,11 @@
 
   // If both scrollbars are visible
   &[direction="both"] {
-    &[invertX="false"] > ng-scrollbar-y {
+    &[invertX="false"] > .ng-custom-scrollbar[type="vertical"] {
       bottom: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
     }
 
-    &[invertX="true"] > ng-scrollbar-y {
+    &[invertX="true"] > .ng-custom-scrollbar[type="vertical"] {
       top: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
     }
   }

@@ -7,8 +7,7 @@ import { ObserversModule } from '@angular/cdk/observers';
 import { SmoothScrollModule } from '../smooth-scroll/smooth-scroll.module';
 
 import { NgScrollbar } from './ng-scrollbar';
-import { NgScrollbarY } from './scrollbars/ng-scrollbar-y';
-import { NgScrollbarX } from './scrollbars/ng-scrollbar-x';
+import { NgCustomScrollbar } from './scrollbars/ng-custom-scrollbar';
 
 @NgModule({
   imports: [
@@ -21,8 +20,7 @@ import { NgScrollbarX } from './scrollbars/ng-scrollbar-x';
   ],
   declarations: [
     NgScrollbar,
-    NgScrollbarY,
-    NgScrollbarX,
+    NgCustomScrollbar
   ],
   exports: [
     NgScrollbar,

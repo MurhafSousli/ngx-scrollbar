@@ -3,7 +3,7 @@
   ng-scrollbar, [ngScrollbar] {
     background: var(--scrollbar-container-color);
 
-    > ng-scrollbar-y, > ng-scrollbar-x {
+    > .ng-custom-scrollbar {
       display: none;
     }
     > .ng-scrollbar-visible {
@@ -13,7 +13,7 @@
     }
   }
 
-  .ng-scrollbar {
+  .ng-scrollbar-container {
     height: 100%;
     width: 100%;
     z-index: 1;
@@ -21,7 +21,7 @@
     background-color: var(--scrollbar-color);
   }
 
-  .ng-scrollbar-thumb {
+  .ng-scrollbar-thumbnail {
     box-sizing: border-box;
     position: relative;
     border-radius: inherit;

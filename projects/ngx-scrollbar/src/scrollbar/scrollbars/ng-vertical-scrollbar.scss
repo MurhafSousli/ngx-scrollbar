@@ -2,15 +2,16 @@
 
 ::ng-deep {
   ng-scrollbar, [ngScrollbar] {
-    > ng-scrollbar-y {
+    > .ng-custom-scrollbar[type="vertical"] {
       grid-area: scrollbar-y;
       width: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
 
-      > .ng-scrollbar {
+      > .ng-scrollbar-container {
         width: var(--scrollbar-size);
         height: calc(100% - var(--scrollbar-size) * 2);
 
-        > .ng-scrollbar-thumb {
+        > .ng-scrollbar-thumbnail {
+          min-height: var(--scrollbar-min-thumbsize);
           width: 100%;
         }
       }

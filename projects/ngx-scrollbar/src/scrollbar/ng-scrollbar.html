@@ -9,17 +9,17 @@
 </div>
 
 <ng-container *ngIf="!disabled">
-  <ng-scrollbar-y *ngIf="direction === 'both' || direction === 'vertical'"
-                  [class.ng-scrollbar-visible]="showScrollbarY"
-                  [barClass]="barClass"
-                  [thumbClass]="thumbClass">
-  </ng-scrollbar-y>
+  <ng-custom-scrollbar type="vertical"
+                       class="ng-custom-scrollbar"
+                       *ngIf="direction === 'both' || direction === 'vertical'"
+                       [class.ng-scrollbar-visible]="showScrollbarY">
+  </ng-custom-scrollbar>
 
-  <ng-scrollbar-x *ngIf="direction === 'both' || direction === 'horizontal'"
-                  [class.ng-scrollbar-visible]="showScrollbarX"
-                  [barClass]="barClass"
-                  [thumbClass]="thumbClass">
-  </ng-scrollbar-x>
+  <ng-custom-scrollbar type="horizontal"
+                       class="ng-custom-scrollbar"
+                       *ngIf="direction === 'both' || direction === 'horizontal'"
+                       [class.ng-scrollbar-visible]="showScrollbarX">
+  </ng-custom-scrollbar>
 </ng-container>
 
 <span style="grid-area: empty"></span>
