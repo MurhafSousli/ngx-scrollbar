@@ -50,7 +50,7 @@ export class NgScrollbarX extends NgScrollbarThumb {
       const offsetX = e.offsetX - this.naturalThumbSize * .5;
       const thumbPositionPercentage = offsetX * 100 / this.bar.nativeElement.clientWidth;
       const value = thumbPositionPercentage * this.view.scrollWidth / 100;
-      this.parent.scrollTo({left: value, duration: this.scrollToDuration});
+      this.parent.scrollTo({left: value, duration: this.parent.scrollToDuration});
     }
   }
 

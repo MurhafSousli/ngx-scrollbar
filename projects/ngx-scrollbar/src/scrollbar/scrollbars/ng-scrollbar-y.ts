@@ -49,7 +49,7 @@ export class NgScrollbarY extends NgScrollbarThumb {
       const offsetY = e.offsetY - this.naturalThumbSize * .5;
       const thumbPositionPercentage = offsetY * 100 / this.bar.nativeElement.clientHeight;
       const value = thumbPositionPercentage * this.view.scrollHeight / 100;
-      this.parent.scrollTo({top: value, duration: this.scrollToDuration});
+      this.parent.scrollTo({top: value, duration: this.parent.scrollToDuration});
     }
   }
 

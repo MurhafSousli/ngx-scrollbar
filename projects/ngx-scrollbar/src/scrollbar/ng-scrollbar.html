@@ -8,21 +8,17 @@
   </div>
 </div>
 
-<!--TODO: use output to run scrollTo function instead of passing scrollto duration -->
-
 <ng-container *ngIf="!disabled">
   <ng-scrollbar-y *ngIf="direction === 'both' || direction === 'vertical'"
                   [class.ng-scrollbar-visible]="showScrollbarY"
                   [barClass]="barClass"
-                  [thumbClass]="thumbClass"
-                  [scrollToDuration]="scrollToDuration">
+                  [thumbClass]="thumbClass">
   </ng-scrollbar-y>
 
   <ng-scrollbar-x *ngIf="direction === 'both' || direction === 'horizontal'"
                   [class.ng-scrollbar-visible]="showScrollbarX"
                   [barClass]="barClass"
-                  [thumbClass]="thumbClass"
-                  [scrollToDuration]="scrollToDuration">
+                  [thumbClass]="thumbClass">
   </ng-scrollbar-x>
 </ng-container>
 
