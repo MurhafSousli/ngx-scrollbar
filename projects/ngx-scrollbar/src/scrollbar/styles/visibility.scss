@@ -1,4 +1,4 @@
-:host {
+@mixin visibility() {
   // Auto hide scrollbars
   &[visibility="hover"] > .ng-scrollbar-grid-container > .ng-scrollbar-visible {
     opacity: 0;
