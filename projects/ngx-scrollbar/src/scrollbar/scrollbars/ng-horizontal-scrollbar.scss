@@ -11,7 +11,7 @@
         width: calc(100% - var(--scrollbar-size) * 2);
 
         > .ng-scrollbar-thumbnail {
-          min-width: var(--scrollbar-min-thumbsize);
+          min-width: var(--scrollbar-min-size);
           height: 100%;
         }
       }
