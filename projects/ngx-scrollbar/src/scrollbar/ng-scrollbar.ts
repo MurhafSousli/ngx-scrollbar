@@ -139,8 +139,8 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   private unsubscriber = new Subject();
 
   /** Steam that emits when scrollbar thumbnail needs to be updated (for internal uses) */
-  private updater = new Subject();
-  updateObserver = this.updater.asObservable();
+  private updater = new Subject<void>();
+  updateObserver: Observable<void> = this.updater.asObservable();
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private breakpointObserver: BreakpointObserver,
