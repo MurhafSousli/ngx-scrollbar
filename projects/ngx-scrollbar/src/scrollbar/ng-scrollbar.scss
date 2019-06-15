@@ -6,7 +6,7 @@
   --scrollbar-color: transparent;
   --scrollbar-container-color: transparent;
   --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
-  --scrollbar-thumb-hover-color: rgba(0, 0, 0, 0.3);
+  --scrollbar-thumb-hover-color: var(--scrollbar-thumb-color);
   --scrollbar-border-radius: 7px;
   --scrollbar-size: 5px;
   --scrollbar-padding: 8px;
