@@ -33,6 +33,7 @@ import {
   styleUrls: ['ng-scrollbar.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
+    '[class.ng-scrollbar]': 'true',
     '[attr.invertX]': 'invertX',
     '[attr.invertY]': 'invertY',
     '[attr.direction]': 'direction',

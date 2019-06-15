@@ -1,7 +1,7 @@
 @import "../styles/compact-y";
 
 ::ng-deep {
-  ng-scrollbar, [ngScrollbar] {
+  .ng-scrollbar {
     > .ng-custom-scrollbar[type="vertical"] {
       grid-area: scrollbar-y;
       width: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
