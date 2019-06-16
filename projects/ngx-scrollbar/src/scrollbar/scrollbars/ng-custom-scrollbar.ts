@@ -1,5 +1,6 @@
 import {
   Component,
+  OnInit,
   AfterViewInit,
   OnDestroy,
   ViewChild,
@@ -7,7 +8,8 @@ import {
   Inject,
   NgZone,
   ElementRef,
-  ChangeDetectionStrategy, PLATFORM_ID, OnInit
+  ChangeDetectionStrategy,
+  PLATFORM_ID
 } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { NgScrollbar } from '../ng-scrollbar';

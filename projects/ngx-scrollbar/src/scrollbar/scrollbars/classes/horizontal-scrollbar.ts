@@ -18,14 +18,14 @@ export class HorizontalScrollbar extends CustomScrollbar {
     return this.scrollBoundaries(this.naturalThumbSize, this.scrollMax);
   }
 
-  constructor(protected ref: NgScrollbar,
+  constructor(protected scrollbarRef: NgScrollbar,
               protected document: any,
               protected zone: NgZone) {
-    super(ref, document, zone);
+    super(scrollbarRef, document, zone);
   }
 
   protected listenToScrollEvent(): void {
-    this.ref.horizontalScrollEvent.pipe(
+    this.scrollbarRef.horizontalScrollEvent.pipe(
       tap(() => this.updateScrollbar()),
       takeUntil(this.unsubscriber)
     ).subscribe();
@@ -41,7 +41,7 @@ export class HorizontalScrollbar extends CustomScrollbar {
       const offsetX = e.offsetX - this.naturalThumbSize * .5;
       const thumbPositionPercentage = offsetX * 100 / this.containerElement.clientWidth;
       const value = thumbPositionPercentage * this.viewElement.scrollWidth / 100;
-      this.ref.scrollTo({left: value, duration: this.ref.scrollToDuration});
+      this.scrollbarRef.scrollTo({left: value, duration: this.scrollbarRef.scrollToDuration});
     }
   }
 
@@ -90,7 +90,7 @@ export class HorizontalScrollbar extends CustomScrollbar {
           // if (this.dir.value === 'rtl') {
           // value = value === 0 ? this.trackMax - offsetX : value;
           // }
-          this.ref.scrollable.scrollTo({left: value});
+          this.scrollbarRef.scrollable.scrollTo({left: value});
         })
       ))
     );

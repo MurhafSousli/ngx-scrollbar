@@ -17,14 +17,14 @@ export class VerticalScrollbar extends CustomScrollbar {
     return this.scrollBoundaries(this.naturalThumbSize, this.scrollMax);
   }
 
-  constructor(protected ref: NgScrollbar,
+  constructor(protected scrollbarRef: NgScrollbar,
               protected document: any,
               protected zone: NgZone) {
-    super(ref, document, zone);
+    super(scrollbarRef, document, zone);
   }
 
   protected listenToScrollEvent(): void {
-    this.ref.verticalScrollEvent.pipe(
+    this.scrollbarRef.verticalScrollEvent.pipe(
       tap(() => this.updateScrollbar()),
       takeUntil(this.unsubscriber)
     ).subscribe();
@@ -39,7 +39,7 @@ export class VerticalScrollbar extends CustomScrollbar {
       const offsetY = e.offsetY - this.naturalThumbSize * .5;
       const thumbPositionPercentage = offsetY * 100 / this.containerElement.clientHeight;
       const value = thumbPositionPercentage * this.viewElement.scrollHeight / 100;
-      this.ref.scrollTo({top: value, duration: this.ref.scrollToDuration});
+      this.scrollbarRef.scrollTo({top: value, duration: this.scrollbarRef.scrollToDuration});
     }
   }
 
@@ -82,7 +82,7 @@ export class VerticalScrollbar extends CustomScrollbar {
         tap((mouseMoveClient: number) => {
           const offsetY = mouseMoveClient - this.containerElement.getBoundingClientRect().top;
           const value = this.scrollMax * (offsetY - mouseDownOffset) / this.trackMax;
-          this.ref.scrollable.scrollTo({top: value});
+          this.scrollbarRef.scrollable.scrollTo({top: value});
         })
       ))
     );

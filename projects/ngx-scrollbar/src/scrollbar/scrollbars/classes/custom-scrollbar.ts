@@ -34,10 +34,10 @@ export class CustomScrollbar {
   protected scrollMax = 0;
   protected currPos = 0;
 
-  constructor(protected ref: NgScrollbar,
+  constructor(protected scrollbarRef: NgScrollbar,
               protected document: any,
               protected zone: NgZone) {
-    this.viewElement = ref.view;
+    this.viewElement = scrollbarRef.view;
   }
 
   init(container: HTMLElement, thumbnail: HTMLElement) {
@@ -53,12 +53,12 @@ export class CustomScrollbar {
     });
 
     // Update scrollbar thumbnail size on content changes
-    this.ref.updateObserver.pipe(
+    this.scrollbarRef.updateObserver.pipe(
       throttleTime(200),
       tap(() => this.updateScrollbar()),
       // Make sure scrollbar thumbnail position is correct after the new content is rendered
-      // debounceTime(200),
-      // tap(() => this.updateScrollbar()),
+      debounceTime(200),
+      tap(() => this.updateScrollbar()),
       takeUntil(this.unsubscriber)
     ).subscribe();
 
