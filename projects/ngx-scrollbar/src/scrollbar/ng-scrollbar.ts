@@ -135,8 +135,8 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
     return this.visibility === 'always' || this.view.scrollWidth > this.view.clientWidth;
   }
 
-  /** Unsubscribe component observables on destroy */
-  private unsubscriber = new Subject();
+  /** Stream that destroys components' observables */
+  private destroyed = new Subject();
 
   /** Steam that emits when scrollbar thumbnail needs to be updated (for internal uses) */
   private updater = new Subject<void>();
@@ -169,7 +169,7 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
           // Enable/Disable custom scrollbar on breakpoints (Used to disable scrollbars on mobile phones)
           this.breakpointObserver.observe(this.disableOnBreakpoints).pipe(
             tap((result: BreakpointState) => result.matches ? this.disable() : this.enable()),
-            takeUntil(this.unsubscriber)
+            takeUntil(this.destroyed)
           ).subscribe();
         } else {
           this.enable();
@@ -180,7 +180,7 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
       this.updateObserver.pipe(
         throttleTime(200),
         tap(() => this.changeDetectorRef.markForCheck()),
-        takeUntil(this.unsubscriber)
+        takeUntil(this.destroyed)
       ).subscribe();
 
 
@@ -189,15 +189,15 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
         fromEvent(document.defaultView, 'resize').pipe(
           throttleTime(200),
           tap(() => this.update()),
-          takeUntil(this.unsubscriber)
+          takeUntil(this.destroyed)
         ).subscribe();
       }
     });
   }
 
   ngOnDestroy() {
-    this.unsubscriber.next();
-    this.unsubscriber.complete();
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   /**
