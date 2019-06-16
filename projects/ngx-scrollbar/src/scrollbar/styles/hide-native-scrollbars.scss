@@ -1,7 +1,8 @@
 @mixin hideNativeScrollbar() {
-  &[disabled="false"] {
-    .ng-scroll-view,
-    ::ng-deep .ng-scroll-view > .ng-virtual-scroll-view {
+  &[disabled="false"] > .ng-scroll-view-container {
+    > .ng-scroll-view,
+    > .ng-scroll-view > ::ng-deep .ng-custom-scroll-view {
+      display: block;
       scrollbar-width: none; /* Firefox 64 */
       -ms-overflow-style: none; /* IE 11 */
       &::-webkit-scrollbar { /** Webkit */
@@ -10,3 +11,4 @@
     }
   }
 }
+

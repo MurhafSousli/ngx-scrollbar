@@ -82,7 +82,7 @@ export class VerticalScrollbar extends CustomScrollbar {
         tap((mouseMoveClient: number) => {
           const offsetY = mouseMoveClient - this.containerElement.getBoundingClientRect().top;
           const value = this.scrollMax * (offsetY - mouseDownOffset) / this.trackMax;
-          this.scrollbarRef.scrollable.scrollTo({top: value});
+          this.scrollbarRef.scrollTo({top: value});
         })
       ))
     );

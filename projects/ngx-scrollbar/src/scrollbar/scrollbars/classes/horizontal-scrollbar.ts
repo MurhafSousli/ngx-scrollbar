@@ -90,7 +90,7 @@ export class HorizontalScrollbar extends CustomScrollbar {
           // if (this.dir.value === 'rtl') {
           // value = value === 0 ? this.trackMax - offsetX : value;
           // }
-          this.scrollbarRef.scrollable.scrollTo({left: value});
+          this.scrollbarRef.scrollTo({left: value});
         })
       ))
     );

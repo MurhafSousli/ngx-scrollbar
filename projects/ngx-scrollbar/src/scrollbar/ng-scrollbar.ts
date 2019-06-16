@@ -8,15 +8,14 @@ import {
   OnDestroy,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
-  PLATFORM_ID
+  PLATFORM_ID, ElementRef, NgZone
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { CdkScrollable, CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Directionality } from '@angular/cdk/bidi';
-import { fromEvent, Observable, Subject } from 'rxjs';
+import { fromEvent, Observable, Observer, Subject } from 'rxjs';
 import { pairwise, takeUntil, tap, throttleTime, filter, pluck, map } from 'rxjs/operators';
-import { VirtualScrollView } from '../virtual-scroll/virtual-scroll-view';
+import { CustomScrollView } from './custom-scroll-view';
 import { ScrollToOptions, SmoothScroll, SmoothScrollEaseFunc } from '../smooth-scroll/smooth-scroll';
 import {
   NG_SCROLLBAR_DEFAULT_OPTIONS,
@@ -92,25 +91,24 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   private disabledFlag: boolean = false;
 
   /** Default viewport and smoothScroll references */
-  @ViewChild(CdkScrollable) scrollViewport: CdkScrollable;
+  @ViewChild('viewPort') viewElementRef: ElementRef<HTMLElement>;
   @ViewChild(SmoothScroll) viewSmoothScroll: SmoothScroll;
 
-  /** Virtual viewport and smoothScroll references */
-  @ContentChild(VirtualScrollView) customViewPort: VirtualScrollView;
+  /** Custom viewport reference */
+  @ContentChild(CustomScrollView) customViewPort: CustomScrollView;
 
   /** Viewport Element */
   get view(): HTMLElement {
     return this.customViewPort
-      ? this.customViewPort.virtualScrollViewport.getElementRef().nativeElement
-      : this.scrollViewport.getElementRef().nativeElement;
+      ? this.customViewPort.viewPort.nativeElement
+      : this.viewElementRef.nativeElement;
   }
 
   /** Returns the scrollable view reference */
-  get scrollable(): CdkScrollable | CdkVirtualScrollViewport {
-    return this.customViewPort
-      ? this.customViewPort.virtualScrollViewport
-      : this.scrollViewport;
-  }
+  readonly elementScrolled: Observable<Event> = new Observable((observer: Observer<Event>) =>
+    this.ngZone.runOutsideAngular(() =>
+      fromEvent(this.view, 'scroll').pipe(takeUntil(this.destroyed))
+        .subscribe(observer)));
 
   /** Returns the smoothScroll directive reference */
   get smoothScroll(): SmoothScroll {
@@ -145,15 +143,16 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private breakpointObserver: BreakpointObserver,
               public dir: Directionality,
+              private ngZone: NgZone,
               @Inject(NG_SCROLLBAR_DEFAULT_OPTIONS) private globalOptions: NgScrollbarDefaultOptions,
               @Inject(PLATFORM_ID) private platform: Object) {
   }
 
   private getScrollEventByDirection(direction: 'vertical' | 'horizontal') {
     const scrollProperty = direction === 'vertical' ? 'scrollTop' : 'scrollLeft';
-    let event: any;
-    return this.scrollable.elementScrolled().pipe(
-      tap((e: any) => event = e),
+    let event: Event;
+    return this.elementScrolled.pipe(
+      tap((e: Event) => event = e),
       pluck('target', scrollProperty),
       pairwise(),
       filter(([prev, curr]) => prev !== curr),

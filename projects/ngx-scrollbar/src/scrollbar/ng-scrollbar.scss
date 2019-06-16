@@ -69,6 +69,22 @@
     }
   }
 
+  &[customView="true"] {
+    &[direction="both"],
+    &[direction="horizontal"] {
+      > .ng-scroll-view-container > .ng-scroll-view > ::ng-deep .ng-custom-scroll-view {
+        overflow-x: scroll;
+      }
+    }
+
+    &[direction="both"],
+    &[direction="vertical"] {
+      > .ng-scroll-view-container > .ng-scroll-view > ::ng-deep .ng-custom-scroll-view {
+        overflow-y: scroll;
+      }
+    }
+  }
+
   @include visibility();
   @include hideNativeScrollbar();
 }
@@ -96,7 +112,8 @@
 
 // Fix cdkVirtualScrollViewPort component
 ::ng-deep {
-  .ng-virtual-scroll-view {
+  .ng-custom-scroll-view {
+    width: 100%;
     height: 100%;
   }
 }
