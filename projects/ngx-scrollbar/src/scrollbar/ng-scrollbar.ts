@@ -8,7 +8,9 @@ import {
   OnDestroy,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
-  PLATFORM_ID, ElementRef, NgZone
+  ElementRef,
+  NgZone,
+  PLATFORM_ID
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
@@ -16,7 +18,7 @@ import { Directionality } from '@angular/cdk/bidi';
 import { fromEvent, Observable, Observer, Subject } from 'rxjs';
 import { pairwise, takeUntil, tap, throttleTime, filter, pluck, map } from 'rxjs/operators';
 import { CustomScrollView } from './custom-scroll-view';
-import { ScrollToOptions, SmoothScroll, SmoothScrollEaseFunc } from '../smooth-scroll/smooth-scroll';
+import { SmoothScrollToOptions, SmoothScrollEaseFunc, SmoothScroller } from './smooth-scroller';
 import {
   NG_SCROLLBAR_DEFAULT_OPTIONS,
   NgScrollbarAppearance,
@@ -92,7 +94,6 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
 
   /** Default viewport and smoothScroll references */
   @ViewChild('viewPort') viewElementRef: ElementRef<HTMLElement>;
-  @ViewChild(SmoothScroll) viewSmoothScroll: SmoothScroll;
 
   /** Custom viewport reference */
   @ContentChild(CustomScrollView) customViewPort: CustomScrollView;
@@ -102,19 +103,6 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
     return this.customViewPort
       ? this.customViewPort.viewPort.nativeElement
       : this.viewElementRef.nativeElement;
-  }
-
-  /** Returns the scrollable view reference */
-  readonly elementScrolled: Observable<Event> = new Observable((observer: Observer<Event>) =>
-    this.ngZone.runOutsideAngular(() =>
-      fromEvent(this.view, 'scroll').pipe(takeUntil(this.destroyed))
-        .subscribe(observer)));
-
-  /** Returns the smoothScroll directive reference */
-  get smoothScroll(): SmoothScroll {
-    return this.customViewPort
-      ? this.customViewPort.smoothScroll
-      : this.viewSmoothScroll;
   }
 
   get verticalScrollEvent(): Observable<any> {
@@ -133,6 +121,12 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
     return this.visibility === 'always' || this.view.scrollWidth > this.view.clientWidth;
   }
 
+  /** A stream that emits on scroll event */
+  readonly elementScrolled: Observable<Event> = new Observable((observer: Observer<Event>) =>
+    this.ngZone.runOutsideAngular(() =>
+      fromEvent(this.view, 'scroll').pipe(takeUntil(this.destroyed))
+        .subscribe(observer)));
+
   /** Stream that destroys components' observables */
   private destroyed = new Subject();
 
@@ -142,8 +136,9 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private breakpointObserver: BreakpointObserver,
-              public dir: Directionality,
               private ngZone: NgZone,
+              private smoothScroll: SmoothScroller,
+              public dir: Directionality,
               @Inject(NG_SCROLLBAR_DEFAULT_OPTIONS) private globalOptions: NgScrollbarDefaultOptions,
               @Inject(PLATFORM_ID) private platform: Object) {
   }
@@ -224,35 +219,35 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
     this.disabledFlag = true;
   }
 
-  scrollTo(options: ScrollToOptions): Promise<void> {
-    return this.smoothScroll.scrollTo(options);
+  scrollTo(options: SmoothScrollToOptions): Promise<void> {
+    return this.smoothScroll.scrollTo(this.view, options);
   }
 
   scrollToElement(selector: string, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToElement(selector, offset, duration, easeFunc);
+    return this.smoothScroll.scrollToElement(this.view, selector, offset, duration, easeFunc);
   }
 
   scrollXTo(to: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollXTo(to, duration, easeFunc);
+    return this.smoothScroll.scrollXTo(this.view, to, duration, easeFunc);
   }
 
   scrollYTo(to: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollYTo(to, duration, easeFunc);
+    return this.smoothScroll.scrollYTo(this.view, to, duration, easeFunc);
   }
 
   scrollToTop(duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToTop(duration, easeFunc);
+    return this.smoothScroll.scrollToTop(this.view, duration, easeFunc);
   }
 
   scrollToBottom(duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToBottom(duration, easeFunc);
+    return this.smoothScroll.scrollToBottom(this.view, duration, easeFunc);
   }
 
   scrollToRight(duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToRight(duration, easeFunc);
+    return this.smoothScroll.scrollToRight(this.view, duration, easeFunc);
   }
 
   scrollToLeft(duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToLeft(duration, easeFunc);
+    return this.smoothScroll.scrollToLeft(this.view, duration, easeFunc);
   }
 }

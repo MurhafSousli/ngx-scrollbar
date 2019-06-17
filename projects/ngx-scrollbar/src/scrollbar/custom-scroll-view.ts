@@ -1,5 +1,4 @@
-import { Directive, ElementRef, Optional } from '@angular/core';
-import { SmoothScroll } from '../smooth-scroll/smooth-scroll';
+import { Directive, ElementRef } from '@angular/core';
 
 @Directive({
   selector: '[customScrollView], [custom-scroll-view]',
@@ -8,13 +7,6 @@ import { SmoothScroll } from '../smooth-scroll/smooth-scroll';
   }
 })
 export class CustomScrollView {
-
-  constructor(
-    public viewPort: ElementRef,
-    @Optional() public smoothScroll: SmoothScroll
-  ) {
-    if (!smoothScroll) {
-      throw new Error('NgScrollBar: add [smoothScroll] directive is required with [VirtualScrollView]');
-    }
+  constructor(public viewPort: ElementRef) {
   }
 }
