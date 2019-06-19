@@ -9,7 +9,7 @@ export class CustomScrollbar {
   protected readonly viewElement: HTMLElement;
 
   // Streams unsubscriber
-  protected readonly unsubscriber = new Subject();
+  protected readonly destroyed = new Subject();
 
   // Stream styles state
   protected readonly state = new BehaviorSubject<any>({transform: 'translate3d(0, 0, 0)'});
@@ -48,7 +48,7 @@ export class CustomScrollbar {
     // Start scrollbar thumbnail drag events
     this.zone.runOutsideAngular(() => {
       this.startThumbEvents().pipe(
-        takeUntil(this.unsubscriber)
+        takeUntil(this.destroyed)
       ).subscribe();
     });
 
@@ -59,7 +59,7 @@ export class CustomScrollbar {
       // Make sure scrollbar thumbnail position is correct after the new content is rendered
       debounceTime(200),
       tap(() => this.updateScrollbar()),
-      takeUntil(this.unsubscriber)
+      takeUntil(this.destroyed)
     ).subscribe();
 
     // Initialize scrollbar
@@ -67,8 +67,8 @@ export class CustomScrollbar {
   }
 
   destroy() {
-    this.unsubscriber.next();
-    this.unsubscriber.complete();
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   protected listenToScrollEvent(): void {

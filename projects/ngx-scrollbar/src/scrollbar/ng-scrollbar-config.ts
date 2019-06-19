@@ -2,7 +2,7 @@ import { InjectionToken } from '@angular/core';
 import { Breakpoints } from '@angular/cdk/layout';
 
 export type NgScrollbarAppearance = 'standard' | 'compact';
-export type NgScrollbarDirection = 'vertical' | 'horizontal' | 'both';
+export type NgScrollbarDirection = 'vertical' | 'horizontal' | 'all';
 export type NgScrollbarVisibility = 'hover' | 'always' | 'native';
 export type NgScrollbarPosition = 'native' | 'invertY' | 'invertX' | 'invertAll';
 
@@ -24,7 +24,7 @@ export interface NgScrollbarDefaultOptions {
   /** scrollToDuration: a number used to set the duration of the smooth scroll functions */
   scrollToDuration?: number;
   /** disableOnBreakpoints: an array of string used to set the breakpoints that disable the scrollbar */
-  disableOnBreakpoints?: string[] | 'false';
+  disableOnBreakpoints?: string | string[] | 'unset';
   /** autoUpdate: Auto update scrollbar state when content changes */
   autoUpdate?: boolean;
 }

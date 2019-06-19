@@ -54,14 +54,14 @@
   }
 
   &[customView="false"] {
-    &[direction="both"],
+    &[direction="all"],
     &[direction="horizontal"] {
       > .ng-scroll-view-container > .ng-scroll-view {
         overflow-x: scroll;
       }
     }
 
-    &[direction="both"],
+    &[direction="all"],
     &[direction="vertical"] {
       > .ng-scroll-view-container > .ng-scroll-view {
         overflow-y: scroll;
@@ -70,14 +70,14 @@
   }
 
   &[customView="true"] {
-    &[direction="both"],
+    &[direction="all"],
     &[direction="horizontal"] {
       > .ng-scroll-view-container > .ng-scroll-view > ::ng-deep .ng-custom-scroll-view {
         overflow-x: scroll;
       }
     }
 
-    &[direction="both"],
+    &[direction="all"],
     &[direction="vertical"] {
       > .ng-scroll-view-container > .ng-scroll-view > ::ng-deep .ng-custom-scroll-view {
         overflow-y: scroll;

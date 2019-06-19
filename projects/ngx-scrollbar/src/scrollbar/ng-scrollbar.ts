@@ -30,7 +30,7 @@ import {
 } from './ng-scrollbar-config';
 
 @Component({
-  selector: 'ng-scrollbar, [ngScrollbar]',
+  selector: 'ng-scrollbar, [ngScrollbar], [ng-scrollbar]',
   exportAs: 'ngScrollbar',
   templateUrl: 'ng-scrollbar.html',
   styleUrls: ['ng-scrollbar.scss'],
@@ -48,7 +48,7 @@ import {
 })
 export class NgScrollbar implements AfterViewInit, AfterContentChecked, OnDestroy {
 
-  /** Scroll direction to track */
+  /** Scroll tracking directions */
   @Input() direction: NgScrollbarDirection = this.globalOptions.direction;
 
   /** Scrollbar visibility */
@@ -73,7 +73,7 @@ export class NgScrollbar implements AfterViewInit, AfterContentChecked, OnDestro
   @Input() scrollToDuration = this.globalOptions.scrollToDuration;
 
   /** Disable custom scrollbars on specific breakpoints */
-  @Input() disableOnBreakpoints: string[] | string = this.globalOptions.disableOnBreakpoints;
+  @Input() disableOnBreakpoints: string[] | string | 'unset' = this.globalOptions.disableOnBreakpoints;
 
   /** Auto update scrollbars on content changes (Mutation Observer) */
   @Input() autoUpdate: boolean = this.globalOptions.autoUpdate;
@@ -103,8 +103,6 @@ export class NgScrollbar implements AfterViewInit, AfterContentChecked, OnDestro
       : this.viewElementRef.nativeElement;
   }
 
-  get verticalScrollEvent(): Observable<any> {
-    return this.getScrollEventByDirection('vertical');
   /** A stream that emits on scroll event */
   readonly elementScrolled: Observable<Event> = new Observable((observer: Observer<Event>) =>
     this.ngZone.runOutsideAngular(() =>
@@ -245,6 +243,10 @@ export class NgScrollbar implements AfterViewInit, AfterContentChecked, OnDestro
   disable() {
     this.disabledFlag = true;
   }
+
+  /**
+   * Smooth scroll functions
+   */
 
   scrollTo(options: SmoothScrollToOptions): Promise<void> {
     return this.smoothScroll.scrollTo(this.view, options);
