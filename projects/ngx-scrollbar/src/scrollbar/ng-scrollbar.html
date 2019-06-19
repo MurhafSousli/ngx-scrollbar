@@ -8,16 +8,16 @@
 </div>
 
 <ng-container *ngIf="!disabled">
-  <ng-custom-scrollbar type="vertical"
+  <ng-custom-scrollbar *ngIf="showScrollbarY"
+                       axis="vertical"
                        class="ng-custom-scrollbar"
-                       *ngIf="direction === 'both' || direction === 'vertical'"
-                       [class.ng-scrollbar-visible]="showScrollbarY">
+                       [attr.fit]="showScrollbarX">
   </ng-custom-scrollbar>
 
-  <ng-custom-scrollbar type="horizontal"
+  <ng-custom-scrollbar *ngIf="showScrollbarX"
+                       axis="horizontal"
                        class="ng-custom-scrollbar"
-                       *ngIf="direction === 'both' || direction === 'horizontal'"
-                       [class.ng-scrollbar-visible]="showScrollbarX">
+                       [attr.fit]="showScrollbarY">
   </ng-custom-scrollbar>
 </ng-container>
 

@@ -25,21 +25,21 @@
   grid-template-columns: 1fr fit-content(100%);
   grid-template-rows: 1fr fit-content(100%);
 
-  &[invertY="true"] {
+  &[position="invertY"] {
     grid-template-columns: fit-content(100%) 1fr;
     grid-template-areas:
       "scrollbar-y    scroll-view"
       "empty          scrollbar-x";
   }
 
-  &[invertX="true"] {
+  &[position="invertX"] {
     grid-template-rows: fit-content(100%) 1fr;
     grid-template-areas:
       "scrollbar-x    empty"
       "scroll-view    scrollbar-y";
   }
 
-  &[invertY="true"][invertX="true"] {
+  &[position="invertAll"] {
     grid-template-columns: fit-content(100%) 1fr;
     grid-template-rows: fit-content(100%) 1fr;
     grid-template-areas:

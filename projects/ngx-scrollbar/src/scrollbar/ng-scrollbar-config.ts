@@ -4,6 +4,7 @@ import { Breakpoints } from '@angular/cdk/layout';
 export type NgScrollbarAppearance = 'standard' | 'compact';
 export type NgScrollbarDirection = 'vertical' | 'horizontal' | 'both';
 export type NgScrollbarVisibility = 'hover' | 'always' | 'native';
+export type NgScrollbarPosition = 'native' | 'invertY' | 'invertX' | 'invertAll';
 
 export interface NgScrollbarDefaultOptions {
   /** track: a string used to set the tracking directions */
@@ -12,16 +13,14 @@ export interface NgScrollbarDefaultOptions {
   appearance?: NgScrollbarAppearance;
   /** visibility: a string used to set the tracking directions */
   visibility?: NgScrollbarVisibility;
+  /** position: a string used to set scrollbars positions */
+  position?: NgScrollbarPosition;
   /** viewClass:  a class forwarded to scrollable viewport element */
   viewClass?: string;
   /** barClass: a class forwarded to the scrollbar(s) element(s) */
   barClass?: string;
   /** thumbClass: a class forwarded to the scrollbar thumbnail element */
   thumbClass?: string;
-  /** invertX: a flag used to invert the horizontal scrollbar position */
-  invertX?: boolean;
-  /** invertY: a flag used to invert the vertical scrollbar position  */
-  invertY?: boolean;
   /** scrollToDuration: a number used to set the duration of the smooth scroll functions */
   scrollToDuration?: number;
   /** disableOnBreakpoints: an array of string used to set the breakpoints that disable the scrollbar */
@@ -34,15 +33,14 @@ export interface NgScrollbarDefaultOptions {
 export const NG_SCROLLBAR_DEFAULT_OPTIONS =
   new InjectionToken<NgScrollbarDefaultOptions>('ng-scrollbar-default-options', {
     providedIn: 'root',
-    factory: () => ({
+    factory: (): NgScrollbarDefaultOptions => ({
       viewClass: '',
       barClass: '',
       thumbClass: '',
       direction: 'vertical',
       appearance: 'standard',
       visibility: 'native',
-      invertX: false,
-      invertY: false,
+      position: 'native',
       scrollToDuration: 300,
       autoUpdate: false,
       disableOnBreakpoints: [

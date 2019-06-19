@@ -2,7 +2,7 @@
 
 ::ng-deep {
   .ng-scrollbar {
-    > .ng-custom-scrollbar[type="vertical"] {
+    > .ng-custom-scrollbar[axis="vertical"] {
       grid-area: scrollbar-y;
       width: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
 

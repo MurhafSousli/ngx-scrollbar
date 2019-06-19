@@ -1,42 +1,47 @@
+@mixin fitScrollbar() {
+  > .ng-scrollbar-container > .ng-custom-scrollbar[axis="vertical"][fit="true"] {
+    bottom: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
+  }
+
+  &[position="invertX"], &[position="invertAll"] > .ng-scrollbar-container > .ng-custom-scrollbar[axis="vertical"][fit="true"] {
+    top: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
+  }
+}
+
 @mixin compactVerticalScrollbarStyles() {
-  > .ng-custom-scrollbar[type="vertical"] {
+  > .ng-scrollbar-container > .ng-custom-scrollbar[axis="vertical"] {
     position: absolute;
     top: 0;
     bottom: 0;
   }
 
   // Default position
-  &[invertY="false"] {
-    &[dir="ltr"] > .ng-custom-scrollbar[type="vertical"] {
+  &[position="invertX"], &[position="invertAll"] {
+    &[dir="ltr"] > .ng-custom-scrollbar[axis="vertical"] {
       right: 0;
       left: unset;
     }
 
-    &[dir="rtl"] > .ng-custom-scrollbar[type="vertical"] {
+    &[dir="rtl"] > .ng-custom-scrollbar[axis="vertical"] {
       right: unset;
       left: 0;
     }
   }
   // Invert position
-  &[invertY="true"] {
-    &[dir="ltr"] > .ng-custom-scrollbar[type="vertical"] {
+  &[position="invertY"], &[position="invertAll"] {
+    &[dir="ltr"] > .ng-custom-scrollbar[axis="vertical"] {
       right: unset;
       left: 0;
     }
-    &[dir="rtl"] > .ng-custom-scrollbar[type="vertical"] {
+
+    &[dir="rtl"] > .ng-custom-scrollbar[axis="vertical"] {
       right: 0;
       left: unset;
     }
   }
 
   // If both scrollbars are visible
-  &[direction="both"] {
-    &[invertX="false"] > .ng-custom-scrollbar[type="vertical"] {
-      bottom: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
-    }
-
-    &[invertX="true"] > .ng-custom-scrollbar[type="vertical"] {
-      top: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
-    }
+  &[direction="all"] {
+    @include fitScrollbar();
   }
 }

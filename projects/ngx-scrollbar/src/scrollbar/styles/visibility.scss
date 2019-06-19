@@ -1,7 +1,7 @@
 @mixin visibility() {
   // Auto hide scrollbars
   &[visibility="hover"] {
-    > .ng-scrollbar-visible {
+    > .ng-custom-scrollbar {
       opacity: 0;
       transition: opacity 120ms ease-out;
     }
@@ -9,7 +9,7 @@
     &:hover,
     &:active,
     &:focus {
-      > .ng-scrollbar-visible {
+      > .ng-custom-scrollbar {
         opacity: 1;
         transition: opacity 340ms ease-out;
       }

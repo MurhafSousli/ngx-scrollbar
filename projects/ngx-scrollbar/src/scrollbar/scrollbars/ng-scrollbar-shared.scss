@@ -4,9 +4,6 @@
     background: var(--scrollbar-container-color);
 
     > .ng-custom-scrollbar {
-      display: none;
-    }
-    > .ng-scrollbar-visible {
       display: flex;
       justify-content: center;
       align-items: center;

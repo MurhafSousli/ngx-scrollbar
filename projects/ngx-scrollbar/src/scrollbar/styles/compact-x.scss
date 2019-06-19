@@ -1,41 +1,42 @@
+@mixin fitScrollbar() {
+  // If both scrollbars are visible
+  &[dir="ltr"] > .ng-scrollbar-container > .ng-custom-scrollbar[axis="horizontal"][fit="true"] {
+    right: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
+  }
+
+  &[dir="rtl"] > .ng-scrollbar-container > .ng-custom-scrollbar[axis="horizontal"][fit="true"] {
+    left: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
+  }
+
+  &[position="invertY"], &[position="invertAll"] {
+    &[dir="ltr"] > .ng-scrollbar-container > .ng-custom-scrollbar[axis="horizontal"][fit="true"] {
+      left: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
+    }
+
+    &[dir="rtl"] > .ng-scrollbar-container > .ng-custom-scrollbar[axis="horizontal"][fit="true"] {
+      right: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
+    }
+  }
+}
+
+
 @mixin compactHorizontalScrollbarStyles() {
-  > .ng-custom-scrollbar[type="horizontal"] {
+  > .ng-scrollbar-container > .ng-custom-scrollbar[axis="horizontal"] {
     position: absolute;
     left: 0;
     right: 0;
-  }
-
-  &[invertX="false"] > .ng-custom-scrollbar[type="horizontal"] {
     top: unset;
     bottom: 0;
   }
 
-  &[invertX="true"] > .ng-custom-scrollbar[type="horizontal"] {
-    top: 0;
-    bottom: unset;
+  &[position="invertX"], &[position="invertAll"] {
+    > .ng-scrollbar-container > .ng-custom-scrollbar[axis="horizontal"] {
+      top: 0;
+      bottom: unset;
+    }
   }
-
-  // If both scrollbars are visible
-  &[direction="both"] {
-    &[invertY="false"] {
-      &[dir="ltr"] > .ng-custom-scrollbar[type="horizontal"] {
-        right: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
-      }
-
-      &[dir="rtl"] > .ng-custom-scrollbar[type="horizontal"] {
-        left: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
-      }
-    }
-
-    &[invertY="true"] {
-      &[dir="ltr"] > .ng-custom-scrollbar[type="horizontal"] {
-        left: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
-      }
-
-      &[dir="rtl"] > .ng-custom-scrollbar[type="horizontal"] {
-        right: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
-      }
-    }
+  &[direction="all"] {
+    @include fitScrollbar();
   }
 }
 

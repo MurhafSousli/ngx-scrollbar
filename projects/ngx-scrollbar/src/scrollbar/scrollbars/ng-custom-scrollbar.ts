@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   AfterViewInit,
   OnDestroy,
   ViewChild,
@@ -36,13 +35,19 @@ import { VerticalScrollbar } from './classes/vertical-scrollbar';
     </div>
   `
 })
-export class NgCustomScrollbar implements OnInit, AfterViewInit, OnDestroy {
+export class NgCustomScrollbar implements AfterViewInit, OnDestroy {
 
   // Custom scrollbar reference
   customScrollbar: CustomScrollbar;
 
   // Custom scrollbar type
-  @Input() type: 'horizontal' | 'vertical';
+  @Input() set axis(axis: 'horizontal' | 'vertical') {
+    const customScrollbar = {
+      vertical: (parent, document, zone) => new VerticalScrollbar(parent, document, zone),
+      horizontal: (parent, document, zone) => new HorizontalScrollbar(parent, document, zone)
+    };
+    this.customScrollbar = customScrollbar[axis](this.parent, this.document, this.zone);
+  }
 
   // Scrollbar container element reference
   @ViewChild('container') containerRef: ElementRef;
@@ -54,14 +59,6 @@ export class NgCustomScrollbar implements OnInit, AfterViewInit, OnDestroy {
               private zone: NgZone,
               @Inject(PLATFORM_ID) private platform: Object,
               @Inject(DOCUMENT) private document: any) {
-  }
-
-  ngOnInit() {
-    if (this.type === 'vertical') {
-      this.customScrollbar = new VerticalScrollbar(this.parent, this.document, this.zone);
-    } else {
-      this.customScrollbar = new HorizontalScrollbar(this.parent, this.document, this.zone);
-    }
   }
 
   ngAfterViewInit() {
