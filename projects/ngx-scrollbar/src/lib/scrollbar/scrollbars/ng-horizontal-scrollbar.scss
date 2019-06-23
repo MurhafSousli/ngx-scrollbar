@@ -15,6 +15,10 @@
           height: 100%;
         }
       }
+
+      &[scrollable="true"] .ng-scrollbar-thumbnail {
+        min-width: var(--scrollbar-min-size);
+      }
     }
 
     // Compact Mode
