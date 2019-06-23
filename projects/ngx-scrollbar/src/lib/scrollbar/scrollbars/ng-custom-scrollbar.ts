@@ -1,6 +1,6 @@
 import {
   Component,
-  AfterViewInit,
+  OnInit,
   OnDestroy,
   ViewChild,
   Input,
@@ -8,7 +8,9 @@ import {
   NgZone,
   ElementRef,
   ChangeDetectionStrategy,
-  PLATFORM_ID
+  PLATFORM_ID,
+  forwardRef,
+  Optional
 } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { NgScrollbar } from '../ng-scrollbar';
@@ -35,33 +37,31 @@ import { VerticalScrollbar } from './classes/vertical-scrollbar';
     </div>
   `
 })
-export class NgCustomScrollbar implements AfterViewInit, OnDestroy {
+export class NgCustomScrollbar implements OnInit, OnDestroy {
 
   // Custom scrollbar reference
   customScrollbar: CustomScrollbar;
 
   // Custom scrollbar type
-  @Input() set axis(axis: 'horizontal' | 'vertical') {
-    const customScrollbar = {
-      vertical: (parent, document, zone) => new VerticalScrollbar(parent, document, zone),
-      horizontal: (parent, document, zone) => new HorizontalScrollbar(parent, document, zone)
-    };
-    this.customScrollbar = customScrollbar[axis](this.parent, this.document, this.zone);
-  }
+  @Input() axis: 'horizontal' | 'vertical';
 
   // Scrollbar container element reference
-  @ViewChild('container') containerRef: ElementRef;
+  @ViewChild('container', {static: true}) containerRef: ElementRef;
 
   // Scrollbar thumbnail element reference
-  @ViewChild('thumbnail') thumbnailRef: ElementRef;
+  @ViewChild('thumbnail', {static: true}) thumbnailRef: ElementRef;
 
-  constructor(public parent: NgScrollbar,
+  constructor(@Optional() @Inject(forwardRef(() => NgScrollbar)) public parent: NgScrollbar,
               private zone: NgZone,
-              @Inject(PLATFORM_ID) private platform: Object,
+              @Inject(PLATFORM_ID) private platform: object,
               @Inject(DOCUMENT) private document: any) {
   }
 
-  ngAfterViewInit() {
+  ngOnInit() {
+    this.customScrollbar = this.axis === 'vertical'
+      ? new VerticalScrollbar(this.parent, this.document, this.zone)
+      : new HorizontalScrollbar(this.parent, this.document, this.zone);
+
     // Avoid SSR Error
     if (isPlatformBrowser(this.platform)) {
       this.customScrollbar.init(this.containerRef.nativeElement, this.thumbnailRef.nativeElement);
