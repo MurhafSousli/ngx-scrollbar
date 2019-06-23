@@ -1,0 +1,15 @@
+:host {
+  --side: 128px;
+  display: block;
+  width: var(--side);
+  height: var(--side);
+  line-height: var(--side);
+  //padding: 1em;
+}
+.app-card-content {
+  background-color: lightgray;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

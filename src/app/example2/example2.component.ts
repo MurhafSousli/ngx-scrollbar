@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 // import { NgScrollbar } from 'ngx-scrollbar';
-import { NgScrollbar } from '../../../projects/ngx-scrollbar/src/public_api';
+import { NgScrollbar } from '../../../projects/ngx-scrollbar/src/public-api';
 
 @Component({
   selector: 'app-example2',
@@ -90,6 +90,6 @@ export class Example2Component {
         }
       ]
     ];
-    scrollbars.scrollToBottom(200).subscribe();
+    scrollbars.scrollToBottom(200);
   }
 }

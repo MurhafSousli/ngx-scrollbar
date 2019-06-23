@@ -1,28 +1,16 @@
-<ng-scrollbar #scrollable barClass="main-scrollbar" [invertY]="true" [compact]="true">
+<app-navigation-toolbar [scrollable]="scrollable"></app-navigation-toolbar>
+
+<ng-scrollbar ngScrollbar
+              #scrollable="ngScrollbar"
+              barClass="main-scrollbar"
+              appearance="compact"
+              position="invertY"
+              (reachedBottom)="showGoToTopButton = true"
+              [ngScrollbarOffset]="200">
+
+  <app-header></app-header>
 
   <div class="container">
-    <app-header></app-header>
-
-    <div class="scroll-buttons">
-      <button class="btn-gradient orange mini" (click)="scrollable.scrollToElement('app-example1', 200, 500).subscribe()">
-        Example 1
-      </button>
-      <button class="btn-gradient green mini" (click)="scrollable.scrollToElement('app-example2', 200, 500).subscribe()">
-        Example 2
-      </button>
-      <button class="btn-gradient purple mini" (click)="scrollable.scrollToElement('app-example3', 200, 500).subscribe()">
-        Example 3
-      </button>
-      <button class="btn-gradient cyan mini" (click)="scrollable.scrollToElement('app-example4', 200, 600).subscribe()">
-        Example 4
-      </button>
-      <button class="btn-gradient blue mini" (click)="scrollable.scrollToElement('app-example5', 200, 800).subscribe()">
-        Example 5
-      </button>
-      <button class="btn-gradient yellow mini" (click)="scrollable.scrollToElement('app-example-virtual-scroll', 200, 800).subscribe()">
-        Virtual Scroll Example
-      </button>
-    </div>
     <app-example-x></app-example-x>
 
     <app-example1></app-example1>
@@ -35,13 +23,25 @@
 
     <app-example5></app-example5>
 
+    <app-example-infinite-scroll></app-example-infinite-scroll>
+
     <app-example-virtual-scroll></app-example-virtual-scroll>
 
-    <div class="scroll-buttons">
-      <button class="btn-gradient red small" (click)="scrollable.scrollToTop(800).subscribe()">Scroll to top</button>
-    </div>
+    <app-example-nested-virtual-scroll></app-example-nested-virtual-scroll>
 
-    <app-footer></app-footer>
+<!--    <app-example-image></app-example-image>-->
+
   </div>
+
+  <app-footer></app-footer>
+
 </ng-scrollbar>
 
+<div class="go-top">
+  <button *ngIf="showGoToTopButton"
+          mat-fab
+          color="accent"
+          (click)="scrollable.scrollToTop(800)">
+    <mat-icon>arrow_upward</mat-icon>
+  </button>
+</div>

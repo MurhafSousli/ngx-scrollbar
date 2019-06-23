@@ -1,4 +1,4 @@
-.exampleVirtualScroll {
+.exampleInfiniteScroll {
   background-color: #f3f3f3;
 
   .sample {
@@ -11,8 +11,7 @@
 
   ng-scrollbar {
     --scrollbar-color: rgba(0, 0, 0, 0.05);
-    --scrollbar-thumb-color: var(--color-primary);// rgba(178, 79, 114, 0.9);
-    //--scrollbar-thumb-hover-color: rgba(208, 81, 119, 0.9);
+    --scrollbar-thumb-color: var(--color-primary);
     --scrollbar-size: 16px;
     --scrollbar-border-radius: 10px;
     --scroll-view-margin: 0;

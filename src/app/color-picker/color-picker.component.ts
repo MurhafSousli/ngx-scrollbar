@@ -114,8 +114,8 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
   public cpAddColorButtonClass: string;
   public cpRemoveColorButtonClass: string;
 
-  @ViewChild('hueSlider') hueSlider: ElementRef;
-  @ViewChild('alphaSlider') alphaSlider: ElementRef;
+  @ViewChild('hueSlider', { static: true }) hueSlider: ElementRef;
+  @ViewChild('alphaSlider', { static: true }) alphaSlider: ElementRef;
 
   @HostListener('document:keyup.esc', ['$event']) handleEsc(event: any): void {
     if (this.show && this.cpDialogDisplay === 'popup') {
@@ -321,11 +321,11 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public onDragEnd(slider: string): void {
-    this.directiveInstance.sliderDragEnd({slider: slider, color: this.outputColor});
+    this.directiveInstance.sliderDragEnd({ slider: slider, color: this.outputColor });
   }
 
   public onDragStart(slider: string): void {
-    this.directiveInstance.sliderDragStart({slider: slider, color: this.outputColor});
+    this.directiveInstance.sliderDragStart({ slider: slider, color: this.outputColor });
   }
 
   public onAcceptColor(event: Event): void {

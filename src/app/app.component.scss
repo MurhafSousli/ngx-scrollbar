@@ -1,30 +1,26 @@
-.scroll-buttons {
-  margin: 1em 0 3em;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-
-  button {
-    flex: 1;
-  }
-}
-
-ng-scrollbar {
-  --scrollbar-gap: 6px;
+ng-scrollbar, ngscrollbar {
+  --scrollbar-gap: 2px;
   --scrollbar-color: rgba(0, 0, 0, 0.1);
-  --scrollbar-thumb-color: #28A6C6;
-  --scrollbar-thumb-hover-color: #30c0e5;
+  //--scrollbar-thumb-color: var(--color-primary);
+  //--scrollbar-thumb-hover-color: var(--color-primary);
+  --scrollbar-thumb-color: var(--color-accent);
+  --scrollbar-thumb-hover-color: var(--color-accent);
   --scrollbar-size: 8px;
 }
 
 ::ng-deep {
   .main-scrollbar {
-    transition: all linear 100ms;
+    transition: all ease-in 300ms;
     --scrollbar-border-radius: 8px;
 
     &:hover, &:active {
-      --scrollbar-size: 12px;
+      width: calc(var(--scrollbar-size) * 1.35);
     }
   }
+}
+
+.go-top {
+  position: fixed;
+  bottom: 2em;
+  right: 2em;
 }

@@ -1,35 +1,38 @@
+ng-scrollbar {
+  --scrollbar-size: 7px;
+  --scrollbar-padding: 16px;
+  --scrollbar-color: rgba(0, 0, 0, 0.1);
+  --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
+  --scrollbar-thumb-hover-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  height: 200px;
+}
+
+:host {
+  ::ng-deep {
+    ng-scrollbar > .ng-custom-scrollbar[type="vertical"] > .ng-scrollbar {
+      width: 7px !important;
+    }
+  }
+}
+
+.example {
+  background-color: var(--color-example2);
+}
+
 .example2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #eff2f3;
-  border-radius: 3px;
-  padding: 3em 0;
-  box-shadow: 0 0 0 2px #E4E9EB;
-  position: relative;
-
-  ng-scrollbar {
-    --scrollbar-size: 6px;
-    --scrollbar-padding: 25px 15px;
-    --scrollbar-color: rgba(0, 0, 0, 0.1);
-    --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
-    --scrollbar-thumb-hover-color: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(0, 0, 0, 0.25);
-    height: 200px;
-  }
-}
-
-button {
-  position: absolute;
-  top: 1em;
-  right: 1em;
 }
 
 .sample {
+  border-radius: 3px 3px 0 0;
   padding: 0;
   position: relative;
   width: 200px;
   background-color: #fff;
+
   &:before,
   &:after {
     content: '';
@@ -41,16 +44,19 @@ button {
     border-style: none solid solid;
     border-color: rgba(0, 0, 0, 0.25);
   }
+
   &:before {
     width: 96%;
     margin-left: 2%;
     background-color: #ebebeb;
   }
+
   &:after {
     width: 94%;
     margin: 3px 0 0 3%;
     background-color: #e0e0e0;
   }
+
   header {
     font-size: 1.1em;
     padding: .2em;
@@ -62,9 +68,11 @@ button {
     font-weight: bold;
     border-radius: 3px 3px 0 0;
   }
+
   ul {
     position: absolute;
     width: 100%;
+
     &:before,
     &:after {
       content: '';
@@ -75,13 +83,16 @@ button {
       height: 100%;
       background-color: #FBCACB;
     }
+
     &:before {
       left: 2em;
     }
+
     &:after {
       left: 2.4em;
     }
   }
+
   li {
     color: #242931;
     font-size: 12px;
@@ -90,22 +101,27 @@ button {
     min-height: 27px;
     border-bottom: 1px solid #B8DBFC;
     font-weight: bold;
+
     &:last-child {
       border-bottom: none;
     }
+
     &:before,
     &:after {
       position: absolute;
       left: 0.7em;
     }
+
     &.ok {
       &:before {
         content: '✔';
         color: #518F29;
       }
     }
+
     &.not {
       color: gray;
+
       &:after {
         content: '✖';
         color: #FBCACB;

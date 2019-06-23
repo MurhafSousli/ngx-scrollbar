@@ -1,5 +1,5 @@
 .example5 {
-  background-color: #fdfdfd;
+  background: var(--color-example5);
   ng-scrollbar {
     --scrollbar-color: #F3F4F8;
     --scrollbar-thumb-color: #fff;
@@ -17,6 +17,9 @@
       box-shadow: inset 0 0 0 1px #C4C4C6;
     }
   }
+}
+.mat-card-content {
+  padding: 2em;
 }
 
 .numbers {
@@ -52,6 +55,7 @@
 }
 
 .sample {
+  font-size: 0.9em;
   flex: 1;
   position: relative;
   margin: 0 auto;

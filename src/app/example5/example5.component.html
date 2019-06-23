@@ -1,21 +1,27 @@
-<div class="example example5">
-  <div class="sample">
-    <div class="editor">
-      <ul class="numbers">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-      </ul>
-      <div class="code-wrapper">
-        <ng-scrollbar [trackY]="false" [trackX]="true" barClass="scroll-bar" thumbClass="scroll-thumb">
+<mat-card class="example example5">
+  <mat-card-header>
+    <mat-card-title>
+      Example 5
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="sample">
+      <div class="editor">
+        <ul class="numbers">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+        <div class="code-wrapper">
+          <ng-scrollbar direction="horizontal" barClass="scroll-bar" thumbClass="scroll-thumb">
           <pre>
             <code>
             <span class="line">&lt;!DOCTYPE html&gt;</span>
@@ -31,12 +37,9 @@
               <span class="line">&lt;body&gt;</span>
             </code>
           </pre>
-        </ng-scrollbar>
+          </ng-scrollbar>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="style-source">
-  <b>source image and inspiration from <a href="https://dribbble.com/shots/229317-Code">Orman Clark</a></b>
-</div>
+  </mat-card-content>
+</mat-card>

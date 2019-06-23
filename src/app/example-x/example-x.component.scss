@@ -1,31 +1,94 @@
 .exampleX {
-  background-color: #f3f3f3;
-  padding: 0;
-  margin-bottom: 6em;
 
-  .sample {
-    height: 200px;
+  .mat-card {
+    background-color: var(--color-examplex-accent);
+    color: white;
+    font-weight: 300;
   }
 
-  ng-scrollbar {
-    --scrollbar-color: rgba(0, 0, 0, 0.15);
-    --scrollbar-thumb-color: rgba(32, 178, 170, 0.9);
-    --scrollbar-thumb-hover-color: rgba(39,208,199,0.9);
-    --scroll-view-color: transparent;
-    --scrollbar-size: 8px;
-    --scrollbar-border-radius: 10px;
-    --scrollbar-container-color: transparent;
-    --scroll-view-margin: 0;
+  .mat-expansion-panel {
+    background-color: var(--color-accent);
+  }
+
+  ::ng-deep {
+    .mat-card-header-text {
+      width: 100%;
+    }
+
+    .ng-custom-scrollbar {
+      border: 1px dashed lightgray;
+    }
+  }
+
+  .sample.ng-scrollbar {
+    height: 200px;
+    border: 1px dashed lightgray;
+    border-radius: 3px;
+    margin-bottom: 18px;
+    //--scrollbar-color: rgba(0, 0, 0, 0.15);
+    //--scrollbar-thumb-color: var(--color-examplex-primary);
+    //--scrollbar-thumb-hover-color: rgba(39, 208, 199, 0.9);
+    //--scroll-view-color: transparent;
+    //--scrollbar-size: 8px;
+    //--scrollbar-border-radius: 10px;
+    //--scrollbar-container-color: transparent;
+    //--scroll-view-margin: 0;
     max-height: 200px;
-    border-radius: 0;
   }
 
   app-css-variables-form {
     display: block;
-    margin: 1em;
   }
 
   .inner {
     width: 140%;
   }
+
+  b {
+    margin-right: 1em;
+    display: inline-block;
+  }
+}
+
+.mat-card-title {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.mat-expansion-panel-header-description,
+.mat-expansion-panel-header-title {
+  flex-grow: unset;
+  width: 40%;
+}
+
+.mat-card-content {
+  padding-top: 18px;
+  margin-bottom: 18px;
+}
+
+.mat-expansion-panel-header-title {
+  min-width: 130px;
+}
+
+.reached-events {
+  padding-top: 18px;
+  margin: 1em 0;
+  display: flex;
+  align-items: center;
+}
+
+.mat-chip {
+  transition: background-color ease-out 1s;
+  font-weight: 300;
+
+  &.changed {
+    background-color: aquamarine !important;
+    transition: unset !important;
+  }
+}
+
+.mat-accordion {
+  display: block;
+  margin: 6px;
 }

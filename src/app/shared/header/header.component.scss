@@ -1,10 +1,13 @@
-.logo {
+app-logo {
   width: 150px;
   height: 150px;
-  margin-top: 1em;
+  margin: 1em auto;
 }
 
 .header {
+  background: var(--color-primary);
+  color: white;
+  padding: 2em;
   text-align: center;
   margin-bottom: 4em;
   .logo {
@@ -13,13 +16,16 @@
   }
   h1{
     margin-bottom: .5em;
+    font-weight: 300;
   }
-  h4 {
+  h3 {
     margin-bottom: 2em;
+    font-weight: 300;
   }
 }
 
 .badges{
+  margin: 2em 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

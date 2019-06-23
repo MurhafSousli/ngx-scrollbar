@@ -1,0 +1,9 @@
+<mat-card class="example example-card">
+  <mat-card-header>
+    <mat-card-title>Example Image</mat-card-title>
+  </mat-card-header>
+  <ng-scrollbar #scrollbar mat-card-image appearance="compact" direction="both" [style.height.px]="300">
+    <img src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+         alt="Photo of a Shiba Inu" (load)="scrollbar.update()">
+  </ng-scrollbar>
+</mat-card>

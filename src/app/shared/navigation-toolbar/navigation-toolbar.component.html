@@ -1,0 +1,30 @@
+<mat-toolbar color="primary" class="mat-elevation-z4">
+  <button mat-button class="home-button" (click)="mainScrollbar.scrollToTop(600)">
+    <app-logo></app-logo>
+    <span>ngx-scrollbar</span>
+  </button>
+
+  <div ngScrollbar
+       appearance="compact"
+       direction="horizontal"
+       position="invertX">
+    <nav mat-tab-nav-bar
+         color="accent"
+         backgroundColor="primary">
+      <a mat-tab-link
+         *ngFor="let example of examples | async"
+         [active]="example?.active"
+         (click)="mainScrollbar.scrollToElement(example?.selector, example?.top, example?.duration)">
+        {{example?.label}}
+      </a>
+    </nav>
+  </div>
+
+  <a mat-button
+     class="github-repo"
+     href="https://github.com/MurhafSousli/ngx-scrollbar">
+    <img src="https://material.angular.io/assets/img/homepage/github-circle-white-transparent.svg" alt="Github logo">
+    Github
+  </a>
+
+</mat-toolbar>

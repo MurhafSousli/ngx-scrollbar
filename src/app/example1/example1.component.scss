@@ -1,13 +1,13 @@
 .example1 {
-  background-color: #D85426;
-  color: rgba(255, 255, 255, 0.9);
-  padding: 0;
+  background-color: var(--color-example1);
+  //color: rgba(255, 255, 255, 0.9);
+  color: white;
 
   ng-scrollbar {
     --scrollbar-thumb-color: #fff;
     --scrollbar-thumb-hover-color: #fff;
     --scrollbar-border-radius: 5px;
-    --scrollbar-padding: 0 10px;
+    //--scrollbar-padding: 0 10px;
     --scrollbar-size: 10px;
     --scroll-view-margin: 10px;
   }
@@ -21,6 +21,15 @@
       box-shadow: 0 0 0 2px #D85426;
     }
   }
+}
+
+.mat-card {
+  overflow: hidden;
+}
+.mat-card-actions {
+  margin: 2em -1em -2em !important;
+  padding: 1em !important;
+  background: var(--color-example1-light);
 }
 
 .content-padding {

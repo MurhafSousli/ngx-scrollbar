@@ -1,57 +1,148 @@
 <div class="example exampleX">
-  <ng-scrollbar class="sample" [trackX]="true" [compact]="compact" [invertY]="invertY" [invertX]="invertX"
-                [style]="cssVariables">
-    <div class="inner">
-      Lorem ipsum dolor sit amet
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet mollitia vero quam, nisi possimus dolorem
-      asperiores, molestiae sit voluptatibus alias consequuntur laudantium repellat ea quidem quaerat rerum perspiciatis
-      iste adipisci.
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Lab</mat-card-title>
+    </mat-card-header>
 
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore maiores maxime corrupti quisquam. Dignissimos
-      sunt error voluptatibus repellat consequatur illo, aliquid nihil maxime veniam repudiandae, provident et sit,
-      reiciendis dicta.
+    <mat-divider></mat-divider>
 
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae id amet deserunt voluptate maiores sunt aut
-      eligendi totam nesciunt magnam illo consectetur aspernatur at voluptatem, qui unde ullam omnis voluptates.
+    <mat-card-content>
+      <div ngScrollbar
+           class="sample"
+           [direction]="direction"
+           [appearance]="appearance"
+           [visibility]="visibility"
+           [position]="position"
+           [style]="cssVariables"
+           (reachedTop)="reachedTop()"
+           (reachedBottom)="reachedBottom()"
+           (reachedLeft)="reachedLeft()"
+           (reachedRight)="reachedRight()"
+           (resized)="resized($event)">
+        <div class="inner" [innerHTML]="content"></div>
+      </div>
 
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore maiores maxime corrupti quisquam. Dignissimos
-      sunt error voluptatibus repellat consequatur illo, aliquid nihil maxime veniam repudiandae, provident et sit,
-      reiciendis dicta.
+      <mat-divider></mat-divider>
 
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae id amet deserunt voluptate maiores sunt aut
-      eligendi totam nesciunt magnam illo consectetur aspernatur at voluptatem, qui unde ullam omnis voluptates.
+      <div class="reached-events">
+        <span>Reached events</span>
+        <i style="flex: 1"></i>
+        <mat-chip-list>
+          <mat-chip color="danger" [class.changed]="reachedTop$ | async">
+            <span>Top</span>
+          </mat-chip>
+          <mat-chip color="danger" [class.changed]="reachedBottom$ | async">
+            <span>Bottom</span>
+          </mat-chip>
+          <mat-chip color="danger" [class.changed]="reachedLeft$ | async">
+            <span>Left</span>
+          </mat-chip>
+          <mat-chip color="danger" [class.changed]="reachedRight$ | async">
+            <span>Right</span>
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </mat-card-content>
 
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id assumenda et fugiat placeat enim quas, voluptas odio
-      aperiam in quibusdam beatae eaque minima. Consequuntur pariatur, doloremque, odit dolorem ullam sunt!
-      Lorem ipsum dolor sit amet
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet mollitia vero quam, nisi possimus dolorem
-      asperiores, molestiae sit voluptatibus alias consequuntur laudantium repellat ea quidem quaerat rerum perspiciatis
-      iste adipisci.
+    <mat-divider></mat-divider>
 
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore maiores maxime corrupti quisquam. Dignissimos
-      sunt error voluptatibus repellat consequatur illo, aliquid nihil maxime veniam repudiandae, provident et sit,
-      reiciendis dicta.
+    <mat-card-actions>
 
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae id amet deserunt voluptate maiores sunt aut
-      eligendi totam nesciunt magnam illo consectetur aspernatur at voluptatem, qui unde ullam omnis voluptates.
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Styling
+            </mat-panel-title>
+            <mat-panel-description>
+              CSS variables
+            </mat-panel-description>
+          </mat-expansion-panel-header>
 
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id assumenda et fugiat placeat enim quas, voluptas odio
-      aperiam in quibusdam beatae eaque minima. Consequuntur pariatur, doloremque, odit dolorem ullam sunt!
-    </div>
-  </ng-scrollbar>
+          <app-css-variables-form (value)="setStyle($event)"></app-css-variables-form>
+        </mat-expansion-panel>
 
-  <div style="border-bottom: 2px solid rgba(0,0,0,0.1)"></div>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Direction
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ directionToggleGroup.value | titlecase }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
 
-  <div style="margin: 0.5em">
-    <button class="btn-gradient orange mini" (click)="compact = !compact">
-      Compact {{ compact ? '[ON]' : '[OFF]'}}</button>
-    <button class="btn-gradient blue mini" (click)="invertX = !invertX">InvertX {{ invertX ? '[ON]' : '[OFF]'}}</button>
-    <button class="btn-gradient blue mini" (click)="invertY = !invertY">InvertY {{ invertY ? '[ON]' : '[OFF]'}}</button>
-    <button class="btn-gradient cyan mini" (click)="more = !more">{{ more ? 'Less' : 'More'}} options</button>
-  </div>
+          <mat-button-toggle-group #directionToggleGroup="matButtonToggleGroup"
+                                   aria-label="Scrollbar Direction"
+                                   [value]="direction"
+                                   (change)="direction = $event.value">
+            <mat-button-toggle value="all">All</mat-button-toggle>
+            <mat-button-toggle value="vertical">Vertical</mat-button-toggle>
+            <mat-button-toggle value="horizontal">Horizontal</mat-button-toggle>
+          </mat-button-toggle-group>
+        </mat-expansion-panel>
 
-  <ng-container *ngIf="more">
-    <div style="border-bottom: 2px solid rgba(0,0,0,0.1)"></div>
-    <app-css-variables-form (value)="setStyle($event)"></app-css-variables-form>
-  </ng-container>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Positioning
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ positionToggleGroup.value | titlecase }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <mat-button-toggle-group #positionToggleGroup="matButtonToggleGroup"
+                                   aria-label="Scrollbar Position"
+                                   [value]="position"
+                                   (change)="position = $event.value">
+            <mat-button-toggle value="native">Native</mat-button-toggle>
+            <mat-button-toggle value="invertY">InvertY</mat-button-toggle>
+            <mat-button-toggle value="invertX">InvertX</mat-button-toggle>
+            <mat-button-toggle value="invertAll">InvertAll</mat-button-toggle>
+          </mat-button-toggle-group>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Visibility
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ visibilityToggleGroup.value | titlecase }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-button-toggle-group #visibilityToggleGroup="matButtonToggleGroup"
+                                   aria-label="Scrollbar visibility"
+                                   [value]="visibility"
+                                   (change)="visibility = $event.value">
+            <mat-button-toggle value="native">Native</mat-button-toggle>
+            <mat-button-toggle value="always">Always</mat-button-toggle>
+            <mat-button-toggle value="hover">Hover</mat-button-toggle>
+          </mat-button-toggle-group>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Appearance
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ appearanceToggleGroup.value | titlecase }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <mat-button-toggle-group #appearanceToggleGroup="matButtonToggleGroup"
+                                   aria-label="Scrollbar Appearance"
+                                   [value]="appearance"
+                                   (change)="appearance = $event.value">
+            <mat-button-toggle value="standard">Standard</mat-button-toggle>
+            <mat-button-toggle value="compact">Compact</mat-button-toggle>
+          </mat-button-toggle-group>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card-actions>
+
+
+  </mat-card>
 </div>

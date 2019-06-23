@@ -1,0 +1,40 @@
+.white-theme {
+  height: 400px;
+  border-radius: 3px;
+  border: 2px solid rgba(0, 0, 0, 0.05);
+  --scrollbar-color: rgba(0, 0, 0, 0.05);
+  --scrollbar-thumb-color: var(--color-primary);
+  --scrollbar-size: 16px;
+  --scrollbar-border-radius: 10px;
+  --scroll-view-margin: 0;
+}
+
+.horizontal-scrollable-item {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+
+  &:nth-child(odd) {
+    background: #f1ffff;
+  }
+
+  &:nth-child(even) {
+    background: #ecf8ff;
+  }
+
+  ng-scrollbar {
+    flex: 1;
+    --scrollbar-thumb-color: var(--color-accent);
+  }
+}
+
+h4 {
+  margin: 10px;
+}
+
+.cards {
+  display: grid;
+  gap: 1em;
+  grid-auto-flow: column;
+  margin: 1em;
+}
