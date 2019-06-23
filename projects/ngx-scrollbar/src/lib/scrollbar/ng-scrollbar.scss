@@ -12,13 +12,13 @@
   --scrollbar-padding: 8px;
   --scroll-view-margin: 0;
   --scrollbar-min-size: 10%;
+  --scrollbar-gap: none;
 
   overflow: hidden;
   position: relative;
   height: 100%;
   display: grid;
-  grid-column-gap: 0;
-  grid-row-gap: 0;
+  grid-gap: var(--scrollbar-gap);
   grid-template-areas:
     "scroll-view    scrollbar-y"
     "scrollbar-x    empty";
