@@ -7,17 +7,19 @@
   </div>
 </div>
 
-<ng-container *ngIf="!disabled">
-  <ng-custom-scrollbar *ngIf="showScrollbarY"
+<ng-container *ngIf="!disabled && state | async as _state">
+  <ng-custom-scrollbar *ngIf="_state.useVerticalScrollbar"
                        axis="vertical"
                        class="ng-custom-scrollbar"
-                       [attr.fit]="showScrollbarX">
+                       [attr.scrollable]="_state.isVerticalScrollbarScrollable"
+                       [attr.fit]="_state.useHorizontalScrollbar">
   </ng-custom-scrollbar>
 
-  <ng-custom-scrollbar *ngIf="showScrollbarX"
+  <ng-custom-scrollbar *ngIf="_state.useHorizontalScrollbar"
                        axis="horizontal"
                        class="ng-custom-scrollbar"
-                       [attr.fit]="showScrollbarY">
+                       [attr.scrollable]="_state.isHorizontalScrollbarScrollable"
+                       [attr.fit]="_state.useVerticalScrollbar">
   </ng-custom-scrollbar>
 </ng-container>
 

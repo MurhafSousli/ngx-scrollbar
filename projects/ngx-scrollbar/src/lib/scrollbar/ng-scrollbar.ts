@@ -4,7 +4,7 @@ import {
   Input,
   ViewChild,
   ContentChild,
-  AfterViewInit,
+  OnInit,
   AfterContentChecked,
   OnDestroy,
   ChangeDetectorRef,
@@ -19,7 +19,11 @@ import { Directionality } from '@angular/cdk/bidi';
 import { fromEvent, Observable, Observer, Subject } from 'rxjs';
 import { pairwise, takeUntil, tap, throttleTime, filter, pluck, map } from 'rxjs/operators';
 import { CustomScrollView } from './custom-scroll-view';
-import { SmoothScrollToOptions, SmoothScrollEaseFunc, SmoothScroller } from './smooth-scroller';
+import {
+  SmoothScrollToOptions,
+  SmoothScrollEaseFunc,
+  SmoothScrollManager
+} from '../smooth-scroll/smooth-scroll-manager';
 import {
   NG_SCROLLBAR_DEFAULT_OPTIONS,
   NgScrollbarDefaultOptions,
@@ -28,6 +32,13 @@ import {
   NgScrollbarPosition,
   NgScrollbarVisibility
 } from './ng-scrollbar-config';
+
+export interface NgScrollbarState {
+  useVerticalScrollbar: boolean;
+  useHorizontalScrollbar: boolean;
+  isVerticalScrollbarScrollable: boolean;
+  isHorizontalScrollbarScrollable: boolean;
+}
 
 @Component({
   selector: 'ng-scrollbar, [ngScrollbar], [ng-scrollbar]',
@@ -46,7 +57,7 @@ import {
     '[attr.dir]': 'dir.value'
   }
 })
-export class NgScrollbar implements AfterViewInit, AfterContentChecked, OnDestroy {
+export class NgScrollbar implements OnInit, AfterContentChecked, OnDestroy {
 
   /** Scroll tracking directions */
   @Input() direction: NgScrollbarDirection = this.globalOptions.direction;
@@ -91,59 +102,46 @@ export class NgScrollbar implements AfterViewInit, AfterContentChecked, OnDestro
   private disabledFlag: boolean = false;
 
   /** Default viewport and smoothScroll references */
-  @ViewChild('viewPort') viewElementRef: ElementRef<HTMLElement>;
+  @ViewChild('viewPort', {static: true}) viewElementRef: ElementRef<HTMLElement>;
 
   /** Custom viewport reference */
-  @ContentChild(CustomScrollView) customViewPort: CustomScrollView;
+  @ContentChild(CustomScrollView, {static: true}) customViewPort: CustomScrollView;
 
   /** Viewport Element */
-  get view(): HTMLElement {
-    return this.customViewPort
-      ? this.customViewPort.viewPort.nativeElement
-      : this.viewElementRef.nativeElement;
-  }
+  view: HTMLElement;
 
   /** A stream that emits on scroll event */
-  readonly elementScrolled: Observable<Event> = new Observable((observer: Observer<Event>) =>
-    this.ngZone.runOutsideAngular(() =>
-      fromEvent(this.view, 'scroll').pipe(takeUntil(this.destroyed))
-        .subscribe(observer)));
-
-  readonly verticalScrollEvent: Observable<any> = this.getScrollEventByDirection('vertical');
-  readonly horizontalScrollEvent: Observable<any> = this.getScrollEventByDirection('horizontal');
+  scrolled: Observable<any>;
+  verticalScrolled: Observable<any>;
+  horizontalScrolled: Observable<any>;
 
   /** Stream that destroys components' observables */
   private destroyed = new Subject();
 
   /** Steam that updates the custom scrollbars state when view content changes (for internal uses) */
   private updater = new Subject<void>();
-  updateObserver: Observable<void> = this.updater.asObservable();
+  readonly updateObserver: Observable<void> = this.updater.asObservable();
 
   /** Stream used to update scrollbars state on change detection.
    * Because we have many checks in the template that evaluates on every change detection.
    * To avoid duplicate checks, this stream will only evaluate the checks once and throttle change detection. */
-  private readonly scrollbarsState = new Subject();
+  private readonly detectChanges = new Subject<void>();
+  state: Observable<NgScrollbarState>;
 
-  /** A flag used to show vertical scrollbar */
-  showScrollbarY: boolean = false;
-
-  /** A flag used to show horizontal scrollbar */
-  showScrollbarX: boolean = false;
-
-  constructor(private changeDetectorRef: ChangeDetectorRef,
+  constructor(private ngZone: NgZone,
+              private changeDetectorRef: ChangeDetectorRef,
               private breakpointObserver: BreakpointObserver,
-              private ngZone: NgZone,
-              private smoothScroll: SmoothScroller,
+              private smoothScroll: SmoothScrollManager,
               public dir: Directionality,
               @Inject(NG_SCROLLBAR_DEFAULT_OPTIONS) private globalOptions: NgScrollbarDefaultOptions,
-              @Inject(PLATFORM_ID) private platform: Object) {
+              @Inject(PLATFORM_ID) private platform: object) {
   }
 
-  private getScrollEventByDirection(direction: 'vertical' | 'horizontal') {
+  private getScrolledByDirection(direction: 'vertical' | 'horizontal') {
     const scrollProperty = direction === 'vertical' ? 'scrollTop' : 'scrollLeft';
-    let event: Event;
-    return this.elementScrolled.pipe(
-      tap((e: Event) => event = e),
+    let event: any;
+    return this.scrolled.pipe(
+      tap((e: any) => event = e),
       pluck('target', scrollProperty),
       pairwise(),
       filter(([prev, curr]) => prev !== curr),
@@ -153,17 +151,34 @@ export class NgScrollbar implements AfterViewInit, AfterContentChecked, OnDestro
 
   private updateOnChangeDetection() {
     // Throttle change detection
-    this.scrollbarsState.pipe(
+    this.state = this.detectChanges.pipe(
       throttleTime(100),
-      tap(() => {
-        this.showScrollbarY = (this.direction === 'all' || this.direction === 'vertical') &&
-          (this.visibility === 'always' || this.view.scrollHeight > this.view.clientHeight);
-
-        this.showScrollbarX = (this.direction === 'all' || this.direction === 'horizontal') &&
-          (this.visibility === 'always' || this.view.scrollWidth > this.view.clientWidth);
-      }),
-      takeUntil(this.destroyed)
-    ).subscribe();
+      map(() => {
+        let useVerticalScrollbar: boolean;
+        let useHorizontalScrollbar: boolean;
+        let isVerticalScrollbarScrollable: boolean;
+        let isHorizontalScrollbarScrollable: boolean;
+        // Check if vertical scrollbar should be displayed
+        if (this.direction === 'all' || this.direction === 'vertical') {
+          isVerticalScrollbarScrollable = this.view.scrollHeight > this.view.clientHeight;
+          useVerticalScrollbar = this.visibility === 'always' || isVerticalScrollbarScrollable;
+        }
+        const yValues = {
+          useVerticalScrollbar,
+          isVerticalScrollbarScrollable
+        };
+        // Check if horizontal scrollbar should be displayed
+        if (this.direction === 'all' || this.direction === 'horizontal') {
+          isHorizontalScrollbarScrollable = this.view.scrollWidth > this.view.clientWidth;
+          useHorizontalScrollbar = this.visibility === 'always' || isHorizontalScrollbarScrollable;
+        }
+        const xValues = {
+          useHorizontalScrollbar,
+          isHorizontalScrollbarScrollable
+        };
+        return {...xValues, ...yValues};
+      })
+    );
   }
 
   private updateOnBreakpointsChanges() {
@@ -184,8 +199,7 @@ export class NgScrollbar implements AfterViewInit, AfterContentChecked, OnDestro
     // Update state on content changes
     this.updateObserver.pipe(
       throttleTime(200),
-      // tap(() => this.changeDetectorRef.markForCheck()),
-      tap(() => this.scrollbarsState.next()),
+      tap(() => this.detectChanges.next()),
       takeUntil(this.destroyed)
     ).subscribe();
   }
@@ -201,22 +215,36 @@ export class NgScrollbar implements AfterViewInit, AfterContentChecked, OnDestro
     }
   }
 
-  ngAfterViewInit() {
+  ngOnInit() {
+
+    this.view = this.customViewPort
+      ? this.customViewPort.viewPort.nativeElement
+      : this.viewElementRef.nativeElement;
+
+    this.scrolled = new Observable((observer: Observer<any>) =>
+      this.ngZone.runOutsideAngular(() =>
+        fromEvent(this.view, 'scroll').pipe(takeUntil(this.destroyed))
+          .subscribe(observer)));
+
+    this.verticalScrolled = this.getScrolledByDirection('vertical');
+    this.horizontalScrolled = this.getScrolledByDirection('horizontal');
+
     this.ngZone.runOutsideAngular(() => {
       this.updateOnChangeDetection();
       this.updateOnBreakpointsChanges();
-      this.updateOnContentChanges();
+      // this.updateOnContentChanges();
       this.updateOnWindowSizeChanges();
     });
   }
 
   ngAfterContentChecked() {
-    this.scrollbarsState.next();
+    this.detectChanges.next();
   }
 
   ngOnDestroy() {
     this.destroyed.next();
     this.destroyed.complete();
+    this.destroyed.unsubscribe();
   }
 
   /**
