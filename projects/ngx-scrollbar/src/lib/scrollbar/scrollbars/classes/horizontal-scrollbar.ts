@@ -25,7 +25,7 @@ export class HorizontalScrollbar extends CustomScrollbar {
   }
 
   protected listenToScrollEvent(): void {
-    this.scrollbarRef.horizontalScrollEvent.pipe(
+    this.scrollbarRef.horizontalScrolled.pipe(
       tap(() => this.updateScrollbar()),
       takeUntil(this.destroyed)
     ).subscribe();

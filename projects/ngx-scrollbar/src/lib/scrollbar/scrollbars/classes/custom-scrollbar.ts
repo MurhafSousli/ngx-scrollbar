@@ -96,8 +96,6 @@ export class CustomScrollbar {
 
   /**
    * Get scrollbar thumb size
-   * @param naturalThumbSize
-   * @param scrollMax
    */
   protected scrollBoundaries(naturalThumbSize: number, scrollMax: number): number {
     return (naturalThumbSize < this.minThumbSize) ? this.minThumbSize : scrollMax ? naturalThumbSize : 0;

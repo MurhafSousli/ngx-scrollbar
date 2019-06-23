@@ -58,12 +58,12 @@ export class NgScrollbarReached implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.scrollbar.verticalScrollEvent.pipe(
+    this.scrollbar.verticalScrolled.pipe(
       takeUntil(this.unsubscriber),
       tap((e: any) => this.verticalScrollEvent.next(e))
     ).subscribe();
 
-    this.scrollbar.horizontalScrollEvent.pipe(
+    this.scrollbar.horizontalScrolled.pipe(
       takeUntil(this.unsubscriber),
       tap((e: any) => this.horizontalScrollEvent.next(e))
     ).subscribe();

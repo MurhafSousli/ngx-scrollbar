@@ -1,14 +1,15 @@
 import { Directive, ElementRef } from '@angular/core';
-import { SmoothScrollEaseFunc, SmoothScroller, SmoothScrollToOptions } from '../scrollbar/smooth-scroller';
+import { SmoothScrollEaseFunc, SmoothScrollManager, SmoothScrollToOptions } from './smooth-scroll-manager';
 
 @Directive({
-  selector: '[smoothScroll], [smooth-scroll]'
+  selector: '[smoothScroll], [smooth-scroll]',
+  exportAs: 'smoothScroll'
 })
 export class SmoothScroll {
 
   private readonly view: HTMLElement;
 
-  constructor(el: ElementRef, private smoothScroll: SmoothScroller) {
+  constructor(el: ElementRef, private smoothScroll: SmoothScrollManager) {
     this.view = el.nativeElement;
   }
 

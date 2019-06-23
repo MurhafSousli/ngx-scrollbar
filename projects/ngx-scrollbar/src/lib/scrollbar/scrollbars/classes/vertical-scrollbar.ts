@@ -24,7 +24,7 @@ export class VerticalScrollbar extends CustomScrollbar {
   }
 
   protected listenToScrollEvent(): void {
-    this.scrollbarRef.verticalScrollEvent.pipe(
+    this.scrollbarRef.verticalScrolled.pipe(
       tap(() => this.updateScrollbar()),
       takeUntil(this.destroyed)
     ).subscribe();

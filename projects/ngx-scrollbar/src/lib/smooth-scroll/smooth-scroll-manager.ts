@@ -25,7 +25,7 @@ export interface SmoothScrollToOptions {
 @Injectable({
   providedIn: 'root'
 })
-export class SmoothScroller {
+export class SmoothScrollManager {
 
   constructor(@Inject(PLATFORM_ID) private platform: Object) {
   }
