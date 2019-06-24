@@ -3,10 +3,8 @@
   "version": "5.0.0",
   "scripts": {
     "start": "ng serve",
-    "start-prod": "ng serve --prod",
     "build-demo": "ng build --prod --base-href https://murhafsousli.github.io/ngx-scrollbar/",
-    "build-lib-dev": "ng build ngx-scrollbar",
-    "build-lib": "ng build ngx-scrollbar --prod",
+    "build-lib": "ng build ngx-scrollbar",
     "test-lib": "ng test ngx-scrollbar",
     "link-lib": "npm link dist/ngx-scrollbar && npm link ngx-scrollbar",
     "publish-lib": "npm publish dist/ngx-scrollbar"
