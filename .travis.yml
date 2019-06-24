@@ -18,7 +18,6 @@ cache:
 
 install:
   - npm install
-  - npm rebuild
 
 script:
-  - npm run test-lib -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
+  - npm run test-lib -- --watch=false --no-progress
