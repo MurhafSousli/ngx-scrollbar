@@ -18,7 +18,7 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Directionality } from '@angular/cdk/bidi';
 import { fromEvent, Observable, Observer, Subject } from 'rxjs';
 import { pairwise, takeUntil, tap, throttleTime, filter, pluck, map } from 'rxjs/operators';
-import { CustomScrollView } from './custom-scroll-view';
+import { ScrollView } from './scroll-view';
 import {
   SmoothScrollToOptions,
   SmoothScrollEaseFunc,
@@ -101,11 +101,11 @@ export class NgScrollbar implements OnInit, AfterContentChecked, OnDestroy {
 
   private disabledFlag: boolean = false;
 
-  /** Default viewport and smoothScroll references */
-  @ViewChild('viewPort', {static: true}) viewElementRef: ElementRef<HTMLElement>;
+  /** Default viewport reference */
+  @ViewChild('viewPort', {static: true}) defaultViewPort: ElementRef<HTMLElement>;
 
   /** Custom viewport reference */
-  @ContentChild(CustomScrollView, {static: true}) customViewPort: CustomScrollView;
+  @ContentChild(ScrollView, {static: true}) customViewPort: ScrollView;
 
   /** Viewport Element */
   view: HTMLElement;
@@ -219,7 +219,7 @@ export class NgScrollbar implements OnInit, AfterContentChecked, OnDestroy {
 
     this.view = this.customViewPort
       ? this.customViewPort.viewPort.nativeElement
-      : this.viewElementRef.nativeElement;
+      : this.defaultViewPort.nativeElement;
 
     this.scrolled = new Observable((observer: Observer<any>) =>
       this.ngZone.runOutsideAngular(() =>

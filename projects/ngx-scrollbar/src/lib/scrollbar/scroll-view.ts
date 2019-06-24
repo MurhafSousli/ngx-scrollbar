@@ -1,12 +1,12 @@
 import { Directive, ElementRef } from '@angular/core';
 
 @Directive({
-  selector: '[customScrollView], [custom-scroll-view]',
+  selector: '[scrollView], [scroll-view]',
   host: {
     '[class.ng-custom-scroll-view]': 'true',
   }
 })
-export class CustomScrollView {
+export class ScrollView {
   constructor(public viewPort: ElementRef) {
   }
 }
