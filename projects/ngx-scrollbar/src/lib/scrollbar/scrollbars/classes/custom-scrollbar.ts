@@ -17,12 +17,6 @@ export class CustomScrollbar {
   /** Scrollbar styles */
   readonly style = this.state.asObservable();
 
-  // Scrollbar container element
-  protected containerElement: HTMLElement;
-
-  // Scrollbar thumbnail element
-  protected thumbnailElement: HTMLElement;
-
   get thumbnailSize(): number {
     return 0;
   }
@@ -36,13 +30,11 @@ export class CustomScrollbar {
 
   constructor(protected scrollbarRef: NgScrollbar,
               protected document: any,
-              protected zone: NgZone) {
+              protected zone: NgZone,
+              protected containerElement: HTMLElement,
+              protected thumbnailElement: HTMLElement) {
     this.viewElement = scrollbarRef.view;
-  }
 
-  init(container: HTMLElement, thumbnail: HTMLElement) {
-    this.containerElement = container;
-    this.thumbnailElement = thumbnail;
     this.listenToScrollEvent();
 
     // Start scrollbar thumbnail drag events

@@ -10,7 +10,6 @@ import {
   ChangeDetectionStrategy,
   PLATFORM_ID,
   forwardRef,
-  Optional
 } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { NgScrollbar } from '../ng-scrollbar';
@@ -51,20 +50,18 @@ export class NgCustomScrollbar implements OnInit, OnDestroy {
   // Scrollbar thumbnail element reference
   @ViewChild('thumbnail', {static: true}) thumbnailRef: ElementRef;
 
-  constructor(@Optional() @Inject(forwardRef(() => NgScrollbar)) public parent: NgScrollbar,
-              private zone: NgZone,
+  constructor(@Inject(forwardRef(() => NgScrollbar)) public parent: NgScrollbar,
               @Inject(PLATFORM_ID) private platform: object,
-              @Inject(DOCUMENT) private document: any) {
+              @Inject(DOCUMENT) private document: any,
+              private zone: NgZone) {
   }
 
   ngOnInit() {
-    this.customScrollbar = this.axis === 'vertical'
-      ? new VerticalScrollbar(this.parent, this.document, this.zone)
-      : new HorizontalScrollbar(this.parent, this.document, this.zone);
-
     // Avoid SSR Error
     if (isPlatformBrowser(this.platform)) {
-      this.customScrollbar.init(this.containerRef.nativeElement, this.thumbnailRef.nativeElement);
+      this.customScrollbar = this.axis === 'vertical'
+        ? new VerticalScrollbar(this.parent, this.document, this.zone, this.containerRef.nativeElement, this.thumbnailRef.nativeElement)
+        : new HorizontalScrollbar(this.parent, this.document, this.zone, this.containerRef.nativeElement, this.thumbnailRef.nativeElement);
     }
   }
 

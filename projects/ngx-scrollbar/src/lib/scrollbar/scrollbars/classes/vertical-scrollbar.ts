@@ -19,8 +19,10 @@ export class VerticalScrollbar extends CustomScrollbar {
 
   constructor(protected scrollbarRef: NgScrollbar,
               protected document: any,
-              protected zone: NgZone) {
-    super(scrollbarRef, document, zone);
+              protected zone: NgZone,
+              protected containerElement: HTMLElement,
+              protected thumbnailElement: HTMLElement) {
+    super(scrollbarRef, document, zone, containerElement, thumbnailElement);
   }
 
   protected listenToScrollEvent(): void {
