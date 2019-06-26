@@ -1,8 +1,5 @@
 <div class="ng-scroll-view-container">
-  <div #viewPort
-       class="ng-scroll-view {{viewClass}}"
-       (cdkObserveContent)="update()"
-       [cdkObserveContentDisabled]="disabled || customViewPort || !autoUpdate">
+  <div #viewPort class="ng-scroll-view {{viewClass}}">
     <ng-content></ng-content>
   </div>
 </div>
