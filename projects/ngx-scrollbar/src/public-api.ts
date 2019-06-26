@@ -10,6 +10,7 @@ export * from './lib/scrollbar/scroll-view';
 export * from './lib/smooth-scroll/smooth-scroll.module';
 export * from './lib/smooth-scroll/smooth-scroll';
 
-export * from './lib/reached-event/ng-scrollbar-reached';
-export * from './lib/reached-event/ng-scrollbar-reached-config';
 export * from './lib/reached-event/ng-scrollbar-reached.module';
+export * from './lib/reached-event/ng-scrollbar-reached';
+
+export * from './lib/resize-sensor/resize-sensor';

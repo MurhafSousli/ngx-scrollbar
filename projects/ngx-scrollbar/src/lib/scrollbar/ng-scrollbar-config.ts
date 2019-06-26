@@ -25,8 +25,6 @@ export interface NgScrollbarDefaultOptions {
   scrollToDuration?: number;
   /** disableOnBreakpoints: an array of string used to set the breakpoints that disable the scrollbar */
   disableOnBreakpoints?: string | string[] | 'unset';
-  /** autoUpdate: Auto update scrollbar state when content changes */
-  autoUpdate?: boolean;
 }
 
 /** Injection token to be used to override the default options for `ng-scrollbar`. */
@@ -42,7 +40,6 @@ export const NG_SCROLLBAR_DEFAULT_OPTIONS =
       visibility: 'native',
       position: 'native',
       scrollToDuration: 300,
-      autoUpdate: false,
       disableOnBreakpoints: [
         Breakpoints.HandsetLandscape,
         Breakpoints.HandsetPortrait
