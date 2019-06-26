@@ -86,9 +86,6 @@ export class NgScrollbar implements OnInit, AfterContentChecked, OnDestroy {
   /** Disable custom scrollbars on specific breakpoints */
   @Input() disableOnBreakpoints: string[] | string | 'unset' = this.globalOptions.disableOnBreakpoints;
 
-  /** Auto update scrollbars on content changes (Mutation Observer) */
-  @Input() autoUpdate: boolean = this.globalOptions.autoUpdate;
-
   /** Disable custom scrollbars and switch back to native scrollbars */
   @Input('disabled')
   get disabled(): boolean {
@@ -114,6 +111,9 @@ export class NgScrollbar implements OnInit, AfterContentChecked, OnDestroy {
   scrolled: Observable<any>;
   verticalScrolled: Observable<any>;
   horizontalScrolled: Observable<any>;
+
+  /** A flag to indicates if resize sensor is being used */
+  resizeSensor: boolean = false;
 
   /** Stream that destroys components' observables */
   private destroyed = new Subject();

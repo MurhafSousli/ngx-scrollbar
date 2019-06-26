@@ -103,11 +103,12 @@
   overscroll-behavior: contain contain;
   -webkit-overflow-scrolling: touch;
   contain: content;
-  position: absolute;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
+  // Force absolute positioning because the resize sensor plugin overrides position to relative
+  position: absolute !important;
 }
 
 // Fix cdkVirtualScrollViewPort component
