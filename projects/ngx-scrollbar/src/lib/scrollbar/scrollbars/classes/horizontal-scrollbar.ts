@@ -6,18 +6,6 @@ import { NgScrollbar } from '../../ng-scrollbar';
 
 export class HorizontalScrollbar extends CustomScrollbar {
 
-  /**
-   * Calculate scrollbar thumbnail size
-   */
-  get thumbnailSize(): number {
-    const barClientWidth = this.containerElement.clientWidth;
-    const viewClientWidth = this.viewElement.clientWidth;
-    const viewScrollWidth = this.viewElement.scrollWidth;
-    this.naturalThumbSize = barClientWidth / viewScrollWidth * barClientWidth;
-    this.scrollMax = viewScrollWidth - viewClientWidth;
-    return this.scrollBoundaries(this.naturalThumbSize, this.scrollMax);
-  }
-
   constructor(protected scrollbarRef: NgScrollbar,
               protected document: any,
               protected zone: NgZone,
@@ -26,17 +14,24 @@ export class HorizontalScrollbar extends CustomScrollbar {
     super(scrollbarRef, document, zone, containerElement, thumbnailElement);
   }
 
-  protected listenToScrollEvent(): void {
-    this.scrollbarRef.horizontalScrolled.pipe(
-      tap(() => this.updateScrollbar()),
-      takeUntil(this.destroyed)
-    ).subscribe();
+  /**
+   * Sets the thumbnail size for the horizontal scrollbar
+   */
+  protected updateScrollbarThumbnailSize(): void {
+    const barClientWidth = this.containerElement.clientWidth;
+    const viewClientWidth = this.viewElement.clientWidth;
+    const viewScrollWidth = this.viewElement.scrollWidth;
+    this.naturalThumbSize = barClientWidth / viewScrollWidth * barClientWidth;
+    this.scrollMax = viewScrollWidth - viewClientWidth;
+    this.thumbnailSize = this.scrollBoundaries(this.naturalThumbSize, this.scrollMax);
   }
 
+  protected listenToScrollEvent(): Observable<any> {
+    return this.scrollbarRef.horizontalScrolled;
+  }
 
   /**
-   * Scrollbar container click
-   * @param e Mouse event
+   * Scrolls to the clicked position on scrollbar container
    */
   containerClick(e: any): void {
     if (e.target === e.currentTarget) {
@@ -50,7 +45,7 @@ export class HorizontalScrollbar extends CustomScrollbar {
   /**
    * Update scrollbar
    */
-  protected updateScrollbar(): void {
+  protected updateScrollbarThumbnailPosition(): void {
     this.thumbSize = this.thumbnailElement.clientWidth;
     this.trackMax = this.containerElement.clientWidth - this.thumbSize;
     this.currPos = this.viewElement.scrollLeft * this.trackMax / this.scrollMax;

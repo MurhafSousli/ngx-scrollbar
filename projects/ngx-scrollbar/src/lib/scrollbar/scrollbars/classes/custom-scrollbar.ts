@@ -1,14 +1,14 @@
 import { NgZone } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { debounceTime, takeUntil, tap, throttleTime } from 'rxjs/operators';
+import { takeUntil, tap, throttleTime } from 'rxjs/operators';
 import { NgScrollbar } from '../../ng-scrollbar';
 
-export class CustomScrollbar {
+export abstract class CustomScrollbar {
 
   // Scrollable view element
   protected readonly viewElement: HTMLElement;
 
-  // Streams unsubscriber
+  // Stream that emits to unsubscribe from all streams
   protected readonly destroyed = new Subject();
 
   // Stream styles state
@@ -17,25 +17,30 @@ export class CustomScrollbar {
   /** Scrollbar styles */
   readonly style = this.state.asObservable();
 
-  get thumbnailSize(): number {
-    return 0;
-  }
+  /** Scrollbar thumbnail size */
+  thumbnailSize: number = 0;
 
-  protected minThumbSize = 20;
-  protected naturalThumbSize = 0;
-  protected thumbSize = 0;
-  protected trackMax = 0;
-  protected scrollMax = 0;
-  protected currPos = 0;
+  /**
+   * Variables used to calculate thumbnail position
+   */
+  protected minThumbSize: number = 20;
+  protected naturalThumbSize: number = 0;
+  protected thumbSize: number = 0;
+  protected trackMax: number = 0;
+  protected scrollMax: number = 0;
+  protected currPos: number = 0;
 
-  constructor(protected scrollbarRef: NgScrollbar,
-              protected document: any,
-              protected zone: NgZone,
-              protected containerElement: HTMLElement,
-              protected thumbnailElement: HTMLElement) {
+  protected constructor(protected scrollbarRef: NgScrollbar,
+                        protected document: any,
+                        protected zone: NgZone,
+                        protected containerElement: HTMLElement,
+                        protected thumbnailElement: HTMLElement) {
     this.viewElement = scrollbarRef.view;
 
-    this.listenToScrollEvent();
+    this.listenToScrollEvent().pipe(
+      tap(() => this.updateScrollbarThumbnailPosition()),
+      takeUntil(this.destroyed)
+    ).subscribe();
 
     // Start scrollbar thumbnail drag events
     this.zone.runOutsideAngular(() => {
@@ -44,18 +49,23 @@ export class CustomScrollbar {
       ).subscribe();
     });
 
-    // Update scrollbar thumbnail size on content changes
+    // Update scrollbar thumbnail position and size
     this.scrollbarRef.updateObserver.pipe(
       throttleTime(200),
-      tap(() => this.updateScrollbar()),
-      // Make sure scrollbar thumbnail position is correct after the new content is rendered
-      debounceTime(200),
-      tap(() => this.updateScrollbar()),
+      tap(() => {
+        this.updateScrollbarThumbnailSize();
+        this.updateScrollbarThumbnailPosition();
+      }),
       takeUntil(this.destroyed)
     ).subscribe();
 
-    // Initialize scrollbar
-    setTimeout(() => this.updateScrollbar(), 200);
+    if (!this.scrollbarRef.resizeSensor) {
+      // Initialize scrollbar
+      setTimeout(() => {
+        this.updateScrollbarThumbnailSize();
+        this.updateScrollbarThumbnailPosition();
+      }, 200);
+    }
   }
 
   destroy() {
