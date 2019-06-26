@@ -63,29 +63,6 @@ export class CustomScrollbar {
     this.destroyed.complete();
   }
 
-  protected listenToScrollEvent(): void {
-  }
-
-  /**
-   * Scrollbar holder click
-   * @param e Mouse event
-   */
-  containerClick(e: any): void {
-  }
-
-  /**
-   * Update scrollbar
-   */
-  protected updateScrollbar(): void {
-  }
-
-  /**
-   * Start vertical thumb worker
-   */
-  protected startThumbEvents(): Observable<any> | undefined {
-    return undefined;
-  }
-
   /**
    * Get scrollbar thumb size
    */
@@ -96,4 +73,14 @@ export class CustomScrollbar {
   protected updateState(state: any): void {
     this.state.next({...this.state.value, ...state});
   }
+
+  abstract containerClick(e: any): void;
+
+  protected abstract startThumbEvents(): Observable<any>;
+
+  protected abstract listenToScrollEvent(): Observable<any>;
+
+  protected abstract updateScrollbarThumbnailSize(): void;
+
+  protected abstract updateScrollbarThumbnailPosition(): void;
 }
