@@ -1,19 +1,19 @@
 @mixin fitScrollbar() {
   // If both scrollbars are visible
-  &[dir="ltr"] > .ng-scrollbar-container > .ng-custom-scrollbar[axis="horizontal"][fit="true"] {
+  &[dir="ltr"] > .ng-scrollbar-rail > .ng-custom-scrollbar[axis="horizontal"][fit="true"] {
     right: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
   }
 
-  &[dir="rtl"] > .ng-scrollbar-container > .ng-custom-scrollbar[axis="horizontal"][fit="true"] {
+  &[dir="rtl"] > .ng-scrollbar-rail > .ng-custom-scrollbar[axis="horizontal"][fit="true"] {
     left: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
   }
 
   &[position="invertY"], &[position="invertAll"] {
-    &[dir="ltr"] > .ng-scrollbar-container > .ng-custom-scrollbar[axis="horizontal"][fit="true"] {
+    &[dir="ltr"] > .ng-scrollbar-rail > .ng-custom-scrollbar[axis="horizontal"][fit="true"] {
       left: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
     }
 
-    &[dir="rtl"] > .ng-scrollbar-container > .ng-custom-scrollbar[axis="horizontal"][fit="true"] {
+    &[dir="rtl"] > .ng-scrollbar-rail > .ng-custom-scrollbar[axis="horizontal"][fit="true"] {
       right: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
     }
   }
@@ -21,7 +21,7 @@
 
 
 @mixin compactHorizontalScrollbarStyles() {
-  > .ng-scrollbar-container > .ng-custom-scrollbar[axis="horizontal"] {
+  > .ng-scrollbar-rail > .ng-custom-scrollbar[axis="horizontal"] {
     position: absolute;
     left: 0;
     right: 0;
@@ -30,7 +30,7 @@
   }
 
   &[position="invertX"], &[position="invertAll"] {
-    > .ng-scrollbar-container > .ng-custom-scrollbar[axis="horizontal"] {
+    > .ng-scrollbar-rail > .ng-custom-scrollbar[axis="horizontal"] {
       top: 0;
       bottom: unset;
     }

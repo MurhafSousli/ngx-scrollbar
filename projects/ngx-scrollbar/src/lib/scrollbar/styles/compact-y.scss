@@ -1,15 +1,15 @@
 @mixin fitScrollbar() {
-  > .ng-scrollbar-container > .ng-custom-scrollbar[axis="vertical"][fit="true"] {
+  > .ng-scrollbar-rail > .ng-custom-scrollbar[axis="vertical"][fit="true"] {
     bottom: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
   }
 
-  &[position="invertX"], &[position="invertAll"] > .ng-scrollbar-container > .ng-custom-scrollbar[axis="vertical"][fit="true"] {
+  &[position="invertX"], &[position="invertAll"] > .ng-scrollbar-rail > .ng-custom-scrollbar[axis="vertical"][fit="true"] {
     top: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
   }
 }
 
 @mixin compactVerticalScrollbarStyles() {
-  > .ng-scrollbar-container > .ng-custom-scrollbar[axis="vertical"] {
+  > .ng-scrollbar-rail > .ng-custom-scrollbar[axis="vertical"] {
     position: absolute;
     top: 0;
     bottom: 0;
