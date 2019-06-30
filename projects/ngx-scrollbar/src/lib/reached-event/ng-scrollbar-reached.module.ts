@@ -1,27 +1,29 @@
 import { NgModule } from '@angular/core';
+import { BidiModule } from '@angular/cdk/bidi';
 import { NgScrollbarModule } from '../scrollbar/ng-scrollbar.module';
 import {
+  NgScrollbarReachedTop,
   NgScrollbarReachedBottom,
-  NgScrollbarReachedLeft,
-  NgScrollbarReachedRight,
-  NgScrollbarReachedTop
+  NgScrollbarReachedStart,
+  NgScrollbarReachedEnd
 } from './ng-scrollbar-reached';
 
 @NgModule({
   imports: [
-    NgScrollbarModule
+    NgScrollbarModule,
+    BidiModule
   ],
   declarations: [
     NgScrollbarReachedTop,
     NgScrollbarReachedBottom,
-    NgScrollbarReachedRight,
-    NgScrollbarReachedLeft
+    NgScrollbarReachedStart,
+    NgScrollbarReachedEnd
   ],
   exports: [
     NgScrollbarReachedTop,
     NgScrollbarReachedBottom,
-    NgScrollbarReachedRight,
-    NgScrollbarReachedLeft
+    NgScrollbarReachedStart,
+    NgScrollbarReachedEnd
   ]
 })
 export class NgScrollbarReachedModule {

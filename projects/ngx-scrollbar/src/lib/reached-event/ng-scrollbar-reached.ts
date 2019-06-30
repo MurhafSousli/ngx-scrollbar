@@ -1,27 +1,55 @@
 import { Directive, Optional, Input, Output, OnInit, OnDestroy, NgZone } from '@angular/core';
+import { Directionality } from '@angular/cdk/bidi';
 import { Observable, Subject, Subscription, Observer } from 'rxjs';
 import { filter, map, tap, distinctUntilChanged } from 'rxjs/operators';
 import { NgScrollbar } from '../scrollbar/ng-scrollbar';
 
-class ScrollReached implements OnDestroy {
+class ReachedFunctions {
+  static isReachedTop(offset: number, e: any): boolean {
+    const position = e.target.scrollTop;
+    return position <= offset;
+  }
+
+  static isReachedBottom(offset: number, e: any): boolean {
+    const position = e.target.scrollTop + e.target.clientHeight;
+    const target = e.target.scrollHeight;
+    return position >= target - offset;
+  }
+
+  static isReachedLeft(offset: number, e: any): boolean {
+    const position = e.target.scrollLeft;
+    return position <= offset;
+  }
+
+  static isReachedRight(offset: number, e: any): boolean {
+    const position = e.target.scrollLeft + e.target.clientWidth;
+    const target = e.target.scrollWidth;
+    return position >= target - offset;
+  }
+}
+
+abstract class ScrollReached implements OnDestroy {
 
   /** offset: Reached offset value in px */
   @Input('reachedOffset') offset = 0;
 
   /**
-   * scrollEvent: is a stream that emits scroll event when `elementScrolled()` is ready.
-   * NOTE: I used this method because the scroll event must be initialized before the reached outputs,
-   * but `elementScrolled()` returns undefined if called before the view is initialized.
+   * Stream that emits scroll event when `NgScrollbar.scrolled` is initialized.
+   *
+   * **NOTE:** This subject is used to hold the place of `NgScrollbar.scrolled` when it's not initialized yet
    */
   protected scrollEvent = new Subject<any>();
 
+  /** subscription: Scrolled event subscription, used to unsubscribe from the event on destroy */
   protected subscription = Subscription.EMPTY;
 
+  /** A stream used to assign the reached output */
   protected reachedEvent = new Observable((observer: Observer<any>) =>
     this.scrollReached().subscribe(_ =>
-      Promise.resolve().then(() => this.ngZone.run(() => observer.next(_)))));
+      Promise.resolve().then(() => this.zone.run(() => observer.next(_)))));
 
-  constructor(@Optional() protected scrollbar: NgScrollbar, protected ngZone: NgZone) {
+  protected constructor(protected scrollbar: NgScrollbar, protected zone: NgZone) {
+    console.log(scrollbar);
     if (!scrollbar) {
       throw new Error('[NgScrollbarReached Directive]: Host element must be an NgScrollbar component.');
     }
@@ -29,10 +57,6 @@ class ScrollReached implements OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-  }
-
-  protected isReached(offset: number, e?: any): boolean {
-    return false;
   }
 
   protected scrollReached(): Observable<any> {
@@ -51,11 +75,13 @@ class ScrollReached implements OnDestroy {
       map(() => currEvent)
     );
   }
+
+  protected abstract isReached(offset: number, e?: any): boolean;
 }
 
-class VerticalScrollReached extends ScrollReached implements OnInit {
-  constructor(@Optional() protected scrollbar: NgScrollbar, protected ngZone: NgZone) {
-    super(scrollbar, ngZone);
+abstract class VerticalScrollReached extends ScrollReached implements OnInit {
+  protected constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone) {
+    super(scrollbar, zone);
   }
 
   ngOnInit() {
@@ -63,9 +89,9 @@ class VerticalScrollReached extends ScrollReached implements OnInit {
   }
 }
 
-class HorizontalScrollReached extends ScrollReached implements OnInit {
-  constructor(@Optional() protected scrollbar: NgScrollbar, protected ngZone: NgZone) {
-    super(scrollbar, ngZone);
+abstract class HorizontalScrollReached extends ScrollReached implements OnInit {
+  protected constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone) {
+    super(scrollbar, zone);
   }
 
   ngOnInit() {
@@ -77,15 +103,21 @@ class HorizontalScrollReached extends ScrollReached implements OnInit {
   selector: '[reachedTop], [reached-top]',
 })
 export class NgScrollbarReachedTop extends VerticalScrollReached {
+
+  /** Stream that emits when scroll has reached the top */
   @Output() reachedTop: Observable<any> = this.reachedEvent;
 
-  constructor(@Optional() protected scrollbar: NgScrollbar, protected ngZone: NgZone) {
-    super(scrollbar, ngZone);
+  constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone) {
+    super(scrollbar, zone);
   }
 
+  /**
+   * Check if scroll has reached the top (vertically)
+   * @param offset Scroll offset
+   * @param e Scroll event
+   */
   protected isReached(offset: number, e: any): boolean {
-    const position = e.target.scrollTop;
-    return position <= offset;
+    return ReachedFunctions.isReachedTop(offset, e);
   }
 }
 
@@ -94,50 +126,67 @@ export class NgScrollbarReachedTop extends VerticalScrollReached {
 })
 export class NgScrollbarReachedBottom extends VerticalScrollReached {
 
+  /** Stream that emits when scroll has reached the bottom */
   @Output() reachedBottom: Observable<any> = this.reachedEvent;
 
-  constructor(@Optional() protected scrollbar: NgScrollbar, protected ngZone: NgZone) {
-    super(scrollbar, ngZone);
+  constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone) {
+    super(scrollbar, zone);
   }
 
+  /**
+   * Check if scroll has reached the bottom (vertically)
+   * @param offset Scroll offset
+   * @param e Scroll event
+   */
   protected isReached(offset: number, e: any): boolean {
-    const position = e.target.scrollTop + e.target.clientHeight;
-    const target = e.target.scrollHeight;
-    return position >= target - offset;
+    return ReachedFunctions.isReachedBottom(offset, e);
   }
 }
 
 @Directive({
-  selector: '[reachedLeft], [reached-left]',
+  selector: '[reachedStart], [reached-start]',
 })
-export class NgScrollbarReachedLeft extends HorizontalScrollReached {
+export class NgScrollbarReachedStart extends HorizontalScrollReached {
 
-  @Output() reachedLeft: Observable<any> = this.reachedEvent;
+  /** Stream that emits when scroll has reached the start */
+  @Output() reachedStart: Observable<any> = this.reachedEvent;
 
-  constructor(@Optional() protected scrollbar: NgScrollbar, protected ngZone: NgZone) {
-    super(scrollbar, ngZone);
+  constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone, private dir: Directionality) {
+    super(scrollbar, zone);
   }
 
+  /**
+   * Check if scroll has reached the start (horizontally)
+   * @param offset Scroll offset
+   * @param e Scroll event
+   */
   protected isReached(offset: number, e: any): boolean {
-    const position = e.target.scrollLeft;
-    return position <= offset;
+    return this.dir.value === 'ltr'
+      ? ReachedFunctions.isReachedLeft(offset, e)
+      : ReachedFunctions.isReachedRight(offset, e);
   }
 }
 
 @Directive({
-  selector: '[reachedRight], [reached-right]',
+  selector: '[reachedEnd], [reached-end]',
 })
-export class NgScrollbarReachedRight extends HorizontalScrollReached {
+export class NgScrollbarReachedEnd extends HorizontalScrollReached {
 
-  @Output() reachedRight: Observable<any> = this.reachedEvent;
+  /** Stream that emits when scroll has reached the end */
+  @Output() reachedEnd: Observable<any> = this.reachedEvent;
 
-  constructor(@Optional() protected scrollbar: NgScrollbar, protected ngZone: NgZone) {
-    super(scrollbar, ngZone);
+  constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone, private dir: Directionality) {
+    super(scrollbar, zone);
   }
 
+  /**
+   * Check if scroll has reached the end (horizontally)
+   * @param offset Scroll offset
+   * @param e Scroll event
+   */
   protected isReached(offset: number, e: any): boolean {
-    const position = e.target.scrollLeft + e.target.clientWidth;
-    const target = e.target.scrollWidth;
-    return position >= target - offset;
+    return this.dir.value === 'ltr'
+      ? ReachedFunctions.isReachedRight(offset, e)
+      : ReachedFunctions.isReachedLeft(offset, e);
   }
 }
