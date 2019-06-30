@@ -27,7 +27,7 @@ import { VerticalScrollbar } from './classes/vertical-scrollbar';
   ],
   template: `
     <div #container
-         class="ng-scrollbar-container {{parent.barClass}}"
+         class="ng-scrollbar-rail {{parent.railClass}}">
          (mousedown)="customScrollbar.containerClick($event)">
       <div #thumbnail
            class="ng-scrollbar-thumbnail {{parent.thumbClass}}"

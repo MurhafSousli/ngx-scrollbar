@@ -75,7 +75,7 @@ export class NgScrollbar implements OnInit, AfterContentChecked, OnDestroy {
   @Input() viewClass: string = this.globalOptions.viewClass;
 
   /** Scrollbars class */
-  @Input() barClass: string = this.globalOptions.barClass;
+  @Input() railClass: string = this.globalOptions.railClass;
 
   /** Scrollbars thumbnails class */
   @Input() thumbClass: string = this.globalOptions.thumbClass;

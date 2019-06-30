@@ -18,7 +18,7 @@ export interface NgScrollbarDefaultOptions {
   /** viewClass:  a class forwarded to scrollable viewport element */
   viewClass?: string;
   /** barClass: a class forwarded to the scrollbar(s) element(s) */
-  barClass?: string;
+  railClass?: string;
   /** thumbClass: a class forwarded to the scrollbar thumbnail element */
   thumbClass?: string;
   /** scrollToDuration: a number used to set the duration of the smooth scroll functions */
@@ -33,7 +33,7 @@ export const NG_SCROLLBAR_DEFAULT_OPTIONS =
     providedIn: 'root',
     factory: (): NgScrollbarDefaultOptions => ({
       viewClass: '',
-      barClass: '',
+      railClass: '',
       thumbClass: '',
       direction: 'vertical',
       appearance: 'standard',
