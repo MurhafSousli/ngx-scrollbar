@@ -27,10 +27,10 @@ import {
 import {
   NG_SCROLLBAR_DEFAULT_OPTIONS,
   NgScrollbarDefaultOptions,
-  NgScrollbarAppearance,
-  NgScrollbarDirection,
-  NgScrollbarPosition,
-  NgScrollbarVisibility
+  ScrollbarAppearance,
+  ScrollbarDirection,
+  ScrollbarPosition,
+  ScrollbarVisibility
 } from './ng-scrollbar-config';
 
 export interface NgScrollbarState {
@@ -58,18 +58,38 @@ export interface NgScrollbarState {
   }
 })
 export class NgScrollbar implements OnInit, AfterContentChecked, OnDestroy {
-
-  /** Scroll tracking directions */
-  @Input() direction: NgScrollbarDirection = this.globalOptions.direction;
-
-  /** Scrollbar visibility */
-  @Input() visibility: NgScrollbarVisibility = this.globalOptions.visibility;
-
-  /** Scrollbar appearance */
-  @Input() appearance: NgScrollbarAppearance = this.globalOptions.appearance;
-
-  /** Scrollbar position */
-  @Input() position: NgScrollbarPosition = this.globalOptions.position;
+  /**
+   * Sets the supported scroll direction of the viewport, there are 3 options:
+   *
+   * - `vertical` Use both vertical and horizontal scrollbars
+   * - `horizontal` Use both vertical and horizontal scrollbars
+   * - `all` Use both vertical and horizontal scrollbars
+   */
+  @Input() direction: ScrollbarDirection = this.globalOptions.direction;
+  /**
+   * When to show the scrollbar, and there are 3 options:
+   *
+   * - `native` (default) Scrollbar will be visible when viewport is scrollable like with native scrollbars
+   * - `hover` Scrollbars are hidden by default, only visible on scrolling or hovering
+   * - `always` Scrollbars are always shown even if the viewport is not scrollable
+   */
+  @Input() visibility: ScrollbarVisibility = this.globalOptions.visibility;
+  /**
+   *  Sets the appearance of the scrollbar, there are 2 options:
+   *
+   * - `standard` (default) scrollbar space will be reserved just like with native scrollbars.
+   * - `compact` scrollbar doesn't reserve any space, they are placed over the viewport.
+   */
+  @Input() appearance: ScrollbarAppearance = this.globalOptions.appearance;
+  /**
+   * Sets the position of each scrollbar, there are 4 options:
+   *
+   * - `native` (Default) Use the default position like in native scrollbars.
+   * - `invertY` Inverts vertical scrollbar position
+   * - `invertX` Inverts Horizontal scrollbar position
+   * - `invertAll` Inverts both scrollbars positions
+   */
+  @Input() position: ScrollbarPosition = this.globalOptions.position;
 
   /** Viewport class */
   @Input() viewClass: string = this.globalOptions.viewClass;
