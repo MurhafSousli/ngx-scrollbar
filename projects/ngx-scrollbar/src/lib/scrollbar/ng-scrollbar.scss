@@ -57,14 +57,14 @@
     &[direction="all"],
     &[direction="horizontal"] {
       > .ng-scroll-view-container > .ng-scroll-view {
-        overflow-x: scroll;
+        overflow-x: auto;
       }
     }
 
     &[direction="all"],
     &[direction="vertical"] {
       > .ng-scroll-view-container > .ng-scroll-view {
-        overflow-y: scroll;
+        overflow-y: auto;
       }
     }
   }
