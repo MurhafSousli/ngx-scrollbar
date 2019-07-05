@@ -5,7 +5,7 @@ import { animationFrameScheduler } from 'rxjs';
 
 export type SmoothScrollEaseFunc = (t: number, s: number, c: number, d: number) => number;
 
-export interface SmoothScrollOptions {
+interface SmoothScrollOptions {
   top?: number;
   left?: number;
   offsetTop: number;
@@ -27,7 +27,7 @@ export interface SmoothScrollToOptions {
 })
 export class SmoothScrollManager {
 
-  constructor(@Inject(PLATFORM_ID) private platform: Object) {
+  constructor(@Inject(PLATFORM_ID) private platform: object) {
   }
 
   private scrollFunc(view: HTMLElement, left: number, top: number) {
@@ -67,8 +67,8 @@ export class SmoothScrollManager {
     return Promise.resolve();
   }
 
-  scrollToElement(view: HTMLElement, selector: string, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    const target: HTMLElement = view.querySelector(selector);
+  /** Scroll to element by reference */
+  scrollToElement(view: HTMLElement, target: HTMLElement, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
     return target ? this.scrollTo(view, {
       left: target.offsetLeft,
       top: target.offsetTop - offset,
@@ -77,28 +77,29 @@ export class SmoothScrollManager {
     }) : Promise.resolve();
   }
 
-  scrollXTo(view: HTMLElement, left: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.scrollTo(view, {left, duration, easeFunc});
+  /** Scroll to element by selector */
+  scrollToSelector(view: HTMLElement, selector: string, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
+    return this.scrollToElement(view, view.querySelector(selector), offset, duration, easeFunc);
   }
 
-  scrollYTo(view: HTMLElement, top: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.scrollTo(view, {top, duration, easeFunc});
+  /** Scroll to top */
+  scrollToTop(view: HTMLElement, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
+    return this.scrollTo(view, {top: 0 - offset, duration, easeFunc});
   }
 
-  scrollToTop(view: HTMLElement, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.scrollYTo(view, 0, duration, easeFunc);
+  /** Scroll to bottom */
+  scrollToBottom(view: HTMLElement, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
+    return this.scrollTo(view, {top: view.scrollHeight - view.clientHeight, duration, easeFunc});
   }
 
-  scrollToBottom(view: HTMLElement, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.scrollYTo(view, view.scrollHeight - view.clientHeight, duration, easeFunc);
+  /** Scroll to left */
+  scrollToLeft(view: HTMLElement, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
+    return this.scrollTo(view, {left: 0 - offset, duration, easeFunc});
   }
 
-  scrollToRight(view: HTMLElement, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.scrollXTo(view, view.scrollWidth, duration, easeFunc);
-  }
-
-  scrollToLeft(view: HTMLElement, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.scrollXTo(view, 0, duration, easeFunc);
+  /** Scroll to right */
+  scrollToRight(view: HTMLElement, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
+    return this.scrollTo(view, {left: view.scrollWidth - offset, duration, easeFunc});
   }
 
 }
@@ -143,15 +144,4 @@ export function easeInOutQuad(t: number, b: number, c: number, d: number) {
   }
   t--;
   return (-c / 2) * (t * (t - 2) - 1) + b;
-}
-
-export function easeInCubic(t: number, b: number, c: number, d: number) {
-  const tc = (t /= d) * t * t;
-  return b + c * tc;
-}
-
-export function inOutQuintic(t: number, b: number, c: number, d: number) {
-  const ts = (t /= d) * t,
-    tc = ts * t;
-  return b + c * (6 * tc * ts + -15 * ts * ts + 10 * tc);
 }

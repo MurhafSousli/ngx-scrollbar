@@ -17,31 +17,27 @@ export class SmoothScroll {
     return this.smoothScroll.scrollTo(this.view, options);
   }
 
-  scrollToElement(selector: string, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToElement(this.view, selector, offset, duration, easeFunc);
+  scrollToElement(target: HTMLElement, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
+    return this.smoothScroll.scrollToElement(this.view, target, offset, duration, easeFunc);
   }
 
-  scrollXTo(left: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollXTo(this.view, left, duration, easeFunc);
+  scrollToSelector(selector: string, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
+    return this.smoothScroll.scrollToSelector(this.view, selector, offset, duration, easeFunc);
   }
 
-  scrollYTo(top: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollYTo(this.view, top, duration, easeFunc);
+  scrollToTop(offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
+    return this.smoothScroll.scrollToTop(this.view, offset, duration, easeFunc);
   }
 
-  scrollToTop(duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToTop(this.view, duration, easeFunc);
+  scrollToBottom(offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
+    return this.smoothScroll.scrollToBottom(this.view, offset, duration, easeFunc);
   }
 
-  scrollToBottom(duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToBottom(this.view, duration, easeFunc);
+  scrollToRight(offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
+    return this.smoothScroll.scrollToRight(this.view, offset, duration, easeFunc);
   }
 
-  scrollToRight(duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToRight(this.view, duration, easeFunc);
-  }
-
-  scrollToLeft(duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToLeft(this.view, duration, easeFunc);
+  scrollToLeft(offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
+    return this.smoothScroll.scrollToLeft(this.view, offset, duration, easeFunc);
   }
 }
