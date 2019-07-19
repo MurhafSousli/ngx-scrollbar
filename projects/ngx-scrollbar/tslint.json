@@ -15,6 +15,7 @@
     "no-inferrable-types": false,
     "no-input-rename": false,
     "directive-class-suffix": false,
-    "component-class-suffix": false
+    "component-class-suffix": false,
+    "curly": false
   }
 }

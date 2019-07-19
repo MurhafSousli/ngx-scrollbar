@@ -2,14 +2,16 @@
   "name": "ngx-scrollbar",
   "version": "5.0.0",
   "scripts": {
-    "start": "ng serve",
-    "build-demo": "ng build --prod --base-href https://murhafsousli.github.io/ngx-scrollbar/",
-    "build-lib": "ng build ngx-scrollbar",
-    "test-lib": "ng test ngx-scrollbar",
+    "start": "ng serve ngx-scrollbar-demo",
+    "build-demo": "ng build ngx-scrollbar-demo --prod --base-href https://murhafsousli.github.io/ngx-scrollbar/",
+    "build": "ng build ngx-scrollbar",
+    "test": "ng test ngx-scrollbar",
+    "test-headless": "ng test --watch=false --browsers=ChromeHeadless",
     "link-lib": "npm link dist/ngx-scrollbar && npm link ngx-scrollbar",
-    "publish-lib": "npm publish dist/ngx-scrollbar"
+    "publish-lib": "npm publish docs/compodoc",
+    "compodoc": "compodoc -p projects/ngx-scrollbar/tsconfig.lib.json --theme vagrant -d docs/compodoc",
+    "compodoc-serve": "live-server docs/compodoc -s"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "~8.0.1",
     "@angular/cdk": "~8.0.1",
@@ -21,8 +23,8 @@
     "@angular/platform-browser": "~8.0.1",
     "@angular/platform-browser-dynamic": "~8.0.1",
     "@angular/router": "~8.0.1",
+    "@juggle/resize-observer": "^2.2.0",
     "chance": "^1.0.18",
-    "css-element-queries": "^1.2.0",
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
     "ngx-infinite-scroll": "^7.2.0",

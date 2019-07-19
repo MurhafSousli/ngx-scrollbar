@@ -27,6 +27,12 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
+    capabilities: {
+      chromeOptions: {
+        args: [ "--headless" ]
+      },
+      'browserName': 'chrome'
+    },
   });
 };

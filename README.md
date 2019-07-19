@@ -11,7 +11,7 @@
 [![npm](https://img.shields.io/npm/dm/ngx-scrollbar.svg)](https://www.npmjs.com/package/ngx-scrollbar)
 [![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](/LICENSE)
 
-Custom overlay-scrollbars with native scrolling mechanism for Angular, it also provides a cross-browser smooth scroll directive.
+Custom overlay-scrollbars with native scrolling mechanism for Angular.
 
 ___
 
@@ -24,13 +24,20 @@ ___
 - [Scroll Functions](#scroll-functions)
 - [Styling](#styling)
 - [Update scrollbars manually](#manual-update)
-- [Smooth Scroll](#smooth-scroll)
-- [Virtual Scroll](#virtual-scroll)
+- [Resize Sensor Feature](#resize-sensor)
+- [Integration](#integration)
+  - [CDK Virtual Scroll Example](#virtual-scroll)
+  - [Infinite Scroll Example](#infinite-scroll)
+- [Web Worker (experimental)](#web-worker)
+- [Smooth Scroll Module](#smooth-scroll)
 - [Development](#development)
 - [Issues](#issues)
 - [Author](#author)
-- [Credit](#credit)
 - [More plugins](#more-plugins)
+
+ > Version 5 is written from scratch, A lot of improvements and fixes.
+I highly recommend you to upgrade to the latest version
+
 
 <a name="installation"/>
 
@@ -59,7 +66,6 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 
 @NgModule({
   imports: [
-    // ...
     NgScrollbarModule
   ]
 })
@@ -69,8 +75,20 @@ In your template
 
 ```html
 <ng-scrollbar>
-  <!-- Content -->
+  <!-- Your Content -->
 </ng-scrollbar>
+```
+
+It also works as a directive
+
+```html
+<div ng-scrollbar>
+  <!-- Your Content -->
+</div>
+
+<div ngScrollbar>
+  <!-- Your Content -->
+</div>
 ```
 
 Here is a [stackblitz](https://stackblitz.com/edit/ngx-scrollbar)
@@ -81,61 +99,19 @@ Here is a [stackblitz](https://stackblitz.com/edit/ngx-scrollbar)
 
 ### Scrollbar inputs
 
-- **[trackX]**: boolean
-
-  Horizontal scrollbar, default `false`
-
-- **[trackY]**: boolean
-
-  Vertical scrollbar, default `true`
-  
-- **[invertX]**: boolean
-
-  Invert horizontal scrollbar position, default `false`
-
-- **[invertY]**: boolean
-
-  Invert vertical scrollbar position, default `false`
-
-- **[shown]**: 'native' | 'hover' | 'always', default `native`
-
-  Configure when scrollbars should be shown.
-  
-  - `native`: scrollbars are shown when content is scrollable.
-  - `hover`: scrollbars are shown when mouse is over the view port (and content is scrollable).
-  - `always`: scrollbars are always shown.
-
-- **[autoUpdate]**: boolean
-
-  Auto-update scrollbars on content changes, default: `true`
-
-- **[viewClass]**: string
-
-  Add custom class to the view, default: `null`
-
-- **[barClass]**: string
-
-  Add custom class to scrollbars, default: `null`
-
-- **[thumbClass]**: string
-
-  Add custom class to scrollbars' thumbnails, default: `null`
-  
-- **[compact]**: boolean
-
-  Make scrollbars position appears over content, default: `false`
-  
-- **[disabled]**: boolean
-
-  Disable the custom scrollbars and use the native ones instead, default: `false`
-  
-- **[scrollToDuration]**: number
-
-  The smooth scroll duration when a scrollbar is clicked, default `400`.
-  
-- **[disableOnBreakpoints]**: Array of the CDK Breakpoints
-
-  Disable custom scrollbars on specific breakpoints, default: `[Breakpoints.HandsetLandscape, Breakpoints.HandsetPortrait]`
+| Name                       | Default value   | Description                                                           |
+| -------------------------- | --------------- | --------------------------------------------------------------------- |
+| **[track]**                | `vertical`      | Directions to track `horizontal`, `vertical`, `all`                   |
+| **[position]**             | `native`        | Invert scrollbar position `native`,`invertX`,`invertY`, `invertAll`   |
+| **[shown]**                | `native`        | Invert Vertical scrollbar position `native`, `hover`, `always`        |
+| **[appearance]**           | `standard`      | Scrollbar appearance `standard`, `compact`.                           |
+| **[viewClass]**            | *null*          | Add custom class to the view.                                         |
+| **[barClass]**             | *null*          | Add custom class to scrollbars.                                       |
+| **[thumbClass]**           | *null*          | Add custom class to scrollbars' thumbnails.                           |
+| **[disabled]**             | `false`         | Disable the custom scrollbars and use the native ones instead.        |
+| **[scrollToDuration]**     | `400`           | The smooth scroll duration when a scrollbar is clicked.               |
+| **[autoUpdate]**           | `true`          | Auto-update scrollbars on content changes.                            |
+| **[disableOnBreakpoints]** | `[HandsetLandscape, HandsetPortrait]` | Disable custom scrollbars on specific breakpoints. |
 
 ***
 
@@ -151,7 +127,7 @@ Here is a [stackblitz](https://stackblitz.com/edit/ngx-scrollbar)
 To use *NgScrollbar* functions, you will need to get the component reference from the template. this can be done using the `@ViewChild` decorator, for example:
 
 ```ts
-@ViewChild(NgScrollbar) scrollRef: NgScrollbar;
+@ViewChild(NgScrollbar) scrollbarRef: NgScrollbar;
 ```
 
 **Example:** Subscribe to `NgScrollbar` scroll event
@@ -218,8 +194,8 @@ export class PageTitleComponent {
 
 Check out the example in this [stackblitz](https://stackblitz.com/edit/ngx-scrollbar?file=src%2Fapp%2Fscroll-event%2Fscroll-event%2Fscroll-event.component.ts)
 
-
-## Scroll functions
+<a name="">
+## Scrolling functions
 
 All scroll functions return a cold observable that requires calling `subscribe()`, it will emits once scrolling is done and unsubscribe itself, *no need to unsubscribe from the function manually.*
 
@@ -347,50 +323,11 @@ export class AppComponent {
 
 #### Update scrollbars manually
 
-`NgScrollbar` component updates properly, but in case something went wrong or you need to update the scrollbar manually, you can call the update method to fix it, e.g. `myScrollbar.update()`.
-
-**Text area example:**
-
 ```ts
-Component({
-  selector: 'text-area-example',
-  template: `
-    <ng-scrollbar>
-      <textarea [(ngModel)]="text"></textarea>
-    </ng-scrollbar>
-  `
-})
-export class AppComponent implements OnInit {
-   @ViewChild(NgScrollbar) textAreaScrollbar: NgScrollbar;
+@ViewChild(NgScrollbar) ngScrollbar: NgScrollbar;
 
-   setText(value: string) {
-     this.text = value;
-     // You might need to give a tiny delay before updating the scrollbar
-     setTimeout(() => {
-       this.textAreaScrollbar.update();
-     }, 200);
-   }
-}
-```
-
-You can also automatically resize the `<text-area>` with the [CDK Text-field](https://material.angular.io/cdk/text-field/overview).
-
-```html
-<ng-scrollbar>
-  <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" [(ngModel)]="code"></textarea>
-</ng-scrollbar>
-```
-
-```ts
-@ViewChild(NgScrollbar) textAreaScrollbar: NgScrollbar;
-@ViewChild(CdkTextareaAutosize) textareaAutosize: CdkTextareaAutosize;
-  
-setCode(code: string) {
-  this.code = code;
-  this.textareaAutosize.resizeToFitContent();
-  setTimeout(() => {
-    this.textAreaScrollbar.update();
-  }, 200);
+updateScrollbar(code: string) {
+  this.ngScrollbar.detectChanges();
 }
 ```
 
@@ -398,13 +335,14 @@ setCode(code: string) {
 
 ## Styling
 
-Since `v3.4.0`, you can customize the scrollbar styles from the following CSS variables
+You can customize the scrollbar styles from the following CSS variables
 
 ```html
 <ng-scrollbar class="my-scrollbar">
-  <!-- content -->
+  <!-- scrollable content -->
 </ng-scrollbar>
 ```
+
 ```scss
 .my-scrollbar {
   --scrollbar-color: transparent;
@@ -423,9 +361,10 @@ You can also use custom classes to override the styles
 
 ```html
 <ng-scrollbar barClass="scrollbar" thumbClass="scrollbar-thumbs">
-  <!-- content -->
+  <!-- scrollable content -->
 </ng-scrollbar>
 ```
+
 ```scss
 ::ng-deep {
   ng-scrollbar.scrollbar {
@@ -441,56 +380,117 @@ You can also use custom classes to override the styles
   }
 }
 ```
+<a name="integration"/>
+
+## Integration
+
+The `ScrollView` directive allows you to set use custom viewport element in your template.
+
+ > Note: `scrollView` directive works only when custom viewport is a child of `<ng-scrollbar>`
+ 
+### Basic usage
+
+```html
+<ng-scrollbar>
+  <div scrollView class="my-custom-viewport">
+    <div>{{scrollableContent}}</div>
+  </div>
+</ng-scrollbar>
+```
+
+<a name="virtual-scroll"/>
+### Virtual Scroll Example
+
+To use virtual scroll, just add the `scrollbarView` directive on the `<cdk-virtual-scroll-viewport>`.
+
+**Example:**
+
+```html
+<ng-scrollbar>
+  <cdk-virtual-scroll-viewport scrollView itemSize="50">
+    <div *cdkVirtualFor="let item of items">{{item}}</div>
+  </cdk-virtual-scroll-viewport>
+</ng-scrollbar>
+```
+
+<a name="infinite-scroll"/>
+
+### Infinite Scroll Example with [ngx-infinite-scroll](https://github.com/orizens/ngx-infinite-scroll).
+
+```html
+<ng-scrollbar>
+  <mat-list scrollView infiniteScroll [scrollWindow]="false">
+    <mat-list-item class="example-item" *ngFor="let i of array">
+      {{ i }}
+    </mat-list-item>
+  </mat-list>
+</ng-scrollbar>
+```
 
 <a name="smooth-scroll"/>
 
-## Smooth Scroll
+## Smooth Scroll Module
 
-The `[smoothScroll]` directive allows you to scroll the host element smoothly using the scroll functions that works on cross-browser.
+The smooth scroll is available as an independent module `SmoothScrollModule`, you can use smooth scroll function on any scrollable element even if it is not `<ng-scrollbar>`.
 
-Since v3.0.0, The `SmoothScrollModule` has been added as an independent module, the scrollable element does not have to be `<ng-scrollbar>`.
+**SmoothScrollModule** provides `SmoothScroll` a directive for template usage and a `SmoothScrollManager` service for code usage
+
+ > You don't need to use this module with `<ng-scrollbar>` because the smooth scroll functionality is already built-in the component.
+
+### Usage
+
+Import `SmoothScrollModule` in your module
 
 ```ts
 import { SmoothScrollModule } from 'ngx-scrollbar';
 
 @NgModule({
   imports: [
-    // ...
     SmoothScrollModule
   ]
 })
 ```
 
+### `SmoothScroll` directive example
+
 ```html
-<div smoothScroll #scrollable class="scrollable-container}">
-  <!-- child elements -->
+<div smoothScroll #scrollable="smoothScroll" class="scrollable-container">
+  <div>{{scrollableContent}}</div>
 </div>
 
 <button (click)="scrollable.scrollToBottom(500)">Scroll to bottom</button>
 ```
 
-See all [Scroll Functions](#scroll-functions).
+### `SmoothScrollManager` service example
 
-Subscribe to `NgScrollbar` scroll event
-<a name="virtual-scroll"/>
-
-## Virtual Scroll
-
-Since **v4.2.0**, `NgScrollbar` has added support for virtual scrolling using the [**CdkVirtualScrollViewport**](https://material.angular.io/cdk/scrolling/overview#virtual-scrolling)
-
-To use virtual scroll, you will need to add the `ngScrollbarView` directive along with `smoothScroll` directive on `<CdkVirtualScrollViewport>`.
-
-**Example:**
-
-```html
-<ng-scrollbar>
-  <cdk-virtual-scroll-viewport ngScrollbarView smoothScroll itemSize="50">
-    <div *cdkVirtualFor="let item of items">{{item}}</div>
-  </cdk-virtual-scroll-viewport>
-</ng-scrollbar>
+```ts
+@Component({...})
+export class FooComponent {
+  constructor(private el: ElementRef, private smoothScroll: SmoothScrollManager) {
+  }
+  scrollTop() {
+    this.smoothScroll.scrollToTop(this.el.nativeElement, 800);
+  }
+}
 ```
 
-Here is a [stackblitz example](https://ngx-scrollbar.stackblitz.io/#/lazy-test)
+See all [Scroll Functions](#scroll-functions).
+
+<a name=""/>
+
+## Web worker (experimental)
+
+Tried to move the calculation logic to a web worker to lift up some checks from the main UI thread.
+The web worker works automatically when you add `webworker` directive, option is built-in using a workaround.
+
+When scroll event emits, the component sends the latest state to the web worker, the web worker function calculates and emit the result back to the component.
+Here there is a cost of serialization and deserialization every time the scroll event emits.
+
+Honestly, there is not a noticeable improve in performance on desktop or mobile when I tried it with the web worker.
+
+But testing the performance with chrome dev tools, show the following result:
+
+Do you think web worker is useful in this package?
 
 <a name="development"/>
 
@@ -519,12 +519,6 @@ If you identify any errors in the library, or have an idea for an improvement, p
 ## Author
 
 - Murhaf Sousli [Github](https://github.com/MurhafSousli), [Twitter](https://twitter.com/MurhafSousli)
-
-<a name="credit"/>
-
-## Credit
-
-- Inspired by [gemini-scrollbar](https://github.com/noeldelgado/gemini-scrollbar).
 
 <a name="more-plugins"/>
 

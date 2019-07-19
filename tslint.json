@@ -88,5 +88,6 @@
   },
   "rulesDirectory": [
     "codelyzer"
-  ]
+  ],
+  "curly": false
 }
