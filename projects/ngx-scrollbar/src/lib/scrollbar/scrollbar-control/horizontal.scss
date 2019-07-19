@@ -1,0 +1,35 @@
+@import "../styles/selectors.scss";
+@import "../styles/position";
+@import "../styles/fit-scrollbar";
+
+::ng-deep {
+  .ng-scrollbar-wrapper {
+    @include horizontalScrollbar {
+      height: var(--scrollbar-total-size);
+
+      > .ng-scrollbar-track {
+        height: var(--scrollbar-size);
+        width: calc(100% - var(--scrollbar-padding) * 2);
+
+        > .ng-scrollbar-thumb {
+          width: 0;
+          height: 100%;
+        }
+      }
+    }
+
+    @include horizontalInverted {
+      @include horizontalScrollbar {
+        top: 0;
+        bottom: unset;
+      }
+    }
+
+    @include enabled {
+      @include horizontalScrollbarPosition;
+      &[track="all"] {
+        @include fitHorizontalScrollbar;
+      }
+    }
+  }
+}
