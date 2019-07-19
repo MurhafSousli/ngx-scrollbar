@@ -1,0 +1,94 @@
+@mixin viewportWrapper {
+  > .ng-scroll-view-wrapper {
+    @content;
+  }
+}
+
+@mixin viewport {
+  @include viewportWrapper {
+    // Default viewport
+    > .ng-scroll-view.active-scroll-viewport,
+    // Custom viewport
+    > .ng-scroll-view > .ng-scroll-content > ::ng-deep.ng-custom-scroll-view.active-scroll-viewport {
+      @content;
+    }
+  }
+}
+
+@mixin enabled {
+  &[disabled="false"] {
+    @content;
+  }
+}
+
+@mixin customViewportUsed {
+  &[customView="true"] {
+    @content;
+  }
+}
+
+@mixin verticalUsed {
+  &[verticalUsed="true"] {
+    @content;
+  }
+}
+
+@mixin horizontalUsed {
+  &[horizontalUsed="true"] {
+    @content;
+  }
+}
+
+@mixin allUsed {
+  &[verticalUsed="true"][horizontalUsed="true"] {
+    @content;
+  }
+}
+
+@mixin ltr {
+  &[dir="ltr"] {
+    @content;
+  }
+}
+
+@mixin rtl {
+  &[dir="rtl"] {
+    @content;
+  }
+}
+
+@mixin verticalInverted {
+  &[position="invertY"], &[position="invertAll"] {
+    @content;
+  }
+}
+
+@mixin horizontalInverted {
+  &[position="invertX"], &[position="invertAll"] {
+    @content;
+  }
+}
+
+@mixin verticalScrollbar {
+  > .scrollbar-control[track="vertical"] {
+    @content;
+  }
+}
+
+@mixin fitVerticalScrollbarSelector {
+  > .scrollbar-control[track="vertical"][fit="true"] {
+    @content;
+  }
+}
+
+@mixin horizontalScrollbar {
+  > .scrollbar-control[track="horizontal"] {
+    @content;
+  }
+}
+
+@mixin fitHorizontalScrollbarSelector {
+  > .scrollbar-control[track="horizontal"][fit="true"] {
+    @content;
+  }
+}

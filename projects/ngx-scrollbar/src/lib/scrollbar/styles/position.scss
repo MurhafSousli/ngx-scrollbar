@@ -1,0 +1,54 @@
+@import "selectors";
+
+@mixin verticalScrollbarPosition {
+  @include verticalScrollbar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+  }
+
+  @include ltr {
+    @include verticalScrollbar {
+      right: 0;
+      left: unset;
+    }
+
+    @include verticalInverted {
+      @include verticalScrollbar {
+        left: 0;
+        right: unset;
+      }
+    }
+  }
+
+  @include rtl {
+    @include verticalScrollbar {
+      left: 0;
+      right: unset;
+    }
+    @include verticalInverted {
+      @include verticalScrollbar {
+        left: unset;
+        right: 0;
+      }
+    }
+  }
+}
+
+@mixin horizontalScrollbarPosition {
+  @include horizontalScrollbar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: unset;
+  }
+
+  @include horizontalInverted {
+    @include horizontalScrollbar {
+      top: 0;
+      bottom: unset;
+    }
+  }
+}
+

@@ -1,7 +1,7 @@
 import { ElementRef } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
-import { animationFrameScheduler, fromEvent, Observable, of, Subject } from 'rxjs';
-import { delay, filter, map, mergeMap, pluck, take, takeUntil, tap } from 'rxjs/operators';
+import { animationFrameScheduler, asyncScheduler, fromEvent, Observable, Subject } from 'rxjs';
+import { filter, map, mergeMap, pluck, takeUntil, tap } from 'rxjs/operators';
 
 import { NgScrollbar } from '../ng-scrollbar';
 
@@ -80,15 +80,8 @@ export abstract class ScrollbarRef {
       takeUntil(this.destroyed)
     ).subscribe();
 
-    if (!this.scrollbarRef.resizeSensor) {
-      // Initialize scrollbar
-      of(null).pipe(
-        delay(100),
-        tap(() => this.updateThumb()),
-        take(1),
-        takeUntil(this.destroyed)
-      ).subscribe();
-    }
+    // Initialize scrollbar
+    asyncScheduler.schedule(() => this.updateThumb(), 100);
   }
 
   /**

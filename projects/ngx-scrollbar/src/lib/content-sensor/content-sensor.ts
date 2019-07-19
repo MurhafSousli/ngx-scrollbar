@@ -1,7 +1,7 @@
 import { NgModule, Directive, Optional, AfterContentInit, OnDestroy, NgZone, Input, Inject } from '@angular/core';
 import { Platform, PlatformModule } from '@angular/cdk/platform';
 import { Observable, Observer, Subscription } from 'rxjs';
-import { debounceTime, tap } from 'rxjs/operators';
+import { debounceTime, finalize, tap } from 'rxjs/operators';
 import { NgScrollbar } from '../scrollbar/ng-scrollbar';
 import { NG_SCROLLBAR_DEFAULT_OPTIONS, NgScrollbarDefaultOptions } from '../scrollbar/ng-scrollbar-config';
 
@@ -10,6 +10,7 @@ import { NG_SCROLLBAR_DEFAULT_OPTIONS, NgScrollbarDefaultOptions } from '../scro
 })
 export class ContentSensor implements AfterContentInit, OnDestroy {
 
+  private contentObserver: MutationObserver | any;
   private subscription = Subscription.EMPTY;
 
   @Input() sensorDebounce: number = this.defaultOptions.contentObserverDebounce;
@@ -24,28 +25,28 @@ export class ContentSensor implements AfterContentInit, OnDestroy {
   }
 
   ngAfterContentInit() {
-    this.ngZone.runOutsideAngular(() => {
-      if (this.platform.isBrowser) {
+    if (this.platform.isBrowser) {
+      this.ngZone.runOutsideAngular(() => {
         this.subscription = this.observer().pipe(
-          tap(() => this.scrollbar.update())
+          tap(() => this.scrollbar.update()),
+          finalize(() => this.contentObserver.disconnect())
         ).subscribe();
-      }
-    });
+      });
+    }
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
-  private observer(): Observable<any> {
+  private observer(): Observable<void> {
     return this.sensorDebounce ? this.observeContent().pipe(debounceTime(this.sensorDebounce)) : this.observeContent();
   }
 
-  private observeContent(): Observable<any> {
-    let contentObserver: MutationObserver | any;
-    return new Observable((observer: Observer<any>) => {
-      contentObserver = new MutationObserver((e: any) => observer.next(e));
-      contentObserver.observe(this.scrollbar.view, {
+  private observeContent(): Observable<void> {
+    return new Observable((observer: Observer<void>) => {
+      this.contentObserver = new MutationObserver(() => observer.next());
+      this.contentObserver.observe(this.scrollbar.view, {
         characterData: true,
         childList: true,
         subtree: true

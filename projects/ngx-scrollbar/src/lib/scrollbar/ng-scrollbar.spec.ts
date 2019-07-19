@@ -3,9 +3,9 @@ import { BidiModule } from '@angular/cdk/bidi';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ObserversModule } from '@angular/cdk/observers';
 
-import { NgScrollbar, NgScrollbarState } from './ng-scrollbar';
-import { ScrollView } from './scroll-view';
-import { NgCustomScrollbar } from './scrollbars/ng-custom-scrollbar';
+import { NgScrollbar } from './ng-scrollbar';
+import { ScrollView } from './scroll-viewport';
+import { Scrollbar } from './scrollbar-control/scrollbar-control';
 import { SmoothScrollManager } from '../smooth-scroll/smooth-scroll-manager';
 
 describe('NgScrollbar Component', () => {
@@ -22,7 +22,7 @@ describe('NgScrollbar Component', () => {
       ],
       declarations: [
         NgScrollbar,
-        NgCustomScrollbar,
+        Scrollbar,
         ScrollView
       ],
       providers: [
@@ -44,22 +44,47 @@ describe('NgScrollbar Component', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should initialize component', () => {
+    // spyOn<any>(component, 'updateOnChangeDetection');
+    spyOn<any>(component, 'updateOnBreakpointsChanges');
+    // spyOn<any>(component, 'updateOnWindowSizeChanges');
+    component.ngOnInit();
+    expect(component.view).toBeDefined();
+    expect(component.scrolled).toBeDefined();
+    expect(component.verticalScrolled).toBeDefined();
+    expect(component.horizontalScrolled).toBeDefined();
+    // expect(component['updateOnChangeDetection']).toHaveBeenCalled();
+    expect(component['updateOnBreakpointsChanges']).toHaveBeenCalled();
+    // expect(component['updateOnWindowSizeChanges']).toHaveBeenCalled();
+  });
+
+  // it('should update state on ngAfterViewChecked', () => {
+  //   const updateSpy = spyOn<any>(component.updateObserver, 'next');
+  //   component.ngAfterViewChecked();
+  //   expect(updateSpy).toHaveBeenCalled();
+  // });
+
+  it('should clean up all observables on ngOnDestroy', () => {
+    component.ngOnDestroy();
+    expect(component['destroyed'].isStopped).toBeTruthy();
+  });
+
   /**
    * NgScrollbar Disabled Test
    */
 
-  it('should be disabled when disable() function is called', () => {
-    component.disable();
+  it('should be disabled when disabled = true', () => {
+    component.disabled = true;
     fixture.detectChanges();
     expect(component.disabled).toBeTruthy();
     expect(componentElement.getAttribute('disabled')).toBe('true');
   });
 
-  it('should be enabled when enable() function is called', () => {
-    component.disable();
+  it('should be enabled when disabled = false', () => {
+    component.disabled = false;
     fixture.detectChanges();
-    expect(component.disabled).toBeTruthy();
-    expect(componentElement.getAttribute('disabled')).toBe('true');
+    expect(component.disabled).toBeFalsy();
+    expect(componentElement.getAttribute('disabled')).toBe('false');
   });
 
   it('should enable/disable when disabled input value is changed', () => {
@@ -82,124 +107,82 @@ describe('NgScrollbar Component', () => {
    */
 
   it('should use vertical scrollbar when viewport is scrollable"', () => {
-    component.state.subscribe((state: NgScrollbarState) => {
-      expect(state).toEqual({
-        useVerticalScrollbar: true,
-        isVerticalScrollbarScrollable: true,
-        useHorizontalScrollbar: undefined,
-        isHorizontalScrollbarScrollable: undefined
-      });
-    });
     component.direction = 'vertical';
     component.visibility = 'native';
     component.view.style.height = '300px';
     component.view.innerHTML = '<div style="height: 1000px"></div>';
     fixture.detectChanges();
+
+    expect(component.useVerticalScrollbar).toBeTruthy();
+    expect(component.isVerticalScrollbarScrollable).toBeTruthy();
+    expect(component.useHorizontalScrollbar).toBeFalsy();
+    expect(component.isHorizontalScrollbarScrollable).toBeFalsy();
   });
 
   it('should use vertical scrollbar if [visiblity]="\'always\'" event if viewport is not scrollable', () => {
-    component.state.subscribe((state: NgScrollbarState) => {
-      expect(state).toEqual({
-        useVerticalScrollbar: true,
-        isVerticalScrollbarScrollable: false,
-        useHorizontalScrollbar: undefined,
-        isHorizontalScrollbarScrollable: undefined
-      });
-    });
     component.direction = 'vertical';
     component.visibility = 'always';
     component.view.style.height = '1000px';
     component.view.innerHTML = '<div style="height: 300px"></div>';
     fixture.detectChanges();
+
+    expect(component.useVerticalScrollbar).toBeTruthy();
+    expect(component.isVerticalScrollbarScrollable).toBeFalsy();
+    expect(component.useHorizontalScrollbar).toBeFalsy();
+    expect(component.isHorizontalScrollbarScrollable).toBeFalsy();
   });
 
   it('should not use vertical scrollbar if viewport is not scrollable', () => {
-    component.state.subscribe((state: NgScrollbarState) => {
-      expect(state).toEqual({
-        useVerticalScrollbar: false,
-        isVerticalScrollbarScrollable: false,
-        useHorizontalScrollbar: undefined,
-        isHorizontalScrollbarScrollable: undefined
-      });
-    });
     component.direction = 'vertical';
     component.visibility = 'native';
     component.view.style.height = '1000px';
     component.view.innerHTML = '<div style="height: 300px"></div>';
     fixture.detectChanges();
+
+    expect(component.useVerticalScrollbar).toBeFalsy();
+    expect(component.isVerticalScrollbarScrollable).toBeFalsy();
+    expect(component.useHorizontalScrollbar).toBeFalsy();
+    expect(component.isHorizontalScrollbarScrollable).toBeFalsy();
   });
 
   it('should use horizontal scrollbar', () => {
-    component.state.subscribe((state: NgScrollbarState) => {
-      expect(state).toEqual({
-        useHorizontalScrollbar: true,
-        isHorizontalScrollbarScrollable: true,
-        useVerticalScrollbar: undefined,
-        isVerticalScrollbarScrollable: undefined
-      });
-    });
     component.direction = 'horizontal';
     component.visibility = 'always';
     component.view.style.width = '300px';
     component.view.innerHTML = '<div style="width: 1000px; height: 300px"></div>';
     fixture.detectChanges();
+
+    expect(component.useHorizontalScrollbar).toBeTruthy();
+    expect(component.isHorizontalScrollbarScrollable).toBeTruthy();
+    expect(component.useVerticalScrollbar).toBeFalsy();
+    expect(component.isVerticalScrollbarScrollable).toBeFalsy();
   });
 
 
   it('should use horizontal scrollbar if [visiblity]="\'always\'" event if viewport is not scrollable', () => {
-    component.state.subscribe((state: NgScrollbarState) => {
-      expect(state).toEqual({
-        useHorizontalScrollbar: true,
-        isHorizontalScrollbarScrollable: false,
-        useVerticalScrollbar: undefined,
-        isVerticalScrollbarScrollable: undefined,
-      });
-    });
     component.direction = 'horizontal';
     component.visibility = 'always';
     component.view.style.width = '1000px';
     component.view.innerHTML = '<div style="width: 300px; height: 300px"></div>';
     fixture.detectChanges();
+
+    expect(component.useHorizontalScrollbar).toBeTruthy();
+    expect(component.isHorizontalScrollbarScrollable).toBeFalsy();
+    expect(component.useVerticalScrollbar).toBeFalsy();
+    expect(component.isVerticalScrollbarScrollable).toBeFalsy();
   });
 
   it('should not use horizontal scrollbar if viewport is not scrollable', () => {
-    component.state.subscribe((state: NgScrollbarState) => {
-      expect(state).toEqual({
-        useHorizontalScrollbar: false,
-        isHorizontalScrollbarScrollable: false,
-        useVerticalScrollbar: undefined,
-        isVerticalScrollbarScrollable: undefined,
-      });
-    });
     component.direction = 'horizontal';
     component.visibility = 'native';
     component.view.style.width = '1000px';
     component.view.innerHTML = '<div style="width: 300px; height: 300px"></div>';
     fixture.detectChanges();
+
+    expect(component.useHorizontalScrollbar).toBeFalsy();
+    expect(component.isHorizontalScrollbarScrollable).toBeFalsy();
+    expect(component.useVerticalScrollbar).toBeFalsy();
+    expect(component.isVerticalScrollbarScrollable).toBeFalsy();
   });
 
-  it('should initialize component', () => {
-    spyOn<any>(component, 'updateOnChangeDetection');
-    spyOn<any>(component, 'updateOnBreakpointsChanges');
-    spyOn<any>(component, 'updateOnWindowSizeChanges');
-    component.ngOnInit();
-    expect(component.view).toBeDefined();
-    expect(component.scrolled).toBeDefined();
-    expect(component.verticalScrolled).toBeDefined();
-    expect(component.horizontalScrolled).toBeDefined();
-    expect(component['updateOnChangeDetection']).toHaveBeenCalled();
-    expect(component['updateOnBreakpointsChanges']).toHaveBeenCalled();
-    expect(component['updateOnWindowSizeChanges']).toHaveBeenCalled();
-  });
-
-  it('should update state on ngAfterContentChecked', () => {
-    const detectChangesSpy = spyOn<any>(component['detectChanges'], 'next');
-    component.ngAfterContentChecked();
-    expect(detectChangesSpy).toHaveBeenCalled();
-  });
-
-  // it('should clean up all observables on ngOnDestroy', () => {
-  //   component.ngOnDestroy();
-  //   expect(component['destroyed'].closed).toBeTruthy();
-  // });
 });

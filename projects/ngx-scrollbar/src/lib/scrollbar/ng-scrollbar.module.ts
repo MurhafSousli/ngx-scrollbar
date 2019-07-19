@@ -1,31 +1,47 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LayoutModule } from '@angular/cdk/layout';
 import { BidiModule } from '@angular/cdk/bidi';
+import { PortalModule } from '@angular/cdk/portal';
+import { PlatformModule } from '@angular/cdk/platform';
 
 import { NgScrollbar } from './ng-scrollbar';
-import { NgCustomScrollbar } from './scrollbars/ng-custom-scrollbar';
-import { ScrollView } from './scroll-view';
-import { SmoothScrollManager } from '../smooth-scroll/smooth-scroll-manager';
+import { ScrollbarControl } from './scrollbar-control/scrollbar-control';
+import { ScrollViewport } from './scroll-viewport';
+import { CssVariablePipe } from './utils/css-variable.pipe';
+import { NgAttr } from './utils/ng-attr.directive';
+import { NG_SCROLLBAR_DEFAULT_OPTIONS, NgScrollbarDefaultOptions, ngScrollbarDefaultOptions } from './ng-scrollbar-config';
 
 @NgModule({
   imports: [
     CommonModule,
-    LayoutModule,
-    BidiModule
+    BidiModule,
+    PortalModule,
+    PlatformModule
   ],
   declarations: [
     NgScrollbar,
-    NgCustomScrollbar,
-    ScrollView
+    ScrollbarControl,
+    ScrollViewport,
+    CssVariablePipe,
+    NgAttr
   ],
   exports: [
     NgScrollbar,
-    ScrollView
-  ],
-  providers: [
-    SmoothScrollManager
+    ScrollViewport
   ]
 })
 export class NgScrollbarModule {
+  static withConfig(options: NgScrollbarDefaultOptions): ModuleWithProviders {
+    return {
+      ngModule: NgScrollbarModule,
+      providers: [
+        {
+          provide: NG_SCROLLBAR_DEFAULT_OPTIONS, useValue: {
+            ...options,
+            ...ngScrollbarDefaultOptions
+          }
+        }
+      ]
+    };
+  }
 }

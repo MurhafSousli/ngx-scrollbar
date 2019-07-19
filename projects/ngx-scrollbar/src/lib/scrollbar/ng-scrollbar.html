@@ -1,23 +1,25 @@
-<div class="ng-scroll-view-container">
-  <div #viewPort class="ng-scroll-view {{viewClass}}">
-    <ng-content></ng-content>
+<div class="ng-scrollbar-wrapper" [ngAttr]="state">
+  <div class="ng-scroll-view-wrapper">
+    <div #viewport class="ng-scroll-view {{viewClass}}" [class.active-scroll-viewport]="!customViewPort">
+      <div class="ng-scroll-content">
+        <ng-content></ng-content>
+      </div>
+    </div>
+
   </div>
+
+  <ng-container *ngIf="!disabled">
+    <scrollbar-control *ngIf="verticalScrollbarUsed"
+                         track="vertical"
+                         [attr.scrollable]="isVerticallyScrollable"
+                         [attr.fit]="horizontalScrollbarUsed">
+    </scrollbar-control>
+
+    <scrollbar-control *ngIf="horizontalScrollbarUsed"
+                         track="horizontal"
+                         [attr.scrollable]="isHorizontallyScrollable"
+                         [attr.fit]="verticalScrollbarUsed">
+    </scrollbar-control>
+  </ng-container>
 </div>
 
-<ng-container *ngIf="!disabled && state | async as _state">
-  <ng-custom-scrollbar *ngIf="_state.useVerticalScrollbar"
-                       axis="vertical"
-                       class="ng-custom-scrollbar"
-                       [attr.scrollable]="_state.isVerticalScrollbarScrollable"
-                       [attr.fit]="_state.useHorizontalScrollbar">
-  </ng-custom-scrollbar>
-
-  <ng-custom-scrollbar *ngIf="_state.useHorizontalScrollbar"
-                       axis="horizontal"
-                       class="ng-custom-scrollbar"
-                       [attr.scrollable]="_state.isHorizontalScrollbarScrollable"
-                       [attr.fit]="_state.useVerticalScrollbar">
-  </ng-custom-scrollbar>
-</ng-container>
-
-<span style="grid-area: empty"></span>

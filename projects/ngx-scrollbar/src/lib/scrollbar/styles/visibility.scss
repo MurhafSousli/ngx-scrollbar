@@ -1,18 +1,37 @@
-@mixin visibility() {
-  // Auto hide scrollbars
+/**
+ * Visibility: 'hover' | 'always' | 'native'
+ * Hide scrollbar-control on hover when visibility="hover"
+ */
+@mixin hoverVisibility {
+  // Auto hide scrollbar-control
   &[visibility="hover"] {
-    > .ng-custom-scrollbar {
-      opacity: 0;
-      transition: opacity 120ms ease-out;
+    > .scrollbar-control {
+      animation: 500ms ease 1s normal forwards 1 fadeOut;
     }
 
     &:hover,
     &:active,
     &:focus {
-      > .ng-custom-scrollbar {
-        opacity: 1;
-        transition: opacity 340ms ease-out;
+      > .scrollbar-control {
+        animation: 340ms ease 0s normal forwards 1 fadeIn;
       }
+    }
+  }
+
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
     }
   }
 }

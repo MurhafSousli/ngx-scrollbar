@@ -1,0 +1,57 @@
+@import "selectors";
+
+@mixin pushLeft {
+  left: var(--scrollbar-total-size);
+  right: 0;
+}
+@mixin pushRight {
+  left: 0;
+  right: var(--scrollbar-total-size);
+}
+@mixin pushTop {
+  top: var(--scrollbar-total-size);
+  bottom: 0;
+}
+@mixin pushBottom {
+  top: 0;
+  bottom: var(--scrollbar-total-size);
+}
+
+@mixin nativeAppearance {
+  &[appearance="standard"] {
+    @include verticalUsed {
+      @include ltr {
+        @include viewportWrapper {
+          @include pushRight;
+        }
+      }
+      @include rtl {
+        @include viewportWrapper {
+          @include pushLeft;
+        }
+      }
+      @include verticalInverted {
+        @include ltr {
+          @include viewportWrapper {
+            @include pushLeft;
+          }
+        }
+        @include rtl {
+          @include viewportWrapper {
+            @include pushRight;
+          }
+        }
+      }
+    }
+    @include horizontalUsed {
+      @include viewportWrapper {
+        @include pushBottom;
+      }
+      @include horizontalInverted {
+        @include viewportWrapper {
+          @include pushTop;
+        }
+      }
+    }
+  }
+}

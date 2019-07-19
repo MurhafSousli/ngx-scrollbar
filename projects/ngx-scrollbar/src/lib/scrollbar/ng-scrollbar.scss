@@ -1,5 +1,6 @@
 @import "./styles/hide-native-scrollbars";
 @import "./styles/visibility";
+@import "./styles/appearance";
 
 :host {
   // CSS variables used to customized the look of the scrollbar component
@@ -9,112 +10,81 @@
   --scrollbar-thumb-hover-color: var(--scrollbar-thumb-color);
   --scrollbar-border-radius: 7px;
   --scrollbar-size: 5px;
-  --scrollbar-padding: 8px;
-  --scroll-view-margin: 0;
-  --scrollbar-min-size: 10%;
-  --scrollbar-gap: none;
+  --scrollbar-padding: 4px;
+  --scrollbar-total-size: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
 
+  display: block;
   overflow: hidden;
   position: relative;
   height: 100%;
-  display: grid;
-  grid-gap: var(--scrollbar-gap);
-  grid-template-areas:
-    "scroll-view    scrollbar-y"
-    "scrollbar-x    empty";
-  grid-template-columns: 1fr fit-content(100%);
-  grid-template-rows: 1fr fit-content(100%);
 
-  &[position="invertY"] {
-    grid-template-columns: fit-content(100%) 1fr;
-    grid-template-areas:
-      "scrollbar-y    scroll-view"
-      "empty          scrollbar-x";
-  }
+  > .ng-scrollbar-wrapper {
 
-  &[position="invertX"] {
-    grid-template-rows: fit-content(100%) 1fr;
-    grid-template-areas:
-      "scrollbar-x    empty"
-      "scroll-view    scrollbar-y";
-  }
-
-  &[position="invertAll"] {
-    grid-template-columns: fit-content(100%) 1fr;
-    grid-template-rows: fit-content(100%) 1fr;
-    grid-template-areas:
-      "empty          scrollbar-x"
-      "scrollbar-y    scroll-view";
-  }
-
-  &[appearance="compact"] {
-    > .ng-scroll-view-container {
-      position: initial;
+    @include enabled {
+      @include nativeAppearance;
+      @include hideNativeScrollbar;
+      @include hoverVisibility;
     }
-  }
 
-  &[customView="false"] {
-    &[direction="all"],
-    &[direction="horizontal"] {
-      > .ng-scroll-view-container > .ng-scroll-view {
+    @include horizontalUsed {
+      @include viewport {
         overflow-x: auto;
+        overflow-y: hidden;
       }
     }
 
-    &[direction="all"],
-    &[direction="vertical"] {
-      > .ng-scroll-view-container > .ng-scroll-view {
+    @include verticalUsed {
+      @include viewport {
         overflow-y: auto;
+        overflow-x: hidden;
+      }
+    }
+
+    @include allUsed {
+      @include viewport {
+        overflow: auto;
       }
     }
   }
-
-  &[customView="true"] {
-    &[direction="all"],
-    &[direction="horizontal"] {
-      > .ng-scroll-view-container > .ng-scroll-view > ::ng-deep .ng-custom-scroll-view {
-        overflow-x: scroll;
-      }
-    }
-
-    &[direction="all"],
-    &[direction="vertical"] {
-      > .ng-scroll-view-container > .ng-scroll-view > ::ng-deep .ng-custom-scroll-view {
-        overflow-y: scroll;
-      }
-    }
-  }
-
-  @include visibility();
-  @include hideNativeScrollbar();
 }
 
-.ng-scroll-view-container {
-  overflow: hidden;
-  position: relative;
-  grid-area: scroll-view;
-  margin: var(--scroll-view-margin);
+.ng-scrollbar-wrapper, .ng-scroll-view-wrapper {
+  @extend %layer;
 }
 
 .ng-scroll-view {
-  overflow: hidden;
-  box-sizing: border-box;
+  box-sizing: content-box;
   transform: translateZ(0);
   overscroll-behavior: contain contain;
   -webkit-overflow-scrolling: touch;
   contain: content;
+  @extend %layer;
+}
+
+@include viewport {
+  .ng-scroll-content.active-content-wrapper {
+    display: inline-block;
+    min-width: 100%;
+    min-height: 100%;
+  }
+}
+
+%layer {
+  overflow: hidden;
+  position: absolute !important;
+  top: 0;
   left: 0;
   right: 0;
-  top: 0;
   bottom: 0;
-  // Force absolute positioning because the resize sensor plugin overrides position to relative
-  position: absolute !important;
 }
 
 // Fix cdkVirtualScrollViewPort component
 ::ng-deep {
   .ng-custom-scroll-view {
-    width: 100%;
-    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 }
