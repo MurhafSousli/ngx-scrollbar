@@ -1,13 +1,13 @@
 import { NgModule, Directive, Optional, AfterContentInit, OnDestroy, NgZone } from '@angular/core';
-import { ResizeSensor } from 'css-element-queries';
+import ResizeObserver from '@juggle/resize-observer';
 import { NgScrollbar } from '../scrollbar/ng-scrollbar';
 
 @Directive({
   selector: '[resize-sensor], [resizeSensor]'
 })
-export class ResizeSensorDirective implements AfterContentInit, OnDestroy {
+export class ResizeSensor implements AfterContentInit, OnDestroy {
 
-  private resizeSensor: ResizeSensor;
+  private resizeObserver: ResizeObserver;
 
   constructor(private ngZone: NgZone, @Optional() private scrollbar: NgScrollbar) {
     if (!scrollbar) {
@@ -16,22 +16,24 @@ export class ResizeSensorDirective implements AfterContentInit, OnDestroy {
   }
 
   ngAfterContentInit() {
-    this.scrollbar.resizeSensor = true;
-    this.ngZone.runOutsideAngular(() =>
-      this.resizeSensor = new ResizeSensor(this.scrollbar.view, () =>
-        this.scrollbar.update()
-      )
-    );
+    if (this.scrollbar.contentWrapper) {
+      this.ngZone.runOutsideAngular(() => {
+        this.resizeObserver = new ResizeObserver(() => this.scrollbar.update());
+        this.resizeObserver.observe(this.scrollbar.contentWrapper);
+      });
+    }
   }
 
   ngOnDestroy() {
-    this.resizeSensor.detach();
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
   }
 }
 
 @NgModule({
-  declarations: [ResizeSensorDirective],
-  exports: [ResizeSensorDirective]
+  declarations: [ResizeSensor],
+  exports: [ResizeSensor]
 })
-export class ResizeSensorModule {
+export class NgScrollbarResizeSensorModule {
 }
