@@ -1,15 +1,23 @@
 @mixin viewportWrapper {
-  > .ng-scroll-view-wrapper {
+  > .ng-scroll-viewport-wrapper {
     @content;
+  }
+}
+
+@mixin defaultViewport {
+  @include viewportWrapper {
+    > .ng-scroll-viewport {
+      @content;
+    }
   }
 }
 
 @mixin viewport {
   @include viewportWrapper {
     // Default viewport
-    > .ng-scroll-view.active-scroll-viewport,
-    // Custom viewport
-    > .ng-scroll-view > .ng-scroll-content > ::ng-deep.ng-custom-scroll-view.active-scroll-viewport {
+    > .ng-scroll-viewport[active-viewport="true"],
+      // Custom viewport
+    > .ng-scroll-viewport > .ng-scroll-content > ::ng-deep.ng-custom-scroll-viewport[active-viewport="true"] {
       @content;
     }
   }

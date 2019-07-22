@@ -48,21 +48,36 @@
   }
 }
 
-.ng-scrollbar-wrapper, .ng-scroll-view-wrapper {
+.ng-scrollbar-wrapper,
+.ng-scroll-viewport-wrapper,
+.ng-scroll-content[active-content="false"],
+::ng-deep .ng-custom-scroll-viewport {
   @extend %layer;
 }
 
-.ng-scroll-view {
+.ng-scrollbar-wrapper,
+.ng-scroll-viewport-wrapper,
+.ng-scroll-content[active-content="false"] {
+  overflow: hidden;
+}
+
+.ng-scroll-viewport-wrapper {
+  margin: var(--scrollbar-viewport-margin);
+}
+
+.ng-scroll-viewport {
   box-sizing: content-box;
   transform: translateZ(0);
   overscroll-behavior: contain contain;
   -webkit-overflow-scrolling: touch;
-  contain: content;
+  contain: strict;
+  will-change: scroll-position;
   @extend %layer;
 }
 
 @include viewport {
-  .ng-scroll-content.active-content-wrapper {
+  > .ng-scroll-content[active-content="true"] {
+    contain: content;
     display: inline-block;
     min-width: 100%;
     min-height: 100%;
@@ -70,21 +85,9 @@
 }
 
 %layer {
-  overflow: hidden;
-  position: absolute !important;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-}
-
-// Fix cdkVirtualScrollViewPort component
-::ng-deep {
-  .ng-custom-scroll-view {
-    min-width: 100%;
-    min-height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
 }

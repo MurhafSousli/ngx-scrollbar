@@ -70,7 +70,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   /** A flag used to enable/disable the scrollbar thumb dragged event */
   @Input() disableThumbDrag: boolean = this.defaultOptions.disableThumbDrag;
   /** A flag used to enable/disable the scrollbar track clicked event */
-  @Input() disableTrackClicks: boolean = this.defaultOptions.disableTrackClicks;
+  @Input() disableTrackClick: boolean = this.defaultOptions.disableTrackClick;
   /** Disable custom scrollbar-control and switch back to native scrollbar-control */
   @Input() disabled: boolean = false;
   /**
@@ -184,21 +184,46 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
     this.changeDetectorRef.detectChanges();
   }
 
-  ngOnInit() {
-    this.ngZone.runOutsideAngular(() => {
-      // Set scroll viewport
-      this.view = this.customViewPort
-        ? this.customViewPort.viewPort.nativeElement
-        : this.defaultViewPort.nativeElement;
-
-      // Add active class to viewport
-      // this.view.classList.add('active-viewport');
-
+  private activateViewport() {
+    if (this.customViewPort) {
+      // Set the custom viewport
+      this.view = this.customViewPort.viewPort.nativeElement;
+      this.view.setAttribute('active-viewport', 'true');
+      // Set the custom content wrapper
       if (this.view.children.length === 1) {
         this.contentWrapper = this.view.firstElementChild as HTMLElement;
-        // Add active class to content wrapper
-        this.contentWrapper.classList.add('active-content-wrapper');
+        this.contentWrapper.setAttribute('active-content', 'true');
       }
+      // Deactivate default viewport
+      this.defaultViewPort.nativeElement.setAttribute('active-viewport', 'false');
+      // Deactivate default content wrapper
+      this.defaultViewPort.nativeElement.firstElementChild.setAttribute('active-content', 'false');
+    } else {
+      // Set the default viewport
+      this.view = this.defaultViewPort.nativeElement;
+      this.view.setAttribute('active-viewport', 'true');
+      // Set the default content wrapper
+      this.contentWrapper = this.view.firstElementChild as HTMLElement;
+      this.contentWrapper.setAttribute('active-content', 'true');
+    }
+
+    // Set the viewport
+    // this.view = this.customViewPort
+    //   ? this.customViewPort.viewPort.nativeElement
+    //   : this.defaultViewPort.nativeElement;
+    // // Add active attribute to viewport
+    // this.view.setAttribute('active-viewport', 'true');
+    //
+    // if (this.view.children.length === 1) {
+    //   this.contentWrapper = this.view.firstElementChild as HTMLElement;
+    //   // Add active attribute to the content wrapper
+    //   this.contentWrapper.setAttribute('active-content-wrapper', 'true');
+    // }
+  }
+
+  ngOnInit() {
+    this.ngZone.runOutsideAngular(() => {
+      this.activateViewport();
 
       this.manager.browserResized.pipe(
         tap((value: ScrollbarManagerState) =>
@@ -209,7 +234,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
 
       // Initialize scroll streams
       this.scrolled = new Observable((observer: Observer<any>) =>
-        fromEvent(this.view, 'scroll', { passive: true }).pipe(takeUntil(this.destroyed))
+        fromEvent(this.view, 'scroll').pipe(takeUntil(this.destroyed))
           .subscribe(observer));
 
       this.verticalScrolled = this.getScrolledByDirection('vertical');

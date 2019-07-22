@@ -1,20 +1,17 @@
 <div class="ng-scrollbar-wrapper" [ngAttr]="state">
-  <div class="ng-scroll-view-wrapper">
-    <div #viewport class="ng-scroll-view {{viewClass}}" [class.active-scroll-viewport]="!customViewPort">
+  <div class="ng-scroll-viewport-wrapper">
+    <div #viewport class="ng-scroll-viewport {{viewClass}}">
       <div class="ng-scroll-content">
         <ng-content></ng-content>
       </div>
     </div>
-
   </div>
-
   <ng-container *ngIf="!disabled">
     <scrollbar-control *ngIf="verticalScrollbarUsed"
                          track="vertical"
                          [attr.scrollable]="isVerticallyScrollable"
                          [attr.fit]="horizontalScrollbarUsed">
     </scrollbar-control>
-
     <scrollbar-control *ngIf="horizontalScrollbarUsed"
                          track="horizontal"
                          [attr.scrollable]="isHorizontallyScrollable"

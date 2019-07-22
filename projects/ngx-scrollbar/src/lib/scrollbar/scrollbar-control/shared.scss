@@ -1,6 +1,6 @@
 ::ng-deep {
   .ng-scrollbar-wrapper {
-    background: var(--scrollbar-container-color);
+    background: var(--scrollbar-wrapper-color);
 
     > .scrollbar-control {
       display: flex;
@@ -22,7 +22,7 @@
     width: 100%;
     z-index: 1;
     border-radius: var(--scrollbar-border-radius);
-    background-color: var(--scrollbar-color);
+    background-color: var(--scrollbar-track-color);
     overflow: hidden;
   }
 
@@ -32,9 +32,8 @@
     position: relative;
     border-radius: inherit;
     background-color: var(--scrollbar-thumb-color);
-    transform: translate3d(0, 0, 0);
-    transition: height ease-out 150ms, width ease-out 150ms, transform linear 20ms;
-    //transition: height ease-out 150ms, width ease-out 150ms, transform linear 10ms;
+    //transform: translate3d(0, 0, 0);
+    //transition: height ease-out 150ms, width ease-out 150ms;
 
     &:hover,
     &:active {
