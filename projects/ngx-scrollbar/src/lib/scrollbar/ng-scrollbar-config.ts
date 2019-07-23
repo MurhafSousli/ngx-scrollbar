@@ -51,7 +51,7 @@ export interface NgScrollbarDefaultOptions {
   /** A flag used to enable/disable the scrollbar thumb dragged event */
   disableThumbDrag?: boolean;
   /** A flag used to enable/disable the scrollbar track clicked event */
-  disableTrackClicks?: boolean;
+  disableTrackClick?: boolean;
   /** Debounce interval for detecting changes via window.resize event */
   windowResizeDebounce?: number;
   /** Debounce interval for detecting changes via content observer
@@ -70,7 +70,7 @@ export const ngScrollbarDefaultOptions: NgScrollbarDefaultOptions = {
   visibility: 'native',
   position: 'native',
   disableThumbDrag: false,
-  disableTrackClicks: false,
+  disableTrackClick: false,
   scrollToDuration: 300,
   minThumbSize: 20,
   windowResizeDebounce: 200,
