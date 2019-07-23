@@ -1,8 +1,7 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { animationFrameScheduler, fromEvent, merge, timer } from 'rxjs';
+import { fromEvent, merge, timer } from 'rxjs';
 import { map, take, takeUntil, takeWhile, tap } from 'rxjs/operators';
-import { animationFrame } from 'rxjs/internal/scheduler/animationFrame';
 
 export type SmoothScrollEaseFunc = (t: number, s: number, c: number, d: number) => number;
 
@@ -19,6 +18,7 @@ interface ScrollToState {
   elapsedTime: number;
 }
 
+// @dynamic
 @Injectable({
   providedIn: 'root'
 })
@@ -41,7 +41,7 @@ export class SmoothScrollManager {
         /**
          * TODO: Add a feature to automatically set a proper duration based on scroll distance relative to the viewport size
          * e.g. if scroll distance is twice as big as the viewport size, duration should be around ~800ms
-         * and but if scroll distance is tiny tiny then use ~200, ~300
+         * and but if scroll distance is tiny then use ~300ms
          *
          * const getDuration = (distance: number, viewSize: number, scrollSize: number) => {
          *  if (distance > viewSize) {

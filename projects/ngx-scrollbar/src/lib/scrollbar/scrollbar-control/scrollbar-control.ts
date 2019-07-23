@@ -48,11 +48,11 @@ export class ScrollbarControl implements OnInit, OnDestroy {
   // Stream that emits to unsubscribe from all streams
   protected readonly destroyed = new Subject<void>();
 
-  constructor(private parent: NgScrollbar,
+  constructor(public parent: NgScrollbar,
               private platform: Platform,
-              @Inject(DOCUMENT) private document: any,
+              private dir: Directionality,
               private zone: NgZone,
-              private dir: Directionality) {
+              @Inject(DOCUMENT) private document: any) {
   }
 
   ngOnInit() {

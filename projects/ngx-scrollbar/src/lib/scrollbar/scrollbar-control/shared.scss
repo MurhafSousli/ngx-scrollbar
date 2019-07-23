@@ -32,8 +32,8 @@
     position: relative;
     border-radius: inherit;
     background-color: var(--scrollbar-thumb-color);
-    //transform: translate3d(0, 0, 0);
-    //transition: height ease-out 150ms, width ease-out 150ms;
+    transform: translateZ(0);
+    transition: height ease-out 150ms, width ease-out 150ms;
 
     &:hover,
     &:active {
