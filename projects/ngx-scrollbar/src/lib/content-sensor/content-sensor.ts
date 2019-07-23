@@ -46,7 +46,7 @@ export class ContentSensor implements AfterContentInit, OnDestroy {
   private observeContent(): Observable<void> {
     return new Observable((observer: Observer<void>) => {
       this.contentObserver = new MutationObserver(() => observer.next());
-      this.contentObserver.observe(this.scrollbar.view, {
+      this.contentObserver.observe(this.scrollbar.viewport, {
         characterData: true,
         childList: true,
         subtree: true

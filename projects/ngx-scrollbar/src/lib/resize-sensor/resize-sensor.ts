@@ -1,9 +1,9 @@
 import { NgModule, Directive, Optional, AfterContentInit, OnDestroy, NgZone, Input, Inject } from '@angular/core';
 import { Platform, PlatformModule } from '@angular/cdk/platform';
-import ResizeObserver from '@juggle/resize-observer';
-import { NgScrollbar } from '../scrollbar/ng-scrollbar';
 import { Observable, Observer, Subscription } from 'rxjs';
 import { debounceTime, finalize, tap } from 'rxjs/operators';
+import ResizeObserver from '@juggle/resize-observer';
+import { NgScrollbar } from '../scrollbar/ng-scrollbar';
 import { NG_SCROLLBAR_DEFAULT_OPTIONS, NgScrollbarDefaultOptions } from '../scrollbar/ng-scrollbar-config';
 
 @Directive({

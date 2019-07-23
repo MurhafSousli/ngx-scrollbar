@@ -42,7 +42,7 @@ export abstract class ScrollbarRef {
                         thumbRef: ElementRef,
                         platform: Platform,
                         protected destroyed: Subject<void>) {
-    this.viewElement = scrollbarRef.view;
+    this.viewElement = scrollbarRef.viewport;
     this.trackElement = trackRef.nativeElement;
     this.thumbElement = thumbRef.nativeElement;
 
@@ -54,7 +54,7 @@ export abstract class ScrollbarRef {
       ).subscribe();
     }
 
-    if (!this.scrollbarRef.disableTrackClicks) {
+    if (!this.scrollbarRef.disableTrackClick) {
       // Start track click event
       this.trackClicked().pipe(
         tap((value: number) =>
@@ -75,7 +75,6 @@ export abstract class ScrollbarRef {
 
     // Update scrollbar when `NgScrollbar.update()` is called
     this.scrollbarRef.updated.pipe(
-      // throttleTime(200),
       tap(() => this.updateThumb()),
       takeUntil(this.destroyed)
     ).subscribe();

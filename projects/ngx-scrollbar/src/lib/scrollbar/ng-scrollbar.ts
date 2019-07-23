@@ -4,7 +4,8 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChild,
-  ElementRef, EventEmitter,
+  ElementRef,
+  EventEmitter,
   Inject,
   Input,
   NgZone,
@@ -25,14 +26,13 @@ import {
   ScrollbarPosition,
   ScrollbarVisibility
 } from './ng-scrollbar-config';
-import { ScrollbarManager, ScrollbarManagerState } from './utils/scrollbar-manager';
+import { ScrollbarManager } from './utils/scrollbar-manager';
 
 export interface NgScrollbarState {
   position?: ScrollbarPosition;
   track?: ScrollbarTrack;
   appearance?: ScrollbarAppearance;
   visibility?: ScrollbarVisibility;
-  customView?: boolean;
   disabled?: boolean;
   dir?: 'rtl' | 'ltr';
   verticalUsed?: boolean;
@@ -108,7 +108,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   /** Steam that emits when scrollbar is updated */
   @Output() updated = new EventEmitter<void>();
   /** Viewport Element */
-  view: HTMLElement;
+  viewport: HTMLElement;
   /** Content Wrapper element */
   contentWrapper: HTMLElement | undefined;
   /** stream that emits on scroll event */
@@ -125,6 +125,8 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   isVerticallyScrollable: boolean = false;
   /** A flag that indicates if horizontal scrollbar is scrollable */
   isHorizontallyScrollable: boolean = false;
+  /** Default viewport classes */
+  viewportClasses: any;
 
   /** Stream that destroys components' observables */
   private destroyed = new Subject<void>();
@@ -135,7 +137,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
               private ngZone: NgZone,
               private changeDetectorRef: ChangeDetectorRef,
               private smoothScroll: SmoothScrollManager,
-              private manager: ScrollbarManager,
+              public manager: ScrollbarManager,
               @Inject(NG_SCROLLBAR_DEFAULT_OPTIONS) private defaultOptions: NgScrollbarDefaultOptions) {
   }
 
@@ -159,12 +161,12 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
     this.horizontalScrollbarUsed = false;
     /** Check if vertical scrollbar should be displayed */
     if (this.track === 'all' || this.track === 'vertical') {
-      this.isVerticallyScrollable = this.view.scrollHeight > this.view.clientHeight;
+      this.isVerticallyScrollable = this.viewport.scrollHeight > this.viewport.clientHeight;
       this.verticalScrollbarUsed = this.visibility === 'always' || this.isVerticallyScrollable;
     }
     // Check if horizontal scrollbar should be displayed
     if (this.track === 'all' || this.track === 'horizontal') {
-      this.isHorizontallyScrollable = this.view.scrollWidth > this.view.clientWidth;
+      this.isHorizontallyScrollable = this.viewport.scrollWidth > this.viewport.clientWidth;
       this.horizontalScrollbarUsed = this.visibility === 'always' || this.isHorizontallyScrollable;
     }
 
@@ -173,7 +175,6 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
       track: this.track,
       appearance: this.appearance,
       visibility: this.visibility,
-      customView: !!this.customViewPort,
       disabled: this.disabled,
       dir: this.dir.value,
       verticalUsed: this.verticalScrollbarUsed,
@@ -186,55 +187,39 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
 
   private activateViewport() {
     if (this.customViewPort) {
-      // Set the custom viewport
-      this.view = this.customViewPort.viewPort.nativeElement;
-      this.view.setAttribute('active-viewport', 'true');
-      // Set the custom content wrapper
-      if (this.view.children.length === 1) {
-        this.contentWrapper = this.view.firstElementChild as HTMLElement;
-        this.contentWrapper.setAttribute('active-content', 'true');
+      // Set the custom viewport and the viewport
+      this.viewport = this.customViewPort.viewPort.nativeElement;
+      // Check if the custom viewport has only one child and set it as the content wrapper
+      if (this.viewport.children.length === 1) {
+        this.contentWrapper = this.viewport.firstElementChild as HTMLElement;
       }
-      // Deactivate default viewport
-      this.defaultViewPort.nativeElement.setAttribute('active-viewport', 'false');
-      // Deactivate default content wrapper
-      this.defaultViewPort.nativeElement.firstElementChild.setAttribute('active-content', 'false');
+      // Set the default viewport and the default content wrapper
+      this.viewportClasses = {
+        'ng-scroll-offset': true,
+        'ng-scroll-layer': true
+      };
+      this.defaultViewPort.nativeElement.firstElementChild.className = 'ng-scroll-layer';
     } else {
-      // Set the default viewport
-      this.view = this.defaultViewPort.nativeElement;
-      this.view.setAttribute('active-viewport', 'true');
-      // Set the default content wrapper
-      this.contentWrapper = this.view.firstElementChild as HTMLElement;
-      this.contentWrapper.setAttribute('active-content', 'true');
+      // Set the default viewport as the scroll viewport
+      this.viewport = this.defaultViewPort.nativeElement;
+      this.viewportClasses = {
+        'ng-scroll-offset': true,
+        'ng-scroll-viewport': true,
+        [this.viewClass]: true,
+      };
+      // Set the default content wrapper as the content wrapper
+      this.contentWrapper = this.viewport.firstElementChild as HTMLElement;
+      this.contentWrapper.className = 'ng-scroll-content';
     }
-
-    // Set the viewport
-    // this.view = this.customViewPort
-    //   ? this.customViewPort.viewPort.nativeElement
-    //   : this.defaultViewPort.nativeElement;
-    // // Add active attribute to viewport
-    // this.view.setAttribute('active-viewport', 'true');
-    //
-    // if (this.view.children.length === 1) {
-    //   this.contentWrapper = this.view.firstElementChild as HTMLElement;
-    //   // Add active attribute to the content wrapper
-    //   this.contentWrapper.setAttribute('active-content-wrapper', 'true');
-    // }
   }
 
   ngOnInit() {
     this.ngZone.runOutsideAngular(() => {
       this.activateViewport();
 
-      this.manager.browserResized.pipe(
-        tap((value: ScrollbarManagerState) =>
-          this.view.style.setProperty('--native-scrollbar-size', `-${ value.nativeScrollbarSize }px`)
-        ),
-        takeUntil(this.destroyed)
-      ).subscribe();
-
       // Initialize scroll streams
       this.scrolled = new Observable((observer: Observer<any>) =>
-        fromEvent(this.view, 'scroll').pipe(takeUntil(this.destroyed))
+        fromEvent(this.viewport, 'scroll').pipe(takeUntil(this.destroyed))
           .subscribe(observer));
 
       this.verticalScrolled = this.getScrolledByDirection('vertical');
@@ -264,30 +249,30 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    */
 
   scrollTo(options: SmoothScrollToOptions): Promise<void> {
-    return this.smoothScroll.scrollTo(this.view, options);
+    return this.smoothScroll.scrollTo(this.viewport, options);
   }
 
   scrollToElement(target: HTMLElement, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToElement(this.view, target, offset, duration, easeFunc);
+    return this.smoothScroll.scrollToElement(this.viewport, target, offset, duration, easeFunc);
   }
 
   scrollToSelector(selector: string, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToSelector(this.view, selector, offset, duration, easeFunc);
+    return this.smoothScroll.scrollToSelector(this.viewport, selector, offset, duration, easeFunc);
   }
 
   scrollToTop(offset?: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToTop(this.view, offset, duration, easeFunc);
+    return this.smoothScroll.scrollToTop(this.viewport, offset, duration, easeFunc);
   }
 
   scrollToBottom(offset?: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToBottom(this.view, offset, duration, easeFunc);
+    return this.smoothScroll.scrollToBottom(this.viewport, offset, duration, easeFunc);
   }
 
   scrollToRight(offset?: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToRight(this.view, offset, duration, easeFunc);
+    return this.smoothScroll.scrollToRight(this.viewport, offset, duration, easeFunc);
   }
 
   scrollToLeft(offset?: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToLeft(this.view, offset, duration, easeFunc);
+    return this.smoothScroll.scrollToLeft(this.viewport, offset, duration, easeFunc);
   }
 }

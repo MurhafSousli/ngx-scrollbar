@@ -4,17 +4,17 @@
 
 :host {
   // CSS variables used to customized the look of the scrollbar component
-  --scrollbar-color: transparent;
-  --scrollbar-container-color: transparent;
+  --scrollbar-track-color: transparent;
+  --scrollbar-wrapper-color: transparent;
   --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
   --scrollbar-thumb-hover-color: var(--scrollbar-thumb-color);
   --scrollbar-border-radius: 7px;
   --scrollbar-size: 5px;
   --scrollbar-padding: 4px;
   --scrollbar-total-size: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
+  --scrollbar-viewport-margin: 0;
 
   display: block;
-  overflow: hidden;
   position: relative;
   height: 100%;
 
@@ -50,19 +50,14 @@
 
 .ng-scrollbar-wrapper,
 .ng-scroll-viewport-wrapper,
-.ng-scroll-content[active-content="false"],
+.ng-scroll-layer,
 ::ng-deep .ng-custom-scroll-viewport {
   @extend %layer;
 }
 
-.ng-scrollbar-wrapper,
-.ng-scroll-viewport-wrapper,
-.ng-scroll-content[active-content="false"] {
-  overflow: hidden;
-}
-
 .ng-scroll-viewport-wrapper {
   margin: var(--scrollbar-viewport-margin);
+  overflow: hidden;
 }
 
 .ng-scroll-viewport {
