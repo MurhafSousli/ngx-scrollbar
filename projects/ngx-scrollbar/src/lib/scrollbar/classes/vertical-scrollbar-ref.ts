@@ -31,8 +31,12 @@ export class VerticalScrollbarRef extends ScrollbarRef {
     return this.trackElement.getBoundingClientRect().top;
   }
 
-  protected get offsetProperty(): string {
-    return 'offsetY';
+  protected get dragStartOffset(): number {
+    return this.thumbElement.getBoundingClientRect().top;
+  }
+
+  protected get pageProperty(): string {
+    return 'pageY';
   }
 
   protected get clientProperty(): string {

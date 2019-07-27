@@ -1,17 +1,17 @@
 import {
-  AfterViewChecked,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  ViewChild,
   ContentChild,
+  Input,
+  Output,
+  OnInit,
+  AfterViewChecked,
+  OnDestroy,
+  NgZone,
   ElementRef,
   EventEmitter,
-  Inject,
-  Input,
-  NgZone,
-  OnDestroy,
-  OnInit, Output,
-  ViewChild
+  ChangeDetectorRef,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { fromEvent, Observable, Observer, Subject } from 'rxjs';
@@ -23,11 +23,12 @@ import {
   ScrollbarTrack,
   ScrollbarPosition,
   ScrollbarVisibility,
+  NgScrollbarState
 } from './ng-scrollbar-config';
 import { ScrollbarManager } from './utils/scrollbar-manager';
 
 @Component({
-  selector: 'ng-scrollbar, [ngScrollbar], [ng-scrollbar]',
+  selector: 'ng-scrollbar',
   exportAs: 'ngScrollbar',
   templateUrl: 'ng-scrollbar.html',
   styleUrls: ['ng-scrollbar.scss'],
@@ -115,6 +116,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   /** Stream that destroys components' observables */
   private destroyed = new Subject<void>();
 
+  /** Set of attributes added on the scrollbar wrapper */
   state: NgScrollbarState = {};
 
   constructor(private dir: Directionality,
@@ -141,8 +143,6 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    * Update local state with each change detection
    */
   private updateState() {
-    this.verticalScrollbarUsed = false;
-    this.horizontalScrollbarUsed = false;
     /** Check if vertical scrollbar should be displayed */
     if (this.track === 'all' || this.track === 'vertical') {
       this.isVerticallyScrollable = this.viewport.scrollHeight > this.viewport.clientHeight;
@@ -154,7 +154,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
       this.horizontalScrollbarUsed = this.visibility === 'always' || this.isHorizontallyScrollable;
     }
 
-    this.state = {
+    this._updateState({
       position: this.position,
       track: this.track,
       appearance: this.appearance,
@@ -165,18 +165,26 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
       horizontalUsed: this.horizontalScrollbarUsed,
       isVerticallyScrollable: this.isVerticallyScrollable,
       isHorizontallyScrollable: this.isHorizontallyScrollable
-    };
+    });
+  }
+
+  private _updateState(state: NgScrollbarState) {
+    this.state = { ...this.state, ...state };
     this.changeDetectorRef.detectChanges();
+  }
+
+  setHovered(hovered: boolean) {
+    this.ngZone.run(() => this._updateState({ hovered }));
+  }
+
+  setDragging(dragging: boolean) {
+    this.ngZone.run(() => this._updateState({ dragging }));
   }
 
   private activateViewport() {
     if (this.customViewPort) {
       // Set the custom viewport and the viewport
       this.viewport = this.customViewPort.viewPort.nativeElement;
-      // Check if the custom viewport has only one child and set it as the content wrapper
-      if (this.viewport.children.length === 1) {
-        this.contentWrapper = this.viewport.firstElementChild as HTMLElement;
-      }
       // Set the default viewport and the default content wrapper
       this.viewportClasses = {
         'ng-scroll-offset': true,
@@ -191,9 +199,12 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
         'ng-scroll-viewport': true,
         [this.viewClass]: true,
       };
-      // Set the default content wrapper as the content wrapper
+    }
+
+    // Check if the custom viewport has only one child and set it as the content wrapper
+    if (this.viewport.children.length === 1) {
       this.contentWrapper = this.viewport.firstElementChild as HTMLElement;
-      this.contentWrapper.className = 'ng-scroll-content';
+      this.contentWrapper.classList.add('ng-scroll-content');
     }
   }
 
@@ -203,7 +214,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
 
       // Initialize scroll streams
       this.scrolled = new Observable((observer: Observer<any>) =>
-        fromEvent(this.viewport, 'scroll').pipe(takeUntil(this.destroyed))
+        fromEvent(this.viewport, 'scroll', { passive: true }).pipe(takeUntil(this.destroyed))
           .subscribe(observer));
 
       this.verticalScrolled = this.getScrolledByDirection('vertical');

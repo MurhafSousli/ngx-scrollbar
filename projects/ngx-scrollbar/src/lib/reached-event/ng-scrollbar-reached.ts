@@ -49,7 +49,6 @@ abstract class ScrollReached implements OnDestroy {
       Promise.resolve().then(() => this.zone.run(() => observer.next(_)))));
 
   protected constructor(protected scrollbar: NgScrollbar, protected zone: NgZone) {
-    console.log(scrollbar);
     if (!scrollbar) {
       throw new Error('[NgScrollbarReached Directive]: Host element must be an NgScrollbar component.');
     }

@@ -32,8 +32,12 @@ export class HorizontalScrollbarRef extends ScrollbarRef {
     return this.trackElement.getBoundingClientRect().left;
   }
 
-  protected get offsetProperty(): string {
-    return 'offsetX';
+  protected get dragStartOffset(): number {
+    return this.thumbElement.getBoundingClientRect().left;
+  }
+
+  protected get pageProperty(): string {
+    return 'pageX';
   }
 
   protected get clientProperty(): string {

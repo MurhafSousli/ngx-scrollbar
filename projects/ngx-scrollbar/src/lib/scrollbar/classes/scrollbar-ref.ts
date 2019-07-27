@@ -1,7 +1,7 @@
 import { ElementRef } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
-import { animationFrameScheduler, asyncScheduler, fromEvent, Observable, Subject } from 'rxjs';
-import { filter, map, mergeMap, pluck, takeUntil, tap } from 'rxjs/operators';
+import { animationFrameScheduler, asyncScheduler, EMPTY, fromEvent, Observable, of, Subject } from 'rxjs';
+import { filter, map, mergeMap, pluck, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { NgScrollbar } from '../ng-scrollbar';
 
@@ -21,9 +21,11 @@ export abstract class ScrollbarRef {
 
   protected abstract get scrollOffset(): number;
 
+  protected abstract get dragStartOffset(): number;
+
   protected abstract get dragOffset(): number;
 
-  protected abstract get offsetProperty(): string;
+  protected abstract get pageProperty(): string;
 
   protected abstract get clientProperty(): string;
 
@@ -46,23 +48,26 @@ export abstract class ScrollbarRef {
     this.trackElement = trackRef.nativeElement;
     this.thumbElement = thumbRef.nativeElement;
 
-    if (!this.scrollbarRef.disableThumbDrag && !(platform.IOS || platform.ANDROID)) {
-      // Start thumb drag event
-      this.dragged().pipe(
-        tap((value: number) => this.scrollTo(value)),
-        takeUntil(this.destroyed)
-      ).subscribe();
-    }
+    if (!(platform.IOS || platform.ANDROID)) {
 
-    if (!this.scrollbarRef.disableTrackClick) {
-      // Start track click event
-      this.trackClicked().pipe(
-        tap((value: number) =>
-          this.scrollbarRef.scrollTo({
-            ...this.mapToScrollToOption(value),
-            duration: this.scrollbarRef.scrollToDuration
-          })
-        ),
+      const scrollbarClicked = fromEvent(this.scrollbarRef.el.nativeElement, 'mousedown', { passive: true }).pipe(
+        switchMap((e: any) => {
+          e.stopPropagation();
+          const isThumbClick = isWithinBounds(e, this.thumbElement.getBoundingClientRect());
+          if (isThumbClick && !this.scrollbarRef.disableThumbDrag) {
+            return this.dragged(e);
+          } else {
+            const isTrackClick = isWithinBounds(e, this.trackElement.getBoundingClientRect());
+            if (isTrackClick && !this.scrollbarRef.disableTrackClick) {
+              return this.trackClicked(e);
+            }
+          }
+          return EMPTY;
+        }),
+      );
+
+      this.hovered().pipe(
+        switchMap(() => scrollbarClicked),
         takeUntil(this.destroyed)
       ).subscribe();
     }
@@ -93,56 +98,86 @@ export abstract class ScrollbarRef {
     animationFrameScheduler.schedule(() => this.applyThumbStyle(size, position, trackMax));
   }
 
-  /**
-   * Stream that emits when scrollbar thumb is dragged
-   */
-  protected dragged(): Observable<any> {
+  dragged(event: any) {
     let trackMax: number;
     let scrollMax: number;
-    const thumbDragStart = fromEvent(this.thumbElement, 'mousedown', { capture: true }).pipe(
+
+    const dragStart = of(event).pipe(
       tap(() => {
         this.document.onselectstart = () => false;
         // Capture scrollMax and trackMax once
         trackMax = this.trackMax;
         scrollMax = this.scrollMax;
+        this.scrollbarRef.setDragging(true);
       }),
-      pluck(this.offsetProperty),
     );
-    const thumbDragging = fromEvent(this.document, 'mousemove', { capture: true, passive: true }).pipe(
+
+    const dragging = fromEvent(this.document, 'mousemove', { capture: true, passive: true }).pipe(
       tap((e: any) => e.stopPropagation())
     );
-    const thumbDragEnd = fromEvent(this.document, 'mouseup', { capture: true }).pipe(
-      tap(() => this.document.onselectstart = null)
+
+    const dragEnd = fromEvent(this.document, 'mouseup', { capture: true }).pipe(
+      tap((e: any) => {
+        e.stopPropagation();
+        this.document.onselectstart = null;
+        this.scrollbarRef.setDragging(false);
+      })
     );
-    return thumbDragStart.pipe(
-      mergeMap((mouseDownOffset: number) => thumbDragging.pipe(
+
+    return dragStart.pipe(
+      pluck(this.pageProperty),
+      map((pageOffset: number) => pageOffset - this.dragStartOffset),
+      mergeMap((mouseDownOffset: number) => dragging.pipe(
         pluck(this.clientProperty),
         // Calculate how far the user's mouse is from the top/left of the scrollbar (minus the dragOffset).
         map((mouseOffset: number) => mouseOffset - this.dragOffset),
         map((offset: number) => scrollMax * (offset - mouseDownOffset) / trackMax),
         map((position: number) => this.handleDragBrowserCompatibility(position, scrollMax)),
-        takeUntil(thumbDragEnd)
+        tap((value: number) => this.scrollTo(value)),
+        takeUntil(dragEnd)
       ))
+    );
+  }
+
+  /**
+   * Stream that emits when a scrollbar is hovered
+   */
+  private hovered(): Observable<any> {
+    return fromEvent(this.scrollbarRef.el.nativeElement, 'mousemove', { passive: true }).pipe(
+      filter((e: any) => {
+        e.stopPropagation();
+        const flag = isWithinBounds(e, this.trackElement.getBoundingClientRect());
+        this.scrollbarRef.setHovered(flag);
+        return flag;
+      })
     );
   }
 
   /**
    * Stream that emits when scrollbar track is clicked
    */
-  protected trackClicked(): Observable<number> {
-    return fromEvent(this.trackElement, 'mousedown').pipe(
-      filter((e: any) => e.target === e.currentTarget),
-      pluck(this.offsetProperty),
+  protected trackClicked(e): Observable<number> {
+    return of(e).pipe(
+      pluck(this.pageProperty),
+      map((pageOffset: number) => pageOffset - this.dragOffset),
       map((clickOffset) => {
         const offset = clickOffset - (this.thumbSize / 2);
         const ratio = offset / this.trackSize;
         return ratio * this.scrollSize;
       }),
       map((position: number) => this.handleDragBrowserCompatibility(position, this.scrollMax)),
+      tap((value: number) =>
+        this.scrollbarRef.scrollTo({
+          ...this.mapToScrollToOption(value),
+          duration: this.scrollbarRef.scrollToDuration
+        })
+      ),
     );
   }
 
-  // Stream that emits when view is scrolled
+  /**
+   * Stream that emits when view is scrolled
+   */
   protected abstract scrolled(): Observable<any>;
 
   /**
@@ -168,7 +203,6 @@ export abstract class ScrollbarRef {
  * @param trackSize Scrollbar track size
  * @param contentSize Content size or Viewport scroll size
  * @param minThumbSize Minimum scrollbar thumb size
- * @return Thumb size
  */
 function calculateThumbSize(trackSize: number, contentSize: number, minThumbSize: number): number {
   const scrollbarRatio = trackSize / contentSize;
@@ -181,8 +215,21 @@ function calculateThumbSize(trackSize: number, contentSize: number, minThumbSize
  * @param scrollPosition The scroll position of the viewport
  * @param scrollMax The max size available to scroll the viewport
  * @param trackMax The max size available to move scrollbar thumb
- * @return Thumb position
  */
 function calculateThumbPosition(scrollPosition: number, scrollMax: number, trackMax: number): number {
   return scrollPosition * trackMax / scrollMax;
+}
+
+/**
+ * Check if pointer is within scrollbar bounds
+ * @param e Pointer event
+ * @param rect Scrollbar Client Rectboolean
+ */
+function isWithinBounds(e: any, rect: ClientRect): boolean {
+  return (
+    e.clientX >= rect.left &&
+    e.clientX <= rect.left + rect.width &&
+    e.clientY >= rect.top &&
+    e.clientY <= rect.top + rect.height
+  );
 }

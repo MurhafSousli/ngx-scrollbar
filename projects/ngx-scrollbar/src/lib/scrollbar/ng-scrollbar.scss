@@ -4,21 +4,27 @@
 
 :host {
   // CSS variables used to customized the look of the scrollbar component
+  --scrollbar-border-radius: 7px;
+  --scrollbar-padding: 4px;
+  --scrollbar-viewport-margin: 0;
   --scrollbar-track-color: transparent;
   --scrollbar-wrapper-color: transparent;
   --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
   --scrollbar-thumb-hover-color: var(--scrollbar-thumb-color);
-  --scrollbar-border-radius: 7px;
   --scrollbar-size: 5px;
-  --scrollbar-padding: 4px;
-  --scrollbar-total-size: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
-  --scrollbar-viewport-margin: 0;
+  --scrollbar-hover-size: var(--scrollbar-size);
 
   display: block;
   position: relative;
   height: 100%;
 
   > .ng-scrollbar-wrapper {
+    --scrollbar-total-size: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
+
+    // Change scrollbar size in case its hovered or dragged
+    &[dragging="true"], &[hovered="true"]{
+      --scrollbar-size: var(--scrollbar-hover-size);
+    }
 
     @include enabled {
       @include nativeAppearance;
@@ -51,7 +57,7 @@
 .ng-scrollbar-wrapper,
 .ng-scroll-viewport-wrapper,
 .ng-scroll-layer,
-::ng-deep .ng-custom-scroll-viewport {
+::ng-deep .ng-scroll-viewport {
   @extend %layer;
 }
 
@@ -67,16 +73,14 @@
   -webkit-overflow-scrolling: touch;
   contain: strict;
   will-change: scroll-position;
-  @extend %layer;
 }
 
-@include viewport {
-  > .ng-scroll-content[active-content="true"] {
-    contain: content;
-    display: inline-block;
-    min-width: 100%;
-    min-height: 100%;
-  }
+::ng-deep .ng-scroll-content {
+  contain: content;
+  // This makes horizontal scrollbar works
+  display: inline-block;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 %layer {

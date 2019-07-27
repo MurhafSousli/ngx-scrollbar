@@ -4,6 +4,8 @@
   }
 }
 
+// Viewport offset selector
+// The default viewport is used to hide the native scrollbar
 @mixin viewportOffset {
   @include viewportWrapper {
     > .ng-scroll-offset {
@@ -12,12 +14,13 @@
   }
 }
 
+// Default/Custom Viewport selector
 @mixin viewport {
   @include viewportWrapper {
     // Default viewport
     > .ng-scroll-viewport,
       // Custom viewport
-    > * > * > ::ng-deep.ng-custom-scroll-viewport {
+    > * > * > ::ng-deep.ng-scroll-viewport {
       @content;
     }
   }
@@ -29,18 +32,21 @@
   }
 }
 
+// Vertical Scrollbar is used
 @mixin verticalUsed {
   &[verticalUsed="true"] {
     @content;
   }
 }
 
+// Horizontal Scrollbar is used
 @mixin horizontalUsed {
   &[horizontalUsed="true"] {
     @content;
   }
 }
 
+// All Scrollbars are used
 @mixin allUsed {
   &[verticalUsed="true"][horizontalUsed="true"] {
     @content;
