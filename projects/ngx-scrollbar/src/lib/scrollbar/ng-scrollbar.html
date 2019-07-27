@@ -2,7 +2,7 @@
   <div class="ng-scroll-viewport-wrapper">
     <div #viewport
          [ngClass]="viewportClasses"
-         [style]="(manager.browserResized | async).nativeScrollbarSize | cssVariable">
+         [style]="manager.nativeScrollbarSize | async | cssVariable">
       <div>
         <ng-content></ng-content>
       </div>

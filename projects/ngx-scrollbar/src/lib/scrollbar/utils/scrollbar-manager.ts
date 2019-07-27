@@ -27,10 +27,9 @@ const defaultOptions: NgScrollbarOptions = {
 })
 export class ScrollbarManager {
 
-  private readonly browserResizeStream = new BehaviorSubject<ScrollbarManagerState>({
-    nativeScrollbarSize: this.getNativeScrollbarSize()
+  private readonly nativeScrollbarSizeSource = new BehaviorSubject<number>(this.getNativeScrollbarSize());
+  readonly nativeScrollbarSize: Observable<number> = this.nativeScrollbarSizeSource.asObservable();
   readonly globalOptions: NgScrollbarOptions;
-  readonly browserResized: Observable<ScrollbarManagerState> = this.browserResizeStream.asObservable();
 
   constructor(@Optional() @Inject(NG_SCROLLBAR_OPTIONS) private options: NgScrollbarOptions,
               @Inject(DOCUMENT) private document: any,
@@ -44,8 +43,8 @@ export class ScrollbarManager {
    */
   private initResizeEvent() {
     fromEvent(this.document.defaultView, 'resize', { passive: true }).pipe(
-      debounceTime(this.options.windowResizeDebounce),
-      tap(() => this.browserResizeStream.next({ nativeScrollbarSize: this.getNativeScrollbarSize() }))
+      debounceTime(this.globalOptions.windowResizeDebounce),
+      tap(() => this.nativeScrollbarSizeSource.next(this.getNativeScrollbarSize()))
     ).subscribe();
   }
 
