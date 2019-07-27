@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Input } from '@angular/core';
-import { NgScrollbarState } from '../ng-scrollbar';
+import { NgScrollbarState } from '../ng-scrollbar-config';
 
 @Directive({ selector: '[ngAttr]' })
 export class NgAttr {

@@ -19,27 +19,12 @@ import { filter, map, pairwise, pluck, takeUntil, tap } from 'rxjs/operators';
 import { ScrollViewport } from './scroll-viewport';
 import { SmoothScrollEaseFunc, SmoothScrollManager, SmoothScrollToOptions } from '../smooth-scroll/smooth-scroll-manager';
 import {
-  NG_SCROLLBAR_DEFAULT_OPTIONS,
-  NgScrollbarDefaultOptions,
   ScrollbarAppearance,
   ScrollbarTrack,
   ScrollbarPosition,
-  ScrollbarVisibility
+  ScrollbarVisibility,
 } from './ng-scrollbar-config';
 import { ScrollbarManager } from './utils/scrollbar-manager';
-
-export interface NgScrollbarState {
-  position?: ScrollbarPosition;
-  track?: ScrollbarTrack;
-  appearance?: ScrollbarAppearance;
-  visibility?: ScrollbarVisibility;
-  disabled?: boolean;
-  dir?: 'rtl' | 'ltr';
-  verticalUsed?: boolean;
-  horizontalUsed?: boolean;
-  isVerticallyScrollable?: boolean;
-  isHorizontallyScrollable?: boolean;
-}
 
 @Component({
   selector: 'ng-scrollbar, [ngScrollbar], [ng-scrollbar]',
@@ -52,25 +37,24 @@ export interface NgScrollbarState {
   }
 })
 export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
-
   /** Default viewport reference */
   @ViewChild('viewport', { static: true }) private defaultViewPort: ElementRef<HTMLElement>;
   /** Custom viewport reference */
   @ContentChild(ScrollViewport, { static: true }) private customViewPort: ScrollViewport;
   /** A class forwarded to scrollable viewport element */
-  @Input() viewClass: string = this.defaultOptions.viewClass;
+  @Input() viewClass: string = this.manager.globalOptions.viewClass;
   /** A class forwarded to the scrollbar track element */
-  @Input() trackClass: string = this.defaultOptions.trackClass;
+  @Input() trackClass: string = this.manager.globalOptions.trackClass;
   /** A class forwarded to the scrollbar thumb element */
-  @Input() thumbClass: string = this.defaultOptions.thumbClass;
+  @Input() thumbClass: string = this.manager.globalOptions.thumbClass;
   /** The duration which the scrolling takes to reach its target when scrollbar rail is clicked */
-  @Input() scrollToDuration = this.defaultOptions.scrollToDuration;
+  @Input() scrollToDuration = this.manager.globalOptions.scrollToDuration;
   /** Minimum scrollbar thumb size */
-  @Input() minThumbSize: number = this.defaultOptions.minThumbSize;
+  @Input() minThumbSize: number = this.manager.globalOptions.minThumbSize;
   /** A flag used to enable/disable the scrollbar thumb dragged event */
-  @Input() disableThumbDrag: boolean = this.defaultOptions.disableThumbDrag;
+  @Input() disableThumbDrag: boolean = this.manager.globalOptions.disableThumbDrag;
   /** A flag used to enable/disable the scrollbar track clicked event */
-  @Input() disableTrackClick: boolean = this.defaultOptions.disableTrackClick;
+  @Input() disableTrackClick: boolean = this.manager.globalOptions.disableTrackClick;
   /** Disable custom scrollbar-control and switch back to native scrollbar-control */
   @Input() disabled: boolean = false;
   /**
@@ -80,7 +64,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    * - `horizontal` Use both vertical and horizontal scrollbar-control
    * - `all` Use both vertical and horizontal scrollbar-control
    */
-  @Input() track: ScrollbarTrack = this.defaultOptions.track;
+  @Input() track: ScrollbarTrack = this.manager.globalOptions.track;
   /**
    * When to show the scrollbar, and there are 3 options:
    *
@@ -88,14 +72,14 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    * - `hover` Scrollbars are hidden by default, only visible on scrolling or hovering
    * - `always` Scrollbars are always shown even if the viewport is not scrollable
    */
-  @Input() visibility: ScrollbarVisibility = this.defaultOptions.visibility;
+  @Input() visibility: ScrollbarVisibility = this.manager.globalOptions.visibility;
   /**
    *  Sets the appearance of the scrollbar, there are 2 options:
    *
    * - `standard` (default) scrollbar space will be reserved just like with native scrollbar-control.
    * - `compact` scrollbar doesn't reserve any space, they are placed over the viewport.
    */
-  @Input() appearance: ScrollbarAppearance = this.defaultOptions.appearance;
+  @Input() appearance: ScrollbarAppearance = this.manager.globalOptions.appearance;
   /**
    * Sets the position of each scrollbar, there are 4 options:
    *
@@ -104,7 +88,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    * - `invertX` Inverts Horizontal scrollbar position
    * - `invertAll` Inverts both scrollbar-control positions
    */
-  @Input() position: ScrollbarPosition = this.defaultOptions.position;
+  @Input() position: ScrollbarPosition = this.manager.globalOptions.position;
   /** Steam that emits when scrollbar is updated */
   @Output() updated = new EventEmitter<void>();
   /** Viewport Element */
@@ -137,8 +121,8 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
               private ngZone: NgZone,
               private changeDetectorRef: ChangeDetectorRef,
               private smoothScroll: SmoothScrollManager,
-              public manager: ScrollbarManager,
-              @Inject(NG_SCROLLBAR_DEFAULT_OPTIONS) private defaultOptions: NgScrollbarDefaultOptions) {
+              public el: ElementRef,
+              public manager: ScrollbarManager) {
   }
 
   private getScrolledByDirection(track: ScrollbarTrack) {

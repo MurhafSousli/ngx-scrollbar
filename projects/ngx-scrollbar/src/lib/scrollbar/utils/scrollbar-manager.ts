@@ -1,13 +1,26 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
 import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
 import { debounceTime, tap } from 'rxjs/operators';
-import { NG_SCROLLBAR_DEFAULT_OPTIONS, NgScrollbarDefaultOptions } from '../ng-scrollbar-config';
+import { NG_SCROLLBAR_OPTIONS, NgScrollbarOptions } from '../ng-scrollbar-config';
 
-export interface ScrollbarManagerState {
-  nativeScrollbarSize: number;
-}
+const defaultOptions: NgScrollbarOptions = {
+  viewClass: '',
+  trackClass: '',
+  thumbClass: '',
+  track: 'vertical',
+  appearance: 'standard',
+  visibility: 'native',
+  position: 'native',
+  disableThumbDrag: false,
+  disableTrackClick: false,
+  scrollToDuration: 300,
+  minThumbSize: 20,
+  windowResizeDebounce: 200,
+  contentObserverDebounce: 0,
+  resizeObserverDebounce: 0
+};
 
 @Injectable({
   providedIn: 'root'
@@ -16,12 +29,13 @@ export class ScrollbarManager {
 
   private readonly browserResizeStream = new BehaviorSubject<ScrollbarManagerState>({
     nativeScrollbarSize: this.getNativeScrollbarSize()
-  });
+  readonly globalOptions: NgScrollbarOptions;
   readonly browserResized: Observable<ScrollbarManagerState> = this.browserResizeStream.asObservable();
 
-  constructor(@Inject(NG_SCROLLBAR_DEFAULT_OPTIONS) private options: NgScrollbarDefaultOptions,
+  constructor(@Optional() @Inject(NG_SCROLLBAR_OPTIONS) private options: NgScrollbarOptions,
               @Inject(DOCUMENT) private document: any,
               private platform: Platform) {
+    this.globalOptions = options ? {...defaultOptions, ...options} : defaultOptions;
     this.initResizeEvent();
   }
 

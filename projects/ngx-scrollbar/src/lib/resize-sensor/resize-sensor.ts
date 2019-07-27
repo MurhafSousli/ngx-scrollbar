@@ -1,10 +1,10 @@
-import { NgModule, Directive, Optional, AfterContentInit, OnDestroy, NgZone, Input, Inject } from '@angular/core';
+import { NgModule, Directive, Optional, AfterContentInit, OnDestroy, NgZone, Input } from '@angular/core';
 import { Platform, PlatformModule } from '@angular/cdk/platform';
 import { Observable, Observer, Subscription } from 'rxjs';
 import { debounceTime, finalize, tap } from 'rxjs/operators';
 import ResizeObserver from '@juggle/resize-observer';
 import { NgScrollbar } from '../scrollbar/ng-scrollbar';
-import { NG_SCROLLBAR_DEFAULT_OPTIONS, NgScrollbarDefaultOptions } from '../scrollbar/ng-scrollbar-config';
+import { ScrollbarManager } from '../scrollbar/utils/scrollbar-manager';
 
 @Directive({
   selector: '[resize-sensor], [resizeSensor]'
@@ -14,12 +14,12 @@ export class ResizeSensor implements AfterContentInit, OnDestroy {
   private resizeObserver: ResizeObserver;
   private subscription = Subscription.EMPTY;
 
-  @Input() sensorDebounce: number = this.defaultOptions.resizeObserverDebounce;
+  @Input() sensorDebounce: number = this.manager.globalOptions.resizeObserverDebounce;
 
   constructor(private ngZone: NgZone,
               private platform: Platform,
-              @Optional() private scrollbar: NgScrollbar,
-              @Inject(NG_SCROLLBAR_DEFAULT_OPTIONS) private defaultOptions: NgScrollbarDefaultOptions) {
+              private manager: ScrollbarManager,
+              @Optional() private scrollbar: NgScrollbar) {
     if (!scrollbar) {
       throw new Error('[NgScrollbar Resize Sensor Directive]: Host element must be an NgScrollbar component.');
     }

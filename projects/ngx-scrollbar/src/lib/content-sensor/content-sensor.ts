@@ -3,7 +3,7 @@ import { Platform, PlatformModule } from '@angular/cdk/platform';
 import { Observable, Observer, Subscription } from 'rxjs';
 import { debounceTime, finalize, tap } from 'rxjs/operators';
 import { NgScrollbar } from '../scrollbar/ng-scrollbar';
-import { NG_SCROLLBAR_DEFAULT_OPTIONS, NgScrollbarDefaultOptions } from '../scrollbar/ng-scrollbar-config';
+import { ScrollbarManager } from '../scrollbar/utils/scrollbar-manager';
 
 @Directive({
   selector: '[content-sensor], [contentSensor]'
@@ -13,12 +13,12 @@ export class ContentSensor implements AfterContentInit, OnDestroy {
   private contentObserver: MutationObserver | any;
   private subscription = Subscription.EMPTY;
 
-  @Input() sensorDebounce: number = this.defaultOptions.contentObserverDebounce;
+  @Input() sensorDebounce: number = this.manager.globalOptions.contentObserverDebounce;
 
   constructor(private ngZone: NgZone,
               private platform: Platform,
-              @Optional() private scrollbar: NgScrollbar,
-              @Inject(NG_SCROLLBAR_DEFAULT_OPTIONS) private defaultOptions: NgScrollbarDefaultOptions) {
+              private manager: ScrollbarManager,
+              @Optional() private scrollbar: NgScrollbar) {
     if (!scrollbar) {
       throw new Error('[NgScrollbar Content Sensor Directive]: Host element must be an NgScrollbar component.');
     }

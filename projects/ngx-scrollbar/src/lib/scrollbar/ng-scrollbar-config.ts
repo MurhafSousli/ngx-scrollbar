@@ -5,7 +5,9 @@ export type ScrollbarTrack = 'vertical' | 'horizontal' | 'all' | undefined;
 export type ScrollbarVisibility = 'hover' | 'always' | 'native' | undefined;
 export type ScrollbarPosition = 'native' | 'invertY' | 'invertX' | 'invertAll' | undefined;
 
-export interface NgScrollbarDefaultOptions {
+export const NG_SCROLLBAR_OPTIONS = new InjectionToken<NgScrollbarOptions>('ng-scrollbar-options');
+
+export interface NgScrollbarOptions {
   /**
    * Sets the scroll axis of the viewport, there are 3 options:
    *
@@ -54,33 +56,26 @@ export interface NgScrollbarDefaultOptions {
   disableTrackClick?: boolean;
   /** Debounce interval for detecting changes via window.resize event */
   windowResizeDebounce?: number;
-  /** Debounce interval for detecting changes via content observer
-   * TODO: not working
-   */
+  /** Debounce interval for detecting changes via content observer */
   contentObserverDebounce?: number;
+  /** Debounce interval for detecting changes via resize observer */
   resizeObserverDebounce?: number;
 }
 
-export const ngScrollbarDefaultOptions: NgScrollbarDefaultOptions = {
-  viewClass: '',
-  trackClass: '',
-  thumbClass: '',
-  track: 'vertical',
-  appearance: 'standard',
-  visibility: 'native',
-  position: 'native',
-  disableThumbDrag: false,
-  disableTrackClick: false,
-  scrollToDuration: 300,
-  minThumbSize: 20,
-  windowResizeDebounce: 200,
-  contentObserverDebounce: 0,
-  resizeObserverDebounce: 0
-};
-
-/** Injection token to be used to override the default options for NgScrollbar components. */
-export const NG_SCROLLBAR_DEFAULT_OPTIONS =
-  new InjectionToken<NgScrollbarDefaultOptions>('ng-scrollbar-default-options', {
-    providedIn: 'root',
-    factory: (): NgScrollbarDefaultOptions => ngScrollbarDefaultOptions
-  });
+/**
+ * Set of attributes added on the scrollbar wrapper
+ */
+export interface NgScrollbarState {
+  position?: ScrollbarPosition;
+  track?: ScrollbarTrack;
+  appearance?: ScrollbarAppearance;
+  visibility?: ScrollbarVisibility;
+  disabled?: boolean;
+  dir?: 'rtl' | 'ltr';
+  verticalUsed?: boolean;
+  horizontalUsed?: boolean;
+  isVerticallyScrollable?: boolean;
+  isHorizontallyScrollable?: boolean;
+  hovered?: boolean;
+  dragging?: boolean;
+}

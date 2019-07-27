@@ -9,7 +9,7 @@ import { ScrollbarControl } from './scrollbar-control/scrollbar-control';
 import { ScrollViewport } from './scroll-viewport';
 import { CssVariablePipe } from './utils/css-variable.pipe';
 import { NgAttr } from './utils/ng-attr.directive';
-import { NG_SCROLLBAR_DEFAULT_OPTIONS, NgScrollbarDefaultOptions, ngScrollbarDefaultOptions } from './ng-scrollbar-config';
+import { NG_SCROLLBAR_OPTIONS, NgScrollbarOptions } from './ng-scrollbar-config';
 
 @NgModule({
   imports: [
@@ -31,17 +31,10 @@ import { NG_SCROLLBAR_DEFAULT_OPTIONS, NgScrollbarDefaultOptions, ngScrollbarDef
   ]
 })
 export class NgScrollbarModule {
-  static withConfig(options: NgScrollbarDefaultOptions): ModuleWithProviders {
+  static withConfig(options: NgScrollbarOptions): ModuleWithProviders {
     return {
       ngModule: NgScrollbarModule,
-      providers: [
-        {
-          provide: NG_SCROLLBAR_DEFAULT_OPTIONS, useValue: {
-            ...options,
-            ...ngScrollbarDefaultOptions
-          }
-        }
-      ]
+      providers: [{ provide: NG_SCROLLBAR_OPTIONS, useValue: options }]
     };
   }
 }
