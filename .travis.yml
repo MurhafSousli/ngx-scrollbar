@@ -1,17 +1,11 @@
 sudo: required
 dist: trusty
 
-addons:
-  chrome: stable
-
-before_install:
-  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
-
 language: node_js
 node_js:
   - "12"
   - "10"
-  -
+
 cache:
   directories:
     - ./node_modules
@@ -20,4 +14,4 @@ install:
   - npm install
 
 script:
-  - npm run test -- --watch=false --no-progress
+  - npm run build
