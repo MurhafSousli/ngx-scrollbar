@@ -76,7 +76,6 @@
 }
 
 ::ng-deep .ng-scroll-content {
-  contain: content;
   // This makes horizontal scrollbar works
   display: inline-block;
   min-width: 100%;
