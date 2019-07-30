@@ -1,9 +1,8 @@
-import { NgModule, Directive, Optional, AfterContentInit, OnDestroy, NgZone, Input, Inject } from '@angular/core';
+import { NgModule, Directive, Optional, AfterContentInit, OnDestroy, NgZone, Input, Self, Host } from '@angular/core';
 import { Platform, PlatformModule } from '@angular/cdk/platform';
 import { Observable, Observer, Subscription } from 'rxjs';
 import { debounceTime, finalize, tap } from 'rxjs/operators';
-import { NgScrollbar } from '../scrollbar/ng-scrollbar';
-import { ScrollbarManager } from '../scrollbar/utils/scrollbar-manager';
+import { ScrollbarManager, NgScrollbar } from 'ngx-scrollbar';
 
 @Directive({
   selector: '[content-sensor], [contentSensor]'
@@ -15,10 +14,10 @@ export class ContentSensor implements AfterContentInit, OnDestroy {
 
   @Input() sensorDebounce: number = this.manager.globalOptions.contentObserverDebounce;
 
-  constructor(private ngZone: NgZone,
+  constructor(private zone: NgZone,
               private platform: Platform,
               private manager: ScrollbarManager,
-              @Optional() private scrollbar: NgScrollbar) {
+              @Host() @Self() @Optional() private scrollbar: NgScrollbar) {
     if (!scrollbar) {
       throw new Error('[NgScrollbar Content Sensor Directive]: Host element must be an NgScrollbar component.');
     }
@@ -26,7 +25,7 @@ export class ContentSensor implements AfterContentInit, OnDestroy {
 
   ngAfterContentInit() {
     if (this.platform.isBrowser) {
-      this.ngZone.runOutsideAngular(() => {
+      this.zone.runOutsideAngular(() => {
         this.subscription = this.observer().pipe(
           tap(() => this.scrollbar.update()),
           finalize(() => this.contentObserver.disconnect())

@@ -1,10 +1,9 @@
-import { NgModule, Directive, Optional, AfterContentInit, OnDestroy, NgZone, Input } from '@angular/core';
+import { NgModule, Directive, Optional, AfterContentInit, OnDestroy, NgZone, Input, Self, Host } from '@angular/core';
 import { Platform, PlatformModule } from '@angular/cdk/platform';
 import { Observable, Observer, Subscription } from 'rxjs';
 import { debounceTime, finalize, tap } from 'rxjs/operators';
-import ResizeObserver from '@juggle/resize-observer';
-import { NgScrollbar } from '../scrollbar/ng-scrollbar';
-import { ScrollbarManager } from '../scrollbar/utils/scrollbar-manager';
+import ResizeObserver from 'resize-observer-polyfill';
+import { ScrollbarManager, NgScrollbar } from 'ngx-scrollbar';
 
 @Directive({
   selector: '[resize-sensor], [resizeSensor]'
@@ -16,10 +15,10 @@ export class ResizeSensor implements AfterContentInit, OnDestroy {
 
   @Input() sensorDebounce: number = this.manager.globalOptions.resizeObserverDebounce;
 
-  constructor(private ngZone: NgZone,
+  constructor(private zone: NgZone,
               private platform: Platform,
               private manager: ScrollbarManager,
-              @Optional() private scrollbar: NgScrollbar) {
+              @Host() @Self() @Optional() private scrollbar: NgScrollbar) {
     if (!scrollbar) {
       throw new Error('[NgScrollbar Resize Sensor Directive]: Host element must be an NgScrollbar component.');
     }
@@ -28,7 +27,7 @@ export class ResizeSensor implements AfterContentInit, OnDestroy {
   ngAfterContentInit() {
     if (this.platform.isBrowser) {
       if (this.scrollbar.contentWrapper) {
-        this.ngZone.runOutsideAngular(() => {
+        this.zone.runOutsideAngular(() => {
           this.subscription = this.observer().pipe(
             tap(() => this.scrollbar.update()),
             finalize(() => this.resizeObserver.disconnect())
@@ -39,6 +38,9 @@ export class ResizeSensor implements AfterContentInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
     this.subscription.unsubscribe();
   }
 
@@ -49,6 +51,7 @@ export class ResizeSensor implements AfterContentInit, OnDestroy {
   private observeResize(): Observable<void> {
     return new Observable((observer: Observer<void>) => {
       this.resizeObserver = new ResizeObserver(() => observer.next());
+      this.resizeObserver.observe(this.scrollbar.viewport);
       this.resizeObserver.observe(this.scrollbar.contentWrapper);
     });
   }

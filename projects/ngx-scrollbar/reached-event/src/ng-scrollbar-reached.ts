@@ -2,7 +2,7 @@ import { Directive, Optional, Input, Output, OnInit, OnDestroy, NgZone } from '@
 import { Directionality } from '@angular/cdk/bidi';
 import { Observable, Subject, Subscription, Observer } from 'rxjs';
 import { filter, map, tap, distinctUntilChanged } from 'rxjs/operators';
-import { NgScrollbar } from '../scrollbar/ng-scrollbar';
+import { NgScrollbar } from 'ngx-scrollbar';
 
 class ReachedFunctions {
   static isReachedTop(offset: number, e: any): boolean {
