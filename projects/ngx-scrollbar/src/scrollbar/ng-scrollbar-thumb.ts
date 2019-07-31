@@ -13,8 +13,8 @@ export class NgScrollbarThumb implements AfterViewInit, OnDestroy {
   /** The scroll duration when scrollbar (not the thumbnail) is clicked */
   @Input() scrollToDuration: number;
 
-  @ViewChild('bar') bar: ElementRef;
-  @ViewChild('thumb') thumb: ElementRef;
+  @ViewChild('bar', { static: true }) bar: ElementRef;
+  @ViewChild('thumb', { static: true }) thumb: ElementRef;
 
   protected _minThumbSize = 20;
   protected _naturalThumbSize = 0;

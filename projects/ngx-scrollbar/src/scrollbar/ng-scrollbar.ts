@@ -76,15 +76,15 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   private _disabled = false;
 
   /** Scrollbars ElementRef */
-  @ViewChild('y', {read: ElementRef}) verticalScrollbar: ElementRef;
-  @ViewChild('x', {read: ElementRef}) horizontalScrollbar: ElementRef;
+  @ViewChild('y', { read: ElementRef, static: false }) verticalScrollbar: ElementRef;
+  @ViewChild('x', { read: ElementRef, static: false }) horizontalScrollbar: ElementRef;
 
   /** Default viewport and smoothScroll references */
-  @ViewChild(CdkScrollable) scrollViewport: CdkScrollable;
-  @ViewChild(SmoothScroll) viewSmoothScroll: SmoothScroll;
+  @ViewChild(CdkScrollable, { static: true }) scrollViewport: CdkScrollable;
+  @ViewChild(SmoothScroll, { static: true }) viewSmoothScroll: SmoothScroll;
 
   /** Virtual viewport and smoothScroll references */
-  @ContentChild(NgScrollbarView) customViewPort: NgScrollbarView;
+  @ContentChild(NgScrollbarView, /* TODO: add static flag */ {}) customViewPort: NgScrollbarView;
 
   /** Viewport Element */
   get view(): HTMLElement {
