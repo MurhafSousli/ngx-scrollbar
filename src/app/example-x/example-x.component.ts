@@ -15,7 +15,7 @@ export class ExampleXComponent {
   invertX = false;
   more = false;
   cssVariables: SafeStyle;
-  @ViewChild(NgScrollbar, {read: ElementRef}) private _scrollable: ElementRef;
+  @ViewChild(NgScrollbar, {read: ElementRef, static: true}) private _scrollable: ElementRef;
 
   constructor(private _sanitizer: DomSanitizer) {
   }

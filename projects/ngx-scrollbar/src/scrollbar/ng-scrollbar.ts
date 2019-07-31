@@ -84,7 +84,7 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   @ViewChild(SmoothScroll, { static: true }) viewSmoothScroll: SmoothScroll;
 
   /** Virtual viewport and smoothScroll references */
-  @ContentChild(NgScrollbarView, /* TODO: add static flag */ {}) customViewPort: NgScrollbarView;
+  @ContentChild(NgScrollbarView, { static: true }) customViewPort: NgScrollbarView;
 
   /** Viewport Element */
   get view(): HTMLElement {
