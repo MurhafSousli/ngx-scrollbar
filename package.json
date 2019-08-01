@@ -7,7 +7,7 @@
     "build": "ng build ngx-scrollbar",
     "test": "ng test ngx-scrollbar",
     "link-lib": "npm link dist/ngx-scrollbar && npm link ngx-scrollbar",
-    "publish-lib": "npm publish dist/ngx-scrollbar --tag alpha"
+    "publish-lib": "npm publish dist/ngx-scrollbar"
   },
   "dependencies": {
     "@angular/animations": "~8.1.2",

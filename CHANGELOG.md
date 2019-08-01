@@ -1,5 +1,29 @@
 # Changelog
 
+## 5.0.0-beta.0
+
+- Upgrade to Angular 8, closes [#161](https://github.com/MurhafSousli/ngx-scrollbar/issues/161).
+- Feat: Mobile browser support, closes [#172](https://github.com/MurhafSousli/ngx-scrollbar/issues/172).
+- Feat: Scroll works when mouse is over the scrollbars, closes [#168](https://github.com/MurhafSousli/ngx-scrollbar/issues/168).
+- Feat: Resize Sensor directive, closes [#166](https://github.com/MurhafSousli/ngx-scrollbar/issues/166).
+- Feat: Use with 3rd party libraries such as `ngx-infinite-scroll`, closes [#155](https://github.com/MurhafSousli/ngx-scrollbar/issues/155).
+- Feat: Add global options provider, closes [#154](https://github.com/MurhafSousli/ngx-scrollbar/issues/154).
+- Feat: Add an option to set the minimum size for the scrollbar thumbnail, closes [#171](https://github.com/MurhafSousli/ngx-scrollbar/issues/171).
+- Feat: Add reached outputs, closes [#159](https://github.com/MurhafSousli/ngx-scrollbar/issues/159).
+- Bug: Fix RTL for horizontal scrollbar, closes [#169](https://github.com/MurhafSousli/ngx-scrollbar/issues/169).
+- Bug: Nested scrollbars, child component scroll event not working, closes [#146](https://github.com/MurhafSousli/ngx-scrollbar/issues/146).
+- Enhance: Refactor component layout with CSS Grid, closes [#157](https://github.com/MurhafSousli/ngx-scrollbar/issues/157).
+- Enhance: Use promises for smooth scroll functions, closes [#152](https://github.com/MurhafSousli/ngx-scrollbar/issues/152).
+- Enhance: Use empty space in the scrollbars corner when both vertical and horizontal is shown, closes [#151](https://github.com/MurhafSousli/ngx-scrollbar/issues/151)
+- Enhance: Provide smooth scroll functionality as a service, closes [#162](https://github.com/MurhafSousli/ngx-scrollbar/issues/162).
+- Enhance: Add unit testing, closes [#163](https://github.com/MurhafSousli/ngx-scrollbar/issues/163).
+- Enhance: Scrollbar is getting too much space depending on OS and Browser, closes [#147](https://github.com/MurhafSousli/ngx-scrollbar/issues/147).
+
+**Known issue**
+
+- BUG: When used with CDK Virtual scroll, scrolling goes up and down.
+
+
 ## 4.2.0
 
 - feat: Add support for virtual scrolling, closes [#140](https://github.com/MurhafSousli/ngx-scrollbar/pull/140) in [aaf5dc5](https://github.com/MurhafSousli/ngx-scrollbar/pull/140/commits/aaf5dc5a2d80ed9bc075f581ff3eb66062f00f73).
