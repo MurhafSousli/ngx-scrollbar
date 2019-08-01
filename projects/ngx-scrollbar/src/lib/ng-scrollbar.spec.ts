@@ -6,7 +6,7 @@ import { ObserversModule } from '@angular/cdk/observers';
 import { NgScrollbar } from './ng-scrollbar';
 import { ScrollView } from './scroll-viewport';
 import { Scrollbar } from './scrollbar-control/scrollbar-control';
-import { SmoothScrollManager } from '../smooth-scroll/smooth-scroll-manager';
+import { SmoothScrollManager } from './smooth-scroll/smooth-scroll-manager';
 
 describe('NgScrollbar Component', () => {
   let component: NgScrollbar;

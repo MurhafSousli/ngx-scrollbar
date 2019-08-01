@@ -1,7 +1,7 @@
 import { ElementRef } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
 import { animationFrameScheduler, asyncScheduler, EMPTY, fromEvent, Observable, of, Subject } from 'rxjs';
-import { filter, map, mergeMap, pluck, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, mergeMap, pluck, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { NgScrollbar } from '../ng-scrollbar';
 
@@ -10,6 +10,9 @@ export abstract class ScrollbarRef {
   protected readonly viewElement: HTMLElement;
   protected readonly trackElement: HTMLElement;
   protected readonly thumbElement: HTMLElement;
+
+  protected readonly hoveredState: Subject<boolean>;
+  protected readonly draggingState: Subject<boolean>;
 
   protected abstract get scrollSize(): number;
 
@@ -50,9 +53,27 @@ export abstract class ScrollbarRef {
 
     if (!(platform.IOS || platform.ANDROID)) {
 
+      this.hoveredState = new Subject<boolean>();
+      this.draggingState = new Subject<boolean>();
+
+      this.hoveredState.pipe(
+        distinctUntilChanged(),
+        tap((state: boolean) => this.setHovered(state)),
+        switchMap(() => fromEvent(this.scrollbarRef.viewport, 'mouseout')),
+        tap(() => this.hoveredState.next(false)),
+        takeUntil(this.destroyed)
+      ).subscribe();
+
+      this.draggingState.pipe(
+        distinctUntilChanged(),
+        tap((state: boolean) => this.setDragging(state)),
+        takeUntil(this.destroyed)
+      ).subscribe();
+
       const scrollbarClicked = fromEvent(this.scrollbarRef.el.nativeElement, 'mousedown', { passive: true }).pipe(
         switchMap((e: any) => {
           e.stopPropagation();
+          this.document.onselectstart = () => false;
           const isThumbClick = isWithinBounds(e, this.thumbElement.getBoundingClientRect());
           if (isThumbClick && !this.scrollbarRef.disableThumbDrag) {
             return this.dragged(e);
@@ -63,7 +84,7 @@ export abstract class ScrollbarRef {
             }
           }
           return EMPTY;
-        }),
+        })
       );
 
       this.hovered().pipe(
@@ -104,11 +125,10 @@ export abstract class ScrollbarRef {
 
     const dragStart = of(event).pipe(
       tap(() => {
-        this.document.onselectstart = () => false;
         // Capture scrollMax and trackMax once
         trackMax = this.trackMax;
         scrollMax = this.scrollMax;
-        this.scrollbarRef.setDragging(true);
+        this.draggingState.next(true);
       }),
     );
 
@@ -120,7 +140,7 @@ export abstract class ScrollbarRef {
       tap((e: any) => {
         e.stopPropagation();
         this.document.onselectstart = null;
-        this.scrollbarRef.setDragging(false);
+        this.draggingState.next(false);
       })
     );
 
@@ -146,9 +166,9 @@ export abstract class ScrollbarRef {
     return fromEvent(this.scrollbarRef.el.nativeElement, 'mousemove', { passive: true }).pipe(
       filter((e: any) => {
         e.stopPropagation();
-        const flag = isWithinBounds(e, this.trackElement.getBoundingClientRect());
-        this.scrollbarRef.setHovered(flag);
-        return flag;
+        const withinBounds = isWithinBounds(e, this.trackElement.getBoundingClientRect());
+        this.hoveredState.next(withinBounds);
+        return withinBounds;
       })
     );
   }
@@ -172,6 +192,7 @@ export abstract class ScrollbarRef {
           duration: this.scrollbarRef.scrollToDuration
         })
       ),
+      tap(() => this.document.onselectstart = null)
     );
   }
 
@@ -181,7 +202,7 @@ export abstract class ScrollbarRef {
   protected abstract scrolled(): Observable<any>;
 
   /**
-   * Return a scrollTo argument from value
+   * Return a scrollTo option parameter
    */
   protected abstract mapToScrollToOption(value: number): ScrollToOptions;
 
@@ -196,6 +217,10 @@ export abstract class ScrollbarRef {
   protected abstract handleDragBrowserCompatibility(position: number, scrollMax: number): number;
 
   protected abstract scrollTo(point: number): void;
+
+  protected abstract setDragging(value: boolean): void;
+
+  protected abstract setHovered(value: boolean): void;
 }
 
 /**
@@ -223,7 +248,7 @@ function calculateThumbPosition(scrollPosition: number, scrollMax: number, track
 /**
  * Check if pointer is within scrollbar bounds
  * @param e Pointer event
- * @param rect Scrollbar Client Rectboolean
+ * @param rect Scrollbar Client Rect
  */
 function isWithinBounds(e: any, rect: ClientRect): boolean {
   return (

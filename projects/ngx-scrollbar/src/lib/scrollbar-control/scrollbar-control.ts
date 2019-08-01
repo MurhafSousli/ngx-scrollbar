@@ -1,14 +1,4 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ViewChild,
-  Input,
-  Inject,
-  NgZone,
-  ElementRef,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input, Inject, NgZone, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
 import { Directionality } from '@angular/cdk/bidi';

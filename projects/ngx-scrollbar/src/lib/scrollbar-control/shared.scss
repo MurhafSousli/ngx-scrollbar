@@ -1,7 +1,7 @@
 ::ng-deep {
   // Disable pointer events of the scrollbar control
   // This enables scrolling when the pointer is over the scrollbar
-  .scrollbar, .ng-scrollbar-track, .ng-scrollbar-thumb {
+  .scrollbar-control, .ng-scrollbar-track, .ng-scrollbar-thumb {
     pointer-events: none;
   }
 

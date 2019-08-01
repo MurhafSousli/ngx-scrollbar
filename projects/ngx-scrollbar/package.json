@@ -2,9 +2,9 @@
   "name": "ngx-scrollbar",
   "version": "5.0.0-beta.0",
   "peerDependencies": {
-    "@angular/common": "^8.0.1",
-    "@angular/core": "^8.0.1",
-    "@angular/cdk": "^8.0.1",
-    "rxjs": "^8.0.1"
+    "@angular/common": "^8.0.0",
+    "@angular/core": "^8.0.0",
+    "@angular/cdk": "^8.0.0",
+    "rxjs": "^6.0.0"
   }
 }

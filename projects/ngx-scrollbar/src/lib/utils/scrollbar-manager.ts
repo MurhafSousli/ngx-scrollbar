@@ -10,7 +10,7 @@ const defaultOptions: NgScrollbarOptions = {
   trackClass: '',
   thumbClass: '',
   track: 'vertical',
-  appearance: 'standard',
+  appearance: 'compact',
   visibility: 'native',
   position: 'native',
   disableThumbDrag: false,

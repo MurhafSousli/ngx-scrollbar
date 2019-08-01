@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BidiModule } from '@angular/cdk/bidi';
 import { PortalModule } from '@angular/cdk/portal';
 import { PlatformModule } from '@angular/cdk/platform';
+import { SmoothScrollModule } from 'ngx-scrollbar/smooth-scroll';
 
 import { NgScrollbar } from './ng-scrollbar';
 import { ScrollbarControl } from './scrollbar-control/scrollbar-control';
@@ -16,7 +17,8 @@ import { NG_SCROLLBAR_OPTIONS, NgScrollbarOptions } from './ng-scrollbar-config'
     CommonModule,
     BidiModule,
     PortalModule,
-    PlatformModule
+    PlatformModule,
+    SmoothScrollModule
   ],
   declarations: [
     NgScrollbar,
