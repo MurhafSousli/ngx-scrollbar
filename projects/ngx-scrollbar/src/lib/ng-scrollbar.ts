@@ -17,7 +17,7 @@ import { Directionality } from '@angular/cdk/bidi';
 import { fromEvent, Observable, Observer, Subject } from 'rxjs';
 import { filter, map, pairwise, pluck, takeUntil, tap } from 'rxjs/operators';
 import { ScrollViewport } from './scroll-viewport';
-import { SmoothScrollEaseFunc, SmoothScrollManager, SmoothScrollToOptions } from '../smooth-scroll/smooth-scroll-manager';
+import { SmoothScrollEaseFunc, SmoothScrollManager, SmoothScrollToOptions } from 'ngx-scrollbar/smooth-scroll';
 import {
   ScrollbarAppearance,
   ScrollbarTrack,
@@ -56,20 +56,20 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   @Input() disableThumbDrag: boolean = this.manager.globalOptions.disableThumbDrag;
   /** A flag used to enable/disable the scrollbar track clicked event */
   @Input() disableTrackClick: boolean = this.manager.globalOptions.disableTrackClick;
-  /** Disable custom scrollbar-control and switch back to native scrollbar-control */
+  /** Disable custom scrollbar and switch back to native scrollbar */
   @Input() disabled: boolean = false;
   /**
    * Sets the supported scroll track of the viewport, there are 3 options:
    *
-   * - `vertical` Use both vertical and horizontal scrollbar-control
-   * - `horizontal` Use both vertical and horizontal scrollbar-control
-   * - `all` Use both vertical and horizontal scrollbar-control
+   * - `vertical` Use both vertical and horizontal scrollbar
+   * - `horizontal` Use both vertical and horizontal scrollbar
+   * - `all` Use both vertical and horizontal scrollbar
    */
   @Input() track: ScrollbarTrack = this.manager.globalOptions.track;
   /**
    * When to show the scrollbar, and there are 3 options:
    *
-   * - `native` (default) Scrollbar will be visible when viewport is scrollable like with native scrollbar-control
+   * - `native` (default) Scrollbar will be visible when viewport is scrollable like with native scrollbar
    * - `hover` Scrollbars are hidden by default, only visible on scrolling or hovering
    * - `always` Scrollbars are always shown even if the viewport is not scrollable
    */
@@ -77,17 +77,17 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   /**
    *  Sets the appearance of the scrollbar, there are 2 options:
    *
-   * - `standard` (default) scrollbar space will be reserved just like with native scrollbar-control.
+   * - `standard` (default) scrollbar space will be reserved just like with native scrollbar.
    * - `compact` scrollbar doesn't reserve any space, they are placed over the viewport.
    */
   @Input() appearance: ScrollbarAppearance = this.manager.globalOptions.appearance;
   /**
    * Sets the position of each scrollbar, there are 4 options:
    *
-   * - `native` (Default) Use the default position like in native scrollbar-control.
+   * - `native` (Default) Use the default position like in native scrollbar.
    * - `invertY` Inverts vertical scrollbar position
    * - `invertX` Inverts Horizontal scrollbar position
-   * - `invertAll` Inverts both scrollbar-control positions
+   * - `invertAll` Inverts both scrollbar positions
    */
   @Input() position: ScrollbarPosition = this.manager.globalOptions.position;
   /** Steam that emits when scrollbar is updated */
@@ -102,14 +102,6 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   verticalScrolled: Observable<any>;
   /** Steam that emits scroll event for horizontal scrollbar */
   horizontalScrolled: Observable<any>;
-  /** A flag that indicates if vertical scrollbar is used */
-  verticalScrollbarUsed: boolean = false;
-  /** A flag that indicates if horizontal scrollbar is used */
-  horizontalScrollbarUsed: boolean = false;
-  /** A flag that indicates if vertical scrollbar is scrollable */
-  isVerticallyScrollable: boolean = false;
-  /** A flag that indicates if horizontal scrollbar is scrollable */
-  isHorizontallyScrollable: boolean = false;
   /** Default viewport classes */
   viewportClasses: any;
 
@@ -120,7 +112,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   state: NgScrollbarState = {};
 
   constructor(private dir: Directionality,
-              private ngZone: NgZone,
+              private zone: NgZone,
               private changeDetectorRef: ChangeDetectorRef,
               private smoothScroll: SmoothScrollManager,
               public el: ElementRef,
@@ -128,7 +120,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   private getScrolledByDirection(track: ScrollbarTrack) {
-    const scrollProperty = track === 'vertical' ? 'scrollTop' : 'scrollLeft';
+    const scrollProperty: string = track === 'vertical' ? 'scrollTop' : 'scrollLeft';
     let event: any;
     return this.scrolled.pipe(
       tap((e: any) => event = e),
@@ -143,15 +135,20 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    * Update local state with each change detection
    */
   private updateState() {
+    let verticalUsed: boolean = false;
+    let horizontalUsed: boolean = false;
+    let isVerticallyScrollable: boolean = false;
+    let isHorizontallyScrollable: boolean = false;
+
     /** Check if vertical scrollbar should be displayed */
     if (this.track === 'all' || this.track === 'vertical') {
-      this.isVerticallyScrollable = this.viewport.scrollHeight > this.viewport.clientHeight;
-      this.verticalScrollbarUsed = this.visibility === 'always' || this.isVerticallyScrollable;
+      isVerticallyScrollable = this.viewport.scrollHeight > this.viewport.clientHeight;
+      verticalUsed = this.visibility === 'always' || isVerticallyScrollable;
     }
     // Check if horizontal scrollbar should be displayed
     if (this.track === 'all' || this.track === 'horizontal') {
-      this.isHorizontallyScrollable = this.viewport.scrollWidth > this.viewport.clientWidth;
-      this.horizontalScrollbarUsed = this.visibility === 'always' || this.isHorizontallyScrollable;
+      isHorizontallyScrollable = this.viewport.scrollWidth > this.viewport.clientWidth;
+      horizontalUsed = this.visibility === 'always' || isHorizontallyScrollable;
     }
 
     this._updateState({
@@ -161,10 +158,10 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
       visibility: this.visibility,
       disabled: this.disabled,
       dir: this.dir.value,
-      verticalUsed: this.verticalScrollbarUsed,
-      horizontalUsed: this.horizontalScrollbarUsed,
-      isVerticallyScrollable: this.isVerticallyScrollable,
-      isHorizontallyScrollable: this.isHorizontallyScrollable
+      verticalUsed,
+      horizontalUsed,
+      isVerticallyScrollable,
+      isHorizontallyScrollable
     });
   }
 
@@ -173,12 +170,12 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
     this.changeDetectorRef.detectChanges();
   }
 
-  setHovered(hovered: boolean) {
-    this.ngZone.run(() => this._updateState({ hovered }));
+  setHovered(hovered: ScrollbarHovered) {
+    this.zone.run(() => this._updateState({ ...hovered }));
   }
 
-  setDragging(dragging: boolean) {
-    this.ngZone.run(() => this._updateState({ dragging }));
+  setDragging(dragging: ScrollbarDragging) {
+    this.zone.run(() => this._updateState({ ...dragging }));
   }
 
   private activateViewport() {
@@ -209,7 +206,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   ngOnInit() {
-    this.ngZone.runOutsideAngular(() => {
+    this.zone.runOutsideAngular(() => {
       this.activateViewport();
 
       // Initialize scroll streams
@@ -270,4 +267,15 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   scrollToLeft(offset?: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
     return this.smoothScroll.scrollToLeft(this.viewport, offset, duration, easeFunc);
   }
+}
+
+
+interface ScrollbarDragging {
+  verticalDragging?: boolean;
+  horizontalDragging?: boolean;
+}
+
+interface ScrollbarHovered {
+  verticalHovered?: boolean;
+  horizontalHovered?: boolean;
 }

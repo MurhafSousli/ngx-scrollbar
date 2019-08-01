@@ -76,6 +76,8 @@ export interface NgScrollbarState {
   horizontalUsed?: boolean;
   isVerticallyScrollable?: boolean;
   isHorizontallyScrollable?: boolean;
-  hovered?: boolean;
-  dragging?: boolean;
+  verticalHovered?: boolean;
+  horizontalHovered?: boolean;
+  verticalDragging?: boolean;
+  horizontalDragging?: boolean;
 }

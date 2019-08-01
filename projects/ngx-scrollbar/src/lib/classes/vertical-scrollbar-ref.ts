@@ -72,5 +72,13 @@ export class VerticalScrollbarRef extends ScrollbarRef {
   protected scrollTo(point: number): void {
     this.viewElement.scrollTop = point;
   }
+
+  protected setHovered(value: boolean): void {
+    this.scrollbarRef.setHovered({ verticalHovered: value });
+  }
+
+  protected setDragging(value: boolean): void {
+    this.scrollbarRef.setDragging({ verticalDragging: value });
+  }
 }
 

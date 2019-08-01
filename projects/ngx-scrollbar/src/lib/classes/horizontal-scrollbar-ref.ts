@@ -95,4 +95,12 @@ export class HorizontalScrollbarRef extends ScrollbarRef {
   protected scrollTo(point: number): void {
     this.viewElement.scrollLeft = point;
   }
+
+  protected setHovered(value: boolean): void {
+    this.scrollbarRef.setHovered({ horizontalHovered: value });
+  }
+
+  protected setDragging(value: boolean): void {
+    this.scrollbarRef.setDragging({ horizontalDragging: value });
+  }
 }

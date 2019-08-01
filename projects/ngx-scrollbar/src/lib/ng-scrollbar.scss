@@ -1,6 +1,6 @@
-@import "./styles/hide-native-scrollbars";
-@import "./styles/visibility";
-@import "./styles/appearance";
+@import "styles/hide-native-scrollbars";
+@import "styles/visibility";
+@import "styles/appearance";
 
 :host {
   // CSS variables used to customized the look of the scrollbar component
@@ -21,9 +21,24 @@
   > .ng-scrollbar-wrapper {
     --scrollbar-total-size: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
 
-    // Change scrollbar size in case its hovered or dragged
-    &[dragging="true"], &[hovered="true"]{
-      --scrollbar-size: var(--scrollbar-hover-size);
+    // To enable the hover size, we need to calculate and set variable for each scrollbar
+    --vertical-scrollbar-size: var(--scrollbar-size);
+    --horizontal-scrollbar-size: var(--scrollbar-size);
+    --vertical-scrollbar-total-size: calc(var(--vertical-scrollbar-size) + var(--scrollbar-padding) * 2);
+    --horizontal-scrollbar-total-size: calc(var(--horizontal-scrollbar-size) + var(--scrollbar-padding) * 2);
+
+    // Change vertical scrollbar size in case its hovered or dragged
+    &[verticalDragging="true"], &[verticalHovered="true"] {
+      --vertical-scrollbar-size: var(--scrollbar-hover-size);
+      --vertical-scrollbar-total-size: calc(var(--vertical-scrollbar-size) + var(--scrollbar-padding) * 2);
+      cursor: default;
+    }
+
+    // Change horizontal scrollbar size in case its hovered or dragged
+    &[horizontalDragging="true"], &[horizontalHovered="true"] {
+      --horizontal-scrollbar-size: var(--scrollbar-hover-size);
+      --horizontal-scrollbar-total-size: calc(var(--horizontal-scrollbar-size) + var(--scrollbar-padding) * 2);
+      cursor: default;
     }
 
     @include enabled {
@@ -76,7 +91,6 @@
 }
 
 ::ng-deep .ng-scroll-content {
-  // This makes horizontal scrollbar works
   display: inline-block;
   min-width: 100%;
   min-height: 100%;

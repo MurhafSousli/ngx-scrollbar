@@ -1,14 +1,14 @@
-@import "../styles/selectors.scss";
+@import "../styles/selectors";
 @import "../styles/position";
 @import "../styles/fit-scrollbar";
 
 ::ng-deep {
   .ng-scrollbar-wrapper {
     @include verticalScrollbar {
-      width: var(--scrollbar-total-size);
+      width: var(--vertical-scrollbar-total-size);
 
       > .ng-scrollbar-track {
-        width: var(--scrollbar-size);
+        width: var(--vertical-scrollbar-size);
         height: calc(100% - var(--scrollbar-padding) * 2);
 
         > .ng-scrollbar-thumb {
