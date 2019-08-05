@@ -3,6 +3,8 @@ import { Platform, PlatformModule } from '@angular/cdk/platform';
 import { Observable, Observer, Subscription } from 'rxjs';
 import { debounceTime, finalize, tap } from 'rxjs/operators';
 import { ScrollbarManager, NgScrollbar } from 'ngx-scrollbar';
+// Uncomment the following line in development mode
+// import { ScrollbarManager, NgScrollbar } from '../../src/public-api';
 
 @Directive({
   selector: '[content-sensor], [contentSensor]'

@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.0.0-beta.1
+
+- Enhance: Enable scrolling when pointer is over the scrollbar in the standard appearance is used.
+- Bug: Scrollbar hover behavior is inconsistent (especially when a hover size is used).
+- Bug: CDK content wrapper is not getting `ng-scroll-content-wrapper` class.
+- Bug: CSS variable `--scrollbar-hover-color` isn't effective after disabling the pointer events.
+- Remove the CSS variables `--scrollbar-wrapper-color` and `--scrollbar-viewport-margin`.
+
 ## 5.0.0-beta.0
 
 - Upgrade to Angular 8, closes [#161](https://github.com/MurhafSousli/ngx-scrollbar/issues/161).

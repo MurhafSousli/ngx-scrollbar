@@ -4,6 +4,8 @@ import { Observable, Observer, Subscription } from 'rxjs';
 import { debounceTime, finalize, tap } from 'rxjs/operators';
 import ResizeObserver from 'resize-observer-polyfill';
 import { ScrollbarManager, NgScrollbar } from 'ngx-scrollbar';
+// Uncomment the following line in development mode
+// import { ScrollbarManager, NgScrollbar } from '../../src/public-api';
 
 @Directive({
   selector: '[resize-sensor], [resizeSensor]'

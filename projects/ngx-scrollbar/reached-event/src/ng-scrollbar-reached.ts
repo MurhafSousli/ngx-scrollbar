@@ -3,6 +3,8 @@ import { Directionality } from '@angular/cdk/bidi';
 import { Observable, Subject, Subscription, Observer } from 'rxjs';
 import { filter, map, tap, distinctUntilChanged } from 'rxjs/operators';
 import { NgScrollbar } from 'ngx-scrollbar';
+// Uncomment the following line in development mode
+// import { NgScrollbar } from '../../src/public-api';
 
 class ReachedFunctions {
   static isReachedTop(offset: number, e: any): boolean {
