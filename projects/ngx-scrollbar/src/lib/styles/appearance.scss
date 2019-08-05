@@ -1,54 +1,61 @@
 @import "selectors";
 
 @mixin pushLeft {
-  left: var(--scrollbar-total-size);
-  right: 0;
+  //left: var(--scrollbar-total-size);
+  //right: 0;
+  padding-left: var(--scrollbar-total-size);
 }
+
 @mixin pushRight {
-  left: 0;
-  right: var(--scrollbar-total-size);
+  //left: 0;
+  //right: var(--scrollbar-total-size);
+  padding-right: var(--scrollbar-total-size);
 }
+
 @mixin pushTop {
-  top: var(--scrollbar-total-size);
-  bottom: 0;
+  //top: var(--scrollbar-total-size);
+  //bottom: 0;
+  padding-top: var(--scrollbar-total-size);
 }
+
 @mixin pushBottom {
-  top: 0;
-  bottom: var(--scrollbar-total-size);
+  //top: 0;
+  //bottom: var(--scrollbar-total-size);
+  padding-bottom: var(--scrollbar-total-size);
 }
 
 @mixin nativeAppearance {
   &[appearance="standard"] {
     @include verticalUsed {
       @include ltr {
-        @include viewportWrapper {
+        @include viewport {
           @include pushRight;
         }
       }
       @include rtl {
-        @include viewportWrapper {
+        @include viewport {
           @include pushLeft;
         }
       }
       @include verticalInverted {
         @include ltr {
-          @include viewportWrapper {
+          @include viewport {
             @include pushLeft;
           }
         }
         @include rtl {
-          @include viewportWrapper {
+          @include viewport {
             @include pushRight;
           }
         }
       }
     }
     @include horizontalUsed {
-      @include viewportWrapper {
+      @include viewport {
         @include pushBottom;
       }
       @include horizontalInverted {
-        @include viewportWrapper {
+        @include viewport {
           @include pushTop;
         }
       }
