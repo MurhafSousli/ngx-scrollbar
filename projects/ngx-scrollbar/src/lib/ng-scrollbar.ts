@@ -115,7 +115,6 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
               private zone: NgZone,
               private changeDetectorRef: ChangeDetectorRef,
               private smoothScroll: SmoothScrollManager,
-              public el: ElementRef,
               public manager: ScrollbarManager) {
   }
 
@@ -140,7 +139,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
     let isVerticallyScrollable: boolean = false;
     let isHorizontallyScrollable: boolean = false;
 
-    /** Check if vertical scrollbar should be displayed */
+    // Check if vertical scrollbar should be displayed
     if (this.track === 'all' || this.track === 'vertical') {
       isVerticallyScrollable = this.viewport.scrollHeight > this.viewport.clientHeight;
       verticalUsed = this.visibility === 'always' || isVerticallyScrollable;
@@ -178,11 +177,14 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
     this.zone.run(() => this._updateState({ ...dragging }));
   }
 
-  private activateViewport() {
+  /**
+   * Set the viewport based on user choice
+   */
+  private setViewport() {
     if (this.customViewPort) {
-      // Set the custom viewport and the viewport
+      // Set the custom viewport as the scroll viewport
       this.viewport = this.customViewPort.viewPort.nativeElement;
-      // Set the default viewport and the default content wrapper
+      // In this case the default viewport and the default content wrapper will act as a mask
       this.viewportClasses = {
         'ng-scroll-offset': true,
         'ng-scroll-layer': true
@@ -206,7 +208,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
 
   ngOnInit() {
     this.zone.runOutsideAngular(() => {
-      this.activateViewport();
+      this.setViewport();
 
       // Initialize scroll streams
       this.scrolled = new Observable((observer: Observer<any>) =>
