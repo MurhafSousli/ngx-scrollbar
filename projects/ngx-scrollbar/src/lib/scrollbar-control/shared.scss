@@ -19,6 +19,15 @@
         display: none;
       }
     }
+
+    &[verticalHovered="true"],
+    &[verticalDragging="true"],
+    &[horizontalHovered="true"],
+    &[horizontalDragging="true"] {
+      > .scrollbar-control .ng-scrollbar-thumb {
+        background-color: var(--scrollbar-thumb-hover-color);
+      }
+    }
   }
 
   // Scrollbar track
@@ -41,11 +50,6 @@
     background-color: var(--scrollbar-thumb-color);
     transform: translateZ(0);
     transition: height ease-out 150ms, width ease-out 150ms;
-
-    &:hover,
-    &:active {
-      background-color: var(--scrollbar-thumb-hover-color);
-    }
   }
 
 }
