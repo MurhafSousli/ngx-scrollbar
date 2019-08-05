@@ -62,10 +62,7 @@ export abstract class ScrollbarRef {
 
       this.draggingState.pipe(
         distinctUntilChanged(),
-        tap((state: boolean) => {
-          console.log('setDragging', state);
-          this.setDragging(state);
-        }),
+        tap((state: boolean) => this.setDragging(state)),
         takeUntil(this.destroyed)
       ).subscribe();
 
@@ -94,10 +91,7 @@ export abstract class ScrollbarRef {
         })
       );
       merge(this.pointerEvents, mouseLeave).pipe(distinctUntilChanged()).pipe(
-        tap((state: boolean) => {
-          console.log('setHovered', state);
-          this.setHovered(state);
-        }),
+        tap((state: boolean) => this.setHovered(state)),
         takeUntil(this.destroyed)
       ).subscribe();
 
