@@ -1,7 +1,7 @@
 import { ElementRef } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
-import { animationFrameScheduler, asyncScheduler, EMPTY, fromEvent, Observable, of, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, map, mergeMap, pluck, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { animationFrameScheduler, asyncScheduler, EMPTY, fromEvent, merge, Observable, of, Subject } from 'rxjs';
+import { distinctUntilChanged, map, mergeMap, pluck, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { NgScrollbar } from '../ng-scrollbar';
 
@@ -13,6 +13,9 @@ export abstract class ScrollbarRef {
 
   protected readonly hoveredState: Subject<boolean>;
   protected readonly draggingState: Subject<boolean>;
+
+  // Pointer events switcher stream
+  protected readonly pointerEvents: Subject<boolean>;
 
   protected abstract get scrollSize(): number;
 
@@ -53,24 +56,20 @@ export abstract class ScrollbarRef {
 
     if (!(platform.IOS || platform.ANDROID)) {
 
+      this.pointerEvents = new Subject<boolean>();
       this.hoveredState = new Subject<boolean>();
       this.draggingState = new Subject<boolean>();
 
-      this.hoveredState.pipe(
-        distinctUntilChanged(),
-        tap((state: boolean) => this.setHovered(state)),
-        switchMap(() => fromEvent(this.scrollbarRef.viewport, 'mouseout')),
-        tap(() => this.hoveredState.next(false)),
-        takeUntil(this.destroyed)
-      ).subscribe();
-
       this.draggingState.pipe(
         distinctUntilChanged(),
-        tap((state: boolean) => this.setDragging(state)),
+        tap((state: boolean) => {
+          console.log('setDragging', state);
+          this.setDragging(state);
+        }),
         takeUntil(this.destroyed)
       ).subscribe();
 
-      const scrollbarClicked = fromEvent(this.scrollbarRef.el.nativeElement, 'mousedown', { passive: true }).pipe(
+      const scrollbarClicked = fromEvent(this.viewElement, 'mousedown', { passive: true }).pipe(
         switchMap((e: any) => {
           e.stopPropagation();
           this.document.onselectstart = () => false;
@@ -87,8 +86,30 @@ export abstract class ScrollbarRef {
         })
       );
 
+      // Activate/Deactivate scrollbar hover event
+      const mouseLeave = fromEvent(this.viewElement, 'mouseleave').pipe(
+        map((e: any) => {
+          e.stopPropagation();
+          return false;
+        })
+      );
+      merge(this.pointerEvents, mouseLeave).pipe(distinctUntilChanged()).pipe(
+        tap((state: boolean) => {
+          console.log('setHovered', state);
+          this.setHovered(state);
+        }),
+        takeUntil(this.destroyed)
+      ).subscribe();
+
+      // Activate/Deactivate scrollTo on scrollbar click event
+      this.pointerEvents.pipe(
+        distinctUntilChanged(),
+        switchMap((state: boolean) => state ? scrollbarClicked : EMPTY),
+        takeUntil(this.destroyed)
+      ).subscribe();
+
       this.hovered().pipe(
-        switchMap(() => scrollbarClicked),
+        tap((state: boolean) => this.pointerEvents.next(state)),
         takeUntil(this.destroyed)
       ).subscribe();
     }
@@ -162,13 +183,11 @@ export abstract class ScrollbarRef {
   /**
    * Stream that emits when a scrollbar is hovered
    */
-  private hovered(): Observable<any> {
-    return fromEvent(this.scrollbarRef.el.nativeElement, 'mousemove', { passive: true }).pipe(
-      filter((e: any) => {
+  private hovered(): Observable<boolean> {
+    return fromEvent(this.viewElement, 'mousemove', { passive: true }).pipe(
+      map((e: any) => {
         e.stopPropagation();
-        const withinBounds = isWithinBounds(e, this.trackElement.getBoundingClientRect());
-        this.hoveredState.next(withinBounds);
-        return withinBounds;
+        return isWithinBounds(e, this.trackElement.getBoundingClientRect());
       })
     );
   }
