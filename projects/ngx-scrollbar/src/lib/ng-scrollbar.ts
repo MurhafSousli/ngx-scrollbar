@@ -197,9 +197,8 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
         [this.viewClass]: true,
       };
     }
-
     // Check if the custom viewport has only one child and set it as the content wrapper
-    if (this.viewport.children.length === 1) {
+    if (this.viewport.firstElementChild) {
       this.contentWrapper = this.viewport.firstElementChild as HTMLElement;
       this.contentWrapper.classList.add('ng-scroll-content');
     }
