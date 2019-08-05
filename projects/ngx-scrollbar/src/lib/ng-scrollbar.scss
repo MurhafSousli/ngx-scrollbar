@@ -6,9 +6,7 @@
   // CSS variables used to customized the look of the scrollbar component
   --scrollbar-border-radius: 7px;
   --scrollbar-padding: 4px;
-  --scrollbar-viewport-margin: 0;
   --scrollbar-track-color: transparent;
-  --scrollbar-wrapper-color: transparent;
   --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
   --scrollbar-thumb-hover-color: var(--scrollbar-thumb-color);
   --scrollbar-size: 5px;
@@ -77,7 +75,6 @@
 }
 
 .ng-scroll-viewport-wrapper {
-  margin: var(--scrollbar-viewport-margin);
   overflow: hidden;
 }
 
