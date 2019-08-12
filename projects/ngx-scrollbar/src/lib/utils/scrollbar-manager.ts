@@ -55,14 +55,16 @@ export class ScrollbarManager {
     if (this.platform.isBrowser) {
       if (this.platform.ANDROID || this.platform.IOS) {
         return 6;
-      } else {
-        const box = this.document.createElement('div');
-        box.className = 'ng-scrollbar-measure';
-        this.document.body.appendChild(box);
-        const size = box.getBoundingClientRect().right;
-        this.document.body.removeChild(box);
-        return size;
       }
+      if (this.platform.SAFARI) {
+        return 15;
+      }
+      const box = this.document.createElement('div');
+      box.className = 'ng-scrollbar-measure';
+      this.document.body.appendChild(box);
+      const size = box.getBoundingClientRect().right;
+      this.document.body.removeChild(box);
+      return size;
     }
     return 0;
   }
