@@ -34,7 +34,7 @@ export class ScrollbarManager {
   constructor(@Optional() @Inject(NG_SCROLLBAR_OPTIONS) private options: NgScrollbarOptions,
               @Inject(DOCUMENT) private document: any,
               private platform: Platform) {
-    this.globalOptions = options ? {...defaultOptions, ...options} : defaultOptions;
+    this.globalOptions = options ? { ...defaultOptions, ...options } : defaultOptions;
     this.initResizeEvent();
   }
 
