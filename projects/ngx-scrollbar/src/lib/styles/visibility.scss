@@ -6,32 +6,20 @@
   // Auto hide scrollbar-control
   &[visibility="hover"] {
     > .scrollbar-control {
-      animation: 500ms ease 1s normal forwards 1 fadeOut;
+      opacity: 0;
+      transition-property: opacity;
+      transition-duration: 400ms;
+      transition-delay: 800ms;
     }
 
     &:hover,
     &:active,
     &:focus {
       > .scrollbar-control {
-        animation: 340ms ease 0s normal forwards 1 fadeIn;
+        opacity: 1;
+        transition-duration: 400ms;
+        transition-delay: 0ms;
       }
-    }
-  }
-
-  @keyframes fadeOut {
-    from {
-      opacity: 1;
-    }
-    to {
-      opacity: 0;
-    }
-  }
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
     }
   }
 }
