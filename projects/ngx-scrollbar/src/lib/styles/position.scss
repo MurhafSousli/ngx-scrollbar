@@ -2,7 +2,6 @@
 
 @mixin verticalScrollbarPosition {
   @include verticalScrollbar {
-    position: absolute;
     top: 0;
     bottom: 0;
   }
@@ -37,7 +36,6 @@
 
 @mixin horizontalScrollbarPosition {
   @include horizontalScrollbar {
-    position: absolute;
     left: 0;
     right: 0;
     bottom: 0;

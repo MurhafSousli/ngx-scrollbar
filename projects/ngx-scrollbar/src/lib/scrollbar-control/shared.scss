@@ -8,6 +8,7 @@
   .ng-scrollbar-wrapper {
 
     > .scrollbar-control {
+      position: absolute;
       display: flex;
       justify-content: center;
       align-items: center;

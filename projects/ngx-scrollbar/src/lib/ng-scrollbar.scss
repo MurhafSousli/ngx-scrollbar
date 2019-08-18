@@ -79,7 +79,7 @@
 }
 
 .ng-scroll-viewport {
-  box-sizing: content-box;
+  box-sizing: border-box;
   transform: translateZ(0);
   overscroll-behavior: contain contain;
   -webkit-overflow-scrolling: touch;
@@ -96,9 +96,6 @@
 }
 
 %layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
 }
