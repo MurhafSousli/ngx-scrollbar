@@ -1,5 +1,8 @@
 <div class="ng-scrollbar-wrapper" [ngAttr]="state">
-  <div class="ng-scroll-viewport-wrapper">
+  <div class="ng-scroll-viewport-wrapper"
+       resizeSensor
+       [sensorDebounce]="sensorDebounce"
+       [sensorDisabled]="sensorDisabled">
     <div #viewport
          [ngClass]="viewportClasses"
          [style]="manager.nativeScrollbarSize | async | cssVariable">
