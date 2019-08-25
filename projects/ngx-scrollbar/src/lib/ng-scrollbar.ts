@@ -1,9 +1,9 @@
 import {
   Component,
-  ViewChild,
-  ContentChild,
   Input,
   Output,
+  ViewChild,
+  ContentChild,
   OnInit,
   AfterViewChecked,
   OnDestroy,
@@ -29,9 +29,7 @@ import { NativeScrollbarSizeFactory } from './utils/native-scrollbar-size-factor
   templateUrl: 'ng-scrollbar.html',
   styleUrls: ['ng-scrollbar.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[class.ng-scrollbar]': 'true'
-  }
+  host: { '[class.ng-scrollbar]': 'true' }
 })
 export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   /** Default viewport reference */
@@ -86,6 +84,10 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    * - `invertAll` Inverts both scrollbar positions
    */
   @Input() position: ScrollbarPosition = this.manager.globalOptions.position;
+  /** Debounce interval for detecting changes via ResizeObserver */
+  @Input() sensorDebounce: number = this.manager.globalOptions.sensorDebounce;
+  /** Whether ResizeObserver is disabled */
+  @Input() sensorDisabled: boolean = this.manager.globalOptions.sensorDisabled;
   /** Steam that emits when scrollbar is updated */
   @Output() updated = new EventEmitter<void>();
   /** Viewport Element */
@@ -107,11 +109,11 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   /** Set of attributes added on the scrollbar wrapper */
   state: NgScrollbarState = {};
 
-  constructor(private dir: Directionality,
-              private zone: NgZone,
+  constructor(private zone: NgZone,
               private changeDetectorRef: ChangeDetectorRef,
+              private dir: Directionality,
               private smoothScroll: SmoothScrollManager,
-              public manager: ScrollbarManager) {
+              private manager: ScrollbarManager,
               public nativeScrollbarSizeFactory: NativeScrollbarSizeFactory) {
   }
 

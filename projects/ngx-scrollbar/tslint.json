@@ -12,6 +12,8 @@
       "kebab-case"
     ],
     "use-host-property-decorator": false,
+    "variable-name": false,
+    "no-host-metadata-property": false,
     "no-inferrable-types": false,
     "no-input-rename": false,
     "directive-class-suffix": false,

@@ -4,10 +4,10 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 @Pipe({
   name: 'cssVariable'
 })
-export class CssVariablePipe implements PipeTransform {
+export class CssVariable implements PipeTransform {
 
-  transform(size: number): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustStyle(`--native-scrollbar-size: -${size}px`);
+  transform(size: number, variableName): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustStyle(`--${variableName}: -${size}px`);
   }
 
   constructor(private sanitizer: DomSanitizer) {
