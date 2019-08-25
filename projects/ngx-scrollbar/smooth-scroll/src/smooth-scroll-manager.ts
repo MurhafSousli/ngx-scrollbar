@@ -1,5 +1,6 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { ElementRef, Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { coerceElement } from '@angular/cdk/coercion';
 import { fromEvent, merge, timer } from 'rxjs';
 import { map, take, takeUntil, takeWhile, tap } from 'rxjs/operators';
 
@@ -27,7 +28,8 @@ export class SmoothScrollManager {
   constructor(@Inject(PLATFORM_ID) private platform: object) {
   }
 
-  scrollTo(view: HTMLElement, options: SmoothScrollToOptions): Promise<void> {
+  scrollTo(viewElementOrRef: HTMLElement | ElementRef<HTMLElement>, options: SmoothScrollToOptions): Promise<void> {
+    const view = coerceElement<HTMLElement>(viewElementOrRef);
     return new Promise<void>((resolve => {
       // Avoid SSR error
       if (isPlatformBrowser(this.platform)) {
@@ -92,8 +94,12 @@ export class SmoothScrollManager {
   }
 
   /** Scroll to element by reference */
-  scrollToElement(view: HTMLElement, target: HTMLElement, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return target ? this.scrollTo(view, {
+  scrollToElement(viewElementOrRef: HTMLElement | ElementRef<HTMLElement>,
+                  targetElementOrRef: HTMLElement | ElementRef<HTMLElement>,
+                  offset = 0, duration?: number,
+                  easeFunc?: SmoothScrollEaseFunc): Promise<void> {
+    const target = coerceElement<HTMLElement>(targetElementOrRef);
+    return target ? this.scrollTo(viewElementOrRef, {
       left: target.offsetLeft,
       top: target.offsetTop - offset,
       duration,
@@ -102,27 +108,46 @@ export class SmoothScrollManager {
   }
 
   /** Scroll to element by selector */
-  scrollToSelector(view: HTMLElement, selector: string, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.scrollToElement(view, view.querySelector(selector), offset, duration, easeFunc);
+  scrollToSelector(viewElementOrRef: HTMLElement | ElementRef<HTMLElement>,
+                   selector: string,
+                   offset = 0,
+                   duration?: number,
+                   easeFunc?: SmoothScrollEaseFunc): Promise<void> {
+    const view = coerceElement<HTMLElement>(viewElementOrRef);
+    return this.scrollToElement(view, view.querySelector<HTMLElement>(selector), offset, duration, easeFunc);
   }
 
   /** Scroll to top */
-  scrollToTop(view: HTMLElement, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.scrollTo(view, { top: 0 - offset, duration, easeFunc });
+  scrollToTop(viewElementOrRef: HTMLElement | ElementRef<HTMLElement>,
+              offset = 0,
+              duration?: number,
+              easeFunc?: SmoothScrollEaseFunc): Promise<void> {
+    return this.scrollTo(viewElementOrRef, { top: 0 - offset, duration, easeFunc });
   }
 
   /** Scroll to bottom */
-  scrollToBottom(view: HTMLElement, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
+  scrollToBottom(viewElementOrRef: HTMLElement | ElementRef<HTMLElement>,
+                 offset = 0,
+                 duration?: number,
+                 easeFunc?: SmoothScrollEaseFunc): Promise<void> {
+    const view = coerceElement<HTMLElement>(viewElementOrRef);
     return this.scrollTo(view, { top: view.scrollHeight - view.clientHeight, duration, easeFunc });
   }
 
   /** Scroll to left */
-  scrollToLeft(view: HTMLElement, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.scrollTo(view, { left: 0 - offset, duration, easeFunc });
+  scrollToLeft(viewElementOrRef: HTMLElement | ElementRef<HTMLElement>,
+               offset = 0,
+               duration?: number,
+               easeFunc?: SmoothScrollEaseFunc): Promise<void> {
+    return this.scrollTo(viewElementOrRef, { left: 0 - offset, duration, easeFunc });
   }
 
   /** Scroll to right */
-  scrollToRight(view: HTMLElement, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
+  scrollToRight(viewElementOrRef: HTMLElement | ElementRef<HTMLElement>,
+                offset = 0,
+                duration?: number,
+                easeFunc?: SmoothScrollEaseFunc): Promise<void> {
+    const view = coerceElement<HTMLElement>(viewElementOrRef);
     return this.scrollTo(view, { left: view.scrollWidth - offset, duration, easeFunc });
   }
 }
