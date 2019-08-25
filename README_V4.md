@@ -3,7 +3,7 @@
   <h1 align="center">Angular Custom Scrollbar</h1>
 </p>
 
-[![npm](https://img.shields.io/badge/demo-online-ed1c46.svg)](https://murhafsousli.github.io/ngx-scrollbar/)
+[![npm](https://img.shields.io/badge/demo-online-ed1c46.svg)](https://ngx-scrollbar-v4.netlify.com)
 [![npm](https://img.shields.io/badge/stackblitz-online-orange.svg)](https://stackblitz.com/edit/ngx-scrollbar-v4?file=src%2Fapp%2Fapp.component.html)
 [![npm](https://img.shields.io/npm/v/ngx-scrollbar.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-scrollbar)
 [![Build Status](https://travis-ci.org/MurhafSousli/ngx-scrollbar.svg?branch=master)](https://www.npmjs.com/package/ngx-scrollbar)
@@ -17,7 +17,7 @@ ___
 
 ## Table of Contents
 
-- [Live Demo](https://MurhafSousli.github.io/ngx-scrollbar/)
+- [Live Demo V4](https://ngx-scrollbar-v4.netlify.com)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Options](#options)
@@ -29,7 +29,6 @@ ___
 - [Development](#development)
 - [Issues](#issues)
 - [Author](#author)
-- [Credit](#credit)
 - [More plugins](#more-plugins)
 
 <a name="installation"/>
@@ -39,7 +38,7 @@ ___
 **NPM**
 
 ```bash
-npm i -S ngx-scrollbar @angular/cdk
+npm i ngx-scrollbar @angular/cdk
 ```
 
 **YARN**
@@ -519,12 +518,6 @@ If you identify any errors in the library, or have an idea for an improvement, p
 ## Author
 
 - Murhaf Sousli [Github](https://github.com/MurhafSousli), [Twitter](https://twitter.com/MurhafSousli)
-
-<a name="credit"/>
-
-## Credit
-
-- Inspired by [gemini-scrollbar](https://github.com/noeldelgado/gemini-scrollbar).
 
 <a name="more-plugins"/>
 

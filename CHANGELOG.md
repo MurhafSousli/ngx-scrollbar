@@ -1,5 +1,28 @@
 # Changelog
 
+## 5.0.0
+
+- Feat: Add `sensorDebounce` and `sensorDisabled` to `NgScrollbarOptions`.
+- Feat: Use native **ResizeObserver**  API if available, otherwise lazy-load the polyfill, in [7efd0a2](https://github.com/MurhafSousli/ngx-scrollbar/pull/158/commits/7efd0a20fbc7af9311c97503da1632380516b348).
+- Feat: Ability for element parameters types to be `ElementRef` in smooth scroll functions, in [1a4d578](https://github.com/MurhafSousli/ngx-scrollbar/pull/158/commits/1a4d5784ae56cbc94ec38b64d17c0f3a7e94a4a1).
+- Enhance: Validate boolean and number inputs, in [298e91b](https://github.com/MurhafSousli/ngx-scrollbar/pull/158/commits/298e91b6542d550a6bd2fb636dd12197d9384626).
+- Refactor: Rename `disableThumbDrag` to `thumbDragDisabled` in component inputs and `NgScrollbarOptions`, in [df31a97](https://github.com/MurhafSousli/ngx-scrollbar/pull/158/commits/df31a9781447a16d7679331aec2f93fc626b14d8).
+- Refactor: Rename `disableTrackClick` to `trackClickDisabled` in component inputs and `NgScrollbarOptions`, in [df31a97](https://github.com/MurhafSousli/ngx-scrollbar/pull/158/commits/df31a9781447a16d7679331aec2f93fc626b14d8).
+- Refactor: Rename `scrollToDuration` to `trackClickScrollDuration` in component inputs and `NgScrollbarOptions`, in [df31a97](https://github.com/MurhafSousli/ngx-scrollbar/pull/158/commits/df31a9781447a16d7679331aec2f93fc626b14d8).
+- Refactor: Use standard positioning instead of the absolute  in [4cbe7ee](https://github.com/MurhafSousli/ngx-scrollbar/pull/158/commits/4cbe7ee7d388c07f4434a4a94a9af977eb31a281).
+- Refactor: Use the CDK's getRtlScrollAxisType instead of browser check, in [275cce3](https://github.com/MurhafSousli/ngx-scrollbar/pull/158/commits/275cce3aab5b7fe86b9e15830bc7623588faee6a).
+- Bug: fix hover transition when `visibility="hover"`, in [f67a69](https://github.com/MurhafSousli/ngx-scrollbar/pull/158/commits/f67a69c0e72b71b4818ebed0b9d21f2a9f23549a). 
+
+### Breaking Changes
+
+To remove complexity, the `ResizeObserver` API by default if it is available in the browser otherwise import the polyfill async
+
+- Remove `ContentSensor` and `ResizeSensor` directives has been removed, now the `ResizeSensor` is used internally.
+- Remove `NgScrollbarContentSensorModule` and `NgScrollbarResizeSensorModule` modules.
+- Remove `disableThumbDrag` in favor of `thumbDragDisabled` in component inputs and `NgScrollbarOptions`.
+- Remove `disableTrackClick` in favor of `trackClickDisabled` in component inputs and `NgScrollbarOptions`.
+- Remove `scrollToDuration` in favor of `trackClickScrollDuration` in component inputs and `NgScrollbarOptions`.
+
 ## 5.0.0-beta.1
 
 - Enhance: Enable scrolling when pointer is over the scrollbar in the standard appearance is used.

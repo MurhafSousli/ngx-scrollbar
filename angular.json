@@ -52,7 +52,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ngx-scrollbar-demo",
+            "outputPath": "docs",
             "index": "projects/ngx-scrollbar-demo/src/index.html",
             "main": "projects/ngx-scrollbar-demo/src/main.ts",
             "polyfills": "projects/ngx-scrollbar-demo/src/polyfills.ts",
