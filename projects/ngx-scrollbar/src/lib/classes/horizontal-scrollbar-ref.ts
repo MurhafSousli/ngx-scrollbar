@@ -1,5 +1,5 @@
 import { ElementRef } from '@angular/core';
-import { Platform } from '@angular/cdk/platform';
+import { getRtlScrollAxisType, Platform, RtlScrollAxisType } from '@angular/cdk/platform';
 import { Directionality } from '@angular/cdk/bidi';
 import { Observable, Subject } from 'rxjs';
 
@@ -62,9 +62,9 @@ export class HorizontalScrollbarRef extends ScrollbarRef {
     this.thumbElement.style.width = `${ size }px`;
     let value = 0;
     if (this.dir.value === 'rtl') {
-      if (this.platform.FIREFOX) {
+      if (getRtlScrollAxisType() === RtlScrollAxisType.NEGATED) {
         value = position;
-      } else if (this.platform.EDGE) {
+      } else if (getRtlScrollAxisType() === RtlScrollAxisType.INVERTED) {
         value = -position;
       } else {
         value = position - trackMax;
@@ -81,10 +81,10 @@ export class HorizontalScrollbarRef extends ScrollbarRef {
 
   protected handleDragBrowserCompatibility(position: number): number {
     if (this.dir.value === 'rtl') {
-      if (this.platform.FIREFOX) {
+      if (getRtlScrollAxisType() === RtlScrollAxisType.NEGATED) {
         return position - this.scrollMax;
       }
-      if (this.platform.EDGE) {
+      if (getRtlScrollAxisType() === RtlScrollAxisType.INVERTED) {
         return this.scrollMax - position;
       }
       return position;
