@@ -1,0 +1,27 @@
+<div class="ng-scrollbar-wrapper" [ngAttr]="state">
+  <div class="ng-scroll-viewport-wrapper"
+       resizeSensor
+       [sensorDebounce]="sensorDebounce"
+       [sensorDisabled]="sensorDisabled">
+    <div #viewport
+         [ngClass]="viewportClasses"
+         [style]="nativeScrollbarSizeFactory.nativeScrollbarSize | async | cssVariable: 'native-scrollbar-size'">
+      <div>
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+  <ng-container *ngIf="!disabled">
+    <scrollbar-control *ngIf="state.verticalUsed"
+                       track="vertical"
+                       [attr.scrollable]="state.isVerticallyScrollable"
+                       [attr.fit]="state.horizontalUsed">
+    </scrollbar-control>
+    <scrollbar-control *ngIf="state.horizontalUsed"
+                       track="horizontal"
+                       [attr.scrollable]="state.isHorizontallyScrollable"
+                       [attr.fit]="state.verticalUsed">
+    </scrollbar-control>
+  </ng-container>
+</div>
+

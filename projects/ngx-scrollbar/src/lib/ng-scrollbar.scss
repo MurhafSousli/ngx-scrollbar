@@ -1,0 +1,100 @@
+@import "styles/hide-native-scrollbars";
+@import "styles/visibility";
+@import "styles/appearance";
+
+:host {
+  // CSS variables used to customized the look of the scrollbar component
+  --scrollbar-border-radius: 7px;
+  --scrollbar-padding: 4px;
+  --scrollbar-track-color: transparent;
+  --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
+  --scrollbar-thumb-hover-color: var(--scrollbar-thumb-color);
+  --scrollbar-size: 5px;
+  --scrollbar-hover-size: var(--scrollbar-size);
+
+  display: block;
+  position: relative;
+  height: 100%;
+
+  > .ng-scrollbar-wrapper {
+    --scrollbar-total-size: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
+
+    // To enable the hover size, we need to calculate and set variable for each scrollbar
+    --vertical-scrollbar-size: var(--scrollbar-size);
+    --horizontal-scrollbar-size: var(--scrollbar-size);
+    --vertical-scrollbar-total-size: calc(var(--vertical-scrollbar-size) + var(--scrollbar-padding) * 2);
+    --horizontal-scrollbar-total-size: calc(var(--horizontal-scrollbar-size) + var(--scrollbar-padding) * 2);
+
+    // Change vertical scrollbar size in case its hovered or dragged
+    &[verticalDragging="true"], &[verticalHovered="true"] {
+      --vertical-scrollbar-size: var(--scrollbar-hover-size);
+      --vertical-scrollbar-total-size: calc(var(--vertical-scrollbar-size) + var(--scrollbar-padding) * 2);
+      cursor: default;
+    }
+
+    // Change horizontal scrollbar size in case its hovered or dragged
+    &[horizontalDragging="true"], &[horizontalHovered="true"] {
+      --horizontal-scrollbar-size: var(--scrollbar-hover-size);
+      --horizontal-scrollbar-total-size: calc(var(--horizontal-scrollbar-size) + var(--scrollbar-padding) * 2);
+      cursor: default;
+    }
+
+    @include enabled {
+      @include nativeAppearance;
+      @include hideNativeScrollbar;
+      @include hoverVisibility;
+    }
+
+    @include horizontalUsed {
+      @include viewport {
+        overflow-x: auto;
+        overflow-y: hidden;
+      }
+    }
+
+    @include verticalUsed {
+      @include viewport {
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+    }
+
+    @include allUsed {
+      @include viewport {
+        overflow: auto;
+      }
+    }
+  }
+}
+
+.ng-scrollbar-wrapper,
+.ng-scroll-viewport-wrapper,
+.ng-scroll-layer,
+::ng-deep .ng-scroll-viewport {
+  @extend %layer;
+}
+
+.ng-scroll-viewport-wrapper {
+  overflow: hidden;
+}
+
+.ng-scroll-viewport {
+  transform: translateZ(0);
+  overscroll-behavior: contain contain;
+  -webkit-overflow-scrolling: touch;
+  contain: strict;
+  will-change: scroll-position;
+}
+
+::ng-deep .ng-scroll-content {
+  // Force relative position on "cdk-virtual-scroll-content-wrapper"
+  position: relative !important;
+  display: inline-block;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+%layer {
+  width: 100%;
+  height: 100%;
+}

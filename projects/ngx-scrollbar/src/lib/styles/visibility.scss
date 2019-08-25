@@ -1,0 +1,25 @@
+/**
+ * Visibility: 'hover' | 'always' | 'native'
+ * Hide scrollbar-control on hover when visibility="hover"
+ */
+@mixin hoverVisibility {
+  // Auto hide scrollbar-control
+  &[visibility="hover"] {
+    > .scrollbar-control {
+      opacity: 0;
+      transition-property: opacity;
+      transition-duration: 400ms;
+      transition-delay: 800ms;
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+      > .scrollbar-control {
+        opacity: 1;
+        transition-duration: 400ms;
+        transition-delay: 0ms;
+      }
+    }
+  }
+}

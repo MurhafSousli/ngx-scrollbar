@@ -1,0 +1,27 @@
+@import "selectors";
+
+@mixin hideNativeScrollbar {
+  // Hide native horizontal scrollbar if visible
+  @include horizontalUsed {
+    @include viewportOffset {
+      height: calc(100% - var(--native-scrollbar-size));
+    }
+  }
+
+  // Hide native vertical scrollbar if visible
+  @include verticalUsed {
+    @include viewportOffset {
+      width: calc(100% - var(--native-scrollbar-size));
+    }
+  }
+}
+
+::ng-deep {
+  /* A class used to measure native scrollbar size */
+  .ng-scrollbar-measure {
+    left: 0;
+    overflow: scroll;
+    position: fixed;
+    top: -9999px;
+  }
+}

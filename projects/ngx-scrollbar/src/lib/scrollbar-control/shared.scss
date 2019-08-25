@@ -1,0 +1,55 @@
+::ng-deep {
+  // Disable pointer events of the scrollbar control
+  // This enables scrolling when the pointer is over the scrollbar
+  .scrollbar-control, .ng-scrollbar-track, .ng-scrollbar-thumb {
+    pointer-events: none;
+  }
+
+  .ng-scrollbar-wrapper {
+
+    > .scrollbar-control {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: height ease-out 150ms, width ease-out 150ms;
+
+      // Hide scrollbar thumb when content is not scrollable
+      &[scrollable="false"] .ng-scrollbar-thumb {
+        display: none;
+      }
+    }
+
+    &[verticalHovered="true"],
+    &[verticalDragging="true"],
+    &[horizontalHovered="true"],
+    &[horizontalDragging="true"] {
+      > .scrollbar-control .ng-scrollbar-thumb {
+        background-color: var(--scrollbar-thumb-hover-color);
+      }
+    }
+  }
+
+  // Scrollbar track
+  .ng-scrollbar-track {
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    border-radius: var(--scrollbar-border-radius);
+    background-color: var(--scrollbar-track-color);
+    overflow: hidden;
+    transition: height ease-out 150ms, width ease-out 150ms;
+    cursor: default;
+  }
+
+  // Scrollbar thumb
+  .ng-scrollbar-thumb {
+    box-sizing: border-box;
+    position: relative;
+    border-radius: inherit;
+    background-color: var(--scrollbar-thumb-color);
+    transform: translateZ(0);
+    transition: height ease-out 150ms, width ease-out 150ms;
+  }
+
+}

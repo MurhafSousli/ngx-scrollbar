@@ -1,0 +1,55 @@
+/**
+ * Fit scrollbar is done when both scrollbar-control are visible, leaving a space in the corner to prevent intersection
+ */
+@import "selectors";
+
+@mixin fitTop {
+  top: var(--scrollbar-total-size);
+  bottom: 0;
+}
+@mixin fitBottom {
+  bottom: var(--scrollbar-total-size);
+  top: 0;
+}
+@mixin fitLeft {
+  left: var(--scrollbar-total-size);
+  right: 0;
+}
+@mixin fitRight {
+  right: var(--scrollbar-total-size);
+  left: 0;
+}
+
+@mixin fitVerticalScrollbar {
+  @include fitVerticalScrollbarSelector {
+    @include fitBottom;
+  }
+  @include horizontalInverted {
+    @include fitVerticalScrollbarSelector {
+      @include fitTop;
+    }
+  }
+}
+
+@mixin fitHorizontalScrollbar {
+  @include ltr {
+    @include fitHorizontalScrollbarSelector {
+      @include fitRight;
+    }
+    @include verticalInverted {
+      @include fitHorizontalScrollbarSelector {
+        @include fitLeft;
+      }
+    }
+  }
+  @include rtl {
+    @include fitHorizontalScrollbarSelector {
+      @include fitLeft;
+    }
+    @include verticalInverted {
+      @include fitHorizontalScrollbarSelector {
+        @include fitRight;
+      }
+    }
+  }
+}
