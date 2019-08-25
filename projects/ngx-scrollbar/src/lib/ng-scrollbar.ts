@@ -18,7 +18,8 @@ import { fromEvent, Observable, Observer, Subject } from 'rxjs';
 import { filter, map, pairwise, pluck, takeUntil, tap } from 'rxjs/operators';
 import { ScrollViewport } from './scroll-viewport';
 import { SmoothScrollEaseFunc, SmoothScrollManager, SmoothScrollToOptions } from 'ngx-scrollbar/smooth-scroll';
-import {
+// Uncomment the following line in development mode
+// import { SmoothScrollEaseFunc, SmoothScrollManager, SmoothScrollToOptions } from '../../smooth-scroll/src/public_api';
 import { ScrollbarAppearance, ScrollbarTrack, ScrollbarPosition, ScrollbarVisibility, NgScrollbarState } from './ng-scrollbar.model';
 import { ScrollbarManager } from './utils/scrollbar-manager';
 import { NativeScrollbarSizeFactory } from './utils/native-scrollbar-size-factory';
@@ -102,12 +103,10 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   horizontalScrolled: Observable<any>;
   /** Default viewport classes */
   viewportClasses: any;
-
-  /** Stream that destroys components' observables */
-  private destroyed = new Subject<void>();
-
   /** Set of attributes added on the scrollbar wrapper */
   state: NgScrollbarState = {};
+  /** Stream that destroys components' observables */
+  private destroyed = new Subject<void>();
 
   constructor(private zone: NgZone,
               private changeDetectorRef: ChangeDetectorRef,
@@ -229,7 +228,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   /**
-   * Update state including child components
+   * Update local state and the internal scrollbar controls
    */
   update() {
     this.updated.next();
