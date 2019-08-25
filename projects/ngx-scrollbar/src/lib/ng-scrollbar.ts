@@ -26,6 +26,7 @@ import {
   NgScrollbarState
 } from './ng-scrollbar-config';
 import { ScrollbarManager } from './utils/scrollbar-manager';
+import { NativeScrollbarSizeFactory } from './utils/native-scrollbar-size-factory';
 
 @Component({
   selector: 'ng-scrollbar',
@@ -116,6 +117,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
               private changeDetectorRef: ChangeDetectorRef,
               private smoothScroll: SmoothScrollManager,
               public manager: ScrollbarManager) {
+              public nativeScrollbarSizeFactory: NativeScrollbarSizeFactory) {
   }
 
   private getScrolledByDirection(track: ScrollbarTrack) {

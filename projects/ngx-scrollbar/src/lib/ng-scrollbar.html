@@ -5,7 +5,7 @@
        [sensorDisabled]="sensorDisabled">
     <div #viewport
          [ngClass]="viewportClasses"
-         [style]="manager.nativeScrollbarSize | async | cssVariable">
+         [style]="nativeScrollbarSizeFactory.nativeScrollbarSize | async | cssVariable: 'native-scrollbar-size'">
       <div>
         <ng-content></ng-content>
       </div>
