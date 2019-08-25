@@ -5,7 +5,7 @@ export type ScrollbarTrack = 'vertical' | 'horizontal' | 'all' | undefined;
 export type ScrollbarVisibility = 'hover' | 'always' | 'native' | undefined;
 export type ScrollbarPosition = 'native' | 'invertY' | 'invertX' | 'invertAll' | undefined;
 
-export const NG_SCROLLBAR_OPTIONS = new InjectionToken<NgScrollbarOptions>('ng-scrollbar-options');
+export const NG_SCROLLBAR_OPTIONS = new InjectionToken<NgScrollbarOptions>('NG_SCROLLBAR_OPTIONS');
 
 export interface NgScrollbarOptions {
   /**
@@ -46,20 +46,20 @@ export interface NgScrollbarOptions {
   trackClass?: string;
   /** A class forwarded to the scrollbar thumb element */
   thumbClass?: string;
-  /** The duration which the scrolling takes to reach its target when scrollbar rail is clicked */
-  scrollToDuration?: number;
   /** The minimum scrollbar thumb size in px */
   minThumbSize?: number;
-  /** A flag used to enable/disable the scrollbar thumb dragged event */
-  disableThumbDrag?: boolean;
+  /** The duration which the scrolling takes to reach its target when scrollbar rail is clicked */
+  trackClickScrollDuration?: number;
   /** A flag used to enable/disable the scrollbar track clicked event */
-  disableTrackClick?: boolean;
+  trackClickDisabled?: boolean;
+  /** A flag used to enable/disable the scrollbar thumb dragged event */
+  thumbDragDisabled?: boolean;
   /** Debounce interval for detecting changes via window.resize event */
   windowResizeDebounce?: number;
-  /** Debounce interval for detecting changes via content observer */
-  contentObserverDebounce?: number;
-  /** Debounce interval for detecting changes via resize observer */
-  resizeObserverDebounce?: number;
+  /** Debounce interval for detecting changes via ResizeObserver */
+  sensorDebounce?: number;
+  /** Whether ResizeObserver is disabled */
+  sensorDisabled?: boolean;
 }
 
 /**

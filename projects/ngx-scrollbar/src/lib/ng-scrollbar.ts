@@ -19,12 +19,7 @@ import { filter, map, pairwise, pluck, takeUntil, tap } from 'rxjs/operators';
 import { ScrollViewport } from './scroll-viewport';
 import { SmoothScrollEaseFunc, SmoothScrollManager, SmoothScrollToOptions } from 'ngx-scrollbar/smooth-scroll';
 import {
-  ScrollbarAppearance,
-  ScrollbarTrack,
-  ScrollbarPosition,
-  ScrollbarVisibility,
-  NgScrollbarState
-} from './ng-scrollbar-config';
+import { ScrollbarAppearance, ScrollbarTrack, ScrollbarPosition, ScrollbarVisibility, NgScrollbarState } from './ng-scrollbar.model';
 import { ScrollbarManager } from './utils/scrollbar-manager';
 import { NativeScrollbarSizeFactory } from './utils/native-scrollbar-size-factory';
 
@@ -49,14 +44,14 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   @Input() trackClass: string = this.manager.globalOptions.trackClass;
   /** A class forwarded to the scrollbar thumb element */
   @Input() thumbClass: string = this.manager.globalOptions.thumbClass;
-  /** The duration which the scrolling takes to reach its target when scrollbar rail is clicked */
-  @Input() scrollToDuration = this.manager.globalOptions.scrollToDuration;
   /** Minimum scrollbar thumb size */
   @Input() minThumbSize: number = this.manager.globalOptions.minThumbSize;
-  /** A flag used to enable/disable the scrollbar thumb dragged event */
-  @Input() disableThumbDrag: boolean = this.manager.globalOptions.disableThumbDrag;
+  /** The duration which the scrolling takes to reach its target when scrollbar rail is clicked */
+  @Input() trackClickScrollDuration = this.manager.globalOptions.trackClickScrollDuration;
   /** A flag used to enable/disable the scrollbar track clicked event */
-  @Input() disableTrackClick: boolean = this.manager.globalOptions.disableTrackClick;
+  @Input() trackClickDisabled: boolean = this.manager.globalOptions.trackClickDisabled;
+  /** A flag used to enable/disable the scrollbar thumb dragged event */
+  @Input() thumbDragDisabled: boolean = this.manager.globalOptions.thumbDragDisabled;
   /** Disable custom scrollbar and switch back to native scrollbar */
   @Input() disabled: boolean = false;
   /**

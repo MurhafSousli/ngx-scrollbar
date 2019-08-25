@@ -1,9 +1,8 @@
 import { Inject, Injectable, Optional } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { NG_SCROLLBAR_OPTIONS, NgScrollbarOptions } from '../ng-scrollbar.model';
 import { Platform } from '@angular/cdk/platform';
 import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
 import { debounceTime, tap } from 'rxjs/operators';
-import { NG_SCROLLBAR_OPTIONS, NgScrollbarOptions } from '../ng-scrollbar-config';
 
 const defaultOptions: NgScrollbarOptions = {
   viewClass: '',
@@ -13,13 +12,13 @@ const defaultOptions: NgScrollbarOptions = {
   appearance: 'compact',
   visibility: 'native',
   position: 'native',
-  disableThumbDrag: false,
-  disableTrackClick: false,
-  scrollToDuration: 300,
+  thumbDragDisabled: false,
+  trackClickDisabled: false,
+  trackClickScrollDuration: 300,
   minThumbSize: 20,
-  windowResizeDebounce: 200,
-  contentObserverDebounce: 0,
-  resizeObserverDebounce: 0
+  windowResizeDebounce: 0,
+  sensorDebounce: 0,
+  sensorDisabled: false
 };
 
 @Injectable({
