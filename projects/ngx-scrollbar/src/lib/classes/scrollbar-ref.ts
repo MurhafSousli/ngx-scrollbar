@@ -1,5 +1,6 @@
 import { ElementRef } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
+import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { animationFrameScheduler, asyncScheduler, EMPTY, fromEvent, merge, Observable, of, Subject } from 'rxjs';
 import { distinctUntilChanged, map, mergeMap, pluck, switchMap, takeUntil, tap } from 'rxjs/operators';
 
@@ -71,11 +72,11 @@ export abstract class ScrollbarRef {
           e.stopPropagation();
           this.document.onselectstart = () => false;
           const isThumbClick = isWithinBounds(e, this.thumbElement.getBoundingClientRect());
-          if (isThumbClick && !this.scrollbarRef.disableThumbDrag) {
+          if (isThumbClick && !coerceBooleanProperty(this.scrollbarRef.thumbDragDisabled)) {
             return this.dragged(e);
           } else {
             const isTrackClick = isWithinBounds(e, this.trackElement.getBoundingClientRect());
-            if (isTrackClick && !this.scrollbarRef.disableTrackClick) {
+            if (isTrackClick && !coerceBooleanProperty(this.scrollbarRef.trackClickDisabled)) {
               return this.trackClicked(e);
             }
           }
@@ -202,7 +203,7 @@ export abstract class ScrollbarRef {
       tap((value: number) =>
         this.scrollbarRef.scrollTo({
           ...this.mapToScrollToOption(value),
-          duration: this.scrollbarRef.scrollToDuration
+          duration: coerceNumberProperty(this.scrollbarRef.trackClickScrollDuration)
         })
       ),
       tap(() => this.document.onselectstart = null)
