@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.0.1
+
+- fix: Hovering on a scrollbar highlights both scrollbars, closes [#181](https://github.com/MurhafSousli/ngx-scrollbar/issues/181) in [b533413](https://github.com/MurhafSousli/ngx-scrollbar/pull/182/commits/b53341346abf33be59eb760b7c64c08816a2059d).
+- fix: Add missing polyfill `@juggle/resize-observer` to peerDependencies.
+
 ## 5.0.0
 
 - Feat: Add `sensorDebounce` and `sensorDisabled` to `NgScrollbarOptions`.
@@ -11,17 +16,19 @@
 - Refactor: Rename `scrollToDuration` to `trackClickScrollDuration` in component inputs and `NgScrollbarOptions`, in [df31a97](https://github.com/MurhafSousli/ngx-scrollbar/pull/158/commits/df31a9781447a16d7679331aec2f93fc626b14d8).
 - Refactor: Use standard positioning instead of the absolute  in [4cbe7ee](https://github.com/MurhafSousli/ngx-scrollbar/pull/158/commits/4cbe7ee7d388c07f4434a4a94a9af977eb31a281).
 - Refactor: Use the CDK's getRtlScrollAxisType instead of browser check, in [275cce3](https://github.com/MurhafSousli/ngx-scrollbar/pull/158/commits/275cce3aab5b7fe86b9e15830bc7623588faee6a).
+- Refactor: Remove `NgScrollbarModule.withConfig()` option.
 - Bug: fix hover transition when `visibility="hover"`, in [f67a69](https://github.com/MurhafSousli/ngx-scrollbar/pull/158/commits/f67a69c0e72b71b4818ebed0b9d21f2a9f23549a). 
 
 ### Breaking Changes
 
 To remove complexity, the `ResizeObserver` API by default if it is available in the browser otherwise import the polyfill async
 
-- Remove `ContentSensor` and `ResizeSensor` directives has been removed, now the `ResizeSensor` is used internally.
+- Remove `ContentSensor` and `ResizeSensor` directives.
 - Remove `NgScrollbarContentSensorModule` and `NgScrollbarResizeSensorModule` modules.
 - Remove `disableThumbDrag` in favor of `thumbDragDisabled` in component inputs and `NgScrollbarOptions`.
 - Remove `disableTrackClick` in favor of `trackClickDisabled` in component inputs and `NgScrollbarOptions`.
 - Remove `scrollToDuration` in favor of `trackClickScrollDuration` in component inputs and `NgScrollbarOptions`.
+- Remove `NgScrollbarModule.withConfig()` option, provide the `NG_SCROLLBAR_OPTIONS` token for global options instead.
 
 ## 5.0.0-beta.1
 
