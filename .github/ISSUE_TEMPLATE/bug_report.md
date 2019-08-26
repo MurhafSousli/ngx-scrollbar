@@ -1,3 +1,9 @@
+---
+name: Bug Report
+about: Report a bug found in ngx-scrollbar
+---
+
+
 #### Reproduction
 
 Use StackBlitz to reproduce your issue: https://stackblitz.com/edit/ngx-scrollbar
