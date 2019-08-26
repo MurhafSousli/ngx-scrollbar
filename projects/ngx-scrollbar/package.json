@@ -1,10 +1,11 @@
 {
   "name": "ngx-scrollbar",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "peerDependencies": {
     "@angular/common": "^8.0.0",
     "@angular/core": "^8.0.0",
     "@angular/cdk": "^8.0.0",
+    "@juggle/resize-observer": "^2.3.0",
     "rxjs": "^6.0.0"
   }
 }
