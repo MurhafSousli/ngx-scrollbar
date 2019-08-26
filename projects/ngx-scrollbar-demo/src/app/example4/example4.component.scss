@@ -1,0 +1,49 @@
+.example4 {
+  background-color: #f8f8f8;
+  color: #686c6e;
+
+  .mat-card-content {
+    padding: 1em;
+    font-size: 0.9em;
+  }
+
+  ::ng-deep {
+    ng-scrollbar {
+      background-color: #f8f8f8;
+      --scrollbar-size: 6px;
+      --scrollbar-track-color: rgba(0, 0, 0, 0.15);
+      --scrollbar-thumb-color: #fff;
+      --scrollbar-border-radius: 3px;
+      border-radius: 3px;
+      overflow: initial;
+      .ng-scrollbar-wrapper {
+        overflow: initial;
+      }
+      .ng-scroll-viewport {
+        padding-right: 1em;
+      }
+    }
+
+    .scrollbar-track {
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.5);
+      overflow: unset;
+    }
+
+    .scrollbar-thumb {
+      box-shadow: 0 0 0 .5px rgba(0, 0, 0, 0.6), 0 .5px 1px rgba(0, 0, 0, 0.6);
+    }
+  }
+}
+
+.sample-wrapper {
+  padding: 1em;
+}
+
+.sample {
+  height: 200px;
+}
+
+p {
+  line-height: 1.5em;
+}

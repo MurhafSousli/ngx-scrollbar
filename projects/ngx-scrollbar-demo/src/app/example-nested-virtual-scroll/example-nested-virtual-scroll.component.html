@@ -1,0 +1,34 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Nested CDK Virtual Scroll Example
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <ng-scrollbar class="outer-ng-scrollbar"
+                  track="vertical"
+                  appearance="standard"
+                  [sensorDisabled]="true">
+      <cdk-virtual-scroll-viewport scrollViewport itemSize="180" class="example-viewport">
+
+        <div class="horizontal-scrollable-item" *cdkVirtualFor="let itemY of items">
+          <h4>Row {{ itemY }}</h4>
+
+          <ng-scrollbar class="inner-ng-scrollbar"
+                        track="horizontal"
+                        appearance="standard">
+            <cdk-virtual-scroll-viewport scrollViewport itemSize="100" orientation="horizontal">
+              <div class="cards">
+                <app-card *cdkVirtualFor="let itemX of horizontal" [x]="itemX" [y]="itemY"></app-card>
+              </div>
+            </cdk-virtual-scroll-viewport>
+          </ng-scrollbar>
+
+        </div>
+
+      </cdk-virtual-scroll-viewport>
+    </ng-scrollbar>
+  </mat-card-content>
+</mat-card>
+

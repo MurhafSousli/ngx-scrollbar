@@ -1,0 +1,108 @@
+@import '~font-awesome/css/font-awesome.css';
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$app-primary: mat-palette($mat-blue, 700);
+$app-accent: mat-palette($mat-orange, 500);
+$app-warn: mat-palette($mat-red);
+$app-success: mat-palette($mat-light-green);
+
+$app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
+
+@include angular-material-theme($app-theme);
+
+:root {
+  --color-primary: #{mat-color($app-primary)};
+  --color-accent: #{mat-color($app-accent)};
+  --color-warn: #{mat-color($app-warn)};
+  --color-success: #{mat-color($app-success)};
+
+  --color-app-background: #{mat-color(mat-palette($mat-blue, 700))};
+  --color-app-logo: var(--color-app-background);
+
+  --color-examplex-accent: var(--color-app-background);
+  --color-examplex-primary: #{mat-color(mat-palette($mat-orange, 200))};
+  --color-scrollbar-example-x: var(--color-accent);
+
+  --color-example-5: var(--color-app-background);
+  --color-example-2: var(--color-app-background);
+  --color-virtual-scroll-example: var(--color-app-background);
+  --color-nested-virtual-scroll-example: var(--color-app-background);
+  --color-infinite-scroll-example: var(--color-app-background);
+  --color-infinite-scroll-example-bar-bg: #{mat-color(mat-palette($mat-blue, 300))};
+  --color-infinite-scroll-example-track-bg: #{mat-color(mat-palette($mat-blue, 100))};
+
+  --color-light-gray: #{mat-color(mat-palette($mat-grey, 100))};
+  --color-dark-gray: #{mat-color(mat-palette($mat-grey, 600))};
+  --color-example3: #{mat-color(mat-palette($mat-yellow, 700))};
+  --color-example4: var(--color-light-gray);
+  --color-highlight: aquamarine;
+}
+
+.primary-bg {
+  background-color: var(--color-app-background);
+}
+
+h2 {
+  font-weight: 300;
+  text-align: center;
+  margin: 4em 0;
+
+  &.mat-typography {
+    font-size: 1.3em;
+  }
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+ul {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.wide-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.example-component {
+  padding: 2em 0;
+  display: block;
+  box-sizing: border-box;
+}
+
+.mat-card {
+  overflow: hidden;
+
+  .mat-card-title {
+    font-weight: 300;
+  }
+
+  .mat-card-content {
+    padding-top: 2em;
+  }
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

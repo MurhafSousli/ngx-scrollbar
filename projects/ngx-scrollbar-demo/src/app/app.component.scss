@@ -1,0 +1,20 @@
+ng-scrollbar {
+  --scrollbar-gap: 2px;
+  --scrollbar-track-color: rgba(0, 0, 0, 0.1);
+  --scrollbar-thumb-color: var(--color-accent);
+  --scrollbar-size: 8px;
+  --scrollbar-padding: 0px;
+  --scrollbar-border-radius: 0px;
+  --scrollbar-hover-size: 16px;
+}
+
+.page-wrapper {
+  padding-top: 6em;
+  background-color: white;
+}
+
+.go-top {
+  position: fixed;
+  bottom: 2em;
+  right: 2em;
+}
