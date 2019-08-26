@@ -18,6 +18,15 @@
       }
     }
 
+    &[verticalHovered="true"],
+    &[verticalDragging="true"] {
+      @include verticalScrollbar {
+        .ng-scrollbar-thumb {
+          background-color: var(--scrollbar-thumb-hover-color);
+        }
+      }
+    }
+
     @include enabled {
       @include verticalScrollbarPosition;
       &[track="all"] {

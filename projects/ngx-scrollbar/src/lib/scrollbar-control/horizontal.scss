@@ -18,6 +18,15 @@
       }
     }
 
+    &[horizontalHovered="true"],
+    &[horizontalDragging="true"] {
+      @include horizontalScrollbar {
+        .ng-scrollbar-thumb {
+          background-color: var(--scrollbar-thumb-hover-color);
+        }
+      }
+    }
+
     @include horizontalInverted {
       @include horizontalScrollbar {
         top: 0;
