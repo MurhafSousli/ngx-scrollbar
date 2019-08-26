@@ -1,0 +1,151 @@
+<div class="example exampleX">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Lab</mat-card-title>
+<!--      <span style="flex: 1"></span>-->
+<!--      <mat-button-toggle-group class="toggle-sensor"-->
+<!--                               #positionToggleGroup="matButtonToggleGroup"-->
+<!--                               aria-label="Scrollbar Sensor"-->
+<!--                               [(value)]="sensor">-->
+<!--        <mat-button-toggle value="noSensor">No sensor</mat-button-toggle>-->
+<!--        <mat-button-toggle value="contentSensor">Content sensor</mat-button-toggle>-->
+<!--        <mat-button-toggle value="resizeSensor" checked>Resize sensor</mat-button-toggle>-->
+<!--      </mat-button-toggle-group>-->
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+
+      <app-resize-form [(value)]="slider"></app-resize-form>
+
+      <mat-divider vertical></mat-divider>
+
+      <div class="scrollbar-wrapper">
+        <ng-scrollbar class="sample"
+                      viewClass="viewport"
+                      [class.highlight-layout]="toggle.highlight"
+                      [style.width.%]="slider.componentSize"
+                      [style.height.%]="slider.componentSize"
+                      [track]="direction"
+                      [appearance]="appearance"
+                      [visibility]="visibility"
+                      [position]="position"
+                      [style]="cssVariables"
+                      [disabled]="toggle.disabled"
+                      [sensorDisabled]="toggle.sensorDisabled"
+                      (reachedTop)="onReached('top')"
+                      (reachedBottom)="onReached('bottom')"
+                      (reachedStart)="onReached('start')"
+                      (reachedEnd)="onReached('end')"
+                      [dir]="toggle.rtl ? 'rtl' : 'ltr'">
+          <div class="inner"
+               [style.width.%]="slider.contentWidth"
+               [innerHTML]="content"></div>
+        </ng-scrollbar>
+      </div>
+
+      <mat-divider vertical></mat-divider>
+
+      <div class="right-controls">
+        <app-toggle-form [(value)]="toggle"></app-toggle-form>
+        <mat-divider></mat-divider>
+        <app-reached-notifier [reached]="reached | async"></app-reached-notifier>
+      </div>
+
+    </mat-card-content>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-actions>
+
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Styling
+            </mat-panel-title>
+            <mat-panel-description>
+              CSS variables
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <app-css-variables-form (value)="setStyle($event)"></app-css-variables-form>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Track
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ directionToggleGroup.value | titlecase }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <mat-button-toggle-group #directionToggleGroup="matButtonToggleGroup" aria-label="Scrollbar Direction"
+                                   [(value)]="direction">
+            <mat-button-toggle value="all">All</mat-button-toggle>
+            <mat-button-toggle value="vertical">Vertical</mat-button-toggle>
+            <mat-button-toggle value="horizontal">Horizontal</mat-button-toggle>
+          </mat-button-toggle-group>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Positioning
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ positionToggleGroup.value | titlecase }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <mat-button-toggle-group #positionToggleGroup="matButtonToggleGroup" aria-label="Scrollbar Position"
+                                   [(value)]="position">
+            <mat-button-toggle value="native">Native</mat-button-toggle>
+            <mat-button-toggle value="invertY">InvertY</mat-button-toggle>
+            <mat-button-toggle value="invertX">InvertX</mat-button-toggle>
+            <mat-button-toggle value="invertAll">InvertAll</mat-button-toggle>
+          </mat-button-toggle-group>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Visibility
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ visibilityToggleGroup.value | titlecase }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-button-toggle-group #visibilityToggleGroup="matButtonToggleGroup" aria-label="Scrollbar visibility"
+                                   [(value)]="visibility">
+            <mat-button-toggle value="native">Native</mat-button-toggle>
+            <mat-button-toggle value="always">Always</mat-button-toggle>
+            <mat-button-toggle value="hover">Hover</mat-button-toggle>
+          </mat-button-toggle-group>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Appearance
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ appearanceToggleGroup.value | titlecase }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <mat-button-toggle-group #appearanceToggleGroup="matButtonToggleGroup" aria-label="Scrollbar Appearance"
+                                   [(value)]="appearance">
+            <mat-button-toggle value="standard">Standard</mat-button-toggle>
+            <mat-button-toggle value="compact">Compact</mat-button-toggle>
+          </mat-button-toggle-group>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card-actions>
+
+
+  </mat-card>
+</div>

@@ -1,0 +1,16 @@
+<div class="testing-slider">
+  <span>Component size</span>
+  <mat-slider [(ngModel)]="value.componentSize" [min]="70" [max]="100" [step]="3"></mat-slider>
+</div>
+<div class="testing-slider">
+  <span>Content length</span>
+  <mat-slider [(ngModel)]="value.contentSize" [min]="1" [max]="9"></mat-slider>
+</div>
+<div class="testing-slider">
+  <span>Content width</span>
+  <mat-slider color="warn"
+              thumbLabel="horizontalWidth"
+              [(ngModel)]="value.contentWidth"
+              [min]="100" [max]="500" [step]="100"
+              [displayWith]="contentWidthDisplayWith"></mat-slider>
+</div>

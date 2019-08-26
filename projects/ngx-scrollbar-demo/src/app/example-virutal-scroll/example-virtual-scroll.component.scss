@@ -1,0 +1,61 @@
+.example {
+  background-color: var(--color-virtual-scroll-example);
+  color: white;
+}
+
+.exampleVirtualScroll {
+  background-color: #f3f3f3;
+  border-radius: 3px;
+  overflow: hidden;
+
+  .mat-list-base {
+    padding-top: 0;
+  }
+
+  .cdk-virtual-scroll-viewport {
+    height: 100%;
+  }
+
+  ng-scrollbar {
+    --scrollbar-track-color: rgba(0, 0, 0, 0.05);
+    --scrollbar-thumb-color: var(--color-virtual-scroll-example);
+    //--scrollbar-size: 8px;
+    --scrollbar-size: 12px;
+    --scrollbar-padding: 6px;
+    --scrollbar-border-radius: 8px;
+    height: 200px;
+    border-radius: 3px;
+    border: 2px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .example-item {
+    //font-size: 14px;
+    //color: var(--color-dark-gray);
+
+    height: 50px;
+    color: black;
+
+    &:nth-child(odd) {
+      background: #f1ffff;
+    }
+
+    &:nth-child(even) {
+      background: #ecf8ff;
+    }
+  }
+
+  .cdk-virtual-scroll-viewport {
+    overflow: auto !important;
+    position: relative !important;
+    top: initial !important;
+    left: initial !important;
+    right: initial !important;
+    bottom: initial !important;
+    ::ng-deep {
+      .ng-scroll-content {
+        position: absolute !important;
+        min-height: initial !important;
+      }
+    }
+  }
+}

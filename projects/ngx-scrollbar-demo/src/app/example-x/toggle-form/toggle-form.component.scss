@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+}
+
+.mat-slide-toggle {
+  margin-bottom: .5em;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}

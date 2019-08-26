@@ -1,0 +1,22 @@
+<mat-card class="example">
+  <mat-card-content>
+    <div class="example2">
+      <div class="sample">
+        <header>TODO</header>
+        <ng-scrollbar appearance="compact"
+                      (updated)="onScrollbarUpdate()">
+          <ul>
+            <li></li>
+            <li *ngFor="let item of list"
+                [class.not]="!item.completed"
+                [class.ok]="item.completed">{{item.title}}</li>
+            <li></li>
+          </ul>
+        </ng-scrollbar>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="accent" (click)="addItem()">Add task</button>
+  </mat-card-actions>
+</mat-card>

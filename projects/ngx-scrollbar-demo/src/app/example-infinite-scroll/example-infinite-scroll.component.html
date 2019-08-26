@@ -1,0 +1,29 @@
+<mat-card class="example">
+  <mat-card-header>
+    <mat-card-title>
+      Ngx-infinite-scroll Example
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="infinite-scroll-container">
+      <ng-scrollbar appearance="compact" [sensorDisabled]="true">
+        <div scrollViewport
+             infiniteScroll
+             [infiniteScrollDistance]="1"
+             [infiniteScrollUpDistance]="2"
+             [infiniteScrollThrottle]="50"
+             [scrollWindow]="false"
+             (scrolled)="onScrollDown($event)"
+             (scrolledUp)="onUp($event)">
+          <mat-list>
+            <mat-list-item class="example-item" *ngFor="let i of array">
+              {{ i }}
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </ng-scrollbar>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+
