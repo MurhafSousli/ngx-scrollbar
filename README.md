@@ -15,10 +15,11 @@ Custom overlay-scrollbars with native scrolling mechanism for Angular, it also p
 
 ___
 
-**Version 5 has arrived**
+### Version 5 has arrived
 
-- ⚠️NgScrollbar v5 is here! There are some breaking changes! Please check the wiki page for the [migration guide](https://github.com/MurhafSousli/ngx-scrollbar/wiki/migration-guide).
-- ⚠️If you are still using version 4, See the docs [here](https://github.com/MurhafSousli/ngx-scrollbar/blob/master/README_V4.md) and the demo [here](https://ngx-scrollbar-v4.netlify.com/), (V4 is not supported anymore).
+- 📌 The documentation has been moved to the [wiki page](https://github.com/MurhafSousli/ngx-scrollbar/wiki) 📚
+- ⚠️ Version 5 has some breaking changes! See the [migration guide](https://github.com/MurhafSousli/ngx-scrollbar/wiki/migration-guide) :blue_book:
+- ⚠️ If you are still using version 4, You can find the docs [here](https://github.com/MurhafSousli/ngx-scrollbar/blob/master/README_V4.md) and the demo [here](https://ngx-scrollbar-v4.netlify.com/), however it is not supported anymore.
 
 ## Issues
 
