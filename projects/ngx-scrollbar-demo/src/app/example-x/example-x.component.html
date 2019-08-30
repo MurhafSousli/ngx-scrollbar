@@ -2,15 +2,6 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>Lab</mat-card-title>
-<!--      <span style="flex: 1"></span>-->
-<!--      <mat-button-toggle-group class="toggle-sensor"-->
-<!--                               #positionToggleGroup="matButtonToggleGroup"-->
-<!--                               aria-label="Scrollbar Sensor"-->
-<!--                               [(value)]="sensor">-->
-<!--        <mat-button-toggle value="noSensor">No sensor</mat-button-toggle>-->
-<!--        <mat-button-toggle value="contentSensor">Content sensor</mat-button-toggle>-->
-<!--        <mat-button-toggle value="resizeSensor" checked>Resize sensor</mat-button-toggle>-->
-<!--      </mat-button-toggle-group>-->
     </mat-card-header>
 
     <mat-divider></mat-divider>
@@ -43,6 +34,15 @@
                [style.width.%]="slider.contentWidth"
                [innerHTML]="content"></div>
         </ng-scrollbar>
+
+        <mat-divider></mat-divider>
+
+        <div class="smooth-scroll-buttons">
+          <button mat-flat-button (click)="scrollToTop()">ScrollToTop</button>
+          <button mat-flat-button (click)="scrollToBottom()">ScrollToBottom</button>
+          <button mat-flat-button (click)="scrollToLeft()">ScrollToLeft</button>
+          <button mat-flat-button (click)="scrollToRight()">ScrollToRight</button>
+        </div>
       </div>
 
       <mat-divider vertical></mat-divider>

@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.0.2
+
+- Fix reached events in RTL in Mozilla and Safari, closes [#193]() in [8279828](https://github.com/MurhafSousli/ngx-scrollbar/pull/194/commits/8279828d1523897c238bbcfa926f8d3ec45370d1).
+- Fix reached events in AOT, closes #187, closes [#187](https://github.com/MurhafSousli/ngx-scrollbar/issues/187) in [5f67fe3](https://github.com/MurhafSousli/ngx-scrollbar/pull/192/commits/5f67fe3bbfae81a99e2943b872ccfc9a1578f21a).
+- Refactor scroll viewport layout with absolute positioning, closes [#189](https://github.com/MurhafSousli/ngx-scrollbar/issues/189) in [c9c4dae](https://github.com/MurhafSousli/ngx-scrollbar/pull/190/commits/c9c4dae14d66a0e506dcccd0912252985e53bf62).
+
 ## 5.0.1
 
 - fix: Hovering on a scrollbar highlights both scrollbars, closes [#181](https://github.com/MurhafSousli/ngx-scrollbar/issues/181) in [b533413](https://github.com/MurhafSousli/ngx-scrollbar/pull/182/commits/b53341346abf33be59eb760b7c64c08816a2059d).
