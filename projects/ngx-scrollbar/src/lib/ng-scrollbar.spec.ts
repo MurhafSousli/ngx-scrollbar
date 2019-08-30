@@ -1,12 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BidiModule } from '@angular/cdk/bidi';
-import { LayoutModule } from '@angular/cdk/layout';
-import { ObserversModule } from '@angular/cdk/observers';
+import { CommonModule } from '@angular/common';
+import { PortalModule } from '@angular/cdk/portal';
+import { PlatformModule } from '@angular/cdk/platform';
+import { SmoothScrollModule } from '../../smooth-scroll/src/smooth-scroll.module';
 
 import { NgScrollbar } from './ng-scrollbar';
-import { ScrollView } from './scroll-viewport';
-import { Scrollbar } from './scrollbar-control/scrollbar-control';
-import { SmoothScrollManager } from './smooth-scroll/smooth-scroll-manager';
+import { ScrollViewport } from './scroll-viewport';
+import { ScrollbarControl } from './scrollbar-control/scrollbar-control';
+import { NgAttr } from './utils/ng-attr.directive';
+import { ResizeSensor } from './utils/resize-sensor.directive';
+import { CssVariable } from './utils/css-variable.pipe';
 
 describe('NgScrollbar Component', () => {
   let component: NgScrollbar;
@@ -16,17 +20,19 @@ describe('NgScrollbar Component', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        ObserversModule,
-        LayoutModule,
-        BidiModule
+        CommonModule,
+        BidiModule,
+        PortalModule,
+        PlatformModule,
+        SmoothScrollModule
       ],
       declarations: [
         NgScrollbar,
-        Scrollbar,
-        ScrollView
-      ],
-      providers: [
-        SmoothScrollManager
+        NgAttr,
+        CssVariable,
+        ResizeSensor,
+        ScrollbarControl,
+        ScrollViewport
       ]
     }).compileComponents();
   }));
@@ -40,29 +46,25 @@ describe('NgScrollbar Component', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create <ng-scrollbar> component', () => {
     expect(component).toBeTruthy();
   });
 
   it('should initialize component', () => {
-    // spyOn<any>(component, 'updateOnChangeDetection');
-    spyOn<any>(component, 'updateOnBreakpointsChanges');
-    // spyOn<any>(component, 'updateOnWindowSizeChanges');
     component.ngOnInit();
-    expect(component.view).toBeDefined();
+    expect(component.viewport).toBeDefined();
     expect(component.scrolled).toBeDefined();
     expect(component.verticalScrolled).toBeDefined();
     expect(component.horizontalScrolled).toBeDefined();
-    // expect(component['updateOnChangeDetection']).toHaveBeenCalled();
-    expect(component['updateOnBreakpointsChanges']).toHaveBeenCalled();
-    // expect(component['updateOnWindowSizeChanges']).toHaveBeenCalled();
+    expect(component.viewportClasses).toBeDefined();
+    expect(component.state).toBeDefined();
   });
 
-  // it('should update state on ngAfterViewChecked', () => {
-  //   const updateSpy = spyOn<any>(component.updateObserver, 'next');
-  //   component.ngAfterViewChecked();
-  //   expect(updateSpy).toHaveBeenCalled();
-  // });
+  it('should update state on ngAfterViewChecked', () => {
+  const updateStateSpy = spyOn<any>(component, 'updateState');
+  component.ngAfterViewChecked();
+  expect(updateStateSpy).toHaveBeenCalled();
+  });
 
   it('should clean up all observables on ngOnDestroy', () => {
     component.ngOnDestroy();
@@ -70,119 +72,86 @@ describe('NgScrollbar Component', () => {
   });
 
   /**
-   * NgScrollbar Disabled Test
-   */
-
-  it('should be disabled when disabled = true', () => {
-    component.disabled = true;
-    fixture.detectChanges();
-    expect(component.disabled).toBeTruthy();
-    expect(componentElement.getAttribute('disabled')).toBe('true');
-  });
-
-  it('should be enabled when disabled = false', () => {
-    component.disabled = false;
-    fixture.detectChanges();
-    expect(component.disabled).toBeFalsy();
-    expect(componentElement.getAttribute('disabled')).toBe('false');
-  });
-
-  it('should enable/disable when disabled input value is changed', () => {
-    // [disabled]="true"
-    component.disabled = true;
-    fixture.detectChanges();
-    expect(component.disabled).toBeTruthy();
-    expect(componentElement.getAttribute('disabled')).toBe('true');
-
-    // [disabled]="false"
-    component.disabled = false;
-    fixture.detectChanges();
-    expect(component.disabled).toBeFalsy();
-    expect(componentElement.getAttribute('disabled')).toBe('false');
-  });
-
-
-  /**
    * NgScrollbar State Test
    */
 
   it('should use vertical scrollbar when viewport is scrollable"', () => {
-    component.direction = 'vertical';
+    component.track = 'vertical';
     component.visibility = 'native';
-    component.view.style.height = '300px';
-    component.view.innerHTML = '<div style="height: 1000px"></div>';
+    component.viewport.style.height = '300px';
+    component.viewport.innerHTML = '<div style="height: 1000px"></div>';
     fixture.detectChanges();
 
-    expect(component.useVerticalScrollbar).toBeTruthy();
-    expect(component.isVerticalScrollbarScrollable).toBeTruthy();
-    expect(component.useHorizontalScrollbar).toBeFalsy();
-    expect(component.isHorizontalScrollbarScrollable).toBeFalsy();
+    expect(component.state.verticalUsed).toBeTruthy();
+    expect(component.state.isVerticallyScrollable).toBeTruthy();
+    expect(component.state.horizontalUsed).toBeFalsy();
+    expect(component.state.isHorizontallyScrollable).toBeFalsy();
   });
 
-  it('should use vertical scrollbar if [visiblity]="\'always\'" event if viewport is not scrollable', () => {
-    component.direction = 'vertical';
+  it('should use vertical scrollbar if visiblity="always" event if viewport is not scrollable', () => {
+    component.track = 'vertical';
     component.visibility = 'always';
-    component.view.style.height = '1000px';
-    component.view.innerHTML = '<div style="height: 300px"></div>';
+    component.viewport.style.height = '1000px';
+    component.viewport.innerHTML = '<div style="height: 300px"></div>';
     fixture.detectChanges();
 
-    expect(component.useVerticalScrollbar).toBeTruthy();
-    expect(component.isVerticalScrollbarScrollable).toBeFalsy();
-    expect(component.useHorizontalScrollbar).toBeFalsy();
-    expect(component.isHorizontalScrollbarScrollable).toBeFalsy();
+    expect(component.state.verticalUsed).toBeTruthy();
+    expect(component.state.isVerticallyScrollable).toBeFalsy();
+    expect(component.state.horizontalUsed).toBeFalsy();
+    expect(component.state.isHorizontallyScrollable).toBeFalsy();
   });
 
   it('should not use vertical scrollbar if viewport is not scrollable', () => {
-    component.direction = 'vertical';
+    component.track = 'vertical';
     component.visibility = 'native';
-    component.view.style.height = '1000px';
-    component.view.innerHTML = '<div style="height: 300px"></div>';
+    component.viewport.style.height = '1000px';
+    component.viewport.innerHTML = '<div style="height: 300px"></div>';
     fixture.detectChanges();
 
-    expect(component.useVerticalScrollbar).toBeFalsy();
-    expect(component.isVerticalScrollbarScrollable).toBeFalsy();
-    expect(component.useHorizontalScrollbar).toBeFalsy();
-    expect(component.isHorizontalScrollbarScrollable).toBeFalsy();
+    expect(component.state.verticalUsed).toBeFalsy();
+    expect(component.state.isVerticallyScrollable).toBeFalsy();
+    expect(component.state.horizontalUsed).toBeFalsy();
+    expect(component.state.isHorizontallyScrollable).toBeFalsy();
   });
 
   it('should use horizontal scrollbar', () => {
-    component.direction = 'horizontal';
+    component.track = 'horizontal';
     component.visibility = 'always';
-    component.view.style.width = '300px';
-    component.view.innerHTML = '<div style="width: 1000px; height: 300px"></div>';
+    component.viewport.style.width = '300px';
+    component.viewport.innerHTML = '<div style="width: 1000px; height: 300px"></div>';
     fixture.detectChanges();
 
-    expect(component.useHorizontalScrollbar).toBeTruthy();
-    expect(component.isHorizontalScrollbarScrollable).toBeTruthy();
-    expect(component.useVerticalScrollbar).toBeFalsy();
-    expect(component.isVerticalScrollbarScrollable).toBeFalsy();
+    expect(component.state.horizontalUsed).toBeTruthy();
+    expect(component.state.isHorizontallyScrollable).toBeTruthy();
+    expect(component.state.verticalUsed).toBeFalsy();
+    expect(component.state.isVerticallyScrollable).toBeFalsy();
   });
 
 
-  it('should use horizontal scrollbar if [visiblity]="\'always\'" event if viewport is not scrollable', () => {
-    component.direction = 'horizontal';
+  it('should use horizontal scrollbar if visiblity="always" event if viewport is not scrollable', () => {
+    component.track = 'horizontal';
     component.visibility = 'always';
-    component.view.style.width = '1000px';
-    component.view.innerHTML = '<div style="width: 300px; height: 300px"></div>';
+    component.viewport.style.width = '1000px';
+    component.viewport.innerHTML = '<div style="width: 300px; height: 300px"></div>';
     fixture.detectChanges();
 
-    expect(component.useHorizontalScrollbar).toBeTruthy();
-    expect(component.isHorizontalScrollbarScrollable).toBeFalsy();
-    expect(component.useVerticalScrollbar).toBeFalsy();
-    expect(component.isVerticalScrollbarScrollable).toBeFalsy();
+    expect(component.state.horizontalUsed).toBeTruthy();
+    expect(component.state.isHorizontallyScrollable).toBeFalsy();
+    expect(component.state.verticalUsed).toBeFalsy();
+    expect(component.state.isVerticallyScrollable).toBeFalsy();
   });
 
   it('should not use horizontal scrollbar if viewport is not scrollable', () => {
-    component.direction = 'horizontal';
+    component.track = 'horizontal';
     component.visibility = 'native';
-    component.view.style.width = '1000px';
-    component.view.innerHTML = '<div style="width: 300px; height: 300px"></div>';
+    component.viewport.style.width = '1000px';
+    component.viewport.innerHTML = '<div style="width: 300px; height: 300px"></div>';
     fixture.detectChanges();
 
-    expect(component.useHorizontalScrollbar).toBeFalsy();
-    expect(component.isHorizontalScrollbarScrollable).toBeFalsy();
-    expect(component.useVerticalScrollbar).toBeFalsy();
-    expect(component.isVerticalScrollbarScrollable).toBeFalsy();
+    expect(component.state.horizontalUsed).toBeFalsy();
+    expect(component.state.isHorizontallyScrollable).toBeFalsy();
+    expect(component.state.verticalUsed).toBeFalsy();
+    expect(component.state.isVerticallyScrollable).toBeFalsy();
   });
 
 });
