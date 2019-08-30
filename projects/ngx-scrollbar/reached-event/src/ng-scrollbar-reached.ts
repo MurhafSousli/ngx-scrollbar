@@ -103,13 +103,17 @@ abstract class HorizontalScrollReached extends ScrollReached implements OnInit {
 @Directive({
   selector: '[reachedTop], [reached-top]',
 })
-export class NgScrollbarReachedTop extends VerticalScrollReached {
+export class NgScrollbarReachedTop extends VerticalScrollReached implements OnInit {
 
   /** Stream that emits when scroll has reached the top */
   @Output() reachedTop: Observable<any> = this.reachedEvent;
 
   constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone) {
     super(scrollbar, zone);
+  }
+
+  ngOnInit() {
+    super.ngOnInit();
   }
 
   /**
@@ -125,13 +129,17 @@ export class NgScrollbarReachedTop extends VerticalScrollReached {
 @Directive({
   selector: '[reachedBottom], [reached-bottom]',
 })
-export class NgScrollbarReachedBottom extends VerticalScrollReached {
+export class NgScrollbarReachedBottom extends VerticalScrollReached implements OnInit {
 
   /** Stream that emits when scroll has reached the bottom */
   @Output() reachedBottom: Observable<any> = this.reachedEvent;
 
   constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone) {
     super(scrollbar, zone);
+  }
+
+  ngOnInit() {
+    super.ngOnInit();
   }
 
   /**
@@ -147,13 +155,17 @@ export class NgScrollbarReachedBottom extends VerticalScrollReached {
 @Directive({
   selector: '[reachedStart], [reached-start]',
 })
-export class NgScrollbarReachedStart extends HorizontalScrollReached {
+export class NgScrollbarReachedStart extends HorizontalScrollReached implements OnInit {
 
   /** Stream that emits when scroll has reached the start */
   @Output() reachedStart: Observable<any> = this.reachedEvent;
 
   constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone, private dir: Directionality) {
     super(scrollbar, zone);
+  }
+
+  ngOnInit() {
+    super.ngOnInit();
   }
 
   /**
@@ -171,13 +183,17 @@ export class NgScrollbarReachedStart extends HorizontalScrollReached {
 @Directive({
   selector: '[reachedEnd], [reached-end]',
 })
-export class NgScrollbarReachedEnd extends HorizontalScrollReached {
+export class NgScrollbarReachedEnd extends HorizontalScrollReached implements OnInit {
 
   /** Stream that emits when scroll has reached the end */
   @Output() reachedEnd: Observable<any> = this.reachedEvent;
 
   constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone, private dir: Directionality) {
     super(scrollbar, zone);
+  }
+
+  ngOnInit() {
+    super.ngOnInit();
   }
 
   /**
