@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { of, BehaviorSubject } from 'rxjs';
 import { take, tap, delay } from 'rxjs/operators';
@@ -6,7 +6,8 @@ import {
   ScrollbarAppearance,
   ScrollbarTrack,
   ScrollbarPosition,
-  ScrollbarVisibility
+  ScrollbarVisibility,
+  NgScrollbar
 } from '../../../../ngx-scrollbar/src/public-api';
 // import {
 //   ScrollbarAppearance,
@@ -23,11 +24,11 @@ import { ReachedEvent } from './reached-notifier/reached-notifier.component';
   templateUrl: './example-x.component.html',
   styleUrls: ['./example-x.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[class.example-component]': 'true'
-  }
+  host: { '[class.example-component]': 'true' }
 })
 export class ExampleXComponent {
+
+  @ViewChild(NgScrollbar, { static: true }) scrollable: NgScrollbar;
 
   // Testing options
   slider: ResizeChange = {
@@ -71,6 +72,23 @@ export class ExampleXComponent {
       tap(() => this.reached.next({ ...this.reached.value, [eventName]: false }))
     ).subscribe();
   }
+
+  scrollToTop() {
+    this.scrollable.scrollToTop(0, 300);
+  }
+
+  scrollToBottom() {
+    this.scrollable.scrollToBottom(0, 300);
+  }
+
+  scrollToRight() {
+    this.scrollable.scrollToRight(0, 300);
+  }
+
+  scrollToLeft() {
+    this.scrollable.scrollToLeft(0, 300);
+  }
+
 }
 
 const content = `

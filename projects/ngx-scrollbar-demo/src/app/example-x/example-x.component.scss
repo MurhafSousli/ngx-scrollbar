@@ -1,4 +1,4 @@
-$scrollable-height: 270px;
+$scrollable-height: 220px;
 
 .exampleX {
 
@@ -24,24 +24,6 @@ $scrollable-height: 270px;
       .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
         line-height: 36px;
         width: 100px;
-      }
-    }
-
-    .mat-button-toggle-group.toggle-sensor {
-      height: 26px;
-
-      .mat-button-toggle {
-        background-color: var(--color-examplex-primary);
-      }
-
-      .mat-button-toggle.mat-button-toggle-checked {
-        background-color: var(--color-accent);
-      }
-
-      .mat-button-toggle-label-content {
-        line-height: 26px;
-        font-size: 12px;
-        padding: 0;
       }
     }
 
@@ -85,6 +67,7 @@ $scrollable-height: 270px;
   }
 
   .scrollbar-wrapper {
+    position: relative;
     flex: 1;
     height: $scrollable-height;
     max-height: $scrollable-height;
@@ -139,4 +122,22 @@ $scrollable-height: 270px;
 .mat-accordion {
   display: block;
   margin: 6px;
+}
+
+.smooth-scroll-buttons {
+  display: flex;
+  align-items: center;
+  button {
+    flex: 1;
+    font-size: 12px;
+    padding: 6px;
+    height: 30px;
+    line-height: 15px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-right: 8px;
+    &:first-child {
+      margin-left: 8px;
+    }
+  }
 }
