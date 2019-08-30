@@ -1,5 +1,6 @@
 import { Directive, Optional, Input, Output, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
+import { getRtlScrollAxisType, RtlScrollAxisType } from '@angular/cdk/platform';
 import { Observable, Subject, Subscription, Observer } from 'rxjs';
 import { filter, map, tap, distinctUntilChanged } from 'rxjs/operators';
 import { NgScrollbar } from 'ngx-scrollbar';
@@ -7,26 +8,42 @@ import { NgScrollbar } from 'ngx-scrollbar';
 // import { NgScrollbar } from '../../src/public-api';
 
 class ReachedFunctions {
-  static isReachedTop(offset: number, e: any): boolean {
-    const position = e.target.scrollTop;
-    return position <= offset;
+  static reachedTop(offset: number, e: any): boolean {
+    return ReachedFunctions.reached(-e.target.scrollTop, 0, offset);
   }
 
-  static isReachedBottom(offset: number, e: any): boolean {
-    const position = e.target.scrollTop + e.target.clientHeight;
-    const target = e.target.scrollHeight;
-    return position >= target - offset;
+  static reachedBottom(offset: number, e: any): boolean {
+    return ReachedFunctions.reached(e.target.scrollTop + e.target.clientHeight, e.target.scrollHeight, offset);
   }
 
-  static isReachedLeft(offset: number, e: any): boolean {
-    const position = e.target.scrollLeft;
-    return position <= offset;
+  static reachedStart(offset: number, e: any, direction: 'ltr' | 'rtl'): boolean {
+    if (direction === 'rtl') {
+      if (getRtlScrollAxisType() === RtlScrollAxisType.NEGATED) {
+        return ReachedFunctions.reached(e.target.scrollLeft, 0, offset);
+      }
+      if (getRtlScrollAxisType() === RtlScrollAxisType.INVERTED) {
+        return ReachedFunctions.reached(-e.target.scrollLeft, 0, offset);
+      }
+      return ReachedFunctions.reached(e.target.scrollLeft + e.target.clientWidth, e.target.scrollWidth, offset);
+    }
+    return ReachedFunctions.reached(-e.target.scrollLeft, 0, offset);
   }
 
-  static isReachedRight(offset: number, e: any): boolean {
-    const position = e.target.scrollLeft + e.target.clientWidth;
-    const target = e.target.scrollWidth;
-    return position >= target - offset;
+  static reachedEnd(offset: number, e: any, direction: 'ltr' | 'rtl'): boolean {
+    if (direction === 'rtl') {
+      if (getRtlScrollAxisType() === RtlScrollAxisType.NEGATED) {
+        return ReachedFunctions.reached(-(e.target.scrollLeft - e.target.clientWidth), e.target.scrollWidth, offset);
+      }
+      if (getRtlScrollAxisType() === RtlScrollAxisType.INVERTED) {
+        return ReachedFunctions.reached(-(e.target.scrollLeft + e.target.clientWidth), e.target.scrollWidth, offset);
+      }
+      return ReachedFunctions.reached(-e.target.scrollLeft, 0, offset);
+    }
+    return ReachedFunctions.reached(e.target.scrollLeft + e.target.clientWidth, e.target.scrollWidth, offset);
+  }
+
+  static reached(currPosition: number, targetPosition: number, offset: number): boolean {
+    return currPosition >= targetPosition - offset;
   }
 }
 
@@ -67,7 +84,7 @@ abstract class ScrollReached implements OnDestroy {
     return this.scrollEvent.pipe(
       tap((e) => currEvent = e),
       // Check if it scroll has reached
-      map((e) => this.isReached(this.offset, e)),
+      map((e) => this.reached(this.offset, e)),
       // Distinct until reached value has changed
       distinctUntilChanged(),
       // Emit only if reached is true
@@ -77,7 +94,7 @@ abstract class ScrollReached implements OnDestroy {
     );
   }
 
-  protected abstract isReached(offset: number, e?: any): boolean;
+  protected abstract reached(offset: number, e?: any): boolean;
 }
 
 abstract class VerticalScrollReached extends ScrollReached implements OnInit {
@@ -121,8 +138,8 @@ export class NgScrollbarReachedTop extends VerticalScrollReached implements OnIn
    * @param offset Scroll offset
    * @param e Scroll event
    */
-  protected isReached(offset: number, e: any): boolean {
-    return ReachedFunctions.isReachedTop(offset, e);
+  protected reached(offset: number, e: any): boolean {
+    return ReachedFunctions.reachedTop(offset, e);
   }
 }
 
@@ -147,8 +164,8 @@ export class NgScrollbarReachedBottom extends VerticalScrollReached implements O
    * @param offset Scroll offset
    * @param e Scroll event
    */
-  protected isReached(offset: number, e: any): boolean {
-    return ReachedFunctions.isReachedBottom(offset, e);
+  protected reached(offset: number, e: any): boolean {
+    return ReachedFunctions.reachedBottom(offset, e);
   }
 }
 
@@ -173,10 +190,8 @@ export class NgScrollbarReachedStart extends HorizontalScrollReached implements 
    * @param offset Scroll offset
    * @param e Scroll event
    */
-  protected isReached(offset: number, e: any): boolean {
-    return this.dir.value === 'ltr'
-      ? ReachedFunctions.isReachedLeft(offset, e)
-      : ReachedFunctions.isReachedRight(offset, e);
+  protected reached(offset: number, e: any): boolean {
+    return ReachedFunctions.reachedStart(offset, e, this.dir.value);
   }
 }
 
@@ -201,9 +216,7 @@ export class NgScrollbarReachedEnd extends HorizontalScrollReached implements On
    * @param offset Scroll offset
    * @param e Scroll event
    */
-  protected isReached(offset: number, e: any): boolean {
-    return this.dir.value === 'ltr'
-      ? ReachedFunctions.isReachedRight(offset, e)
-      : ReachedFunctions.isReachedLeft(offset, e);
+  protected reached(offset: number, e: any): boolean {
+    return ReachedFunctions.reachedEnd(offset, e, this.dir.value);
   }
 }
