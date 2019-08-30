@@ -4,14 +4,22 @@
   // Hide native horizontal scrollbar if visible
   @include horizontalUsed {
     @include viewportOffset {
-      height: calc(100% - var(--native-scrollbar-size));
+      bottom: var(--native-scrollbar-size);
     }
   }
 
   // Hide native vertical scrollbar if visible
   @include verticalUsed {
     @include viewportOffset {
-      width: calc(100% - var(--native-scrollbar-size));
+      left: 0;
+      right: var(--native-scrollbar-size);
+    }
+
+    @include rtl {
+      @include viewportOffset {
+        right: 0;
+        left: var(--native-scrollbar-size);
+      }
     }
   }
 }
