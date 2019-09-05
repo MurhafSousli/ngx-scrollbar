@@ -32,7 +32,7 @@ If you identify any errors in the library, or have an idea for an improvement, p
 
 ### Sponsors
 
-Become a gold sponsor and get your logo on our README on GitHub and the front page of [https://ngx-scrollbar.netlify.com/](https://ngx-scrollbar.netlify.com/).
+Become a sponsor and get your logo on our README on GitHub and the front page of [https://ngx-scrollbar.netlify.com/](https://ngx-scrollbar.netlify.com/).
 
 [![Sponsors on Open Collective](https://opencollective.com/ngx-scrollbar/tiers/sponsors.svg?avatarHeight=64)](https://opencollective.com/ngx-scrollbar/contribute/sponsors-11015/checkout)
 
