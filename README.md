@@ -5,6 +5,7 @@
 
 [![npm](https://img.shields.io/badge/demo-online-ed1c46.svg)](https://ngx-scrollbar.netlify.com/)
 [![npm](https://img.shields.io/badge/stackblitz-online-orange.svg)](https://stackblitz.com/edit/ngx-scrollbar)
+[![Backers on Open Collective](https://opencollective.com/ngx-scrollbar/tiers/backers/badge.svg?label=Backers&color=brightgreen)](#sponsoring-ngx-scrollbar)
 [![npm](https://img.shields.io/npm/v/ngx-scrollbar.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-scrollbar)
 [![Build Status](https://travis-ci.org/MurhafSousli/ngx-scrollbar.svg?branch=master)](https://www.npmjs.com/package/ngx-scrollbar)
 [![npm](https://img.shields.io/npm/dt/ngx-scrollbar.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-scrollbar)
@@ -24,6 +25,22 @@ ___
 ## Issues
 
 If you identify any errors in the library, or have an idea for an improvement, please open an [issue](https://github.com/MurhafSousli/ngx-scrollbar/issues).
+
+## Sponsoring ngx-scrollbar
+
+[![Backers on Open Collective](https://opencollective.com/ngx-scrollbar/tiers/backers/badge.svg?label=Backers&color=brightgreen)](#sponsoring-ngx-scrollbar)
+
+### Sponsors
+
+Become a gold sponsor and get your logo on our README on GitHub and the front page of [https://ngx-scrollbar.netlify.com/](https://ngx-scrollbar.netlify.com/).
+
+[![Sponsors on Open Collective](https://opencollective.com/ngx-scrollbar/tiers/sponsors.svg?avatarHeight=36)](https://opencollective.com/ngx-scrollbar/contribute/sponsors-11015/checkout)
+
+### Backers
+
+Become a backer and get your logo on our README on GitHub.
+
+[![Backers on Open Collective](https://opencollective.com/ngx-scrollbar/tiers/backers.svg?avatarHeight=36)](https://opencollective.com/ngx-scrollbar/contribute/backers-11014/checkout)
 
 ## Author
 
