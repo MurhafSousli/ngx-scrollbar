@@ -54,42 +54,49 @@ export class HorizontalScrollbarRef extends ScrollbarRef {
     super(scrollbarRef, document, trackRef, thumbRef, platform, destroyed);
   }
 
+  private _handleThumbPosition(position: number, trackMax: number) {
+    if (this.dir.value === 'rtl') {
+      if (this.scrollbarRef.manager.rtlScrollAxisType === RtlScrollAxisType.INVERTED) {
+        return -position;
+      }
+      if (this.scrollbarRef.manager.rtlScrollAxisType === RtlScrollAxisType.NORMAL) {
+        return position - trackMax;
+      }
+      // Keeping this as a memo
+      // if (this.rtlScrollAxisType === RtlScrollAxisType.NEGATED) {
+      //   return position;
+      // }
+    }
+    return position;
+  }
+
+  protected handleDragPosition(position: number): number {
+    if (this.dir.value === 'rtl') {
+      if (this.scrollbarRef.manager.rtlScrollAxisType === RtlScrollAxisType.NEGATED) {
+        return position - this.scrollMax;
+      }
+      if (this.scrollbarRef.manager.rtlScrollAxisType === RtlScrollAxisType.INVERTED) {
+        return this.scrollMax - position;
+      }
+      // Keeping this as a memo
+      // if (this.rtlScrollAxisType === RtlScrollAxisType.NORMAL) {
+      //   return position;
+      // }
+    }
+    return position;
+  }
+
   protected scrolled(): Observable<any> {
     return this.scrollbarRef.horizontalScrolled;
   }
 
   protected applyThumbStyle(size: number, position: number, trackMax?: number): void {
     this.thumbElement.style.width = `${ size }px`;
-    let value = 0;
-    if (this.dir.value === 'rtl') {
-      if (getRtlScrollAxisType() === RtlScrollAxisType.NEGATED) {
-        value = position;
-      } else if (getRtlScrollAxisType() === RtlScrollAxisType.INVERTED) {
-        value = -position;
-      } else {
-        value = position - trackMax;
-      }
-    } else {
-      value = position;
-    }
-    this.thumbElement.style.transform = `translate3d(${ value }px, 0, 0)`;
+    this.thumbElement.style.transform = `translate3d(${ this._handleThumbPosition(position, trackMax) }px, 0, 0)`;
   }
 
   protected mapToScrollToOption(value: number): ScrollToOptions {
     return { left: value };
-  }
-
-  protected handleDragBrowserCompatibility(position: number): number {
-    if (this.dir.value === 'rtl') {
-      if (getRtlScrollAxisType() === RtlScrollAxisType.NEGATED) {
-        return position - this.scrollMax;
-      }
-      if (getRtlScrollAxisType() === RtlScrollAxisType.INVERTED) {
-        return this.scrollMax - position;
-      }
-      return position;
-    }
-    return position;
   }
 
   protected scrollTo(point: number): void {

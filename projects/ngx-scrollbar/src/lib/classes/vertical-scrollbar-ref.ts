@@ -65,7 +65,7 @@ export class VerticalScrollbarRef extends ScrollbarRef {
     return { top: value };
   }
 
-  protected handleDragBrowserCompatibility(position: number): number {
+  protected handleDragPosition(position: number): number {
     return position;
   }
 
