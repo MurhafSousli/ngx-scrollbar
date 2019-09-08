@@ -1,6 +1,6 @@
 import { Directive, Optional, Input, Output, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
-import { getRtlScrollAxisType, RtlScrollAxisType } from '@angular/cdk/platform';
+import { RtlScrollAxisType } from '@angular/cdk/platform';
 import { Observable, Subject, Subscription, Observer } from 'rxjs';
 import { filter, map, tap, distinctUntilChanged } from 'rxjs/operators';
 import { NgScrollbar } from 'ngx-scrollbar';
@@ -16,12 +16,12 @@ class ReachedFunctions {
     return ReachedFunctions.reached(e.target.scrollTop + e.target.clientHeight, e.target.scrollHeight, offset);
   }
 
-  static reachedStart(offset: number, e: any, direction: 'ltr' | 'rtl'): boolean {
+  static reachedStart(offset: number, e: any, direction: 'ltr' | 'rtl', rtlScrollAxisType: RtlScrollAxisType): boolean {
     if (direction === 'rtl') {
-      if (getRtlScrollAxisType() === RtlScrollAxisType.NEGATED) {
+      if (rtlScrollAxisType === RtlScrollAxisType.NEGATED) {
         return ReachedFunctions.reached(e.target.scrollLeft, 0, offset);
       }
-      if (getRtlScrollAxisType() === RtlScrollAxisType.INVERTED) {
+      if (rtlScrollAxisType === RtlScrollAxisType.INVERTED) {
         return ReachedFunctions.reached(-e.target.scrollLeft, 0, offset);
       }
       return ReachedFunctions.reached(e.target.scrollLeft + e.target.clientWidth, e.target.scrollWidth, offset);
@@ -29,12 +29,12 @@ class ReachedFunctions {
     return ReachedFunctions.reached(-e.target.scrollLeft, 0, offset);
   }
 
-  static reachedEnd(offset: number, e: any, direction: 'ltr' | 'rtl'): boolean {
+  static reachedEnd(offset: number, e: any, direction: 'ltr' | 'rtl', rtlScrollAxisType: RtlScrollAxisType): boolean {
     if (direction === 'rtl') {
-      if (getRtlScrollAxisType() === RtlScrollAxisType.NEGATED) {
+      if (rtlScrollAxisType === RtlScrollAxisType.NEGATED) {
         return ReachedFunctions.reached(-(e.target.scrollLeft - e.target.clientWidth), e.target.scrollWidth, offset);
       }
-      if (getRtlScrollAxisType() === RtlScrollAxisType.INVERTED) {
+      if (rtlScrollAxisType === RtlScrollAxisType.INVERTED) {
         return ReachedFunctions.reached(-(e.target.scrollLeft + e.target.clientWidth), e.target.scrollWidth, offset);
       }
       return ReachedFunctions.reached(-e.target.scrollLeft, 0, offset);
@@ -191,7 +191,7 @@ export class NgScrollbarReachedStart extends HorizontalScrollReached implements 
    * @param e Scroll event
    */
   protected reached(offset: number, e: any): boolean {
-    return ReachedFunctions.reachedStart(offset, e, this.dir.value);
+    return ReachedFunctions.reachedStart(offset, e, this.dir.value, this.scrollbar.manager.rtlScrollAxisType);
   }
 }
 
@@ -217,6 +217,6 @@ export class NgScrollbarReachedEnd extends HorizontalScrollReached implements On
    * @param e Scroll event
    */
   protected reached(offset: number, e: any): boolean {
-    return ReachedFunctions.reachedEnd(offset, e, this.dir.value);
+    return ReachedFunctions.reachedEnd(offset, e, this.dir.value, this.scrollbar.manager.rtlScrollAxisType);
   }
 }

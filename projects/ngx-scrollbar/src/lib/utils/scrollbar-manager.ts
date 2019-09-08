@@ -1,4 +1,5 @@
 import { Inject, Injectable, Optional } from '@angular/core';
+import { getRtlScrollAxisType, RtlScrollAxisType } from '@angular/cdk/platform';
 import { NG_SCROLLBAR_OPTIONS, NgScrollbarOptions } from '../ng-scrollbar.model';
 
 const defaultOptions: NgScrollbarOptions = {
@@ -22,7 +23,11 @@ const defaultOptions: NgScrollbarOptions = {
 export class ScrollbarManager {
   readonly globalOptions: NgScrollbarOptions;
 
+  readonly rtlScrollAxisType: RtlScrollAxisType;
+
   constructor(@Optional() @Inject(NG_SCROLLBAR_OPTIONS) options: NgScrollbarOptions) {
     this.globalOptions = options ? { ...defaultOptions, ...options } : defaultOptions;
+
+    this.rtlScrollAxisType = getRtlScrollAxisType();
   }
 }

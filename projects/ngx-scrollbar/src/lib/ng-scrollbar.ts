@@ -112,7 +112,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
               private changeDetectorRef: ChangeDetectorRef,
               private dir: Directionality,
               private smoothScroll: SmoothScrollManager,
-              private manager: ScrollbarManager,
+              public manager: ScrollbarManager,
               public nativeScrollbarSizeFactory: NativeScrollbarSizeFactory) {
   }
 
