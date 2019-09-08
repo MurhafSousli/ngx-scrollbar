@@ -79,7 +79,6 @@
 }
 
 .ng-scroll-viewport {
-  transform: translateZ(0);
   overscroll-behavior: contain contain;
   -webkit-overflow-scrolling: touch;
   contain: strict;
