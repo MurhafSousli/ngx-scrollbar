@@ -15,7 +15,10 @@ import {
   SmoothScrollToOptions
 } from './smooth-scroll.model';
 
-@Injectable({ providedIn: 'root' })
+// @dynamic
+@Injectable({
+  providedIn: 'root'
+})
 export class SmoothScrollManager {
 
   // Default options
@@ -65,7 +68,7 @@ export class SmoothScrollManager {
    */
   private _getElement(el: HTMLElement | ElementRef | string, parent?: HTMLElement): HTMLElement {
     if (typeof el === 'string') {
-      return (parent || this._document).querySelector<HTMLElement>(el);
+      return (parent || this._document).querySelector(el);
     }
     return coerceElement<HTMLElement>(el);
   }
