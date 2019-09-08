@@ -17,9 +17,9 @@ import { Directionality } from '@angular/cdk/bidi';
 import { fromEvent, Observable, Observer, Subject } from 'rxjs';
 import { filter, map, pairwise, pluck, takeUntil, tap } from 'rxjs/operators';
 import { ScrollViewport } from './scroll-viewport';
-import { SmoothScrollEaseFunc, SmoothScrollManager, SmoothScrollToOptions } from 'ngx-scrollbar/smooth-scroll';
+import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToOptions } from 'ngx-scrollbar/smooth-scroll';
 // Uncomment the following line in development mode
-// import { SmoothScrollEaseFunc, SmoothScrollManager, SmoothScrollToOptions } from '../../smooth-scroll/src/public_api';
+// import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToOptions } from '../../smooth-scroll/src/public_api';
 import { ScrollbarAppearance, ScrollbarTrack, ScrollbarPosition, ScrollbarVisibility, NgScrollbarState } from './ng-scrollbar.model';
 import { ScrollbarManager } from './utils/scrollbar-manager';
 import { NativeScrollbarSizeFactory } from './utils/native-scrollbar-size-factory';
@@ -243,28 +243,43 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
     return this.smoothScroll.scrollTo(this.viewport, options);
   }
 
-  scrollToElement(target: HTMLElement, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToElement(this.viewport, target, offset, duration, easeFunc);
+  /**
+   * Scroll to element by reference or selector
+   */
+  scrollToElement(target: SmoothScrollElement, options?): Promise<void> {
+    return this.smoothScroll.scrollToElement(this.viewport, target, options);
   }
 
-  scrollToSelector(selector: string, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToSelector(this.viewport, selector, offset, duration, easeFunc);
+  /**
+   * Scroll to top
+   * @deprecated since version 6.0, use scrollTo({ top: 0}) instead
+   */
+  scrollToTop(options?): Promise<void> {
+    return this.smoothScroll.scrollToTop(this.viewport, options);
   }
 
-  scrollToTop(offset?: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToTop(this.viewport, offset, duration, easeFunc);
+  /**
+   * Scroll to bottom
+   * @deprecated since version 6.0, use scrollTo({ bottom: 0}) instead
+   */
+  scrollToBottom(options?): Promise<void> {
+    return this.smoothScroll.scrollToBottom(this.viewport, options);
   }
 
-  scrollToBottom(offset?: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToBottom(this.viewport, offset, duration, easeFunc);
+  /**
+   *  Scroll to left
+   * @deprecated since version 6.0, use scrollTo({ left: 0}) instead
+   */
+  scrollToLeft(options?): Promise<void> {
+    return this.smoothScroll.scrollToLeft(this.viewport, options);
   }
 
-  scrollToRight(offset?: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToRight(this.viewport, offset, duration, easeFunc);
-  }
-
-  scrollToLeft(offset?: number, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToLeft(this.viewport, offset, duration, easeFunc);
+  /**
+   * Scroll to right
+   * @deprecated since version 6.0, use scrollTo({ right: 0}) instead
+   */
+  scrollToRight(options?): Promise<void> {
+    return this.smoothScroll.scrollToRight(this.viewport, options);
   }
 }
 

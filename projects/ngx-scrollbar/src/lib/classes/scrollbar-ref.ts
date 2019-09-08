@@ -168,7 +168,7 @@ export abstract class ScrollbarRef {
         // Calculate how far the user's mouse is from the top/left of the scrollbar (minus the dragOffset).
         map((mouseOffset: number) => mouseOffset - this.dragOffset),
         map((offset: number) => scrollMax * (offset - mouseDownOffset) / trackMax),
-        map((position: number) => this.handleDragBrowserCompatibility(position, scrollMax)),
+        map((position: number) => this.handleDragPosition(position, scrollMax)),
         tap((value: number) => this.scrollTo(value)),
         takeUntil(dragEnd)
       ))
@@ -194,12 +194,11 @@ export abstract class ScrollbarRef {
     return of(e).pipe(
       pluck(this.pageProperty),
       map((pageOffset: number) => pageOffset - this.dragOffset),
-      map((clickOffset) => {
+      map((clickOffset: number) => {
         const offset = clickOffset - (this.thumbSize / 2);
         const ratio = offset / this.trackSize;
         return ratio * this.scrollSize;
       }),
-      map((position: number) => this.handleDragBrowserCompatibility(position, this.scrollMax)),
       tap((value: number) =>
         this.scrollbarRef.scrollTo({
           ...this.mapToScrollToOption(value),
@@ -228,7 +227,7 @@ export abstract class ScrollbarRef {
   /**
    * On drag function
    */
-  protected abstract handleDragBrowserCompatibility(position: number, scrollMax: number): number;
+  protected abstract handleDragPosition(position: number, scrollMax: number): number;
 
   protected abstract scrollTo(point: number): void;
 
