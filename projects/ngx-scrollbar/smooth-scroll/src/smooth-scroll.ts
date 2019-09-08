@@ -1,5 +1,6 @@
 import { Directive, ElementRef } from '@angular/core';
-import { SmoothScrollEaseFunc, SmoothScrollManager, SmoothScrollToOptions } from './smooth-scroll-manager';
+import { SmoothScrollManager } from './smooth-scroll-manager';
+import { SmoothScrollElement, SmoothScrollOptions, SmoothScrollToOptions } from './smooth-scroll.model';
 
 @Directive({
   selector: '[smoothScroll], [smooth-scroll]',
@@ -14,30 +15,23 @@ export class SmoothScroll {
     return this.smoothScroll.scrollTo(this.element, options);
   }
 
-  scrollToElement(target: HTMLElement | ElementRef<HTMLElement>,
-                  offset = 0,
-                  duration?: number,
-                  easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToElement(this.element, target, offset, duration, easeFunc);
+  scrollToElement(target: SmoothScrollElement, options: SmoothScrollOptions): Promise<void> {
+    return this.smoothScroll.scrollToElement(this.element, target, options);
   }
 
-  scrollToSelector(selector: string, offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToSelector(this.element, selector, offset, duration, easeFunc);
+  scrollToTop(options): Promise<void> {
+    return this.smoothScroll.scrollToTop(this.element, options);
   }
 
-  scrollToTop(offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToTop(this.element, offset, duration, easeFunc);
+  scrollToBottom(options): Promise<void> {
+    return this.smoothScroll.scrollToBottom(this.element, options);
   }
 
-  scrollToBottom(offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToBottom(this.element, offset, duration, easeFunc);
+  scrollToRight(options): Promise<void> {
+    return this.smoothScroll.scrollToRight(this.element, options);
   }
 
-  scrollToRight(offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToRight(this.element, offset, duration, easeFunc);
-  }
-
-  scrollToLeft(offset = 0, duration?: number, easeFunc?: SmoothScrollEaseFunc): Promise<void> {
-    return this.smoothScroll.scrollToLeft(this.element, offset, duration, easeFunc);
+  scrollToLeft(options): Promise<void> {
+    return this.smoothScroll.scrollToLeft(this.element, options);
   }
 }
