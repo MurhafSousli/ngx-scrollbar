@@ -42,7 +42,7 @@ export class SmoothScrollManager {
 
   constructor(private _zone: NgZone,
               private _dir: Directionality,
-              @Inject(DOCUMENT) private _document: Document,
+              @Inject(DOCUMENT) private _document: any,
               @Inject(PLATFORM_ID) private _platform: object,
               @Optional() @Inject(SMOOTH_SCROLL_OPTIONS) customDefaultOptions: SmoothScrollToOptions) {
     this._defaultOptions = {
