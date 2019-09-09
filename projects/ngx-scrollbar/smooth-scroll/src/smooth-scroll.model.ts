@@ -7,11 +7,9 @@ export type SmoothScrollElement = HTMLElement | ElementRef<HTMLElement> | string
 
 export type SmoothScrollToOptions = _XAxis & _YAxis & SmoothScrollOptions;
 
-export type SmoothScrollEaseFunc = (t: number, s: number, c: number, d: number) => number;
-
 export interface SmoothScrollOptions {
   duration?: number;
-  easeFunc?: SmoothScrollEaseFunc;
+  easing?: BezierEasingOptions;
 }
 
 export interface SmoothScrollStep {
@@ -22,17 +20,14 @@ export interface SmoothScrollStep {
   x: number;
   y: number;
   duration: number;
-  easeFunc: SmoothScrollEaseFunc;
+  easing: (k: number) => number;
   currentX?: number;
   currentY?: number;
 }
 
-// easing functions http://goo.gl/5HLl8
-export function easeInOutQuad(t: number, b: number, c: number, d: number): number {
-  t /= d / 2;
-  if (t < 1) {
-    return (c / 2) * t * t + b;
-  }
-  t--;
-  return (-c / 2) * (t * (t - 2) - 1) + b;
+export interface BezierEasingOptions {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
 }

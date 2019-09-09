@@ -4,10 +4,10 @@ import { coerceElement } from '@angular/cdk/coercion';
 import { Directionality } from '@angular/cdk/bidi';
 import { getRtlScrollAxisType, RtlScrollAxisType } from '@angular/cdk/platform';
 import { _Bottom, _Left, _Right, _Top, _Without } from '@angular/cdk/scrolling';
-import { fromEvent, merge, of, Observable, Subject } from 'rxjs';
+import { fromEvent, merge, of, Observable, Subject, animationFrameScheduler } from 'rxjs';
 import { expand, finalize, take, takeUntil, takeWhile } from 'rxjs/operators';
+import * as BezierEasing from 'bezier-easing';
 import {
-  easeInOutQuad,
   SMOOTH_SCROLL_OPTIONS,
   SmoothScrollElement,
   SmoothScrollOptions,
@@ -50,7 +50,12 @@ export class SmoothScrollManager {
               @Optional() @Inject(SMOOTH_SCROLL_OPTIONS) customDefaultOptions: SmoothScrollToOptions) {
     this._defaultOptions = {
       duration: 468,
-      easeFunc: easeInOutQuad,
+      easing: {
+        x1: 0.42,
+        y1: 0,
+        x2: 0.58,
+        y2: 1
+      },
       ...customDefaultOptions,
     };
   }
@@ -119,20 +124,20 @@ export class SmoothScrollManager {
    */
   private _step(context: SmoothScrollStep): Observable<SmoothScrollStep> {
     return new Observable(observer => {
-      const elapsed = this._now() - context.startTime;
+      let elapsed = (this._now() - context.startTime) / context.duration;
 
-      // avoid elapsed times higher than the duration
-      if (elapsed >= context.duration) {
-        context.currentX = context.x;
-        context.currentY = context.y;
-      } else {
-        context.currentX = context.easeFunc(elapsed, context.startX, context.x - context.startX, context.duration);
-        context.currentY = context.easeFunc(elapsed, context.startY, context.y - context.startY, context.duration);
-      }
+      // avoid elapsed times higher than one
+      elapsed = elapsed > 1 ? 1 : elapsed;
+
+      // apply easing to elapsed time
+      const value = context.easing(elapsed);
+
+      context.currentX = context.startX + (context.x - context.startX) * value;
+      context.currentY = context.startY + (context.y - context.startY) * value;
 
       this._scrollElement(context.scrollable, context.currentX, context.currentY);
       // Proceed to the step
-      requestAnimationFrame(() => observer.next(context));
+      animationFrameScheduler.schedule(() => observer.next(context));
     });
   }
 
@@ -145,6 +150,8 @@ export class SmoothScrollManager {
     // Initialize a destroyer stream, reinitialize it if the element is already being scrolled
     const destroyed: Subject<void> = this._initSmoothScroll(el);
 
+    const easingOptions = options.easing || this._defaultOptions.easing;
+
     const context: SmoothScrollStep = {
       scrollable: el,
       startTime: this._now(),
@@ -153,7 +160,7 @@ export class SmoothScrollManager {
       x: options.left == null ? el.scrollLeft : ~~options.left,
       y: options.top == null ? el.scrollTop : ~~options.top,
       duration: options.duration || this._defaultOptions.duration,
-      easeFunc: options.easeFunc || this._defaultOptions.easeFunc
+      easing: BezierEasing(easingOptions.x1, easingOptions.y1, easingOptions.x2, easingOptions.y2)
     };
 
     return new Promise(resolve => {
@@ -220,12 +227,12 @@ export class SmoothScrollManager {
     const scrollableEl = this._getElement(scrollable);
     const targetEl = this._getElement(target, scrollableEl);
     const duration = options.duration;
-    const easeFunc = options.easeFunc;
+    const easing = options.easing;
     return targetEl ? this.scrollTo(scrollableEl, {
       left: targetEl.offsetLeft + (options.left || 0),
       top: targetEl.offsetTop + (options.top || 0),
       duration,
-      easeFunc
+      easing
     }) : new Promise(null);
   }
 
