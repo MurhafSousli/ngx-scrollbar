@@ -18,20 +18,4 @@ export class SmoothScroll {
   scrollToElement(target: SmoothScrollElement, options: SmoothScrollOptions): Promise<void> {
     return this.smoothScroll.scrollToElement(this.element, target, options);
   }
-
-  scrollToTop(options): Promise<void> {
-    return this.smoothScroll.scrollToTop(this.element, options);
-  }
-
-  scrollToBottom(options): Promise<void> {
-    return this.smoothScroll.scrollToBottom(this.element, options);
-  }
-
-  scrollToRight(options): Promise<void> {
-    return this.smoothScroll.scrollToRight(this.element, options);
-  }
-
-  scrollToLeft(options): Promise<void> {
-    return this.smoothScroll.scrollToLeft(this.element, options);
-  }
 }

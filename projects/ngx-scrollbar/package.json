@@ -1,6 +1,7 @@
 {
   "name": "ngx-scrollbar",
-  "version": "5.0.2",
+  "version": "6.0.0",
+  "license": "MIT",
   "dependencies": {
     "@juggle/resize-observer": "^2.3.0",
     "bezier-easing": "^2.0.0"

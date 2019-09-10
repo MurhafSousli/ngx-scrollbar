@@ -108,7 +108,8 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   /** Stream that destroys components' observables */
   private destroyed = new Subject<void>();
 
-  constructor(private zone: NgZone,
+  constructor(private el: ElementRef,
+              private zone: NgZone,
               private changeDetectorRef: ChangeDetectorRef,
               private dir: Directionality,
               private smoothScroll: SmoothScrollManager,
@@ -248,38 +249,6 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    */
   scrollToElement(target: SmoothScrollElement, options?): Promise<void> {
     return this.smoothScroll.scrollToElement(this.viewport, target, options);
-  }
-
-  /**
-   * Scroll to top
-   * @deprecated since version 6.0, use scrollTo({ top: 0}) instead
-   */
-  scrollToTop(options?): Promise<void> {
-    return this.smoothScroll.scrollToTop(this.viewport, options);
-  }
-
-  /**
-   * Scroll to bottom
-   * @deprecated since version 6.0, use scrollTo({ bottom: 0}) instead
-   */
-  scrollToBottom(options?): Promise<void> {
-    return this.smoothScroll.scrollToBottom(this.viewport, options);
-  }
-
-  /**
-   *  Scroll to left
-   * @deprecated since version 6.0, use scrollTo({ left: 0}) instead
-   */
-  scrollToLeft(options?): Promise<void> {
-    return this.smoothScroll.scrollToLeft(this.viewport, options);
-  }
-
-  /**
-   * Scroll to right
-   * @deprecated since version 6.0, use scrollTo({ right: 0}) instead
-   */
-  scrollToRight(options?): Promise<void> {
-    return this.smoothScroll.scrollToRight(this.viewport, options);
   }
 }
 

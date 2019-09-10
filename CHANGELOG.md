@@ -1,5 +1,23 @@
 # Changelog
 
+## 6.0.0
+
+- Feat(SmoothScroll): Ability to pass `HTMLElement`, `ElementRef` or `string` for element selector in the smooth scroll functions.
+- Feat(SmoothScroll): Ability to use scrollTo functions using `top`, `left`, `right`, `bottom`, `start` and `end`.
+- Feat(SmoothScroll): Ability to set offset in `scrollToElement` functions using `top`, `left`, `right`, `bottom`, `start` and `end`.
+- Feat(SmoothScroll): Use bezier-easing makes it easier to customize the smooth scroll ease function [#208](https://github.com/MurhafSousli/ngx-scrollbar/issues/208) in [c3436a2](https://github.com/MurhafSousli/ngx-scrollbar/pull/212/commits/c3436a2bc45487f6a117a034dedf976388cc175b).
+- Fix all smooth scroll problems, closes [#186](https://github.com/MurhafSousli/ngx-scrollbar/issues/186) in [b5072b2](https://github.com/MurhafSousli/ngx-scrollbar/pull/209/commits/b5072b2feca6154f0bbb60ff725b1fcf5351d3b6).
+- Fix Scrollbar appears in some cases even if content isn't scrollable, closes [#198](https://github.com/MurhafSousli/ngx-scrollbar/issues/198) in [a4233b4](https://github.com/MurhafSousli/ngx-scrollbar/pull/207/commits/a4233b41f9f8e8aa7fd5d85cb3529f862c7f207e).
+- Fix white page issue in Edge, closes [#205](https://github.com/MurhafSousli/ngx-scrollbar/issues/205) in [4547370](https://github.com/MurhafSousli/ngx-scrollbar/pull/206/commits/4547370fca867cb76fc4d3a8d8234a35647d378f).
+- Add `@juggle/resize-observer` to dependencies, closes [#185](https://github.com/MurhafSousli/ngx-scrollbar/issues/185) in [c2b524c](https://github.com/MurhafSousli/ngx-scrollbar/pull/202/commits/c2b524cd25b36d7504fa9a76bace4bbbf8f10b8b).
+- Avoid calling `getRtlScrollAxisType()` in scroll reached events, closes in [#203](https://github.com/MurhafSousli/ngx-scrollbar/issues/203) in [295ac17](https://github.com/MurhafSousli/ngx-scrollbar/pull/204/commits/295ac1788f8c520da914ae7d9e3cd3184b4e1643)
+
+### Breaking changes
+
+- Smooth scroll functions options parameters has been modified `scrollToBottom`, `scrollToTop`, `scrollToLeft`, `scrollToRight`, `scrollToSelector`
+- Refactor smooth scroll functions parameters `scrollTo` and `scrollToElement`, see the wiki for new option interface.
+- `ngScrollbar.scrollToSelector('#target')` has been removed, you can now use `ngScrollbar.scrollToElement('#target')` instead
+
 ## 5.0.2
 
 - Fix reached events in RTL in Mozilla and Safari, closes [#193]() in [8279828](https://github.com/MurhafSousli/ngx-scrollbar/pull/194/commits/8279828d1523897c238bbcfa926f8d3ec45370d1).
