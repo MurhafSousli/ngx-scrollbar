@@ -13,7 +13,7 @@ export class AppComponent {
   showGoToTopButton = false;
   largeScreen: Observable<boolean>;
 
-  constructor(private breakpointObserver: BreakpointObserver) {
+  constructor(breakpointObserver: BreakpointObserver) {
     this.largeScreen = breakpointObserver.observe(Breakpoints.HandsetPortrait).pipe(map((state: BreakpointState) => !state.matches));
   }
 

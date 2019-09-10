@@ -1,4 +1,4 @@
-$scrollable-height: 220px;
+$scrollable-height: 280px;
 
 .exampleX {
 
@@ -124,20 +124,10 @@ $scrollable-height: 220px;
   margin: 6px;
 }
 
-.smooth-scroll-buttons {
-  display: flex;
-  align-items: center;
-  button {
-    flex: 1;
-    font-size: 12px;
-    padding: 6px;
-    height: 30px;
-    line-height: 15px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    margin-right: 8px;
-    &:first-child {
-      margin-left: 8px;
-    }
-  }
+#target {
+  border: 2px solid var(--color-warn);
+  position: absolute;
+  left: calc(50% - 50px);
+  top: calc(50% - 50px);
+  width: 100px;
 }
