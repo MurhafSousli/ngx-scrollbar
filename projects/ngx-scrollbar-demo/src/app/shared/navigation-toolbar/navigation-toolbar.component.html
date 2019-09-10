@@ -1,5 +1,5 @@
 <mat-toolbar color="primary" class="mat-elevation-z4">
-  <button mat-button class="home-button" (click)="mainScrollbar.scrollToTop(600)">
+  <button mat-button class="home-button" (click)="null">
     <app-logo></app-logo>
     <span>ngx-scrollbar</span>
   </button>
@@ -11,7 +11,7 @@
       <a mat-tab-link
          *ngFor="let example of examples | async"
          [active]="example?.active"
-         (click)="mainScrollbar.scrollToSelector(example?.selector, example?.top, example?.duration)">
+         (click)="null">
         {{example?.label}}
       </a>
     </nav>

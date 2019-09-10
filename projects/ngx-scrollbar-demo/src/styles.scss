@@ -3,7 +3,7 @@
 
 @include mat-core();
 
-$app-primary: mat-palette($mat-blue, 700);
+$app-primary: mat-palette($mat-blue, 800);
 $app-accent: mat-palette($mat-orange, 500);
 $app-warn: mat-palette($mat-red);
 $app-success: mat-palette($mat-light-green);
@@ -18,11 +18,11 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
   --color-warn: #{mat-color($app-warn)};
   --color-success: #{mat-color($app-success)};
 
-  --color-app-background: #{mat-color(mat-palette($mat-blue, 700))};
+  --color-app-background: #{mat-color(mat-palette($mat-blue, 800))};
   --color-app-logo: var(--color-app-background);
 
   --color-examplex-accent: var(--color-app-background);
-  --color-examplex-primary: #{mat-color(mat-palette($mat-orange, 200))};
+  --color-examplex-primary: aliceblue; //#{mat-color(mat-palette($mat-orange, 200))};
   --color-scrollbar-example-x: var(--color-accent);
 
   --color-example-5: var(--color-app-background);

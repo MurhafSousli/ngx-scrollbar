@@ -22,6 +22,8 @@ import { CardComponent } from './example-nested-virtual-scroll/card/card.compone
 import { ResizeFormComponent } from './example-x/resize-form/resize-form.component';
 import { ToggleFormComponent } from './example-x/toggle-form/toggle-form.component';
 import { ReachedNotifierComponent } from './example-x/reached-notifier/reached-notifier.component';
+import { SmoothScrollFormComponent } from './example-x/smooth-scroll-form/smooth-scroll-form.component';
+import { SponsorsComponent } from './sponsors/sponsors.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { ReachedNotifierComponent } from './example-x/reached-notifier/reached-n
     CardComponent,
     ResizeFormComponent,
     ToggleFormComponent,
-    ReachedNotifierComponent
+    ReachedNotifierComponent,
+    SmoothScrollFormComponent,
+    SponsorsComponent
   ],
   imports: [
     BrowserModule,

@@ -18,6 +18,7 @@
     "no-input-rename": false,
     "directive-class-suffix": false,
     "component-class-suffix": false,
-    "curly": false
+    "curly": false,
+    "no-bitwise": false
   }
 }

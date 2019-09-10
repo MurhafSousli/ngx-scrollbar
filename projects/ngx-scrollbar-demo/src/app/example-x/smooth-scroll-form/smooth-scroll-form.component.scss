@@ -1,0 +1,52 @@
+:host {
+  ::ng-deep {
+    .mat-button-toggle-group {
+      margin-right: 1em;
+
+      .mat-button-toggle {
+        flex: 1;
+      }
+
+      .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+        width: unset !important;
+      }
+    }
+  }
+}
+
+.toggle-container {
+  display: flex;
+  align-items: center;
+}
+
+.middle {
+  flex: 1;
+}
+
+.display-function {
+  font-family: monospace;
+  font-size: 14px;
+  background-color: var(--color-examplex-accent);
+  border-radius: 4px;
+  padding: 0.3em 0.5em;
+  color: white;
+  margin-right: 1em;
+  &::selection {
+    background-color: mediumpurple;
+  }
+}
+
+span {
+  font-size: 14px;
+  width: 60px;
+  margin-right: 1em;
+}
+
+button {
+  transition: background-color ease-out 1s;
+
+  &.changed {
+    background-color: var(--color-highlight) !important;
+    transition: unset !important;
+  }
+}

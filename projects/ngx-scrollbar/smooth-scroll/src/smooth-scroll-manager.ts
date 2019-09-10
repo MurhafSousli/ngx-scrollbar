@@ -235,37 +235,5 @@ export class SmoothScrollManager {
       easing
     }) : new Promise(null);
   }
-
-  /**
-   * Scroll to top
-   * @deprecated since version 6.0, use scrollTo({ top: 0}) instead
-   */
-  scrollToTop(scrollable: SmoothScrollElement, options?: SmoothScrollOptions): Promise<void> {
-    return this.scrollTo(scrollable, { top: 0, ...options });
-  }
-
-  /**
-   * Scroll to bottom
-   * @deprecated since version 6.0, use scrollTo({ bottom: 0}) instead
-   */
-  scrollToBottom(scrollable: SmoothScrollElement, options?: SmoothScrollOptions): Promise<void> {
-    return this.scrollTo(scrollable, { bottom: 0, ...options });
-  }
-
-  /**
-   *  Scroll to left
-   * @deprecated since version 6.0, use scrollTo({ left: 0}) instead
-   */
-  scrollToLeft(scrollable: SmoothScrollElement, options?: SmoothScrollOptions): Promise<void> {
-    return this.scrollTo(scrollable, { left: 0, ...options });
-  }
-
-  /**
-   * Scroll to right
-   * @deprecated since version 6.0, use scrollTo({ right: 0}) instead
-   */
-  scrollToRight(scrollable: SmoothScrollElement, options?: SmoothScrollOptions): Promise<void> {
-    return this.scrollTo(scrollable, { right: 0, ...options });
-  }
 }
 

@@ -1,5 +1,5 @@
 <p align="center">
-  <img height="200px" width="200px" style="text-align: center;" src="https://cdn.rawgit.com/MurhafSousli/ngx-scrollbar/ee4c0ba4/src/assets/logo.svg">
+  <img height="165px" width="165px" style="text-align: center;" src="https://user-images.githubusercontent.com/8130692/64606830-d4006f00-d3cf-11e9-9874-c75269fa3a9c.png">
   <h1 align="center">Angular Custom Scrollbar</h1>
 </p>
 
@@ -16,10 +16,14 @@ Custom overlay-scrollbars with native scrolling mechanism for Angular, it also p
 
 ___
 
-### Version 5 has arrived
+### Version 6 has arrived
+
+There isn't much changes in version 6, Only the smooth scroll functions has been modified and fixed, beside that there is no breaking changes.
+
+#### Since version 5
 
 - 📌 The documentation has been moved to the [wiki page](https://github.com/MurhafSousli/ngx-scrollbar/wiki) 📚
-- ⚠️ Version 5 has some breaking changes! See the [migration guide](https://github.com/MurhafSousli/ngx-scrollbar/wiki/migration-guide) :blue_book:
+- ⚠️ To upgrade from version 4, see the [migration guide](https://github.com/MurhafSousli/ngx-scrollbar/wiki/migration-guide) :blue_book:
 - ⚠️ If you are still using version 4, You can find the docs [here](https://github.com/MurhafSousli/ngx-scrollbar/blob/master/README_V4.md) and the demo [here](https://ngx-scrollbar-v4.netlify.com/), however it is not supported anymore.
 
 ## Issues

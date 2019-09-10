@@ -98,6 +98,6 @@ export class Example2Component {
   }
 
   onScrollbarUpdate() {
-    this.scrollbar.scrollToBottom(200, 200);
+    this.scrollbar.scrollTo({ bottom: 0, duration: 200 });
   }
 }

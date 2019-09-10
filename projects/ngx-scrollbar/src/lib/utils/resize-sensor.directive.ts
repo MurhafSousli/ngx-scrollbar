@@ -1,10 +1,10 @@
 import { Directive, Input, Injectable, Inject, AfterContentInit, OnDestroy, NgZone } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
-import { BehaviorSubject, EMPTY, from, Observable, Observer, of, Subscription } from 'rxjs';
+import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
+import { from, of, EMPTY, BehaviorSubject, Observable, Subscription, Observer } from 'rxjs';
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
 import { NgScrollbar } from '../ng-scrollbar';
-import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 
 /**
  * Factory that initialize the ResizeObserver if available in the browser

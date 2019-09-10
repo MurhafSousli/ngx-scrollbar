@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { of, BehaviorSubject } from 'rxjs';
-import { take, tap, delay } from 'rxjs/operators';
+import { of, BehaviorSubject, Subject } from 'rxjs';
+import { take, delay } from 'rxjs/operators';
 import {
   ScrollbarAppearance,
   ScrollbarTrack,
@@ -34,7 +34,7 @@ export class ExampleXComponent {
   slider: ResizeChange = {
     componentSize: 100,
     contentWidth: 100,
-    contentSize: 4
+    contentSize: 5
   };
   toggle: ToggleChange = {
     disabled: false,
@@ -53,6 +53,10 @@ export class ExampleXComponent {
 
   reached = new BehaviorSubject<ReachedEvent>({});
 
+  // For smooth scrollToElement test
+  scrollToElementSelected = false;
+  scrollToReached = new Subject<boolean>();
+
   get content() {
     return '<b>Lorem ipsum dolor sit amet</b>' + content.repeat(this.slider.contentSize);
   }
@@ -69,24 +73,30 @@ export class ExampleXComponent {
     of(null).pipe(
       delay(600),
       take(1),
-      tap(() => this.reached.next({ ...this.reached.value, [eventName]: false }))
-    ).subscribe();
+    ).subscribe(() => this.reached.next({ ...this.reached.value, [eventName]: false }));
   }
 
-  scrollToTop() {
-    this.scrollable.scrollToTop(0, 300);
-  }
+  onScrollTo(event) {
+    // Prepare scrollTo options from event
+    const options = {
+      [event.axisXProperty]: event.axisXValue,
+      [event.axisYProperty]: event.axisYValue,
+      duration: event.duration
+    };
+    // This shows effect on play button when scrollTo has reached
+    const onScrollToReached = () => {
+      this.scrollToReached.next(true);
+      of(null).pipe(
+        delay(600),
+        take(1),
+      ).subscribe(() => this.scrollToReached.next(false));
+    };
 
-  scrollToBottom() {
-    this.scrollable.scrollToBottom(0, 300);
-  }
-
-  scrollToRight() {
-    this.scrollable.scrollToRight(0, 300);
-  }
-
-  scrollToLeft() {
-    this.scrollable.scrollToLeft(0, 300);
+    if (this.scrollToElementSelected) {
+      this.scrollable.scrollToElement('#target', options).then(() => onScrollToReached());
+    } else {
+      this.scrollable.scrollTo(options).then(() => onScrollToReached());
+    }
   }
 
 }

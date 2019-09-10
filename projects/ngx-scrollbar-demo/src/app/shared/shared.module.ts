@@ -1,21 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BidiModule } from '@angular/cdk/bidi';
-import {
-  MatButtonModule,
-  MatCardModule,
-  MatExpansionModule,
-  MatInputModule,
-  MatListModule,
-  MatSlideToggleModule,
-  MatTabsModule,
-  MatToolbarModule,
-  MatChipsModule,
-  MatIconModule,
-  MatCheckboxModule,
-  MatSliderModule,
-  MatButtonToggleModule
-} from '@angular/material';
+
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatListModule } from '@angular/material/list';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -58,7 +56,6 @@ import { NgScrollbarReachedModule } from '../../../../ngx-scrollbar/reached-even
     MatListModule,
     MatTabsModule,
     MatInputModule,
-    MatCheckboxModule,
     MatChipsModule,
     MatIconModule,
     MatSliderModule,

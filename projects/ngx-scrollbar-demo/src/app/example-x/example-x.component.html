@@ -33,16 +33,12 @@
           <div class="inner"
                [style.width.%]="slider.contentWidth"
                [innerHTML]="content"></div>
+
+          <div *ngIf="scrollToElementSelected" id="target">
+            <app-logo></app-logo>
+          </div>
+
         </ng-scrollbar>
-
-        <mat-divider></mat-divider>
-
-        <div class="smooth-scroll-buttons">
-          <button mat-flat-button (click)="scrollToTop()">ScrollToTop</button>
-          <button mat-flat-button (click)="scrollToBottom()">ScrollToBottom</button>
-          <button mat-flat-button (click)="scrollToLeft()">ScrollToLeft</button>
-          <button mat-flat-button (click)="scrollToRight()">ScrollToRight</button>
-        </div>
       </div>
 
       <mat-divider vertical></mat-divider>
@@ -63,10 +59,25 @@
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
+              Scrolling
+            </mat-panel-title>
+            <mat-panel-description>
+              Smooth scroll options
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <app-smooth-scroll-form [reached]="scrollToReached | async"
+                                  (scrollTo)="onScrollTo($event)"
+                                  (scrollToElementSelected)="scrollToElementSelected = $event"></app-smooth-scroll-form>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
               Styling
             </mat-panel-title>
             <mat-panel-description>
-              CSS variables
+              CSS variables options
             </mat-panel-description>
           </mat-expansion-panel-header>
 
@@ -145,7 +156,5 @@
         </mat-expansion-panel>
       </mat-accordion>
     </mat-card-actions>
-
-
   </mat-card>
 </div>
