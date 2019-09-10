@@ -2,7 +2,8 @@
   "name": "ngx-scrollbar",
   "version": "5.0.2",
   "dependencies": {
-    "@juggle/resize-observer": "^2.3.0"
+    "@juggle/resize-observer": "^2.3.0",
+    "bezier-easing": "^2.0.0"
   },
   "peerDependencies": {
     "@angular/common": "^8.0.0",
