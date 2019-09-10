@@ -3,8 +3,8 @@
 ## 6.0.0
 
 - Feat(SmoothScroll): Ability to pass `HTMLElement`, `ElementRef` or `string` for element selector in the smooth scroll functions.
-- Feat(SmoothScroll): Ability to use scrollTo functions using `top`, `left`, `right`, `bottom`, `start` and `end`.
-- Feat(SmoothScroll): Ability to set offset in `scrollToElement` functions using `top`, `left`, `right`, `bottom`, `start` and `end`.
+- Feat(SmoothScroll): Ability to use scrollTo function using `top`, `left`, `right`, `bottom`, `start` and `end`.
+- Feat(SmoothScroll): Ability to set an offset in `scrollToElement` function using `top` and `left` options' properties.
 - Feat(SmoothScroll): Use bezier-easing makes it easier to customize the smooth scroll ease function [#208](https://github.com/MurhafSousli/ngx-scrollbar/issues/208) in [c3436a2](https://github.com/MurhafSousli/ngx-scrollbar/pull/212/commits/c3436a2bc45487f6a117a034dedf976388cc175b).
 - Fix all smooth scroll problems, closes [#186](https://github.com/MurhafSousli/ngx-scrollbar/issues/186) in [b5072b2](https://github.com/MurhafSousli/ngx-scrollbar/pull/209/commits/b5072b2feca6154f0bbb60ff725b1fcf5351d3b6).
 - Fix Scrollbar appears in some cases even if content isn't scrollable, closes [#198](https://github.com/MurhafSousli/ngx-scrollbar/issues/198) in [a4233b4](https://github.com/MurhafSousli/ngx-scrollbar/pull/207/commits/a4233b41f9f8e8aa7fd5d85cb3529f862c7f207e).
