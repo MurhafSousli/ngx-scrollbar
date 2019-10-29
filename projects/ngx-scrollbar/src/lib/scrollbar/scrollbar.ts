@@ -13,9 +13,9 @@ import { isWithinBounds } from './common';
 export abstract class Scrollbar implements OnInit, OnDestroy {
 
   // Thumb directive reference
-  protected readonly thumb: ThumbAdapter;
+  readonly thumb: ThumbAdapter;
   // Track directive reference
-  protected readonly track: TrackAdapter;
+  readonly track: TrackAdapter;
   // Stream that emits to unsubscribe from all streams
   protected readonly destroyed = new Subject<void>();
 
@@ -28,10 +28,7 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
 
   protected abstract get viewportScrollSize(): number;
 
-  protected constructor(protected platform: Platform,
-                        protected cmp: NgScrollbar,
-                        protected document: any,
-                        protected zone: NgZone) {
+  protected constructor(public cmp: NgScrollbar, protected platform: Platform, protected document: any, protected zone: NgZone) {
   }
 
   /**
@@ -131,15 +128,15 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
 })
 export class ScrollbarY extends Scrollbar {
 
-  @ViewChild(TrackYDirective, { static: true }) protected readonly track: TrackYDirective;
-  @ViewChild(ThumbYDirective, { static: true }) protected readonly thumb: ThumbYDirective;
+  @ViewChild(TrackYDirective, { static: true }) readonly track: TrackYDirective;
+  @ViewChild(ThumbYDirective, { static: true }) readonly thumb: ThumbYDirective;
 
   protected get viewportScrollSize(): number {
     return this.cmp.viewport.scrollHeight;
   }
 
-  constructor(protected platform: Platform, protected cmp: NgScrollbar, @Inject(DOCUMENT) protected document: any, protected zone: NgZone) {
-    super(platform, cmp, document, zone);
+  constructor(public cmp: NgScrollbar, protected platform: Platform, @Inject(DOCUMENT) protected document: any, protected zone: NgZone) {
+    super(cmp, platform, document, zone);
   }
 
   protected setHovered(value: boolean): void {
@@ -160,15 +157,15 @@ export class ScrollbarY extends Scrollbar {
 })
 export class ScrollbarX extends Scrollbar {
 
-  @ViewChild(TrackXDirective, { static: true }) protected readonly track: TrackXDirective;
-  @ViewChild(ThumbXDirective, { static: true }) protected readonly thumb: ThumbXDirective;
+  @ViewChild(TrackXDirective, { static: true }) readonly track: TrackXDirective;
+  @ViewChild(ThumbXDirective, { static: true }) readonly thumb: ThumbXDirective;
 
   protected get viewportScrollSize(): number {
     return this.cmp.viewport.scrollWidth;
   }
 
-  constructor(protected platform: Platform, protected cmp: NgScrollbar, @Inject(DOCUMENT) protected document: any, protected zone: NgZone) {
-    super(platform, cmp, document, zone);
+  constructor(public cmp: NgScrollbar, protected platform: Platform, @Inject(DOCUMENT) protected document: any, protected zone: NgZone) {
+    super(cmp, platform, document, zone);
   }
 
   protected setHovered(value: boolean): void {
