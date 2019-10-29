@@ -89,7 +89,7 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
   ngOnInit() {
     this.zone.runOutsideAngular(() => {
       // Activate pointer events on Desktop only
-      if (!(this.platform.IOS || this.platform.ANDROID)) {
+      if (!(this.platform.IOS || this.platform.ANDROID) && !this.cmp.pointerEventsDisabled) {
         this.activatePointerEvents().pipe(takeUntil(this.destroyed)).subscribe();
       }
 

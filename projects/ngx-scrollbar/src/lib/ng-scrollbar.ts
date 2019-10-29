@@ -51,7 +51,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   /** The duration which the scrolling takes to reach its target when scrollbar rail is clicked */
   @Input() trackClickScrollDuration = this.manager.globalOptions.trackClickScrollDuration;
   /** A flag used to enable/disable the scrollbar thumb dragged event */
-  @Input() thumbDragDisabled: boolean = this.manager.globalOptions.thumbDragDisabled;
+  @Input() pointerEventsDisabled: boolean = this.manager.globalOptions.pointerEventsDisabled;
   /**
    * Sets the pointer events method
    * Use viewport pointer events  to handle dragging and track click (This makes scrolling work when mouse is over the scrollbar)
