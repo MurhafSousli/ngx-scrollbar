@@ -27,7 +27,7 @@
 }
 
 @mixin enabled {
-  &[disabled="false"] {
+  &[deactivated="false"] {
     @content;
   }
 }
