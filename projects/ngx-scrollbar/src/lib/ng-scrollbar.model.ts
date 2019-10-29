@@ -50,10 +50,8 @@ export interface NgScrollbarOptions {
   minThumbSize?: number;
   /** The duration which the scrolling takes to reach its target when scrollbar rail is clicked */
   trackClickScrollDuration?: number;
-  /** A flag used to enable/disable the scrollbar track clicked event */
-  trackClickDisabled?: boolean;
-  /** A flag used to enable/disable the scrollbar thumb dragged event */
-  thumbDragDisabled?: boolean;
+  /** A flag used to enable/disable the scrollbar pointer events */
+  pointerEventsDisabled?: boolean;
   /** Debounce interval for detecting changes via window.resize event */
   windowResizeDebounce?: number;
   /** Debounce interval for detecting changes via ResizeObserver */

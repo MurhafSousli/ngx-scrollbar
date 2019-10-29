@@ -84,9 +84,9 @@ export class ResizeSensor implements AfterContentInit, OnDestroy {
   private _createObserver(ResizeObserver: any): Observable<void> {
     return new Observable((observer: Observer<void>) => {
       this._resizeObserver = new ResizeObserver(() => observer.next());
-      this._resizeObserver.observe(this.scrollbar.viewport);
-      if (this.scrollbar.contentWrapper) {
-        this._resizeObserver.observe(this.scrollbar.contentWrapper);
+      this._resizeObserver.observe(this.scrollbar.viewport.nativeElement);
+      if (this.scrollbar.viewport.contentWrapperElement) {
+        this._resizeObserver.observe(this.scrollbar.viewport.contentWrapperElement);
       }
     });
   }

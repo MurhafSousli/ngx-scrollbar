@@ -8,8 +8,6 @@ import { SmoothScrollModule } from 'ngx-scrollbar/smooth-scroll';
 // import { SmoothScrollModule } from '../../smooth-scroll/src/public_api';
 
 import { NgScrollbar } from './ng-scrollbar';
-import { ScrollbarControl } from './scrollbar-control/scrollbar-control';
-import { ScrollViewport } from './scroll-viewport';
 import { CssVariable } from './utils/css-variable.pipe';
 import { NgAttr } from './utils/ng-attr.directive';
 import { ResizeSensor } from './utils/resize-sensor.directive';
