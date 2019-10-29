@@ -78,25 +78,26 @@
 }
 
 @mixin verticalScrollbar {
-  > .scrollbar-control[track="vertical"] {
+  > scrollbar-y.scrollbar-control {
     @content;
   }
 }
 
 @mixin fitVerticalScrollbarSelector {
-  > .scrollbar-control[track="vertical"][fit="true"] {
+  > scrollbar-y.scrollbar-control[fit="true"] {
     @content;
   }
 }
 
 @mixin horizontalScrollbar {
-  > .scrollbar-control[track="horizontal"] {
+  > scrollbar-x.scrollbar-control {
     @content;
   }
 }
 
 @mixin fitHorizontalScrollbarSelector {
-  > .scrollbar-control[track="horizontal"][fit="true"] {
+  &[position="invertY"]
+  > scrollbar-x.scrollbar-control[fit="true"] {
     @content;
   }
 }

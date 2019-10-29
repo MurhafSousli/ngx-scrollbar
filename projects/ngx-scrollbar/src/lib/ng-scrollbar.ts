@@ -43,8 +43,6 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   @Input() minThumbSize: number = this.manager.globalOptions.minThumbSize;
   /** The duration which the scrolling takes to reach its target when scrollbar rail is clicked */
   @Input() trackClickScrollDuration = this.manager.globalOptions.trackClickScrollDuration;
-  /** A flag used to enable/disable the scrollbar track clicked event */
-  @Input() trackClickDisabled: boolean = this.manager.globalOptions.trackClickDisabled;
   /** A flag used to enable/disable the scrollbar thumb dragged event */
   @Input() thumbDragDisabled: boolean = this.manager.globalOptions.thumbDragDisabled;
   /** Disable custom scrollbar and switch back to native scrollbar */
