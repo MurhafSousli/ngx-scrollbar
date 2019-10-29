@@ -20,7 +20,14 @@ import { ScrollViewport } from './scroll-viewport';
 import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToOptions } from 'ngx-scrollbar/smooth-scroll';
 // Uncomment the following line in development mode
 // import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToOptions } from '../../smooth-scroll/src/public_api';
-import { ScrollbarAppearance, ScrollbarTrack, ScrollbarPosition, ScrollbarVisibility, NgScrollbarState } from './ng-scrollbar.model';
+import {
+  ScrollbarAppearance,
+  ScrollbarTrack,
+  ScrollbarPosition,
+  ScrollbarVisibility,
+  NgScrollbarState,
+  ScrollbarPointerEventsMethod
+} from './ng-scrollbar.model';
 import { ScrollbarManager } from './utils/scrollbar-manager';
 import { NativeScrollbarSizeFactory } from './utils/native-scrollbar-size-factory';
 
@@ -45,6 +52,12 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   @Input() trackClickScrollDuration = this.manager.globalOptions.trackClickScrollDuration;
   /** A flag used to enable/disable the scrollbar thumb dragged event */
   @Input() thumbDragDisabled: boolean = this.manager.globalOptions.thumbDragDisabled;
+  /**
+   * Sets the pointer events method
+   * Use viewport pointer events  to handle dragging and track click (This makes scrolling work when mouse is over the scrollbar)
+   * Use scrollbar pointer events to handle dragging and track click
+   */
+  @Input() pointerEventsMethod: ScrollbarPointerEventsMethod = this.manager.globalOptions.pointerEventsMethod;
   /** Disable custom scrollbar and switch back to native scrollbar */
   @Input() deactivated: boolean = false;
   /**
@@ -132,6 +145,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
       horizontalUsed = this.visibility === 'always' || isHorizontallyScrollable;
     }
 
+    // Update inner wrapper attributes
     this._updateState({
       position: this.position,
       track: this.track,
@@ -139,6 +153,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
       visibility: this.visibility,
       deactivated: this.deactivated,
       dir: this.dir.value,
+      pointerEventsMethod: this.pointerEventsMethod,
       verticalUsed,
       horizontalUsed,
       isVerticallyScrollable,
