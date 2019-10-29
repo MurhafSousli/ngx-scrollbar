@@ -11,7 +11,7 @@
       </div>
     </div>
   </div>
-  <ng-container *ngIf="!disabled">
+  <ng-container *ngIf="!deactivated">
     <scrollbar-control *ngIf="state.verticalUsed"
                        track="vertical"
                        [attr.scrollable]="state.isVerticallyScrollable"

@@ -70,7 +70,7 @@ export interface NgScrollbarState {
   track?: ScrollbarTrack;
   appearance?: ScrollbarAppearance;
   visibility?: ScrollbarVisibility;
-  disabled?: boolean;
+  deactivated?: boolean;
   dir?: 'rtl' | 'ltr';
   verticalUsed?: boolean;
   horizontalUsed?: boolean;

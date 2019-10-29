@@ -52,7 +52,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   /** A flag used to enable/disable the scrollbar thumb dragged event */
   @Input() thumbDragDisabled: boolean = this.manager.globalOptions.thumbDragDisabled;
   /** Disable custom scrollbar and switch back to native scrollbar */
-  @Input() disabled: boolean = false;
+  @Input() deactivated: boolean = false;
   /**
    * Sets the supported scroll track of the viewport, there are 3 options:
    *
@@ -154,7 +154,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
       track: this.track,
       appearance: this.appearance,
       visibility: this.visibility,
-      disabled: this.disabled,
+      deactivated: this.deactivated,
       dir: this.dir.value,
       verticalUsed,
       horizontalUsed,
