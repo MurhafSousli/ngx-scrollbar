@@ -4,6 +4,7 @@ export type ScrollbarAppearance = 'standard' | 'compact' | undefined;
 export type ScrollbarTrack = 'vertical' | 'horizontal' | 'all' | undefined;
 export type ScrollbarVisibility = 'hover' | 'always' | 'native' | undefined;
 export type ScrollbarPosition = 'native' | 'invertY' | 'invertX' | 'invertAll' | undefined;
+export type ScrollbarPointerEventsMethod = 'viewport' | 'scrollbar' | undefined;
 
 export const NG_SCROLLBAR_OPTIONS = new InjectionToken<NgScrollbarOptions>('NG_SCROLLBAR_OPTIONS');
 
@@ -40,6 +41,12 @@ export interface NgScrollbarOptions {
    * - `invertAll` Inverts both scrollbar-control positions
    */
   position?: ScrollbarPosition;
+  /**
+   * Sets the pointer events method
+   * Use viewport pointer events  to handle dragging and track click (This makes scrolling work when mouse is over the scrollbar)
+   * Use scrollbar pointer events to handle dragging and track click
+   */
+  pointerEventsMethod?: ScrollbarPointerEventsMethod;
   /** A class forwarded to scrollable viewport element */
   viewClass?: string;
   /** A class forwarded to the scrollbar track element */
@@ -50,10 +57,8 @@ export interface NgScrollbarOptions {
   minThumbSize?: number;
   /** The duration which the scrolling takes to reach its target when scrollbar rail is clicked */
   trackClickScrollDuration?: number;
-  /** A flag used to enable/disable the scrollbar track clicked event */
-  trackClickDisabled?: boolean;
-  /** A flag used to enable/disable the scrollbar thumb dragged event */
-  thumbDragDisabled?: boolean;
+  /** A flag used to enable/disable the scrollbar pointer events */
+  pointerEventsDisabled?: boolean;
   /** Debounce interval for detecting changes via window.resize event */
   windowResizeDebounce?: number;
   /** Debounce interval for detecting changes via ResizeObserver */
@@ -71,6 +76,7 @@ export interface NgScrollbarState {
   appearance?: ScrollbarAppearance;
   visibility?: ScrollbarVisibility;
   deactivated?: boolean;
+  pointerEventsMethod?: ScrollbarPointerEventsMethod;
   dir?: 'rtl' | 'ltr';
   verticalUsed?: boolean;
   horizontalUsed?: boolean;

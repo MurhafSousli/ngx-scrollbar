@@ -8,11 +8,13 @@ import { SmoothScrollModule } from 'ngx-scrollbar/smooth-scroll';
 // import { SmoothScrollModule } from '../../smooth-scroll/src/public_api';
 
 import { NgScrollbar } from './ng-scrollbar';
-import { ScrollbarControl } from './scrollbar-control/scrollbar-control';
-import { ScrollViewport } from './scroll-viewport';
 import { CssVariable } from './utils/css-variable.pipe';
 import { NgAttr } from './utils/ng-attr.directive';
 import { ResizeSensor } from './utils/resize-sensor.directive';
+import { ThumbYDirective, ThumbXDirective } from './scrollbar/thumb/thumb.directive';
+import { TrackXDirective, TrackYDirective } from './scrollbar/track/track.directive';
+import { ScrollbarX, ScrollbarY } from './scrollbar/scrollbar';
+import { ScrollViewport } from './scroll-viewport';
 
 @NgModule({
   imports: [
@@ -24,11 +26,16 @@ import { ResizeSensor } from './utils/resize-sensor.directive';
   ],
   declarations: [
     NgScrollbar,
-    ScrollbarControl,
     ScrollViewport,
     CssVariable,
     NgAttr,
-    ResizeSensor
+    ResizeSensor,
+    ThumbYDirective,
+    ThumbXDirective,
+    TrackXDirective,
+    TrackYDirective,
+    ScrollbarY,
+    ScrollbarX
   ],
   exports: [
     NgScrollbar,

@@ -20,7 +20,14 @@ import { ScrollViewport } from './scroll-viewport';
 import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToOptions } from 'ngx-scrollbar/smooth-scroll';
 // Uncomment the following line in development mode
 // import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToOptions } from '../../smooth-scroll/src/public_api';
-import { ScrollbarAppearance, ScrollbarTrack, ScrollbarPosition, ScrollbarVisibility, NgScrollbarState } from './ng-scrollbar.model';
+import {
+  ScrollbarAppearance,
+  ScrollbarTrack,
+  ScrollbarPosition,
+  ScrollbarVisibility,
+  NgScrollbarState,
+  ScrollbarPointerEventsMethod
+} from './ng-scrollbar.model';
 import { ScrollbarManager } from './utils/scrollbar-manager';
 import { NativeScrollbarSizeFactory } from './utils/native-scrollbar-size-factory';
 
@@ -28,15 +35,11 @@ import { NativeScrollbarSizeFactory } from './utils/native-scrollbar-size-factor
   selector: 'ng-scrollbar',
   exportAs: 'ngScrollbar',
   templateUrl: 'ng-scrollbar.html',
-  styleUrls: ['ng-scrollbar.scss'],
+  styleUrls: ['ng-scrollbar.scss', 'scrollbar/shared.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[class.ng-scrollbar]': 'true' }
 })
 export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
-  /** Default viewport reference */
-  @ViewChild('viewport', { static: true }) private defaultViewPort: ElementRef<HTMLElement>;
-  /** Custom viewport reference */
-  @ContentChild(ScrollViewport, { static: true }) private customViewPort: ScrollViewport;
   /** A class forwarded to scrollable viewport element */
   @Input() viewClass: string = this.manager.globalOptions.viewClass;
   /** A class forwarded to the scrollbar track element */
@@ -47,10 +50,14 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   @Input() minThumbSize: number = this.manager.globalOptions.minThumbSize;
   /** The duration which the scrolling takes to reach its target when scrollbar rail is clicked */
   @Input() trackClickScrollDuration = this.manager.globalOptions.trackClickScrollDuration;
-  /** A flag used to enable/disable the scrollbar track clicked event */
-  @Input() trackClickDisabled: boolean = this.manager.globalOptions.trackClickDisabled;
   /** A flag used to enable/disable the scrollbar thumb dragged event */
-  @Input() thumbDragDisabled: boolean = this.manager.globalOptions.thumbDragDisabled;
+  @Input() pointerEventsDisabled: boolean = this.manager.globalOptions.pointerEventsDisabled;
+  /**
+   * Sets the pointer events method
+   * Use viewport pointer events  to handle dragging and track click (This makes scrolling work when mouse is over the scrollbar)
+   * Use scrollbar pointer events to handle dragging and track click
+   */
+  @Input() pointerEventsMethod: ScrollbarPointerEventsMethod = this.manager.globalOptions.pointerEventsMethod;
   /** Disable custom scrollbar and switch back to native scrollbar */
   @Input() deactivated: boolean = false;
   /**
@@ -91,22 +98,23 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   @Input() sensorDisabled: boolean = this.manager.globalOptions.sensorDisabled;
   /** Steam that emits when scrollbar is updated */
   @Output() updated = new EventEmitter<void>();
+  /** Default viewport reference */
+  @ViewChild(ScrollViewport, { static: true }) private defaultViewPort: ScrollViewport;
+  /** Custom viewport reference */
+  @ContentChild(ScrollViewport, { static: true }) private customViewPort: ScrollViewport;
   /** Viewport Element */
-  viewport: HTMLElement;
-  /** Content Wrapper element */
-  contentWrapper: HTMLElement | undefined;
-  /** stream that emits on scroll event */
+  viewport: ScrollViewport;
+  /** Set of attributes added on the scrollbar wrapper */
+  state: NgScrollbarState = {};
+  /** Stream that destroys components' observables */
+  private destroyed = new Subject<void>();
+
+  /** Stream that emits on scroll event */
   scrolled: Observable<any>;
   /** Steam that emits scroll event for vertical scrollbar */
   verticalScrolled: Observable<any>;
   /** Steam that emits scroll event for horizontal scrollbar */
   horizontalScrolled: Observable<any>;
-  /** Default viewport classes */
-  viewportClasses: any;
-  /** Set of attributes added on the scrollbar wrapper */
-  state: NgScrollbarState = {};
-  /** Stream that destroys components' observables */
-  private destroyed = new Subject<void>();
 
   constructor(private el: ElementRef,
               private zone: NgZone,
@@ -115,18 +123,6 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
               private smoothScroll: SmoothScrollManager,
               public manager: ScrollbarManager,
               public nativeScrollbarSizeFactory: NativeScrollbarSizeFactory) {
-  }
-
-  private getScrolledByDirection(track: ScrollbarTrack) {
-    const scrollProperty: string = track === 'vertical' ? 'scrollTop' : 'scrollLeft';
-    let event: any;
-    return this.scrolled.pipe(
-      tap((e: any) => event = e),
-      pluck('target', scrollProperty),
-      pairwise(),
-      filter(([prev, curr]) => prev !== curr),
-      map(() => event)
-    );
   }
 
   /**
@@ -149,6 +145,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
       horizontalUsed = this.visibility === 'always' || isHorizontallyScrollable;
     }
 
+    // Update inner wrapper attributes
     this._updateState({
       position: this.position,
       track: this.track,
@@ -156,6 +153,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
       visibility: this.visibility,
       deactivated: this.deactivated,
       dir: this.dir.value,
+      pointerEventsMethod: this.pointerEventsMethod,
       verticalUsed,
       horizontalUsed,
       isVerticallyScrollable,
@@ -168,6 +166,17 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
     this.changeDetectorRef.detectChanges();
   }
 
+  private getScrolledByDirection(property: 'scrollLeft' | 'scrollTop') {
+    let event: any;
+    return this.scrolled.pipe(
+      tap((e: any) => event = e),
+      pluck('target', property),
+      pairwise(),
+      filter(([prev, curr]) => prev !== curr),
+      map(() => event)
+    );
+  }
+
   setHovered(hovered: ScrollbarHovered) {
     this.zone.run(() => this._updateState({ ...hovered }));
   }
@@ -176,46 +185,24 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
     this.zone.run(() => this._updateState({ ...dragging }));
   }
 
-  /**
-   * Set the viewport based on user choice
-   */
-  private setViewport() {
-    if (this.customViewPort) {
-      // Set the custom viewport as the scroll viewport
-      this.viewport = this.customViewPort.viewPort.nativeElement;
-      // In this case the default viewport and the default content wrapper will act as a mask
-      this.viewportClasses = {
-        'ng-scroll-offset': true,
-        'ng-scroll-layer': true
-      };
-      this.defaultViewPort.nativeElement.firstElementChild.className = 'ng-scroll-layer';
-    } else {
-      // Set the default viewport as the scroll viewport
-      this.viewport = this.defaultViewPort.nativeElement;
-      this.viewportClasses = {
-        'ng-scroll-offset': true,
-        'ng-scroll-viewport': true,
-        [this.viewClass]: true,
-      };
-    }
-    // Check if the custom viewport has only one child and set it as the content wrapper
-    if (this.viewport.firstElementChild) {
-      this.contentWrapper = this.viewport.firstElementChild as HTMLElement;
-      this.contentWrapper.classList.add('ng-scroll-content');
-    }
-  }
-
   ngOnInit() {
+    // Set the viewport based on user choice
     this.zone.runOutsideAngular(() => {
-      this.setViewport();
+      if (this.customViewPort) {
+        this.viewport = this.customViewPort;
+        this.defaultViewPort.setAsWrapper();
+      } else {
+        this.viewport = this.defaultViewPort;
+      }
+      // Activate the selected viewport
+      this.viewport.setAsViewport(this.viewClass);
 
       // Initialize scroll streams
       this.scrolled = new Observable((observer: Observer<any>) =>
-        fromEvent(this.viewport, 'scroll', { passive: true }).pipe(takeUntil(this.destroyed))
+        fromEvent(this.viewport.nativeElement, 'scroll', { passive: true }).pipe(takeUntil(this.destroyed))
           .subscribe(observer));
-
-      this.verticalScrolled = this.getScrolledByDirection('vertical');
-      this.horizontalScrolled = this.getScrolledByDirection('horizontal');
+      this.verticalScrolled = this.getScrolledByDirection('scrollTop');
+      this.horizontalScrolled = this.getScrolledByDirection('scrollLeft');
     });
   }
 
@@ -239,19 +226,17 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   /**
    * Smooth scroll functions
    */
-
   scrollTo(options: SmoothScrollToOptions): Promise<void> {
-    return this.smoothScroll.scrollTo(this.viewport, options);
+    return this.smoothScroll.scrollTo(this.viewport.nativeElement, options);
   }
 
   /**
    * Scroll to element by reference or selector
    */
   scrollToElement(target: SmoothScrollElement, options?): Promise<void> {
-    return this.smoothScroll.scrollToElement(this.viewport, target, options);
+    return this.smoothScroll.scrollToElement(this.viewport.nativeElement, target, options);
   }
 }
-
 
 interface ScrollbarDragging {
   verticalDragging?: boolean;

@@ -10,13 +10,11 @@ const defaultOptions: NgScrollbarOptions = {
   appearance: 'compact',
   visibility: 'native',
   position: 'native',
-  thumbDragDisabled: false,
-  trackClickDisabled: false,
+  pointerEventsMethod: 'scrollbar',
   trackClickScrollDuration: 300,
   minThumbSize: 20,
   windowResizeDebounce: 0,
-  sensorDebounce: 0,
-  sensorDisabled: false
+  sensorDebounce: 0
 };
 
 @Injectable({ providedIn: 'root' })

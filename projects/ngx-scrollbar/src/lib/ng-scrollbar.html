@@ -3,8 +3,7 @@
        resizeSensor
        [sensorDebounce]="sensorDebounce"
        [sensorDisabled]="sensorDisabled">
-    <div #viewport
-         [ngClass]="viewportClasses"
+    <div scrollViewport
          [style]="nativeScrollbarSizeFactory.nativeScrollbarSize | async | cssVariable: 'native-scrollbar-size'">
       <div>
         <ng-content></ng-content>
@@ -12,16 +11,14 @@
     </div>
   </div>
   <ng-container *ngIf="!deactivated">
-    <scrollbar-control *ngIf="state.verticalUsed"
-                       track="vertical"
-                       [attr.scrollable]="state.isVerticallyScrollable"
-                       [attr.fit]="state.horizontalUsed">
-    </scrollbar-control>
-    <scrollbar-control *ngIf="state.horizontalUsed"
-                       track="horizontal"
-                       [attr.scrollable]="state.isHorizontallyScrollable"
-                       [attr.fit]="state.verticalUsed">
-    </scrollbar-control>
+    <scrollbar-x *ngIf="state.horizontalUsed"
+                 [attr.scrollable]="state.isHorizontallyScrollable"
+                 [attr.fit]="state.verticalUsed">
+    </scrollbar-x>
+    <scrollbar-y *ngIf="state.verticalUsed"
+                 [attr.scrollable]="state.isVerticallyScrollable"
+                 [attr.fit]="state.horizontalUsed">
+    </scrollbar-y>
   </ng-container>
 </div>
 
