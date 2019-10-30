@@ -59,7 +59,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    */
   @Input() pointerEventsMethod: ScrollbarPointerEventsMethod = this.manager.globalOptions.pointerEventsMethod;
   /** Disable custom scrollbar and switch back to native scrollbar */
-  @Input() deactivated: boolean = false;
+  @Input() disabled: boolean = false;
   /**
    * Sets the supported scroll track of the viewport, there are 3 options:
    *
@@ -151,7 +151,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
       track: this.track,
       appearance: this.appearance,
       visibility: this.visibility,
-      deactivated: this.deactivated,
+      deactivated: this.disabled,
       dir: this.dir.value,
       pointerEventsMethod: this.pointerEventsMethod,
       verticalUsed,
