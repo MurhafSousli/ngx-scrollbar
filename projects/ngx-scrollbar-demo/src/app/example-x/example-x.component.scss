@@ -1,9 +1,38 @@
-$scrollable-height: 280px;
-
 .exampleX {
 
   ng-scrollbar {
     --scrollbar-hover-size: 12px;
+    --scrollbar-thumb-transition: none;
+  }
+
+  .toggle-pointer-events-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .mat-button-toggle-group.toggle-pointer-events {
+    height: 26px;
+    font-size: 12px;
+
+    ::ng-deep {
+      .mat-button-toggle {
+        background-color: var(--color-examplex-primary);
+        &.mat-button-toggle-checked {
+          background-color: var(--color-accent);
+        }
+      }
+
+      .mat-button-toggle, .mat-button-toggle-button, .mat-button-toggle-label-content {
+        height: 100%;
+      }
+
+      .mat-button-toggle-label-content {
+        line-height: 26px;
+        font-size: 12px;
+        padding: 0;
+      }
+    }
   }
 
   .right-controls {
@@ -69,11 +98,12 @@ $scrollable-height: 280px;
   .scrollbar-wrapper {
     position: relative;
     flex: 1;
-    height: $scrollable-height;
-    max-height: $scrollable-height;
+    //height: $scrollable-height;
+    //max-height: $scrollable-height;
   }
 
   .inner {
+    color: lightgreen;
     width: 140%;
   }
 

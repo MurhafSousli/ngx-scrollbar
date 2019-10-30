@@ -7,6 +7,7 @@ import {
   ScrollbarTrack,
   ScrollbarPosition,
   ScrollbarVisibility,
+  ScrollbarPointerEventsMethod,
   NgScrollbar
 } from '../../../../ngx-scrollbar/src/public-api';
 // import {
@@ -28,7 +29,9 @@ import { ReachedEvent } from './reached-notifier/reached-notifier.component';
 })
 export class ExampleXComponent {
 
-  @ViewChild(NgScrollbar, { static: true }) scrollable: NgScrollbar;
+  @ViewChild(NgScrollbar, { static: false }) scrollable: NgScrollbar;
+
+  pointerEventsMethod: ScrollbarPointerEventsMethod;
 
   // Testing options
   slider: ResizeChange = {

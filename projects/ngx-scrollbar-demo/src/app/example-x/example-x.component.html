@@ -2,6 +2,17 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>Lab</mat-card-title>
+      <span style="flex: 1"></span>
+      <div class="toggle-pointer-events-wrapper">
+        <span style="font-size: 14px; margin-right: 5px">Pointer Events Method: </span>
+        <mat-button-toggle-group class="toggle-pointer-events"
+                                 #positionToggleGroup="matButtonToggleGroup"
+                                 aria-label="Pointer Events Method"
+                                 [(value)]="pointerEventsMethod">
+          <mat-button-toggle value="viewport" checked="true">Viewport</mat-button-toggle>
+          <mat-button-toggle value="scrollbar">Scrollbar</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
     </mat-card-header>
 
     <mat-divider></mat-divider>
@@ -13,32 +24,64 @@
       <mat-divider vertical></mat-divider>
 
       <div class="scrollbar-wrapper">
-        <ng-scrollbar class="sample"
-                      viewClass="viewport"
-                      [class.highlight-layout]="toggle.highlight"
-                      [style.width.%]="slider.componentSize"
-                      [style.height.%]="slider.componentSize"
-                      [track]="direction"
-                      [appearance]="appearance"
-                      [visibility]="visibility"
-                      [position]="position"
-                      [style]="cssVariables"
-                      [disabled]="toggle.disabled"
-                      [sensorDisabled]="toggle.sensorDisabled"
-                      (reachedTop)="onReached('top')"
-                      (reachedBottom)="onReached('bottom')"
-                      (reachedStart)="onReached('start')"
-                      (reachedEnd)="onReached('end')"
-                      [dir]="toggle.rtl ? 'rtl' : 'ltr'">
-          <div class="inner"
-               [style.width.%]="slider.contentWidth"
-               [innerHTML]="content"></div>
+        <div [style.width.%]="slider.componentSize" [style.height.%]="slider.componentSize">
+          <ng-scrollbar *ngIf="pointerEventsMethod === 'scrollbar'; else viewportPointerEvents"
+                        class="sample"
+                        viewClass="viewport"
+                        pointerEventsMethod="scrollbar"
+                        [class.highlight-layout]="toggle.highlight"
+                        [track]="direction"
+                        [appearance]="appearance"
+                        [visibility]="visibility"
+                        [position]="position"
+                        [style]="cssVariables"
+                        [disabled]="toggle.disabled"
+                        [sensorDisabled]="toggle.sensorDisabled"
+                        (reachedTop)="onReached('top')"
+                        (reachedBottom)="onReached('bottom')"
+                        (reachedStart)="onReached('start')"
+                        (reachedEnd)="onReached('end')"
+                        [dir]="toggle.rtl ? 'rtl' : 'ltr'">
+            <div class="inner"
+                 [style.width.%]="slider.contentWidth"
+                 [innerHTML]="content"></div>
 
-          <div *ngIf="scrollToElementSelected" id="target">
-            <app-logo></app-logo>
-          </div>
+            <div *ngIf="scrollToElementSelected" id="target">
+              <app-logo></app-logo>
+            </div>
 
-        </ng-scrollbar>
+          </ng-scrollbar>
+
+          <ng-template #viewportPointerEvents>
+            <ng-scrollbar class="sample"
+                          viewClass="viewport"
+                          pointerEventsMethod="viewport"
+                          [class.highlight-layout]="toggle.highlight"
+                          [style.width.%]="slider.componentSize"
+                          [style.height.%]="slider.componentSize"
+                          [track]="direction"
+                          [appearance]="appearance"
+                          [visibility]="visibility"
+                          [position]="position"
+                          [style]="cssVariables"
+                          [disabled]="toggle.disabled"
+                          [sensorDisabled]="toggle.sensorDisabled"
+                          (reachedTop)="onReached('top')"
+                          (reachedBottom)="onReached('bottom')"
+                          (reachedStart)="onReached('start')"
+                          (reachedEnd)="onReached('end')"
+                          [dir]="toggle.rtl ? 'rtl' : 'ltr'">
+              <div class="inner"
+                   [style.width.%]="slider.contentWidth"
+                   [innerHTML]="content"></div>
+
+              <div *ngIf="scrollToElementSelected" id="target">
+                <app-logo></app-logo>
+              </div>
+
+            </ng-scrollbar>
+          </ng-template>
+        </div>
       </div>
 
       <mat-divider vertical></mat-divider>
