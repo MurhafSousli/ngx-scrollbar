@@ -1,64 +1,128 @@
 @import "selectors";
 
+// Use push mixins with pointerEvents="scrollbar"
+
 @mixin pushLeft {
-  // padding-left: var(--scrollbar-total-size);
   left: var(--scrollbar-total-size);
   right: 0;
 }
 
 @mixin pushRight {
-  // padding-right: var(--scrollbar-total-size);
   left: 0;
   right: var(--scrollbar-total-size);
 }
 
 @mixin pushTop {
-  // padding-top: var(--scrollbar-total-size);
   top: var(--scrollbar-total-size);
   bottom: 0;
 }
 
 @mixin pushBottom {
-  // padding-bottom: var(--scrollbar-total-size);
   top: 0;
   bottom: var(--scrollbar-total-size);
+}
+
+// Use push mixins with pointerEvents="viewport"
+
+@mixin pushPaddingLeft {
+  padding-left: var(--scrollbar-total-size);
+}
+
+@mixin pushPaddingRight {
+  padding-right: var(--scrollbar-total-size);
+}
+
+@mixin pushPaddingTop {
+  padding-top: var(--scrollbar-total-size);
+}
+
+@mixin pushPaddingBottom {
+  padding-bottom: var(--scrollbar-total-size);
 }
 
 @mixin nativeAppearance {
   &[appearance="standard"] {
     @include verticalUsed {
       @include ltr {
-        @include viewportWrapper {
-          @include pushRight;
+        @include scrollbarPointerEvents {
+          @include viewportWrapper {
+            @include pushRight;
+          }
+        }
+        @include viewportPointerEvents {
+          @include viewport {
+            @include pushPaddingRight;
+          }
         }
       }
       @include rtl {
-        @include viewportWrapper {
-          @include pushLeft;
-        }
-      }
-      @include verticalInverted {
-        @include ltr {
+
+        @include scrollbarPointerEvents {
           @include viewportWrapper {
             @include pushLeft;
           }
         }
+        @include viewportPointerEvents {
+          @include viewport {
+            @include pushPaddingLeft;
+          }
+        }
+      }
+      @include verticalInverted {
+        @include ltr {
+
+          @include scrollbarPointerEvents {
+            @include viewportWrapper {
+              @include pushLeft;
+            }
+          }
+          @include viewportPointerEvents {
+            @include viewport {
+              @include pushPaddingLeft;
+            }
+          }
+        }
         @include rtl {
-          @include viewportWrapper {
-            @include pushRight;
+
+          @include scrollbarPointerEvents {
+            @include viewportWrapper {
+              @include pushRight;
+            }
+          }
+          @include viewportPointerEvents {
+            @include viewport {
+              @include pushPaddingRight;
+            }
           }
         }
       }
     }
     @include horizontalUsed {
-      // @include viewport {
-      @include viewportWrapper {
-        @include pushBottom;
-      }
-      @include horizontalInverted {
-        // @include viewport {
+
+      @include scrollbarPointerEvents {
         @include viewportWrapper {
-          @include pushTop;
+          @include pushBottom;
+        }
+      }
+
+      @include viewportPointerEvents {
+        @include viewport {
+          @include pushPaddingBottom;
+        }
+      }
+
+      @include horizontalInverted {
+
+        @include scrollbarPointerEvents {
+          @include viewportWrapper {
+            @include pushTop;
+          }
+        }
+
+        @include viewportPointerEvents {
+          @include viewport {
+            @include pushPaddingTop;
+          }
         }
       }
     }
