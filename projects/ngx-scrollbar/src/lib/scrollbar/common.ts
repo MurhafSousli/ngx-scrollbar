@@ -1,8 +1,4 @@
-import { map, tap } from 'rxjs/operators';
-
-export function hovered(value: boolean) {
-  return map(() => value);
-}
+import { tap } from 'rxjs/operators';
 
 export function preventSelection(doc: any) {
   return tap(() => {

@@ -15,7 +15,7 @@ export class CssVariablesFormComponent implements OnInit {
   ngOnInit() {
     this.form = new FormGroup({
       size: new FormControl('8px'),
-      hoverSize: new FormControl('var(--scrollbar-size)'),
+      hoverSize: new FormControl('12px'),
       trackColor: new FormControl('rgba(0, 0, 0, 0.15)'),
       thumbColor: new FormControl('var(--color-scrollbar-example-x)'),
       thumbHoverColor: new FormControl('var(--color-scrollbar-example-x)'),

@@ -10,7 +10,7 @@ const defaultOptions: NgScrollbarOptions = {
   appearance: 'compact',
   visibility: 'native',
   position: 'native',
-  pointerEventsMethod: 'scrollbar',
+  pointerEventsMethod: 'viewport',
   trackClickScrollDuration: 300,
   minThumbSize: 20,
   windowResizeDebounce: 0,

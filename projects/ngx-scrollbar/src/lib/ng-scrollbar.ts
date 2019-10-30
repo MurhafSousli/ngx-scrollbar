@@ -178,10 +178,16 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
     );
   }
 
+  /**
+   * Set hovered state if a scrollbar is being hovered
+   */
   setHovered(hovered: ScrollbarHovered) {
     this.zone.run(() => this._updateState({ ...hovered }));
   }
 
+  /**
+   * Set dragging state if a scrollbar is being dragged
+   */
   setDragging(dragging: ScrollbarDragging) {
     this.zone.run(() => this._updateState({ ...dragging }));
   }

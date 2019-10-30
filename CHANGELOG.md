@@ -1,5 +1,32 @@
 # Changelog
 
+## 7.0.0
+
+- Feat: Add `[pointerEventsMethod]="viewport | scrollbar"` option, this sets the method used for detecting scrollbar pointer events, closes [#216](https://github.com/MurhafSousli/ngx-scrollbar/issues/216) in [c552e60](https://github.com/MurhafSousli/ngx-scrollbar/pull/228/commits/c552e6009b27bae7c5c01a5b6e9d82eee029f978).
+- Feat: Add auto-height, closes [#214](https://github.com/MurhafSousli/ngx-scrollbar/issues/214) in [940d8df](https://github.com/MurhafSousli/ngx-scrollbar/pull/230/commits/940d8df7a8505a0050aa252ac1d6db548a6c16bc)..
+- Refactor: Rename disabled attribute, closes [#218](https://github.com/MurhafSousli/ngx-scrollbar/issues/218) in [f0206fd](https://github.com/MurhafSousli/ngx-scrollbar/pull/226/commits/f0206fd5432f5988945cab3bf264c70d766d362d).
+- Refactor: Use a directive for each scrollbar part.
+- Feat: Add CSS variable to disable transition for scrollbar thumb size change.
+- Refactor: Merge `[trackClicked]` and `[thumbClicked]` with into one option `[pointerEventsDisabled]`, closes [#229](https://github.com/MurhafSousli/ngx-scrollbar/issues/229) in [ef1176b](https://github.com/MurhafSousli/ngx-scrollbar/pull/228/commits/ef1176b829e39fda8554ffd12968465f1307aee1).
+- Fix: Production build fails with 'strictNullChecks' compiler option, close [#219](https://github.com/MurhafSousli/ngx-scrollbar/issues/219) in [45fc235](https://github.com/MurhafSousli/ngx-scrollbar/pull/221/commits/45fc235eff271ba453fdb1dcae190d018fa34134).
+
+### Breaking changes: 
+
+- Add `[pointerEventsMethod]` input that can be either `"scrollbar"` or `"viewport"`, default `"scrollbar"`.
+   * Use viewport pointer events to detect scrollbar clicks and drag event.
+    **Pro:**
+     - Scrolling works when mouse is over the scrollbar element
+    **Cons:**
+     - If used with `[appearance]="standard"` and both vertical and horizontal direction were scrollable, content may overlap under the scrollbar.
+   * Use scrollbar pointer events to detect scrollbar clicks and drag event.
+   **Pro:**
+     - This works properly with `[appearance]="standard"` content never overlap with the scrollbar.
+    **Cons:**
+     - Scrolling doesn't work when mouse is over the scrollbar element
+
+- Replace `[trackClicked]` and `[thumbClicked]` with one option `[pointerEventsDisabled]`.
+
+
 ## 6.0.0
 
 - Feat(SmoothScroll): Ability to pass `HTMLElement`, `ElementRef` or `string` for element selector in the smooth scroll functions.
