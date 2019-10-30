@@ -105,7 +105,7 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
     this.destroyed.next();
     this.destroyed.complete();
 
-    // Clean up viewport
+    // Clean up viewport streams if used
     if (this.cmp.pointerEventsMethod === 'viewport') {
       this.viewportTrackClicked.complete();
       this.viewportThumbClicked.complete();

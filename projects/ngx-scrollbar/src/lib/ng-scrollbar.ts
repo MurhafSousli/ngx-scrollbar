@@ -8,7 +8,6 @@ import {
   AfterViewChecked,
   OnDestroy,
   NgZone,
-  ElementRef,
   EventEmitter,
   ChangeDetectorRef,
   ChangeDetectionStrategy
@@ -116,13 +115,13 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   /** Steam that emits scroll event for horizontal scrollbar */
   horizontalScrolled: Observable<any>;
 
-  constructor(private el: ElementRef,
-              private zone: NgZone,
-              private changeDetectorRef: ChangeDetectorRef,
-              private dir: Directionality,
-              private smoothScroll: SmoothScrollManager,
-              public manager: ScrollbarManager,
-              public nativeScrollbarSizeFactory: NativeScrollbarSizeFactory) {
+  constructor(
+    private zone: NgZone,
+    private changeDetectorRef: ChangeDetectorRef,
+    private dir: Directionality,
+    private smoothScroll: SmoothScrollManager,
+    public manager: ScrollbarManager,
+    public nativeScrollbarSizeFactory: NativeScrollbarSizeFactory) {
   }
 
   /**
