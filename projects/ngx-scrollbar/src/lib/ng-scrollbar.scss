@@ -19,6 +19,13 @@
   height: 100%;
 
   > .ng-scrollbar-wrapper {
+    // Auto-height: height and width will be set from the content wrapper dynamically at runtime
+    height: 100%;
+    max-height: 100%;
+    min-height: 100%;
+    max-width: 100%;
+    min-width: 100%;
+
     --scrollbar-total-size: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
 
     // To enable the hover size, we need to calculate and set variable for each scrollbar

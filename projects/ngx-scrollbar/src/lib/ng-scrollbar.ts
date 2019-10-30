@@ -114,6 +114,8 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   verticalScrolled: Observable<any>;
   /** Steam that emits scroll event for horizontal scrollbar */
   horizontalScrolled: Observable<any>;
+  /** Variable used to set the wrapper styles to fit the content wrapper */
+  autoHeightStyles!: { height: string, width: string };
 
   constructor(
     private zone: NgZone,
@@ -218,6 +220,10 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    * Update local state and the internal scrollbar controls
    */
   update() {
+    this.autoHeightStyles = {
+      height: `${this.viewport.contentWrapperElement.clientHeight}px`,
+      width: `${this.viewport.contentWrapperElement.clientWidth}px`
+    };
     this.updated.next();
     this.changeDetectorRef.detectChanges();
   }
