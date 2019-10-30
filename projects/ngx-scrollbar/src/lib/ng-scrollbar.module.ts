@@ -13,7 +13,7 @@ import { NgAttr } from './utils/ng-attr.directive';
 import { ResizeSensor } from './utils/resize-sensor.directive';
 import { ThumbYDirective, ThumbXDirective } from './scrollbar/thumb/thumb.directive';
 import { TrackXDirective, TrackYDirective } from './scrollbar/track/track.directive';
-import { ScrollbarX, ScrollbarY } from './scrollbar/scrollbar';
+import { ScrollbarX, ScrollbarY } from './scrollbar/scrollbar.component';
 import { ScrollViewport } from './scroll-viewport';
 
 @NgModule({

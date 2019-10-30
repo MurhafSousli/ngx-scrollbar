@@ -1,7 +1,7 @@
 import { coerceNumberProperty } from '@angular/cdk/coercion';
 import { EMPTY, fromEvent, merge, Observable, of } from 'rxjs';
 import { map, pluck, switchMap, tap } from 'rxjs/operators';
-import { preventSelection, hovered, enableSelection, stopPropagation } from '../common';
+import { preventSelection, enableSelection, stopPropagation } from '../common';
 import { NgScrollbar } from '../../ng-scrollbar';
 
 export abstract class TrackAdapter {
@@ -25,11 +25,11 @@ export abstract class TrackAdapter {
   get hovered(): Observable<boolean> {
     const mouseEnter = fromEvent(this.trackElement, 'mouseenter', { passive: true }).pipe(
       stopPropagation(),
-      hovered(true)
+      map(() => true)
     );
     const mouseLeave = fromEvent(this.trackElement, 'mouseleave', { passive: true }).pipe(
       stopPropagation(),
-      hovered(false)
+      map(() => false)
     );
     return merge(mouseEnter, mouseLeave);
   }
