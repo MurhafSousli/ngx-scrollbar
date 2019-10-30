@@ -8,7 +8,6 @@ import {
   AfterViewChecked,
   OnDestroy,
   NgZone,
-  ElementRef,
   EventEmitter,
   ChangeDetectorRef,
   ChangeDetectionStrategy
@@ -59,7 +58,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    */
   @Input() pointerEventsMethod: ScrollbarPointerEventsMethod = this.manager.globalOptions.pointerEventsMethod;
   /** Disable custom scrollbar and switch back to native scrollbar */
-  @Input() deactivated: boolean = false;
+  @Input() disabled: boolean = false;
   /**
    * Sets the supported scroll track of the viewport, there are 3 options:
    *
@@ -115,14 +114,16 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   verticalScrolled: Observable<any>;
   /** Steam that emits scroll event for horizontal scrollbar */
   horizontalScrolled: Observable<any>;
+  /** Variable used to set the wrapper styles to fit the content wrapper */
+  autoHeightStyles!: { height: string, width: string };
 
-  constructor(private el: ElementRef,
-              private zone: NgZone,
-              private changeDetectorRef: ChangeDetectorRef,
-              private dir: Directionality,
-              private smoothScroll: SmoothScrollManager,
-              public manager: ScrollbarManager,
-              public nativeScrollbarSizeFactory: NativeScrollbarSizeFactory) {
+  constructor(
+    private zone: NgZone,
+    private changeDetectorRef: ChangeDetectorRef,
+    private dir: Directionality,
+    private smoothScroll: SmoothScrollManager,
+    public manager: ScrollbarManager,
+    public nativeScrollbarSizeFactory: NativeScrollbarSizeFactory) {
   }
 
   /**
@@ -151,7 +152,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
       track: this.track,
       appearance: this.appearance,
       visibility: this.visibility,
-      deactivated: this.deactivated,
+      deactivated: this.disabled,
       dir: this.dir.value,
       pointerEventsMethod: this.pointerEventsMethod,
       verticalUsed,
@@ -219,6 +220,10 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    * Update local state and the internal scrollbar controls
    */
   update() {
+    this.autoHeightStyles = {
+      height: `${this.viewport.contentWrapperElement.clientHeight}px`,
+      width: `${this.viewport.contentWrapperElement.clientWidth}px`
+    };
     this.updated.next();
     this.changeDetectorRef.detectChanges();
   }

@@ -1,4 +1,4 @@
-<div class="ng-scrollbar-wrapper" [ngAttr]="state">
+<div class="ng-scrollbar-wrapper" [ngAttr]="state" [ngStyle]="autoHeightStyles">
   <div class="ng-scroll-viewport-wrapper"
        resizeSensor
        [sensorDebounce]="sensorDebounce"
@@ -10,7 +10,7 @@
       </div>
     </div>
   </div>
-  <ng-container *ngIf="!deactivated">
+  <ng-container *ngIf="!disabled">
     <scrollbar-x *ngIf="state.horizontalUsed"
                  [attr.scrollable]="state.isHorizontallyScrollable"
                  [attr.fit]="state.verticalUsed">

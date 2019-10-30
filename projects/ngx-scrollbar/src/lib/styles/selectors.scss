@@ -96,8 +96,19 @@
 }
 
 @mixin fitHorizontalScrollbarSelector {
-  &[position="invertY"]
   > scrollbar-x.scrollbar-control[fit="true"] {
+    @content;
+  }
+}
+
+@mixin viewportPointerEvents {
+  &[pointerEventsMethod="viewport"] {
+    @content;
+  }
+}
+
+@mixin scrollbarPointerEvents {
+  &[pointerEventsMethod="scrollbar"] {
     @content;
   }
 }
