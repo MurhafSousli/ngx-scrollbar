@@ -1,6 +1,6 @@
 # Changelog
 
-## 7.0.0
+## 7.0.0-beta.0
 
 - Feat: Add `[pointerEventsMethod]="viewport | scrollbar"` option, this sets the method used for detecting scrollbar pointer events, closes [#216](https://github.com/MurhafSousli/ngx-scrollbar/issues/216) in [c552e60](https://github.com/MurhafSousli/ngx-scrollbar/pull/228/commits/c552e6009b27bae7c5c01a5b6e9d82eee029f978).
 - Feat: Add auto-height, closes [#214](https://github.com/MurhafSousli/ngx-scrollbar/issues/214) in [940d8df](https://github.com/MurhafSousli/ngx-scrollbar/pull/230/commits/940d8df7a8505a0050aa252ac1d6db548a6c16bc)..
@@ -24,7 +24,7 @@
     **Cons:**
      - Scrolling doesn't work when mouse is over the scrollbar element
 
-- Replace `[trackClicked]` and `[thumbClicked]` with one option `[pointerEventsDisabled]`.
+- Replace `[trackClickedDisabled]` and `[thumbDragDisabled]` with one option `[pointerEventsDisabled]`.
 
 
 ## 6.0.0
