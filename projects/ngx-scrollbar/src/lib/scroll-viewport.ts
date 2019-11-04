@@ -1,7 +1,7 @@
 import { Directive, Inject, ElementRef } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { fromEvent, merge, Observable, Observer } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { EMPTY, fromEvent, merge, Observable, Observer } from 'rxjs';
+import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { stopPropagation } from './scrollbar/common';
 
 @Directive({
@@ -65,18 +65,30 @@ export class ScrollViewport {
   /**
    * Activate viewport pointer events such as 'hovered' and 'clicked' events
    */
-  activatePointerEvents(): void {
+  activatePointerEvents(destroyed: Observable<any>): void {
     this.hovered = new Observable((observer: Observer<any>) => {
       // Stream that emits when pointer is moved over the viewport (used to set the hovered state)
       const mouseMove = fromEvent(this.nativeElement, 'mousemove', { passive: true }).pipe(stopPropagation());
       // Stream that emits when pointer leaves the viewport (used to remove the hovered state)
       const mouseLeave = fromEvent(this.nativeElement, 'mouseleave').pipe(map(() => false));
-      merge(mouseMove, mouseLeave).subscribe((e: false | any) => observer.next(e));
+      merge(mouseMove, mouseLeave).pipe(
+        tap((e: false | any) => observer.next(e)),
+        takeUntil(destroyed)
+      ).subscribe();
     });
 
-    this.clicked = new Observable((observer: Observer<any>) =>
-      fromEvent(this.nativeElement, 'mousedown', { passive: true }).subscribe((e: any) => observer.next(e))
-    );
+    this.clicked = new Observable((observer: Observer<any>) => {
+      const mouseDown = fromEvent(this.nativeElement, 'mousedown', { passive: true }).pipe(
+        tap((e: any) => observer.next(e))
+      );
+      const mouseUp = fromEvent(this.nativeElement, 'mouseup', { passive: true }).pipe(
+        tap(() => observer.next(false))
+      );
+      mouseDown.pipe(
+        switchMap(() => mouseUp),
+        takeUntil(destroyed)
+      ).subscribe();
+    });
   }
 
   /**

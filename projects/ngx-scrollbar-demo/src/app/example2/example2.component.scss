@@ -5,7 +5,6 @@ ng-scrollbar {
   --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
   --scrollbar-thumb-hover-color: rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(0, 0, 0, 0.25);
-  height: 200px;
 }
 
 .example {
@@ -18,13 +17,19 @@ ng-scrollbar {
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 230px;
 }
 
 .sample {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border-radius: 3px 3px 0 0;
   padding: 0;
   position: relative;
   width: 200px;
+  max-height: 100%;
   background-color: #fff;
 
   &:before,
@@ -61,6 +66,7 @@ ng-scrollbar {
     text-align: center;
     font-weight: bold;
     border-radius: 3px 3px 0 0;
+    width: 100%;
   }
 
   ul {

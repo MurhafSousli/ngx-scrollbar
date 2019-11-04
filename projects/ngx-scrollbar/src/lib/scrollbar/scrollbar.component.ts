@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, Input, NgZone, ViewChild } from '@angular/core';
+import { Component, Inject, NgZone, ChangeDetectionStrategy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
 import { TrackXDirective, TrackYDirective } from './track/track.directive';
@@ -17,7 +17,7 @@ import { Scrollbar } from './scrollbar';
     </div>
   `
 })
-export class ScrollbarY extends Scrollbar implements AfterViewInit {
+export class ScrollbarY extends Scrollbar {
 
   @ViewChild(TrackYDirective, { static: true }) readonly track: TrackYDirective;
   @ViewChild(ThumbYDirective, { static: true }) readonly thumb: ThumbYDirective;
@@ -26,22 +26,8 @@ export class ScrollbarY extends Scrollbar implements AfterViewInit {
     return this.cmp.viewport.scrollHeight;
   }
 
-  /**
-   * Auto-height feature
-   * This input is meant to trigger change detection
-   */
-  @Input() set autoHeight(e: void) {
-  }
-
   constructor(public cmp: NgScrollbar, protected platform: Platform, @Inject(DOCUMENT) protected document: any, protected zone: NgZone) {
     super(cmp, platform, document, zone);
-  }
-
-  ngAfterViewInit() {
-    // Auto-height: Set root component height to content height
-    this.cmp.nativeElement.style.height = this.cmp.appearance === 'standard'
-      ? `${this.cmp.viewport.contentHeight + this.track.thickness}px`
-      : `${this.cmp.viewport.contentHeight}px`;
   }
 
   protected setHovered(value: boolean): void {
@@ -60,7 +46,7 @@ export class ScrollbarY extends Scrollbar implements AfterViewInit {
     </div>
   `
 })
-export class ScrollbarX extends Scrollbar {
+export class ScrollbarX extends Scrollbar implements AfterViewInit {
 
   @ViewChild(TrackXDirective, { static: true }) readonly track: TrackXDirective;
   @ViewChild(ThumbXDirective, { static: true }) readonly thumb: ThumbXDirective;
@@ -69,11 +55,25 @@ export class ScrollbarX extends Scrollbar {
     return this.cmp.viewport.scrollWidth;
   }
 
-  constructor(public cmp: NgScrollbar, protected platform: Platform, @Inject(DOCUMENT) protected document: any, protected zone: NgZone) {
+  get thickness(): number {
+    return this.el.nativeElement.clientHeight;
+  }
+
+  constructor(private el: ElementRef,
+              public cmp: NgScrollbar,
+              protected platform: Platform,
+              @Inject(DOCUMENT) protected document: any, protected zone: NgZone) {
     super(cmp, platform, document, zone);
   }
 
   protected setHovered(value: boolean): void {
     this.cmp.setHovered({ horizontalHovered: value });
+  }
+
+  ngAfterViewInit() {
+    // Auto-height: Set root component height to content height
+    this.cmp.nativeElement.style.height = this.cmp.appearance === 'standard'
+      ? `${this.cmp.viewport.contentHeight + this.thickness}px`
+      : `${this.cmp.viewport.contentHeight}px`;
   }
 }

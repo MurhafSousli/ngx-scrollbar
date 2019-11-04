@@ -1,8 +1,9 @@
+$scrollable-height: 268px;
+
 .exampleX {
 
   ng-scrollbar {
     --scrollbar-hover-size: 12px;
-    --scrollbar-thumb-transition: none;
   }
 
   .toggle-pointer-events-wrapper {
@@ -98,8 +99,8 @@
   .scrollbar-wrapper {
     position: relative;
     flex: 1;
-    //height: $scrollable-height;
-    //max-height: $scrollable-height;
+    height: $scrollable-height;
+    max-height: $scrollable-height;
   }
 
   .inner {

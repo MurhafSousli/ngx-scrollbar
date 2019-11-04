@@ -7,6 +7,7 @@
   background-color: #f3f3f3;
   border-radius: 3px;
   overflow: hidden;
+  height: 200px;
 
   .mat-list-base {
     padding-top: 0;
@@ -23,7 +24,6 @@
     --scrollbar-size: 12px;
     --scrollbar-padding: 6px;
     --scrollbar-border-radius: 8px;
-    height: 200px;
     border-radius: 3px;
     border: 2px solid rgba(0, 0, 0, 0.05);
   }
@@ -51,6 +51,7 @@
     left: initial !important;
     right: initial !important;
     bottom: initial !important;
+
     ::ng-deep {
       .ng-scroll-content {
         position: absolute !important;

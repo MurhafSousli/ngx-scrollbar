@@ -15,13 +15,6 @@
       --scrollbar-thumb-color: #fff;
       --scrollbar-border-radius: 3px;
       border-radius: 3px;
-      overflow: initial;
-      .ng-scrollbar-wrapper {
-        overflow: initial;
-      }
-      .ng-scroll-viewport {
-        padding-right: 1em;
-      }
     }
 
     .scrollbar-track {
@@ -38,6 +31,7 @@
 
 .sample-wrapper {
   padding: 1em;
+  height: 228px;
 }
 
 .sample {

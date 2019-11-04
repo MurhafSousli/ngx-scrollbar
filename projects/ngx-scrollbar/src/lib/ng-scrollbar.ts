@@ -196,6 +196,13 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
     this.zone.run(() => this._updateState({ ...dragging }));
   }
 
+  /**
+   * Set clicked state if a scrollbar track is being click
+   */
+  setClicked(scrollbarClicked: boolean) {
+    this.zone.run(() => this._updateState({ scrollbarClicked }));
+  }
+
   ngOnInit() {
     // Set the viewport based on user choice
     this.zone.runOutsideAngular(() => {
@@ -230,6 +237,10 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    * Update local state and the internal scrollbar controls
    */
   update() {
+    if (!this.state.horizontalUsed) {
+      // Auto-height: Set component height to content height
+      this.nativeElement.style.height = `${this.viewport.contentHeight}px`;
+    }
     this.updated.next();
     this.changeDetectorRef.detectChanges();
   }

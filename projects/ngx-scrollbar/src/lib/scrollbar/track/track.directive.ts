@@ -18,10 +18,6 @@ export class TrackXDirective extends TrackAdapter {
     return this.trackElement.clientWidth;
   }
 
-  get thickness(): number {
-    return this.trackElement.clientHeight;
-  }
-
   constructor(protected cmp: NgScrollbar, trackElement: ElementRef, @Inject(DOCUMENT) protected document: any) {
     super(cmp, trackElement.nativeElement, document);
   }
@@ -44,10 +40,6 @@ export class TrackYDirective extends TrackAdapter {
 
   get size(): number {
     return this.trackElement.clientHeight;
-  }
-
-  get thickness(): number {
-    return this.trackElement.clientWidth;
   }
 
   constructor(protected cmp: NgScrollbar, trackElement: ElementRef, @Inject(DOCUMENT) protected document: any) {

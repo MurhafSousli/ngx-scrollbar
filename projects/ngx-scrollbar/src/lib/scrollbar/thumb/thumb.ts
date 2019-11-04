@@ -41,10 +41,7 @@ export abstract class ThumbAdapter {
 
   // Stream that emits when scrollbar thumb is clicked
   get clicked(): Observable<any> {
-    return fromEvent(this.thumbElement, 'mousedown', { passive: true }).pipe(
-      stopPropagation(),
-      preventSelection(this.document)
-    );
+    return fromEvent(this.thumbElement, 'mousedown', { passive: true }).pipe(stopPropagation());
   }
 
   protected constructor(protected cmp: NgScrollbar,

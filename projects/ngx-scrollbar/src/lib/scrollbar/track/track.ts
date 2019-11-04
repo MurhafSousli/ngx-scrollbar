@@ -12,8 +12,7 @@ export abstract class TrackAdapter {
       stopPropagation(),
       preventSelection(this.document)
     );
-
-    const mouseup = fromEvent(this.trackElement, 'mouseup', { passive: true }).pipe(
+    const mouseup = fromEvent(this.document, 'mouseup', { passive: true }).pipe(
       stopPropagation(),
       enableSelection(this.document),
       switchMap(() => EMPTY)
@@ -39,9 +38,6 @@ export abstract class TrackAdapter {
 
   // Returns the track size, clientHeight or clientWidth
   abstract get size(): number;
-
-  // Returns the track size, clientHeight or clientWidth
-  abstract get thickness(): number;
 
   // Returns the start offset either 'clientRect.top' or 'clientRect.left'
   abstract get offset(): number;
