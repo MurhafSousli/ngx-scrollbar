@@ -5,7 +5,6 @@
 
 .outer-ng-scrollbar {
   color: black;
-  height: 400px;
   border: 2px solid rgba(0, 0, 0, 0.05);
   --scrollbar-track-color: var(--color-infinite-scroll-example-track-bg);
   --scrollbar-thumb-color: var(--color-nested-virtual-scroll-example);
@@ -37,6 +36,9 @@ mat-card {
     }
   }
 
+  mat-card-content {
+    height: 400px;
+  }
 }
 
 .horizontal-scrollable-item {
