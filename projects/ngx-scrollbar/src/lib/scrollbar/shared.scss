@@ -1,15 +1,16 @@
+@import "../styles/selectors";
+
 ::ng-deep {
-  // Disable scrollbars pointer events, and use viewport pointer events instead
-  // This enables scrolling when the pointer is over the scrollbar
+
   .ng-scrollbar-wrapper {
-    &[pointerEventsMethod="viewport"] {
-      .scrollbar-control, .ng-scrollbar-track, .ng-scrollbar-thumb {
+    // Disable scrollbars pointer events, and use viewport pointer events instead
+    // This enables scrolling when the pointer is over the scrollbar
+    @include viewportPointerEvents {
+      > .scrollbar-control {
         pointer-events: none;
       }
     }
-  }
 
-  .ng-scrollbar-wrapper {
 
     > .scrollbar-control {
       position: absolute;

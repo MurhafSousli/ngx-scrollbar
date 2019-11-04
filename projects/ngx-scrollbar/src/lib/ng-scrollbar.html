@@ -1,6 +1,6 @@
-<div class="ng-scrollbar-wrapper" [ngAttr]="state" [ngStyle]="autoHeightStyles">
+<div class="ng-scrollbar-wrapper" [ngAttr]="state">
   <div class="ng-scroll-viewport-wrapper"
-       resizeSensor
+       (resizeSensor)="update()"
        [sensorDebounce]="sensorDebounce"
        [sensorDisabled]="sensorDisabled">
     <div scrollViewport

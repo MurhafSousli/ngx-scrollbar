@@ -4,7 +4,7 @@
 
 ::ng-deep {
   .ng-scrollbar-wrapper {
-    @include verticalScrollbar {
+    @include scrollbarY {
       width: var(--vertical-scrollbar-total-size);
 
       > .ng-scrollbar-track {
@@ -18,9 +18,8 @@
       }
     }
 
-    &[verticalHovered="true"],
-    &[verticalDragging="true"] {
-      @include verticalScrollbar {
+    @include scrollbarYHovered {
+      @include scrollbarY {
         .ng-scrollbar-thumb {
           background-color: var(--scrollbar-thumb-hover-color);
         }
@@ -28,7 +27,7 @@
     }
 
     @include enabled {
-      @include verticalScrollbarPosition;
+      @include setScrollbarYPosition;
       &[track="all"] {
         @include fitVerticalScrollbar;
       }

@@ -40,6 +40,9 @@ export abstract class TrackAdapter {
   // Returns the track size, clientHeight or clientWidth
   abstract get size(): number;
 
+  // Returns the track size, clientHeight or clientWidth
+  abstract get thickness(): number;
+
   // Returns the start offset either 'clientRect.top' or 'clientRect.left'
   abstract get offset(): number;
 
@@ -68,7 +71,6 @@ export abstract class TrackAdapter {
       }),
       // Smooth scroll to position
       tap((value: number) => {
-        console.log('scrollTo', value);
         this.cmp.scrollTo({
           ...this.mapToScrollToOption(value),
           duration: coerceNumberProperty(this.cmp.trackClickScrollDuration)

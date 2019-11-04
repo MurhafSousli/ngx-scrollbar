@@ -1,19 +1,19 @@
 @import "selectors";
 
-@mixin verticalScrollbarPosition {
-  @include verticalScrollbar {
+@mixin setScrollbarYPosition {
+  @include scrollbarY {
     top: 0;
     bottom: 0;
   }
 
   @include ltr {
-    @include verticalScrollbar {
+    @include scrollbarY {
       right: 0;
       left: unset;
     }
 
-    @include verticalInverted {
-      @include verticalScrollbar {
+    @include scrollbarYInverted {
+      @include scrollbarY {
         left: 0;
         right: unset;
       }
@@ -21,12 +21,12 @@
   }
 
   @include rtl {
-    @include verticalScrollbar {
+    @include scrollbarY {
       left: 0;
       right: unset;
     }
-    @include verticalInverted {
-      @include verticalScrollbar {
+    @include scrollbarYInverted {
+      @include scrollbarY {
         left: unset;
         right: 0;
       }
@@ -34,16 +34,16 @@
   }
 }
 
-@mixin horizontalScrollbarPosition {
-  @include horizontalScrollbar {
+@mixin setScrollbarXPosition {
+  @include scrollbarX {
     left: 0;
     right: 0;
     bottom: 0;
     top: unset;
   }
 
-  @include horizontalInverted {
-    @include horizontalScrollbar {
+  @include scrollbarXInverted {
+    @include scrollbarX {
       top: 0;
       bottom: unset;
     }

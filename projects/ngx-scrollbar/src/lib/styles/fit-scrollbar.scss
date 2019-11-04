@@ -21,11 +21,11 @@
 }
 
 @mixin fitVerticalScrollbar {
-  @include fitVerticalScrollbarSelector {
+  @include fitScrollbarY {
     @include fitBottom;
   }
-  @include horizontalInverted {
-    @include fitVerticalScrollbarSelector {
+  @include scrollbarXInverted {
+    @include fitScrollbarY {
       @include fitTop;
     }
   }
@@ -33,21 +33,21 @@
 
 @mixin fitHorizontalScrollbar {
   @include ltr {
-    @include fitHorizontalScrollbarSelector {
+    @include fitScrollbarX {
       @include fitRight;
     }
-    @include verticalInverted {
-      @include fitHorizontalScrollbarSelector {
+    @include scrollbarYInverted {
+      @include fitScrollbarX {
         @include fitLeft;
       }
     }
   }
   @include rtl {
-    @include fitHorizontalScrollbarSelector {
+    @include fitScrollbarX {
       @include fitLeft;
     }
-    @include verticalInverted {
-      @include fitHorizontalScrollbarSelector {
+    @include scrollbarYInverted {
+      @include fitScrollbarX {
         @include fitRight;
       }
     }

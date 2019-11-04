@@ -6,9 +6,9 @@
 
 // Viewport offset selector
 // The default viewport is used to hide the native scrollbar
-@mixin viewportOffset {
+@mixin nativeScrollbarHider {
   @include viewportWrapper {
-    > .ng-scroll-offset {
+    > .ng-native-scrollbar-hider {
       @content;
     }
   }
@@ -33,14 +33,14 @@
 }
 
 // Vertical Scrollbar is used
-@mixin verticalUsed {
+@mixin scrollbarYUsed {
   &[verticalUsed="true"] {
     @content;
   }
 }
 
 // Horizontal Scrollbar is used
-@mixin horizontalUsed {
+@mixin scrollbarXUsed {
   &[horizontalUsed="true"] {
     @content;
   }
@@ -65,37 +65,37 @@
   }
 }
 
-@mixin verticalInverted {
+@mixin scrollbarYInverted {
   &[position="invertY"], &[position="invertAll"] {
     @content;
   }
 }
 
-@mixin horizontalInverted {
+@mixin scrollbarXInverted {
   &[position="invertX"], &[position="invertAll"] {
     @content;
   }
 }
 
-@mixin verticalScrollbar {
+@mixin scrollbarY {
   > scrollbar-y.scrollbar-control {
     @content;
   }
 }
 
-@mixin fitVerticalScrollbarSelector {
+@mixin fitScrollbarY {
   > scrollbar-y.scrollbar-control[fit="true"] {
     @content;
   }
 }
 
-@mixin horizontalScrollbar {
+@mixin scrollbarX {
   > scrollbar-x.scrollbar-control {
     @content;
   }
 }
 
-@mixin fitHorizontalScrollbarSelector {
+@mixin fitScrollbarX {
   > scrollbar-x.scrollbar-control[fit="true"] {
     @content;
   }
@@ -109,6 +109,24 @@
 
 @mixin scrollbarPointerEvents {
   &[pointerEventsMethod="scrollbar"] {
+    @content;
+  }
+}
+
+@mixin scrollbarXHovered {
+  &[horizontalHovered="true"], &[horizontalDragging="true"] {
+    @content;
+  }
+}
+
+@mixin scrollbarYHovered {
+  &[verticalHovered="true"], &[verticalDragging="true"] {
+    @content;
+  }
+}
+
+@mixin scrollbarInAction {
+  &[horizontalDragging="true"], &[verticalDragging="true"], &[scrollbarClicked="true"] {
     @content;
   }
 }

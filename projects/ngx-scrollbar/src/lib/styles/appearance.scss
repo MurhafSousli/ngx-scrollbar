@@ -42,7 +42,7 @@
 
 @mixin nativeAppearance {
   &[appearance="standard"] {
-    @include verticalUsed {
+    @include scrollbarYUsed {
       @include ltr {
         @include scrollbarPointerEvents {
           @include viewportWrapper {
@@ -68,7 +68,7 @@
           }
         }
       }
-      @include verticalInverted {
+      @include scrollbarYInverted {
         @include ltr {
 
           @include scrollbarPointerEvents {
@@ -97,7 +97,7 @@
         }
       }
     }
-    @include horizontalUsed {
+    @include scrollbarXUsed {
 
       @include scrollbarPointerEvents {
         @include viewportWrapper {
@@ -111,7 +111,7 @@
         }
       }
 
-      @include horizontalInverted {
+      @include scrollbarXInverted {
 
         @include scrollbarPointerEvents {
           @include viewportWrapper {

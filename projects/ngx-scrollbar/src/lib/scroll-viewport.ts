@@ -53,6 +53,10 @@ export class ScrollViewport {
     return this.scrollHeight - this.clientHeight;
   }
 
+  get contentHeight(): number {
+    return this.contentWrapperElement.clientHeight;
+  }
+
   constructor(public viewPort: ElementRef,
               @Inject(DOCUMENT) private document: any) {
     this.nativeElement = viewPort.nativeElement;
@@ -80,7 +84,7 @@ export class ScrollViewport {
    */
   setAsWrapper(): void {
     // In this case the default viewport and the default content wrapper will act as a mask
-    this.nativeElement.className = 'ng-scroll-offset ng-scroll-layer';
+    this.nativeElement.className = 'ng-native-scrollbar-hider ng-scroll-layer';
     this.nativeElement.firstElementChild.className = 'ng-scroll-layer';
   }
 
@@ -88,7 +92,7 @@ export class ScrollViewport {
    * Set this directive as  the viewport, called when no custom viewport is used
    */
   setAsViewport(customClassName: string): void {
-    this.nativeElement.className = `ng-scroll-offset ng-scroll-viewport ${customClassName}`;
+    this.nativeElement.className = `ng-native-scrollbar-hider ng-scroll-viewport ${customClassName}`;
     // Check if the custom viewport has only one child and set it as the content wrapper
     if (this.nativeElement.firstElementChild) {
       this.contentWrapperElement = this.nativeElement.firstElementChild as HTMLElement;
