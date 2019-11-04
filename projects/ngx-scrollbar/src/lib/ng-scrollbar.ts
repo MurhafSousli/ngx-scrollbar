@@ -237,6 +237,10 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    * Update local state and the internal scrollbar controls
    */
   update() {
+    if (!this.state.horizontalUsed) {
+      // Auto-height: Set component height to content height
+      this.nativeElement.style.height = `${this.viewport.contentHeight}px`;
+    }
     this.updated.next();
     this.changeDetectorRef.detectChanges();
   }
