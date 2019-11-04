@@ -1,7 +1,7 @@
 import { Directive, Inject, ElementRef } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { fromEvent, merge, Observable, Observer } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { EMPTY, fromEvent, merge, Observable, Observer } from 'rxjs';
+import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { stopPropagation } from './scrollbar/common';
 
 @Directive({
@@ -74,9 +74,17 @@ export class ScrollViewport {
       merge(mouseMove, mouseLeave).subscribe((e: false | any) => observer.next(e));
     });
 
-    this.clicked = new Observable((observer: Observer<any>) =>
-      fromEvent(this.nativeElement, 'mousedown', { passive: true }).subscribe((e: any) => observer.next(e))
-    );
+    this.clicked = new Observable((observer: Observer<any>) => {
+      const mouseDown = fromEvent(this.nativeElement, 'mousedown', { passive: true }).pipe(
+        tap((e: any) => observer.next(e))
+      );
+      const mouseUp = fromEvent(this.nativeElement, 'mouseup', { passive: true }).pipe(
+        tap(() => observer.next(false))
+      );
+      mouseDown.pipe(
+        switchMap(() => mouseUp),
+      ).subscribe();
+    });
   }
 
   /**

@@ -11,6 +11,12 @@
       }
     }
 
+    // Disable selection when a scrollbar is being dragged or clicked
+    @include scrollbarInAction {
+      @include viewport {
+        user-select: none;
+      }
+    }
 
     > .scrollbar-control {
       position: absolute;

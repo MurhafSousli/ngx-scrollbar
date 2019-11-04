@@ -56,10 +56,15 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
 
       this.cmp.viewport.clicked.pipe(
         tap((e: any) => {
-          if (isWithinBounds(e, this.thumb.clientRect)) {
-            this.viewportThumbClicked.next(e);
-          } else if (isWithinBounds(e, this.track.clientRect)) {
-            this.viewportTrackClicked.next(e);
+          if (e) {
+            if (isWithinBounds(e, this.thumb.clientRect)) {
+              this.viewportThumbClicked.next(e);
+            } else if (isWithinBounds(e, this.track.clientRect)) {
+              this.cmp.setClicked(true);
+              this.viewportTrackClicked.next(e);
+            }
+          } else {
+            this.cmp.setClicked(false);
           }
         }),
         takeUntil(this.destroyed)

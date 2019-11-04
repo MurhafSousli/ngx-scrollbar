@@ -196,6 +196,13 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
     this.zone.run(() => this._updateState({ ...dragging }));
   }
 
+  /**
+   * Set clicked state if a scrollbar track is being click
+   */
+  setClicked(scrollbarClicked: boolean) {
+    this.zone.run(() => this._updateState({ scrollbarClicked }));
+  }
+
   ngOnInit() {
     // Set the viewport based on user choice
     this.zone.runOutsideAngular(() => {
