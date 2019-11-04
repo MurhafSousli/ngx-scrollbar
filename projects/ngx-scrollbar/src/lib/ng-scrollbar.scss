@@ -35,14 +35,14 @@
     --horizontal-scrollbar-total-size: calc(var(--horizontal-scrollbar-size) + var(--scrollbar-padding) * 2);
 
     // Change vertical scrollbar size in case its hovered or dragged
-    &[verticalDragging="true"], &[verticalHovered="true"] {
+    @include scrollbarYHovered {
       --vertical-scrollbar-size: var(--scrollbar-hover-size);
       --vertical-scrollbar-total-size: calc(var(--vertical-scrollbar-size) + var(--scrollbar-padding) * 2);
       cursor: default;
     }
 
     // Change horizontal scrollbar size in case its hovered or dragged
-    &[horizontalDragging="true"], &[horizontalHovered="true"] {
+    @include scrollbarXHovered {
       --horizontal-scrollbar-size: var(--scrollbar-hover-size);
       --horizontal-scrollbar-total-size: calc(var(--horizontal-scrollbar-size) + var(--scrollbar-padding) * 2);
       cursor: default;
@@ -54,14 +54,14 @@
       @include hoverVisibility;
     }
 
-    @include horizontalUsed {
+    @include scrollbarXUsed {
       @include viewport {
         overflow-x: auto;
         overflow-y: hidden;
       }
     }
 
-    @include verticalUsed {
+    @include scrollbarYUsed {
       @include viewport {
         overflow-y: auto;
         overflow-x: hidden;

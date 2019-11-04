@@ -4,7 +4,7 @@
 
 ::ng-deep {
   .ng-scrollbar-wrapper {
-    @include horizontalScrollbar {
+    @include scrollbarX {
       height: var(--horizontal-scrollbar-total-size);
 
       > .ng-scrollbar-track {
@@ -18,24 +18,23 @@
       }
     }
 
-    &[horizontalHovered="true"],
-    &[horizontalDragging="true"] {
-      @include horizontalScrollbar {
+    @include scrollbarXHovered {
+      @include scrollbarX {
         .ng-scrollbar-thumb {
           background-color: var(--scrollbar-thumb-hover-color);
         }
       }
     }
 
-    @include horizontalInverted {
-      @include horizontalScrollbar {
+    @include scrollbarXInverted {
+      @include scrollbarX {
         top: 0;
         bottom: unset;
       }
     }
 
     @include enabled {
-      @include horizontalScrollbarPosition;
+      @include setScrollbarXPosition;
       &[track="all"] {
         @include fitHorizontalScrollbar;
       }
