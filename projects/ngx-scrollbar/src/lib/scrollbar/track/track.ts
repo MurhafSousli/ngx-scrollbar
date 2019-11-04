@@ -71,7 +71,6 @@ export abstract class TrackAdapter {
       }),
       // Smooth scroll to position
       tap((value: number) => {
-        console.log('scrollTo', value);
         this.cmp.scrollTo({
           ...this.mapToScrollToOption(value),
           duration: coerceNumberProperty(this.cmp.trackClickScrollDuration)
