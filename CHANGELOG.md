@@ -1,6 +1,6 @@
 # Changelog
 
-## 7.0.0-beta.1
+## 7.0.0
 
 - Fix: auto-height feature in [aa16191](https://github.com/MurhafSousli/ngx-scrollbar/pull/234/commits/aa1619111be7b8769b1e909d0ef90a5ef43dfe61) and [0560af2](https://github.com/MurhafSousli/ngx-scrollbar/pull/235/commits/0560af2883a48b112b89a7a2369f29ef693783b0).
 - Enhance: Prevent selection on track click, in [529450f](https://github.com/MurhafSousli/ngx-scrollbar/pull/235/commits/529450f756bae9cf080f45154034482ec813b8df) and [4f66fd2](https://github.com/MurhafSousli/ngx-scrollbar/pull/235/commits/4f66fd29d4220904dd4024202d2dc3b6c0eb0608).
