@@ -65,13 +65,16 @@ export class ScrollViewport {
   /**
    * Activate viewport pointer events such as 'hovered' and 'clicked' events
    */
-  activatePointerEvents(): void {
+  activatePointerEvents(destroyed: Observable<any>): void {
     this.hovered = new Observable((observer: Observer<any>) => {
       // Stream that emits when pointer is moved over the viewport (used to set the hovered state)
       const mouseMove = fromEvent(this.nativeElement, 'mousemove', { passive: true }).pipe(stopPropagation());
       // Stream that emits when pointer leaves the viewport (used to remove the hovered state)
       const mouseLeave = fromEvent(this.nativeElement, 'mouseleave').pipe(map(() => false));
-      merge(mouseMove, mouseLeave).subscribe((e: false | any) => observer.next(e));
+      merge(mouseMove, mouseLeave).pipe(
+        tap((e: false | any) => observer.next(e)),
+        takeUntil(destroyed)
+      ).subscribe();
     });
 
     this.clicked = new Observable((observer: Observer<any>) => {
@@ -83,6 +86,7 @@ export class ScrollViewport {
       );
       mouseDown.pipe(
         switchMap(() => mouseUp),
+        takeUntil(destroyed)
       ).subscribe();
     });
   }
