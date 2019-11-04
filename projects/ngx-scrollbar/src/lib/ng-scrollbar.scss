@@ -17,14 +17,17 @@
   display: block;
   position: relative;
   height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  min-width: 100%;
 
   > .ng-scrollbar-wrapper {
+    //position: relative;
+    //max-height: 100%;
+    //max-width: 100%;
+    //min-height: 100%;
+    //min-width: 100%;
     // Auto-height: height and width will be set from the content wrapper dynamically at runtime
-    height: 100%;
-    max-height: 100%;
-    min-height: 100%;
-    max-width: 100%;
-    min-width: 100%;
 
     --scrollbar-total-size: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
 

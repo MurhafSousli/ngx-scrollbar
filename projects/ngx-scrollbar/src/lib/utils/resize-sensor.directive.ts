@@ -1,4 +1,4 @@
-import { Directive, Input, Injectable, Inject, AfterContentInit, OnDestroy, NgZone } from '@angular/core';
+import { Directive, Input, Injectable, Inject, AfterContentInit, OnDestroy, NgZone, Output, EventEmitter } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
@@ -62,6 +62,8 @@ export class ResizeSensor implements AfterContentInit, OnDestroy {
   private _subscription: Subscription | null = null;
   private _resizeObserver: any;
 
+  @Output() resizeSensor = new EventEmitter<void>();
+
   constructor(private zone: NgZone,
               private platform: Platform,
               private resizeObserverFactory: ResizeObserverFactory,
@@ -105,7 +107,7 @@ export class ResizeSensor implements AfterContentInit, OnDestroy {
               return EMPTY;
             }
           })
-        ).subscribe(() => this.scrollbar.update());
+        ).subscribe(() => this.resizeSensor.emit());
       });
     }
   }

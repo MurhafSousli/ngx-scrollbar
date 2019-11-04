@@ -53,6 +53,10 @@ export class ScrollViewport {
     return this.scrollHeight - this.clientHeight;
   }
 
+  get contentHeight(): number {
+    return this.contentWrapperElement.clientHeight;
+  }
+
   constructor(public viewPort: ElementRef,
               @Inject(DOCUMENT) private document: any) {
     this.nativeElement = viewPort.nativeElement;
