@@ -1,5 +1,10 @@
 # Changelog
 
+## 7.0.1
+
+- Fix: Scrollbar breaks when loading on mobile, closes [#236](https://github.com/MurhafSousli/ngx-scrollbar/issues/236) in [33dfa71](https://github.com/MurhafSousli/ngx-scrollbar/commit/33dfa7169ab73ed404ff144ae1f187c75e5b9f7f).
+- Update package dependencies in [9523194](https://github.com/MurhafSousli/ngx-scrollbar/pull/237/commits/95231944850f0db3873d50abc04bafb085db774b).
+
 ## 7.0.0
 
 - Fix: auto-height feature in [aa16191](https://github.com/MurhafSousli/ngx-scrollbar/pull/234/commits/aa1619111be7b8769b1e909d0ef90a5ef43dfe61) and [0560af2](https://github.com/MurhafSousli/ngx-scrollbar/pull/235/commits/0560af2883a48b112b89a7a2369f29ef693783b0).
