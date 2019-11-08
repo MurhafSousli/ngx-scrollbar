@@ -32,20 +32,25 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
    * Activate scrollbar pointer events
    */
   private activatePointerEvents(): Observable<any> {
+    // Stream that emits when scrollbar thumb is dragged
     let thumbDragEvent: Observable<any> = EMPTY;
+    // Stream that emits when scrollbar track is clicked
     let trackClickEvent: Observable<any> = EMPTY;
+    // Stream that emits when scrollbar track is hovered
     let trackHoveredEvent: Observable<any> = EMPTY;
 
+    // Set the method used for the pointer events option
     if (this.cmp.pointerEventsMethod === 'viewport') {
+      // Pointer events using the viewport
       this.viewportTrackClicked = new Subject<any>();
       this.viewportThumbClicked = new Subject<any>();
 
-      // Activate viewport pointer events
+      // Activate the pointer events of the viewport directive
       this.cmp.viewport.activatePointerEvents(this.destroyed);
 
+      // Set streams
       thumbDragEvent = this.viewportThumbClicked;
       trackClickEvent = this.viewportTrackClicked;
-
       trackHoveredEvent = this.cmp.viewport.hovered.pipe(
         // Check if track is hovered
         map((e: any) => isWithinBounds(e, this.track.clientRect)),
@@ -70,6 +75,7 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
         takeUntil(this.destroyed)
       ).subscribe();
     } else {
+      // Pointer events method is using 'scrollbar'
       thumbDragEvent = this.thumb.clicked;
       trackClickEvent = this.track.clicked;
       trackHoveredEvent = this.track.hovered;
