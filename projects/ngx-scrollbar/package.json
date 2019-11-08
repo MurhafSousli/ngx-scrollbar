@@ -3,8 +3,8 @@
   "version": "7.0.0",
   "license": "MIT",
   "dependencies": {
-    "@juggle/resize-observer": "^2.3.0",
-    "bezier-easing": "^2.0.0"
+    "@juggle/resize-observer": "^2.4.0",
+    "bezier-easing": "^2.1.0"
   },
   "peerDependencies": {
     "@angular/common": "^8.0.0",
