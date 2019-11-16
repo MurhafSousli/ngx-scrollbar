@@ -1,4 +1,4 @@
-import { Component, Inject, NgZone, ChangeDetectionStrategy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Inject, NgZone, ChangeDetectionStrategy, ElementRef, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
 import { TrackXDirective, TrackYDirective } from './track/track.directive';
@@ -33,6 +33,9 @@ export class ScrollbarY extends Scrollbar {
   protected setHovered(value: boolean): void {
     this.cmp.setHovered({ verticalHovered: value });
   }
+
+  onUpdated(): void {
+  }
 }
 
 @Component({
@@ -46,7 +49,7 @@ export class ScrollbarY extends Scrollbar {
     </div>
   `
 })
-export class ScrollbarX extends Scrollbar implements AfterViewInit {
+export class ScrollbarX extends Scrollbar {
 
   @ViewChild(TrackXDirective, { static: true }) readonly track: TrackXDirective;
   @ViewChild(ThumbXDirective, { static: true }) readonly thumb: ThumbXDirective;
@@ -70,7 +73,7 @@ export class ScrollbarX extends Scrollbar implements AfterViewInit {
     this.cmp.setHovered({ horizontalHovered: value });
   }
 
-  ngAfterViewInit() {
+  onUpdated(): void {
     // Auto-height: Set root component height to content height
     this.cmp.nativeElement.style.height = this.cmp.appearance === 'standard'
       ? `${this.cmp.viewport.contentHeight + this.thickness}px`
