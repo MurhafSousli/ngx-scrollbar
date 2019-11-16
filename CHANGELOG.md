@@ -1,5 +1,10 @@
 # Changelog
 
+## 7.0.2
+
+- Fix: Remove `scroll-behavior` CSS rule, closes [#242](https://github.com/MurhafSousli/ngx-scrollbar/issues/242) in [6b89d6f](https://github.com/MurhafSousli/ngx-scrollbar/commit/6b89d6fe72933b83681fedce826385d7f6932fef).
+- Fix: fix auto-height update, closes [#243](https://github.com/MurhafSousli/ngx-scrollbar/issues/243) in [7cac0fb](https://github.com/MurhafSousli/ngx-scrollbar/commit/7cac0fb6ff45943bb99f9cad37979d949e2cb5c7).
+
 ## 7.0.1
 
 - Fix: Scrollbar breaks when loading on mobile, closes [#236](https://github.com/MurhafSousli/ngx-scrollbar/issues/236) in [33dfa71](https://github.com/MurhafSousli/ngx-scrollbar/commit/33dfa7169ab73ed404ff144ae1f187c75e5b9f7f).

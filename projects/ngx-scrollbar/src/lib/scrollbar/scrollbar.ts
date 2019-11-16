@@ -98,8 +98,11 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
         this.activatePointerEvents().pipe(takeUntil(this.destroyed)).subscribe();
       }
 
+      // Stream that emits when host component is updated
+      const updated = this.cmp.updated.pipe(tap(() => this.onUpdated()));
+
       // Update scrollbar thumb when viewport is scrolled and when scrollbar component is updated
-      merge(this.cmp.scrolled, this.cmp.updated).pipe(
+      merge(this.cmp.scrolled, updated).pipe(
         tap(() => this.thumb.update()),
         takeUntil(this.destroyed)
       ).subscribe();
@@ -121,4 +124,6 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
   }
 
   protected abstract setHovered(value: boolean): void;
+
+  protected abstract onUpdated(): void;
 }
