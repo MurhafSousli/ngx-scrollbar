@@ -1,10 +1,27 @@
 {
   "name": "ngx-scrollbar",
-  "version": "7.0.1",
+  "version": "7.0.2",
   "license": "MIT",
+  "homepage": "https://ngx-scrollbar.netlify.com/",
+  "author": {
+    "name": "Murhaf Sousli",
+    "url": "http://github.com/murhafsousli"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MurhafSousli/ngx-scrollbar"
+  },
+  "bugs": {
+    "url": "http://github.com/murhafsousli/ngx-scrollbar/issues"
+  },
+  "keywords": [
+    "scrollbar",
+    "smooth-scroll",
+    "scroll-reached"
+  ],
   "dependencies": {
-    "@juggle/resize-observer": "^2.4.0",
-    "bezier-easing": "^2.1.0"
+    "@juggle/resize-observer": "*",
+    "bezier-easing": "*"
   },
   "peerDependencies": {
     "@angular/common": "^8.0.0",
