@@ -4,8 +4,10 @@
   "scripts": {
     "start": "ng serve ngx-scrollbar-demo",
     "build-demo": "ng build ngx-scrollbar-demo --prod",
+    "build-aot-strict": "ng build ngx-scrollbar-strict-null-checks --prod --aot",
     "build": "ng build ngx-scrollbar",
     "test": "ng test ngx-scrollbar",
+    "test-aot-strict": "npm run test && npm run build-aot-strict",
     "link-lib": "npm link dist/ngx-scrollbar && npm link ngx-scrollbar",
     "publish-lib": "npm publish dist/ngx-scrollbar"
   },

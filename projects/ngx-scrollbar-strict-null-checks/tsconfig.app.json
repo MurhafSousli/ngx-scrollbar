@@ -1,0 +1,38 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/app",
+    "types": [],
+    "allowSyntheticDefaultImports": true,
+    "allowUnusedLabels": true,
+    "alwaysStrict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "strict": false,
+    "strictBindCallApply": false,
+    "strictFunctionTypes": false,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "stripInternal": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/test.ts", "src/**/*.spec.ts"],
+  "angularCompilerOptions": {
+    "allowEmptyCodegenFiles": false,
+    "annotationsAs": "static fields",
+    "annotateForClosureCompiler": false,
+    "disableTypeScriptVersionCheck": false,
+    "enableLegacyTemplate": false,
+    "enableResourceInlining": false,
+    "fullTemplateTypeCheck": true,
+    "generateCodeForLibraries": true,
+    "preserveWhitespaces": false,
+    "skipMetadataEmit": false,
+    "skipTemplateCodegen": false,
+    "strictMetadataEmit": false,
+    "strictInjectionParameters": true,
+    "trace": false
+  }
+}
