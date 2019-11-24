@@ -6,7 +6,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 })
 export class CssVariable implements PipeTransform {
 
-  transform(size: number | null, variableName): SafeHtml {
+  transform(size: number | null, variableName: string | null): SafeHtml {
     if (size === null) {
       size = 0;
     }

@@ -7,7 +7,6 @@ import { _Bottom, _Left, _Right, _Top, _Without } from '@angular/cdk/scrolling';
 import { fromEvent, merge, of, Observable, Subject, animationFrameScheduler } from 'rxjs';
 import { expand, finalize, take, takeUntil, takeWhile } from 'rxjs/operators';
 import BezierEasing from 'bezier-easing';
-import { BezierEasingOptions } from './smooth-scroll.model';
 import {
   SMOOTH_SCROLL_OPTIONS,
   SmoothScrollElement,
@@ -161,10 +160,9 @@ export class SmoothScrollManager {
     // Initialize a destroyer stream, reinitialize it if the element is already being scrolled
     const destroyed: Subject<void> = this._initSmoothScroll(el);
 
-    let easingOptions: BezierEasingOptions =
-    options.easing? options.easing : this._defaultOptions.easing!; // assuming that easing can't be undefined
-    if (!easingOptions.x1 || !easingOptions.x2 || !easingOptions.y1 || !easingOptions.y2) {
-      easingOptions = this._defaultOptions.easing!; // assuming that easing can't be undefined
+    let duration: number = this._defaultOptions.duration!;
+    if(options && options.duration) {
+      duration = options.duration;
     }
 
     const context: SmoothScrollStep = {
@@ -174,8 +172,8 @@ export class SmoothScrollManager {
       startY: el.scrollTop,
       x: options.left == null ? el.scrollLeft : ~~options.left,
       y: options.top == null ? el.scrollTop : ~~options.top,
-      duration: options.duration? options.duration : this._defaultOptions.duration!, // assuming that duration can't be undefined
-      easing: BezierEasing(easingOptions.x1!, easingOptions.y1!, easingOptions.x2!, easingOptions.y2!)
+      duration,
+      easing: BezierEasing(options.easing!.x1!, options.easing!.y1!, options.easing!.x2!, options.easing!.y2!)
     };
 
     return new Promise(resolve => {
