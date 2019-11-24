@@ -7,6 +7,7 @@ import { _Bottom, _Left, _Right, _Top, _Without } from '@angular/cdk/scrolling';
 import { fromEvent, merge, of, Observable, Subject, animationFrameScheduler } from 'rxjs';
 import { expand, finalize, take, takeUntil, takeWhile } from 'rxjs/operators';
 import BezierEasing from 'bezier-easing';
+import { BezierEasingOptions } from './smooth-scroll.model';
 import {
   SMOOTH_SCROLL_OPTIONS,
   SmoothScrollElement,
@@ -83,9 +84,17 @@ export class SmoothScrollManager {
    */
   private _initSmoothScroll(el: HTMLElement): Subject<void> {
     if (this._onGoingScrolls.has(el)) {
-      this._onGoingScrolls.get(el).next();
+      const elOngoingScrolls = this._onGoingScrolls.get(el);
+      if(elOngoingScrolls) {
+        elOngoingScrolls.next();
+      }
     }
-    return this._onGoingScrolls.set(el, new Subject<void>()).get(el);
+    this._onGoingScrolls.set(el, new Subject<void>());
+    let retVal = this._onGoingScrolls.get(el);
+    if(!retVal) {
+      retVal = new Subject<void>(); // failsafe
+    }
+    return retVal;
   }
 
   /**
@@ -143,14 +152,20 @@ export class SmoothScrollManager {
 
   private _applyScrollToOptions(el: HTMLElement, options: SmoothScrollToOptions): Promise<void> {
     if (!options.duration) {
-      this._scrollElement(el, options.left, options.top);
+      if(options.left !== undefined && options.top !== undefined) {
+        this._scrollElement(el, options.left!, options.top!);
+      }
       return Promise.resolve();
     }
 
     // Initialize a destroyer stream, reinitialize it if the element is already being scrolled
     const destroyed: Subject<void> = this._initSmoothScroll(el);
 
-    const easingOptions = options.easing || this._defaultOptions.easing;
+    let easingOptions: BezierEasingOptions =
+    options.easing? options.easing : this._defaultOptions.easing!; // assuming that easing can't be undefined
+    if (!easingOptions.x1 || !easingOptions.x2 || !easingOptions.y1 || !easingOptions.y2) {
+      easingOptions = this._defaultOptions.easing!; // assuming that easing can't be undefined
+    }
 
     const context: SmoothScrollStep = {
       scrollable: el,
@@ -159,8 +174,8 @@ export class SmoothScrollManager {
       startY: el.scrollTop,
       x: options.left == null ? el.scrollLeft : ~~options.left,
       y: options.top == null ? el.scrollTop : ~~options.top,
-      duration: options.duration || this._defaultOptions.duration,
-      easing: BezierEasing(easingOptions.x1, easingOptions.y1, easingOptions.x2, easingOptions.y2)
+      duration: options.duration? options.duration : this._defaultOptions.duration!, // assuming that duration can't be undefined
+      easing: BezierEasing(easingOptions.x1!, easingOptions.y1!, easingOptions.x2!, easingOptions.y2!)
     };
 
     return new Promise(resolve => {
@@ -217,6 +232,8 @@ export class SmoothScrollManager {
         }
       }
       return this._applyScrollToOptions(el, options);
+    } else {
+      return Promise.resolve();
     }
   }
 
@@ -233,7 +250,7 @@ export class SmoothScrollManager {
       top: targetEl.offsetTop + (options.top || 0),
       duration,
       easing
-    }) : new Promise(null);
+    }) : Promise.resolve();
   }
 }
 

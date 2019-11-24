@@ -12,7 +12,7 @@ import { NgScrollbar } from '../ng-scrollbar';
  */
 @Injectable({ providedIn: 'root' })
 export class ResizeObserverFactory {
-  private readonly resizeObserverSource = new BehaviorSubject(null);
+  private readonly resizeObserverSource = new BehaviorSubject<any>(null); // TODO define correct type here
   readonly resizeObserverLoader = this.resizeObserverSource.asObservable();
 
   constructor(@Inject(DOCUMENT) document: any, platform: Platform) {
@@ -25,7 +25,7 @@ export class ResizeObserverFactory {
             console.log('Unable to load ResizeObserver polyfill', e);
             return EMPTY;
           }));
-      this.resizeObserverSource.next(resizeObserverApi);
+      this.resizeObserverSource.next(resizeObserverApi as any); // FIXME define correct type here
     }
   }
 }

@@ -41,17 +41,28 @@ import { NativeScrollbarSizeFactory } from './utils/native-scrollbar-size-factor
 })
 export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   /** A class forwarded to scrollable viewport element */
-  @Input() viewClass: string = this.manager.globalOptions.viewClass;
+  @Input() viewClass: string = this.manager.globalOptions.viewClass
+    ? this.manager.globalOptions.viewClass
+    : ""; // FIXME review default
   /** A class forwarded to the scrollbar track element */
-  @Input() trackClass: string = this.manager.globalOptions.trackClass;
+  @Input() trackClass: string = this.manager.globalOptions.trackClass
+    ? this.manager.globalOptions.trackClass
+    : ""; // FIXME review default
   /** A class forwarded to the scrollbar thumb element */
-  @Input() thumbClass: string = this.manager.globalOptions.thumbClass;
+  @Input() thumbClass: string = this.manager.globalOptions.thumbClass
+    ? this.manager.globalOptions.thumbClass
+    : ""; // FIXME review default
   /** Minimum scrollbar thumb size */
-  @Input() minThumbSize: number = this.manager.globalOptions.minThumbSize;
+  @Input() minThumbSize: number = this.manager.globalOptions.minThumbSize
+    ? this.manager.globalOptions.minThumbSize
+    : 20; // As per https://github.com/MurhafSousli/ngx-scrollbar/wiki/global-options
   /** The duration which the scrolling takes to reach its target when scrollbar rail is clicked */
   @Input() trackClickScrollDuration = this.manager.globalOptions.trackClickScrollDuration;
   /** A flag used to enable/disable the scrollbar thumb dragged event */
-  @Input() pointerEventsDisabled: boolean = this.manager.globalOptions.pointerEventsDisabled;
+  @Input() pointerEventsDisabled: boolean = this.manager.globalOptions
+    .pointerEventsDisabled
+    ? this.manager.globalOptions.pointerEventsDisabled
+    : false;
   /**
    * Sets the pointer events method
    * Use viewport pointer events  to handle dragging and track click (This makes scrolling work when mouse is over the scrollbar)
@@ -93,9 +104,13 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    */
   @Input() position: ScrollbarPosition = this.manager.globalOptions.position;
   /** Debounce interval for detecting changes via ResizeObserver */
-  @Input() sensorDebounce: number = this.manager.globalOptions.sensorDebounce;
+  @Input() sensorDebounce: number = this.manager.globalOptions.sensorDebounce
+    ? this.manager.globalOptions.sensorDebounce
+    : 0; // As per https://github.com/MurhafSousli/ngx-scrollbar/wiki/global-options
   /** Whether ResizeObserver is disabled */
-  @Input() sensorDisabled: boolean = this.manager.globalOptions.sensorDisabled;
+  @Input() sensorDisabled: boolean = this.manager.globalOptions.sensorDisabled
+    ? this.manager.globalOptions.sensorDisabled
+    : false; // As per https://github.com/MurhafSousli/ngx-scrollbar/wiki/global-options
   /** Steam that emits when scrollbar is updated */
   @Output() updated = new EventEmitter<void>();
   /** Default viewport reference */

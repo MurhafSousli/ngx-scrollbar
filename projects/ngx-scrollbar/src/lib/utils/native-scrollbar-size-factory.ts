@@ -14,11 +14,14 @@ export class NativeScrollbarSizeFactory {
               private manager: ScrollbarManager,
               private platform: Platform) {
     if (platform.isBrowser) {
+      // Default = 0 as per https://github.com/MurhafSousli/ngx-scrollbar/wiki/global-options
+      const windowResizeDebounce = this.manager.globalOptions
+        .windowResizeDebounce? this.manager.globalOptions.windowResizeDebounce : 0;
       of(null).pipe(
         tap(() => this._nativeScrollbarSize = new BehaviorSubject<number>(this.getNativeScrollbarSize())),
         tap(() => this.nativeScrollbarSize = this._nativeScrollbarSize.asObservable()),
         switchMap(() => fromEvent(this.document.defaultView, 'resize', { passive: true })),
-        debounceTime(this.manager.globalOptions.windowResizeDebounce),
+        debounceTime(windowResizeDebounce),
         tap(() => this._nativeScrollbarSize.next(this.getNativeScrollbarSize()))
       ).subscribe();
     }

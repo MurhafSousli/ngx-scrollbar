@@ -97,7 +97,9 @@ export class ScrollViewport {
   setAsWrapper(): void {
     // In this case the default viewport and the default content wrapper will act as a mask
     this.nativeElement.className = 'ng-native-scrollbar-hider ng-scroll-layer';
-    this.nativeElement.firstElementChild.className = 'ng-scroll-layer';
+    if(this.nativeElement.firstElementChild) {
+      this.nativeElement.firstElementChild.className = 'ng-scroll-layer';
+    }
   }
 
   /**
