@@ -48,23 +48,23 @@ export interface NgScrollbarOptions {
    */
   pointerEventsMethod?: ScrollbarPointerEventsMethod;
   /** A class forwarded to scrollable viewport element */
-  viewClass?: string;
+  viewClass?: string | undefined;
   /** A class forwarded to the scrollbar track element */
-  trackClass?: string;
+  trackClass?: string | undefined;
   /** A class forwarded to the scrollbar thumb element */
-  thumbClass?: string;
+  thumbClass?: string | undefined;
   /** The minimum scrollbar thumb size in px */
-  minThumbSize?: number;
+  minThumbSize?: number | undefined;
   /** The duration which the scrolling takes to reach its target when scrollbar rail is clicked */
-  trackClickScrollDuration?: number;
+  trackClickScrollDuration?: number | undefined;
   /** A flag used to enable/disable the scrollbar pointer events */
-  pointerEventsDisabled?: boolean;
+  pointerEventsDisabled?: boolean | undefined;
   /** Debounce interval for detecting changes via window.resize event */
-  windowResizeDebounce?: number;
+  windowResizeDebounce?: number | undefined;
   /** Debounce interval for detecting changes via ResizeObserver */
-  sensorDebounce?: number;
+  sensorDebounce?: number | undefined;
   /** Whether ResizeObserver is disabled */
-  sensorDisabled?: boolean;
+  sensorDisabled?: boolean | undefined;
 }
 
 /**
