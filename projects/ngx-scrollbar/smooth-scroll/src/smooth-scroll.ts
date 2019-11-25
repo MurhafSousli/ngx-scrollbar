@@ -11,11 +11,11 @@ export class SmoothScroll {
   constructor(private element: ElementRef, private smoothScroll: SmoothScrollManager) {
   }
 
-  scrollTo(options: SmoothScrollToOptions): Promise<void> {
+  scrollTo(options: SmoothScrollToOptions): Promise<void> | undefined {
     return this.smoothScroll.scrollTo(this.element, options);
   }
 
-  scrollToElement(target: SmoothScrollElement, options: SmoothScrollOptions): Promise<void> {
+  scrollToElement(target: SmoothScrollElement, options: SmoothScrollOptions): Promise<void> | undefined {
     return this.smoothScroll.scrollToElement(this.element, target, options);
   }
 }

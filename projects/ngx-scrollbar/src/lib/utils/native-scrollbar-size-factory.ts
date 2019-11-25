@@ -18,7 +18,7 @@ export class NativeScrollbarSizeFactory {
         tap(() => this._nativeScrollbarSize = new BehaviorSubject<number>(this.getNativeScrollbarSize())),
         tap(() => this.nativeScrollbarSize = this._nativeScrollbarSize.asObservable()),
         switchMap(() => fromEvent(this.document.defaultView, 'resize', { passive: true })),
-        debounceTime(this.manager.globalOptions.windowResizeDebounce),
+        debounceTime(this.manager.globalOptions.windowResizeDebounce!),
         tap(() => this._nativeScrollbarSize.next(this.getNativeScrollbarSize()))
       ).subscribe();
     }

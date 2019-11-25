@@ -12,7 +12,7 @@ import { NgScrollbar } from '../ng-scrollbar';
  */
 @Injectable({ providedIn: 'root' })
 export class ResizeObserverFactory {
-  private readonly resizeObserverSource = new BehaviorSubject(null);
+  private readonly resizeObserverSource = new BehaviorSubject<any>(null);
   readonly resizeObserverLoader = this.resizeObserverSource.asObservable();
 
   constructor(@Inject(DOCUMENT) document: any, platform: Platform) {

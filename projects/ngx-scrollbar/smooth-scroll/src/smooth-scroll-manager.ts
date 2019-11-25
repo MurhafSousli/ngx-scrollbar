@@ -1,7 +1,6 @@
-import { ElementRef, Inject, Injectable, PLATFORM_ID, Optional, NgZone } from '@angular/core';
+import { ElementRef, Inject, Injectable, PLATFORM_ID, Optional } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { coerceElement } from '@angular/cdk/coercion';
-import { Directionality } from '@angular/cdk/bidi';
 import { getRtlScrollAxisType, RtlScrollAxisType } from '@angular/cdk/platform';
 import { _Bottom, _Left, _Right, _Top, _Without } from '@angular/cdk/scrolling';
 import { fromEvent, merge, of, Observable, Subject, animationFrameScheduler } from 'rxjs';
@@ -43,9 +42,7 @@ export class SmoothScrollManager {
       : Date.now;
   }
 
-  constructor(private _zone: NgZone,
-              private _dir: Directionality,
-              @Inject(DOCUMENT) private _document: any,
+  constructor(@Inject(DOCUMENT) private _document: any,
               @Inject(PLATFORM_ID) private _platform: object,
               @Optional() @Inject(SMOOTH_SCROLL_OPTIONS) customDefaultOptions: SmoothScrollToOptions) {
     this._defaultOptions = {
@@ -83,9 +80,9 @@ export class SmoothScrollManager {
    */
   private _initSmoothScroll(el: HTMLElement): Subject<void> {
     if (this._onGoingScrolls.has(el)) {
-      this._onGoingScrolls.get(el).next();
+      this._onGoingScrolls.get(el)!.next();
     }
-    return this._onGoingScrolls.set(el, new Subject<void>()).get(el);
+    return this._onGoingScrolls.set(el, new Subject<void>())!.get(el)!;
   }
 
   /**
@@ -142,15 +139,13 @@ export class SmoothScrollManager {
   }
 
   private _applyScrollToOptions(el: HTMLElement, options: SmoothScrollToOptions): Promise<void> {
-    if (!options.duration) {
-      this._scrollElement(el, options.left, options.top);
+    if (!options.duration!) {
+      this._scrollElement(el, options!.left!, options!.top!);
       return Promise.resolve();
     }
 
     // Initialize a destroyer stream, reinitialize it if the element is already being scrolled
     const destroyed: Subject<void> = this._initSmoothScroll(el);
-
-    const easingOptions = options.easing || this._defaultOptions.easing;
 
     const context: SmoothScrollStep = {
       scrollable: el,
@@ -159,8 +154,8 @@ export class SmoothScrollManager {
       startY: el.scrollTop,
       x: options.left == null ? el.scrollLeft : ~~options.left,
       y: options.top == null ? el.scrollTop : ~~options.top,
-      duration: options.duration || this._defaultOptions.duration,
-      easing: BezierEasing(easingOptions.x1, easingOptions.y1, easingOptions.x2, easingOptions.y2)
+      duration: options.duration!,
+      easing: BezierEasing(options.easing!.x1!, options.easing!.y1!, options.easing!.x2!, options.easing!.y2!)
     };
 
     return new Promise(resolve => {
@@ -185,15 +180,21 @@ export class SmoothScrollManager {
    * @param scrollable element
    * @param options specified the offsets to scroll to.
    */
-  scrollTo(scrollable: SmoothScrollElement, options: SmoothScrollToOptions): Promise<void> {
+  scrollTo(scrollable: SmoothScrollElement, customOptions: SmoothScrollToOptions): Promise<void> {
     if (isPlatformBrowser(this._platform)) {
       const el = this._getElement(scrollable);
       const isRtl = getComputedStyle(el).direction === 'rtl';
       const rtlScrollAxisType = getRtlScrollAxisType();
 
-      // Rewrite start & end offsets as right or left offsets.
-      options.left = options.left == null ? (isRtl ? options.end : options.start) : options.left;
-      options.right = options.right == null ? (isRtl ? options.start : options.end) : options.right;
+      const options: SmoothScrollToOptions = {
+        ...(this._defaultOptions as _Without<_Bottom & _Top>),
+        ...customOptions,
+        ...({
+          // Rewrite start & end offsets as right or left offsets.
+          left: customOptions.left == null ? (isRtl ? customOptions.end : customOptions.start) : customOptions.left,
+          right: customOptions.right == null ? (isRtl ? customOptions.start : customOptions.end) : customOptions.right
+        } as _Without<_Bottom & _Top>)
+      };
 
       // Rewrite the bottom offset as a top offset.
       if (options.bottom != null) {
@@ -218,22 +219,22 @@ export class SmoothScrollManager {
       }
       return this._applyScrollToOptions(el, options);
     }
+    return Promise.resolve();
   }
 
   /**
    * Scroll to element by reference or selector
    */
-  scrollToElement(scrollable: SmoothScrollElement, target: SmoothScrollElement, options: SmoothScrollOptions & _Top & _Left): Promise<void> {
+  scrollToElement(scrollable: SmoothScrollElement, target: SmoothScrollElement, customOptions: SmoothScrollOptions & _Top & _Left): Promise<void> {
     const scrollableEl = this._getElement(scrollable);
     const targetEl = this._getElement(target, scrollableEl);
-    const duration = options.duration;
-    const easing = options.easing;
-    return targetEl ? this.scrollTo(scrollableEl, {
-      left: targetEl.offsetLeft + (options.left || 0),
-      top: targetEl.offsetTop + (options.top || 0),
-      duration,
-      easing
-    }) : new Promise(null);
+    const options: SmoothScrollToOptions = {
+      ...customOptions,
+      ...{
+        left: targetEl.offsetLeft + (customOptions.left || 0),
+        top: targetEl.offsetTop + (customOptions.top || 0)
+      }
+    };
+    return targetEl ? this.scrollTo(scrollableEl, options) : Promise.resolve();
   }
 }
-
