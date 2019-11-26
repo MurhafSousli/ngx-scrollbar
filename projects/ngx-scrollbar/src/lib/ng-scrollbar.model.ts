@@ -65,6 +65,8 @@ export interface NgScrollbarOptions {
   sensorDebounce?: number | undefined;
   /** Whether ResizeObserver is disabled */
   sensorDisabled?: boolean | undefined;
+  /** Scroll Audit Time */
+  scrollAuditTime?: number | undefined;
 }
 
 /**
