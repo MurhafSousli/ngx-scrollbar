@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.1.0
+
+- Feat: Add `scrollAuditTime` option to tweak performance when on a low framerate budget, closes [#245](https://github.com/MurhafSousli/ngx-scrollbar/issues/245) in [0e0bccb](https://github.com/MurhafSousli/ngx-scrollbar/pull/250/commits/0e0bccb7fb8e6131ddd3265490f002e66775c44b).
+- Fix: check options param for null values, closes [#247](https://github.com/MurhafSousli/ngx-scrollbar/issues/247) in [b3e67ed](https://github.com/MurhafSousli/ngx-scrollbar/commit/b3e67ed2c76af2b845569e45fe41df9b8d694522).
+- Fix: Production build fails with 'strictNullChecks' compiler option, closes [#219](https://github.com/MurhafSousli/ngx-scrollbar/issues/219) in [ac1a0d6](https://github.com/MurhafSousli/ngx-scrollbar/commit/ac1a0d6b197416e7ff186b54121f6b9d3e436914).
+
 ## 7.0.2
 
 - Fix: Remove `scroll-behavior` CSS rule, closes [#242](https://github.com/MurhafSousli/ngx-scrollbar/issues/242) in [6b89d6f](https://github.com/MurhafSousli/ngx-scrollbar/commit/6b89d6fe72933b83681fedce826385d7f6932fef).
