@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { fromEvent, Observable, Observer, Subject } from 'rxjs';
-import { filter, map, pairwise, pluck, takeUntil, tap } from 'rxjs/operators';
+import { auditTime, filter, map, pairwise, pluck, takeUntil, tap } from 'rxjs/operators';
 import { ScrollViewport } from './scroll-viewport';
 import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToOptions } from 'ngx-scrollbar/smooth-scroll';
 // Uncomment the following line in development mode
