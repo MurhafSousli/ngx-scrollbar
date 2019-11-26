@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { fromEvent, Observable, Observer, Subject } from 'rxjs';
-import { filter, map, pairwise, pluck, takeUntil, tap } from 'rxjs/operators';
+import { auditTime, filter, map, pairwise, pluck, takeUntil, tap } from 'rxjs/operators';
 import { ScrollViewport } from './scroll-viewport';
 import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToOptions } from 'ngx-scrollbar/smooth-scroll';
 // Uncomment the following line in development mode
@@ -96,6 +96,8 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   @Input() sensorDebounce: number | undefined = this.manager.globalOptions.sensorDebounce;
   /** Whether ResizeObserver is disabled */
   @Input() sensorDisabled: boolean | undefined = this.manager.globalOptions.sensorDisabled;
+  /** Scroll Audit Time */
+  @Input() scrollAuditTime: number | undefined = this.manager.globalOptions.scrollAuditTime;
   /** Steam that emits when scrollbar is updated */
   @Output() updated = new EventEmitter<void>();
   /** Default viewport reference */
@@ -215,10 +217,13 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
       // Activate the selected viewport
       this.viewport.setAsViewport(this.viewClass!);
 
+      let scrollStream = fromEvent(this.viewport.nativeElement, 'scroll', { passive: true });
+      // Throttle scroll event if 'scrollAuditTime' is set
+      scrollStream = this.scrollAuditTime ? scrollStream.pipe(auditTime(this.scrollAuditTime)) : scrollStream;
       // Initialize scroll streams
       this.scrolled = new Observable((observer: Observer<any>) =>
-        fromEvent(this.viewport.nativeElement, 'scroll', { passive: true }).pipe(takeUntil(this.destroyed))
-          .subscribe(observer));
+        scrollStream.pipe(takeUntil(this.destroyed)).subscribe(observer)
+      );
       this.verticalScrolled = this.getScrolledByDirection('scrollTop');
       this.horizontalScrolled = this.getScrolledByDirection('scrollLeft');
     });
