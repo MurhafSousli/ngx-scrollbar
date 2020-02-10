@@ -15,7 +15,12 @@
             "tsConfig": "projects/ngx-scrollbar/tsconfig.lib.json",
             "project": "projects/ngx-scrollbar/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-scrollbar/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -57,7 +62,7 @@
             "main": "projects/ngx-scrollbar-demo/src/main.ts",
             "polyfills": "projects/ngx-scrollbar-demo/src/polyfills.ts",
             "tsConfig": "projects/ngx-scrollbar-demo/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "projects/ngx-scrollbar-demo/src/favicon.ico",
               "projects/ngx-scrollbar-demo/src/assets"
@@ -80,7 +85,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -89,6 +93,10 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ]
             }

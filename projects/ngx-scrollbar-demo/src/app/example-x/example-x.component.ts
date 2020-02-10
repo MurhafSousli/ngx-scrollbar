@@ -29,7 +29,7 @@ import { ReachedEvent } from './reached-notifier/reached-notifier.component';
 })
 export class ExampleXComponent {
 
-  @ViewChild(NgScrollbar, { static: false }) scrollable: NgScrollbar;
+  @ViewChild(NgScrollbar) scrollable: NgScrollbar;
 
   pointerEventsMethod: ScrollbarPointerEventsMethod;
 
