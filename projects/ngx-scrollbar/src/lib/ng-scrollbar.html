@@ -4,7 +4,7 @@
        [sensorDebounce]="sensorDebounce"
        [sensorDisabled]="sensorDisabled">
     <div scrollViewport
-         [style]="nativeScrollbarSizeFactory.nativeScrollbarSize | async | cssVariable: 'native-scrollbar-size'">
+         [hideNativeScrollbar]="nativeScrollbarSizeFactory.scrollbarSize | async">
       <div>
         <ng-content></ng-content>
       </div>
