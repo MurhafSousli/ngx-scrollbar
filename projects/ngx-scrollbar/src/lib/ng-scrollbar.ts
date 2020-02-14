@@ -98,6 +98,8 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   @Input() sensorDisabled: boolean | undefined = this.manager.globalOptions.sensorDisabled;
   /** Scroll Audit Time */
   @Input() scrollAuditTime: number | undefined = this.manager.globalOptions.scrollAuditTime;
+  /** Enable viewport mousemove event propagation (only when pointerEventsMethod="viewport") */
+  @Input() viewportPropagateMouseMove: boolean | undefined = this.manager.globalOptions.viewportPropagateMouseMove;
   /** Steam that emits when scrollbar is updated */
   @Output() updated = new EventEmitter<void>();
   /** Default viewport reference */
