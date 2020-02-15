@@ -1,5 +1,15 @@
 # Changelog
 
+## 7.2.0
+
+- Feat: Ability to set `NgScrollbarModule.withConfig(options)` in [6fca314](https://github.com/MurhafSousli/ngx-scrollbar/pull/265/commits/6fca3146b802683a29ffd8e382c1ecca1d06a9e6).
+- Feat: Ability to propagate `mousemove` events of the viewport element, closes[#255](https://github.com/MurhafSousli/ngx-scrollbar/issues/255) in [d24804a](https://github.com/MurhafSousli/ngx-scrollbar/pull/265/commits/d24804a95ba54a8fdbf04c2a7fb734fb48122251).
+- Feat: Ability to use string value on boolean inputs in [752d715](752d715).
+- Fix: Fix ivy problem by using a directive instead of a pipe to set the CSS variable, closes [#217](https://github.com/MurhafSousli/ngx-scrollbar/issues/217) in [c43ca40](https://github.com/MurhafSousli/ngx-scrollbar/commit/c43ca404d0af9f78c12de9e8c485a289507f63f4).
+- Fix: Adjust hiding the native scrollbars on MacOS and Android in [0b590d7](https://github.com/MurhafSousli/ngx-scrollbar/pull/265/commits/0b590d78054cd1b9363ae46826413370749ce95a).
+- Fix: Fix compatibility with Angular material 9 in [a97f69f](https://github.com/MurhafSousli/ngx-scrollbar/commit/a97f69f0135f7612a69334667cc9d185327c22a9) and [3ce361f](https://github.com/MurhafSousli/ngx-scrollbar/commit/3ce361fdb058002c61664435860b175d216ea2a6).
+- Fix: Remove installation warning in Angular 9 in [d8080a7](https://github.com/MurhafSousli/ngx-scrollbar/commit/d8080a73d08fa23ef3d1366944e4b741bfc3c8b0)
+
 ## 7.1.0
 
 - Feat: Add `scrollAuditTime` option to tweak performance when on a low framerate budget, closes [#245](https://github.com/MurhafSousli/ngx-scrollbar/issues/245) in [0e0bccb](https://github.com/MurhafSousli/ngx-scrollbar/pull/250/commits/0e0bccb7fb8e6131ddd3265490f002e66775c44b).
