@@ -15,6 +15,7 @@ import { ThumbYDirective, ThumbXDirective } from './scrollbar/thumb/thumb.direct
 import { TrackXDirective, TrackYDirective } from './scrollbar/track/track.directive';
 import { ScrollbarX, ScrollbarY } from './scrollbar/scrollbar.component';
 import { ScrollViewport } from './scroll-viewport';
+import { NG_SCROLLBAR_OPTIONS, NgScrollbarOptions } from './ng-scrollbar.model';
 
 @NgModule({
   imports: [
@@ -43,4 +44,12 @@ import { ScrollViewport } from './scroll-viewport';
   ]
 })
 export class NgScrollbarModule {
+  static withConfig(options: NgScrollbarOptions): ModuleWithProviders<NgScrollbarModule> {
+    return {
+      ngModule: NgScrollbarModule,
+      providers: [
+        { provide: NG_SCROLLBAR_OPTIONS, useValue: options }
+      ]
+    };
+  }
 }
