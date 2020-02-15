@@ -14,6 +14,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { fromEvent, Observable, Subscriber, Subject } from 'rxjs';
 import { auditTime, filter, map, pairwise, pluck, takeUntil, tap } from 'rxjs/operators';
 import { ScrollViewport } from './scroll-viewport';
@@ -40,6 +41,51 @@ import { NativeScrollbarSizeFactory } from './utils/native-scrollbar-size-factor
   host: { '[class.ng-scrollbar]': 'true' }
 })
 export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
+
+  private _disabled: boolean | undefined = false;
+  private _sensorDisabled: boolean | undefined = this.manager.globalOptions.sensorDisabled;
+  private _pointerEventsDisabled: boolean | undefined = this.manager.globalOptions.pointerEventsDisabled;
+  private _viewportPropagateMouseMove: boolean | undefined = this.manager.globalOptions.viewportPropagateMouseMove;
+
+  /** Disable custom scrollbar and switch back to native scrollbar */
+  @Input()
+  get disabled(): boolean {
+    return this._disabled;
+  }
+
+  set disabled(disabled: boolean) {
+    this._disabled = coerceBooleanProperty(disabled);
+  }
+
+  /** Whether ResizeObserver is disabled */
+  @Input()
+  get sensorDisabled(): boolean {
+    return this._sensorDisabled;
+  }
+
+  set sensorDisabled(disabled: boolean) {
+    this._sensorDisabled = coerceBooleanProperty(disabled);
+  }
+
+  /** A flag used to enable/disable the scrollbar thumb dragged event */
+  @Input()
+  get pointerEventsDisabled(): boolean {
+    return this._pointerEventsDisabled;
+  }
+
+  set pointerEventsDisabled(disabled: boolean) {
+    this._pointerEventsDisabled = coerceBooleanProperty(disabled);
+  }
+
+  /** Enable viewport mousemove event propagation (only when pointerEventsMethod="viewport") */
+  @Input()
+  get viewportPropagateMouseMove(): boolean {
+    return this._viewportPropagateMouseMove;
+  }
+  set viewportPropagateMouseMove(disabled: boolean) {
+    this._viewportPropagateMouseMove = coerceBooleanProperty(disabled);
+  }
+
   /** A class forwarded to scrollable viewport element */
   @Input() viewClass: string | undefined = this.manager.globalOptions.viewClass;
   /** A class forwarded to the scrollbar track element */
@@ -50,16 +96,12 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   @Input() minThumbSize: number | undefined = this.manager.globalOptions.minThumbSize;
   /** The duration which the scrolling takes to reach its target when scrollbar rail is clicked */
   @Input() trackClickScrollDuration: number | undefined = this.manager.globalOptions.trackClickScrollDuration;
-  /** A flag used to enable/disable the scrollbar thumb dragged event */
-  @Input() pointerEventsDisabled: boolean | undefined = this.manager.globalOptions.pointerEventsDisabled;
   /**
    * Sets the pointer events method
    * Use viewport pointer events  to handle dragging and track click (This makes scrolling work when mouse is over the scrollbar)
    * Use scrollbar pointer events to handle dragging and track click
    */
   @Input() pointerEventsMethod: ScrollbarPointerEventsMethod = this.manager.globalOptions.pointerEventsMethod;
-  /** Disable custom scrollbar and switch back to native scrollbar */
-  @Input() disabled: boolean = false;
   /**
    * Sets the supported scroll track of the viewport, there are 3 options:
    *
@@ -94,12 +136,8 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   @Input() position: ScrollbarPosition = this.manager.globalOptions.position;
   /** Debounce interval for detecting changes via ResizeObserver */
   @Input() sensorDebounce: number | undefined = this.manager.globalOptions.sensorDebounce;
-  /** Whether ResizeObserver is disabled */
-  @Input() sensorDisabled: boolean | undefined = this.manager.globalOptions.sensorDisabled;
   /** Scroll Audit Time */
   @Input() scrollAuditTime: number | undefined = this.manager.globalOptions.scrollAuditTime;
-  /** Enable viewport mousemove event propagation (only when pointerEventsMethod="viewport") */
-  @Input() viewportPropagateMouseMove: boolean | undefined = this.manager.globalOptions.viewportPropagateMouseMove;
   /** Steam that emits when scrollbar is updated */
   @Output() updated = new EventEmitter<void>();
   /** Default viewport reference */
@@ -111,7 +149,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   /** Set of attributes added on the scrollbar wrapper */
   state: NgScrollbarState = {};
   /** Stream that destroys components' observables */
-  private destroyed = new Subject<void>();
+  private readonly destroyed = new Subject<void>();
 
   /** Stream that emits on scroll event */
   scrolled: Observable<any>;
@@ -246,7 +284,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   update() {
     if (!this.state.horizontalUsed) {
       // Auto-height: Set component height to content height
-      this.nativeElement.style.height = `${this.viewport.contentHeight}px`;
+      this.nativeElement.style.height = `${ this.viewport.contentHeight }px`;
     }
     this.updated.next();
     this.changeDetectorRef.detectChanges();
