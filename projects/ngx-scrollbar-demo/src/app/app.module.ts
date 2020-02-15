@@ -3,6 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { ColorPickerModule } from './color-picker';
 import { SharedModule } from './shared/shared.module';
@@ -16,7 +17,6 @@ import { ExampleXComponent } from './example-x/example-x.component';
 import { CssVariablesFormComponent } from './example-x/css-variables-form/css-variables-form.component';
 import { ExampleVirtualScrollComponent } from './example-virutal-scroll/example-virtual-scroll.component';
 import { ExampleInfiniteScrollComponent } from './example-infinite-scroll/example-infinite-scroll.component';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ExampleNestedVirtualScrollComponent } from './example-nested-virtual-scroll/example-nested-virtual-scroll.component';
 import { CardComponent } from './example-nested-virtual-scroll/card/card.component';
 import { ResizeFormComponent } from './example-x/resize-form/resize-form.component';
