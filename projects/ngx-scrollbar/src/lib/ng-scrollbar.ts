@@ -14,7 +14,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
-import { fromEvent, Observable, Observer, Subject } from 'rxjs';
+import { fromEvent, Observable, Subscriber, Subject } from 'rxjs';
 import { auditTime, filter, map, pairwise, pluck, takeUntil, tap } from 'rxjs/operators';
 import { ScrollViewport } from './scroll-viewport';
 import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToOptions } from 'ngx-scrollbar/smooth-scroll';
@@ -223,8 +223,8 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
       // Throttle scroll event if 'scrollAuditTime' is set
       scrollStream = this.scrollAuditTime ? scrollStream.pipe(auditTime(this.scrollAuditTime)) : scrollStream;
       // Initialize scroll streams
-      this.scrolled = new Observable((observer: Observer<any>) =>
-        scrollStream.pipe(takeUntil(this.destroyed)).subscribe(observer)
+      this.scrolled = new Observable((subscriber: Subscriber<any>) =>
+        scrollStream.pipe(takeUntil(this.destroyed)).subscribe(subscriber)
       );
       this.verticalScrolled = this.getScrolledByDirection('scrollTop');
       this.horizontalScrolled = this.getScrolledByDirection('scrollLeft');
