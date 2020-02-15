@@ -1,16 +1,16 @@
 @import "selectors";
 
-::ng-deep {
-  .ng-native-scrollbar-hider {
-    scrollbar-width: none; /* Firefox 64 */
-    -ms-overflow-style: none; /* Internet Explorer 11 */
-    &::-webkit-scrollbar { /** WebKit */
-      display: none;
+@mixin hideNativeScrollbar {
+  ::ng-deep {
+    .ng-native-scrollbar-hider {
+      scrollbar-width: none; /* Firefox 64 */
+      -ms-overflow-style: none; /* Internet Explorer 11 */
+      &::-webkit-scrollbar { /** WebKit */
+        display: none;
+      }
     }
   }
-}
 
-@mixin hideNativeScrollbar {
   // Hide native horizontal scrollbar if visible
   @include scrollbarXUsed {
     @include nativeScrollbarHider {
