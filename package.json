@@ -4,7 +4,7 @@
   "scripts": {
     "start": "ng serve ngx-scrollbar-demo",
     "build-demo": "ng build ngx-scrollbar-demo --prod",
-    "build": "ng build ngx-scrollbar",
+    "build": "ng build ngx-scrollbar --prod",
     "test": "ng test ngx-scrollbar",
     "link-lib": "npm link dist/ngx-scrollbar && npm link ngx-scrollbar",
     "publish-lib": "npm publish dist/ngx-scrollbar"
@@ -14,6 +14,7 @@
     "url": "https://github.com/MurhafSousli/ngx-scrollbar"
   },
   "dependencies": {
+    "@angular-devkit/build-angular": "^0.900.1",
     "@angular/animations": "~9.0.0",
     "@angular/cdk": "~9.0.0",
     "@angular/common": "~9.0.0",
@@ -24,16 +25,12 @@
     "@angular/platform-browser": "~9.0.0",
     "@angular/platform-browser-dynamic": "~9.0.0",
     "@angular/router": "~9.0.0",
-    "@juggle/resize-observer": "^2.4.0",
+    "@juggle/resize-observer": "^2.5.0",
     "bezier-easing": "^2.1.0",
-    "chance": "^1.0.18",
-    "classlist.js": "^1.1.20150312",
-    "font-awesome": "^4.7.0",
+    "chance": "^1.1.4",
     "ngx-infinite-scroll": "^7.2.0",
-    "resize-observer-polyfill": "^1.5.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
-    "web-animations-js": "^2.3.2",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

@@ -3,7 +3,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { coerceElement } from '@angular/cdk/coercion';
 import { getRtlScrollAxisType, RtlScrollAxisType } from '@angular/cdk/platform';
 import { _Bottom, _Left, _Right, _Top, _Without } from '@angular/cdk/scrolling';
-import { fromEvent, merge, of, Observable, Subject, animationFrameScheduler } from 'rxjs';
+import { fromEvent, merge, of, Observable, Subject, Subscriber, animationFrameScheduler } from 'rxjs';
 import { expand, finalize, take, takeUntil, takeWhile } from 'rxjs/operators';
 import BezierEasing from 'bezier-easing';
 import {
@@ -21,7 +21,7 @@ import {
 export class SmoothScrollManager {
 
   // Default options
-  private _defaultOptions: SmoothScrollToOptions;
+  private readonly _defaultOptions: SmoothScrollToOptions;
 
   // Keeps track of the ongoing SmoothScroll functions so they can be handled in case of duplication.
   // Each scrolled element gets a destroyer stream which gets deleted immediately after it completes.
@@ -120,7 +120,7 @@ export class SmoothScrollManager {
    * A function called recursively that, given a context, steps through scrolling
    */
   private _step(context: SmoothScrollStep): Observable<SmoothScrollStep> {
-    return new Observable(observer => {
+    return new Observable((subscriber: Subscriber<SmoothScrollStep>) => {
       let elapsed = (this._now() - context.startTime) / context.duration;
 
       // avoid elapsed times higher than one
@@ -134,7 +134,7 @@ export class SmoothScrollManager {
 
       this._scrollElement(context.scrollable, context.currentX, context.currentY);
       // Proceed to the step
-      animationFrameScheduler.schedule(() => observer.next(context));
+      animationFrameScheduler.schedule(() => subscriber.next(context));
     });
   }
 
@@ -178,7 +178,7 @@ export class SmoothScrollManager {
    * of the layout direction. start and end refer to left and right in an LTR context and vice-versa
    * in an RTL context.
    * @param scrollable element
-   * @param options specified the offsets to scroll to.
+   * @param customOptions specified the offsets to scroll to.
    */
   scrollTo(scrollable: SmoothScrollElement, customOptions: SmoothScrollToOptions): Promise<void> {
     if (isPlatformBrowser(this._platform)) {

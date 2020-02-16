@@ -23,18 +23,6 @@
     .scrollbar-thumb {
       background-image: linear-gradient(to bottom, var(--color-example3), #EFB436);
       box-shadow: inset 0 -1px 0 #f9df91;
-
-      &:after {
-        content: '\f0c9';
-        font-size: 9px;
-        color: #3A2D09;
-        font-family: 'FontAwesome';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-rendering: optimizeLegibility;
-      }
     }
   }
 }

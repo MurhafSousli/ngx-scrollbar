@@ -7,10 +7,10 @@ import { SmoothScrollModule } from '../../smooth-scroll/src/smooth-scroll.module
 
 import { NgScrollbar } from './ng-scrollbar';
 import { ScrollViewport } from './scroll-viewport';
-import { ScrollbarControl } from './scrollbar-control/scrollbar-control';
 import { NgAttr } from './utils/ng-attr.directive';
 import { ResizeSensor } from './utils/resize-sensor.directive';
-import { CssVariable } from './utils/css-variable.pipe';
+import { HideNativeScrollbar } from './utils/hide-native-scrollbar';
+import { ScrollbarX, ScrollbarY } from './scrollbar/scrollbar.component';
 
 describe('NgScrollbar Component', () => {
   let component: NgScrollbar;
@@ -29,9 +29,10 @@ describe('NgScrollbar Component', () => {
       declarations: [
         NgScrollbar,
         NgAttr,
-        CssVariable,
+        HideNativeScrollbar,
         ResizeSensor,
-        ScrollbarControl,
+        ScrollbarY,
+        ScrollbarX,
         ScrollViewport
       ]
     }).compileComponents();
@@ -56,7 +57,6 @@ describe('NgScrollbar Component', () => {
     expect(component.scrolled).toBeDefined();
     expect(component.verticalScrolled).toBeDefined();
     expect(component.horizontalScrolled).toBeDefined();
-    expect(component.viewportClasses).toBeDefined();
     expect(component.state).toBeDefined();
   });
 
@@ -78,8 +78,8 @@ describe('NgScrollbar Component', () => {
   it('should use vertical scrollbar when viewport is scrollable"', () => {
     component.track = 'vertical';
     component.visibility = 'native';
-    component.viewport.style.height = '300px';
-    component.viewport.innerHTML = '<div style="height: 1000px"></div>';
+    component.viewport.nativeElement.style.height = '300px';
+    component.viewport.nativeElement.innerHTML = '<div style="height: 1000px"></div>';
     fixture.detectChanges();
 
     expect(component.state.verticalUsed).toBeTruthy();
@@ -91,8 +91,8 @@ describe('NgScrollbar Component', () => {
   it('should use vertical scrollbar if visiblity="always" event if viewport is not scrollable', () => {
     component.track = 'vertical';
     component.visibility = 'always';
-    component.viewport.style.height = '1000px';
-    component.viewport.innerHTML = '<div style="height: 300px"></div>';
+    component.viewport.nativeElement.style.height = '1000px';
+    component.viewport.nativeElement.innerHTML = '<div style="height: 300px"></div>';
     fixture.detectChanges();
 
     expect(component.state.verticalUsed).toBeTruthy();
@@ -104,8 +104,8 @@ describe('NgScrollbar Component', () => {
   it('should not use vertical scrollbar if viewport is not scrollable', () => {
     component.track = 'vertical';
     component.visibility = 'native';
-    component.viewport.style.height = '1000px';
-    component.viewport.innerHTML = '<div style="height: 300px"></div>';
+    component.viewport.nativeElement.style.height = '1000px';
+    component.viewport.nativeElement.innerHTML = '<div style="height: 300px"></div>';
     fixture.detectChanges();
 
     expect(component.state.verticalUsed).toBeFalsy();
@@ -117,8 +117,8 @@ describe('NgScrollbar Component', () => {
   it('should use horizontal scrollbar', () => {
     component.track = 'horizontal';
     component.visibility = 'always';
-    component.viewport.style.width = '300px';
-    component.viewport.innerHTML = '<div style="width: 1000px; height: 300px"></div>';
+    component.viewport.nativeElement.style.width = '300px';
+    component.viewport.nativeElement.innerHTML = '<div style="width: 1000px; height: 300px"></div>';
     fixture.detectChanges();
 
     expect(component.state.horizontalUsed).toBeTruthy();
@@ -131,8 +131,8 @@ describe('NgScrollbar Component', () => {
   it('should use horizontal scrollbar if visiblity="always" event if viewport is not scrollable', () => {
     component.track = 'horizontal';
     component.visibility = 'always';
-    component.viewport.style.width = '1000px';
-    component.viewport.innerHTML = '<div style="width: 300px; height: 300px"></div>';
+    component.viewport.nativeElement.style.width = '1000px';
+    component.viewport.nativeElement.innerHTML = '<div style="width: 300px; height: 300px"></div>';
     fixture.detectChanges();
 
     expect(component.state.horizontalUsed).toBeTruthy();
@@ -144,8 +144,8 @@ describe('NgScrollbar Component', () => {
   it('should not use horizontal scrollbar if viewport is not scrollable', () => {
     component.track = 'horizontal';
     component.visibility = 'native';
-    component.viewport.style.width = '1000px';
-    component.viewport.innerHTML = '<div style="width: 300px; height: 300px"></div>';
+    component.viewport.nativeElement.style.width = '1000px';
+    component.viewport.nativeElement.innerHTML = '<div style="width: 300px; height: 300px"></div>';
     fixture.detectChanges();
 
     expect(component.state.horizontalUsed).toBeFalsy();

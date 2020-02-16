@@ -67,6 +67,8 @@ export interface NgScrollbarOptions {
   sensorDisabled?: boolean | undefined;
   /** Scroll Audit Time */
   scrollAuditTime?: number | undefined;
+  /** Enable viewport mousemove event propagation (only when pointerEventsMethod="viewport") */
+  viewportPropagateMouseMove?: boolean | undefined;
 }
 
 /**

@@ -1,7 +1,7 @@
 import { Directive, Optional, Input, Output, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { RtlScrollAxisType } from '@angular/cdk/platform';
-import { Observable, Subject, Subscription, Observer } from 'rxjs';
+import { Observable, Subject, Subscription, Subscriber } from 'rxjs';
 import { filter, map, tap, distinctUntilChanged } from 'rxjs/operators';
 import { NgScrollbar } from 'ngx-scrollbar';
 // Uncomment the following line in development mode
@@ -47,7 +47,6 @@ class ReachedFunctions {
   }
 }
 
-@Directive()
 abstract class ScrollReached implements OnDestroy {
 
   /** offset: Reached offset value in px */
@@ -64,9 +63,9 @@ abstract class ScrollReached implements OnDestroy {
   protected subscription = Subscription.EMPTY;
 
   /** A stream used to assign the reached output */
-  protected reachedEvent = new Observable((observer: Observer<any>) =>
+  protected reachedEvent = new Observable((subscriber: Subscriber<any>) =>
     this.scrollReached().subscribe(_ =>
-      Promise.resolve().then(() => this.zone.run(() => observer.next(_)))));
+      Promise.resolve().then(() => this.zone.run(() => subscriber.next(_)))));
 
   protected constructor(protected scrollbar: NgScrollbar, protected zone: NgZone) {
     if (!scrollbar) {
