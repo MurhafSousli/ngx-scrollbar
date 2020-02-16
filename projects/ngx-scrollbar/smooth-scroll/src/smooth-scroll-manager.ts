@@ -178,7 +178,7 @@ export class SmoothScrollManager {
    * of the layout direction. start and end refer to left and right in an LTR context and vice-versa
    * in an RTL context.
    * @param scrollable element
-   * @param options specified the offsets to scroll to.
+   * @param customOptions specified the offsets to scroll to.
    */
   scrollTo(scrollable: SmoothScrollElement, customOptions: SmoothScrollToOptions): Promise<void> {
     if (isPlatformBrowser(this._platform)) {

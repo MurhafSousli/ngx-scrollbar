@@ -47,7 +47,6 @@ class ReachedFunctions {
   }
 }
 
-@Directive()
 abstract class ScrollReached implements OnDestroy {
 
   /** offset: Reached offset value in px */
