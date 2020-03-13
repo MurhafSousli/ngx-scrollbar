@@ -1,6 +1,6 @@
 @import "selectors";
 
-%hide-scrollbar {
+@mixin hide-scrollbar() {
   scrollbar-width: none; /* Firefox 64 */
   -ms-overflow-style: none; /* Internet Explorer 11 */
   &::-webkit-scrollbar { /** WebKit */
@@ -10,7 +10,7 @@
 
 @mixin hideNativeScrollbar {
   @include viewport {
-    @extend %hide-scrollbar;
+    @include hide-scrollbar();
   }
 
   // Hide native horizontal scrollbar if visible
@@ -43,6 +43,6 @@
     overflow: scroll;
     position: fixed;
     top: -9999px;
-    @extend %hide-scrollbar;
+    @include hide-scrollbar();
   }
 }

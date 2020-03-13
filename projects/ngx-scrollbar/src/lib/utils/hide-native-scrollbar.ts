@@ -1,19 +1,21 @@
-import { Directive, Input, ElementRef } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { Directive, ElementRef, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { NativeScrollbarSizeFactory } from './native-scrollbar-size-factory';
 
 @Directive({
   selector: '[hideNativeScrollbar]'
 })
-export class HideNativeScrollbar {
+export class HideNativeScrollbar implements OnDestroy {
 
-  el: HTMLElement;
+  private readonly _subscriber = Subscription.EMPTY;
 
-  @Input('hideNativeScrollbar') setSize(size: number) {
-    console.log('hideNativeScrollbar', size);
-    this.el.style.setProperty('--native-scrollbar-size', `-${size}px`);
+  constructor(el: ElementRef, private hideNativeScrollbar: NativeScrollbarSizeFactory) {
+    this._subscriber = hideNativeScrollbar.scrollbarSize.subscribe((size: number) => {
+      (el.nativeElement as HTMLElement).style.setProperty('--native-scrollbar-size', `-${ size }px`);
+    });
   }
 
-  constructor(el: ElementRef, public sanitizer: DomSanitizer) {
-    this.el = el.nativeElement;
+  ngOnDestroy() {
+    this._subscriber.unsubscribe();
   }
 }
