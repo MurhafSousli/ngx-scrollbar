@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.2.1-beta.0
+
+- fix: adjust hiding the native scrollbar, closes [#266](https://github.com/MurhafSousli/ngx-scrollbar/issues/266) in [110a24e](https://github.com/MurhafSousli/ngx-scrollbar/pull/277/commits/110a24e7ce30a2dcfb46f16fb68f396a8d1155eb) and [110a24e](https://github.com/MurhafSousli/ngx-scrollbar/pull/277/commits/7274e9406205e180efae6b84fde6a1631e73d7f7).
+- fix(ivy): Use directive instead of pipe in [5058a8a](https://github.com/MurhafSousli/ngx-scrollbar/pull/277/commits/5058a8ad6804d2849dcb60cf594d72d2f2ecdd2a).
+- fix(Angular 9): Update dependencies (Angular and CDK), closes[#272](https://github.com/MurhafSousli/ngx-scrollbar/issues/272) in [ffbceab](https://github.com/MurhafSousli/ngx-scrollbar/pull/277/commits/ffbceabb523c6965dc58ad221695c9d5c167919e).
+
 ## 7.2.0
 
 - Feat: Ability to set `NgScrollbarModule.withConfig(options)` in [6fca314](https://github.com/MurhafSousli/ngx-scrollbar/pull/265/commits/6fca3146b802683a29ffd8e382c1ecca1d06a9e6).
