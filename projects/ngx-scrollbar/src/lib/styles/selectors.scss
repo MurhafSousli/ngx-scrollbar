@@ -8,7 +8,9 @@
 // The default viewport is used to hide the native scrollbar
 @mixin nativeScrollbarHider {
   @include viewportWrapper {
-    > .ng-native-scrollbar-hider {
+    > .ng-native-scrollbar-hider,
+      // Custom viewport
+      > * > * > ::ng-deep.ng-native-scrollbar-hider {
       @content;
     }
   }
