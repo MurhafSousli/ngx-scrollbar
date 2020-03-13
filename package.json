@@ -28,7 +28,7 @@
     "@juggle/resize-observer": "^3.1.1",
     "bezier-easing": "^2.1.0",
     "chance": "^1.1.4",
-    "ngx-infinite-scroll": "^7.2.0",
+    "ngx-infinite-scroll": "^8.0.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
