@@ -1,20 +1,19 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, Input, ElementRef } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Directive({
-  selector: '[hideNativeScrollbar]',
-  host: {
-    '[attr.style]': 'sanitizer.bypassSecurityTrustStyle(nativeScrollbarSize)'
-  }
+  selector: '[hideNativeScrollbar]'
 })
 export class HideNativeScrollbar {
 
-  @Input('hideNativeScrollbar') size: number;
+  el: HTMLElement;
 
-  get nativeScrollbarSize(): string {
-    return `--native-scrollbar-size: -${this.size}px`;
+  @Input('hideNativeScrollbar') setSize(size: number) {
+    console.log('hideNativeScrollbar', size);
+    this.el.style.setProperty('--native-scrollbar-size', `-${size}px`);
   }
 
-  constructor(public sanitizer: DomSanitizer) {
+  constructor(el: ElementRef, public sanitizer: DomSanitizer) {
+    this.el = el.nativeElement;
   }
 }
