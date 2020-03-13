@@ -1,14 +1,16 @@
 @import "selectors";
 
+@mixin hide-scrollbar() {
+  scrollbar-width: none; /* Firefox 64 */
+  -ms-overflow-style: none; /* Internet Explorer 11 */
+  &::-webkit-scrollbar { /** WebKit */
+    display: none;
+  }
+}
+
 @mixin hideNativeScrollbar {
-  ::ng-deep {
-    .ng-native-scrollbar-hider {
-      scrollbar-width: none; /* Firefox 64 */
-      -ms-overflow-style: none; /* Internet Explorer 11 */
-      &::-webkit-scrollbar { /** WebKit */
-        display: none;
-      }
-    }
+  @include viewport {
+    @include hide-scrollbar();
   }
 
   // Hide native horizontal scrollbar if visible
@@ -41,5 +43,6 @@
     overflow: scroll;
     position: fixed;
     top: -9999px;
+    @include hide-scrollbar();
   }
 }
