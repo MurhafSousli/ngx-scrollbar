@@ -96,7 +96,7 @@ Here is a [stackblitz](https://stackblitz.com/edit/ngx-scrollbar)
 
   Invert vertical scrollbar position, default `false`
 
-- **[shown]**: 'native' | 'hover' | 'always', default `native`
+- **[visibility]**: 'native' | 'hover' | 'always', default `native`
 
   Configure when scrollbars should be shown.
   
