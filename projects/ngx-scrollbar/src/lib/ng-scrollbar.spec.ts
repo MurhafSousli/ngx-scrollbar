@@ -17,7 +17,7 @@ describe('NgScrollbar Component', () => {
   let fixture: ComponentFixture<NgScrollbar>;
   let componentElement: HTMLElement;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
@@ -36,7 +36,7 @@ describe('NgScrollbar Component', () => {
         ScrollViewport
       ]
     }).compileComponents();
-  }));
+  });
 
 
   beforeEach(() => {
@@ -47,6 +47,9 @@ describe('NgScrollbar Component', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
   it('should create <ng-scrollbar> component', () => {
     expect(component).toBeTruthy();
   });
@@ -153,5 +156,4 @@ describe('NgScrollbar Component', () => {
     expect(component.state.verticalUsed).toBeFalsy();
     expect(component.state.isVerticallyScrollable).toBeFalsy();
   });
-
 });
