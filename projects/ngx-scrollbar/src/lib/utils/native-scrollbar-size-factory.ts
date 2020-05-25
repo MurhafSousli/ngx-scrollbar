@@ -28,6 +28,10 @@ export class NativeScrollbarSizeFactory {
    * Get native scrollbar size
    */
   private getNativeScrollbarSize(): number {
+    // Avoid executing browser code in server side rendering
+    if (!this.platform.isBrowser) {
+      return 0;
+    }
     // Hide iOS browsers native scrollbar
     if (this.platform.IOS) {
       return 6;
