@@ -9,12 +9,11 @@ export class HideNativeScrollbar implements OnDestroy {
 
   private readonly _subscriber = Subscription.EMPTY;
 
-  constructor(
-    el: ElementRef,
-    private renderer: Renderer2,
-    private hideNativeScrollbar: NativeScrollbarSizeFactory) {
+  constructor(el: ElementRef,
+              private renderer: Renderer2,
+              private hideNativeScrollbar: NativeScrollbarSizeFactory) {
     this._subscriber = hideNativeScrollbar.scrollbarSize.subscribe((size: number) => {
-      this.renderer.setStyle(el.nativeElement, '--native-scrollbar-size', `-${size}px`, RendererStyleFlags2.DashCase);
+      this.renderer.setStyle(el.nativeElement, '--native-scrollbar-size', `-${ size }px`, RendererStyleFlags2.DashCase);
     });
   }
 

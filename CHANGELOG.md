@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.3.0
+
+- fix(core): fix crash when executing on SSR, closes [#267](https://github.com/MurhafSousli/ngx-scrollbar/issues/267) in [17d8bb1](https://github.com/MurhafSousli/ngx-scrollbar/pull/289/commits/17d8bb1a78190e6b836334f7eb2d94b0a8431172).
+
 ## 7.2.1-beta.0
 
 - fix: adjust hiding the native scrollbar, closes [#266](https://github.com/MurhafSousli/ngx-scrollbar/issues/266) in [110a24e](https://github.com/MurhafSousli/ngx-scrollbar/pull/277/commits/110a24e7ce30a2dcfb46f16fb68f396a8d1155eb) and [110a24e](https://github.com/MurhafSousli/ngx-scrollbar/pull/277/commits/7274e9406205e180efae6b84fde6a1631e73d7f7).
