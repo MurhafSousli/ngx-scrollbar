@@ -14,7 +14,7 @@
     "url": "https://github.com/MurhafSousli/ngx-scrollbar"
   },
   "dependencies": {
-    "@angular-devkit/build-angular": "^0.900.6",
+    "@angular-devkit/build-angular": "^0.901.9",
     "@angular/animations": "~9.0.6",
     "@angular/cdk": "~9.1.2",
     "@angular/common": "~9.0.6",
@@ -34,8 +34,8 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-ng-packagr": "~0.900.6",
-    "@angular/cli": "~9.0.6",
+    "@angular-devkit/build-ng-packagr": "~0.901.9",
+    "@angular/cli": "~9.1.9",
     "@angular/compiler-cli": "~9.0.6",
     "@angular/language-service": "~9.0.6",
     "@types/bezier-easing": "^2.0.0",
@@ -51,7 +51,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
-    "ng-packagr": "^9.0.0",
+    "ng-packagr": "^9.1.5",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
