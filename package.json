@@ -25,7 +25,7 @@
     "@angular/platform-browser": "~10.0.8",
     "@angular/platform-browser-dynamic": "~10.0.8",
     "@angular/router": "~10.0.8",
-    "@juggle/resize-observer": "^3.1.1",
+    "@juggle/resize-observer": "^3.2.0",
     "bezier-easing": "^2.1.0",
     "chance": "^1.1.4",
     "ngx-infinite-scroll": "^8.0.1",
