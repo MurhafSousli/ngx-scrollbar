@@ -1,32 +1,23 @@
+/*
+  This is a "Solution Style" tsconfig.json file, and is used by editors and TypeScript’s language server to improve development experience.
+  It is not intended to be used to perform a compilation.
+
+  To learn more about this file see: https://angular.io/config/solution-tsconfig.
+*/
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
-    "sourceMap": true,
-    "declaration": false,
-    "downlevelIteration": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "target": "es2015",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ],
-    "paths": {
-      "ngx-scrollbar": [
-        "dist/ngx-scrollbar"
-      ],
-      "ngx-scrollbar/*": [
-        "dist/ngx-scrollbar/*"
-      ]
+  "files": [],
+  "references": [
+    {
+      "path": "./projects/ngx-scrollbar/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ngx-scrollbar/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/ngx-scrollbar-demo/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/ngx-scrollbar-demo/tsconfig.spec.json"
     }
-  }
+  ]
 }

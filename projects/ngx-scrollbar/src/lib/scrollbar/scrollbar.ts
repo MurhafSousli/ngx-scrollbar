@@ -1,4 +1,4 @@
-import { OnDestroy, OnInit, NgZone } from '@angular/core';
+import { OnDestroy, OnInit, NgZone, Directive } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
 import { asyncScheduler, EMPTY, merge, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, takeUntil, tap } from 'rxjs/operators';
@@ -7,6 +7,7 @@ import { ThumbAdapter } from './thumb/thumb';
 import { TrackAdapter } from './track/track';
 import { isWithinBounds } from './common';
 
+@Directive()
 export abstract class Scrollbar implements OnInit, OnDestroy {
 
   // Thumb directive reference

@@ -2,6 +2,11 @@
 
 ## 7.3.0
 
+- feat: Upgrade to Angular 10.
+- fix(reached): Can't bind to 'reachedOffset' since it isn't a known property of 'ng-scrollbar', closes [#293](https://github.com/MurhafSousli/ngx-scrollbar/issues/293) in [cc9b1b5](https://github.com/MurhafSousli/ngx-scrollbar/commit/cc9b1b58d3493bdd71a84456005cc890a2750002).
+
+## 7.2.3
+
 - fix(core): fix crash when executing on SSR, closes [#267](https://github.com/MurhafSousli/ngx-scrollbar/issues/267) in [17d8bb1](https://github.com/MurhafSousli/ngx-scrollbar/pull/289/commits/17d8bb1a78190e6b836334f7eb2d94b0a8431172).
 
 ## 7.2.1-beta.0

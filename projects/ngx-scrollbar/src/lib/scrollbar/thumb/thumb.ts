@@ -1,10 +1,12 @@
-import { Input, Output } from '@angular/core';
+import { Input, Output, Directive } from '@angular/core';
 import { animationFrameScheduler, of, fromEvent, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, mergeMap, pluck, takeUntil, tap } from 'rxjs/operators';
 import { enableSelection, preventSelection, stopPropagation } from '../common';
 import { NgScrollbar } from '../../ng-scrollbar';
 import { TrackAdapter } from '../track/track';
 
+// @dynamic
+@Directive()
 export abstract class ThumbAdapter {
 
   @Input() track: TrackAdapter;

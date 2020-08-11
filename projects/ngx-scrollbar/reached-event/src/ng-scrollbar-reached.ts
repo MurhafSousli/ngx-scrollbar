@@ -47,6 +47,7 @@ class ReachedFunctions {
   }
 }
 
+@Directive()
 abstract class ScrollReached implements OnDestroy {
 
   /** offset: Reached offset value in px */
@@ -67,9 +68,9 @@ abstract class ScrollReached implements OnDestroy {
     this.scrollReached().subscribe(_ =>
       Promise.resolve().then(() => this.zone.run(() => subscriber.next(_)))));
 
-  protected constructor(protected scrollbar: NgScrollbar, protected zone: NgZone) {
+  protected constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone) {
     if (!scrollbar) {
-      throw new Error('[NgScrollbarReached Directive]: Host element must be an NgScrollbar component.');
+      console.warn('[NgScrollbarReached Directive]: Host element must be an NgScrollbar component.');
     }
   }
 
@@ -97,6 +98,7 @@ abstract class ScrollReached implements OnDestroy {
   protected abstract reached(offset: number, e?: any): boolean;
 }
 
+@Directive()
 abstract class VerticalScrollReached extends ScrollReached implements OnInit {
   protected constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone) {
     super(scrollbar, zone);
@@ -107,6 +109,7 @@ abstract class VerticalScrollReached extends ScrollReached implements OnInit {
   }
 }
 
+@Directive()
 abstract class HorizontalScrollReached extends ScrollReached implements OnInit {
   protected constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone) {
     super(scrollbar, zone);
