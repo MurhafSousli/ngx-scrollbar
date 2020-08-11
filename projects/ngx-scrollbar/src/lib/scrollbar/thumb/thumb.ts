@@ -5,6 +5,7 @@ import { enableSelection, preventSelection, stopPropagation } from '../common';
 import { NgScrollbar } from '../../ng-scrollbar';
 import { TrackAdapter } from '../track/track';
 
+// @dynamic
 @Directive()
 export abstract class ThumbAdapter {
 
