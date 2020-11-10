@@ -20,7 +20,7 @@ import { auditTime, filter, map, pairwise, pluck, takeUntil, tap } from 'rxjs/op
 import { ScrollViewport } from './scroll-viewport';
 import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToOptions } from 'ngx-scrollbar/smooth-scroll';
 // Uncomment the following line in development mode
-//import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToOptions } from '../../smooth-scroll/src/public_api';
+// import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToOptions } from '../../smooth-scroll/src/public_api';
 import {
   ScrollbarAppearance,
   ScrollbarTrack,
@@ -280,9 +280,10 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    * Update local state and the internal scrollbar controls
    */
   update() {
-    if (!this.state.horizontalUsed) {
+    const viewPortHeight: number = this.viewport?.contentHeight;
+    if (!this.state.horizontalUsed && viewPortHeight != null) {
       // Auto-height: Set component height to content height
-      this.nativeElement.style.height = `${ this.viewport.contentHeight }px`;
+      this.nativeElement.style.height = `${ viewPortHeight }px`;
     }
     this.updated.next();
     this.changeDetectorRef.detectChanges();
