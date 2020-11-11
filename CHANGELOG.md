@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.3.1
+
+- fix: Safe-check viewport clientHeight in auto-height mode, closes [#307](https://github.com/MurhafSousli/ngx-scrollbar/issues/307) in [8136f9d](https://github.com/MurhafSousli/ngx-scrollbar/pull/308/commits/8136f9db91cf34f00078c737968d488305ba97b7).
+
 ## 7.3.0
 
 - feat: Upgrade to Angular 10.
