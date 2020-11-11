@@ -54,7 +54,11 @@ export class ScrollViewport {
   }
 
   get contentHeight(): number {
-    return this.contentWrapperElement.clientHeight;
+    return this.contentWrapperElement?.clientHeight;
+  }
+
+  get contentWidth(): number {
+    return this.contentWrapperElement?.clientWidth;
   }
 
   constructor(public viewPort: ElementRef,

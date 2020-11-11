@@ -92,4 +92,6 @@ export interface NgScrollbarState {
   horizontalDragging?: boolean;
   // Flag used to prevent text selection on content
   scrollbarClicked?: boolean;
+  autoHeightDisabled?: boolean;
+  autoWidthDisabled?: boolean;
 }

@@ -137,6 +137,13 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   @Input() sensorDebounce: number | undefined = this.manager.globalOptions.sensorDebounce;
   /** Scroll Audit Time */
   @Input() scrollAuditTime: number | undefined = this.manager.globalOptions.scrollAuditTime;
+
+  /** Disable auto-height functionality (default: false) */
+  @Input() autoHeightDisabled: boolean = false;
+
+  /** Disable auto-width functionality (default: true) */
+  @Input() autoWidthDisabled: boolean = true;
+
   /** Steam that emits when scrollbar is updated */
   @Output() updated = new EventEmitter<void>();
   /** Default viewport reference */
@@ -202,7 +209,9 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
       verticalUsed,
       horizontalUsed,
       isVerticallyScrollable,
-      isHorizontallyScrollable
+      isHorizontallyScrollable,
+      autoHeightDisabled: this.autoHeightDisabled,
+      autoWidthDisabled: this.autoWidthDisabled,
     });
   }
 
@@ -280,12 +289,34 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    * Update local state and the internal scrollbar controls
    */
   update() {
-    if (!this.state.horizontalUsed) {
+    if (this.hasAutoHeight()) {
       // Auto-height: Set component height to content height
       this.nativeElement.style.height = `${ this.viewport.contentHeight }px`;
     }
+
+    if (this.hasAutoWidth()) {
+      // Auto-width: Set component width to content width
+      this.nativeElement.style.width = `${ this.viewport.contentWidth }px`;
+    }
+
     this.updated.next();
     this.changeDetectorRef.detectChanges();
+  }
+
+  /**
+   * Returns true if the auto-height is enabled
+   * @returns True if the auto-height is enabled
+   */
+  private hasAutoHeight(): boolean {
+    return !this.state.autoHeightDisabled && this.viewport.contentHeight != null;
+  }
+
+  /**
+   * Returns true if the auto-width is enabled
+   * @returns True if the auto-width is enabled
+   */
+  private hasAutoWidth(): boolean {
+    return !this.state.autoWidthDisabled && this.viewport.contentWidth != null;
   }
 
   /**
