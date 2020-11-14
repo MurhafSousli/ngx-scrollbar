@@ -5,6 +5,7 @@ import { map, pluck, switchMap, tap } from 'rxjs/operators';
 import { preventSelection, enableSelection, stopPropagation } from '../common';
 import { NgScrollbar } from '../../ng-scrollbar';
 
+// @dynamic
 @Directive()
 export abstract class TrackAdapter {
 

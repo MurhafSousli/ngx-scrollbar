@@ -14,6 +14,7 @@ import {
   SmoothScrollToOptions
 } from './smooth-scroll.model';
 
+// @dynamic
 @Injectable({
   providedIn: 'root'
 })
