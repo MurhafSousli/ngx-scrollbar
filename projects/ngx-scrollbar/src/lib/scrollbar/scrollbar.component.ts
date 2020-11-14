@@ -19,11 +19,11 @@ import { Scrollbar } from './scrollbar';
 })
 export class ScrollbarY extends Scrollbar {
 
-  @ViewChild(TrackYDirective, { static: true }) readonly track: TrackYDirective;
-  @ViewChild(ThumbYDirective, { static: true }) readonly thumb: ThumbYDirective;
+  @ViewChild(TrackYDirective, { static: true }) readonly track: TrackYDirective | undefined;
+  @ViewChild(ThumbYDirective, { static: true }) readonly thumb: ThumbYDirective | undefined;
 
   protected get viewportScrollSize(): number {
-    return this.cmp.viewport.scrollHeight;
+    return this.cmp.viewport!.scrollHeight;
   }
 
   get thickness(): number {
@@ -46,8 +46,8 @@ export class ScrollbarY extends Scrollbar {
     if (!this.cmp.autoWidthDisabled) {
       // Auto-width: Set root component minWidth to content width
       this.cmp.nativeElement.style.minWidth = this.cmp.appearance === 'standard'
-        ? `${ this.cmp.viewport.contentWidth + this.thickness }px`
-        : `${ this.cmp.viewport.contentWidth }px`;
+        ? `${ this.cmp.viewport!.contentWidth + this.thickness }px`
+        : `${ this.cmp.viewport!.contentWidth }px`;
     }
   }
 }
@@ -65,11 +65,11 @@ export class ScrollbarY extends Scrollbar {
 })
 export class ScrollbarX extends Scrollbar {
 
-  @ViewChild(TrackXDirective, { static: true }) readonly track: TrackXDirective;
-  @ViewChild(ThumbXDirective, { static: true }) readonly thumb: ThumbXDirective;
+  @ViewChild(TrackXDirective, { static: true }) readonly track: TrackXDirective | undefined;
+  @ViewChild(ThumbXDirective, { static: true }) readonly thumb: ThumbXDirective | undefined;
 
   protected get viewportScrollSize(): number {
-    return this.cmp.viewport.scrollWidth;
+    return this.cmp.viewport!.scrollWidth;
   }
 
   get thickness(): number {
@@ -91,8 +91,8 @@ export class ScrollbarX extends Scrollbar {
     if (!this.cmp.autoHeightDisabled) {
       // Auto-height: Set root component height to content height
       this.cmp.nativeElement.style.height = this.cmp.appearance === 'standard'
-        ? `${ this.cmp.viewport.contentHeight + this.thickness }px`
-        : `${ this.cmp.viewport.contentHeight }px`;
+        ? `${ this.cmp.viewport!.contentHeight + this.thickness }px`
+        : `${ this.cmp.viewport!.contentHeight }px`;
     }
   }
 }

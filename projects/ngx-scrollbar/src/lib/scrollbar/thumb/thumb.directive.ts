@@ -17,15 +17,15 @@ export class ThumbXDirective extends ThumbAdapter {
   }
 
   protected get viewportScrollSize(): number {
-    return this.cmp.viewport.scrollWidth;
+    return this.cmp.viewport!.scrollWidth;
   }
 
   protected get viewportScrollOffset(): number {
-    return this.cmp.viewport.scrollLeft;
+    return this.cmp.viewport!.scrollLeft;
   }
 
   get viewportScrollMax(): number {
-    return this.cmp.viewport.scrollMaxX;
+    return this.cmp.viewport!.scrollMaxX;
   }
 
   get dragStartOffset(): number {
@@ -85,7 +85,7 @@ export class ThumbXDirective extends ThumbAdapter {
   }
 
   protected scrollTo(position: number): void {
-    this.cmp.viewport.scrollXTo(position);
+    this.cmp.viewport!.scrollXTo(position);
   }
 }
 
@@ -97,15 +97,15 @@ export class ThumbYDirective extends ThumbAdapter {
   }
 
   protected get viewportScrollSize(): number {
-    return this.cmp.viewport.scrollHeight;
+    return this.cmp.viewport!.scrollHeight;
   }
 
   protected get viewportScrollOffset(): number {
-    return this.cmp.viewport.scrollTop;
+    return this.cmp.viewport!.scrollTop;
   }
 
   get viewportScrollMax(): number {
-    return this.cmp.viewport.scrollMaxY;
+    return this.cmp.viewport!.scrollMaxY;
   }
 
   protected get clientProperty(): string {
@@ -145,6 +145,6 @@ export class ThumbYDirective extends ThumbAdapter {
   }
 
   protected scrollTo(position: number): void {
-    this.cmp.viewport.scrollYTo(position);
+    this.cmp.viewport!.scrollYTo(position);
   }
 }

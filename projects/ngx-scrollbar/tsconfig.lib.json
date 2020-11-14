@@ -11,7 +11,8 @@
       "dom",
       "es2018"
     ],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "strict": true
   },
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,
