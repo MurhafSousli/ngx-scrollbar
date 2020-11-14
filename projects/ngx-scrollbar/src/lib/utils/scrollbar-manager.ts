@@ -16,7 +16,9 @@ const defaultOptions: NgScrollbarOptions = {
   windowResizeDebounce: 0,
   sensorDebounce: 0,
   scrollAuditTime: 0,
-  viewportPropagateMouseMove: true
+  viewportPropagateMouseMove: true,
+  autoHeightDisabled: false,
+  autoWidthDisabled: true
 };
 
 @Injectable({ providedIn: 'root' })

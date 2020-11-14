@@ -1,6 +1,6 @@
 import { OnDestroy, OnInit, NgZone, Directive } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
-import { asyncScheduler, EMPTY, merge, Observable, Subject } from 'rxjs';
+import { asyncScheduler, merge, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { NgScrollbar } from '../ng-scrollbar';
 import { ThumbAdapter } from './thumb/thumb';
@@ -25,6 +25,7 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
   protected viewportThumbClicked!: Subject<any>;
 
   protected abstract get viewportScrollSize(): number;
+  protected abstract get thickness(): number;
 
   protected constructor(public cmp: NgScrollbar, protected platform: Platform, protected document: any, protected zone: NgZone) {
   }
@@ -34,11 +35,11 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
    */
   private activatePointerEvents(): Observable<any> {
     // Stream that emits when scrollbar thumb is dragged
-    let thumbDragEvent: Observable<any> = EMPTY;
+    let thumbDragEvent: Observable<any>;
     // Stream that emits when scrollbar track is clicked
-    let trackClickEvent: Observable<any> = EMPTY;
+    let trackClickEvent: Observable<any>;
     // Stream that emits when scrollbar track is hovered
-    let trackHoveredEvent: Observable<any> = EMPTY;
+    let trackHoveredEvent: Observable<any>;
 
     // Set the method used for the pointer events option
     if (this.cmp.pointerEventsMethod === 'viewport') {
