@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BidiModule } from '@angular/cdk/bidi';
 import { CommonModule } from '@angular/common';
 import { PortalModule } from '@angular/cdk/portal';

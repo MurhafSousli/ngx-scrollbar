@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "target": "es2015",
+    "declarationMap": true,
     "declaration": true,
     "inlineSources": true,
     "types": [],
