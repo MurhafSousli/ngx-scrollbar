@@ -34,6 +34,7 @@ ___
 - Universal support
 - Ivy engine support
 - Auto-height
+- Auto-width
 
 ## Compatibility
 
