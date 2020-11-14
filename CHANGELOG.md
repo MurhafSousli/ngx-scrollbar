@@ -1,5 +1,10 @@
 # Changelog
 
+## 7.4.0
+
+- feat: Ability to disable auto-height feature, closes [#311](https://github.com/MurhafSousli/ngx-scrollbar/issues/311) in [f76d347](https://github.com/MurhafSousli/ngx-scrollbar/pull/310/commits/f76d347717f64bb0dd478af8629570c19c592029).
+- feat: Auto-width feature, in [c934b04](https://github.com/MurhafSousli/ngx-scrollbar/pull/310/commits/c934b04b8244ff3d7ef865eb43c1e23a3b9e32bd).
+
 ## 7.3.1
 
 - fix: Safe-check viewport clientHeight in auto-height mode, closes [#307](https://github.com/MurhafSousli/ngx-scrollbar/issues/307) in [8136f9d](https://github.com/MurhafSousli/ngx-scrollbar/pull/308/commits/8136f9db91cf34f00078c737968d488305ba97b7).
