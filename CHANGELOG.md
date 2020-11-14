@@ -4,6 +4,7 @@
 
 - Update dependencies to Angular 11.
 - Refactor the library with strict mode.
+- feat: Include scrollbar padding when hovering, closes [#300](https://github.com/MurhafSousli/ngx-scrollbar/issues/300) in [f907c72](https://github.com/MurhafSousli/ngx-scrollbar/pull/314/commits/f907c721eaf1e17350445a5fae4b68d4a764bbe3) and [f4c0a0d](https://github.com/MurhafSousli/ngx-scrollbar/pull/314/commits/f4c0a0dcd7557f9ae0943a59fc3bb300f13b3e63).
 - feat: Ability to disable auto-height feature, closes [#311](https://github.com/MurhafSousli/ngx-scrollbar/issues/311) in [f76d347](https://github.com/MurhafSousli/ngx-scrollbar/pull/310/commits/f76d347717f64bb0dd478af8629570c19c592029).
 - feat: Auto-width feature, in [c934b04](https://github.com/MurhafSousli/ngx-scrollbar/pull/310/commits/c934b04b8244ff3d7ef865eb43c1e23a3b9e32bd).
 
