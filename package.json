@@ -14,7 +14,6 @@
     "url": "https://github.com/MurhafSousli/ngx-scrollbar"
   },
   "dependencies": {
-    "@angular-devkit/build-angular": "^0.1002.0",
     "@angular/animations": "~10.2.3",
     "@angular/cdk": "~10.2.7",
     "@angular/common": "~10.2.3",
@@ -34,6 +33,7 @@
     "zone.js": "~0.10.3"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "^0.1002.0",
     "@angular-devkit/build-ng-packagr": "~0.1002.0",
     "@angular/cli": "~10.2.0",
     "@angular/compiler-cli": "~10.2.3",
