@@ -104,7 +104,7 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
       const updated = this.cmp.updated.pipe(tap(() => this.onUpdated()));
 
       // Update scrollbar thumb when viewport is scrolled and when scrollbar component is updated
-      merge(this.cmp.scrolled, updated).pipe(
+      merge([this.cmp.scrolled, updated]).pipe(
         tap(() => this.thumb.update()),
         takeUntil(this.destroyed)
       ).subscribe();
