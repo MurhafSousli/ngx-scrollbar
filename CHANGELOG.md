@@ -2,6 +2,8 @@
 
 ## 7.4.0
 
+- Update dependencies to Angular 11.
+- Refactor the library with strict mode.
 - feat: Ability to disable auto-height feature, closes [#311](https://github.com/MurhafSousli/ngx-scrollbar/issues/311) in [f76d347](https://github.com/MurhafSousli/ngx-scrollbar/pull/310/commits/f76d347717f64bb0dd478af8629570c19c592029).
 - feat: Auto-width feature, in [c934b04](https://github.com/MurhafSousli/ngx-scrollbar/pull/310/commits/c934b04b8244ff3d7ef865eb43c1e23a3b9e32bd).
 
