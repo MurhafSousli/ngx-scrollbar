@@ -28,7 +28,7 @@
     "bezier-easing": "^2.1.0",
     "chance": "^1.1.7",
     "ngx-infinite-scroll": "^8.0.2",
-    "rxjs": "~6.5.4",
+    "rxjs": "^6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
   },
