@@ -7,6 +7,7 @@ import { ThumbAdapter } from './thumb/thumb';
 import { TrackAdapter } from './track/track';
 import { isWithinBounds, stopPropagation } from './common';
 
+// @dynamic
 @Directive()
 export abstract class Scrollbar implements OnInit, OnDestroy {
 
