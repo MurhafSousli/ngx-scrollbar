@@ -27,15 +27,15 @@ export class ScrollbarY extends Scrollbar {
   }
 
   get thickness(): number {
-    return this.el.nativeElement.clientWidth;
+    return this.el.clientWidth;
   }
 
-  constructor(protected el: ElementRef,
+  constructor(el: ElementRef,
               public cmp: NgScrollbar,
               protected platform: Platform,
               @Inject(DOCUMENT) protected document: any,
               protected zone: NgZone) {
-    super(el, cmp, platform, document, zone);
+    super(el.nativeElement, cmp, platform, document, zone);
   }
 
   protected setHovered(value: boolean): void {
@@ -73,14 +73,14 @@ export class ScrollbarX extends Scrollbar {
   }
 
   get thickness(): number {
-    return this.el.nativeElement.clientHeight;
+    return this.el.clientHeight;
   }
 
-  constructor(protected el: ElementRef,
+  constructor(el: ElementRef,
               public cmp: NgScrollbar,
               protected platform: Platform,
               @Inject(DOCUMENT) protected document: any, protected zone: NgZone) {
-    super(el, cmp, platform, document, zone);
+    super(el.nativeElement, cmp, platform, document, zone);
   }
 
   protected setHovered(value: boolean): void {

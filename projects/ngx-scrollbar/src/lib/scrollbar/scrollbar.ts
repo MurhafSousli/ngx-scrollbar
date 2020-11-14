@@ -28,7 +28,11 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
 
   protected abstract get thickness(): number;
 
-  protected constructor(protected el: ElementRef, public cmp: NgScrollbar, protected platform: Platform, protected document: any, protected zone: NgZone) {
+  protected constructor(protected el: HTMLElement,
+                        public cmp: NgScrollbar,
+                        protected platform: Platform,
+                        protected document: any,
+                        protected zone: NgZone) {
   }
 
   /**
@@ -56,7 +60,7 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
       trackClickEvent = this.viewportTrackClicked;
       trackHoveredEvent = this.cmp.viewport!.hovered.pipe(
         // Check if track is hovered
-        map((e: any) => isWithinBounds(e, this.el.nativeElement.clientRect)),
+        map((e: any) => isWithinBounds(e, this.el.getBoundingClientRect())),
         distinctUntilChanged(),
         // Enable / disable text selection
         tap((hovered: boolean) => this.document.onselectstart = hovered ? () => false : null)
@@ -96,11 +100,11 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
 
   // Stream that emits when the track element is hovered
   protected get hovered(): Observable<boolean> {
-    const mouseEnter = fromEvent(this.el.nativeElement, 'mouseenter', { passive: true }).pipe(
+    const mouseEnter = fromEvent(this.el, 'mouseenter', { passive: true }).pipe(
       stopPropagation(),
       map(() => true)
     );
-    const mouseLeave = fromEvent(this.el.nativeElement, 'mouseleave', { passive: true }).pipe(
+    const mouseLeave = fromEvent(this.el, 'mouseleave', { passive: true }).pipe(
       stopPropagation(),
       map(() => false)
     );
