@@ -65,6 +65,10 @@ export interface NgScrollbarOptions {
   sensorDebounce?: number | undefined;
   /** Whether ResizeObserver is disabled */
   sensorDisabled?: boolean | undefined;
+  /** Disable auto-height */
+  autoHeightDisabled?: boolean | undefined;
+  /** Disable auto-width */
+  autoWidthDisabled?: boolean | undefined;
   /** Scroll Audit Time */
   scrollAuditTime?: number | undefined;
   /** Enable viewport mousemove event propagation (only when pointerEventsMethod="viewport") */

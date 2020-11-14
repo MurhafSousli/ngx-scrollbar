@@ -26,7 +26,15 @@ export class ScrollbarY extends Scrollbar {
     return this.cmp.viewport.scrollHeight;
   }
 
-  constructor(public cmp: NgScrollbar, protected platform: Platform, @Inject(DOCUMENT) protected document: any, protected zone: NgZone) {
+  get thickness(): number {
+    return this.el.nativeElement.clientWidth;
+  }
+
+  constructor(private el: ElementRef,
+              public cmp: NgScrollbar,
+              protected platform: Platform,
+              @Inject(DOCUMENT) protected document: any,
+              protected zone: NgZone) {
     super(cmp, platform, document, zone);
   }
 
@@ -35,6 +43,12 @@ export class ScrollbarY extends Scrollbar {
   }
 
   onUpdated(): void {
+    if (!this.cmp.autoWidthDisabled) {
+      // Auto-width: Set root component minWidth to content width
+      this.cmp.nativeElement.style.minWidth = this.cmp.appearance === 'standard'
+        ? `${ this.cmp.viewport.contentWidth + this.thickness }px`
+        : `${ this.cmp.viewport.contentWidth }px`;
+    }
   }
 }
 
@@ -74,9 +88,11 @@ export class ScrollbarX extends Scrollbar {
   }
 
   onUpdated(): void {
-    // Auto-height: Set root component height to content height
-    this.cmp.nativeElement.style.height = this.cmp.appearance === 'standard'
-      ? `${this.cmp.viewport.contentHeight + this.thickness}px`
-      : `${this.cmp.viewport.contentHeight}px`;
+    if (!this.cmp.autoHeightDisabled) {
+      // Auto-height: Set root component height to content height
+      this.cmp.nativeElement.style.height = this.cmp.appearance === 'standard'
+        ? `${ this.cmp.viewport.contentHeight + this.thickness }px`
+        : `${ this.cmp.viewport.contentHeight }px`;
+    }
   }
 }

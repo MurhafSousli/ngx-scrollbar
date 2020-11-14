@@ -57,6 +57,10 @@ export class ScrollViewport {
     return this.contentWrapperElement?.clientHeight;
   }
 
+  get contentWidth(): number {
+    return this.contentWrapperElement?.clientWidth;
+  }
+
   constructor(public viewPort: ElementRef,
               @Inject(DOCUMENT) private document: any) {
     this.nativeElement = viewPort.nativeElement;

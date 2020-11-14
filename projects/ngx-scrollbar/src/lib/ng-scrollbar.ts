@@ -44,6 +44,8 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   private _disabled: boolean | undefined = false;
   private _sensorDisabled: boolean | undefined = this.manager.globalOptions.sensorDisabled;
   private _pointerEventsDisabled: boolean | undefined = this.manager.globalOptions.pointerEventsDisabled;
+  private _autoHeightDisabled: boolean | undefined = this.manager.globalOptions.autoHeightDisabled;
+  private _autoWidthDisabled: boolean | undefined = this.manager.globalOptions.autoWidthDisabled;
   private _viewportPropagateMouseMove: boolean | undefined = this.manager.globalOptions.viewportPropagateMouseMove;
 
   /** Disable custom scrollbar and switch back to native scrollbar */
@@ -83,6 +85,24 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   }
   set viewportPropagateMouseMove(disabled: boolean) {
     this._viewportPropagateMouseMove = coerceBooleanProperty(disabled);
+  }
+
+  /** Disable auto-height */
+  @Input()
+  get autoHeightDisabled(): boolean {
+    return this._autoHeightDisabled;
+  }
+  set autoHeightDisabled(disabled: boolean) {
+    this._autoHeightDisabled = coerceBooleanProperty(disabled);
+  }
+
+  /** Disable auto-width */
+  @Input()
+  get autoWidthDisabled(): boolean {
+    return this._autoWidthDisabled;
+  }
+  set autoWidthDisabled(disabled: boolean) {
+    this._autoWidthDisabled = coerceBooleanProperty(disabled);
   }
 
   /** A class forwarded to scrollable viewport element */
@@ -137,6 +157,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   @Input() sensorDebounce: number | undefined = this.manager.globalOptions.sensorDebounce;
   /** Scroll Audit Time */
   @Input() scrollAuditTime: number | undefined = this.manager.globalOptions.scrollAuditTime;
+
   /** Steam that emits when scrollbar is updated */
   @Output() updated = new EventEmitter<void>();
   /** Default viewport reference */
@@ -280,13 +301,19 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    * Update local state and the internal scrollbar controls
    */
   update() {
-    const viewPortHeight: number = this.viewport?.contentHeight;
-    if (!this.state.horizontalUsed && viewPortHeight != null) {
+    if (this.shouldUpdateHeight()) {
       // Auto-height: Set component height to content height
-      this.nativeElement.style.height = `${ viewPortHeight }px`;
+      this.nativeElement.style.height = `${ this.viewport.contentHeight }px`;
     }
+
+    if (this.shouldUpdateWidth()) {
+      // Auto-width: Set component minWidth to content width
+      this.nativeElement.style.minWidth = `${ this.viewport.contentWidth }px`;
+    }
+
     this.updated.next();
-    this.changeDetectorRef.detectChanges();
+    // Re-evaluate the state after setting height or width
+    this.updateState();
   }
 
   /**
@@ -301,6 +328,20 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    */
   scrollToElement(target: SmoothScrollElement, options?): Promise<void> {
     return this.smoothScroll.scrollToElement(this.viewport.nativeElement, target, options);
+  }
+
+  /**
+   * A flag that indicates if viewport height should be set
+   */
+  private shouldUpdateHeight(): boolean {
+    return !this.autoHeightDisabled && !this.state.horizontalUsed && this.viewport.contentHeight != null;
+  }
+
+  /**
+   * A flag that indicates if viewport width should be set
+   */
+  private shouldUpdateWidth(): boolean {
+    return !this.autoWidthDisabled && !this.state.verticalUsed && this.viewport.contentWidth != null;
   }
 }
 
