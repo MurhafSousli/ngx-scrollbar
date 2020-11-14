@@ -30,12 +30,12 @@ export class ScrollbarY extends Scrollbar {
     return this.el.nativeElement.clientWidth;
   }
 
-  constructor(private el: ElementRef,
+  constructor(protected el: ElementRef,
               public cmp: NgScrollbar,
               protected platform: Platform,
               @Inject(DOCUMENT) protected document: any,
               protected zone: NgZone) {
-    super(cmp, platform, document, zone);
+    super(el, cmp, platform, document, zone);
   }
 
   protected setHovered(value: boolean): void {
@@ -76,11 +76,11 @@ export class ScrollbarX extends Scrollbar {
     return this.el.nativeElement.clientHeight;
   }
 
-  constructor(private el: ElementRef,
+  constructor(protected el: ElementRef,
               public cmp: NgScrollbar,
               protected platform: Platform,
               @Inject(DOCUMENT) protected document: any, protected zone: NgZone) {
-    super(cmp, platform, document, zone);
+    super(el, cmp, platform, document, zone);
   }
 
   protected setHovered(value: boolean): void {
