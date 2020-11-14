@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { fromEvent, Observable, Subscriber, Subject } from 'rxjs';
+import { fromEvent, Observable, Subject } from 'rxjs';
 import { auditTime, filter, map, pairwise, pluck, takeUntil, tap } from 'rxjs/operators';
 import { ScrollViewport } from './scroll-viewport';
 import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToOptions } from 'ngx-scrollbar/smooth-scroll';
