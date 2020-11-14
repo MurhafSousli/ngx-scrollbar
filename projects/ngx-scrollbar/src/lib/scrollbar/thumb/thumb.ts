@@ -1,15 +1,12 @@
-import { Input, Output, Directive } from '@angular/core';
+import { Output, Directive } from '@angular/core';
 import { animationFrameScheduler, of, fromEvent, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, mergeMap, pluck, takeUntil, tap } from 'rxjs/operators';
 import { enableSelection, preventSelection, stopPropagation } from '../common';
 import { NgScrollbar } from '../../ng-scrollbar';
 import { TrackAdapter } from '../track/track';
 
-// @dynamic
 @Directive()
 export abstract class ThumbAdapter {
-
-  @Input() track: TrackAdapter | undefined;
 
   // Stream that emits dragging state
   private _dragging = new Subject<boolean>();
@@ -47,6 +44,7 @@ export abstract class ThumbAdapter {
   }
 
   protected constructor(protected cmp: NgScrollbar,
+                        protected track: TrackAdapter,
                         protected thumbElement: HTMLElement,
                         protected document: any) {
   }

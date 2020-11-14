@@ -280,9 +280,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
       // Throttle scroll event if 'scrollAuditTime' is set
       scrollStream = this.scrollAuditTime ? scrollStream.pipe(auditTime(this.scrollAuditTime)) : scrollStream;
       // Initialize scroll streams
-      this.scrolled = new Observable((subscriber: Subscriber<any>) =>
-        scrollStream.pipe(takeUntil(this.destroyed)).subscribe(subscriber)
-      );
+      this.scrolled = scrollStream.pipe(takeUntil(this.destroyed));
       this.verticalScrolled = this.getScrolledByDirection('scrollTop');
       this.horizontalScrolled = this.getScrolledByDirection('scrollLeft');
     });

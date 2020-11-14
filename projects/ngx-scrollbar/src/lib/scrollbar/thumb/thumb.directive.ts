@@ -4,6 +4,7 @@ import { RtlScrollAxisType } from '@angular/cdk/platform';
 import { Directionality } from '@angular/cdk/bidi';
 import { NgScrollbar } from '../../ng-scrollbar';
 import { ThumbAdapter } from './thumb';
+import { TrackXDirective, TrackYDirective } from '../track/track.directive';
 
 @Directive({ selector: '[scrollbarThumbX]' })
 export class ThumbXDirective extends ThumbAdapter {
@@ -37,10 +38,11 @@ export class ThumbXDirective extends ThumbAdapter {
   }
 
   constructor(protected cmp: NgScrollbar,
+              protected track: TrackXDirective,
               protected element: ElementRef,
               @Inject(DOCUMENT) protected document: any,
               protected dir: Directionality) {
-    super(cmp, element.nativeElement, document);
+    super(cmp, track, element.nativeElement, document);
   }
 
   protected updateStyles(position: number, size: number) {
@@ -121,9 +123,10 @@ export class ThumbYDirective extends ThumbAdapter {
   }
 
   constructor(protected cmp: NgScrollbar,
+              protected track: TrackYDirective,
               protected element: ElementRef,
               @Inject(DOCUMENT) protected document: any) {
-    super(cmp, element.nativeElement, document);
+    super(cmp, track, element.nativeElement, document);
   }
 
 

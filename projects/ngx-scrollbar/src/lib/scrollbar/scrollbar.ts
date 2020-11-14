@@ -1,6 +1,6 @@
 import { OnDestroy, OnInit, NgZone, Directive } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
-import { asyncScheduler, merge, Observable, Subject } from 'rxjs';
+import { asyncScheduler, combineLatest, merge, Observable, Subject, zip } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { NgScrollbar } from '../ng-scrollbar';
 import { ThumbAdapter } from './thumb/thumb';
@@ -25,6 +25,7 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
   protected viewportThumbClicked!: Subject<any>;
 
   protected abstract get viewportScrollSize(): number;
+
   protected abstract get thickness(): number;
 
   protected constructor(public cmp: NgScrollbar, protected platform: Platform, protected document: any, protected zone: NgZone) {
@@ -104,7 +105,7 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
       const updated = this.cmp.updated.pipe(tap(() => this.onUpdated()));
 
       // Update scrollbar thumb when viewport is scrolled and when scrollbar component is updated
-      merge([this.cmp.scrolled, updated]).pipe(
+      combineLatest(this.cmp.scrolled, updated).pipe(
         tap(() => this.thumb!.update()),
         takeUntil(this.destroyed)
       ).subscribe();
