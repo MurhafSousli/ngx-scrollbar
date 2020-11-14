@@ -1,8 +1,8 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 import { getRtlScrollAxisType, RtlScrollAxisType } from '@angular/cdk/platform';
-import { NG_SCROLLBAR_OPTIONS, NgScrollbarOptions } from '../ng-scrollbar.model';
+import { IScrollbarOptions, NG_SCROLLBAR_OPTIONS, NgScrollbarOptions } from '../ng-scrollbar.model';
 
-const defaultOptions: NgScrollbarOptions = {
+const defaultOptions: IScrollbarOptions = {
   viewClass: '',
   trackClass: '',
   thumbClass: '',
@@ -18,12 +18,14 @@ const defaultOptions: NgScrollbarOptions = {
   scrollAuditTime: 0,
   viewportPropagateMouseMove: true,
   autoHeightDisabled: false,
-  autoWidthDisabled: true
+  autoWidthDisabled: true,
+  sensorDisabled: false,
+  pointerEventsDisabled: false
 };
 
 @Injectable({ providedIn: 'root' })
 export class ScrollbarManager {
-  readonly globalOptions: NgScrollbarOptions;
+  readonly globalOptions: IScrollbarOptions;
 
   readonly rtlScrollAxisType: RtlScrollAxisType;
 

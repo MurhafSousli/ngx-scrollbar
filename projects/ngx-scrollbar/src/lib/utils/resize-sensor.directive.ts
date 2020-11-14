@@ -35,16 +35,16 @@ export class ResizeSensor implements AfterContentInit, OnDestroy {
 
   /** Debounce interval for emitting the changes. */
   @Input('sensorDebounce')
-  get debounce(): number {
+  get debounce(): number | undefined {
     return this._debounce;
   }
 
-  set debounce(value: number) {
+  set debounce(value: number | undefined) {
     this._debounce = coerceNumberProperty(value);
     this._subscribe();
   }
 
-  private _debounce: number;
+  private _debounce: number | undefined;
 
   /** Whether ResizeObserver is disabled. */
   @Input('sensorDisabled')
@@ -86,9 +86,9 @@ export class ResizeSensor implements AfterContentInit, OnDestroy {
   private _createObserver(ResizeObserver: any): Observable<void> {
     return new Observable((observer: Observer<void>) => {
       this._resizeObserver = new ResizeObserver(() => observer.next());
-      this._resizeObserver.observe(this.scrollbar.viewport.nativeElement);
-      if (this.scrollbar.viewport.contentWrapperElement) {
-        this._resizeObserver.observe(this.scrollbar.viewport.contentWrapperElement);
+      this._resizeObserver.observe(this.scrollbar.viewport!.nativeElement);
+      if (this.scrollbar.viewport!.contentWrapperElement) {
+        this._resizeObserver.observe(this.scrollbar.viewport!.contentWrapperElement);
       }
     });
   }
@@ -102,7 +102,7 @@ export class ResizeSensor implements AfterContentInit, OnDestroy {
           switchMap((ResizeObserver: any) => {
             if (ResizeObserver) {
               const stream = this._createObserver(ResizeObserver);
-              return this.debounce ? stream.pipe(debounceTime(this._debounce)) : stream;
+              return this._debounce ? stream.pipe(debounceTime(this._debounce)) : stream;
             } else {
               return EMPTY;
             }

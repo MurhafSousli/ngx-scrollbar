@@ -13,29 +13,29 @@ import { Scrollbar } from './scrollbar';
   styleUrls: ['./vertical.scss'],
   template: `
     <div scrollbarTrackY class="ng-scrollbar-track {{cmp.trackClass}}">
-      <div scrollbarThumbY [track]="track" class="ng-scrollbar-thumb {{cmp.thumbClass}}"></div>
+      <div scrollbarThumbY class="ng-scrollbar-thumb {{cmp.thumbClass}}"></div>
     </div>
   `
 })
 export class ScrollbarY extends Scrollbar {
 
-  @ViewChild(TrackYDirective, { static: true }) readonly track: TrackYDirective;
-  @ViewChild(ThumbYDirective, { static: true }) readonly thumb: ThumbYDirective;
+  @ViewChild(TrackYDirective, { static: true }) readonly track: TrackYDirective | undefined;
+  @ViewChild(ThumbYDirective, { static: true }) readonly thumb: ThumbYDirective | undefined;
 
   protected get viewportScrollSize(): number {
-    return this.cmp.viewport.scrollHeight;
+    return this.cmp.viewport!.scrollHeight;
   }
 
   get thickness(): number {
-    return this.el.nativeElement.clientWidth;
+    return this.el.clientWidth;
   }
 
-  constructor(private el: ElementRef,
+  constructor(el: ElementRef,
               public cmp: NgScrollbar,
               protected platform: Platform,
               @Inject(DOCUMENT) protected document: any,
               protected zone: NgZone) {
-    super(cmp, platform, document, zone);
+    super(el.nativeElement, cmp, platform, document, zone);
   }
 
   protected setHovered(value: boolean): void {
@@ -46,8 +46,8 @@ export class ScrollbarY extends Scrollbar {
     if (!this.cmp.autoWidthDisabled) {
       // Auto-width: Set root component minWidth to content width
       this.cmp.nativeElement.style.minWidth = this.cmp.appearance === 'standard'
-        ? `${ this.cmp.viewport.contentWidth + this.thickness }px`
-        : `${ this.cmp.viewport.contentWidth }px`;
+        ? `${ this.cmp.viewport!.contentWidth + this.thickness }px`
+        : `${ this.cmp.viewport!.contentWidth }px`;
     }
   }
 }
@@ -59,28 +59,28 @@ export class ScrollbarY extends Scrollbar {
   styleUrls: ['./horizontal.scss'],
   template: `
     <div scrollbarTrackX class="ng-scrollbar-track {{cmp.trackClass}}">
-      <div scrollbarThumbX [track]="track" class="ng-scrollbar-thumb {{cmp.thumbClass}}"></div>
+      <div scrollbarThumbX class="ng-scrollbar-thumb {{cmp.thumbClass}}"></div>
     </div>
   `
 })
 export class ScrollbarX extends Scrollbar {
 
-  @ViewChild(TrackXDirective, { static: true }) readonly track: TrackXDirective;
-  @ViewChild(ThumbXDirective, { static: true }) readonly thumb: ThumbXDirective;
+  @ViewChild(TrackXDirective, { static: true }) readonly track: TrackXDirective | undefined;
+  @ViewChild(ThumbXDirective, { static: true }) readonly thumb: ThumbXDirective | undefined;
 
   protected get viewportScrollSize(): number {
-    return this.cmp.viewport.scrollWidth;
+    return this.cmp.viewport!.scrollWidth;
   }
 
   get thickness(): number {
-    return this.el.nativeElement.clientHeight;
+    return this.el.clientHeight;
   }
 
-  constructor(private el: ElementRef,
+  constructor(el: ElementRef,
               public cmp: NgScrollbar,
               protected platform: Platform,
               @Inject(DOCUMENT) protected document: any, protected zone: NgZone) {
-    super(cmp, platform, document, zone);
+    super(el.nativeElement, cmp, platform, document, zone);
   }
 
   protected setHovered(value: boolean): void {
@@ -91,8 +91,8 @@ export class ScrollbarX extends Scrollbar {
     if (!this.cmp.autoHeightDisabled) {
       // Auto-height: Set root component height to content height
       this.cmp.nativeElement.style.height = this.cmp.appearance === 'standard'
-        ? `${ this.cmp.viewport.contentHeight + this.thickness }px`
-        : `${ this.cmp.viewport.contentHeight }px`;
+        ? `${ this.cmp.viewport!.contentHeight + this.thickness }px`
+        : `${ this.cmp.viewport!.contentHeight }px`;
     }
   }
 }

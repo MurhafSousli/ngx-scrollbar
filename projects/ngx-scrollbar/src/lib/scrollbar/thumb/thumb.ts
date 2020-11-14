@@ -1,4 +1,4 @@
-import { Input, Output, Directive } from '@angular/core';
+import { Output, Directive } from '@angular/core';
 import { animationFrameScheduler, of, fromEvent, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, mergeMap, pluck, takeUntil, tap } from 'rxjs/operators';
 import { enableSelection, preventSelection, stopPropagation } from '../common';
@@ -8,8 +8,6 @@ import { TrackAdapter } from '../track/track';
 // @dynamic
 @Directive()
 export abstract class ThumbAdapter {
-
-  @Input() track: TrackAdapter;
 
   // Stream that emits dragging state
   private _dragging = new Subject<boolean>();
@@ -33,7 +31,7 @@ export abstract class ThumbAdapter {
   abstract get viewportScrollMax(): number;
 
   get trackMax(): number {
-    return this.track.size - this.size;
+    return this.track!.size - this.size;
   }
 
   // Get thumb client rect
@@ -47,13 +45,14 @@ export abstract class ThumbAdapter {
   }
 
   protected constructor(protected cmp: NgScrollbar,
+                        protected track: TrackAdapter,
                         protected thumbElement: HTMLElement,
                         protected document: any) {
   }
 
   // Calculate and update thumb position and size
   update() {
-    const size = calculateThumbSize(this.track.size, this.viewportScrollSize, this.cmp.minThumbSize!);
+    const size = calculateThumbSize(this.track!.size, this.viewportScrollSize, this.cmp.minThumbSize!);
     const position = calculateThumbPosition(this.viewportScrollOffset, this.viewportScrollMax, this.trackMax);
     animationFrameScheduler.schedule(() => this.updateStyles(this.handleDirection(position, this.trackMax), size));
   }
@@ -85,12 +84,12 @@ export abstract class ThumbAdapter {
     );
 
     return dragStart.pipe(
-      pluck(this.pageProperty),
+      pluck<any, number>(this.pageProperty),
       map((pageOffset: number) => pageOffset - this.dragStartOffset),
       mergeMap((mouseDownOffset: number) => dragging.pipe(
         pluck(this.clientProperty),
         // Calculate how far the pointer is from the top/left of the scrollbar (minus the dragOffset).
-        map((mouseOffset: number) => mouseOffset - this.track.offset),
+        map((mouseOffset: number) => mouseOffset - this.track!.offset),
         map((offset: number) => scrollMaxStart * (offset - mouseDownOffset) / trackMaxStart),
         map((position: number) => this.handleDrag(position, scrollMaxStart)),
         tap((position: number) => this.scrollTo(position)),

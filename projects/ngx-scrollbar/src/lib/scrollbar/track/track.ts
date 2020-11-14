@@ -23,19 +23,6 @@ export abstract class TrackAdapter {
     return merge(mouseDown, mouseup);
   }
 
-  // Stream that emits when the track element is hovered
-  get hovered(): Observable<boolean> {
-    const mouseEnter = fromEvent(this.trackElement, 'mouseenter', { passive: true }).pipe(
-      stopPropagation(),
-      map(() => true)
-    );
-    const mouseLeave = fromEvent(this.trackElement, 'mouseleave', { passive: true }).pipe(
-      stopPropagation(),
-      map(() => false)
-    );
-    return merge(mouseEnter, mouseLeave);
-  }
-
   // Returns either 'pageX' or 'pageY' according to scrollbar axis
   abstract get pageProperty(): string;
 

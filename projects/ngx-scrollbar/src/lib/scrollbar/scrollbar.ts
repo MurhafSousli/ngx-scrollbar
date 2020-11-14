@@ -1,19 +1,20 @@
-import { OnDestroy, OnInit, NgZone, Directive } from '@angular/core';
+import { OnDestroy, OnInit, NgZone, Directive, ElementRef } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
-import { asyncScheduler, merge, Observable, Subject } from 'rxjs';
+import { asyncScheduler, fromEvent, merge, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { NgScrollbar } from '../ng-scrollbar';
 import { ThumbAdapter } from './thumb/thumb';
 import { TrackAdapter } from './track/track';
-import { isWithinBounds } from './common';
+import { isWithinBounds, stopPropagation } from './common';
 
+// @dynamic
 @Directive()
 export abstract class Scrollbar implements OnInit, OnDestroy {
 
   // Thumb directive reference
-  readonly thumb: ThumbAdapter;
+  readonly thumb: ThumbAdapter | undefined;
   // Track directive reference
-  readonly track: TrackAdapter;
+  readonly track: TrackAdapter | undefined;
   // Stream that emits to unsubscribe from all streams
   protected readonly destroyed = new Subject<void>();
 
@@ -25,9 +26,14 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
   protected viewportThumbClicked!: Subject<any>;
 
   protected abstract get viewportScrollSize(): number;
+
   protected abstract get thickness(): number;
 
-  protected constructor(public cmp: NgScrollbar, protected platform: Platform, protected document: any, protected zone: NgZone) {
+  protected constructor(protected el: HTMLElement,
+                        public cmp: NgScrollbar,
+                        protected platform: Platform,
+                        protected document: any,
+                        protected zone: NgZone) {
   }
 
   /**
@@ -48,25 +54,25 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
       this.viewportThumbClicked = new Subject<any>();
 
       // Activate the pointer events of the viewport directive
-      this.cmp.viewport.activatePointerEvents(this.cmp.viewportPropagateMouseMove, this.destroyed);
+      this.cmp.viewport!.activatePointerEvents(this.cmp.viewportPropagateMouseMove, this.destroyed);
 
       // Set streams
       thumbDragEvent = this.viewportThumbClicked;
       trackClickEvent = this.viewportTrackClicked;
-      trackHoveredEvent = this.cmp.viewport.hovered.pipe(
+      trackHoveredEvent = this.cmp.viewport!.hovered.pipe(
         // Check if track is hovered
-        map((e: any) => isWithinBounds(e, this.track.clientRect)),
+        map((e: any) => isWithinBounds(e, this.el.getBoundingClientRect())),
         distinctUntilChanged(),
         // Enable / disable text selection
         tap((hovered: boolean) => this.document.onselectstart = hovered ? () => false : null)
       );
 
-      this.cmp.viewport.clicked.pipe(
+      this.cmp.viewport!.clicked.pipe(
         tap((e: any) => {
           if (e) {
-            if (isWithinBounds(e, this.thumb.clientRect)) {
+            if (isWithinBounds(e, this.thumb!.clientRect)) {
               this.viewportThumbClicked.next(e);
-            } else if (isWithinBounds(e, this.track.clientRect)) {
+            } else if (isWithinBounds(e, this.track!.clientRect)) {
               this.cmp.setClicked(true);
               this.viewportTrackClicked.next(e);
             }
@@ -78,19 +84,32 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
       ).subscribe();
     } else {
       // Pointer events method is using 'scrollbar'
-      thumbDragEvent = this.thumb.clicked;
-      trackClickEvent = this.track.clicked;
-      trackHoveredEvent = this.track.hovered;
+      thumbDragEvent = this.thumb!.clicked;
+      trackClickEvent = this.track!.clicked;
+      trackHoveredEvent = this.hovered;
     }
 
     return merge(
       // Activate scrollbar hovered event
       trackHoveredEvent.pipe(tap((e: boolean) => this.setHovered(e))),
       // Activate scrollbar thumb drag event
-      thumbDragEvent.pipe(switchMap((e: any) => this.thumb.dragged(e))),
+      thumbDragEvent.pipe(switchMap((e: any) => this.thumb!.dragged(e))),
       // Activate scrollbar track click event
-      trackClickEvent.pipe(switchMap((e: any) => this.track.onTrackClicked(e, this.thumb.size, this.viewportScrollSize)))
+      trackClickEvent.pipe(switchMap((e: any) => this.track!.onTrackClicked(e, this.thumb!.size, this.viewportScrollSize)))
     );
+  }
+
+  // Stream that emits when the track element is hovered
+  protected get hovered(): Observable<boolean> {
+    const mouseEnter = fromEvent(this.el, 'mouseenter', { passive: true }).pipe(
+      stopPropagation(),
+      map(() => true)
+    );
+    const mouseLeave = fromEvent(this.el, 'mouseleave', { passive: true }).pipe(
+      stopPropagation(),
+      map(() => false)
+    );
+    return merge(mouseEnter, mouseLeave);
   }
 
   ngOnInit() {
@@ -104,13 +123,13 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
       const updated = this.cmp.updated.pipe(tap(() => this.onUpdated()));
 
       // Update scrollbar thumb when viewport is scrolled and when scrollbar component is updated
-      merge(this.cmp.scrolled, updated).pipe(
-        tap(() => this.thumb.update()),
+      merge(this.cmp.scrolled as Observable<any>, updated).pipe(
+        tap(() => this.thumb!.update()),
         takeUntil(this.destroyed)
       ).subscribe();
 
       // Initialize scrollbar
-      asyncScheduler.schedule(() => this.thumb.update(), 100);
+      asyncScheduler.schedule(() => this.thumb!.update(), 100);
     });
   }
 

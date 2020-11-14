@@ -105,7 +105,7 @@ abstract class VerticalScrollReached extends ScrollReached implements OnInit {
   }
 
   ngOnInit() {
-    this.subscription = this.scrollbar.verticalScrolled.subscribe(this.scrollEvent);
+    this.subscription = this.scrollbar.verticalScrolled!.subscribe(this.scrollEvent);
   }
 }
 
@@ -116,7 +116,7 @@ abstract class HorizontalScrollReached extends ScrollReached implements OnInit {
   }
 
   ngOnInit() {
-    this.subscription = this.scrollbar.horizontalScrolled.subscribe(this.scrollEvent);
+    this.subscription = this.scrollbar.horizontalScrolled!.subscribe(this.scrollEvent);
   }
 }
 
