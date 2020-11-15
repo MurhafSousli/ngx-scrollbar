@@ -5,13 +5,19 @@ on:
     branches: [ master ]
 
 jobs:
-  test_pull_request:
+  build:
+    # Machine environment:
+    # We specify the Node.js version manually below, and use versioned Chrome from Puppeteer.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Use Node.js 14
+        uses: actions/setup-node@v1
         with:
           node-version: 14
-      - run: npm ci
-      - run: npm run build
-      - run: npm test
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: npm run build -- --prod
+      - name: Test
+        run: npm test -- --configuration=ci
