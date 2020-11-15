@@ -6,6 +6,7 @@
     "build-demo": "ng build ngx-scrollbar-demo --prod",
     "build": "ng build ngx-scrollbar --prod",
     "test": "ng test ngx-scrollbar",
+    "test-headless": "ng test ngx-scrollbar --watch=false --no-progress --browsers=ChromeHeadless",
     "link-lib": "npm link dist/ngx-scrollbar && npm link ngx-scrollbar",
     "publish-lib": "npm publish dist/ngx-scrollbar"
   },
@@ -50,6 +51,7 @@
     "karma-jasmine-html-reporter": "^1.5.0",
     "ng-packagr": "^11.0.2",
     "protractor": "~7.0.0",
+    "puppeteer": "^1.17.0",
     "ts-node": "~7.0.0",
     "tslint": "~6.1.0",
     "typescript": "~4.0.5"
