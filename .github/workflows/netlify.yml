@@ -1,9 +1,8 @@
-name: Deploy to Netlify
+name: Deploy Demo
 
 on:
   push:
-    branches:
-      - deploy-netlify
+    branches: [ deploy-netlify ]
 
 jobs:
   build:
