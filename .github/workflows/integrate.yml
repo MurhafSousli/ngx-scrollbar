@@ -18,6 +18,6 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Build
-        run: npm run build -- --prod
+        run: npm run build
       - name: Test
-        run: npm test -- --configuration=ci
+        run: npm run test-headless
