@@ -21,8 +21,10 @@ import { NavigationToolbarComponent } from './navigation-toolbar/navigation-tool
 import { LogoComponent } from './logo/logo.component';
 import { AuthorComponent } from './author/author.component';
 
-import { NgScrollbarModule } from '../../../../ngx-scrollbar/src/public-api';
-import { NgScrollbarReachedModule } from '../../../../ngx-scrollbar/reached-event/src/public_api';
+import { NgScrollbarModule } from 'ngx-scrollbar';
+import { NgScrollbarReachedModule } from 'ngx-scrollbar/reached-event';
+// import { NgScrollbarModule } from '../../../../ngx-scrollbar/src/public-api';
+// import { NgScrollbarReachedModule } from '../../../../ngx-scrollbar/reached-event/src/public_api';
 
 @NgModule({
   imports: [
@@ -38,9 +40,9 @@ import { NgScrollbarReachedModule } from '../../../../ngx-scrollbar/reached-even
     MatInputModule,
     MatChipsModule,
     MatSliderModule,
-    NgScrollbarModule,
     MatButtonToggleModule,
-    NgScrollbarReachedModule
+    NgScrollbarModule,
+    NgScrollbarReachedModule,
   ],
   exports: [
     BidiModule,
