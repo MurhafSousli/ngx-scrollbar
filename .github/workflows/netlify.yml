@@ -1,4 +1,4 @@
-name: Build and Deploy to Netlify
+name: Deploy to Netlify
 
 on:
   push:
@@ -20,14 +20,11 @@ jobs:
         run: npm run build-lib && npm run link-lib
       - name: Build demo
         run: npm run build-demo
-
-      # Release to netlify
-
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v1.1.11
         with:
           publish-dir: './dist/ngx-scrollbar-demo'
-          production-branch: master
+          production-branch: deploy-netlify
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Deploy from GitHub Actions"
           enable-pull-request-comment: true
