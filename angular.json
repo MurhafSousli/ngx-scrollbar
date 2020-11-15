@@ -27,13 +27,6 @@
             "main": "projects/ngx-scrollbar/src/test.ts",
             "tsConfig": "projects/ngx-scrollbar/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-scrollbar/karma.conf.js"
-          },
-          "configurations": {
-            "ci": {
-              "watch": false,
-              "progress": false,
-              "browsers": "ChromeHeadlessCI"
-            }
           }
         },
         "lint": {
