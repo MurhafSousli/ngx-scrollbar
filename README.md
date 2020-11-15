@@ -7,7 +7,7 @@
 [![Stackblitz](https://img.shields.io/badge/stackblitz-online-orange.svg)](https://stackblitz.com/edit/ngx-scrollbar)
 [![Backers on Open Collective](https://opencollective.com/ngx-scrollbar/tiers/backers/badge.svg?label=Backers&color=brightgreen)](#sponsoring-ngx-scrollbar)
 [![npm](https://img.shields.io/npm/v/ngx-scrollbar.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-scrollbar)
-[![Build Status](https://travis-ci.org/MurhafSousli/ngx-scrollbar.svg?branch=master)](https://www.npmjs.com/package/ngx-scrollbar)
+![Tests](https://github.com/MurhafSousli/ngx-scrollbar/workflows/Tests/badge.svg)
 [![Downloads](https://img.shields.io/npm/dt/ngx-scrollbar.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-scrollbar)
 [![NPM Downloads](https://img.shields.io/npm/dm/ngx-scrollbar.svg)](https://www.npmjs.com/package/ngx-scrollbar)
 [![License](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](/LICENSE)

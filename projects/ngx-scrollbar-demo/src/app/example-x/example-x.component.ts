@@ -2,20 +2,22 @@ import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { of, BehaviorSubject, Subject } from 'rxjs';
 import { take, delay } from 'rxjs/operators';
-import {
-  ScrollbarAppearance,
-  ScrollbarTrack,
-  ScrollbarPosition,
-  ScrollbarVisibility,
-  ScrollbarPointerEventsMethod,
-  NgScrollbar
-} from '../../../../ngx-scrollbar/src/public-api';
 // import {
 //   ScrollbarAppearance,
 //   ScrollbarTrack,
 //   ScrollbarPosition,
-//   ScrollbarVisibility
-// } from 'ngx-scrollbar';
+//   ScrollbarVisibility,
+//   ScrollbarPointerEventsMethod,
+//   NgScrollbar
+// } from '../../../../ngx-scrollbar/src/public-api';
+import {
+  NgScrollbar,
+  ScrollbarAppearance,
+  ScrollbarPointerEventsMethod,
+  ScrollbarTrack,
+  ScrollbarPosition,
+  ScrollbarVisibility
+} from 'ngx-scrollbar';
 import { ResizeChange } from './resize-form/resize-form.component';
 import { ToggleChange } from './toggle-form/toggle-form.component';
 import { ReachedEvent } from './reached-notifier/reached-notifier.component';
