@@ -27,8 +27,6 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
 
   protected abstract get viewportScrollSize(): number;
 
-  protected abstract get thickness(): number;
-
   protected constructor(protected el: HTMLElement,
                         public cmp: NgScrollbar,
                         protected platform: Platform,
@@ -119,11 +117,8 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
         this.activatePointerEvents().pipe(takeUntil(this.destroyed)).subscribe();
       }
 
-      // Stream that emits when host component is updated
-      const updated = this.cmp.updated.pipe(tap(() => this.onUpdated()));
-
       // Update scrollbar thumb when viewport is scrolled and when scrollbar component is updated
-      merge(this.cmp.scrolled as Observable<any>, updated).pipe(
+      merge(this.cmp.scrolled as Observable<any>, this.cmp.updated).pipe(
         tap(() => this.thumb!.update()),
         takeUntil(this.destroyed)
       ).subscribe();
@@ -145,6 +140,4 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
   }
 
   protected abstract setHovered(value: boolean): void;
-
-  protected abstract onUpdated(): void;
 }

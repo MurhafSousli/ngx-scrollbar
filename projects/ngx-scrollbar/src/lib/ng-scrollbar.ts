@@ -2,6 +2,7 @@ import {
   Component,
   Input,
   Output,
+  EventEmitter,
   ViewChild,
   ContentChild,
   OnInit,
@@ -9,7 +10,6 @@ import {
   OnDestroy,
   NgZone,
   ElementRef,
-  EventEmitter,
   ChangeDetectorRef,
   ChangeDetectionStrategy
 } from '@angular/core';
@@ -83,6 +83,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   get viewportPropagateMouseMove(): boolean {
     return this._viewportPropagateMouseMove;
   }
+
   set viewportPropagateMouseMove(disabled: boolean) {
     this._viewportPropagateMouseMove = coerceBooleanProperty(disabled);
   }
@@ -92,6 +93,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   get autoHeightDisabled(): boolean {
     return this._autoHeightDisabled;
   }
+
   set autoHeightDisabled(disabled: boolean) {
     this._autoHeightDisabled = coerceBooleanProperty(disabled);
   }
@@ -101,6 +103,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   get autoWidthDisabled(): boolean {
     return this._autoWidthDisabled;
   }
+
   set autoWidthDisabled(disabled: boolean) {
     this._autoWidthDisabled = coerceBooleanProperty(disabled);
   }
@@ -160,6 +163,12 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
 
   /** Steam that emits when scrollbar is updated */
   @Output() updated = new EventEmitter<void>();
+
+  /** Vertical scrollbar ElementRef used for include its thickness in auto-width mode */
+  @ViewChild('scrollbarY', { read: ElementRef }) private scrollbarY: ElementRef | undefined;
+  /** Horizontal scrollbar ElementRef used for include its thickness in auto-height mode */
+  @ViewChild('scrollbarX', { read: ElementRef }) private scrollbarX: ElementRef | undefined;
+
   /** Default viewport reference */
   @ViewChild(ScrollViewport, { static: true }) private defaultViewPort: ScrollViewport | undefined;
   /** Custom viewport reference */
@@ -212,7 +221,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
     }
 
     // Update inner wrapper attributes
-    this._updateState({
+    this.setState({
       position: this.position,
       track: this.track,
       appearance: this.appearance,
@@ -227,7 +236,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
     });
   }
 
-  private _updateState(state: NgScrollbarState) {
+  private setState(state: NgScrollbarState) {
     this.state = { ...this.state, ...state };
     this.changeDetectorRef.detectChanges();
   }
@@ -247,21 +256,21 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    * Set hovered state if a scrollbar is being hovered
    */
   setHovered(hovered: ScrollbarHovered) {
-    this.zone.run(() => this._updateState({ ...hovered }));
+    this.zone.run(() => this.setState({ ...hovered }));
   }
 
   /**
    * Set dragging state if a scrollbar is being dragged
    */
   setDragging(dragging: ScrollbarDragging) {
-    this.zone.run(() => this._updateState({ ...dragging }));
+    this.zone.run(() => this.setState({ ...dragging }));
   }
 
   /**
    * Set clicked state if a scrollbar track is being click
    */
   setClicked(scrollbarClicked: boolean) {
-    this.zone.run(() => this._updateState({ scrollbarClicked }));
+    this.zone.run(() => this.setState({ scrollbarClicked }));
   }
 
   ngOnInit() {
@@ -287,7 +296,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   ngAfterViewChecked() {
-    this.updateState();
+    this.update();
   }
 
   ngOnDestroy() {
@@ -299,19 +308,16 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    * Update local state and the internal scrollbar controls
    */
   update() {
-    if (this.shouldUpdateHeight()) {
-      // Auto-height: Set component height to content height
-      this.nativeElement.style.height = `${ this.viewport!.contentHeight }px`;
+    if (!this.autoHeightDisabled) {
+      this.updateHeight();
     }
 
-    if (this.shouldUpdateWidth()) {
-      // Auto-width: Set component minWidth to content width
-      this.nativeElement.style.minWidth = `${ this.viewport!.contentWidth }px`;
+    if (!this.autoWidthDisabled) {
+      this.updateWidth();
     }
-
-    this.updated.next();
     // Re-evaluate the state after setting height or width
     this.updateState();
+    this.updated.next();
   }
 
   /**
@@ -328,18 +334,24 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
     return this.smoothScroll.scrollToElement(this.viewport!.nativeElement, target, options);
   }
 
-  /**
-   * A flag that indicates if viewport height should be set
-   */
-  private shouldUpdateHeight(): boolean {
-    return !this.autoHeightDisabled && !this.state.horizontalUsed && this.viewport!.contentHeight != null;
+  private updateHeight() {
+    // Auto-height: Set component height to content height
+    if (this.appearance === 'standard' && this.scrollbarX) {
+      // if scrollbar-x is displayed in standard mode
+      this.nativeElement.style.height = `${ this.viewport!.contentHeight + this.scrollbarX.nativeElement.clientHeight }px`;
+    } else {
+      this.nativeElement.style.height = `${ this.viewport!.contentHeight }px`;
+    }
   }
 
-  /**
-   * A flag that indicates if viewport width should be set
-   */
-  private shouldUpdateWidth(): boolean {
-    return !this.autoWidthDisabled && !this.state.verticalUsed && this.viewport!.contentWidth != null;
+  private updateWidth() {
+    // Auto-width: Set component minWidth to content width
+    if (this.appearance === 'standard' && this.scrollbarY) {
+      // if scrollbar-y is displayed in standard mode
+      this.nativeElement.style.width = `${ this.viewport!.contentWidth + this.scrollbarY.nativeElement.clientWidth }px`;
+    } else {
+      this.nativeElement.style.width = `${ this.viewport!.contentWidth }px`;
+    }
   }
 }
 

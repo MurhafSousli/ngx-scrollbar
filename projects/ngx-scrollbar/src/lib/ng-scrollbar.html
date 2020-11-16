@@ -11,11 +11,13 @@
     </div>
   </div>
   <ng-container *ngIf="!disabled">
-    <scrollbar-x *ngIf="state.horizontalUsed"
+    <scrollbar-x #scrollbarX
+                 *ngIf="state.horizontalUsed"
                  [attr.scrollable]="state.isHorizontallyScrollable"
                  [attr.fit]="state.verticalUsed">
     </scrollbar-x>
-    <scrollbar-y *ngIf="state.verticalUsed"
+    <scrollbar-y #scrollbarY
+                 *ngIf="state.verticalUsed"
                  [attr.scrollable]="state.isVerticallyScrollable"
                  [attr.fit]="state.horizontalUsed">
     </scrollbar-y>
