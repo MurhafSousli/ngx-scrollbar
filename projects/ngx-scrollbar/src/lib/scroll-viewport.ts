@@ -1,5 +1,4 @@
-import { Directive, Inject, ElementRef } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Directive, ElementRef } from '@angular/core';
 import { fromEvent, merge, Observable, Subscriber } from 'rxjs';
 import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { stopPropagation } from './scrollbar/common';
@@ -54,15 +53,14 @@ export class ScrollViewport {
   }
 
   get contentHeight(): number {
-    return this.contentWrapperElement?.clientHeight;
+    return this.contentWrapperElement?.clientHeight || 0;
   }
 
   get contentWidth(): number {
-    return this.contentWrapperElement?.clientWidth;
+    return this.contentWrapperElement?.clientWidth || 0;
   }
 
-  constructor(public viewPort: ElementRef,
-              @Inject(DOCUMENT) private document: any) {
+  constructor(public viewPort: ElementRef) {
     this.nativeElement = viewPort.nativeElement;
   }
 
