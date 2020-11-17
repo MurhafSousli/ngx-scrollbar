@@ -1,4 +1,4 @@
-import { OnDestroy, OnInit, NgZone, Directive, ElementRef } from '@angular/core';
+import { OnDestroy, OnInit, NgZone, Directive } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
 import { asyncScheduler, fromEvent, merge, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, takeUntil, tap } from 'rxjs/operators';
