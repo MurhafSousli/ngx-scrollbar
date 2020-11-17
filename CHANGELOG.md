@@ -1,5 +1,12 @@
 # Changelog
 
+## 7.4.1
+
+- fix(Auto-width): Set component width instead of minWidth, closes [#319](https://github.com/MurhafSousli/ngx-scrollbar/issues/319) in [4d2176f](https://github.com/MurhafSousli/ngx-scrollbar/pull/320/commits/4d2176f8f8932554aba8832dd8a5e1b3d066bdfb).
+- refactor(Auto-height, Auto-width) features
+- make sure child container are equal to component height when set (auto-height/auto-width)
+- fix tests
+
 ## 7.4.0
 
 - Update dependencies to Angular 11.

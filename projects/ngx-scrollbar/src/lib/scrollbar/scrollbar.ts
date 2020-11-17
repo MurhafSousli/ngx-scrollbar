@@ -1,6 +1,6 @@
-import { OnDestroy, OnInit, NgZone, Directive, ElementRef } from '@angular/core';
+import { OnDestroy, OnInit, NgZone, Directive } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
-import { asyncScheduler, fromEvent, merge, Observable, Subject } from 'rxjs';
+import { fromEvent, merge, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { NgScrollbar } from '../ng-scrollbar';
 import { ThumbAdapter } from './thumb/thumb';
@@ -26,8 +26,6 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
   protected viewportThumbClicked!: Subject<any>;
 
   protected abstract get viewportScrollSize(): number;
-
-  protected abstract get thickness(): number;
 
   protected constructor(protected el: HTMLElement,
                         public cmp: NgScrollbar,
@@ -119,17 +117,11 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
         this.activatePointerEvents().pipe(takeUntil(this.destroyed)).subscribe();
       }
 
-      // Stream that emits when host component is updated
-      const updated = this.cmp.updated.pipe(tap(() => this.onUpdated()));
-
       // Update scrollbar thumb when viewport is scrolled and when scrollbar component is updated
-      merge(this.cmp.scrolled as Observable<any>, updated).pipe(
-        tap(() => this.thumb!.update()),
+      merge(this.cmp.scrolled as Observable<any>, this.cmp.updated).pipe(
+        tap(() => this.thumb?.update()),
         takeUntil(this.destroyed)
       ).subscribe();
-
-      // Initialize scrollbar
-      asyncScheduler.schedule(() => this.thumb!.update(), 100);
     });
   }
 
@@ -145,6 +137,4 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
   }
 
   protected abstract setHovered(value: boolean): void;
-
-  protected abstract onUpdated(): void;
 }

@@ -17,7 +17,8 @@
 
           <ng-scrollbar class="inner-ng-scrollbar"
                         track="horizontal"
-                        appearance="standard">
+                        appearance="standard"
+                        [sensorDisabled]="true">
             <cdk-virtual-scroll-viewport scrollViewport itemSize="100" orientation="horizontal">
               <div class="cards">
                 <app-card *cdkVirtualFor="let itemX of horizontal" [x]="itemX" [y]="itemY"></app-card>

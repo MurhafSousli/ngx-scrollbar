@@ -19,6 +19,9 @@
   height: 100%;
   max-height: 100%;
   max-width: 100%;
+  // Make sure child container are equal to component height when set (auto-height/auto-width)
+  // This also prevent when sometimes the scrollbar appears when it should not
+  box-sizing: content-box !important;
 
   > .ng-scrollbar-wrapper {
     --scrollbar-total-size: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
