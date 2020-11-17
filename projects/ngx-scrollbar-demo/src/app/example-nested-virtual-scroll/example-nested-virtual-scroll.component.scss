@@ -6,10 +6,15 @@
 .outer-ng-scrollbar {
   color: black;
   border: 2px solid rgba(0, 0, 0, 0.05);
+  min-height: 100%;
   --scrollbar-track-color: var(--color-infinite-scroll-example-track-bg);
   --scrollbar-thumb-color: var(--color-nested-virtual-scroll-example);
   --scrollbar-size: 12px;
   --scrollbar-border-radius: 10px;
+}
+
+.example-viewport {
+  min-height: 100%;
 }
 
 mat-card {

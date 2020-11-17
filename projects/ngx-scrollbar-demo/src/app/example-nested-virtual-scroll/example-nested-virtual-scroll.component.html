@@ -9,8 +9,12 @@
     <ng-scrollbar class="outer-ng-scrollbar"
                   track="vertical"
                   appearance="standard"
+                  [autoHeightDisabled]="true"
+                  [autoWidthDisabled]="true"
                   [sensorDisabled]="true">
-      <cdk-virtual-scroll-viewport scrollViewport itemSize="180" class="example-viewport">
+      <cdk-virtual-scroll-viewport scrollViewport
+                                   itemSize="180"
+                                   class="example-viewport">
 
         <div class="horizontal-scrollable-item" *cdkVirtualFor="let itemY of items">
           <h4>Row {{ itemY }}</h4>
@@ -18,6 +22,8 @@
           <ng-scrollbar class="inner-ng-scrollbar"
                         track="horizontal"
                         appearance="standard"
+                        [autoHeightDisabled]="true"
+                        [autoWidthDisabled]="true"
                         [sensorDisabled]="true">
             <cdk-virtual-scroll-viewport scrollViewport itemSize="100" orientation="horizontal">
               <div class="cards">
