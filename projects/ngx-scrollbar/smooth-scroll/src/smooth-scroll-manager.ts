@@ -225,7 +225,7 @@ export class SmoothScrollManager {
   /**
    * Scroll to element by reference or selector
    */
-  scrollToElement(scrollable: SmoothScrollElement, target: SmoothScrollElement, customOptions: SmoothScrollOptions & _Top & _Left): Promise<void> {
+  scrollToElement(scrollable: SmoothScrollElement, target: SmoothScrollElement, customOptions: SmoothScrollOptions & _Top & _Left = {}): Promise<void> {
     const scrollableEl = this._getElement(scrollable);
     const targetEl = this._getElement(target, scrollableEl);
     const options: SmoothScrollToOptions = {

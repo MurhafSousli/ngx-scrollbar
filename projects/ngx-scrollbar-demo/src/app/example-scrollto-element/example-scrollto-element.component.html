@@ -1,0 +1,21 @@
+<mat-card class="example">
+  <mat-card-header>
+    <mat-card-title>
+      ScrollToElement
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="scrolltoExample">
+    <ng-scrollbar appearance="compact">
+      <mat-list>
+        <mat-list-item class="example-item"
+          *ngFor="let item of [].constructor(20); index as i"
+          #itemEl
+          (click)="scrollToItem(itemEl)">
+          item {{i}}
+        </mat-list-item>
+      </mat-list>
+    </ng-scrollbar>
+    </div>
+  </mat-card-content>
+</mat-card>
