@@ -7,7 +7,7 @@
   background-color: #f3f3f3;
   border-radius: 3px;
   overflow: hidden;
-  height: 200px;
+  height: 300px;
 
   .mat-list-base {
     padding-top: 0;
@@ -24,10 +24,12 @@
   }
 
   .example-item {
-
+    display: flex;
+    align-items: center;
     height: 50px;
     color: black;
     cursor: pointer;
+    padding: 0 15px;
 
     &:nth-child(odd) {
       background: #f1ffff;
@@ -39,7 +41,6 @@
 
     &:hover{
       background: #d2d2ff;
-      color: #fff;
     }
   }
 
