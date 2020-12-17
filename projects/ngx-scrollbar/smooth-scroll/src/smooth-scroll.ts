@@ -16,6 +16,6 @@ export class SmoothScroll {
   }
 
   scrollToElement(target: SmoothScrollElement, options: SmoothScrollOptions): Promise<void> | undefined {
-    return this.smoothScroll.scrollToElement(this.element, target, options);
+    return this.smoothScroll.scrollToElement(this.element, target, options || {});
   }
 }
