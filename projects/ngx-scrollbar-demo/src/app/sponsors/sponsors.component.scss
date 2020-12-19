@@ -1,6 +1,9 @@
 :host {
   display: flex;
   padding-bottom: 5em;
+  position: relative;
+  z-index: 1000;
+
   > div {
     flex: 1;
     text-align: center;

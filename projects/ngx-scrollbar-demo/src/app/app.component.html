@@ -10,7 +10,7 @@
 
   <div class="page-wrapper">
     <div class="wide-container">
-      <app-example-x *ngIf="largeScreen | async"></app-example-x>
+      <app-example-x *ngIf="largeScreen$ | async"></app-example-x>
     </div>
 
     <div class="container">
@@ -19,13 +19,15 @@
 
       <app-example2></app-example2>
 
-      <app-example-scrollto-element></app-example-scrollto-element>
-
       <app-example3></app-example3>
 
       <app-example4></app-example4>
 
       <app-example5></app-example5>
+
+      <h2 class="mat-typography">Smooth scroll example</h2>
+
+      <app-example-scrollto-element></app-example-scrollto-element>
 
       <h2 class="mat-typography">Integrating with other libraries</h2>
 
@@ -46,8 +48,6 @@
 
 </ng-scrollbar>
 
-<!--<div class="go-top">-->
-<!--  <button *ngIf="showGoToTopButton" mat-fab color="accent" (click)="scrollable.scrollToTop(800)">-->
-<!--    <mat-icon>arrow_upward</mat-icon>-->
-<!--  </button>-->
-<!--</div>-->
+<button *ngIf="scrollToIcon$ | async as icon" mat-fab (click)="scrollToEdge(icon)">
+  <mat-icon>{{ icon === 'top' ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
+</button>

@@ -15,6 +15,6 @@ export class ExampleScrolltoElementComponent {
   @ViewChild(NgScrollbar, { static: true }) scrollbar: NgScrollbar;
 
   scrollToItem(el: HTMLElement) {
-    this.scrollbar.scrollToElement(el);
+    this.scrollbar.scrollToElement(el, { top: -125 });
   }
 }

@@ -1,20 +1,27 @@
-<mat-card class="example">
+<mat-card class="example mat-elevation-z16">
   <mat-card-header>
     <mat-card-title>
       ScrollToElement
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div class="scrolltoExample">
-    <ng-scrollbar appearance="compact">
-      <ul>
-        <li class="example-item"
-          *ngFor="let item of [].constructor(20); index as i"
-          (click)="scrollToItem(itemEl)" #itemEl>
-          item {{i}}
-      </li>
-    </ul>
-    </ng-scrollbar>
+    <div class="center-pointer">
+      <mat-icon>play_arrow</mat-icon>
+    </div>
+
+    <div class="scroll-to-example">
+      <ng-scrollbar pointerEventsMethod="scrollbar"
+                    appearance="compact"
+                    autoHeightDisabled="true">
+        <ul>
+          <li class="example-item"
+              *ngFor="let item of [].constructor(20); index as i"
+              #itemEl
+              (click)="scrollToItem(itemEl)">
+            item {{i}}
+          </li>
+        </ul>
+      </ng-scrollbar>
     </div>
   </mat-card-content>
 </mat-card>
