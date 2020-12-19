@@ -165,27 +165,27 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   @Output() updated = new EventEmitter<void>();
 
   /** Vertical scrollbar ElementRef used for include its thickness in auto-width mode */
-  @ViewChild('scrollbarY', { read: ElementRef }) private scrollbarY: ElementRef | undefined;
+  @ViewChild('scrollbarY', { read: ElementRef }) private scrollbarY!: ElementRef;
   /** Horizontal scrollbar ElementRef used for include its thickness in auto-height mode */
-  @ViewChild('scrollbarX', { read: ElementRef }) private scrollbarX: ElementRef | undefined;
+  @ViewChild('scrollbarX', { read: ElementRef }) private scrollbarX!: ElementRef;
 
   /** Default viewport reference */
-  @ViewChild(ScrollViewport, { static: true }) private defaultViewPort: ScrollViewport | undefined;
+  @ViewChild(ScrollViewport, { static: true }) private defaultViewPort!: ScrollViewport;
   /** Custom viewport reference */
-  @ContentChild(ScrollViewport, { static: true }) private customViewPort: ScrollViewport | undefined;
+  @ContentChild(ScrollViewport, { static: true }) private customViewPort!: ScrollViewport;
   /** Viewport Element */
-  viewport: ScrollViewport | undefined;
+  viewport!: ScrollViewport;
   /** Set of attributes added on the scrollbar wrapper */
   state: NgScrollbarState = {};
   /** Stream that destroys components' observables */
   private readonly destroyed = new Subject<void>();
 
   /** Stream that emits on scroll event */
-  scrolled: Observable<any> | undefined;
+  scrolled!: Observable<any>;
   /** Steam that emits scroll event for vertical scrollbar */
-  verticalScrolled: Observable<any> | undefined;
+  verticalScrolled!: Observable<any>;
   /** Steam that emits scroll event for horizontal scrollbar */
-  horizontalScrolled: Observable<any> | undefined;
+  horizontalScrolled!: Observable<any>;
 
   get nativeElement(): HTMLElement {
     return this.el.nativeElement;
