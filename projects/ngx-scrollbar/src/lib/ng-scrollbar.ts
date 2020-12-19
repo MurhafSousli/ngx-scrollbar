@@ -18,7 +18,7 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { fromEvent, Observable, Subject } from 'rxjs';
 import { auditTime, filter, map, pairwise, pluck, takeUntil, tap } from 'rxjs/operators';
 import { ScrollViewport } from './scroll-viewport';
-import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToOptions } from 'ngx-scrollbar/smooth-scroll';
+import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToOptions, SmoothScrollToElementOptions } from 'ngx-scrollbar/smooth-scroll';
 // Uncomment the following line in development mode
 // import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToOptions } from '../../smooth-scroll/src/public_api';
 import {
@@ -330,7 +330,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
   /**
    * Scroll to element by reference or selector
    */
-  scrollToElement(target: SmoothScrollElement, options?: any): Promise<void> {
+  scrollToElement(target: SmoothScrollElement, options?: SmoothScrollToElementOptions): Promise<void> {
     return this.smoothScroll.scrollToElement(this.viewport!.nativeElement, target, options);
   }
 
