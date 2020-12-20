@@ -55,3 +55,34 @@ app-logo {
     display: flex;
   }
 }
+
+.mat-stroked-button {
+  margin-top: 4em;
+  height: 48px;
+  border-radius: 30px;
+
+  .btn-icon {
+    position: absolute;
+    left: 0;
+    padding: 0 20px;
+  }
+
+  .mat-icon {
+    height: 20px;
+    width: 20px;
+    font-size: 20px;
+  }
+
+  .btn-text {
+    margin-left: 32px;
+    margin-right: 8px;
+    font-size: 18px;
+  }
+
+  .btn-icon, .btn-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+}
