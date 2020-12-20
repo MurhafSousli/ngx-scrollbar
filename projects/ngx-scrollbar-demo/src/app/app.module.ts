@@ -47,7 +47,7 @@ import { ExampleScrolltoElementComponent } from './example-scrollto-element/exam
     SponsorsComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
