@@ -1,6 +1,6 @@
 import { Directive, ElementRef } from '@angular/core';
 import { SmoothScrollManager } from './smooth-scroll-manager';
-import { SmoothScrollElement, SmoothScrollOptions, SmoothScrollToOptions } from './smooth-scroll.model';
+import { SmoothScrollElement, SmoothScrollToElementOptions, SmoothScrollToOptions } from './smooth-scroll.model';
 
 @Directive({
   selector: '[smoothScroll], [smooth-scroll]',
@@ -15,7 +15,7 @@ export class SmoothScroll {
     return this.smoothScroll.scrollTo(this.element, options);
   }
 
-  scrollToElement(target: SmoothScrollElement, options: SmoothScrollOptions): Promise<void> | undefined {
+  scrollToElement(target: SmoothScrollElement, options: SmoothScrollToElementOptions): Promise<void> | undefined {
     return this.smoothScroll.scrollToElement(this.element, target, options);
   }
 }

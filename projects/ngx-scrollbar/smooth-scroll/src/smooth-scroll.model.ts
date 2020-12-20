@@ -1,11 +1,13 @@
 import { ElementRef, InjectionToken } from '@angular/core';
-import { _XAxis, _YAxis } from '@angular/cdk/scrolling';
+import { _Left, _Top, _XAxis, _YAxis } from '@angular/cdk/scrolling';
 
 export const SMOOTH_SCROLL_OPTIONS = new InjectionToken<SmoothScrollOptions>('SMOOTH_SCROLL_OPTIONS');
 
 export type SmoothScrollElement = HTMLElement | ElementRef<HTMLElement> | string;
 
 export type SmoothScrollToOptions = _XAxis & _YAxis & SmoothScrollOptions;
+
+export type SmoothScrollToElementOptions = _Top & _Left & SmoothScrollOptions;
 
 export interface SmoothScrollOptions {
   duration?: number;
