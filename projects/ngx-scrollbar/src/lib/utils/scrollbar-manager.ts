@@ -17,7 +17,7 @@ const defaultOptions: IScrollbarOptions = {
   sensorDebounce: 0,
   scrollAuditTime: 0,
   viewportPropagateMouseMove: true,
-  autoHeightDisabled: false,
+  autoHeightDisabled: true,
   autoWidthDisabled: true,
   sensorDisabled: false,
   pointerEventsDisabled: false
