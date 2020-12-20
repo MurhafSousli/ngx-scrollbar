@@ -11,9 +11,11 @@ ng-scrollbar {
 .example {
   background-attachment: fixed;
   background-size: cover;
+  padding: 30px;
 }
 
 .example2 {
+  padding-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;

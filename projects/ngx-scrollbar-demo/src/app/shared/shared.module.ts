@@ -40,6 +40,7 @@ import { NgScrollbarReachedModule } from 'ngx-scrollbar/reached-event';
     MatInputModule,
     MatChipsModule,
     MatSliderModule,
+    MatIconModule,
     MatButtonToggleModule,
     NgScrollbarModule,
     NgScrollbarReachedModule,

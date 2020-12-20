@@ -1,5 +1,10 @@
 # Changelog
 
+## 7.4.2
+
+- feat: Add the options missing interface of scrollToElement method in [5867163](https://github.com/MurhafSousli/ngx-scrollbar/pull/328/commits/586716361cc464b109f1d82311859e7f44ee31c5).
+- fix: scrollToElement customOptions default value in [fff0c72](https://github.com/MurhafSousli/ngx-scrollbar/pull/326/commits/fff0c72bdddb1ff406526f2aa47dd79d4891aece).
+
 ## 7.4.1
 
 - fix(Auto-width): Set component width instead of minWidth, closes [#319](https://github.com/MurhafSousli/ngx-scrollbar/issues/319) in [4d2176f](https://github.com/MurhafSousli/ngx-scrollbar/pull/320/commits/4d2176f8f8932554aba8832dd8a5e1b3d066bdfb).
