@@ -1,6 +1,6 @@
 {
   "name": "ngx-scrollbar",
-  "version": "7.4.2",
+  "version": "7.5.0",
   "license": "MIT",
   "homepage": "https://ngx-scrollbar.netlify.com/",
   "author": {
@@ -20,7 +20,6 @@
     "scroll-reached"
   ],
   "dependencies": {
-    "@juggle/resize-observer": "*",
     "bezier-easing": "*",
     "tslib": "^2.0.0"
 },

@@ -1,5 +1,17 @@
 # Changelog
 
+## 7.5.0
+
+- feat: Add resize sensor unit tests
+
+### Breaking changes
+
+- Deprecate the resize observer polyfill (package: `@juggle/resize-observer`), closes [#329](https://github.com/MurhafSousli/ngx-scrollbar/issues/329) in [9069192](https://github.com/MurhafSousli/ngx-scrollbar/pull/331/commits/9069192074c64164d65b5aa3a7f7a25fa8af72f5).
+- Auto-height: the feature became disabled by default, in [bf8cda1](https://github.com/MurhafSousli/ngx-scrollbar/pull/331/commits/bf8cda13fdc33247114561827c68f71f00182106).
+  
+ > The reason to disable the auto-height by default is to avoid performance issues with users who are unaware that it is turned on.
+ > When the auto-height is on, and the content size changes very frequently, it could cause performance issue, like in virtual scroll and infinite scroll libraries.
+
 ## 7.4.2
 
 - feat: Add the options missing interface of scrollToElement method in [5867163](https://github.com/MurhafSousli/ngx-scrollbar/pull/328/commits/586716361cc464b109f1d82311859e7f44ee31c5).
