@@ -1,8 +1,8 @@
 # Changelog
 
-## 7.5.1
+## 7.5.2
 
-- fix build: Add resize-observer-browser dependency, closes [#336](https://github.com/MurhafSousli/ngx-scrollbar/issues/336) in [2d50282](https://github.com/MurhafSousli/ngx-scrollbar/commit/2d50282c4e039007ad2531ffacf7dddeeb89bda7).
+- fix build: Add resize-observer-browser dependency, closes [#336](https://github.com/MurhafSousli/ngx-scrollbar/issues/336) in [60dd480](https://github.com/MurhafSousli/ngx-scrollbar/pull/338/commits/60dd480d17949aaf656fa550589a940664cd6229).
 
 ## 7.5.0
 
