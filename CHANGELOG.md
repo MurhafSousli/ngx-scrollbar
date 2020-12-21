@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.5.1
+
+- fix build: Add resize-observer-browser dependency, closes [#336](https://github.com/MurhafSousli/ngx-scrollbar/issues/336) in [2d50282](https://github.com/MurhafSousli/ngx-scrollbar/commit/2d50282c4e039007ad2531ffacf7dddeeb89bda7).
+
 ## 7.5.0
 
 - feat: Add resize sensor unit tests
