@@ -1,10 +1,44 @@
-/// <reference types="resize-observer-browser" />
 import { Directive, Input, Output, EventEmitter, AfterContentInit, OnDestroy, NgZone } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { Observable, Subscription, Observer } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { NgScrollbar } from '../ng-scrollbar';
+
+/*
+ * Source code: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/resize-observer-browser
+ * The package was not included from npm because its usage is /// <reference types="resize-observer-browser"/>
+ * And that usage was causing an interface conflicts with some libraries
+ */
+interface ResizeObserverOptions {
+  /**
+   * Sets which box model the observer will observe changes to. Possible values
+   * are `content-box` (the default), and `border-box`.
+   */
+  box?: 'content-box' | 'border-box';
+}
+
+interface ResizeObserverSize {
+  readonly inlineSize: number;
+  readonly blockSize: number;
+}
+
+declare class ResizeObserver {
+  constructor(callback: ResizeObserverCallback);
+  disconnect(): void;
+  observe(target: Element, options?: ResizeObserverOptions): void;
+  unobserve(target: Element): void;
+}
+
+type ResizeObserverCallback = (entries: ReadonlyArray<ResizeObserverEntry>, observer: ResizeObserver) => void;
+
+interface ResizeObserverEntry {
+  readonly target: Element;
+  readonly contentRect: DOMRectReadOnly;
+  readonly borderBoxSize?: ReadonlyArray<ResizeObserverSize>;
+  readonly contentBoxSize?: ReadonlyArray<ResizeObserverSize>;
+  readonly devicePixelContentBoxSize?: ReadonlyArray<ResizeObserverSize>;
+}
 
 @Directive({ selector: '[resizeSensor]' })
 export class ResizeSensor implements AfterContentInit, OnDestroy {
@@ -38,7 +72,7 @@ export class ResizeSensor implements AfterContentInit, OnDestroy {
   private _currentSubscription: Subscription | null = null;
   private _resizeObserver!: ResizeObserver;
 
-  @Output('resizeSensor') event = new EventEmitter<readonly ResizeObserverEntry[]>();
+  @Output('resizeSensor') event = new EventEmitter<ReadonlyArray<ResizeObserverEntry>>();
 
   constructor(private zone: NgZone,
               private platform: Platform,
@@ -63,8 +97,8 @@ export class ResizeSensor implements AfterContentInit, OnDestroy {
 
     if (this.platform.isBrowser) {
 
-      const stream = new Observable((observer: Observer<readonly ResizeObserverEntry[]>) => {
-        this._resizeObserver = new ResizeObserver((e: readonly ResizeObserverEntry[]) => observer.next(e));
+      const stream = new Observable((observer: Observer<ReadonlyArray<ResizeObserverEntry>>) => {
+        this._resizeObserver = new ResizeObserver((e: ReadonlyArray<ResizeObserverEntry>) => observer.next(e));
         this._resizeObserver.observe(this.scrollbar.viewport.nativeElement);
         if (this.scrollbar.viewport.contentWrapperElement) {
           this._resizeObserver.observe(this.scrollbar.viewport.contentWrapperElement);
