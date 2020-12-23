@@ -5,8 +5,8 @@ import { By } from '@angular/platform-browser';
 import { ResizeSensor } from './resize-sensor.directive';
 import { NgScrollbar } from '../ng-scrollbar';
 import { ScrollViewport } from '../scroll-viewport';
-import { NgAttr } from './ng-attr.directive';
-import { HideNativeScrollbar } from './hide-native-scrollbar';
+import { NgAttr } from '../utils/ng-attr.directive';
+import { HideNativeScrollbar } from '../utils/hide-native-scrollbar';
 import { ScrollbarX, ScrollbarY } from '../scrollbar/scrollbar.component';
 
 @Component({
