@@ -5,6 +5,8 @@ import { NgScrollbar } from '../ng-scrollbar';
 
 import { HideNativeScrollbar } from './hide-native-scrollbar';
 import { ScrollViewport } from '../scroll-viewport';
+import { NgAttr } from '../utils/ng-attr.directive';
+import { ResizeSensor } from '../resize-sensor/resize-sensor.directive';
 
 describe('HideNativeScrollbar Directive', () => {
   let fixture: ComponentFixture<NgScrollbar>;
@@ -15,12 +17,12 @@ describe('HideNativeScrollbar Directive', () => {
       declarations: [
         NgScrollbar,
         HideNativeScrollbar,
-        ScrollViewport
+        ScrollViewport,
+        NgAttr,
+        ResizeSensor
       ]
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(NgScrollbar);
     directiveElement = fixture.debugElement.query(By.directive(HideNativeScrollbar));
     fixture.detectChanges();
