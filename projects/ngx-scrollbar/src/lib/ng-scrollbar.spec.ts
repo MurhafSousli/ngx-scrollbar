@@ -9,7 +9,7 @@ import { NgScrollbar } from './ng-scrollbar';
 import { ScrollViewport } from './scroll-viewport';
 import { NgAttr } from './utils/ng-attr.directive';
 import { ResizeSensor } from './resize-sensor/resize-sensor.directive';
-import { HideNativeScrollbar } from './utils/hide-native-scrollbar';
+import { HideNativeScrollbar } from './hide-native-scrollbar/hide-native-scrollbar';
 import { ScrollbarX, ScrollbarY } from './scrollbar/scrollbar.component';
 
 describe('NgScrollbar Component', () => {

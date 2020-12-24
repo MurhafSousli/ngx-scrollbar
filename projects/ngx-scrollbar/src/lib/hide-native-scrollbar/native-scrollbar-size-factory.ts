@@ -3,7 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
 import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
 import { debounceTime, tap, distinctUntilChanged, map } from 'rxjs/operators';
-import { ScrollbarManager } from './scrollbar-manager';
+import { ScrollbarManager } from '../utils/scrollbar-manager';
 
 @Injectable({ providedIn: 'root' })
 export class NativeScrollbarSizeFactory {

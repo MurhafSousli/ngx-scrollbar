@@ -6,12 +6,12 @@ import { ResizeSensor } from './resize-sensor.directive';
 import { NgScrollbar } from '../ng-scrollbar';
 import { ScrollViewport } from '../scroll-viewport';
 import { NgAttr } from '../utils/ng-attr.directive';
-import { HideNativeScrollbar } from '../utils/hide-native-scrollbar';
+import { HideNativeScrollbar } from '../hide-native-scrollbar/hide-native-scrollbar';
 import { ScrollbarX, ScrollbarY } from '../scrollbar/scrollbar.component';
 
 @Component({
   template: `
-    <ng-scrollbar>
+    <ng-scrollbar style="width: 200px; height: 200px">
       <div style="width: 300px; height: 300px"></div>
     </ng-scrollbar>
   `
@@ -42,9 +42,7 @@ describe('Resize Observer Directive', () => {
         TestResizeSensorComponent
       ]
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(TestResizeSensorComponent);
     component = fixture.componentInstance;
     directiveElement = fixture.debugElement.query(By.directive(ResizeSensor));
@@ -58,27 +56,19 @@ describe('Resize Observer Directive', () => {
 
   it('should emits with ng-scrollbar size is changed', (done: DoneFn) => {
 
-    component.scrollable.nativeElement.style.width = '200px';
-    component.scrollable.nativeElement.style.height = '200px';
-
     directiveInstance.event.subscribe((e) => {
       expect(e).toBeTruthy();
       done();
     });
-
     component.scrollable.nativeElement.style.height = '100px';
   });
 
   it('should emits with content size is changed', (done: DoneFn) => {
 
-    component.scrollable.nativeElement.style.width = '200px';
-    component.scrollable.nativeElement.style.height = '200px';
-
     directiveInstance.event.subscribe((e) => {
       expect(e).toBeTruthy();
       done();
     });
-
     component.scrollable.viewport.contentWrapperElement.innerHTML = '<div style="width: 300px; height: 400px"></div>';
   });
 });
