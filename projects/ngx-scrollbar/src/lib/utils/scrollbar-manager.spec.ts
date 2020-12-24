@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { getRtlScrollAxisType } from '@angular/cdk/platform';
 import { ScrollbarManager } from './scrollbar-manager';
 import { IScrollbarOptions, NG_SCROLLBAR_OPTIONS, NgScrollbarOptions } from '../ng-scrollbar.model';
@@ -33,7 +33,7 @@ describe('ScrollbarManager Service', () => {
 
   let service: ScrollbarManager;
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
         ScrollbarManager,
@@ -44,7 +44,7 @@ describe('ScrollbarManager Service', () => {
     });
 
     service = TestBed.inject(ScrollbarManager);
-  });
+  }));
 
   it('should be created', () => {
     expect(service).toBeDefined();

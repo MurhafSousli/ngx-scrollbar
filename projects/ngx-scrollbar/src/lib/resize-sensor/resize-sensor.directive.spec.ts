@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Component, DebugElement, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { By } from '@angular/platform-browser';
@@ -26,7 +26,7 @@ describe('Resize Observer Directive', () => {
   let directiveInstance: ResizeSensor;
   let fixture: ComponentFixture<TestResizeSensorComponent>;
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule
@@ -48,7 +48,7 @@ describe('Resize Observer Directive', () => {
     directiveElement = fixture.debugElement.query(By.directive(ResizeSensor));
     directiveInstance = directiveElement.injector.get(ResizeSensor);
     fixture.detectChanges();
-  });
+  }));
 
   it('should create resize sensor directive', () => {
     expect(directiveInstance).toBeDefined();

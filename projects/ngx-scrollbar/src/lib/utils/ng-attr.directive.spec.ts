@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Component, DebugElement, ViewChild } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { NgAttr } from './ng-attr.directive';
@@ -30,7 +30,7 @@ describe('NgAttr Directive', () => {
   let fixture: ComponentFixture<TestComponent>;
   let directiveElement: DebugElement;
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.configureTestingModule({
       declarations: [
         TestComponent,
@@ -40,7 +40,7 @@ describe('NgAttr Directive', () => {
 
     directiveElement = fixture.debugElement.query(By.directive(NgAttr));
     fixture.detectChanges();
-  });
+  }));
 
   it('should create hideNativeScrollbar directive', () => {
     expect(directiveElement).toBeDefined();

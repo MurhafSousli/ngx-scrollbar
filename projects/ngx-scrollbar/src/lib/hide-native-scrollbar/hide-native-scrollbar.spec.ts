@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { NgScrollbar } from '../ng-scrollbar';
@@ -12,7 +12,7 @@ describe('HideNativeScrollbar Directive', () => {
   let fixture: ComponentFixture<NgScrollbar>;
   let directiveElement: DebugElement;
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         NgScrollbar,
@@ -26,7 +26,7 @@ describe('HideNativeScrollbar Directive', () => {
     fixture = TestBed.createComponent(NgScrollbar);
     directiveElement = fixture.debugElement.query(By.directive(HideNativeScrollbar));
     fixture.detectChanges();
-  });
+  }));
 
   it('should create hideNativeScrollbar directive', () => {
     expect(directiveElement).toBeDefined();
