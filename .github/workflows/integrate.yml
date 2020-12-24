@@ -24,4 +24,6 @@ jobs:
 
       - name: Codecov
         uses: codecov/codecov-action@v1.1.1
+        with:
+          directory: './coverage/ngx-scrollbar'
 
