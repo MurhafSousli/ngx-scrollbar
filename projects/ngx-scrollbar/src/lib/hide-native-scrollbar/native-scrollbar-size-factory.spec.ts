@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { NativeScrollbarSizeFactory } from './native-scrollbar-size-factory';
-import { getOSScrollbarSize } from './common.spec';
 
 describe('NativeScrollSizeFactory Service', () => {
 
@@ -16,7 +15,7 @@ describe('NativeScrollSizeFactory Service', () => {
 
   it('should emit the native scrollbar size', (doneFn: DoneFn) => {
     service.scrollbarSize.subscribe((size: number) => {
-      expect(size).toBe(getOSScrollbarSize());
+      expect(size).toBe(0);
       doneFn();
     });
   });

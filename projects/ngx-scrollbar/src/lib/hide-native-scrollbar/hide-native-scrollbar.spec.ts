@@ -7,7 +7,6 @@ import { HideNativeScrollbar } from './hide-native-scrollbar';
 import { ScrollViewport } from '../scroll-viewport';
 import { NgAttr } from '../utils/ng-attr.directive';
 import { ResizeSensor } from '../resize-sensor/resize-sensor.directive';
-import { getOSScrollbarSize } from './common.spec';
 
 describe('HideNativeScrollbar Directive', () => {
   let fixture: ComponentFixture<NgScrollbar>;
@@ -36,7 +35,7 @@ describe('HideNativeScrollbar Directive', () => {
   it('should set the native scrollbar size to the CSS variable', () => {
     const el: HTMLElement = directiveElement.nativeElement;
     const size = getComputedStyle(el).getPropertyValue('--native-scrollbar-size');
-    expect(size).toBe(`${ getOSScrollbarSize() }px`);
+    expect(size).toBe(`0px`);
   });
 });
 
