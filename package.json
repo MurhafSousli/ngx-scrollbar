@@ -6,13 +6,14 @@
     "build-demo": "ng build ngx-scrollbar-demo --prod",
     "build-lib": "ng build ngx-scrollbar --prod",
     "test-lib": "ng test ngx-scrollbar",
-    "test-lib-headless": "ng test ngx-scrollbar --watch=false --no-progress --browsers=ChromeHeadless",
+    "test-lib-headless": "ng test ngx-scrollbar --watch=false --no-progress --browsers=ChromeHeadless --code-coverage",
     "link-lib": "npm link dist/ngx-scrollbar && npm link ngx-scrollbar",
     "publish-lib": "npm publish dist/ngx-scrollbar",
     "dev:ssr": "ng run ngx-scrollbar-demo:serve-ssr",
     "serve:ssr": "node dist/ngx-scrollbar-demo/server/main.js",
     "build:ssr": "ng build --prod && ng run ngx-scrollbar-demo:server:production",
-    "prerender": "ng run ngx-scrollbar-demo:prerender"
+    "prerender": "ng run ngx-scrollbar-demo:prerender",
+    "codecov": "codecov"
   },
   "repository": {
     "type": "git",
@@ -49,6 +50,7 @@
     "@types/express": "^4.17.0",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
+    "codecov": "^3.8.1",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
