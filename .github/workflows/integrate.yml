@@ -21,3 +21,7 @@ jobs:
         run: npm run build-lib
       - name: Test
         run: npm run test-lib-headless
+
+      - name: Codecov
+        uses: codecov/codecov-action@v1.1.1
+
