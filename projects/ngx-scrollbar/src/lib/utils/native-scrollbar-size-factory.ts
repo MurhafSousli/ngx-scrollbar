@@ -16,7 +16,7 @@ export class NativeScrollbarSizeFactory {
     // Calculate native scrollbar size on window resize event, because the size changes if use zoomed in/out
     if (platform.isBrowser) {
       fromEvent(this.document.defaultView, 'resize', { passive: true }).pipe(
-        debounceTime(this.manager.globalOptions.windowResizeDebounce!),
+        debounceTime(this.manager.globalOptions.windowResizeDebounce),
         map(() => this.getNativeScrollbarSize()),
         distinctUntilChanged(),
         tap((size: number) => this._scrollbarSize.next(size))
@@ -38,6 +38,10 @@ export class NativeScrollbarSizeFactory {
     }
     const box = this.document.createElement('div');
     box.className = 'ng-scrollbar-measure';
+    box.style.left = 0;
+    box.style.overflow = 'scroll';
+    box.style.position = 'fixed';
+    box.style.top = '-9999px';
     this.document.body.appendChild(box);
     const size = box.getBoundingClientRect().right;
     this.document.body.removeChild(box);

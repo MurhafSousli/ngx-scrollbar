@@ -39,10 +39,6 @@
 ::ng-deep {
   /* A class used to measure native scrollbar size */
   .ng-scrollbar-measure {
-    left: 0;
-    overflow: scroll;
-    position: fixed;
-    top: -9999px;
     @include hide-scrollbar();
   }
 }

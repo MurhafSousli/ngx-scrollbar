@@ -56,33 +56,29 @@ describe('Resize Observer Directive', () => {
     expect(directiveInstance).toBeDefined();
   });
 
-  it('Should emits with ng-scrollbar size is changed', (done: DoneFn) => {
+  it('should emits with ng-scrollbar size is changed', (done: DoneFn) => {
 
     component.scrollable.nativeElement.style.width = '200px';
     component.scrollable.nativeElement.style.height = '200px';
 
-    setTimeout(() => {
-      directiveInstance.event.subscribe((e) => {
-        expect(e).toBeTruthy();
-        done();
-      });
+    directiveInstance.event.subscribe((e) => {
+      expect(e).toBeTruthy();
+      done();
+    });
 
-      component.scrollable.nativeElement.style.height = '100px';
-    }, 50);
+    component.scrollable.nativeElement.style.height = '100px';
   });
 
-  it('Should emits with content size is changed', (done: DoneFn) => {
+  it('should emits with content size is changed', (done: DoneFn) => {
 
     component.scrollable.nativeElement.style.width = '200px';
     component.scrollable.nativeElement.style.height = '200px';
 
-    setTimeout(() => {
-      directiveInstance.event.subscribe((e) => {
-        expect(e).toBeTruthy();
-        done();
-      });
+    directiveInstance.event.subscribe((e) => {
+      expect(e).toBeTruthy();
+      done();
+    });
 
-      component.scrollable.viewport.contentWrapperElement.innerHTML = '<div style="width: 300px; height: 400px"></div>';
-    }, 50);
+    component.scrollable.viewport.contentWrapperElement.innerHTML = '<div style="width: 300px; height: 400px"></div>';
   });
 });
