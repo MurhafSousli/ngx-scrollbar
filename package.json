@@ -6,7 +6,7 @@
     "build-demo": "ng build ngx-scrollbar-demo --prod",
     "build-lib": "ng build ngx-scrollbar --prod",
     "test-lib": "ng test ngx-scrollbar",
-    "test-lib-headless": "ng test ngx-scrollbar --watch=false --no-progress --browsers=ChromeHeadless --code-coverage",
+    "test-lib-headless": "ng test ngx-scrollbar --watch=false --no-progress --browsers=ChromeHeadless --code-coverage=true",
     "link-lib": "npm link dist/ngx-scrollbar && npm link ngx-scrollbar",
     "publish-lib": "npm publish dist/ngx-scrollbar",
     "dev:ssr": "ng run ngx-scrollbar-demo:serve-ssr",

@@ -29,10 +29,14 @@ module.exports = function (config) {
       subdir: '.',
       reporters: [
         { type: 'html' },
-        { type: 'text-summary' }
+        { type: 'text-summary' },
+        { type: 'lcov', dir: 'coverage/' }
       ]
     },
-    reporters: ['progress', 'kjhtml'],
+    reporters: ['progress', 'kjhtml', 'coverage'],
+    preprocessors: {
+      'src/app/**/*.js': ['coverage']
+    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
