@@ -223,7 +223,6 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
       isHorizontallyScrollable = this.viewport!.scrollWidth > this.viewport!.clientWidth;
       horizontalUsed = this.visibility === 'always' || isHorizontallyScrollable;
     }
-    console.log(this.track, this.overscrollBehaivor)
 
     // Update inner wrapper attributes
     this.setState({
