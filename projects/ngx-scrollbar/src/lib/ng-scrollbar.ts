@@ -27,7 +27,8 @@ import {
   ScrollbarPosition,
   ScrollbarVisibility,
   NgScrollbarState,
-  ScrollbarPointerEventsMethod
+  ScrollbarPointerEventsMethod,
+  OverscrollBehaivor
 } from './ng-scrollbar.model';
 import { ScrollbarManager } from './utils/scrollbar-manager';
 
@@ -147,6 +148,9 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
    * - `compact` scrollbar doesn't reserve any space, they are placed over the viewport.
    */
   @Input() appearance: ScrollbarAppearance = this.manager.globalOptions.appearance;
+
+
+  @Input() overscrollBehaivor: OverscrollBehaivor = this.manager.globalOptions.overscrollBehaivor;
   /**
    * Sets the position of each scrollbar, there are 4 options:
    *
@@ -219,12 +223,14 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
       isHorizontallyScrollable = this.viewport!.scrollWidth > this.viewport!.clientWidth;
       horizontalUsed = this.visibility === 'always' || isHorizontallyScrollable;
     }
+    console.log(this.track, this.overscrollBehaivor)
 
     // Update inner wrapper attributes
     this.setState({
       position: this.position,
       track: this.track,
       appearance: this.appearance,
+      overscrollBehaivor: this.overscrollBehaivor,
       visibility: this.visibility,
       deactivated: this.disabled,
       dir: this.dir.value,

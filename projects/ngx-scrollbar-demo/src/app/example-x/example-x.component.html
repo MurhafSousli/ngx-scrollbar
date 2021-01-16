@@ -32,6 +32,7 @@
                         [class.highlight-layout]="toggle.highlight"
                         [track]="direction"
                         [appearance]="appearance"
+                        [overscrollBehaivor]="overscrollBehaivor"
                         [visibility]="visibility"
                         [position]="position"
                         [style]="cssVariables"
@@ -195,6 +196,24 @@
                                    [(value)]="appearance">
             <mat-button-toggle value="standard">Standard</mat-button-toggle>
             <mat-button-toggle value="compact">Compact</mat-button-toggle>
+          </mat-button-toggle-group>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Overscroll behaivor
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ overscrollBehaivorToggleGroup.value | titlecase }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <mat-button-toggle-group #overscrollBehaivorToggleGroup="matButtonToggleGroup" aria-label="Overscroll behaivor"
+                                   [(value)]="overscrollBehaivor">
+            <mat-button-toggle value="auto">Auto</mat-button-toggle>
+            <mat-button-toggle value="contain">Contain</mat-button-toggle>
+            <mat-button-toggle value="none">none</mat-button-toggle>
           </mat-button-toggle-group>
         </mat-expansion-panel>
       </mat-accordion>
