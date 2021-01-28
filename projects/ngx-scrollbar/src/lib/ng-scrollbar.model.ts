@@ -5,6 +5,7 @@ export type ScrollbarTrack = 'vertical' | 'horizontal' | 'all';
 export type ScrollbarVisibility = 'hover' | 'always' | 'native';
 export type ScrollbarPosition = 'native' | 'invertY' | 'invertX' | 'invertAll';
 export type ScrollbarPointerEventsMethod = 'viewport' | 'scrollbar';
+export type OverscrollBehaivor = 'auto' | 'contain' | 'none';
 
 export const NG_SCROLLBAR_OPTIONS = new InjectionToken<NgScrollbarOptions>('NG_SCROLLBAR_OPTIONS');
 
@@ -78,6 +79,8 @@ export interface IScrollbarOptions {
   scrollAuditTime: number;
   /** Enable viewport mousemove event propagation (only when pointerEventsMethod="viewport") */
   viewportPropagateMouseMove: boolean;
+  /** Overscroll behaivor */
+  overscrollBehaivor: OverscrollBehaivor;
 }
 
 /**
@@ -101,4 +104,5 @@ export interface NgScrollbarState {
   horizontalDragging?: boolean;
   // Flag used to prevent text selection on content
   scrollbarClicked?: boolean;
+  overscrollBehaivor?: OverscrollBehaivor;
 }

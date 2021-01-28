@@ -20,7 +20,8 @@ const defaultOptions: IScrollbarOptions = {
   autoHeightDisabled: true,
   autoWidthDisabled: true,
   sensorDisabled: false,
-  pointerEventsDisabled: false
+  pointerEventsDisabled: false,
+  overscrollBehaivor: 'auto'
 };
 
 @Injectable({ providedIn: 'root' })

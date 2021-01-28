@@ -16,7 +16,8 @@ import {
   ScrollbarPointerEventsMethod,
   ScrollbarTrack,
   ScrollbarPosition,
-  ScrollbarVisibility
+  ScrollbarVisibility,
+  OverscrollBehaivor
 } from 'ngx-scrollbar';
 import { ResizeChange } from './resize-form/resize-form.component';
 import { ToggleChange } from './toggle-form/toggle-form.component';
@@ -55,6 +56,7 @@ export class ExampleXComponent {
   direction: ScrollbarTrack = 'all';
   visibility: ScrollbarVisibility = 'native';
   appearance: ScrollbarAppearance = 'compact';
+  overscrollBehaivor: OverscrollBehaivor = 'auto';
 
   reached = new BehaviorSubject<ReachedEvent>({});
 

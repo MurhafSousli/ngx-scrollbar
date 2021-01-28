@@ -66,6 +66,23 @@
       }
     }
 
+
+  &[overscrollBehaivor="none"] {
+    @include viewport {
+      overscroll-behavior: none;
+    }
+  }
+  &[overscrollBehaivor="contain"] {
+    @include viewport {
+      overscroll-behavior: contain;
+    }
+  }
+  &[overscrollBehaivor="auto"] {
+    @include viewport {
+      overscroll-behavior: auto;
+    }
+  }
+
     @include allUsed {
       @include viewport {
         overflow: auto;
