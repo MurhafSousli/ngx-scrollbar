@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BidiModule } from '@angular/cdk/bidi';
 import { CommonModule } from '@angular/common';
 import { PortalModule } from '@angular/cdk/portal';
@@ -9,7 +9,7 @@ import { NgScrollbar } from './ng-scrollbar';
 import { ScrollViewport } from './scroll-viewport';
 import { NgAttr } from './utils/ng-attr.directive';
 import { ResizeSensor } from './resize-sensor/resize-sensor.directive';
-import { HideNativeScrollbar } from './utils/hide-native-scrollbar';
+import { HideNativeScrollbar } from './hide-native-scrollbar/hide-native-scrollbar';
 import { ScrollbarX, ScrollbarY } from './scrollbar/scrollbar.component';
 
 describe('NgScrollbar Component', () => {
@@ -39,13 +39,13 @@ describe('NgScrollbar Component', () => {
   });
 
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(NgScrollbar);
     component = fixture.componentInstance;
     componentElement = fixture.debugElement.nativeElement;
 
     fixture.detectChanges();
-  });
+  }));
 
   afterEach(() => {
     fixture.destroy();

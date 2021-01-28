@@ -8,7 +8,7 @@ import { SmoothScrollModule } from 'ngx-scrollbar/smooth-scroll';
 // import { SmoothScrollModule } from '../../smooth-scroll/src/public_api';
 
 import { NgScrollbar } from './ng-scrollbar';
-import { HideNativeScrollbar } from './utils/hide-native-scrollbar';
+import { HideNativeScrollbar } from './hide-native-scrollbar/hide-native-scrollbar';
 import { NgAttr } from './utils/ng-attr.directive';
 import { ResizeSensor } from './resize-sensor/resize-sensor.directive';
 import { ThumbYDirective, ThumbXDirective } from './scrollbar/thumb/thumb.directive';
