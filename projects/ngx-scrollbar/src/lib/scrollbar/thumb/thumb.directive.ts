@@ -30,7 +30,7 @@ export class ThumbXDirective extends ThumbAdapter {
   }
 
   get dragStartOffset(): number {
-    return this.clientRect.left;
+    return this.clientRect.left + this.document.defaultView!.pageXOffset || 0;
   }
 
   get size(): number {
@@ -115,7 +115,7 @@ export class ThumbYDirective extends ThumbAdapter {
   }
 
   get dragStartOffset(): number {
-    return this.clientRect.top;
+    return this.clientRect.top + this.document.defaultView!.pageYOffset || 0;
   }
 
   get size(): number {
@@ -125,7 +125,7 @@ export class ThumbYDirective extends ThumbAdapter {
   constructor(protected cmp: NgScrollbar,
               protected track: TrackYDirective,
               protected element: ElementRef,
-              @Inject(DOCUMENT) protected document: any) {
+              @Inject(DOCUMENT) protected document: Document) {
     super(cmp, track, element.nativeElement, document);
   }
 
