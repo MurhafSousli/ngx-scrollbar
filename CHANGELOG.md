@@ -1,5 +1,14 @@
 # Changelog
 
+## 7.5.4
+
+- fix thumb drag position after scrolling the outer container, closes [#342](https://github.com/MurhafSousli/ngx-scrollbar/issues/342) in [30158e9](https://github.com/MurhafSousli/ngx-scrollbar/pull/349/commits/30158e9c2f73c2fc5262e288c944e457ef79ac99).
+
+## 7.5.3
+
+- fix: Create `ResizeObserver` interface, closes [#336](https://github.com/MurhafSousli/ngx-scrollbar/issues/336) in [dd0718c](https://github.com/MurhafSousli/ngx-scrollbar/pull/339/commits/dd0718c9da908f1eb9d5a6b47e57713bac49e6da).
+- Update peer-dependencies to Angular 11
+
 ## 7.5.2
 
 - fix build: Add resize-observer-browser dependency, closes [#336](https://github.com/MurhafSousli/ngx-scrollbar/issues/336) in [60dd480](https://github.com/MurhafSousli/ngx-scrollbar/pull/338/commits/60dd480d17949aaf656fa550589a940664cd6229).
