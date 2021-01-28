@@ -125,7 +125,7 @@ export class ThumbYDirective extends ThumbAdapter {
   constructor(protected cmp: NgScrollbar,
               protected track: TrackYDirective,
               protected element: ElementRef,
-              @Inject(DOCUMENT) protected document: Document) {
+              @Inject(DOCUMENT) protected document: any) {
     super(cmp, track, element.nativeElement, document);
   }
 
