@@ -63,7 +63,6 @@
             "main": "projects/ngx-scrollbar-demo/src/main.ts",
             "polyfills": "projects/ngx-scrollbar-demo/src/polyfills.ts",
             "tsConfig": "projects/ngx-scrollbar-demo/tsconfig.app.json",
-            "aot": true,
             "assets": [
               "projects/ngx-scrollbar-demo/src/favicon.ico",
               "projects/ngx-scrollbar-demo/src/assets"
@@ -74,7 +73,13 @@
             "scripts": [],
             "allowedCommonJsDependencies": [
               "chance"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -170,7 +175,9 @@
           "options": {
             "outputPath": "dist/ngx-scrollbar-demo/server",
             "main": "projects/ngx-scrollbar-demo/server.ts",
-            "tsConfig": "projects/ngx-scrollbar-demo/tsconfig.server.json"
+            "tsConfig": "projects/ngx-scrollbar-demo/tsconfig.server.json",
+            "sourceMap": true,
+            "optimization": false
           },
           "configurations": {
             "production": {
