@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.5.5
+
+- Upgrade to Angular 12
+
 ## 7.5.4
 
 - fix thumb drag position after scrolling the outer container, closes [#342](https://github.com/MurhafSousli/ngx-scrollbar/issues/342) in [30158e9](https://github.com/MurhafSousli/ngx-scrollbar/pull/349/commits/30158e9c2f73c2fc5262e288c944e457ef79ac99).
