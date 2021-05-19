@@ -3,8 +3,8 @@
   "version": "5.0.0",
   "scripts": {
     "start": "ng serve ngx-scrollbar-demo",
-    "build-demo": "ng build ngx-scrollbar-demo --prod",
-    "build-lib": "ng build ngx-scrollbar --prod",
+    "build-demo": "ng build ngx-scrollbar-demo --configuration prod",
+    "build-lib": "ng build ngx-scrollbar --configuration prod",
     "test-lib": "ng test ngx-scrollbar",
     "test-lib-headless": "ng test ngx-scrollbar --watch=false --no-progress --browsers=ChromeHeadless --code-coverage",
     "link-lib": "npm link dist/ngx-scrollbar && npm link ngx-scrollbar",
