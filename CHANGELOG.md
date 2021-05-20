@@ -1,8 +1,15 @@
 # Changelog
 
+## 7.5.6
+
+- Fix peerDependencies for Angular 12, closes [#368](https://github.com/MurhafSousli/ngx-scrollbar/issues/368) in [132ab56](https://github.com/MurhafSousli/ngx-scrollbar/pull/372/commits/132ab566aa83ac3357111c03833cdd39e876d7db).
+
 ## 7.5.5
 
-- Upgrade to Angular 12
+ > NOTE: This version has peerDependencies error on install
+
+- Upgrade to Angular 12, closes [#368](https://github.com/MurhafSousli/ngx-scrollbar/issues/368) in [cff2eab](https://github.com/MurhafSousli/ngx-scrollbar/pull/370/commits/cff2eabb201f3c4e14be1fd1ce719dc44dea3523).
+
 
 ## 7.5.4
 
