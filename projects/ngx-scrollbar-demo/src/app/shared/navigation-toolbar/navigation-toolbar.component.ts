@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, AfterViewChecked, OnDestroy, NgZone, ChangeDetectionStrategy } from '@angular/core';
+import { AfterViewChecked, Component, Input, NgZone, OnDestroy, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs/operators';
 // import { NgScrollbar } from 'ngx-scrollbar';
@@ -8,7 +8,6 @@ import { NgScrollbar } from '../../../../../ngx-scrollbar/src/public-api';
   selector: 'app-navigation-toolbar',
   templateUrl: './navigation-toolbar.component.html',
   styleUrls: ['./navigation-toolbar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavigationToolbarComponent implements AfterViewChecked, OnDestroy {
 

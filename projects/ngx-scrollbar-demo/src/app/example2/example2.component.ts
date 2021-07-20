@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NgScrollbar } from 'ngx-scrollbar';
 // import { NgScrollbar } from '../../../../ngx-scrollbar/src/public-api';
 
@@ -6,7 +6,6 @@ import { NgScrollbar } from 'ngx-scrollbar';
   selector: 'app-example2',
   templateUrl: './example2.component.html',
   styleUrls: ['./example2.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.example-component]': 'true'
   }

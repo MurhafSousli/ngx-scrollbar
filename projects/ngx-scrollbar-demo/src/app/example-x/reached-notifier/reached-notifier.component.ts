@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-reached-notifier',
@@ -23,7 +23,6 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
     </mat-chip-list>
   `,
   styleUrls: ['./reached-notifier.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReachedNotifierComponent {
   @Input() reached: ReachedEvent;

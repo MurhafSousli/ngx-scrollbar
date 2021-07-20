@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, AfterViewInit, ViewChild } from '@angular/core';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { auditTime, map, tap } from 'rxjs/operators';
@@ -7,8 +7,7 @@ import { auditTime, map, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit {
 

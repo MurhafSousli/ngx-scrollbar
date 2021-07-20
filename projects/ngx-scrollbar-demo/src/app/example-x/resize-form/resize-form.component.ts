@@ -1,10 +1,9 @@
-import { AfterViewChecked, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewChecked, Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-resize-form',
   templateUrl: './resize-form.component.html',
   styleUrls: ['./resize-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResizeFormComponent implements AfterViewChecked {
 
