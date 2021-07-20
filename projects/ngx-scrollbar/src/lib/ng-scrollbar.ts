@@ -11,7 +11,10 @@ import {
   NgZone,
   ElementRef,
   ChangeDetectorRef,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  OnChanges,
+  SimpleChanges,
+  AfterViewInit
 } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -39,7 +42,7 @@ import { ScrollbarManager } from './utils/scrollbar-manager';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[class.ng-scrollbar]': 'true' }
 })
-export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
+export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy, OnChanges, AfterViewInit {
 
   private _disabled: boolean = false;
   private _sensorDisabled: boolean = this.manager.globalOptions.sensorDisabled;
@@ -299,6 +302,21 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
     this.update();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if(!this.viewport){
+      return;
+    }
+    this.updated.next();
+  }
+
+  ngAfterViewInit(): void {
+    if(!this.viewport){
+      return;
+    }
+    this.update();
+    this.updated.next();
+  }
+
   ngOnDestroy() {
     this.destroyed.next();
     this.destroyed.complete();
@@ -317,7 +335,6 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
     }
     // Re-evaluate the state after setting height or width
     this.updateState();
-    this.updated.next();
   }
 
   /**
