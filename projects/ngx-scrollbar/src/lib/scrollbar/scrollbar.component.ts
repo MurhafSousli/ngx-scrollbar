@@ -9,7 +9,6 @@ import { Scrollbar } from './scrollbar';
 @Component({
   selector: 'scrollbar-y',
   host: { '[class.scrollbar-control]': 'true' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./vertical.scss'],
   template: `
     <div scrollbarTrackY class="ng-scrollbar-track {{cmp.trackClass}}">
@@ -42,7 +41,6 @@ export class ScrollbarY extends Scrollbar {
 @Component({
   selector: 'scrollbar-x',
   host: { '[class.scrollbar-control]': 'true' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./horizontal.scss'],
   template: `
     <div scrollbarTrackX class="ng-scrollbar-track {{cmp.trackClass}}">

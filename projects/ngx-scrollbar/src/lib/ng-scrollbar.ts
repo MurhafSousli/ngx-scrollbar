@@ -12,8 +12,6 @@ import {
   ElementRef,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
-  OnChanges,
-  SimpleChanges,
   AfterViewInit
 } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
@@ -39,10 +37,9 @@ import { ScrollbarManager } from './utils/scrollbar-manager';
   exportAs: 'ngScrollbar',
   templateUrl: 'ng-scrollbar.html',
   styleUrls: ['ng-scrollbar.scss', 'scrollbar/shared.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[class.ng-scrollbar]': 'true' }
 })
-export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy, OnChanges, AfterViewInit {
+export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy, AfterViewInit {
 
   private _disabled: boolean = false;
   private _sensorDisabled: boolean = this.manager.globalOptions.sensorDisabled;
@@ -183,6 +180,8 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy, OnChang
   /** Stream that destroys components' observables */
   private readonly destroyed = new Subject<void>();
 
+  private break = false;
+
   /** Stream that emits on scroll event */
   scrolled!: Observable<any>;
   /** Steam that emits scroll event for vertical scrollbar */
@@ -241,6 +240,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy, OnChang
 
   private setState(state: NgScrollbarState) {
     this.state = { ...this.state, ...state };
+    this.break = true;
     this.changeDetectorRef.detectChanges();
   }
 
@@ -299,22 +299,17 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy, OnChang
   }
 
   ngAfterViewChecked() {
+    if(this.break){
+      this.break = false;
+      return;
+    }
+      
     this.update();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if(!this.viewport){
-      return;
-    }
-    this.updated.next();
-  }
 
   ngAfterViewInit(): void {
-    if(!this.viewport){
-      return;
-    }
     this.update();
-    this.updated.next();
   }
 
   ngOnDestroy() {
@@ -335,6 +330,7 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy, OnChang
     }
     // Re-evaluate the state after setting height or width
     this.updateState();
+    this.updated.next();
   }
 
   /**
