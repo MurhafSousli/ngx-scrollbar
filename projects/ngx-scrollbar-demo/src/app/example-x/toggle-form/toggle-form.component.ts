@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter, AfterViewChecked } from '@angular/core';
+import { AfterViewChecked, Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-toggle-form',
@@ -9,7 +9,6 @@ import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter, AfterV
     <mat-slide-toggle [(ngModel)]="value.rtl">RTL</mat-slide-toggle>
   `,
   styleUrls: ['./toggle-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToggleFormComponent implements AfterViewChecked {
 

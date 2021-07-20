@@ -1,7 +1,5 @@
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
+  AfterViewInit, ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
@@ -10,20 +8,19 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-
+import { ColorPickerOptions } from './color-picker.model';
+import { ColorPickerService } from './color-picker.service';
+import { ColorFormats, Hsla, Hsva, Rgba } from './formats';
 import { AlphaChannel, OutputFormat, SliderDimension, SliderPosition } from './helpers';
 
-import { ColorFormats, Hsla, Hsva, Rgba } from './formats';
 
-import { ColorPickerService } from './color-picker.service';
-import { ColorPickerOptions } from './color-picker.model';
+
 
 @Component({
   selector: 'color-picker',
   templateUrl: './color-picker.component.html',
   styleUrls: ['./color-picker.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  encapsulation: ViewEncapsulation.None
 })
 export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
 

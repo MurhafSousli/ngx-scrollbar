@@ -1,10 +1,9 @@
-import { Component, ChangeDetectionStrategy, Output, EventEmitter, DoCheck, Input } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-smooth-scroll-form',
   templateUrl: './smooth-scroll-form.component.html',
   styleUrls: ['./smooth-scroll-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SmoothScrollFormComponent implements DoCheck {
   displayFunction: string;
@@ -24,16 +23,16 @@ export class SmoothScrollFormComponent implements DoCheck {
   @Output() scrollTo = new EventEmitter();
 
   ngDoCheck() {
-    const axisX = this.options.axisXProperty === 'unset' ? '' : `${ this.options.axisXProperty }: ${ this.options.axisXValue }`;
-    const axisY = this.options.axisYProperty === 'unset' ? '' : `${ this.options.axisYProperty }: ${ this.options.axisYValue }`;
+    const axisX = this.options.axisXProperty === 'unset' ? '' : `${this.options.axisXProperty}: ${this.options.axisXValue}`;
+    const axisY = this.options.axisYProperty === 'unset' ? '' : `${this.options.axisYProperty}: ${this.options.axisYValue}`;
     const comma = this.options.axisXProperty !== 'unset' && this.options.axisYProperty !== 'unset' ? ', ' : '';
     const durationComma = this.options.axisXProperty !== 'unset' || this.options.axisYProperty !== 'unset' ? ', ' : '';
     if (this.options.scrollFunc === 'scrollToElement') {
       this.displayFunction =
-        `scrollToElement('#target', {${ axisY }${ comma }${ axisX }${ durationComma }duration: ${ this.options.duration }})`;
+        `scrollToElement('#target', {${axisY}${comma}${axisX}${durationComma}duration: ${this.options.duration}})`;
     } else {
       this.displayFunction =
-        `scrollTo({${ axisY }${ comma }${ axisX }${ durationComma }duration: ${ this.options.duration }})`;
+        `scrollTo({${axisY}${comma}${axisX}${durationComma}duration: ${this.options.duration}})`;
     }
   }
 

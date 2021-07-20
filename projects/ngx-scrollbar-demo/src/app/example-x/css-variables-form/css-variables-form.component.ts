@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-css-variables-form',
   templateUrl: './css-variables-form.component.html',
   styleUrls: ['./css-variables-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CssVariablesFormComponent implements OnInit {
   form: FormGroup;

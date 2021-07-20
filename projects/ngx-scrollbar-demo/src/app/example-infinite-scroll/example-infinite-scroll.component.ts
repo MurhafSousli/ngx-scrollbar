@@ -1,11 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { Chance } from 'chance';
 
 @Component({
   selector: 'app-example-infinite-scroll',
   templateUrl: './example-infinite-scroll.component.html',
   styleUrls: ['./example-infinite-scroll.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.example-component]': 'true'
   }
