@@ -6,12 +6,13 @@ import {
   ViewChild,
   ContentChild,
   OnInit,
-  AfterViewChecked,
   OnDestroy,
   NgZone,
   ElementRef,
   ChangeDetectorRef,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  OnChanges,
+  SimpleChanges
 } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -39,7 +40,7 @@ import { ScrollbarManager } from './utils/scrollbar-manager';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[class.ng-scrollbar]': 'true' }
 })
-export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
+export class NgScrollbar implements OnInit, OnDestroy, OnChanges {
 
   private _disabled: boolean = false;
   private _sensorDisabled: boolean = this.manager.globalOptions.sensorDisabled;
@@ -295,7 +296,12 @@ export class NgScrollbar implements OnInit, AfterViewChecked, OnDestroy {
     });
   }
 
-  ngAfterViewChecked() {
+  ngOnChanges(changes: SimpleChanges): void {
+    if(!this.viewport){
+      this.changeDetectorRef.detectChanges();
+      return;
+    }
+
     this.update();
   }
 
