@@ -287,15 +287,17 @@ export class NgScrollbar implements OnInit, OnDestroy, OnChanges, AfterContentIn
   }
 
   private registerObserver() {
-    this.ro?.disconnect();
+    this.zone.runOutsideAngular(() => {
+      this.ro?.disconnect();
 
-    this.ro = new ResizeObserver(() => {
-      this.update();
+      this.ro = new ResizeObserver(() => {
+        this.update();
+      });
+      if (this.viewport.nativeElement.children[0]) {
+        this.ro.observe(this.viewport.nativeElement.children[0]);
+      }
+      this.ro.observe(this.viewport.nativeElement);
     });
-    if (this.viewport.nativeElement.children[0]) {
-      this.ro.observe(this.viewport.nativeElement.children[0]);
-    }
-    this.ro.observe(this.viewport.nativeElement);
   }
 
   ngAfterContentChecked(): void {
