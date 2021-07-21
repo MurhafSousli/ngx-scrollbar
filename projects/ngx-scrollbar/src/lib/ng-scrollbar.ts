@@ -1,6 +1,6 @@
 import { Directionality } from '@angular/cdk/bidi';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { AfterViewInit, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterContentChecked, AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToElementOptions, SmoothScrollToOptions } from 'ngx-scrollbar/smooth-scroll';
 import { fromEvent, Observable, Subject } from 'rxjs';
 import { auditTime, filter, map, pairwise, pluck, takeUntil, tap } from 'rxjs/operators';
@@ -19,7 +19,7 @@ import { ScrollbarManager } from './utils/scrollbar-manager';
   styleUrls: ['ng-scrollbar.scss', 'scrollbar/shared.scss'],
   host: { '[class.ng-scrollbar]': 'true' }
 })
-export class NgScrollbar implements OnInit, OnDestroy, AfterViewInit, OnChanges {
+export class NgScrollbar implements OnInit, OnDestroy, AfterViewInit, OnChanges, AfterContentInit, AfterContentChecked {
 
   private _disabled: boolean = false;
   private _sensorDisabled: boolean = this.manager.globalOptions.sensorDisabled;
@@ -182,6 +182,9 @@ export class NgScrollbar implements OnInit, OnDestroy, AfterViewInit, OnChanges 
     private dir: Directionality,
     private smoothScroll: SmoothScrollManager,
     public manager: ScrollbarManager) {
+    this.dir.change.subscribe({
+      next: () => this.update()
+    });
   }
 
   /**
@@ -259,45 +262,63 @@ export class NgScrollbar implements OnInit, OnDestroy, AfterViewInit, OnChanges 
   }
 
   ngOnInit() {
+    this.updateViewport();
+  }
+
+  private updateViewport() {
     // Set the viewport based on user choice
-    this.zone.runOutsideAngular(() => {
-      if (this.customViewPort) {
-        this.viewport = this.customViewPort;
-        this.defaultViewPort!.setAsWrapper();
-      } else {
-        this.viewport = this.defaultViewPort;
-      }
-      // Activate the selected viewport
-      this.viewport!.setAsViewport(this.viewClass!);
+    if (this.customViewPort) {
+      this.viewport = this.customViewPort;
+      this.defaultViewPort!.setAsWrapper();
+    } else {
+      this.viewport = this.defaultViewPort;
+    }
+    // Activate the selected viewport
+    this.viewport!.setAsViewport(this.viewClass!);
 
-      let scrollStream = fromEvent(this.viewport!.nativeElement, 'scroll', { passive: true });
-      // Throttle scroll event if 'scrollAuditTime' is set
-      scrollStream = this.scrollAuditTime ? scrollStream.pipe(auditTime(this.scrollAuditTime)) : scrollStream;
-      // Initialize scroll streams
-      this.scrolled = scrollStream.pipe(takeUntil(this.destroyed));
-      this.verticalScrolled = this.getScrolledByDirection('scrollTop');
-      this.horizontalScrolled = this.getScrolledByDirection('scrollLeft');
+    let scrollStream = fromEvent(this.viewport!.nativeElement, 'scroll', { passive: true });
+    // Throttle scroll event if 'scrollAuditTime' is set
+    scrollStream = this.scrollAuditTime ? scrollStream.pipe(auditTime(this.scrollAuditTime)) : scrollStream;
+    // Initialize scroll streams
+    this.scrolled = scrollStream.pipe(takeUntil(this.destroyed));
+    this.verticalScrolled = this.getScrolledByDirection('scrollTop');
+    this.horizontalScrolled = this.getScrolledByDirection('scrollLeft');
+    this.update();
+  }
 
-      this.ro = new ResizeObserver(() => {
-        this.update();
-      });
+  private registerObserver() {
 
-      if (this.viewport.nativeElement.children[0]) {
-        this.ro.observe(this.viewport.nativeElement.children[0]);
-      }
+    this.ro?.disconnect();
 
-      this.ro.observe(this.viewport.nativeElement);
-
+    this.ro = new ResizeObserver(() => {
       this.update();
     });
-
+    if (this.viewport.nativeElement.children[0]) {
+      this.ro.observe(this.viewport.nativeElement.children[0]);
+    }
+    this.ro.observe(this.viewport.nativeElement);
   }
 
   ngAfterViewInit(): void {
+
+  }
+
+
+  ngAfterContentChecked(): void {
+    this.registerObserver();
+  }
+
+  ngAfterContentInit(): void {
+    this.registerObserver();
     this.update();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes.customViewPort) {
+      this.updateViewport();
+      this.registerObserver();
+    }
+
     this.update();
   }
 
