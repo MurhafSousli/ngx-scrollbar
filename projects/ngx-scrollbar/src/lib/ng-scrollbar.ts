@@ -1,6 +1,6 @@
 import { Directionality } from '@angular/cdk/bidi';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { AfterContentChecked, AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterContentChecked, AfterContentInit, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToElementOptions, SmoothScrollToOptions } from 'ngx-scrollbar/smooth-scroll';
 import { fromEvent, Observable, Subject } from 'rxjs';
 import { auditTime, filter, map, pairwise, pluck, takeUntil, tap } from 'rxjs/operators';
@@ -19,7 +19,7 @@ import { ScrollbarManager } from './utils/scrollbar-manager';
   styleUrls: ['ng-scrollbar.scss', 'scrollbar/shared.scss'],
   host: { '[class.ng-scrollbar]': 'true' }
 })
-export class NgScrollbar implements OnInit, OnDestroy, AfterViewInit, OnChanges, AfterContentInit, AfterContentChecked {
+export class NgScrollbar implements OnInit, OnDestroy, OnChanges, AfterContentInit, AfterContentChecked {
 
   private _disabled: boolean = false;
   private _sensorDisabled: boolean = this.manager.globalOptions.sensorDisabled;
@@ -287,7 +287,6 @@ export class NgScrollbar implements OnInit, OnDestroy, AfterViewInit, OnChanges,
   }
 
   private registerObserver() {
-
     this.ro?.disconnect();
 
     this.ro = new ResizeObserver(() => {
@@ -298,11 +297,6 @@ export class NgScrollbar implements OnInit, OnDestroy, AfterViewInit, OnChanges,
     }
     this.ro.observe(this.viewport.nativeElement);
   }
-
-  ngAfterViewInit(): void {
-
-  }
-
 
   ngAfterContentChecked(): void {
     this.registerObserver();
@@ -323,6 +317,7 @@ export class NgScrollbar implements OnInit, OnDestroy, AfterViewInit, OnChanges,
   }
 
   ngOnDestroy() {
+    this.ro?.disconnect();
     this.destroyed.next();
     this.destroyed.complete();
   }
