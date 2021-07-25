@@ -63,9 +63,18 @@ describe('NgScrollbar Component', () => {
     expect(component.state).toBeDefined();
   });
 
-  it('should update state on ngAfterViewChecked', () => {
+  it('should update state on ngAfterViewInit', () => {
     const updateSpy = spyOn<any>(component, 'updateState');
-    component.ngAfterViewChecked();
+    component.ngAfterViewInit();
+    expect(updateSpy).toHaveBeenCalled();
+  });
+
+  it('should update state on ngOnChanges', () => {
+    const updateSpy = spyOn<any>(component, 'updateState');
+    component.ngOnChanges({});
+    // if (component.viewport) {
+    //
+    // }
     expect(updateSpy).toHaveBeenCalled();
   });
 
@@ -84,6 +93,7 @@ describe('NgScrollbar Component', () => {
     component.viewport.nativeElement.style.height = '300px';
     component.viewport.nativeElement.innerHTML = '<div style="height: 1000px"></div>';
     fixture.detectChanges();
+    component.ngAfterViewInit();
 
     expect(component.state.verticalUsed).toBeTrue();
     expect(component.state.isVerticallyScrollable).toBeTrue();
@@ -100,6 +110,7 @@ describe('NgScrollbar Component', () => {
     component.viewport.nativeElement.style.height = '1000px';
     component.viewport.nativeElement.innerHTML = '<div style="height: 300px"></div>';
     fixture.detectChanges();
+    component.ngAfterViewInit();
 
     expect(component.state.verticalUsed).toBeTrue();
     expect(component.state.isVerticallyScrollable).toBeFalse();
@@ -116,6 +127,7 @@ describe('NgScrollbar Component', () => {
     component.viewport.nativeElement.style.height = '1000px';
     component.viewport.nativeElement.innerHTML = '<div style="height: 300px"></div>';
     fixture.detectChanges();
+    component.ngAfterViewInit();
 
     expect(component.state.verticalUsed).toBeFalse();
     expect(component.state.isVerticallyScrollable).toBeFalse();
@@ -132,6 +144,7 @@ describe('NgScrollbar Component', () => {
     component.viewport.nativeElement.style.width = '300px';
     component.viewport.nativeElement.innerHTML = '<div style="width: 1000px; height: 300px"></div>';
     fixture.detectChanges();
+    component.ngAfterViewInit();
 
     expect(component.state.horizontalUsed).toBeTrue();
     expect(component.state.isHorizontallyScrollable).toBeTrue();
@@ -149,6 +162,7 @@ describe('NgScrollbar Component', () => {
     component.viewport.nativeElement.style.width = '1000px';
     component.viewport.nativeElement.innerHTML = '<div style="width: 300px; height: 300px"></div>';
     fixture.detectChanges();
+    component.ngAfterViewInit();
 
     expect(component.state.horizontalUsed).toBeTrue();
     expect(component.state.isHorizontallyScrollable).toBeFalse();
@@ -165,6 +179,7 @@ describe('NgScrollbar Component', () => {
     component.viewport.nativeElement.style.width = '1000px';
     component.viewport.nativeElement.innerHTML = '<div style="width: 300px; height: 300px"></div>';
     fixture.detectChanges();
+    component.ngAfterViewInit();
 
     expect(component.state.horizontalUsed).toBeFalse();
     expect(component.state.isHorizontallyScrollable).toBeFalse();
@@ -182,6 +197,7 @@ describe('NgScrollbar Component', () => {
     component.viewport.nativeElement.style.height = '1000px';
     component.viewport.nativeElement.innerHTML = '<div style="width: 300px; height: 300px"></div>';
     fixture.detectChanges();
+    component.ngAfterViewInit();
 
     expect(component.state.horizontalUsed).toBeTrue();
     expect(component.state.isHorizontallyScrollable).toBeFalse();
@@ -199,6 +215,7 @@ describe('NgScrollbar Component', () => {
     component.viewport.nativeElement.style.height = '200px';
     component.viewport.nativeElement.innerHTML = '<div style="width: 300px; height: 300px"></div>';
     fixture.detectChanges();
+    component.ngAfterViewInit();
 
     expect(component.state.horizontalUsed).toBeTrue();
     expect(component.state.isHorizontallyScrollable).toBeTrue();
@@ -215,7 +232,7 @@ describe('NgScrollbar Component', () => {
     component.appearance = 'standard';
     component.viewport.nativeElement.innerHTML = '<div style="width: 300px; height: 300px"></div>';
     component.ngOnInit();
-    component.ngAfterViewChecked();
+    component.ngAfterViewInit();
     fixture.detectChanges();
 
     expect(component['scrollbarY']).toBeFalsy();
@@ -231,7 +248,7 @@ describe('NgScrollbar Component', () => {
   //   component.viewport.nativeElement.style.width = '200px';
   //   component.viewport.nativeElement.style.height = `${300 + component['scrollbarX']?.nativeElement.clientHeight}px`;
   //   component.ngOnInit();
-  //   component.ngAfterViewChecked();
+  //   component.ngAfterViewInit();
   //   fixture.detectChanges();
   //
   //   // expect(component['scrollbarY']).toBeFalsy();
@@ -249,7 +266,7 @@ describe('NgScrollbar Component', () => {
   //   component.viewport.nativeElement.style.position = 'fixed';
   //   component.viewport.nativeElement.style.width = '300px';
   //
-  //   component.ngAfterViewChecked();
+  //   component.ngAfterViewInit();
   //   fixture.detectChanges();
   //
   //   expect(component['scrollbarY']).toBeFalsy();
