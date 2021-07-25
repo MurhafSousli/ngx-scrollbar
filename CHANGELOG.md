@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.6.0 (Important Update)
+
+- Fix performance issue regarding change detection loop in case `OnPush` is not used, closes [#373](https://github.com/MurhafSousli/ngx-scrollbar/issues/373) in [11128c9](https://github.com/MurhafSousli/ngx-scrollbar/commit/11128c958c2e9a0ea28c35a5c7b38d62140b0c13).
+
+>  NOTE: In v7.6.0 Do not disable the sensors if you are integrating the scrollbar with the CDK virtual scroll component
+
 ## 7.5.6
 
 - Fix peerDependencies for Angular 12, closes [#368](https://github.com/MurhafSousli/ngx-scrollbar/issues/368) in [132ab56](https://github.com/MurhafSousli/ngx-scrollbar/pull/372/commits/132ab566aa83ac3357111c03833cdd39e876d7db).
