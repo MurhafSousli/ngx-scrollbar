@@ -20,7 +20,8 @@ export class CssVariablesFormComponent implements OnInit {
       thumbColor: new FormControl('var(--color-scrollbar-example-x)'),
       thumbHoverColor: new FormControl('var(--color-scrollbar-example-x)'),
       trackPadding: new FormControl('4px'),
-      borderRadius: new FormControl('10px')
+      borderRadius: new FormControl('10px'),
+      overscrollBehavior: new FormControl('initial')
     });
 
     this.form.valueChanges.subscribe((value) => this.value.next(value));

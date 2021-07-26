@@ -1,19 +1,19 @@
 <form [formGroup]="form">
   <div class="input">
-    <span>Scrollbar Padding</span>
+    <span>--scrollbar-padding</span>
     <input type="text" formControlName="trackPadding">
   </div>
   <div class="input">
-    <span>Scrollbar Size</span>
+    <span>--scrollbar-size</span>
     <input type="text" formControlName="size">
   </div>
   <div class="input">
-    <span>Scrollbar Size Hover</span>
+    <span>--scrollbar-hover-size</span>
     <input type="text" formControlName="hoverSize">
   </div>
 
   <div class="input">
-    <span>Scrollbar Track Color</span>
+    <span>--scrollbar-track-color</span>
     <input type="text"
            formControlName="trackColor"
            [colorPicker]="form.get('trackColor').value"
@@ -21,7 +21,7 @@
            (colorPickerChange)="form.get('trackColor').setValue($event)">
   </div>
   <div class="input">
-    <span>Scrollbar Thumb Color</span>
+    <span>--scrollbar-thumb-color</span>
     <input type="text"
            formControlName="thumbColor"
            [colorPicker]="form.get('thumbColor').value"
@@ -29,7 +29,7 @@
            (colorPickerChange)="form.get('thumbColor').setValue($event)">
   </div>
   <div class="input">
-    <span>Scrollbar Thumb Hover Color</span>
+    <span>--scrollbar-thumb-hover-color</span>
     <input type="text"
            formControlName="thumbHoverColor"
            [colorPicker]="form.get('thumbHoverColor').value"
@@ -37,7 +37,11 @@
            (colorPickerChange)="form.get('thumbHoverColor').setValue($event)">
   </div>
   <div class="input">
-    <span>Scrollbar Border Radius</span>
+    <span>--scrollbar-border-radius</span>
     <input type="text" formControlName="borderRadius">
+  </div>
+  <div class="input">
+    <span>--scrollbar-overscroll-behavior</span>
+    <input type="text" formControlName="overscrollBehavior">
   </div>
 </form>
