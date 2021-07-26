@@ -12,6 +12,8 @@
   --scrollbar-size: 5px;
   --scrollbar-hover-size: var(--scrollbar-size);
   --scrollbar-overscroll-behavior: initial;
+  --scrollbar-transition-duration: 400ms;
+  --scrollbar-transition-delay: 800ms;
   --scrollbar-thumb-transition: height ease-out 150ms, width ease-out 150ms;
   --scrollbar-track-transition: height ease-out 150ms, width ease-out 150ms;
 
