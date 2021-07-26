@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.6.1
+
+- feat: Ability to change scrollbar transition duration and delay using CSS variables, closes [#383](https://github.com/MurhafSousli/ngx-scrollbar/issues/383) in [221b700](https://github.com/MurhafSousli/ngx-scrollbar/pull/391/commits/221b70079a24e60cca214ecc0f0b32d6c66e0c49).
+- feat: Add `overscroll-behavior` option as a CSS variable `--scrollbar-overscroll-behavior`, in [1aa81e4](https://github.com/MurhafSousli/ngx-scrollbar/pull/391/commits/1aa81e459d7f94a3bd9172bdb1c1f71fcc974136).
+- fix: Update scrollbar when dir changes, in [cce5c14](https://github.com/MurhafSousli/ngx-scrollbar/pull/391/commits/cce5c14d474abe7205a620b06372a9a81003f942).
+
 ## 7.6.0 (Important Update)
 
 - Fix performance issue regarding change detection loop in case `OnPush` is not used, closes [#373](https://github.com/MurhafSousli/ngx-scrollbar/issues/373) in [11128c9](https://github.com/MurhafSousli/ngx-scrollbar/commit/11128c958c2e9a0ea28c35a5c7b38d62140b0c13).
@@ -8,7 +14,7 @@
 
 ## 7.5.6
 
-- Fix peerDependencies for Angular 12, closes [#368](https://github.com/MurhafSousli/ngx-scrollbar/issues/368) in [132ab56](https://github.com/MurhafSousli/ngx-scrollbar/pull/372/commits/132ab566aa83ac3357111c03833cdd39e876d7db).
+- fix: peerDependencies for Angular 12, closes [#368](https://github.com/MurhafSousli/ngx-scrollbar/issues/368) in [132ab56](https://github.com/MurhafSousli/ngx-scrollbar/pull/372/commits/132ab566aa83ac3357111c03833cdd39e876d7db).
 
 ## 7.5.5
 

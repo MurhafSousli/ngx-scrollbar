@@ -305,7 +305,14 @@ export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy 
   }
 
   ngAfterViewInit() {
+    // Initial update
     this.update();
+
+    // Update on dir changes
+    this.dir.change.pipe(
+      tap(() => this.update()),
+      takeUntil(this.destroyed)
+    ).subscribe();
   }
 
   ngOnDestroy() {

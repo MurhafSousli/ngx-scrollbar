@@ -8,8 +8,8 @@
     > .scrollbar-control {
       opacity: 0;
       transition-property: opacity;
-      transition-duration: 400ms;
-      transition-delay: 800ms;
+      transition-duration: var(--scrollbar-transition-duration);
+      transition-delay: var(--scrollbar-transition-delay);
     }
 
     &:hover,
@@ -17,7 +17,7 @@
     &:focus {
       > .scrollbar-control {
         opacity: 1;
-        transition-duration: 400ms;
+        transition-duration: var(--scrollbar-transition-duration);
         transition-delay: 0ms;
       }
     }
