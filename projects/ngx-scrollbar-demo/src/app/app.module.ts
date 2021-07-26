@@ -2,10 +2,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ScrollingModule } from '@angular/cdk/scrolling';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
-import { ColorPickerModule } from './color-picker';
 import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
@@ -51,10 +48,7 @@ import { ExampleScrolltoElementComponent } from './example-scrollto-element/exam
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    ColorPickerModule,
-    ScrollingModule,
-    BrowserAnimationsModule,
-    InfiniteScrollModule
+    BrowserAnimationsModule
   ],
   bootstrap: [AppComponent]
 })
