@@ -128,7 +128,10 @@ class CssVariables {
     size: '--scrollbar-size',
     trackPadding: '--scrollbar-padding',
     hoverSize: '--scrollbar-hover-size',
-    borderRadius: '--scrollbar-border-radius'
+    borderRadius: '--scrollbar-border-radius',
+    overscrollBehavior: '--scrollbar-overscroll-behavior',
+    transitionDuration: '--scrollbar-transition-duration',
+    transitionDelay: '--scrollbar-transition-delay'
   };
 
   constructor(private variables: NgScrollbarCssVariables) {
