@@ -1,7 +1,7 @@
 import { Directive, ElementRef, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { TrackAdapter } from './track';
-import { NgScrollbar } from '../../ng-scrollbar';
+import { NgScrollbarBase } from '../../ng-scrollbar-base';
 
 @Directive({ selector: '[scrollbarTrackX]' })
 export class TrackXDirective extends TrackAdapter {
@@ -18,7 +18,7 @@ export class TrackXDirective extends TrackAdapter {
     return this.trackElement.clientWidth;
   }
 
-  constructor(protected cmp: NgScrollbar, trackElement: ElementRef, @Inject(DOCUMENT) protected document: any) {
+  constructor(protected cmp: NgScrollbarBase, trackElement: ElementRef, @Inject(DOCUMENT) protected document: any) {
     super(cmp, trackElement.nativeElement, document);
   }
 
@@ -42,7 +42,7 @@ export class TrackYDirective extends TrackAdapter {
     return this.trackElement.clientHeight;
   }
 
-  constructor(protected cmp: NgScrollbar, trackElement: ElementRef, @Inject(DOCUMENT) protected document: any) {
+  constructor(protected cmp: NgScrollbarBase, trackElement: ElementRef, @Inject(DOCUMENT) protected document: any) {
     super(cmp, trackElement.nativeElement, document);
   }
 

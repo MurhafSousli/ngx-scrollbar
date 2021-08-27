@@ -2,9 +2,9 @@ import { Directive, Inject, ElementRef } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { RtlScrollAxisType } from '@angular/cdk/platform';
 import { Directionality } from '@angular/cdk/bidi';
-import { NgScrollbar } from '../../ng-scrollbar';
 import { ThumbAdapter } from './thumb';
 import { TrackXDirective, TrackYDirective } from '../track/track.directive';
+import { NgScrollbarBase } from '../../ng-scrollbar-base';
 
 @Directive({ selector: '[scrollbarThumbX]' })
 export class ThumbXDirective extends ThumbAdapter {
@@ -37,7 +37,7 @@ export class ThumbXDirective extends ThumbAdapter {
     return this.thumbElement.clientWidth;
   }
 
-  constructor(protected cmp: NgScrollbar,
+  constructor(protected cmp: NgScrollbarBase,
               protected track: TrackXDirective,
               protected element: ElementRef,
               @Inject(DOCUMENT) protected document: any,
@@ -122,7 +122,7 @@ export class ThumbYDirective extends ThumbAdapter {
     return this.thumbElement.clientHeight;
   }
 
-  constructor(protected cmp: NgScrollbar,
+  constructor(protected cmp: NgScrollbarBase,
               protected track: TrackYDirective,
               protected element: ElementRef,
               @Inject(DOCUMENT) protected document: any) {
