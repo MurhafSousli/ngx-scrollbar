@@ -1,5 +1,13 @@
 # Changelog
 
+## 8.0.0
+
+- feat: Build library in partial compilationMode, in [7c6e49d](https://github.com/MurhafSousli/ngx-scrollbar/commit/7c6e49dd572df1175d4d5a1642859f340c637af1).
+
+### Breaking changes
+
+- Possible breaking change in case of using it with Angular 9.
+
 ## 7.6.1
 
 - feat: Ability to change scrollbar transition duration and delay using CSS variables, closes [#383](https://github.com/MurhafSousli/ngx-scrollbar/issues/383) in [221b700](https://github.com/MurhafSousli/ngx-scrollbar/pull/391/commits/221b70079a24e60cca214ecc0f0b32d6c66e0c49).
