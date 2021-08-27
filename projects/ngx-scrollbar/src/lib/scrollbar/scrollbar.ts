@@ -2,7 +2,7 @@ import { OnDestroy, OnInit, NgZone, Directive } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
 import { fromEvent, merge, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { NgScrollbar } from '../ng-scrollbar';
+import { NgScrollbarBase } from '../ng-scrollbar-base';
 import { ThumbAdapter } from './thumb/thumb';
 import { TrackAdapter } from './track/track';
 import { isWithinBounds, stopPropagation } from './common';
@@ -28,7 +28,7 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
   protected abstract get viewportScrollSize(): number;
 
   protected constructor(protected el: HTMLElement,
-                        public cmp: NgScrollbar,
+                        public cmp: NgScrollbarBase,
                         protected platform: Platform,
                         protected document: any,
                         protected zone: NgZone) {

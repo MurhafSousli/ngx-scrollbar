@@ -1,11 +1,9 @@
 import { Directive, Optional, Input, Output, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { RtlScrollAxisType } from '@angular/cdk/platform';
+import { NgScrollbar } from 'ngx-scrollbar';
 import { Observable, Subject, Subscription, Subscriber } from 'rxjs';
 import { filter, map, tap, distinctUntilChanged } from 'rxjs/operators';
-import { NgScrollbar } from 'ngx-scrollbar';
-// Uncomment the following line in development mode
-// import { NgScrollbar } from '../../src/public-api';
 
 class ReachedFunctions {
   static reachedTop(offset: number, e: any): boolean {

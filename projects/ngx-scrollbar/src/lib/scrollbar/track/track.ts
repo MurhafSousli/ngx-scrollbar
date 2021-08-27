@@ -3,7 +3,7 @@ import { coerceNumberProperty } from '@angular/cdk/coercion';
 import { EMPTY, fromEvent, merge, Observable, of } from 'rxjs';
 import { map, pluck, switchMap, tap } from 'rxjs/operators';
 import { preventSelection, enableSelection, stopPropagation } from '../common';
-import { NgScrollbar } from '../../ng-scrollbar';
+import { NgScrollbarBase } from '../../ng-scrollbar-base';
 
 // @dynamic
 @Directive()
@@ -37,7 +37,7 @@ export abstract class TrackAdapter {
     return this.trackElement.getBoundingClientRect();
   }
 
-  protected constructor(protected cmp: NgScrollbar,
+  protected constructor(protected cmp: NgScrollbarBase,
                         protected trackElement: HTMLElement,
                         protected document: any) {
   }

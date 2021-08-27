@@ -21,10 +21,13 @@
     ],
     "paths": {
       "ngx-scrollbar": [
-        "dist/ngx-scrollbar"
+        "projects/ngx-scrollbar/src/public-api"
       ],
-      "ngx-scrollbar/*": [
-        "dist/ngx-scrollbar/*"
+      "ngx-scrollbar/smooth-scroll": [
+        "projects/ngx-scrollbar/smooth-scroll/src/public_api"
+      ],
+      "ngx-scrollbar/reached-event": [
+        "projects/ngx-scrollbar/reached-event/src/public_api"
       ]
     }
   }

@@ -2,8 +2,8 @@ import { Output, Directive } from '@angular/core';
 import { animationFrameScheduler, of, fromEvent, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, mergeMap, pluck, takeUntil, tap } from 'rxjs/operators';
 import { enableSelection, preventSelection, stopPropagation } from '../common';
-import { NgScrollbar } from '../../ng-scrollbar';
 import { TrackAdapter } from '../track/track';
+import { NgScrollbarBase } from '../../ng-scrollbar-base';
 
 // @dynamic
 @Directive()
@@ -44,7 +44,7 @@ export abstract class ThumbAdapter {
     return fromEvent(this.thumbElement, 'mousedown', { passive: true }).pipe(stopPropagation());
   }
 
-  protected constructor(protected cmp: NgScrollbar,
+  protected constructor(protected cmp: NgScrollbarBase,
                         protected track: TrackAdapter,
                         protected thumbElement: HTMLElement,
                         protected document: any) {

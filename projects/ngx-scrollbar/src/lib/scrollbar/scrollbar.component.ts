@@ -3,7 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
 import { TrackXDirective, TrackYDirective } from './track/track.directive';
 import { ThumbXDirective, ThumbYDirective } from './thumb/thumb.directive';
-import { NgScrollbar } from '../ng-scrollbar';
+import { NgScrollbarBase } from '../ng-scrollbar-base';
 import { Scrollbar } from './scrollbar';
 
 @Component({
@@ -27,7 +27,7 @@ export class ScrollbarY extends Scrollbar {
   }
 
   constructor(el: ElementRef,
-              public cmp: NgScrollbar,
+              public cmp: NgScrollbarBase,
               protected platform: Platform,
               @Inject(DOCUMENT) protected document: any,
               protected zone: NgZone) {
@@ -60,7 +60,7 @@ export class ScrollbarX extends Scrollbar {
   }
 
   constructor(el: ElementRef,
-              public cmp: NgScrollbar,
+              public cmp: NgScrollbarBase,
               protected platform: Platform,
               @Inject(DOCUMENT) protected document: any, protected zone: NgZone) {
     super(el.nativeElement, cmp, platform, document, zone);

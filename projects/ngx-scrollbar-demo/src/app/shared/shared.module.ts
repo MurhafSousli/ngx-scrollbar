@@ -16,6 +16,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
+import { NgScrollbarModule } from 'ngx-scrollbar';
+import { NgScrollbarReachedModule } from 'ngx-scrollbar/reached-event';
+
 import { ColorPickerModule } from '../color-picker';
 
 import { HeaderComponent } from './header/header.component';
@@ -23,11 +26,6 @@ import { FooterComponent } from './footer/footer.component';
 import { NavigationToolbarComponent } from './navigation-toolbar/navigation-toolbar.component';
 import { LogoComponent } from './logo/logo.component';
 import { AuthorComponent } from './author/author.component';
-
-import { NgScrollbarModule } from 'ngx-scrollbar';
-import { NgScrollbarReachedModule } from 'ngx-scrollbar/reached-event';
-// import { NgScrollbarModule } from '../../../../ngx-scrollbar/src/public-api';
-// import { NgScrollbarReachedModule } from '../../../../ngx-scrollbar/reached-event/src/public_api';
 
 @NgModule({
   imports: [

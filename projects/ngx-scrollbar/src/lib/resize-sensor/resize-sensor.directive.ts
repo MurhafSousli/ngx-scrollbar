@@ -3,7 +3,7 @@ import { Platform } from '@angular/cdk/platform';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { Observable, Subscription, Observer } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { NgScrollbar } from '../ng-scrollbar';
+import { NgScrollbarBase } from '../ng-scrollbar-base';
 
 /*
  * Source code: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/resize-observer-browser
@@ -76,7 +76,7 @@ export class ResizeSensor implements AfterContentInit, OnDestroy {
 
   constructor(private zone: NgZone,
               private platform: Platform,
-              private scrollbar: NgScrollbar) {
+              private scrollbar: NgScrollbarBase) {
     if (!scrollbar) {
       throw new Error('[NgScrollbar Resize Sensor Directive]: Host element must be an NgScrollbar component.');
     }

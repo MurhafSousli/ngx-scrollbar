@@ -21,8 +21,7 @@ import { fromEvent, Observable, Subject } from 'rxjs';
 import { auditTime, filter, map, pairwise, pluck, takeUntil, tap } from 'rxjs/operators';
 import { ScrollViewport } from './scroll-viewport';
 import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToOptions, SmoothScrollToElementOptions } from 'ngx-scrollbar/smooth-scroll';
-// Uncomment the following line in development mode
-// import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToOptions } from '../../smooth-scroll/src/public_api';
+import { ScrollbarManager } from './utils/scrollbar-manager';
 import {
   ScrollbarAppearance,
   ScrollbarTrack,
@@ -31,7 +30,7 @@ import {
   NgScrollbarState,
   ScrollbarPointerEventsMethod
 } from './ng-scrollbar.model';
-import { ScrollbarManager } from './utils/scrollbar-manager';
+import { NgScrollbarBase, ScrollbarDragging, ScrollbarHovered } from './ng-scrollbar-base';
 
 @Component({
   selector: 'ng-scrollbar',
@@ -39,7 +38,8 @@ import { ScrollbarManager } from './utils/scrollbar-manager';
   templateUrl: 'ng-scrollbar.html',
   styleUrls: ['ng-scrollbar.scss', 'scrollbar/shared.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { '[class.ng-scrollbar]': 'true' }
+  host: { '[class.ng-scrollbar]': 'true' },
+  providers: [{ provide: NgScrollbarBase, useExisting: NgScrollbar }]
 })
 export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy {
 
@@ -369,14 +369,4 @@ export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy 
       this.nativeElement.style.width = `${ this.viewport!.contentWidth }px`;
     }
   }
-}
-
-interface ScrollbarDragging {
-  verticalDragging?: boolean;
-  horizontalDragging?: boolean;
-}
-
-interface ScrollbarHovered {
-  verticalHovered?: boolean;
-  horizontalHovered?: boolean;
 }
