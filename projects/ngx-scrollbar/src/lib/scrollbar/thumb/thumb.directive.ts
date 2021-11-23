@@ -40,7 +40,7 @@ export class ThumbXDirective extends ThumbAdapter {
   constructor(protected cmp: NgScrollbarBase,
               protected track: TrackXDirective,
               protected element: ElementRef,
-              @Inject(DOCUMENT) protected document: any,
+              @Inject(DOCUMENT) protected document: Document,
               protected dir: Directionality) {
     super(cmp, track, element.nativeElement, document);
   }
@@ -125,7 +125,7 @@ export class ThumbYDirective extends ThumbAdapter {
   constructor(protected cmp: NgScrollbarBase,
               protected track: TrackYDirective,
               protected element: ElementRef,
-              @Inject(DOCUMENT) protected document: any) {
+              @Inject(DOCUMENT) protected document: Document) {
     super(cmp, track, element.nativeElement, document);
   }
 

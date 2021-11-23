@@ -183,11 +183,11 @@ export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy 
   private readonly destroyed = new Subject<void>();
 
   /** Stream that emits on scroll event */
-  scrolled!: Observable<any>;
+  scrolled!: Observable<Event>;
   /** Steam that emits scroll event for vertical scrollbar */
-  verticalScrolled!: Observable<any>;
+  verticalScrolled!: Observable<Event>;
   /** Steam that emits scroll event for horizontal scrollbar */
-  horizontalScrolled!: Observable<any>;
+  horizontalScrolled!: Observable<Event>;
 
   get nativeElement(): HTMLElement {
     return this.el.nativeElement;
@@ -244,12 +244,12 @@ export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy 
   }
 
   private getScrolledByDirection(property: 'scrollLeft' | 'scrollTop') {
-    let event: any;
+    let event: Event;
     return this.scrolled!.pipe(
-      tap((e: any) => event = e),
+      tap((e: Event) => event = e),
       pluck('target', property),
       pairwise(),
-      filter(([prev, curr]) => prev !== curr),
+      filter(([prev, curr]: [Event, Event]) => prev !== curr),
       map(() => event)
     );
   }
@@ -287,7 +287,7 @@ export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy 
       // Activate the selected viewport
       this.viewport!.setAsViewport(this.viewClass!);
 
-      let scrollStream = fromEvent(this.viewport!.nativeElement, 'scroll', { passive: true });
+      let scrollStream = fromEvent<Event>(this.viewport!.nativeElement, 'scroll', { passive: true });
       // Throttle scroll event if 'scrollAuditTime' is set
       scrollStream = this.scrollAuditTime ? scrollStream.pipe(auditTime(this.scrollAuditTime)) : scrollStream;
       // Initialize scroll streams

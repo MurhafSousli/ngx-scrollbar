@@ -19,7 +19,7 @@ export abstract class NgScrollbarBase {
   abstract pointerEventsDisabled: boolean;
 
   abstract updated: Observable<void>;
-  abstract scrolled: Observable<any>;
+  abstract scrolled: Observable<Event>;
 
   abstract setHovered(hovered: ScrollbarHovered);
 

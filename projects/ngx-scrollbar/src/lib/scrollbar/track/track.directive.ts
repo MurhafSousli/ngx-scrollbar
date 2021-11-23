@@ -18,7 +18,7 @@ export class TrackXDirective extends TrackAdapter {
     return this.trackElement.clientWidth;
   }
 
-  constructor(protected cmp: NgScrollbarBase, trackElement: ElementRef, @Inject(DOCUMENT) protected document: any) {
+  constructor(protected cmp: NgScrollbarBase, trackElement: ElementRef, @Inject(DOCUMENT) protected document: Document) {
     super(cmp, trackElement.nativeElement, document);
   }
 
@@ -42,7 +42,7 @@ export class TrackYDirective extends TrackAdapter {
     return this.trackElement.clientHeight;
   }
 
-  constructor(protected cmp: NgScrollbarBase, trackElement: ElementRef, @Inject(DOCUMENT) protected document: any) {
+  constructor(protected cmp: NgScrollbarBase, trackElement: ElementRef, @Inject(DOCUMENT) protected document: Document) {
     super(cmp, trackElement.nativeElement, document);
   }
 

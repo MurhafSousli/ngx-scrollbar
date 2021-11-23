@@ -1,9 +1,0 @@
-{
-  "ngPackage": {
-    "lib": {
-      "umdModuleIds": {
-        "bezier-easing": "bezier-easing"
-      }
-    }
-  }
-}

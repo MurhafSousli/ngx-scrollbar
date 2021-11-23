@@ -5,16 +5,19 @@ import { NgScrollbar } from 'ngx-scrollbar';
 import { Observable, Subject, Subscription, Subscriber } from 'rxjs';
 import { filter, map, tap, distinctUntilChanged } from 'rxjs/operators';
 
+// Fix target type on ElementEvent
+type ElementEvent = Event & { target: Element };
+
 class ReachedFunctions {
-  static reachedTop(offset: number, e: any): boolean {
+  static reachedTop(offset: number, e: ElementEvent): boolean {
     return ReachedFunctions.reached(-e.target.scrollTop, 0, offset);
   }
 
-  static reachedBottom(offset: number, e: any): boolean {
+  static reachedBottom(offset: number, e: ElementEvent): boolean {
     return ReachedFunctions.reached(e.target.scrollTop + e.target.clientHeight, e.target.scrollHeight, offset);
   }
 
-  static reachedStart(offset: number, e: any, direction: 'ltr' | 'rtl', rtlScrollAxisType: RtlScrollAxisType): boolean {
+  static reachedStart(offset: number, e: ElementEvent, direction: 'ltr' | 'rtl', rtlScrollAxisType: RtlScrollAxisType): boolean {
     if (direction === 'rtl') {
       if (rtlScrollAxisType === RtlScrollAxisType.NEGATED) {
         return ReachedFunctions.reached(e.target.scrollLeft, 0, offset);
@@ -27,7 +30,7 @@ class ReachedFunctions {
     return ReachedFunctions.reached(-e.target.scrollLeft, 0, offset);
   }
 
-  static reachedEnd(offset: number, e: any, direction: 'ltr' | 'rtl', rtlScrollAxisType: RtlScrollAxisType): boolean {
+  static reachedEnd(offset: number, e: ElementEvent, direction: 'ltr' | 'rtl', rtlScrollAxisType: RtlScrollAxisType): boolean {
     if (direction === 'rtl') {
       if (rtlScrollAxisType === RtlScrollAxisType.NEGATED) {
         return ReachedFunctions.reached(-(e.target.scrollLeft - e.target.clientWidth), e.target.scrollWidth, offset);
@@ -56,13 +59,13 @@ abstract class ScrollReached implements OnDestroy {
    *
    * **NOTE:** This subject is used to hold the place of `NgScrollbar.scrolled` when it's not initialized yet
    */
-  protected scrollEvent = new Subject<any>();
+  protected scrollEvent = new Subject<ElementEvent>();
 
   /** subscription: Scrolled event subscription, used to unsubscribe from the event on destroy */
   protected subscription = Subscription.EMPTY;
 
   /** A stream used to assign the reached output */
-  protected reachedEvent = new Observable((subscriber: Subscriber<any>) =>
+  protected reachedEvent = new Observable((subscriber: Subscriber<ElementEvent>) =>
     this.scrollReached().subscribe(_ =>
       Promise.resolve().then(() => this.zone.run(() => subscriber.next(_)))));
 
@@ -76,14 +79,14 @@ abstract class ScrollReached implements OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  protected scrollReached(): Observable<any> {
+  protected scrollReached(): Observable<ElementEvent> {
     // current event
-    let currEvent: any;
+    let currEvent: ElementEvent;
 
     return this.scrollEvent.pipe(
-      tap((e) => currEvent = e),
+      tap((e: ElementEvent) => currEvent = e),
       // Check if it scroll has reached
-      map((e) => this.reached(this.offset, e)),
+      map((e: ElementEvent) => this.reached(this.offset, e)),
       // Distinct until reached value has changed
       distinctUntilChanged(),
       // Emit only if reached is true
@@ -93,7 +96,7 @@ abstract class ScrollReached implements OnDestroy {
     );
   }
 
-  protected abstract reached(offset: number, e?: any): boolean;
+  protected abstract reached(offset: number, e?: ElementEvent): boolean;
 }
 
 @Directive()
@@ -124,7 +127,7 @@ abstract class HorizontalScrollReached extends ScrollReached implements OnInit {
 export class NgScrollbarReachedTop extends VerticalScrollReached implements OnInit {
 
   /** Stream that emits when scroll has reached the top */
-  @Output() reachedTop: Observable<any> = this.reachedEvent;
+  @Output() reachedTop: Observable<ElementEvent> = this.reachedEvent;
 
   constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone) {
     super(scrollbar, zone);
@@ -139,7 +142,7 @@ export class NgScrollbarReachedTop extends VerticalScrollReached implements OnIn
    * @param offset Scroll offset
    * @param e Scroll event
    */
-  protected reached(offset: number, e: any): boolean {
+  protected reached(offset: number, e: ElementEvent): boolean {
     return ReachedFunctions.reachedTop(offset, e);
   }
 }
@@ -150,7 +153,7 @@ export class NgScrollbarReachedTop extends VerticalScrollReached implements OnIn
 export class NgScrollbarReachedBottom extends VerticalScrollReached implements OnInit {
 
   /** Stream that emits when scroll has reached the bottom */
-  @Output() reachedBottom: Observable<any> = this.reachedEvent;
+  @Output() reachedBottom: Observable<ElementEvent> = this.reachedEvent;
 
   constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone) {
     super(scrollbar, zone);
@@ -165,7 +168,7 @@ export class NgScrollbarReachedBottom extends VerticalScrollReached implements O
    * @param offset Scroll offset
    * @param e Scroll event
    */
-  protected reached(offset: number, e: any): boolean {
+  protected reached(offset: number, e: ElementEvent): boolean {
     return ReachedFunctions.reachedBottom(offset, e);
   }
 }
@@ -176,7 +179,7 @@ export class NgScrollbarReachedBottom extends VerticalScrollReached implements O
 export class NgScrollbarReachedStart extends HorizontalScrollReached implements OnInit {
 
   /** Stream that emits when scroll has reached the start */
-  @Output() reachedStart: Observable<any> = this.reachedEvent;
+  @Output() reachedStart: Observable<ElementEvent> = this.reachedEvent;
 
   constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone, private dir: Directionality) {
     super(scrollbar, zone);
@@ -191,7 +194,7 @@ export class NgScrollbarReachedStart extends HorizontalScrollReached implements 
    * @param offset Scroll offset
    * @param e Scroll event
    */
-  protected reached(offset: number, e: any): boolean {
+  protected reached(offset: number, e: ElementEvent): boolean {
     return ReachedFunctions.reachedStart(offset, e, this.dir.value, this.scrollbar.manager.rtlScrollAxisType);
   }
 }
@@ -202,7 +205,7 @@ export class NgScrollbarReachedStart extends HorizontalScrollReached implements 
 export class NgScrollbarReachedEnd extends HorizontalScrollReached implements OnInit {
 
   /** Stream that emits when scroll has reached the end */
-  @Output() reachedEnd: Observable<any> = this.reachedEvent;
+  @Output() reachedEnd: Observable<ElementEvent> = this.reachedEvent;
 
   constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone, private dir: Directionality) {
     super(scrollbar, zone);
@@ -217,7 +220,7 @@ export class NgScrollbarReachedEnd extends HorizontalScrollReached implements On
    * @param offset Scroll offset
    * @param e Scroll event
    */
-  protected reached(offset: number, e: any): boolean {
+  protected reached(offset: number, e: ElementEvent): boolean {
     return ReachedFunctions.reachedEnd(offset, e, this.dir.value, this.scrollbar.manager.rtlScrollAxisType);
   }
 }

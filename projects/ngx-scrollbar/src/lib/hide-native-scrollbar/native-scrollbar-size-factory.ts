@@ -10,7 +10,7 @@ export class NativeScrollbarSizeFactory {
   private readonly _scrollbarSize = new BehaviorSubject<number>(this.getNativeScrollbarSize());
   scrollbarSize: Observable<number> = this._scrollbarSize.asObservable();
 
-  constructor(@Inject(DOCUMENT) private document: any,
+  constructor(@Inject(DOCUMENT) private document: Document,
               private manager: ScrollbarManager,
               private platform: Platform) {
     // Calculate native scrollbar size on window resize event, because the size changes if use zoomed in/out
@@ -38,7 +38,7 @@ export class NativeScrollbarSizeFactory {
     }
     const box = this.document.createElement('div');
     box.className = 'ng-scrollbar-measure';
-    box.style.left = 0;
+    box.style.left = '0px';
     box.style.overflow = 'scroll';
     box.style.position = 'fixed';
     box.style.top = '-9999px';

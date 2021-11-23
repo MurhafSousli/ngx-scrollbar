@@ -10,17 +10,17 @@ import { NgScrollbarBase } from '../../ng-scrollbar-base';
 export abstract class TrackAdapter {
 
   // Stream that emits when the track element is clicked
-  get clicked(): Observable<any> {
-    const mouseDown = fromEvent(this.trackElement, 'mousedown', { passive: true }).pipe(
+  get clicked(): Observable<MouseEvent> {
+    const mouseDown = fromEvent<MouseEvent>(this.trackElement, 'mousedown', { passive: true }).pipe(
       stopPropagation(),
       preventSelection(this.document)
     );
-    const mouseup = fromEvent(this.document, 'mouseup', { passive: true }).pipe(
+    const mouseup = fromEvent<MouseEvent>(this.document, 'mouseup', { passive: true }).pipe(
       stopPropagation(),
       enableSelection(this.document),
       switchMap(() => EMPTY)
     );
-    return merge(mouseDown, mouseup);
+    return merge<MouseEvent>(mouseDown, mouseup);
   }
 
   // Returns either 'pageX' or 'pageY' according to scrollbar axis
@@ -33,19 +33,19 @@ export abstract class TrackAdapter {
   abstract get offset(): number;
 
   // Get track client rect
-  get clientRect(): ClientRect {
+  get clientRect(): DOMRect {
     return this.trackElement.getBoundingClientRect();
   }
 
   protected constructor(protected cmp: NgScrollbarBase,
                         protected trackElement: HTMLElement,
-                        protected document: any) {
+                        protected document: Document) {
   }
 
   /**
    * Stream that emits when scrollbar track is clicked
    */
-  onTrackClicked(e: any, thumbSize: number, scrollSize: number): Observable<any> {
+  onTrackClicked(e: MouseEvent, thumbSize: number, scrollSize: number): Observable<number> {
     return of(e).pipe(
       pluck(this.pageProperty),
       // Calculate scrollTo position

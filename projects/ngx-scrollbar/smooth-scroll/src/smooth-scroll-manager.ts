@@ -29,7 +29,7 @@ export class SmoothScrollManager {
   // it cancels the ongoing scroll and starts a new one
   private _onGoingScrolls = new Map<HTMLElement, Subject<void>>();
 
-  private get _w(): any {
+  private get _w(): Window {
     return this._document.defaultView;
   }
 
@@ -42,7 +42,7 @@ export class SmoothScrollManager {
       : Date.now;
   }
 
-  constructor(@Inject(DOCUMENT) private _document: any,
+  constructor(@Inject(DOCUMENT) private _document: Document,
               @Inject(PLATFORM_ID) private _platform: object,
               @Optional() @Inject(SMOOTH_SCROLL_OPTIONS) customDefaultOptions: SmoothScrollToOptions) {
     this._defaultOptions = {
@@ -100,7 +100,7 @@ export class SmoothScrollManager {
   /**
    * Terminates an ongoing smooth scroll
    */
-  private _interrupted(el: HTMLElement, destroyed: Subject<void>): Observable<any> {
+  private _interrupted(el: HTMLElement, destroyed: Subject<void>): Observable<Event | void> {
     return merge(
       fromEvent(el, 'wheel', { passive: true, capture: true }),
       fromEvent(el, 'touchmove', { passive: true, capture: true }),

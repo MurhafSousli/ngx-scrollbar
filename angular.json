@@ -29,18 +29,6 @@
             "karmaConfig": "projects/ngx-scrollbar/karma.conf.js",
             "codeCoverage": true
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/ngx-scrollbar/tsconfig.lib.json",
-              "projects/ngx-scrollbar/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     },
@@ -142,20 +130,6 @@
               "projects/ngx-scrollbar-demo/src/styles.css"
             ],
             "scripts": []
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/ngx-scrollbar-demo/tsconfig.app.json",
-              "projects/ngx-scrollbar-demo/tsconfig.spec.json",
-              "projects/ngx-scrollbar-demo/e2e/tsconfig.json",
-              "projects/ngx-scrollbar-demo/tsconfig.server.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
           }
         },
         "e2e": {
