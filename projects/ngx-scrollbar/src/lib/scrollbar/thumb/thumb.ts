@@ -47,7 +47,7 @@ export abstract class ThumbAdapter {
   protected constructor(protected cmp: NgScrollbarBase,
                         protected track: TrackAdapter,
                         protected thumbElement: HTMLElement,
-                        protected document: any) {
+                        protected document: Document) {
   }
 
   // Calculate and update thumb position and size

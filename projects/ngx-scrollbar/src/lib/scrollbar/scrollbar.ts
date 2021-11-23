@@ -30,7 +30,7 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
   protected constructor(protected el: HTMLElement,
                         public cmp: NgScrollbarBase,
                         protected platform: Platform,
-                        protected document: any,
+                        protected document: Document,
                         protected zone: NgZone) {
   }
 

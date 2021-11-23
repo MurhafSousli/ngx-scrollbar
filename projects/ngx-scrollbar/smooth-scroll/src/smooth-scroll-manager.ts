@@ -42,7 +42,7 @@ export class SmoothScrollManager {
       : Date.now;
   }
 
-  constructor(@Inject(DOCUMENT) private _document: any,
+  constructor(@Inject(DOCUMENT) private _document: Document,
               @Inject(PLATFORM_ID) private _platform: object,
               @Optional() @Inject(SMOOTH_SCROLL_OPTIONS) customDefaultOptions: SmoothScrollToOptions) {
     this._defaultOptions = {

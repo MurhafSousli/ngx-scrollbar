@@ -39,7 +39,7 @@ export abstract class TrackAdapter {
 
   protected constructor(protected cmp: NgScrollbarBase,
                         protected trackElement: HTMLElement,
-                        protected document: any) {
+                        protected document: Document) {
   }
 
   /**

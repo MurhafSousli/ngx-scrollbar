@@ -29,7 +29,7 @@ export class ScrollbarY extends Scrollbar {
   constructor(el: ElementRef,
               public cmp: NgScrollbarBase,
               protected platform: Platform,
-              @Inject(DOCUMENT) protected document: any,
+              @Inject(DOCUMENT) protected document: Document,
               protected zone: NgZone) {
     super(el.nativeElement, cmp, platform, document, zone);
   }
@@ -62,7 +62,8 @@ export class ScrollbarX extends Scrollbar {
   constructor(el: ElementRef,
               public cmp: NgScrollbarBase,
               protected platform: Platform,
-              @Inject(DOCUMENT) protected document: any, protected zone: NgZone) {
+              @Inject(DOCUMENT) protected document: Document,
+              protected zone: NgZone) {
     super(el.nativeElement, cmp, platform, document, zone);
   }
 
