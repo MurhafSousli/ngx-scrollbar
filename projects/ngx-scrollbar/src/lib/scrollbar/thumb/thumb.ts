@@ -35,13 +35,13 @@ export abstract class ThumbAdapter {
   }
 
   // Get thumb client rect
-  get clientRect(): ClientRect {
+  get clientRect(): DOMRect {
     return this.thumbElement.getBoundingClientRect();
   }
 
   // Stream that emits when scrollbar thumb is clicked
-  get clicked(): Observable<any> {
-    return fromEvent(this.thumbElement, 'mousedown', { passive: true }).pipe(stopPropagation());
+  get clicked(): Observable<MouseEvent> {
+    return fromEvent<MouseEvent>(this.thumbElement, 'mousedown', { passive: true }).pipe(stopPropagation());
   }
 
   protected constructor(protected cmp: NgScrollbarBase,
@@ -61,11 +61,11 @@ export abstract class ThumbAdapter {
    * Stream that emits the 'scrollTo' position when a scrollbar thumb element is dragged
    * This function is called by thumb drag event using viewport or scrollbar pointer events
    */
-  dragged(event: any): Observable<number> {
+  dragged(event: MouseEvent): Observable<number> {
     let trackMaxStart: number;
     let scrollMaxStart: number;
 
-    const dragStart = of(event).pipe(
+    const dragStart = of<MouseEvent>(event).pipe(
       preventSelection(this.document),
       tap(() => {
         // Capture scrollMax and trackMax once
@@ -75,9 +75,9 @@ export abstract class ThumbAdapter {
       }),
     );
 
-    const dragging = fromEvent(this.document, 'mousemove', { capture: true, passive: true }).pipe(stopPropagation());
+    const dragging = fromEvent<MouseEvent>(this.document, 'mousemove', { capture: true, passive: true }).pipe(stopPropagation());
 
-    const dragEnd = fromEvent(this.document, 'mouseup', { capture: true }).pipe(
+    const dragEnd = fromEvent<MouseEvent>(this.document, 'mouseup', { capture: true }).pipe(
       stopPropagation(),
       enableSelection(this.document),
       tap(() => this.setDragging(false))

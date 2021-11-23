@@ -22,8 +22,8 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
    * Viewport pointer events
    * The following streams are only activated when (pointerEventsMethod === 'viewport')
    */
-  protected viewportTrackClicked!: Subject<any>;
-  protected viewportThumbClicked!: Subject<any>;
+  protected viewportTrackClicked!: Subject<MouseEvent>;
+  protected viewportThumbClicked!: Subject<MouseEvent>;
 
   protected abstract get viewportScrollSize(): number;
 
@@ -37,19 +37,19 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
   /**
    * Activate scrollbar pointer events
    */
-  private activatePointerEvents(): Observable<any> {
+  private activatePointerEvents(): Observable<unknown> {
     // Stream that emits when scrollbar thumb is dragged
-    let thumbDragEvent: Observable<any>;
+    let thumbDragEvent: Observable<MouseEvent>;
     // Stream that emits when scrollbar track is clicked
-    let trackClickEvent: Observable<any>;
+    let trackClickEvent: Observable<MouseEvent>;
     // Stream that emits when scrollbar track is hovered
-    let trackHoveredEvent: Observable<any>;
+    let trackHoveredEvent: Observable<boolean>;
 
     // Set the method used for the pointer events option
     if (this.cmp.pointerEventsMethod === 'viewport') {
       // Pointer events using the viewport
-      this.viewportTrackClicked = new Subject<any>();
-      this.viewportThumbClicked = new Subject<any>();
+      this.viewportTrackClicked = new Subject<MouseEvent>();
+      this.viewportThumbClicked = new Subject<MouseEvent>();
 
       // Activate the pointer events of the viewport directive
       this.cmp.viewport!.activatePointerEvents(this.cmp.viewportPropagateMouseMove, this.destroyed);
@@ -59,14 +59,14 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
       trackClickEvent = this.viewportTrackClicked;
       trackHoveredEvent = this.cmp.viewport!.hovered.pipe(
         // Check if track is hovered
-        map((e: any) => isWithinBounds(e, this.el.getBoundingClientRect())),
+        map((e: MouseEvent | false) => e ? isWithinBounds(e, this.el.getBoundingClientRect()) : false),
         distinctUntilChanged(),
         // Enable / disable text selection
         tap((hovered: boolean) => this.document.onselectstart = hovered ? () => false : null)
       );
 
       this.cmp.viewport!.clicked.pipe(
-        tap((e: any) => {
+        tap((e: MouseEvent | false) => {
           if (e) {
             if (isWithinBounds(e, this.thumb!.clientRect)) {
               this.viewportThumbClicked.next(e);
@@ -91,19 +91,19 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
       // Activate scrollbar hovered event
       trackHoveredEvent.pipe(tap((e: boolean) => this.setHovered(e))),
       // Activate scrollbar thumb drag event
-      thumbDragEvent.pipe(switchMap((e: any) => this.thumb!.dragged(e))),
+      thumbDragEvent.pipe(switchMap((e: MouseEvent) => this.thumb!.dragged(e))),
       // Activate scrollbar track click event
-      trackClickEvent.pipe(switchMap((e: any) => this.track!.onTrackClicked(e, this.thumb!.size, this.viewportScrollSize)))
+      trackClickEvent.pipe(switchMap((e: MouseEvent) => this.track!.onTrackClicked(e, this.thumb!.size, this.viewportScrollSize)))
     );
   }
 
   // Stream that emits when the track element is hovered
   protected get hovered(): Observable<boolean> {
-    const mouseEnter = fromEvent(this.el, 'mouseenter', { passive: true }).pipe(
+    const mouseEnter = fromEvent<MouseEvent>(this.el, 'mouseenter', { passive: true }).pipe(
       stopPropagation(),
       map(() => true)
     );
-    const mouseLeave = fromEvent(this.el, 'mouseleave', { passive: true }).pipe(
+    const mouseLeave = fromEvent<MouseEvent>(this.el, 'mouseleave', { passive: true }).pipe(
       stopPropagation(),
       map(() => false)
     );
@@ -118,7 +118,7 @@ export abstract class Scrollbar implements OnInit, OnDestroy {
       }
 
       // Update scrollbar thumb when viewport is scrolled and when scrollbar component is updated
-      merge(this.cmp.scrolled as Observable<any>, this.cmp.updated).pipe(
+      merge(this.cmp.scrolled, this.cmp.updated).pipe(
         tap(() => this.thumb?.update()),
         takeUntil(this.destroyed)
       ).subscribe();

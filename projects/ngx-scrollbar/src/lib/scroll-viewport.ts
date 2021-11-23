@@ -13,9 +13,9 @@ export class ScrollViewport {
   contentWrapperElement!: HTMLElement;
 
   // Stream that emits when pointer event when the viewport is hovered and emits false value when isn't hovered
-  hovered!: Observable<boolean>;
+  hovered!: Observable<MouseEvent | false>;
   // Stream that emits when viewport is clicked
-  clicked!: Observable<any>;
+  clicked!: Observable<MouseEvent | false>;
 
   // Get viewport size, clientHeight or clientWidth
   get clientHeight(): number {
@@ -68,23 +68,23 @@ export class ScrollViewport {
    * Activate viewport pointer events such as 'hovered' and 'clicked' events
    */
   activatePointerEvents(propagate: boolean, destroyed: Observable<void>): void {
-    this.hovered = new Observable((subscriber: Subscriber<boolean>) => {
+    this.hovered = new Observable((subscriber: Subscriber<MouseEvent | false>) => {
       // Stream that emits when pointer is moved over the viewport (used to set the hovered state)
-      const mouseMoveStream = fromEvent(this.nativeElement, 'mousemove', { passive: true });
+      const mouseMoveStream = fromEvent<MouseEvent>(this.nativeElement, 'mousemove', { passive: true });
       const mouseMove = propagate ? mouseMoveStream : mouseMoveStream.pipe(stopPropagation());
       // Stream that emits when pointer leaves the viewport (used to remove the hovered state)
-      const mouseLeave = fromEvent(this.nativeElement, 'mouseleave').pipe(map(() => false));
+      const mouseLeave = fromEvent<false>(this.nativeElement, 'mouseleave', { passive: true }).pipe(map(() => false));
       merge(mouseMove, mouseLeave).pipe(
-        tap((e: false | any) => subscriber.next(e)),
+        tap((e: MouseEvent | false) => subscriber.next(e)),
         takeUntil(destroyed)
       ).subscribe();
     });
 
-    this.clicked = new Observable((subscriber: Subscriber<any>) => {
-      const mouseDown = fromEvent(this.nativeElement, 'mousedown', { passive: true }).pipe(
-        tap((e: any) => subscriber.next(e))
+    this.clicked = new Observable((subscriber: Subscriber<MouseEvent | false>) => {
+      const mouseDown = fromEvent<MouseEvent>(this.nativeElement, 'mousedown', { passive: true }).pipe(
+        tap((e: MouseEvent) => subscriber.next(e))
       );
-      const mouseUp = fromEvent(this.nativeElement, 'mouseup', { passive: true }).pipe(
+      const mouseUp = fromEvent<false>(this.nativeElement, 'mouseup', { passive: true }).pipe(
         tap(() => subscriber.next(false))
       );
       mouseDown.pipe(
