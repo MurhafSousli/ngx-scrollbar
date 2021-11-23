@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.0.0
+
+- Upgrade to Angular 13, closes [#413](https://github.com/MurhafSousli/ngx-scrollbar/issues/413) in [b105a0a](https://github.com/MurhafSousli/ngx-scrollbar/pull/414/commits/b105a0ace5476e93f8520f04583eff2c27ddd39f).
+
 ## 8.0.0
 
 - feat: Build library in partial compilationMode, in [7c6e49d](https://github.com/MurhafSousli/ngx-scrollbar/commit/7c6e49dd572df1175d4d5a1642859f340c637af1).
