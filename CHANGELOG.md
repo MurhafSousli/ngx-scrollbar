@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.0.1
+
+- Fix `peerDependencies` warning on installion
+
 ## 9.0.0
 
 - Upgrade to Angular 13, closes [#413](https://github.com/MurhafSousli/ngx-scrollbar/issues/413) in [b105a0a](https://github.com/MurhafSousli/ngx-scrollbar/pull/414/commits/b105a0ace5476e93f8520f04583eff2c27ddd39f).
