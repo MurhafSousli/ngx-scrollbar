@@ -20,7 +20,7 @@ export abstract class TrackAdapter {
       enableSelection(this.document),
       switchMap(() => EMPTY)
     );
-    return merge<MouseEvent>(mouseDown, mouseup);
+    return merge(mouseDown, mouseup);
   }
 
   // Returns either 'pageX' or 'pageY' according to scrollbar axis

@@ -84,7 +84,7 @@ export abstract class ThumbAdapter {
     );
 
     return dragStart.pipe(
-      pluck<any, number>(this.pageProperty),
+      pluck<any, string>(this.pageProperty),
       map((pageOffset: number) => pageOffset - this.dragStartOffset),
       mergeMap((mouseDownOffset: number) => dragging.pipe(
         pluck(this.clientProperty),
