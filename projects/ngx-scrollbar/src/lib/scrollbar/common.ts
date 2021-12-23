@@ -1,18 +1,19 @@
+import { MonoTypeOperatorFunction } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-export function preventSelection(doc: Document) {
+export function preventSelection(doc: Document): MonoTypeOperatorFunction<any> {
   return tap(() => {
     doc.onselectstart = () => false;
   });
 }
 
-export function enableSelection(doc: Document) {
+export function enableSelection(doc: Document): MonoTypeOperatorFunction<any> {
   return tap(() => {
     doc.onselectstart = null;
   });
 }
 
-export function stopPropagation() {
+export function stopPropagation(): MonoTypeOperatorFunction<any> {
   return tap((e: MouseEvent) => e.stopPropagation());
 }
 
