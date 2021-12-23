@@ -2,7 +2,7 @@
 
 ## 9.0.1
 
-- Fix `peerDependencies` warning on installion
+- Fix rxjs `peerDependencies` warning on installion and update dependencies in [#419](https://github.com/MurhafSousli/ngx-scrollbar/pull/419)
 
 ## 9.0.0
 
