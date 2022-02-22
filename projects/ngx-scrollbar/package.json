@@ -27,6 +27,6 @@
     "@angular/common": ">=13.0.0",
     "@angular/core": ">=13.0.0",
     "@angular/cdk": ">=13.0.0",
-    "rxjs": ">=7.4.0"
+    "rxjs": ">=6.0.0"
   }
 }
