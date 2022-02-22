@@ -59,7 +59,7 @@
     "karma-coverage": "^2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
-    "ng-packagr": "^13.0.7",
+    "ng-packagr": "^13.2.1",
     "protractor": "~7.0.0",
     "puppeteer": "^1.17.0",
     "ts-node": "~7.0.0",
