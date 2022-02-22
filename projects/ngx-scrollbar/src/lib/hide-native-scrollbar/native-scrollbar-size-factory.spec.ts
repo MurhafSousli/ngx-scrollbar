@@ -1,13 +1,13 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { NativeScrollbarSizeFactory } from './native-scrollbar-size-factory';
 
 describe('NativeScrollSizeFactory Service', () => {
 
   let service: NativeScrollbarSizeFactory;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     service = TestBed.inject(NativeScrollbarSizeFactory);
-  }));
+  });
 
   it('should be created', () => {
     expect(service).toBeDefined();
