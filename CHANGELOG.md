@@ -1,8 +1,12 @@
 # Changelog
 
+## 9.0.2
+
+- fix: Downgrade rxjs to v6, closes [#424](https://github.com/MurhafSousli/ngx-scrollbar/issues/424) in [5807067](https://github.com/MurhafSousli/ngx-scrollbar/pull/428/commits/5807067523b6506286f911743751ad14b8aad3b7)
+
 ## 9.0.1
 
-- Fix rxjs `peerDependencies` warning on installion and update dependencies in [#419](https://github.com/MurhafSousli/ngx-scrollbar/pull/419)
+- Fix rxjs `peerDependencies` warning on installation and update dependencies in [#419](https://github.com/MurhafSousli/ngx-scrollbar/pull/419)
 
 ## 9.0.0
 
