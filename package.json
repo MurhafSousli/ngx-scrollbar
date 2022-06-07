@@ -10,7 +10,6 @@
     "link-lib": "npm link dist/ngx-scrollbar && npm link ngx-scrollbar",
     "publish-lib": "npm publish dist/ngx-scrollbar",
     "prerender": "ng run ngx-scrollbar-demo:prerender",
-    "codecov": "codecov",
     "dev:ssr": "ng run ngx-scrollbar-demo:serve-ssr",
     "serve:ssr": "node dist/ngx-scrollbar-demo/server/main.js",
     "build:ssr": "npm run build-demo && ng run ngx-scrollbar-demo:server"
