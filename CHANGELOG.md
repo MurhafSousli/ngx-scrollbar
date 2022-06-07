@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.0.0
+
+- Update to Angular 14 in []().
+
 ## 9.0.2
 
 - fix: Downgrade rxjs to v6, closes [#424](https://github.com/MurhafSousli/ngx-scrollbar/issues/424) in [5807067](https://github.com/MurhafSousli/ngx-scrollbar/pull/428/commits/5807067523b6506286f911743751ad14b8aad3b7)

@@ -195,6 +195,5 @@
         }
       }
     }
-  },
-  "defaultProject": "ngx-scrollbar-demo"
+  }
 }
