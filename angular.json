@@ -26,8 +26,7 @@
           "options": {
             "main": "projects/ngx-scrollbar/src/test.ts",
             "tsConfig": "projects/ngx-scrollbar/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-scrollbar/karma.conf.js",
-            "codeCoverage": true
+            "karmaConfig": "projects/ngx-scrollbar/karma.conf.js"
           }
         }
       }
@@ -195,6 +194,5 @@
         }
       }
     }
-  },
-  "defaultProject": "ngx-scrollbar-demo"
+  }
 }

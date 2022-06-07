@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-css-variables-form',
@@ -8,22 +8,22 @@ import { FormControl, FormGroup } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CssVariablesFormComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   @Output() value = new EventEmitter();
 
   ngOnInit() {
-    this.form = new FormGroup({
-      size: new FormControl('8px'),
-      hoverSize: new FormControl('12px'),
-      trackColor: new FormControl('rgba(0, 0, 0, 0.15)'),
-      thumbColor: new FormControl('var(--color-scrollbar-example-x)'),
-      thumbHoverColor: new FormControl('var(--color-scrollbar-example-x)'),
-      trackPadding: new FormControl('4px'),
-      borderRadius: new FormControl('10px'),
-      overscrollBehavior: new FormControl('initial'),
-      transitionDuration: new FormControl('400ms'),
-      transitionDelay: new FormControl('800ms')
+    this.form = new UntypedFormGroup({
+      size: new UntypedFormControl('8px'),
+      hoverSize: new UntypedFormControl('12px'),
+      trackColor: new UntypedFormControl('rgba(0, 0, 0, 0.15)'),
+      thumbColor: new UntypedFormControl('var(--color-scrollbar-example-x)'),
+      thumbHoverColor: new UntypedFormControl('var(--color-scrollbar-example-x)'),
+      trackPadding: new UntypedFormControl('4px'),
+      borderRadius: new UntypedFormControl('10px'),
+      overscrollBehavior: new UntypedFormControl('initial'),
+      transitionDuration: new UntypedFormControl('400ms'),
+      transitionDelay: new UntypedFormControl('800ms')
     });
 
     this.form.valueChanges.subscribe((value) => this.value.next(value));
