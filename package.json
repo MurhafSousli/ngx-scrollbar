@@ -13,7 +13,7 @@
     "codecov": "codecov",
     "dev:ssr": "ng run ngx-scrollbar-demo:serve-ssr",
     "serve:ssr": "node dist/ngx-scrollbar-demo/server/main.js",
-    "build:ssr": "ng build && ng run ngx-scrollbar-demo:server"
+    "build:ssr": "npm run build-demo && ng run ngx-scrollbar-demo:server"
   },
   "repository": {
     "type": "git",
