@@ -1,25 +1,18 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { NgScrollbar } from '../ng-scrollbar';
+import { NgScrollbarModule, NgScrollbar } from 'ngx-scrollbar';
 
 import { HideNativeScrollbar } from './hide-native-scrollbar';
-import { ScrollViewport } from '../scroll-viewport';
-import { NgAttr } from '../utils/ng-attr.directive';
-import { ResizeSensor } from '../resize-sensor/resize-sensor.directive';
 
 describe('HideNativeScrollbar Directive', () => {
   let fixture: ComponentFixture<NgScrollbar>;
   let directiveElement: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
-      declarations: [
-        NgScrollbar,
-        HideNativeScrollbar,
-        ScrollViewport,
-        NgAttr,
-        ResizeSensor
+      imports: [
+        NgScrollbarModule
       ]
     }).compileComponents();
 

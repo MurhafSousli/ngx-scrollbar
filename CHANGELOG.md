@@ -2,7 +2,7 @@
 
 ## 10.0.0
 
-- Update to Angular 14 in []().
+- Update to Angular 14 in [668fb23](https://github.com/MurhafSousli/ngx-scrollbar/pull/443/commits/668fb23ae1c6ced33a3c8b202717018faaebfa5a).
 
 ## 9.0.2
 
