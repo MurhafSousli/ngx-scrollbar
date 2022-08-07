@@ -59,7 +59,8 @@
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
-              "chance"
+              "chance",
+              "bezier-easing"
             ],
             "vendorChunk": true,
             "extractLicenses": false,
