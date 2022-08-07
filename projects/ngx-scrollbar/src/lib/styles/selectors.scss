@@ -28,6 +28,12 @@
   }
 }
 
+@mixin content {
+  > .ng-scroll-content {
+    @content;
+  }
+}
+
 @mixin enabled {
   &[deactivated="false"] {
     @content;

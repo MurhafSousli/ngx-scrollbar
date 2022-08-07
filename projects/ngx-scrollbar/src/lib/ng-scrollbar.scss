@@ -96,8 +96,6 @@
 }
 
 ::ng-deep .ng-scroll-content {
-  // Force relative position on "cdk-virtual-scroll-content-wrapper"
-  position: relative !important;
   display: inline-block;
   min-width: 100%;
 }
