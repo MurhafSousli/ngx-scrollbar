@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.0.1
+
+- Virtual Scroll integration is broken after Angular CDK 14.1.0, closes [#448](https://github.com/MurhafSousli/ngx-scrollbar/issues/448) in [efdaff9](https://github.com/MurhafSousli/ngx-scrollbar/commit/efdaff913ab92acee7a5cce65dafbf3fe4ca0808).
+
 ## 10.0.0
 
 - Update to Angular 14 in [668fb23](https://github.com/MurhafSousli/ngx-scrollbar/pull/443/commits/668fb23ae1c6ced33a3c8b202717018faaebfa5a).
