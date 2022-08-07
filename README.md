@@ -22,27 +22,19 @@ ___
 
 ## Features
 
-- Super easy to use
 - Native scrolling mechanism
-- Highly customizable
-- Smooth scroll
-- Reached events
-- Resize sensor
-- Easy integration
+- Easily Customizable using CSS variables and classes
+- Smooth scroll functionality
+- Scroll reached events
+- Easy integration with other libraries
 - Mobile support
 - RTL support
 - Universal support
 - Ivy engine support
-- Auto-height
-- Auto-width
 
 ## Compatibility
 
 - This package doesn't support IE11
-- For **Angular < 8**, use the legacy version `ngx-scrollbar@4.2.0` (unsupported).
-  - [Docs v4](https://github.com/MurhafSousli/ngx-scrollbar/blob/master/README_V4.md)
-  - [Demo v4](https://ngx-scrollbar-v4.netlify.com/)
-  - [Stackblitz v4](https://stackblitz.com/edit/ngx-scrollbar-v4)
 
 ## Issues
 
