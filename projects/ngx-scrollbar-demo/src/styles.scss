@@ -7,7 +7,15 @@ $app-accent: mat.define-palette(mat.$orange-palette, 500);
 $app-warn: mat.define-palette(mat.$red-palette);
 $app-success: mat.define-palette(mat.$light-green-palette);
 
-$app-theme: mat.define-light-theme($app-primary, $app-accent, $app-warn);
+$app-theme: mat.define-light-theme((
+  color: (
+    primary: $app-primary,
+    accent: $app-accent,
+    warn: $app-warn,
+  ),
+  typography: mat.define-typography-config(),
+  density: -1
+));
 
 @include mat.all-component-themes($app-theme);
 
@@ -85,17 +93,19 @@ ul {
   box-sizing: border-box;
 }
 
-.mat-card {
+.mat-mdc-card {
   overflow: hidden;
-  background: var(--color-primary);
+  --mdc-elevated-card-container-color: var(--color-primary);
   color: white;
+  @include mat.elevation(16);
 
-  .mat-card-title {
+  .mat-mdc-card-title {
     font-weight: 300;
   }
 
-  .mat-card-content {
+  .mat-mdc-card-content {
     margin-top: 2em;
+    padding: 16px;
   }
 }
 

@@ -12,7 +12,7 @@
   --scrollbar-border-radius: 10px;
 }
 
-mat-card {
+.mat-mdc-card {
   margin-bottom: 5em;
   background-color: var(--color-nested-virtual-scroll-example);
   color: white;
@@ -36,7 +36,7 @@ mat-card {
     }
   }
 
-  mat-card-content {
+  .mat-mdc-card-content {
     height: 400px;
   }
 }

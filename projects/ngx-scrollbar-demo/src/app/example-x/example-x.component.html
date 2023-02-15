@@ -1,5 +1,5 @@
 <div class="example exampleX">
-  <mat-card class="mat-elevation-z16">
+  <mat-card style="overflow: unset" class="mat-elevation-z16">
     <mat-card-header>
       <mat-card-title>Lab</mat-card-title>
       <span style="flex: 1"></span>
@@ -107,12 +107,12 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
 
-          <app-smooth-scroll-form [reached]="scrollToReached | async"
+          <app-smooth-scroll-form [reached]="scrollToReached$ | async"
                                   (scrollTo)="onScrollTo($event)"
                                   (scrollToElementSelected)="scrollToElementSelected = $event"></app-smooth-scroll-form>
         </mat-expansion-panel>
 
-        <mat-expansion-panel>
+        <mat-expansion-panel style="overflow: unset">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Styling

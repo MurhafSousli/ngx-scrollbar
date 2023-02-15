@@ -1,4 +1,4 @@
-$scrollable-height: 268px;
+$scrollable-height: 296px;
 
 .exampleX {
 
@@ -19,6 +19,7 @@ $scrollable-height: 268px;
     ::ng-deep {
       .mat-button-toggle {
         background-color: var(--color-examplex-primary);
+
         &.mat-button-toggle-checked {
           background-color: var(--color-accent);
         }
@@ -49,10 +50,8 @@ $scrollable-height: 268px;
 
   ::ng-deep {
     .mat-button-toggle-group {
-      height: 36px;
 
       .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
-        line-height: 36px;
         width: 100px;
       }
     }
@@ -114,35 +113,22 @@ $scrollable-height: 268px;
   }
 }
 
-.mat-card {
+.mat-mdc-card {
   color: white;
   font-weight: 300;
 }
 
-.mat-card-title {
+.mat-mdc-card-title {
   width: 100%;
   display: flex;
   align-items: center;
 }
 
-.mat-card-content {
-  padding: 0;
+.mat-mdc-card-content {
   margin: 0;
+  padding: 0 16px;
   display: flex;
-}
-
-.mat-card-header {
-  height: 42px;
-}
-
-.mat-expansion-panel-header-title {
-  min-width: 130px;
-}
-
-.mat-expansion-panel-header-description,
-.mat-expansion-panel-header-title {
-  flex-grow: unset;
-  width: 40%;
+  font-size: 14px;
 }
 
 .mat-expansion-panel {
@@ -151,6 +137,7 @@ $scrollable-height: 268px;
 
 .mat-accordion {
   display: block;
+  width: 100%;
   margin: 6px;
 }
 

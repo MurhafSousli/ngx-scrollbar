@@ -3,16 +3,14 @@
 
   ng-scrollbar {
     color: white;
-    font-size: 0.9em;
     border-radius: 4px;
     --scrollbar-size: 12px;
     --scrollbar-track-color: rgba(0, 0, 0, 0.5);
     --scrollbar-border-radius: 6px;
   }
 
-  .mat-card-content {
-    padding-top: 0;
-    margin: 2em;
+  .mat-mdc-card-content {
+    margin: 32px;
   }
 
   ::ng-deep {
@@ -30,25 +28,25 @@
 .sample-wrapper {
   border-radius: 4px;
   height: 350px;
-  padding: 2em;
+  padding: 32px;
   border: 1px solid rgba(0, 0, 0, 0.5);
   background-color: rgba(0, 0, 0, 0.75);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .title {
-  margin: 0;
+  margin: 0 0 10px;
   text-align: left;
   text-transform: initial;
-  font-size: 1.5em;
+  font-size: 20px;
+  line-height: 30px;
   font-weight: bold;
-  line-height: 1.5em;
-  margin-bottom: .4em;
 }
 
 .text {
+  font-size: 14px;
+
   p {
-    font-size: 1.1em;
     margin-bottom: 1.5em;
     line-height: 1.6em;
   }
