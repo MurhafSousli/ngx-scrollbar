@@ -15,11 +15,9 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-
+import { ColorPickerModule } from 'ngx-color-picker';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { NgScrollbarReachedModule } from 'ngx-scrollbar/reached-event';
-
-import { ColorPickerModule } from '../color-picker';
 
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';

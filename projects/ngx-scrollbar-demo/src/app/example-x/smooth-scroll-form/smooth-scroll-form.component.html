@@ -6,12 +6,13 @@
                            aria-label="Scroll Function"
                            [(ngModel)]="options.scrollFunc"
                            (valueChange)="scrollFuncChanged($event)">
-    <mat-button-toggle value="scrollTo">ScrollTo</mat-button-toggle>
-    <mat-button-toggle value="scrollToElement">ScrollToElement</mat-button-toggle>
+    <mat-button-toggle value="scrollTo">Scroll To</mat-button-toggle>
+    <mat-button-toggle value="scrollToElement">Scroll To Element</mat-button-toggle>
   </mat-button-toggle-group>
 
   <mat-form-field class="example-full-width">
-    <input type="number" matInput placeholder="Duration" [(ngModel)]="options.duration">
+    <mat-label>Duration</mat-label>
+    <input type="number" matInput [(ngModel)]="options.duration">
   </mat-form-field>
 </div>
 
@@ -27,9 +28,9 @@
   </mat-button-toggle-group>
 
   <mat-form-field class="example-full-width">
+    <mat-label>{{ options.axisYProperty === 'unset' ? null : scrollToElementSelected ? options.axisYProperty+ ' offset' : options.axisYProperty }}</mat-label>
     <input matInput
            type="number"
-           [placeholder]="options.axisYProperty === 'unset' ? null : scrollToElementSelected ? options.axisYProperty+ ' offset' : options.axisYProperty"
            [(ngModel)]="options.axisYValue"
            [disabled]="options.axisYProperty === 'unset'">
   </mat-form-field>
@@ -51,9 +52,9 @@
   </mat-button-toggle-group>
 
   <mat-form-field class="example-full-width">
+    <mat-label>{{ options.axisXProperty === 'unset' ? null : scrollToElementSelected ? options.axisXProperty+ ' offset' : options.axisXProperty }}</mat-label>
     <input matInput
            type="number"
-           [placeholder]="options.axisXProperty === 'unset' ? null : scrollToElementSelected ? options.axisXProperty+ ' offset' : options.axisXProperty"
            [(ngModel)]="options.axisXValue"
            [disabled]="options.axisXProperty === 'unset'">
   </mat-form-field>

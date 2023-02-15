@@ -52,7 +52,7 @@ export class ExampleXComponent {
 
   // For smooth scrollToElement test
   scrollToElementSelected = false;
-  scrollToReached = new Subject<boolean>();
+  scrollToReached$: Subject<boolean> = new Subject<boolean>();
 
   get content() {
     return '<b>Lorem ipsum dolor sit amet</b>' + content.repeat(this.slider.contentSize);
@@ -82,11 +82,11 @@ export class ExampleXComponent {
     };
     // This shows effect on play button when scrollTo has reached
     const onScrollToReached = () => {
-      this.scrollToReached.next(true);
+      this.scrollToReached$.next(true);
       of(null).pipe(
         delay(600),
         take(1),
-      ).subscribe(() => this.scrollToReached.next(false));
+      ).subscribe(() => this.scrollToReached$.next(false));
     };
 
     if (this.scrollToElementSelected) {

@@ -56,25 +56,26 @@ app-logo {
   }
 }
 
-.mat-stroked-button {
+.mat-mdc-outlined-button {
   margin-top: 4em;
   height: 48px;
   border-radius: 30px;
 
-  .btn-icon {
-    position: absolute;
-    left: 0;
-    padding: 0 20px;
+  .button-content-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
   }
 
   .mat-icon {
+    margin-left: 8px;
     height: 20px;
     width: 20px;
     font-size: 20px;
   }
 
   .btn-text {
-    margin-left: 32px;
     margin-right: 8px;
     font-size: 18px;
   }

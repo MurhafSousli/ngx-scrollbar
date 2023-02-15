@@ -4,7 +4,7 @@
   overflow: hidden;
   height: 300px;
 
-  .mat-list-base {
+  .mat-mdc-list-base {
     padding-top: 0;
   }
 
@@ -40,16 +40,16 @@
   }
 }
 
-.mat-card-content {
+.mat-mdc-card-content {
   position: relative;
 }
 
 .center-pointer {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   position: absolute;
-  left: -21.5px;
-  top: calc(50% - 10px);
+  left: -5px;
+  top: calc(50% - 12px);
 
   .mat-icon {
     color: var(--color-accent);

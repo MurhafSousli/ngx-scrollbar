@@ -5,8 +5,8 @@ import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter, AfterV
   template: `
     <mat-slide-toggle [(ngModel)]="value.disabled">Disabled</mat-slide-toggle>
     <mat-slide-toggle [(ngModel)]="value.sensorDisabled">Sensor Disabled</mat-slide-toggle>
-    <mat-slide-toggle [(ngModel)]="value.highlight">Highlight</mat-slide-toggle>
     <mat-slide-toggle [(ngModel)]="value.rtl">RTL</mat-slide-toggle>
+    <mat-slide-toggle color="warn" [(ngModel)]="value.highlight">Highlight</mat-slide-toggle>
   `,
   styleUrls: ['./toggle-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

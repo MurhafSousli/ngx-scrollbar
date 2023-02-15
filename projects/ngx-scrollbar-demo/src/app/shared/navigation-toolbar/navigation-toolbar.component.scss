@@ -10,7 +10,7 @@
   ::ng-deep {
     button {
       max-height: 100%;
-
+      /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
       .mat-button-wrapper {
         display: flex;
         align-items: center;
@@ -25,8 +25,8 @@
     }
 
     nav,
-    .mat-tab-links,
-    .mat-tab-nav-bar.mat-background-primary .mat-tab-link {
+    .mat-mdc-tab-links,
+    .mat-mdc-tab-nav-bar.mat-background-primary .mat-tab-link {
       height: 100%;
     }
 
@@ -59,7 +59,7 @@ app-logo {
   height: 56px;
 }
 
-.mat-tab-link {
+.mat-mdc-tab-link {
   min-width: 60px;
 }
 

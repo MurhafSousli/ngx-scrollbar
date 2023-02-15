@@ -4,23 +4,23 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
   selector: 'app-reached-notifier',
   template: `
     <span class="reached-event-title">Reached events</span>
-    <mat-chip-list style="margin-bottom: .5em">
-      <mat-chip color="danger" [class.changed]="reached.top">
-        <span>Top</span>
+    <mat-chip-set style="margin-bottom: .5em">
+      <mat-chip [class.changed]="reached.top">
+        Top
       </mat-chip>
-      <mat-chip color="danger" [class.changed]="reached.bottom">
-        <span>Bottom</span>
+      <mat-chip [class.changed]="reached.bottom">
+          Bottom
       </mat-chip>
-    </mat-chip-list>
+    </mat-chip-set>
 
-    <mat-chip-list>
-      <mat-chip color="danger" [class.changed]="reached.start">
-        <span>Start</span>
+    <mat-chip-set>
+      <mat-chip [class.changed]="reached.start">
+        Start
       </mat-chip>
-      <mat-chip color="danger" [class.changed]="reached.end">
-        <span>End</span>
+      <mat-chip [class.changed]="reached.end">
+        End
       </mat-chip>
-    </mat-chip-list>
+    </mat-chip-set>
   `,
   styleUrls: ['./reached-notifier.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
