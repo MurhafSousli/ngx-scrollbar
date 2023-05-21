@@ -151,7 +151,8 @@
             "main": "projects/ngx-scrollbar-demo/server.ts",
             "tsConfig": "projects/ngx-scrollbar-demo/tsconfig.server.json",
             "sourceMap": true,
-            "optimization": false
+            "optimization": false,
+            "buildOptimizer": false
           },
           "configurations": {
             "production": {
@@ -163,7 +164,8 @@
                 }
               ],
               "sourceMap": false,
-              "optimization": true
+              "optimization": true,
+              "buildOptimizer": true
             }
           }
         },
