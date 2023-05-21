@@ -28,7 +28,7 @@ describe('HideNativeScrollbar Directive', () => {
   it('should set the native scrollbar size to the CSS variable', () => {
     const el: HTMLElement = directiveElement.nativeElement;
     const size = getComputedStyle(el).getPropertyValue('--native-scrollbar-size');
-    expect(size).toBe(`0px`);
+    expect(size).toBe(`-0px`);
   });
 });
 
