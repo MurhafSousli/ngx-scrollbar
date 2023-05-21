@@ -1,5 +1,10 @@
 # Changelog
 
+## 12.0.0
+
+- Update to Angular 16
+- Remove `bezier-easing` package from dependencies
+
 ## 11.0.0
 
 - Update to Angular 15 in [ca5e7cc](https://github.com/MurhafSousli/ngx-scrollbar/pull/471/commits/ca5e7ccbb826eb522e586c04639aeb8b13f01076).
