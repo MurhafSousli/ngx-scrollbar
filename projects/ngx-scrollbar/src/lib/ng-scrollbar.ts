@@ -56,7 +56,7 @@ export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy 
     return this._disabled;
   }
 
-  set disabled(disabled: boolean) {
+  set disabled(disabled: boolean | string) {
     this._disabled = coerceBooleanProperty(disabled);
   }
 
@@ -66,7 +66,7 @@ export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy 
     return this._sensorDisabled;
   }
 
-  set sensorDisabled(disabled: boolean) {
+  set sensorDisabled(disabled: boolean | string) {
     this._sensorDisabled = coerceBooleanProperty(disabled);
   }
 
@@ -76,7 +76,7 @@ export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy 
     return this._pointerEventsDisabled;
   }
 
-  set pointerEventsDisabled(disabled: boolean) {
+  set pointerEventsDisabled(disabled: boolean | string) {
     this._pointerEventsDisabled = coerceBooleanProperty(disabled);
   }
 
@@ -86,7 +86,7 @@ export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy 
     return this._viewportPropagateMouseMove;
   }
 
-  set viewportPropagateMouseMove(disabled: boolean) {
+  set viewportPropagateMouseMove(disabled: boolean | string) {
     this._viewportPropagateMouseMove = coerceBooleanProperty(disabled);
   }
 
@@ -96,7 +96,7 @@ export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy 
     return this._autoHeightDisabled;
   }
 
-  set autoHeightDisabled(disabled: boolean) {
+  set autoHeightDisabled(disabled: boolean | string) {
     this._autoHeightDisabled = coerceBooleanProperty(disabled);
   }
 
@@ -106,7 +106,7 @@ export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy 
     return this._autoWidthDisabled;
   }
 
-  set autoWidthDisabled(disabled: boolean) {
+  set autoWidthDisabled(disabled: boolean | string) {
     this._autoWidthDisabled = coerceBooleanProperty(disabled);
   }
 
