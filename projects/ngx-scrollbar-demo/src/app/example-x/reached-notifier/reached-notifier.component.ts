@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { MatChipsModule } from '@angular/material/chips';
 
 @Component({
   selector: 'app-reached-notifier',
@@ -9,7 +10,7 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
         Top
       </mat-chip>
       <mat-chip [class.changed]="reached.bottom">
-          Bottom
+        Bottom
       </mat-chip>
     </mat-chip-set>
 
@@ -23,7 +24,9 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
     </mat-chip-set>
   `,
   styleUrls: ['./reached-notifier.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [MatChipsModule]
 })
 export class ReachedNotifierComponent {
   @Input() reached: ReachedEvent;

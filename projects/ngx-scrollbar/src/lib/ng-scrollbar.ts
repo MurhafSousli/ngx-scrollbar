@@ -15,13 +15,18 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy
 } from '@angular/core';
+import { NgIf } from '@angular/common';
 import { Directionality } from '@angular/cdk/bidi';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { fromEvent, Observable, Subject } from 'rxjs';
-import { auditTime, filter, map, pairwise, pluck, takeUntil, tap } from 'rxjs/operators';
+import { Observable, Subject, fromEvent, auditTime, filter, map, pairwise, pluck, takeUntil, tap } from 'rxjs';
+import { NgAttr } from './utils/ng-attr.directive';
 import { ScrollViewport } from './scroll-viewport';
+import { ScrollbarX, ScrollbarY } from './scrollbar/scrollbar.component';
+import { HideNativeScrollbar } from './hide-native-scrollbar/hide-native-scrollbar';
+import { ResizeSensor } from './resize-sensor/resize-sensor.directive';
 import { SmoothScrollElement, SmoothScrollManager, SmoothScrollToOptions, SmoothScrollToElementOptions } from 'ngx-scrollbar/smooth-scroll';
 import { ScrollbarManager } from './utils/scrollbar-manager';
+import { NgScrollbarBase, ScrollbarDragging, ScrollbarHovered } from './ng-scrollbar-base';
 import {
   ScrollbarAppearance,
   ScrollbarTrack,
@@ -30,7 +35,6 @@ import {
   NgScrollbarState,
   ScrollbarPointerEventsMethod
 } from './ng-scrollbar.model';
-import { NgScrollbarBase, ScrollbarDragging, ScrollbarHovered } from './ng-scrollbar-base';
 
 @Component({
   selector: 'ng-scrollbar',
@@ -39,7 +43,9 @@ import { NgScrollbarBase, ScrollbarDragging, ScrollbarHovered } from './ng-scrol
   styleUrls: ['ng-scrollbar.scss', 'scrollbar/shared.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[class.ng-scrollbar]': 'true' },
-  providers: [{ provide: NgScrollbarBase, useExisting: NgScrollbar }]
+  providers: [{ provide: NgScrollbarBase, useExisting: NgScrollbar }],
+  standalone: true,
+  imports: [NgIf, NgAttr, ResizeSensor, ScrollViewport, HideNativeScrollbar, ScrollbarX, ScrollbarY]
 })
 export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy {
 

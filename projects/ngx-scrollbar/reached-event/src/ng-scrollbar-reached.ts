@@ -2,8 +2,7 @@ import { Directive, Optional, Input, Output, OnInit, OnDestroy, NgZone } from '@
 import { Directionality } from '@angular/cdk/bidi';
 import { RtlScrollAxisType } from '@angular/cdk/platform';
 import { NgScrollbar } from 'ngx-scrollbar';
-import { Observable, Subject, Subscription, Subscriber } from 'rxjs';
-import { filter, map, tap, distinctUntilChanged } from 'rxjs/operators';
+import { Observable, Subject, Subscription, Subscriber, filter, map, tap, distinctUntilChanged } from 'rxjs';
 
 // Fix target type on ElementEvent
 type ElementEvent = Event & { target: Element };
@@ -123,6 +122,7 @@ abstract class HorizontalScrollReached extends ScrollReached implements OnInit {
 
 @Directive({
   selector: '[reachedTop], [reached-top]',
+  standalone: true,
 })
 export class NgScrollbarReachedTop extends VerticalScrollReached implements OnInit {
 
@@ -149,6 +149,7 @@ export class NgScrollbarReachedTop extends VerticalScrollReached implements OnIn
 
 @Directive({
   selector: '[reachedBottom], [reached-bottom]',
+  standalone: true,
 })
 export class NgScrollbarReachedBottom extends VerticalScrollReached implements OnInit {
 
@@ -175,6 +176,7 @@ export class NgScrollbarReachedBottom extends VerticalScrollReached implements O
 
 @Directive({
   selector: '[reachedStart], [reached-start]',
+  standalone: true,
 })
 export class NgScrollbarReachedStart extends HorizontalScrollReached implements OnInit {
 
@@ -201,6 +203,7 @@ export class NgScrollbarReachedStart extends HorizontalScrollReached implements 
 
 @Directive({
   selector: '[reachedEnd], [reached-end]',
+  standalone: true,
 })
 export class NgScrollbarReachedEnd extends HorizontalScrollReached implements OnInit {
 

@@ -1,7 +1,10 @@
 import { Directive, ElementRef, Input } from '@angular/core';
 import { NgScrollbarState } from '../ng-scrollbar.model';
 
-@Directive({ selector: '[ngAttr]' })
+@Directive({
+  selector: '[ngAttr]',
+  standalone: true
+})
 export class NgAttr {
 
   constructor(private el: ElementRef) {

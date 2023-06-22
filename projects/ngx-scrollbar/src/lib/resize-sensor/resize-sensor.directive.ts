@@ -1,8 +1,7 @@
 import { Directive, Input, Output, EventEmitter, AfterContentInit, OnDestroy, NgZone } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
-import { Observable, Subscription, Observer } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { Observable, Subscription, Observer, debounceTime } from 'rxjs';
 import { NgScrollbarBase } from '../ng-scrollbar-base';
 
 /*
@@ -40,7 +39,10 @@ interface ResizeObserverEntry {
   readonly devicePixelContentBoxSize?: ReadonlyArray<ResizeObserverSize>;
 }
 
-@Directive({ selector: '[resizeSensor]' })
+@Directive({
+    selector: '[resizeSensor]',
+    standalone: true
+})
 export class ResizeSensor implements AfterContentInit, OnDestroy {
 
   /** Debounce interval for emitting the changes. */

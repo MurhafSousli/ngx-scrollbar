@@ -1,5 +1,17 @@
 # Changelog
 
+## 13.0.0
+
+- feat: Standalone component mode.
+
+### Breaking changes
+
+- `SmoothScrollModule` has been removed, you can import `SmoothScroll` directive directly instead!
+
+## 12.0.1
+
+- fix: when enable strictTemplates, incorrect types error on boolean value for input properties, closes [#491](https://github.com/MurhafSousli/ngx-scrollbar/issues/491) in [#492](https://github.com/MurhafSousli/ngx-scrollbar/pull/492)
+
 ## 12.0.0
 
 - Update to Angular 16

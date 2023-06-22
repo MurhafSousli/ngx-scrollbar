@@ -1,11 +1,14 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 @Component({
   selector: 'app-css-variables-form',
   templateUrl: './css-variables-form.component.html',
   styleUrls: ['./css-variables-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [FormsModule, ReactiveFormsModule, ColorPickerModule]
 })
 export class CssVariablesFormComponent implements OnInit {
   form: FormGroup;

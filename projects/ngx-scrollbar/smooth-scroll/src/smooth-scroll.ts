@@ -4,7 +4,8 @@ import { SmoothScrollElement, SmoothScrollToElementOptions, SmoothScrollToOption
 
 @Directive({
   selector: '[smoothScroll], [smooth-scroll]',
-  exportAs: 'smoothScroll'
+  exportAs: 'smoothScroll',
+  standalone: true
 })
 export class SmoothScroll {
 

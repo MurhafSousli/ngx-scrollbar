@@ -1,20 +1,17 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Component, DebugElement, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { By } from '@angular/platform-browser';
 import { ResizeSensor } from './resize-sensor.directive';
 import { NgScrollbar } from '../ng-scrollbar';
-import { ScrollViewport } from '../scroll-viewport';
-import { NgAttr } from '../utils/ng-attr.directive';
-import { HideNativeScrollbar } from '../hide-native-scrollbar/hide-native-scrollbar';
-import { ScrollbarX, ScrollbarY } from '../scrollbar/scrollbar.component';
 
 @Component({
   template: `
     <ng-scrollbar style="width: 200px; height: 200px">
       <div style="width: 300px; height: 300px"></div>
     </ng-scrollbar>
-  `
+  `,
+  standalone: true,
+  imports: [NgScrollbar]
 })
 class TestResizeSensorComponent {
   @ViewChild(NgScrollbar, { static: true }) scrollable: NgScrollbar;
@@ -29,16 +26,7 @@ describe('Resize Observer Directive', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        CommonModule
-      ],
-      declarations: [
         NgScrollbar,
-        NgAttr,
-        HideNativeScrollbar,
-        ResizeSensor,
-        ScrollbarY,
-        ScrollbarX,
-        ScrollViewport,
         TestResizeSensorComponent
       ]
     }).compileComponents();

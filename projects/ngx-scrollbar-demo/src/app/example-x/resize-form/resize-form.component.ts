@@ -1,10 +1,14 @@
 import { AfterViewChecked, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatSliderModule } from '@angular/material/slider';
 
 @Component({
   selector: 'app-resize-form',
   templateUrl: './resize-form.component.html',
   styleUrls: ['./resize-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [MatSliderModule, FormsModule]
 })
 export class ResizeFormComponent implements AfterViewChecked {
 
@@ -16,7 +20,7 @@ export class ResizeFormComponent implements AfterViewChecked {
   }
 
   contentWidthDisplayWith(value: number) {
-    return `x${value / 100}`;
+    return `x${ value / 100 }`;
   }
 }
 

@@ -1,6 +1,4 @@
 import { NgModule } from '@angular/core';
-import { BidiModule } from '@angular/cdk/bidi';
-import { NgScrollbarModule } from 'ngx-scrollbar';
 import {
   NgScrollbarReachedTop,
   NgScrollbarReachedBottom,
@@ -10,10 +8,6 @@ import {
 
 @NgModule({
   imports: [
-    NgScrollbarModule,
-    BidiModule
-  ],
-  declarations: [
     NgScrollbarReachedTop,
     NgScrollbarReachedBottom,
     NgScrollbarReachedStart,

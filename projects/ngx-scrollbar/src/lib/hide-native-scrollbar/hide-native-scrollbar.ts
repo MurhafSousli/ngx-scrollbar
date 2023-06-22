@@ -3,7 +3,8 @@ import { Subscription } from 'rxjs';
 import { NativeScrollbarSizeFactory } from './native-scrollbar-size-factory';
 
 @Directive({
-  selector: '[hideNativeScrollbar]'
+  selector: '[hideNativeScrollbar]',
+  standalone: true
 })
 export class HideNativeScrollbar implements OnDestroy {
 

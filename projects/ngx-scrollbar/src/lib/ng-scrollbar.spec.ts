@@ -1,16 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { BidiModule } from '@angular/cdk/bidi';
-import { CommonModule } from '@angular/common';
-import { PortalModule } from '@angular/cdk/portal';
-import { PlatformModule } from '@angular/cdk/platform';
-import { SmoothScrollModule } from '../../smooth-scroll/src/smooth-scroll.module';
-
 import { NgScrollbar } from './ng-scrollbar';
-import { ScrollViewport } from './scroll-viewport';
-import { NgAttr } from './utils/ng-attr.directive';
-import { ResizeSensor } from './resize-sensor/resize-sensor.directive';
-import { HideNativeScrollbar } from './hide-native-scrollbar/hide-native-scrollbar';
-import { ScrollbarX, ScrollbarY } from './scrollbar/scrollbar.component';
 
 describe('NgScrollbar Component', () => {
   let component: NgScrollbar;
@@ -20,20 +9,7 @@ describe('NgScrollbar Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        CommonModule,
-        BidiModule,
-        PortalModule,
-        PlatformModule,
-        SmoothScrollModule
-      ],
-      declarations: [
-        NgScrollbar,
-        NgAttr,
-        HideNativeScrollbar,
-        ResizeSensor,
-        ScrollbarY,
-        ScrollbarX,
-        ScrollViewport
+        NgScrollbar
       ]
     }).compileComponents();
   });

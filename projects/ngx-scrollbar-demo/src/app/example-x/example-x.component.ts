@@ -1,25 +1,52 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { of, BehaviorSubject, Subject } from 'rxjs';
-import { take, delay } from 'rxjs/operators';
+import { BidiModule } from '@angular/cdk/bidi';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCardModule } from '@angular/material/card';
+import { of, take, delay, BehaviorSubject, Subject } from 'rxjs';
 import {
   NgScrollbar,
   ScrollbarAppearance,
   ScrollbarPointerEventsMethod,
   ScrollbarTrack,
   ScrollbarPosition,
-  ScrollbarVisibility
+  ScrollbarVisibility,
+  NgScrollbarModule
 } from 'ngx-scrollbar';
-import { ResizeChange } from './resize-form/resize-form.component';
-import { ToggleChange } from './toggle-form/toggle-form.component';
-import { ReachedEvent } from './reached-notifier/reached-notifier.component';
+import { NgScrollbarReachedModule } from 'ngx-scrollbar/reached-event';
+import { ResizeChange, ResizeFormComponent } from './resize-form/resize-form.component';
+import { ToggleChange, ToggleFormComponent } from './toggle-form/toggle-form.component';
+import { ReachedEvent, ReachedNotifierComponent } from './reached-notifier/reached-notifier.component';
+import { CssVariablesFormComponent } from './css-variables-form/css-variables-form.component';
+import { SmoothScrollFormComponent } from './smooth-scroll-form/smooth-scroll-form.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { LogoComponent } from '../shared/logo/logo.component';
 
 @Component({
   selector: 'app-example-x',
   templateUrl: './example-x.component.html',
   styleUrls: ['./example-x.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { '[class.example-component]': 'true' }
+  host: { '[class.example-component]': 'true' },
+  standalone: true,
+  imports: [
+    CommonModule,
+    BidiModule,
+    MatCardModule,
+    MatExpansionModule,
+    MatButtonToggleModule,
+    MatDividerModule,
+    NgScrollbarModule,
+    NgScrollbarReachedModule,
+    ResizeFormComponent,
+    LogoComponent,
+    ToggleFormComponent,
+    ReachedNotifierComponent,
+    SmoothScrollFormComponent,
+    CssVariablesFormComponent,
+  ]
 })
 export class ExampleXComponent {
 

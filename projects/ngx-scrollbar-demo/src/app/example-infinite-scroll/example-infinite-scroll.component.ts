@@ -1,4 +1,9 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { NgFor } from '@angular/common';
+import { MatListModule } from '@angular/material/list';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MatCardModule } from '@angular/material/card';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 import { Chance } from 'chance';
 
 @Component({
@@ -8,7 +13,9 @@ import { Chance } from 'chance';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.example-component]': 'true'
-  }
+  },
+  standalone: true,
+  imports: [MatCardModule, NgScrollbarModule, InfiniteScrollModule, MatListModule, NgFor]
 })
 export class ExampleInfiniteScrollComponent {
   chance = new Chance();

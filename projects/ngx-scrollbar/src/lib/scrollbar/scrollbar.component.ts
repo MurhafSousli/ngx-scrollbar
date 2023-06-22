@@ -15,7 +15,9 @@ import { Scrollbar } from './scrollbar';
     <div scrollbarTrackY class="ng-scrollbar-track {{cmp.trackClass}}">
       <div scrollbarThumbY class="ng-scrollbar-thumb {{cmp.thumbClass}}"></div>
     </div>
-  `
+  `,
+  standalone: true,
+  imports: [TrackYDirective, ThumbYDirective]
 })
 export class ScrollbarY extends Scrollbar {
 
@@ -48,7 +50,9 @@ export class ScrollbarY extends Scrollbar {
     <div scrollbarTrackX class="ng-scrollbar-track {{cmp.trackClass}}">
       <div scrollbarThumbX class="ng-scrollbar-thumb {{cmp.thumbClass}}"></div>
     </div>
-  `
+  `,
+  standalone: true,
+  imports: [TrackXDirective, ThumbXDirective]
 })
 export class ScrollbarX extends Scrollbar {
 

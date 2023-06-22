@@ -6,7 +6,10 @@ import { ThumbAdapter } from './thumb';
 import { TrackXDirective, TrackYDirective } from '../track/track.directive';
 import { NgScrollbarBase } from '../../ng-scrollbar-base';
 
-@Directive({ selector: '[scrollbarThumbX]' })
+@Directive({
+  selector: '[scrollbarThumbX]',
+  standalone: true
+})
 export class ThumbXDirective extends ThumbAdapter {
 
   protected get clientProperty(): string {
@@ -46,8 +49,8 @@ export class ThumbXDirective extends ThumbAdapter {
   }
 
   protected updateStyles(position: number, size: number) {
-    this.thumbElement.style.width = `${size}px`;
-    this.thumbElement.style.transform = `translate3d(${position}px, 0, 0)`;
+    this.thumbElement.style.width = `${ size }px`;
+    this.thumbElement.style.transform = `translate3d(${ position }px, 0, 0)`;
   }
 
   protected handleDrag(position: number, scrollMax: number): number {
@@ -91,7 +94,10 @@ export class ThumbXDirective extends ThumbAdapter {
   }
 }
 
-@Directive({ selector: '[scrollbarThumbY]' })
+@Directive({
+  selector: '[scrollbarThumbY]',
+  standalone: true
+})
 export class ThumbYDirective extends ThumbAdapter {
 
   protected get pageProperty(): string {
@@ -131,8 +137,8 @@ export class ThumbYDirective extends ThumbAdapter {
 
 
   protected updateStyles(position: number, size: number): void {
-    this.thumbElement.style.height = `${size}px`;
-    this.thumbElement.style.transform = `translate3d(0px, ${position}px, 0)`;
+    this.thumbElement.style.height = `${ size }px`;
+    this.thumbElement.style.transform = `translate3d(0px, ${ position }px, 0)`;
   }
 
   protected handleDrag(position: number): number {

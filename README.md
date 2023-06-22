@@ -32,10 +32,6 @@ ___
 - Universal support
 - Ivy engine support
 
-## Compatibility
-
-- This package doesn't support IE11
-
 ## Issues
 
 If you identify any errors in the library, or have an idea for an improvement, please open an [issue](https://github.com/MurhafSousli/ngx-scrollbar/issues).

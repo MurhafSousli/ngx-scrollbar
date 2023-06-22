@@ -3,7 +3,10 @@ import { DOCUMENT } from '@angular/common';
 import { TrackAdapter } from './track';
 import { NgScrollbarBase } from '../../ng-scrollbar-base';
 
-@Directive({ selector: '[scrollbarTrackX]' })
+@Directive({
+  selector: '[scrollbarTrackX]',
+  standalone: true
+})
 export class TrackXDirective extends TrackAdapter {
 
   get pageProperty(): string {
@@ -27,7 +30,10 @@ export class TrackXDirective extends TrackAdapter {
   }
 }
 
-@Directive({ selector: '[scrollbarTrackY]' })
+@Directive({
+  selector: '[scrollbarTrackY]',
+  standalone: true
+})
 export class TrackYDirective extends TrackAdapter {
 
   get pageProperty(): string {

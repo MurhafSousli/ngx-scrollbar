@@ -19,7 +19,10 @@ const testState: NgScrollbarState = {
 };
 
 @Component({
-  template: `<div [ngAttr]="value"></div>`
+  template: `
+    <div [ngAttr]="value"></div>`,
+  standalone: true,
+  imports: [NgAttr]
 })
 class TestComponent {
   @ViewChild(NgAttr, { static: true }) directive: NgAttr;
@@ -32,10 +35,7 @@ describe('NgAttr Directive', () => {
 
   beforeEach(waitForAsync(() => {
     fixture = TestBed.configureTestingModule({
-      declarations: [
-        TestComponent,
-        NgAttr
-      ]
+      imports: [TestComponent, NgAttr]
     }).createComponent(TestComponent);
 
     directiveElement = fixture.debugElement.query(By.directive(NgAttr));

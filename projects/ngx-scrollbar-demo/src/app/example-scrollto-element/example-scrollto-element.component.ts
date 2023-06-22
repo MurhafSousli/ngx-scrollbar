@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { NgScrollbar } from 'ngx-scrollbar';
+import { NgFor } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { NgScrollbar, NgScrollbarModule } from 'ngx-scrollbar';
 
 @Component({
   selector: 'app-example-scrollto-element',
@@ -8,7 +11,9 @@ import { NgScrollbar } from 'ngx-scrollbar';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.example-component]': 'true'
-  }
+  },
+  standalone: true,
+  imports: [MatCardModule, MatIconModule, NgScrollbarModule, NgFor]
 })
 export class ExampleScrolltoElementComponent {
 
