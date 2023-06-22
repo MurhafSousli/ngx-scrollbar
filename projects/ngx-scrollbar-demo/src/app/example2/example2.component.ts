@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { NgScrollbar } from 'ngx-scrollbar';
-// import { NgScrollbar } from '../../../../ngx-scrollbar/src/public-api';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { NgScrollbar, NgScrollbarModule } from 'ngx-scrollbar';
 
 @Component({
   selector: 'app-example2',
@@ -9,7 +11,9 @@ import { NgScrollbar } from 'ngx-scrollbar';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.example-component]': 'true'
-  }
+  },
+  standalone: true,
+  imports: [CommonModule, NgScrollbarModule, MatCardModule, MatButtonModule]
 })
 export class Example2Component {
 

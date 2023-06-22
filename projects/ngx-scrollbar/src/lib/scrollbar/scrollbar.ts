@@ -1,7 +1,6 @@
 import { OnDestroy, OnInit, NgZone, Directive } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
-import { fromEvent, merge, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { Observable, Subject, fromEvent, merge, distinctUntilChanged, map, switchMap, takeUntil, tap } from 'rxjs';
 import { NgScrollbarBase } from '../ng-scrollbar-base';
 import { ThumbAdapter } from './thumb/thumb';
 import { TrackAdapter } from './track/track';

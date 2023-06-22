@@ -150,12 +150,15 @@
             "outputPath": "dist/ngx-scrollbar-demo/server",
             "main": "projects/ngx-scrollbar-demo/server.ts",
             "tsConfig": "projects/ngx-scrollbar-demo/tsconfig.server.json",
-            "sourceMap": true,
+            "buildOptimizer": false,
             "optimization": false,
-            "buildOptimizer": false
+            "sourceMap": true,
+            "extractLicenses": false,
+            "vendorChunk": true
           },
           "configurations": {
             "production": {
+              "buildOptimizer": true,
               "outputHashing": "media",
               "fileReplacements": [
                 {
@@ -163,37 +166,46 @@
                   "with": "projects/ngx-scrollbar-demo/src/environments/environment.prod.ts"
                 }
               ],
-              "sourceMap": false,
               "optimization": true,
-              "buildOptimizer": true
+              "sourceMap": false,
+              "extractLicenses": true,
+              "vendorChunk": false
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
-          "options": {
-            "browserTarget": "ngx-scrollbar-demo:build",
-            "serverTarget": "ngx-scrollbar-demo:server"
-          },
           "configurations": {
+            "development": {
+              "browserTarget": "ngx-scrollbar-demo:build:development",
+              "serverTarget": "ngx-scrollbar-demo:server:development"
+            },
             "production": {
               "browserTarget": "ngx-scrollbar-demo:build:production",
               "serverTarget": "ngx-scrollbar-demo:server:production"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
           "options": {
-            "browserTarget": "ngx-scrollbar-demo:build:production",
-            "serverTarget": "ngx-scrollbar-demo:server:production",
             "routes": [
               "/"
             ]
           },
           "configurations": {
-            "production": {}
-          }
+            "production": {
+              "browserTarget": "ngx-scrollbar-demo:build:production",
+              "serverTarget": "ngx-scrollbar-demo:server:production"
+            },
+            "development": {
+              "browserTarget": "ngx-scrollbar-demo:build:development",
+              "serverTarget": "ngx-scrollbar-demo:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }

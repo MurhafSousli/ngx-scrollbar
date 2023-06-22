@@ -1,13 +1,19 @@
 import { Component, Input, ViewChild, AfterViewChecked, OnDestroy, NgZone, ChangeDetectionStrategy } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs/operators';
-import { NgScrollbar } from 'ngx-scrollbar';
+import { CommonModule } from '@angular/common';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { NgScrollbar, NgScrollbarModule } from 'ngx-scrollbar';
+import { BehaviorSubject, Observable, Subscription, debounceTime, distinctUntilChanged, map, tap } from 'rxjs';
+import { LogoComponent } from '../logo/logo.component';
 
 @Component({
   selector: 'app-navigation-toolbar',
   templateUrl: './navigation-toolbar.component.html',
   styleUrls: ['./navigation-toolbar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [MatToolbarModule, MatButtonModule, LogoComponent, NgScrollbarModule, MatTabsModule, CommonModule]
 })
 export class NavigationToolbarComponent implements AfterViewChecked, OnDestroy {
 

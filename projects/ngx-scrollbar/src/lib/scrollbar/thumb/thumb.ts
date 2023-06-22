@@ -1,6 +1,5 @@
 import { Output, Directive } from '@angular/core';
-import { animationFrameScheduler, of, fromEvent, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, map, mergeMap, pluck, takeUntil, tap } from 'rxjs/operators';
+import { Observable, Subject, animationFrameScheduler, of, fromEvent, distinctUntilChanged, map, mergeMap, pluck, takeUntil, tap } from 'rxjs';
 import { enableSelection, preventSelection, stopPropagation } from '../common';
 import { TrackAdapter } from '../track/track';
 import { NgScrollbarBase } from '../../ng-scrollbar-base';

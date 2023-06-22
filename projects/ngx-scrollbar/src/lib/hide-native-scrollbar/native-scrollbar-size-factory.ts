@@ -1,8 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
-import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
-import { debounceTime, tap, distinctUntilChanged, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, fromEvent, debounceTime, tap, distinctUntilChanged, map } from 'rxjs';
 import { ScrollbarManager } from '../utils/scrollbar-manager';
 
 @Injectable({ providedIn: 'root' })

@@ -3,8 +3,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { coerceElement } from '@angular/cdk/coercion';
 import { getRtlScrollAxisType, RtlScrollAxisType } from '@angular/cdk/platform';
 import { _Bottom, _Left, _Right, _Top, _Without } from '@angular/cdk/scrolling';
-import { fromEvent, merge, of, Observable, Subject, Subscriber, animationFrameScheduler } from 'rxjs';
-import { expand, finalize, take, takeUntil, takeWhile } from 'rxjs/operators';
+import { Observable, Subject, Subscriber, animationFrameScheduler, fromEvent, merge, of, expand, finalize, take, takeUntil, takeWhile } from 'rxjs';
 import BezierEasing from './bezier-easing';
 import {
   SMOOTH_SCROLL_OPTIONS,

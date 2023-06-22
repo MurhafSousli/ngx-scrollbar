@@ -8,7 +8,8 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
     </div>
   `,
   styleUrls: ['./card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class CardComponent {
 

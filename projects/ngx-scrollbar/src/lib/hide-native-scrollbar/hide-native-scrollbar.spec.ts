@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { NgScrollbarModule, NgScrollbar } from 'ngx-scrollbar';
+import { NgScrollbar } from 'ngx-scrollbar';
 
 import { HideNativeScrollbar } from './hide-native-scrollbar';
 
@@ -12,7 +12,7 @@ describe('HideNativeScrollbar Directive', () => {
   beforeEach((() => {
     TestBed.configureTestingModule({
       imports: [
-        NgScrollbarModule
+        NgScrollbar
       ]
     }).compileComponents();
 

@@ -1,10 +1,10 @@
 import { Directive, ElementRef } from '@angular/core';
-import { fromEvent, merge, Observable, Subscriber } from 'rxjs';
-import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { Observable, Subscriber, fromEvent, merge, map, switchMap, takeUntil, tap } from 'rxjs';
 import { stopPropagation } from './scrollbar/common';
 
 @Directive({
-  selector: '[scrollViewport]'
+    selector: '[scrollViewport]',
+    standalone: true
 })
 export class ScrollViewport {
   // Viewport element
