@@ -3,6 +3,5 @@
   "dest": "../../dist/ngx-scrollbar",
   "lib": {
     "entryFile": "src/public-api.ts"
-  },
-  "allowedNonPeerDependencies": ["."]
+  }
 }
