@@ -1,5 +1,5 @@
 import { Output, Directive } from '@angular/core';
-import { Observable, Subject, animationFrameScheduler, of, fromEvent, distinctUntilChanged, map, mergeMap, pluck, takeUntil, tap } from 'rxjs';
+import { Observable, Subject, animationFrameScheduler, of, fromEvent, distinctUntilChanged, map, mergeMap, takeUntil, tap } from 'rxjs';
 import { enableSelection, preventSelection, stopPropagation } from '../common';
 import { TrackAdapter } from '../track/track';
 import { NgScrollbarBase } from '../../ng-scrollbar-base';
@@ -64,7 +64,7 @@ export abstract class ThumbAdapter {
     let trackMaxStart: number;
     let scrollMaxStart: number;
 
-    const dragStart = of<MouseEvent>(event).pipe(
+    const dragStart: Observable<MouseEvent> = of<MouseEvent>(event).pipe(
       preventSelection(this.document),
       tap(() => {
         // Capture scrollMax and trackMax once
@@ -74,19 +74,19 @@ export abstract class ThumbAdapter {
       }),
     );
 
-    const dragging = fromEvent<MouseEvent>(this.document, 'mousemove', { capture: true, passive: true }).pipe(stopPropagation());
+    const dragging: Observable<MouseEvent> = fromEvent<MouseEvent>(this.document, 'mousemove', { capture: true, passive: true }).pipe(stopPropagation());
 
-    const dragEnd = fromEvent<MouseEvent>(this.document, 'mouseup', { capture: true }).pipe(
+    const dragEnd: Observable<MouseEvent> = fromEvent<MouseEvent>(this.document, 'mouseup', { capture: true }).pipe(
       stopPropagation(),
       enableSelection(this.document),
       tap(() => this.setDragging(false))
     );
 
     return dragStart.pipe(
-      pluck<any, string>(this.pageProperty),
+      map((e: MouseEvent) => e[this.pageProperty]),
       map((pageOffset: number) => pageOffset - this.dragStartOffset),
       mergeMap((mouseDownOffset: number) => dragging.pipe(
-        pluck(this.clientProperty),
+        map((e: MouseEvent) => e[this.clientProperty]),
         // Calculate how far the pointer is from the top/left of the scrollbar (minus the dragOffset).
         map((mouseOffset: number) => mouseOffset - this.track!.offset),
         map((offset: number) => scrollMaxStart * (offset - mouseDownOffset) / trackMaxStart),
