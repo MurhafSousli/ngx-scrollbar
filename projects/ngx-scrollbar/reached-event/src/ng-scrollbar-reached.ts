@@ -106,6 +106,10 @@ abstract class VerticalScrollReached extends ScrollReached implements OnInit {
 
   ngOnInit() {
     this.zone.runOutsideAngular(() => {
+      // Fix the viewport size in case the rendered size is not rounded
+      const fixedSize: number = Math.round(this.scrollbar.viewport.nativeElement.getBoundingClientRect().height);
+      this.scrollbar.viewport.nativeElement.style.height = `${ fixedSize }px`;
+
       this.subscription = this.scrollbar.verticalScrolled!.subscribe(this.scrollEvent);
     });
   }
@@ -119,6 +123,10 @@ abstract class HorizontalScrollReached extends ScrollReached implements OnInit {
 
   ngOnInit() {
     this.zone.runOutsideAngular(() => {
+      // Fix the viewport size in case the rendered size is not rounded
+      const fixedSize: number = Math.round(this.scrollbar.viewport.nativeElement.getBoundingClientRect().width);
+      this.scrollbar.viewport.nativeElement.style.width = `${ fixedSize }px`;
+
       this.subscription = this.scrollbar.horizontalScrolled!.subscribe(this.scrollEvent);
     });
   }
