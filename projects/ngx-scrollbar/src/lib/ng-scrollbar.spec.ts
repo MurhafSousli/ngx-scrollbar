@@ -48,9 +48,6 @@ describe('NgScrollbar Component', () => {
   it('should update state on ngOnChanges', () => {
     const updateSpy = spyOn<any>(component, 'updateState');
     component.ngOnChanges({});
-    // if (component.viewport) {
-    //
-    // }
     expect(updateSpy).toHaveBeenCalled();
   });
 
@@ -132,7 +129,7 @@ describe('NgScrollbar Component', () => {
   });
 
 
-  it('should show horizontal scrollbar if visiblity="always" even if viewport is not scrollable', () => {
+  it('should show horizontal scrollbar if visibility="always" even if viewport is not scrollable', () => {
     component.track = 'horizontal';
     component.visibility = 'always';
     component.viewport.nativeElement.style.width = '1000px';
