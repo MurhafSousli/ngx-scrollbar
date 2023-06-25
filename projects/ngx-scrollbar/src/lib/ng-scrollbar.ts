@@ -18,7 +18,7 @@ import {
 import { NgIf } from '@angular/common';
 import { Directionality } from '@angular/cdk/bidi';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { Observable, Subject, fromEvent, auditTime, filter, map, pairwise, pluck, takeUntil, tap } from 'rxjs';
+import { Observable, Subject, fromEvent, auditTime, filter, map, pairwise, takeUntil, tap } from 'rxjs';
 import { NgAttr } from './utils/ng-attr.directive';
 import { ScrollViewport } from './scroll-viewport';
 import { ScrollbarX, ScrollbarY } from './scrollbar/scrollbar.component';
@@ -249,11 +249,11 @@ export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy 
     this.changeDetectorRef.detectChanges();
   }
 
-  private getScrolledByDirection(property: 'scrollLeft' | 'scrollTop') {
+  private getScrolledByDirection(property: 'scrollLeft' | 'scrollTop'): Observable<Event> {
     let event: Event;
     return this.scrolled!.pipe(
       tap((e: Event) => event = e),
-      pluck('target', property),
+      map((e: Event) => e.target[property]),
       pairwise(),
       filter(([prev, curr]: [Event, Event]) => prev !== curr),
       map(() => event)

@@ -1,6 +1,6 @@
 import { Directive } from '@angular/core';
 import { coerceNumberProperty } from '@angular/cdk/coercion';
-import { Observable, EMPTY, fromEvent, merge, of, map, pluck, switchMap, tap } from 'rxjs';
+import { Observable, EMPTY, fromEvent, merge, of, map, switchMap, tap } from 'rxjs';
 import { preventSelection, enableSelection, stopPropagation } from '../common';
 import { NgScrollbarBase } from '../../ng-scrollbar-base';
 
@@ -46,7 +46,7 @@ export abstract class TrackAdapter {
    */
   onTrackClicked(e: MouseEvent, thumbSize: number, scrollSize: number): Observable<number> {
     return of(e).pipe(
-      pluck(this.pageProperty),
+      map((e: MouseEvent) => e[this.pageProperty]),
       // Calculate scrollTo position
       map((pageOffset: number) => {
         const clickOffset = pageOffset - this.offset;
