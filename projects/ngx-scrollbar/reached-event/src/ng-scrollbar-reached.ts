@@ -51,7 +51,7 @@ class ReachedFunctions {
 abstract class ScrollReached implements OnDestroy {
 
   /** offset: Reached offset value in px */
-  @Input('reachedOffset') offset = 0;
+  @Input('reachedOffset') offset: number = 0;
 
   /**
    * Stream that emits scroll event when `NgScrollbar.scrolled` is initialized.
@@ -84,7 +84,7 @@ abstract class ScrollReached implements OnDestroy {
 
     return this.scrollEvent.pipe(
       tap((e: ElementEvent) => currEvent = e),
-      // Check if it scroll has reached
+      // Check if scroll has reached
       map((e: ElementEvent) => this.reached(this.offset, e)),
       // Distinct until reached value has changed
       distinctUntilChanged(),
@@ -105,7 +105,9 @@ abstract class VerticalScrollReached extends ScrollReached implements OnInit {
   }
 
   ngOnInit() {
-    this.subscription = this.scrollbar.verticalScrolled!.subscribe(this.scrollEvent);
+    this.zone.runOutsideAngular(() => {
+      this.subscription = this.scrollbar.verticalScrolled!.subscribe(this.scrollEvent);
+    });
   }
 }
 
@@ -116,7 +118,9 @@ abstract class HorizontalScrollReached extends ScrollReached implements OnInit {
   }
 
   ngOnInit() {
-    this.subscription = this.scrollbar.horizontalScrolled!.subscribe(this.scrollEvent);
+    this.zone.runOutsideAngular(() => {
+      this.subscription = this.scrollbar.horizontalScrolled!.subscribe(this.scrollEvent);
+    });
   }
 }
 
