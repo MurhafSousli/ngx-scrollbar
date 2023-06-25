@@ -1,5 +1,12 @@
 # Changelog
 
+## 13.0.1
+
+- feat: Add reached event unit tests.
+- fix: Reached event is not fired, closes [#495](https://github.com/MurhafSousli/ngx-scrollbar/issues/495) in [5233793](https://github.com/MurhafSousli/ngx-scrollbar/pull/496/commits/52337930e538bb505072ee7759f005f47606f296).
+- enhance: Reached directives should subscribe to the scroll event outside angular zone.
+- refactor: Replace the usage of the deprecated `pluck` RXJS operator with `map`
+
 ## 13.0.0
 
 - feat: Standalone component mode.
