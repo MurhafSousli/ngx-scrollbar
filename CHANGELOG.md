@@ -14,6 +14,7 @@
 ### Breaking changes
 
 - `SmoothScrollModule` has been removed, you can import `SmoothScroll` directive directly instead!
+- `NgScrollModule.withConfig()` function has been removed, use `NG_SCROLLBAR_OPTIONS` to set the global config instead!
 
 ## 12.0.1
 
