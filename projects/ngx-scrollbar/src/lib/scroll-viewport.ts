@@ -109,7 +109,7 @@ export class ScrollViewport {
    * Set this directive as  the viewport, called when no custom viewport is used
    */
   setAsViewport(customClassName: string): void {
-    this.nativeElement.className = `ng-native-scrollbar-hider ng-scroll-viewport ${customClassName}`;
+    this.nativeElement.className += `ng-native-scrollbar-hider ng-scroll-viewport ${ customClassName }`;
     // Check if the custom viewport has only one child and set it as the content wrapper
     if (this.nativeElement.firstElementChild) {
       this.contentWrapperElement = this.nativeElement.firstElementChild as HTMLElement;
