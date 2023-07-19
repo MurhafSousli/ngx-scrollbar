@@ -1,5 +1,9 @@
 # Changelog
 
+## 13.0.2
+
+- fix: scrollViewport directive removes custom CSS classes applied on the viewport element, closes [#505](https://github.com/MurhafSousli/ngx-scrollbar/issues/505) in [8e1f663](https://github.com/MurhafSousli/ngx-scrollbar/pull/506/commits/8e1f663e01469640f2d12239a9616d249c8f9125).
+
 ## 13.0.1
 
 - feat: Add reached event unit tests.
