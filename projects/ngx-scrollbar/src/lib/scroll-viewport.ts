@@ -3,8 +3,8 @@ import { Observable, Subscriber, fromEvent, merge, map, switchMap, takeUntil, ta
 import { stopPropagation } from './scrollbar/common';
 
 @Directive({
-    selector: '[scrollViewport]',
-    standalone: true
+  selector: '[scrollViewport]',
+  standalone: true
 })
 export class ScrollViewport {
   // Viewport element

@@ -8,7 +8,7 @@ import { NativeScrollbarSizeFactory } from './native-scrollbar-size-factory';
 })
 export class HideNativeScrollbar implements OnDestroy {
 
-  private readonly _subscriber = Subscription.EMPTY;
+  private readonly _subscriber: Subscription = Subscription.EMPTY;
 
   constructor(el: ElementRef,
               private renderer: Renderer2,
@@ -18,7 +18,7 @@ export class HideNativeScrollbar implements OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this._subscriber.unsubscribe();
   }
 }

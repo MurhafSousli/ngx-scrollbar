@@ -211,7 +211,7 @@ export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy 
   /**
    * Update local state with each change detection
    */
-  private updateState() {
+  private updateState(): void {
     let verticalUsed: boolean = false;
     let horizontalUsed: boolean = false;
     let isVerticallyScrollable: boolean = false;
@@ -244,7 +244,7 @@ export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy 
     });
   }
 
-  private setState(state: NgScrollbarState) {
+  private setState(state: NgScrollbarState): void {
     this.state = { ...this.state, ...state };
     this.changeDetectorRef.detectChanges();
   }
@@ -263,25 +263,25 @@ export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy 
   /**
    * Set hovered state if a scrollbar is being hovered
    */
-  setHovered(hovered: ScrollbarHovered) {
+  setHovered(hovered: ScrollbarHovered): void {
     this.zone.run(() => this.setState({ ...hovered }));
   }
 
   /**
    * Set dragging state if a scrollbar is being dragged
    */
-  setDragging(dragging: ScrollbarDragging) {
+  setDragging(dragging: ScrollbarDragging): void {
     this.zone.run(() => this.setState({ ...dragging }));
   }
 
   /**
-   * Set clicked state if a scrollbar track is being click
+   * Set clicked state if a scrollbar track is being clicked
    */
-  setClicked(scrollbarClicked: boolean) {
+  setClicked(scrollbarClicked: boolean): void {
     this.zone.run(() => this.setState({ scrollbarClicked }));
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     // Set the viewport based on user choice
     this.zone.runOutsideAngular(() => {
       if (this.customViewPort) {
@@ -303,14 +303,14 @@ export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy 
     });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     // Update only when the viewport is initialized
     if (this.viewport) {
       this.update();
     }
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     // Initial update
     this.update();
 
@@ -321,7 +321,7 @@ export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy 
     ).subscribe();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroyed.next();
     this.destroyed.complete();
   }
@@ -329,7 +329,7 @@ export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy 
   /**
    * Update local state and the internal scrollbar controls
    */
-  update() {
+  update(): void {
     if (!this.autoHeightDisabled) {
       this.updateHeight();
     }
@@ -356,7 +356,7 @@ export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy 
     return this.smoothScroll.scrollToElement(this.viewport!.nativeElement, target, options);
   }
 
-  private updateHeight() {
+  private updateHeight(): void {
     // Auto-height: Set component height to content height
     if (this.appearance === 'standard' && this.scrollbarX) {
       // if scrollbar-x is displayed in standard mode
@@ -366,7 +366,7 @@ export class NgScrollbar implements OnInit, OnChanges, AfterViewInit, OnDestroy 
     }
   }
 
-  private updateWidth() {
+  private updateWidth(): void {
     // Auto-width: Set component minWidth to content width
     if (this.appearance === 'standard' && this.scrollbarY) {
       // if scrollbar-y is displayed in standard mode
