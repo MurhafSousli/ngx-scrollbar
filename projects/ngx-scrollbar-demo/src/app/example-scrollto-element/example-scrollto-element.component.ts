@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { NgScrollbar, NgScrollbarModule } from 'ngx-scrollbar';
@@ -13,7 +13,7 @@ import { NgScrollbar, NgScrollbarModule } from 'ngx-scrollbar';
     '[class.example-component]': 'true'
   },
   standalone: true,
-  imports: [MatCardModule, MatIconModule, NgScrollbarModule, NgFor]
+  imports: [MatCardModule, MatIconModule, NgScrollbarModule, CommonModule]
 })
 export class ExampleScrolltoElementComponent {
 
