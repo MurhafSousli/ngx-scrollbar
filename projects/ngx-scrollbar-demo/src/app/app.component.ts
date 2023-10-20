@@ -28,7 +28,7 @@ import { HeaderComponent } from './shared/header/header.component';
     CommonModule,
     MatButtonModule,
     MatIconModule,
-    NgScrollbarModule,
+    NgScrollbar,
     HeaderComponent,
     FooterComponent,
     SponsorsComponent,
