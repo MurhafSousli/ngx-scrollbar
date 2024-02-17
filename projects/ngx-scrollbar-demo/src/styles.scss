@@ -69,13 +69,13 @@ body {
   --color-warn: #{mat.get-color-from-palette($app-warn)};
   --color-success: #{mat.get-color-from-palette($app-success)};
 
-  --mat-sidenav-content-background-color:  #{mat.get-color-from-palette(mat.define-palette($app-primary, 900))};
+  --mat-sidenav-content-background-color: #{mat.get-color-from-palette(mat.define-palette($app-primary, 900))};
 
-  --mat-sidenav-container-background-color:  #{mat.get-color-from-palette(mat.define-palette($app-primary, 500))};
+  --mat-sidenav-container-background-color: #{mat.get-color-from-palette(mat.define-palette($app-primary, 500))};
 
 
-  --color-orange-passion:  #{mat.get-color-from-palette(mat.define-palette($app-accent, 500))};
-  --color-track-orange-passion:  #975857;
+  --color-orange-passion: #{mat.get-color-from-palette(mat.define-palette($app-accent, 500))};
+  --color-track-orange-passion: #975857;
 
   --color-app-background: #{mat.get-color-from-palette(mat.define-palette($app-primary, 400))};
   --color-app-logo: var(--color-app-background);
@@ -95,6 +95,8 @@ body {
   --color-example3: #{mat.get-color-from-palette(mat.define-palette(mat.$yellow-palette, 700))};
   --color-example4: var(--color-light-gray);
   --color-highlight: #3cffe3;
+
+  --mat-select-panel-background-color: var(--color-accent);
 }
 
 * {
@@ -192,4 +194,10 @@ ul {
 .mat-button-toggle-group {
   height: 32px;
   align-items: center;
+}
+
+.mat-mdc-select-panel {
+  padding: 0 !important;
+  --mat-minimal-pseudo-checkbox-selected-checkmark-color: var(--color-primary);
+  background-image: linear-gradient( to bottom, var(--color-example3), #EFB436);
 }

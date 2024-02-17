@@ -213,8 +213,10 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
   /** Resize observer subscription */
   private sizeChangeSub: Subscription;
 
+  /** Viewport adapter instance */
   abstract viewport: ViewportAdapter;
 
+  /** The scrollbars component instance used for testing purpose */
   abstract scrollbars: Scrollbars;
 
   ngOnInit(): void {
