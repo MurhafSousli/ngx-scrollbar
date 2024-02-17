@@ -6,20 +6,19 @@ app-logo {
 
 .wave-bg {
   position: absolute;
-  top: 100%;
+  top: 99%;
   left: 0;
   right: 0;
 }
 
 .container {
   position: relative;
-  margin-top: 6em;
 }
 
 .header {
   position: relative;
   color: white;
-  padding: 2em;
+  padding: 2em 0;
   text-align: center;
   background: var(--color-app-background);
 

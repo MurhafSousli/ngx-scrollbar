@@ -1,5 +1,4 @@
 .example {
-  background-color: var(--color-virtual-scroll-example);
   color: white;
 }
 
@@ -10,7 +9,7 @@
   height: 200px;
 
   .mat-mdc-list-base {
-    padding-top: 0;
+    padding: 0;
   }
 
   .cdk-virtual-scroll-viewport {
@@ -19,19 +18,15 @@
 
   ng-scrollbar {
     --scrollbar-track-color: rgba(0, 0, 0, 0.05);
-    --scrollbar-thumb-color: var(--color-virtual-scroll-example);
-    //--scrollbar-size: 8px;
-    --scrollbar-size: 12px;
-    --scrollbar-padding: 6px;
+    --scrollbar-thumb-color: var(--color-primary);
+    --scrollbar-thickness: 12;
+    --scrollbar-offset: 6;
     --scrollbar-border-radius: 8px;
     border-radius: 3px;
     border: 2px solid rgba(0, 0, 0, 0.05);
   }
 
   .example-item {
-    //font-size: 14px;
-    //color: var(--color-dark-gray);
-
     height: 50px;
     color: black;
 
@@ -41,22 +36,6 @@
 
     &:nth-child(even) {
       background: #ecf8ff;
-    }
-  }
-
-  .cdk-virtual-scroll-viewport {
-    overflow: auto !important;
-    position: relative !important;
-    top: initial !important;
-    left: initial !important;
-    right: initial !important;
-    bottom: initial !important;
-
-    ::ng-deep {
-      .ng-scroll-content {
-        position: absolute !important;
-        min-height: initial !important;
-      }
     }
   }
 }

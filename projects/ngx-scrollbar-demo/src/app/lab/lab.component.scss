@@ -1,0 +1,63 @@
+:host {
+  ::ng-deep {
+    .ng-scroll-content {
+      background: #643761;
+    }
+  }
+}
+
+.lab-container {
+  margin: 10px auto;
+  max-width: 948px;
+}
+
+.mat-mdc-card {
+
+  .mat-mdc-card-content {
+    margin-top: 16px;
+  }
+}
+
+.cmp-container {
+  border: 1px solid #0000001f;
+  position: relative;
+  background: #35353524;
+}
+
+mat-card-content {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap-reverse;
+  gap: 16px;
+}
+
+.column {
+
+}
+
+.column-cmp {
+  flex: 0 0 450px;
+}
+
+.column-controls {
+  flex: 0 0 450px;
+}
+
+nz-resize-handle {
+  display: flex;
+}
+
+.lab-control {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.lab-control-label {
+  flex: 1;
+}
+
+.nz-resizable-handle-bottomRight {
+  right: -20px;
+  bottom: -20px;
+}

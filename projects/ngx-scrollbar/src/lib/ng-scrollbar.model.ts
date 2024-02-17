@@ -1,19 +1,23 @@
 import { InjectionToken } from '@angular/core';
 
 export type ScrollbarAppearance = 'standard' | 'compact';
-export type ScrollbarTrack = 'vertical' | 'horizontal' | 'all';
+export type ScrollbarOrientation = 'auto' | 'vertical' | 'horizontal';
 export type ScrollbarVisibility = 'hover' | 'always' | 'native';
 export type ScrollbarPosition = 'native' | 'invertY' | 'invertX' | 'invertAll';
-export type ScrollbarPointerEventsMethod = 'viewport' | 'scrollbar';
+export type ScrollbarDragging = 'x' | 'y' | 'none';
 
-export const NG_SCROLLBAR_OPTIONS = new InjectionToken<NgScrollbarOptions>('NG_SCROLLBAR_OPTIONS');
+export enum ScrollbarUpdateReason {
+  AfterInit = 'AfterInit',
+  Resized = 'ResizeObserver'
+}
 
-export type NgScrollbarOptions = Partial<IScrollbarOptions>;
+export const NG_SCROLLBAR_OPTIONS: InjectionToken<NgScrollbarOptions> = new InjectionToken<NgScrollbarOptions>('NG_SCROLLBAR_OPTIONS');
 
-/**
- * The following interface is meant to be used internally to ensure that the properties are not undefined (for strict mode)
- */
-export interface IScrollbarOptions {
+export interface NgScrollbarOptions {
+  /**
+   * Sets the scroll timeline polyfill
+   */
+  scrollTimelinePolyfill?: string;
   /**
    * Sets the scroll axis of the viewport, there are 3 options:
    *
@@ -21,7 +25,7 @@ export interface IScrollbarOptions {
    * - `horizontal` Use both vertical and horizontal scrollbar-control
    * - `all` Use both vertical and horizontal scrollbar-control
    */
-  track: ScrollbarTrack;
+  orientation?: ScrollbarOrientation;
   /**
    * When to show the scrollbar, and there are 3 options:
    *
@@ -29,14 +33,14 @@ export interface IScrollbarOptions {
    * - `hover` Scrollbars are hidden by default, only visible on scrolling or hovering
    * - `always` Scrollbars are always shown even if the viewport is not scrollable
    */
-  visibility: ScrollbarVisibility;
+  visibility?: ScrollbarVisibility;
   /**
    *  Sets the appearance of the scrollbar, there are 2 options:
    *
    * - `standard` (default) scrollbar space will be reserved just like with native scrollbar-control.
    * - `compact` scrollbar doesn't reserve any space, they are placed over the viewport.
    */
-  appearance: ScrollbarAppearance;
+  appearance?: ScrollbarAppearance;
   /**
    * Sets the position of each scrollbar, there are 4 options:
    *
@@ -45,60 +49,29 @@ export interface IScrollbarOptions {
    * - `invertX` Inverts Horizontal scrollbar position
    * - `invertAll` Inverts both scrollbar-control positions
    */
-  position: ScrollbarPosition;
-  /**
-   * Sets the pointer events method
-   * Use viewport pointer events  to handle dragging and track click (This makes scrolling work when mouse is over the scrollbar)
-   * Use scrollbar pointer events to handle dragging and track click
-   */
-  pointerEventsMethod: ScrollbarPointerEventsMethod;
-  /** A class forwarded to scrollable viewport element */
-  viewClass: string;
+  position?: ScrollbarPosition;
   /** A class forwarded to the scrollbar track element */
-  trackClass: string;
+  trackClass?: string;
   /** A class forwarded to the scrollbar thumb element */
-  thumbClass: string;
-  /** The minimum scrollbar thumb size in px */
-  minThumbSize: number;
-  /** The duration which the scrolling takes to reach its target when scrollbar rail is clicked */
-  trackClickScrollDuration: number;
+  thumbClass?: string;
+  /** Scrolling speed when clicking on scrollbar rail */
+  clickScrollDuration?: number;
   /** A flag used to enable/disable the scrollbar pointer events */
-  pointerEventsDisabled: boolean;
-  /** Debounce interval for detecting changes via window.resize event */
-  windowResizeDebounce: number;
+  disableInteraction?: boolean;
   /** Debounce interval for detecting changes via ResizeObserver */
-  sensorDebounce: number;
+  sensorThrottleTime?: number;
   /** Whether ResizeObserver is disabled */
-  sensorDisabled: boolean;
-  /** Disable auto-height */
-  autoHeightDisabled: boolean;
-  /** Disable auto-width */
-  autoWidthDisabled: boolean;
-  /** Scroll Audit Time */
-  scrollAuditTime: number;
-  /** Enable viewport mousemove event propagation (only when pointerEventsMethod="viewport") */
-  viewportPropagateMouseMove: boolean;
+  disableSensor?: boolean;
 }
 
-/**
- * Set of attributes added on the scrollbar wrapper
- */
-export interface NgScrollbarState {
-  position?: ScrollbarPosition;
-  track?: ScrollbarTrack;
-  appearance?: ScrollbarAppearance;
-  visibility?: ScrollbarVisibility;
-  deactivated?: boolean;
-  pointerEventsMethod?: ScrollbarPointerEventsMethod;
-  dir?: 'rtl' | 'ltr';
-  verticalUsed?: boolean;
-  horizontalUsed?: boolean;
-  isVerticallyScrollable?: boolean;
-  isHorizontallyScrollable?: boolean;
-  verticalHovered?: boolean;
-  horizontalHovered?: boolean;
-  verticalDragging?: boolean;
-  horizontalDragging?: boolean;
-  // Flag used to prevent text selection on content
-  scrollbarClicked?: boolean;
+export enum ViewportClasses {
+  Viewport = 'ng-scroll-viewport',
+  Content = 'ng-scroll-content'
+}
+
+export interface ViewportBoundaries {
+  contentHeight: number;
+  contentWidth: number;
+  offsetHeight: number;
+  offsetWidth: number;
 }

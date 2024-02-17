@@ -42,8 +42,6 @@ export class ExampleInfiniteScrollComponent {
   }
 
   onScrollDown(ev) {
-    console.log('scrolled down!!', ev);
-
     // add another 20 items
     const start = this.sum;
     this.sum += 20;
@@ -53,7 +51,6 @@ export class ExampleInfiniteScrollComponent {
   }
 
   onUp(ev) {
-    console.log('scrolled up!', ev);
     const start = this.sum;
     this.sum += 20;
     this.prependItems(start, this.sum);

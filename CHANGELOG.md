@@ -1,8 +1,81 @@
 # Changelog
 
+## 14.0.0 beta 🚀
+
+### The core package has been written from scratch ✨
+
+- feat: Significant performance improvement, the scrollbar does not rely on the scroll event anymore. 
+updating scroll thumb position is done via native CSS which means the calculation is done on the browser background worker.
+- feat: Auto-height feature is default now, the component behaves like a standard HTML element and will fit its content out of the box.
+- feat: Mimic the scroll behavior when the track is clicked.
+- feat: Allow dragging scrollbar on mobile, replacing `mouse` events with `pointer` events.
+- feat: Add `cdkVirtualScrollViewport` directive to the util package.
+- feat: Add `matSelectViewport` directive to the util package, closes [#537](https://github.com/MurhafSousli/ngx-scrollbar/issues/537).
+- feat: Add `scrollTimelinePolyfill` option to change the path of scroll timeline polyfill.
+- enhance: Add payload to differentiate update cause, closes [#517](https://github.com/MurhafSousli/ngx-scrollbar/issues/517).
+- enhance: Use `throttleTime` instead of `debounceTime` in case resize sensor needed to be throttled.
+- fix: scrollbar disappearing on Firefox/Safari when reaching bottom/end, closes [#529](https://github.com/MurhafSousli/ngx-scrollbar/issues/529).
+- fix: scroll position when the track is clicked
+
+### Reached events package has been written from scratch ✨
+
+- feat: Use the `IntersectionObserver` instead of the scroll event to detect when scroll is reached.
+- feat: Add `reachedTopOffset` `reachedBottomOffset` `reachedStartOffset` and `reachedEndOffset` in addition to `reachedOffset` input.
+- feat: Alternatively, you can accomplish the same using the new CSS variables `--reached-offset`, `--reached-offset-top`, `--reached-offset-bottom`, `--reached-offset-start` and `--reached-offset-end`.
+- fix: Scrolled Event triggered after Reached Event, closes [#521](https://github.com/MurhafSousli/ngx-scrollbar/issues/521). 
+- fix: reachedBottom output broke scrollbar layout inside mat-select, closes [#531](https://github.com/MurhafSousli/ngx-scrollbar/issues/531).
+
+### Breaking changes
+
+- Options renamed:
+  - `sensorDisabled` has been renamed to `disableSensor`
+  - `sensorDebounce` has been renamed to `sensorThrottleTime`
+  - `pointerEventsDisabled` has been renamed to `disableInteraction`
+  - `trackClickScrollDuration` has been renamed to `trackClickDuration`
+  - `(updated)` has been renamed to `(afterUpdate)`
+
+- Options removed:
+  - `disabled` option has been removed.
+  - `viewClass` option has been removed.
+  - `minThumbSize` option has been removed, use the css variable instead `--scrollbar-thumb-min-size`.
+  - `autoWidthDisabled` has been removed.
+  - `autoHeightDisabled` option has been removed.
+  - `autoWidthDisabled` option has been removed.
+  - `scrollAuditTime` option has been removed since the scroll event is no longer used.
+  - `windowResizeDebounce` has been removed from the global options.
+  - The stream `NgScrollbar.scrolled` has been removed, Use `NgScrollbar.viewport.nativeElement` to listen to the scroll event.
+
+- Usage changes:
+
+When viewport directive is used, it requires `externalViewport` attribute on the component like the following example:
+
+```html
+<ng-scrollbar externalViewport>
+    <div scrollViewport>
+      <div class="wrapper">
+        ...
+      </div>
+    </div>
+</ng-scrollbar>
+```
+
+Note that an additional content wrapper element is required in order for the scrollbar to work properly.
+
+Additionally, you can select the viewport by providing a selector `.my-viewport` instead of using `scrollViewport` directive.
+
+```html
+<ng-scrollbar externalViewport=".my-viewport">
+    <div class="my-viewport">
+      <div class="wrapper">
+        ...
+      </div>
+    </div>
+</ng-scrollbar>
+```
+
 ## 13.0.2
 
-- fix: scrollViewport directive removes custom CSS classes applied on the viewport element, closes [#505](https://github.com/MurhafSousli/ngx-scrollbar/issues/505) in [8e1f663](https://github.com/MurhafSousli/ngx-scrollbar/pull/506/commits/8e1f663e01469640f2d12239a9616d249c8f9125).
+- fix: `scrollViewport` directive removes custom CSS classes applied on the viewport element, closes [#505](https://github.com/MurhafSousli/ngx-scrollbar/issues/505) in [8e1f663](https://github.com/MurhafSousli/ngx-scrollbar/pull/506/commits/8e1f663e01469640f2d12239a9616d249c8f9125).
 
 ## 13.0.1
 

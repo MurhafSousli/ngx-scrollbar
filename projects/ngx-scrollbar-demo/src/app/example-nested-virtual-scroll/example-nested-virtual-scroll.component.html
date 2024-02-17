@@ -6,34 +6,31 @@
   </mat-card-header>
 
   <mat-card-content>
-    <ng-scrollbar class="outer-ng-scrollbar"
-                  track="vertical"
-                  appearance="standard"
-                  [autoHeightDisabled]="true"
-                  [autoWidthDisabled]="true">
-      <cdk-virtual-scroll-viewport scrollViewport
-                                   itemSize="180"
+    <ng-scrollbar externalViewport
+                  cdkVirtualScrollViewport
+                  disableSensor
+                  class="outer-ng-scrollbar"
+                  appearance="standard">
+      <cdk-virtual-scroll-viewport itemSize="120"
                                    class="example-viewport">
 
         <div class="horizontal-scrollable-item" *cdkVirtualFor="let itemY of items">
-          <h4>Row {{ itemY }}</h4>
+          <h4>{{ itemY }}</h4>
 
-          <ng-scrollbar class="inner-ng-scrollbar"
-                        track="horizontal"
-                        appearance="standard"
-                        [autoHeightDisabled]="true"
-                        [autoWidthDisabled]="true">
-            <cdk-virtual-scroll-viewport scrollViewport itemSize="100" orientation="horizontal">
+          <ng-scrollbar externalViewport
+                        cdkVirtualScrollViewport
+                        disableSensor
+                        class="inner-ng-scrollbar"
+                        appearance="standard">
+            <cdk-virtual-scroll-viewport itemSize="100"
+                                         orientation="horizontal">
               <div class="cards">
                 <app-card *cdkVirtualFor="let itemX of horizontal" [x]="itemX" [y]="itemY"></app-card>
               </div>
             </cdk-virtual-scroll-viewport>
           </ng-scrollbar>
-
         </div>
-
       </cdk-virtual-scroll-viewport>
     </ng-scrollbar>
   </mat-card-content>
 </mat-card>
-

@@ -1,9 +1,13 @@
-import { APP_ID, ApplicationConfig } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter, withHashLocation } from '@angular/router';
+import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    { provide: APP_ID,  useValue: 'serverApp' },
+    provideRouter(routes, withHashLocation()),
+    provideClientHydration(),
     provideAnimations()
   ]
 };

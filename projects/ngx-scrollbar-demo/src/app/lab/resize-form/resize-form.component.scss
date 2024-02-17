@@ -1,0 +1,24 @@
+:host {
+  display: flex;
+  //flex-direction: column;
+  //padding-right: 16px;
+  gap: 16px;
+}
+
+span {
+  padding: 0 8px;
+  display: block;
+}
+
+.testing-slider {
+  flex: 1;
+  //margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+mat-divider {
+  margin-left: -16px;
+  margin-right: -16px;
+}

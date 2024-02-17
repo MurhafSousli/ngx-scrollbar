@@ -1,43 +1,62 @@
-@import "../styles/selectors";
-@import "../styles/position";
-@import "../styles/fit-scrollbar";
+@use "../styles/selectors" as selector;
 
-::ng-deep {
-  .ng-scrollbar-wrapper {
-    @include scrollbarX {
-      height: var(--horizontal-scrollbar-total-size);
+:host {
+  // Sticky scrollbar track scrollbars variables
+  --_scrollbar-wrapper-top: var(--_scrollbar-wrapper-x-top);
+  --_scrollbar-wrapper-left: 0;
+  --_scrollbar-wrapper-right: 0;
 
-      > .ng-scrollbar-track {
-        height: var(--horizontal-scrollbar-size);
-        width: calc(100% - var(--scrollbar-padding) * 2);
+  --_scrollbar-wrapper-height: var(--_scrollbar-thickness);
+  --_scrollbar-wrapper-width: var(--viewport-width);
 
-        > .ng-scrollbar-thumb {
-          width: 0;
-          height: 100%;
-        }
-      }
-    }
+  --_scrollbar-track-top: var(--_horizontal-top);
+  --_scrollbar-track-bottom: var(--_horizontal-bottom);
+  --_scrollbar-track-right: var(--_horizontal-right);
+  --_scrollbar-track-left: var(--_horizontal-left);
 
-    @include scrollbarXHovered {
-      @include scrollbarX {
-        .ng-scrollbar-thumb {
-          background-color: var(--scrollbar-thumb-hover-color);
-        }
-      }
-    }
+  // Scrollbar thumb variables
+  --_thumb-height: 100%;
+  --_thumb-width: calc(var(--thumb-x-length) * 1px);
 
-    @include scrollbarXInverted {
-      @include scrollbarX {
-        top: 0;
-        bottom: unset;
-      }
-    }
+  // Calculate thumb position
+  --_scrollbar-thumb-transform-from: 0;
+  --_scrollbar-thumb-transform-to: calc(var(--_scrollbar-x-thumb-transform-to-value) * 1px);
+}
 
-    @include enabled {
-      @include setScrollbarXPosition;
-      &[track="all"] {
-        @include fitHorizontalScrollbar;
-      }
-    }
+.ng-scrollbar-track {
+  height: var(--_track-x-thickness);
+
+  &:hover {
+    --_track-x-thickness: var(--_scrollbar-hover-thickness-px);
+    --_thumb-x-color: var(--scrollbar-thumb-hover-color);
+  }
+}
+
+.ng-scrollbar-thumb {
+  animation-timeline: var(--_animation-timeline-x);
+  min-width: calc(var(--scrollbar-thumb-min-size) * 1px);
+  display: var(--_horizontal-thumb-display);
+  background-color: var(--_thumb-x-color);
+
+  @include selector.RTL {
+    // In LTR we cannot use translate to move the thumb,
+    // because of this bug https://github.com/w3c/csswg-drafts/issues/4350
+    // Therefore we use "right" to move the thumb.
+    animation-name: scrollbarThumbRTLAnimation;
+    will-change: right;
+
+    // We invert the value here to make it work for the polyfill (firefox)
+    // And for chrome we invert it back again in the RTL animation
+    --_scrollbar-thumb-transform-to: calc(var(--_scrollbar-x-thumb-transform-to-value) * -1px);
+  }
+}
+
+
+@keyframes scrollbarThumbRTLAnimation {
+  from {
+    right: var(--_scrollbar-thumb-transform-from);
+  }
+  to {
+    right: calc(var(--_scrollbar-thumb-transform-to) * -1);
   }
 }

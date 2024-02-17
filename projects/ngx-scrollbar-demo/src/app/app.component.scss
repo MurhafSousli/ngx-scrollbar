@@ -1,26 +1,89 @@
 ng-scrollbar {
-  --scrollbar-gap: 2px;
-  --scrollbar-track-color: rgba(0, 0, 0, 0.1);
-  --scrollbar-thumb-color: var(--color-accent);
-  --scrollbar-size: 8px;
-  --scrollbar-padding: 0px;
-  --scrollbar-border-radius: 0px;
-  --scrollbar-hover-size: 16px;
+  --scrollbar-thickness: 12;
+  --scrollbar-hover-thickness: 18;
+  --scrollbar-offset: 0;
+  --scrollbar-track-color: rgba(0, 0, 0, 0.3);
+  --scrollbar-border-radius: 0;
+
+  color: white;
+  height: calc(100% - 60px);
+
+  ::ng-deep {
+    .app-scrollbar-track {
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+    }
+
+    .app-scrollbar-thumb {
+      background-image: linear-gradient(to bottom, var(--color-example3), #EFB436);
+      box-shadow: inset 0 -1px 0 #f9df91;
+    }
+  }
 }
 
-.page-wrapper {
-  padding-top: 2em;
-  background-color: white;
+app-logo {
+  padding: 5px 10px 5px 0;
 }
 
-.go-top {
-  position: fixed;
-  bottom: 2em;
-  right: 2em;
+mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 999;
 }
 
-.mat-mdc-fab {
-  position: fixed;
-  bottom: 2em;
-  left: 2em;
+mat-sidenav {
+  width: 220px;
+
+  --mdc-list-list-item-label-text-color: white;
+  --mdc-list-list-item-focus-label-text-color: white;
+  --mdc-list-list-item-hover-label-text-color: white;
+}
+
+.active-link {
+  background: var(--color-orange-passion);
+}
+
+.wrapper {
+  height: 300px;
+  width: 300px;
+  margin: 50px;
+  overflow: auto;
+  position: relative;
+}
+
+.content {
+  background: #2fa3b4;
+  height: 600px;
+  width: 600px;
+}
+
+.grid-test {
+  display: grid;
+  grid-template-rows: 1fr [scrollbar] 30px;
+  grid-template-columns: 1fr [scrollbar] 30px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 600px;
+  width: 600px;
+}
+
+.grid-bar-x,
+.grid-bar-y {
+  position: sticky;
+}
+
+.grid-bar-x {
+  bottom: 0;
+  left: 0;
+  width: 253px;
+  height: 30px;
+  background: #6565ff;
+}
+
+.grid-bar-y {
+  right: 0;
+  top: 0;
+  height: 253px;
+  width: 30px;
+  background: #643761;
 }

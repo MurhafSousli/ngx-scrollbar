@@ -1,35 +1,47 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "strict": false,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "paths": {
+      "ngx-scrollbar": [
+        "./projects/ngx-scrollbar/src/public-api"
+      ],
+      "ngx-scrollbar/smooth-scroll": [
+        "./projects/ngx-scrollbar/smooth-scroll/src/public_api"
+      ],
+      "ngx-scrollbar/reached-event": [
+        "./projects/ngx-scrollbar/reached-event/src/public_api"
+      ],
+      "ngx-scrollbar/utils": [
+        "./projects/ngx-scrollbar/utils/src/public_api"
+      ]
+    },
+    "esModuleInterop": true,
     "sourceMap": true,
     "declaration": false,
-    "downlevelIteration": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "module": "es2020",
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "ES2022",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "module": "ES2022",
+    "useDefineForClassFields": false,
     "lib": [
-      "es2018",
+      "ES2022",
       "dom"
-    ],
-    "paths": {
-      "ngx-scrollbar": [
-        "projects/ngx-scrollbar/src/public-api"
-      ],
-      "ngx-scrollbar/smooth-scroll": [
-        "projects/ngx-scrollbar/smooth-scroll/src/public_api"
-      ],
-      "ngx-scrollbar/reached-event": [
-        "projects/ngx-scrollbar/reached-event/src/public_api"
-      ]
-    },
-    "useDefineForClassFields": false
+    ]
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
   }
 }

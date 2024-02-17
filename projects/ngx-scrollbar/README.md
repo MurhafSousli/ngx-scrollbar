@@ -22,19 +22,21 @@ ___
 
 ## Features
 
-- Native scrolling mechanism
-- Easily Customizable using CSS variables and classes
-- Smooth scroll functionality
-- Scroll reached events
-- Easy integration with other libraries
-- Mobile support
-- RTL support
-- Universal support
-- Ivy engine support
+- Exceptional performance, see [comparing test results](https://github.com/MurhafSousli/ngx-scrollbar/wiki/Performance-analysis).
+- Native scrolling mechanism.
+- Easily Customizable using CSS variables.
+- Easy integration with other libraries.
+- RTL support.
+- Mobile support.
+- SSR support.
 
-## Compatibility
+#### Addons directives:
 
-- This package doesn't support IE11
+- Smooth scroll functionality.
+- Scroll reached events.
+- **MatSelect** integration.
+- **CdkVirtualScroll** integration.
+
 
 ## Issues
 

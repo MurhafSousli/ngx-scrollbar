@@ -3,34 +3,6 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngx-scrollbar": {
-      "projectType": "library",
-      "root": "projects/ngx-scrollbar",
-      "sourceRoot": "projects/ngx-scrollbar/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "tsConfig": "projects/ngx-scrollbar/tsconfig.lib.json",
-            "project": "projects/ngx-scrollbar/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/ngx-scrollbar/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/ngx-scrollbar/src/test.ts",
-            "tsConfig": "projects/ngx-scrollbar/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-scrollbar/karma.conf.js"
-          }
-        }
-      }
-    },
     "ngx-scrollbar-demo": {
       "projectType": "application",
       "schematics": {
@@ -43,13 +15,90 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/ngx-scrollbar-demo/browser",
+            "allowedCommonJsDependencies": [
+              "chance"
+            ],
+            "outputPath": "dist/ngx-scrollbar-demo",
             "index": "projects/ngx-scrollbar-demo/src/index.html",
-            "main": "projects/ngx-scrollbar-demo/src/main.ts",
-            "polyfills": "projects/ngx-scrollbar-demo/src/polyfills.ts",
+            "browser": "projects/ngx-scrollbar-demo/src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "projects/ngx-scrollbar-demo/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/ngx-scrollbar-demo/src/favicon.ico",
+              "projects/ngx-scrollbar-demo/src/assets"
+            ],
+            "styles": [
+              "projects/ngx-scrollbar-demo/src/styles.scss",
+              "node_modules/ng-zorro-antd/resizable/style/index.css"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/ng-zorro-antd/resizable/style"
+              ]
+            },
+            "scripts": [],
+            "server": "projects/ngx-scrollbar-demo/src/main.server.ts",
+            "prerender": true,
+            "ssr": {
+              "entry": "projects/ngx-scrollbar-demo/server.ts"
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "12kb",
+                  "maximumError": "12kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "ngx-scrollbar-demo:build:production"
+            },
+            "development": {
+              "buildTarget": "ngx-scrollbar-demo:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "buildTarget": "ngx-scrollbar-demo:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "projects/ngx-scrollbar-demo/tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "projects/ngx-scrollbar-demo/src/favicon.ico",
               "projects/ngx-scrollbar-demo/src/assets"
@@ -57,155 +106,41 @@
             "styles": [
               "projects/ngx-scrollbar-demo/src/styles.scss"
             ],
-            "scripts": [],
-            "allowedCommonJsDependencies": [
-              "chance",
-              "bezier-easing"
-            ],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true
+            "scripts": []
+          }
+        }
+      }
+    },
+    "ngx-scrollbar": {
+      "projectType": "library",
+      "root": "projects/ngx-scrollbar",
+      "sourceRoot": "projects/ngx-scrollbar/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ngx-scrollbar/ng-package.json"
           },
           "configurations": {
             "production": {
-              "fileReplacements": [
-                {
-                  "replace": "projects/ngx-scrollbar-demo/src/environments/environment.ts",
-                  "with": "projects/ngx-scrollbar-demo/src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "10kb"
-                }
-              ]
+              "tsConfig": "projects/ngx-scrollbar/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngx-scrollbar/tsconfig.lib.json"
             }
-          }
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "ngx-scrollbar-demo:build"
           },
-          "configurations": {
-            "production": {
-              "browserTarget": "ngx-scrollbar-demo:build:production"
-            }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "ngx-scrollbar-demo:build"
-          }
+          "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ngx-scrollbar-demo/src/test.ts",
-            "polyfills": "projects/ngx-scrollbar-demo/src/polyfills.ts",
-            "tsConfig": "projects/ngx-scrollbar-demo/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-scrollbar-demo/karma.conf.js",
-            "assets": [
-              "projects/ngx-scrollbar-demo/src/favicon.ico",
-              "projects/ngx-scrollbar-demo/src/assets"
-            ],
-            "styles": [
-              "projects/ngx-scrollbar-demo/src/styles.css"
-            ],
-            "scripts": []
-          }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "projects/ngx-scrollbar-demo/e2e/protractor.conf.js",
-            "devServerTarget": "ngx-scrollbar-demo:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "ngx-scrollbar-demo:serve:production"
-            }
-          }
-        },
-        "server": {
-          "builder": "@angular-devkit/build-angular:server",
-          "options": {
-            "outputPath": "dist/ngx-scrollbar-demo/server",
-            "main": "projects/ngx-scrollbar-demo/server.ts",
-            "tsConfig": "projects/ngx-scrollbar-demo/tsconfig.server.json",
-            "buildOptimizer": false,
-            "optimization": false,
-            "sourceMap": true,
-            "extractLicenses": false,
-            "vendorChunk": true
-          },
-          "configurations": {
-            "production": {
-              "buildOptimizer": true,
-              "outputHashing": "media",
-              "fileReplacements": [
-                {
-                  "replace": "projects/ngx-scrollbar-demo/src/environments/environment.ts",
-                  "with": "projects/ngx-scrollbar-demo/src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "sourceMap": false,
-              "extractLicenses": true,
-              "vendorChunk": false
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve-ssr": {
-          "builder": "@nguniversal/builders:ssr-dev-server",
-          "configurations": {
-            "development": {
-              "browserTarget": "ngx-scrollbar-demo:build:development",
-              "serverTarget": "ngx-scrollbar-demo:server:development"
-            },
-            "production": {
-              "browserTarget": "ngx-scrollbar-demo:build:production",
-              "serverTarget": "ngx-scrollbar-demo:server:production"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
-        "prerender": {
-          "builder": "@nguniversal/builders:prerender",
-          "options": {
-            "routes": [
-              "/"
+            "tsConfig": "projects/ngx-scrollbar/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
             ]
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "ngx-scrollbar-demo:build:production",
-              "serverTarget": "ngx-scrollbar-demo:server:production"
-            },
-            "development": {
-              "browserTarget": "ngx-scrollbar-demo:build:development",
-              "serverTarget": "ngx-scrollbar-demo:server:development"
-            }
-          },
-          "defaultConfiguration": "production"
+          }
         }
       }
     }

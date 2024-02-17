@@ -3,6 +3,7 @@ import { MatListModule } from '@angular/material/list';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatCardModule } from '@angular/material/card';
 import { NgScrollbarModule } from 'ngx-scrollbar';
+import { NgScrollbarCdkVirtualScroll } from 'ngx-scrollbar/utils';
 
 @Component({
   selector: 'app-example-virtual-scroll',
@@ -13,10 +14,10 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     '[class.example-component]': 'true'
   },
   standalone: true,
-  imports: [MatCardModule, NgScrollbarModule, ScrollingModule, MatListModule]
+  imports: [MatCardModule, NgScrollbarModule, ScrollingModule, MatListModule, NgScrollbarCdkVirtualScroll]
 })
 export class ExampleVirtualScrollComponent {
 
-  items = Array.from({ length: 1000 }, (v, k) => k + 1);
+  items: number[] = Array.from({ length: 1000 }, (v, k) => k + 1);
 
 }
