@@ -4,22 +4,18 @@
       <div class="sample">
         <header>TODO</header>
         <ng-scrollbar #scrollbarRef="ngScrollbar"
-                      externalViewport=".test"
+                      externalViewport
                       appearance="compact"
                       (afterInit)="onScrollbarUpdate(scrollbarRef)"
                       (afterUpdate)="onScrollbarUpdate(scrollbarRef)">
-          <div style="height: 100%">
-            <div style="height: 100%">
-              <div class="test">
-                <ul>
-                  <li></li>
-                  <li *ngFor="let item of list"
-                      [class.not]="!item.completed"
-                      [class.ok]="item.completed">{{item.title}}</li>
-                  <li></li>
-                </ul>
-              </div>
-            </div>
+          <div scrollViewport>
+            <ul>
+              <li></li>
+              <li *ngFor="let item of list"
+                  [class.not]="!item.completed"
+                  [class.ok]="item.completed">{{item.title}}</li>
+              <li></li>
+            </ul>
           </div>
         </ng-scrollbar>
       </div>

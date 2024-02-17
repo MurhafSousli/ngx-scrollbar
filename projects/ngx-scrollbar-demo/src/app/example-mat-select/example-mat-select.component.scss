@@ -1,4 +1,11 @@
+ng-scrollbar {
+  --scrollbar-thumb-color: var(--color-primary);
+  --scrollbar-thickness: 8;
+  --scrollbar-track-color: rgba(0, 0, 0, 0.2);
+}
+
 .mat-mdc-select {
   margin-bottom: 30px !important;
   color: white;
 }
+

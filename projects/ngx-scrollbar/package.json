@@ -1,6 +1,6 @@
 {
   "name": "ngx-scrollbar",
-  "version": "14.0.0-beta.0",
+  "version": "14.0.0-beta.1",
   "license": "MIT",
   "homepage": "https://ngx-scrollbar.netlify.com/",
   "author": {
@@ -20,9 +20,9 @@
     "scroll-reached"
   ],
   "peerDependencies": {
-    "@angular/common": "^17.0.0",
-    "@angular/core": "^17.0.0",
-    "@angular/cdk": ">=16.0.0"
+    "@angular/common": ">=17.0.0",
+    "@angular/core": ">=17.0.0",
+    "@angular/cdk": ">=17.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"

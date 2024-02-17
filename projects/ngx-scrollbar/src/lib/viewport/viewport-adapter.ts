@@ -2,8 +2,10 @@ import { ViewportClasses } from '../ng-scrollbar.model';
 
 export class ViewportAdapter {
 
-  /** The element that wraps the content inside the viewport,
-   *  Used to measure the content size and observe content size changes */
+  /**
+   * The element that wraps the content inside the viewport,
+   * used to measure the content size and observe its changes
+   */
   contentWrapperElement: HTMLElement;
 
   /** Viewport clientHeight */
@@ -53,7 +55,10 @@ export class ViewportAdapter {
   /**
    * Initialize viewport
    */
-  init(contentSelector?: HTMLElement, spacerSelector?: HTMLElement): void {
+  init(contentSelector: HTMLElement, spacerSelector?: HTMLElement): void {
+    // Add content wrapper class
+    contentSelector.classList.add(ViewportClasses.Content);
+
     // When integrating the scrollbar with virtual scroll, the content wrapper will have fake size,
     // and a spacer element will have the real size
     // Therefore, if spaceElement is provided, it will be observed instead of the content wrapper
@@ -61,16 +66,9 @@ export class ViewportAdapter {
       // Set relative position on the spacer element to enable the functionality of sticky for the scrollbars
       spacerSelector.style.position = 'relative';
       this.contentWrapperElement = spacerSelector;
-    }
-
-    let realContentWrapper: HTMLElement = contentSelector ?? this.nativeElement?.firstElementChild as HTMLElement;
-
-    // Add content wrapper class
-    realContentWrapper?.classList.add(ViewportClasses.Content);
-
-    // If spacer is not provided, set it as the content wrapper
-    if (!this.contentWrapperElement && realContentWrapper) {
-      this.contentWrapperElement = realContentWrapper;
+    } else {
+      // If spacer is not provided, set it as the content wrapper
+      this.contentWrapperElement = contentSelector;
     }
   }
 

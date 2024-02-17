@@ -11,6 +11,7 @@ export class NgScrollbarCdkVirtualScroll {
 
   constructor() {
     this.scrollbar.externalViewport = '.cdk-virtual-scroll-viewport';
+    this.scrollbar.externalContentWrapper = '.cdk-virtual-scroll-content-wrapper';
     this.scrollbar.externalSpacer = '.cdk-virtual-scroll-spacer';
   }
 }
