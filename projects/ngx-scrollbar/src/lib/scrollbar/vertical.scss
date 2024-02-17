@@ -1,36 +1,38 @@
-@import "../styles/selectors";
-@import "../styles/position";
-@import "../styles/fit-scrollbar";
+:host {
+  // Sticky scrollbar track scrollbars variables
+  --_scrollbar-wrapper-top: 0;
+  --_scrollbar-wrapper-left: var(--_scrollbar-wrapper-y-left);
+  --_scrollbar-wrapper-right: var(--_scrollbar-wrapper-y-right);
 
-::ng-deep {
-  .ng-scrollbar-wrapper {
-    @include scrollbarY {
-      width: var(--vertical-scrollbar-total-size);
+  --_scrollbar-wrapper-height: var(--viewport-height);
+  --_scrollbar-wrapper-width: var(--_scrollbar-thickness);
 
-      > .ng-scrollbar-track {
-        width: var(--vertical-scrollbar-size);
-        height: calc(100% - var(--scrollbar-padding) * 2);
+  --_scrollbar-track-top: var(--_vertical-top);
+  --_scrollbar-track-bottom: var(--_vertical-bottom);
+  --_scrollbar-track-right: var(--_vertical-right);
+  --_scrollbar-track-left: var(--_vertical-left);
 
-        > .ng-scrollbar-thumb {
-          height: 0;
-          width: 100%;
-        }
-      }
-    }
+  // Scrollbar thumb variables
+  --_thumb-height: calc(var(--thumb-y-length) * 1px);
+  --_thumb-width: 100%;
 
-    @include scrollbarYHovered {
-      @include scrollbarY {
-        .ng-scrollbar-thumb {
-          background-color: var(--scrollbar-thumb-hover-color);
-        }
-      }
-    }
+  // Calculate thumb position
+  --_scrollbar-thumb-transform-from: 0 0;
+  --_scrollbar-thumb-transform-to: 0 calc(var(--_scrollbar-y-thumb-transform-to-value) * 1px);
+}
 
-    @include enabled {
-      @include setScrollbarYPosition;
-      &[track="all"] {
-        @include fitVerticalScrollbar;
-      }
-    }
+.ng-scrollbar-track {
+  width: var(--_track-y-thickness);
+
+  &:hover {
+    --_track-y-thickness: var(--_scrollbar-hover-thickness-px);
+    --_thumb-y-color: var(--scrollbar-thumb-hover-color);
   }
+}
+
+.ng-scrollbar-thumb {
+  animation-timeline: var(--_animation-timeline-y);
+  min-height: calc(var(--scrollbar-thumb-min-size) * 1px);
+  display: var(--_vertical-thumb-display);
+  background-color: var(--_thumb-y-color);
 }

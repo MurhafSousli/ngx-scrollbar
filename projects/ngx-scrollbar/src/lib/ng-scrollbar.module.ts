@@ -1,15 +1,18 @@
 import { NgModule } from '@angular/core';
 import { NgScrollbar } from './ng-scrollbar';
-import { ScrollViewport } from './scroll-viewport';
+import { ScrollViewport } from './viewport';
+import { NgScrollbarExt } from './ng-scrollbar-ext';
 
 @NgModule({
   imports: [
     NgScrollbar,
-    ScrollViewport
+    ScrollViewport,
+    NgScrollbarExt
   ],
   exports: [
     NgScrollbar,
-    ScrollViewport
+    ScrollViewport,
+    NgScrollbarExt
   ]
 })
 export class NgScrollbarModule {

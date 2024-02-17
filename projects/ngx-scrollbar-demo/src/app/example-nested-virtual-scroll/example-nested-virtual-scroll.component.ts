@@ -1,8 +1,10 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { CardComponent } from './card/card.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
 import { NgScrollbarModule } from 'ngx-scrollbar';
+import { NgScrollbarCdkVirtualScroll } from 'ngx-scrollbar/utils';
+import { CardComponent } from './card/card.component';
 
 @Component({
   selector: 'app-example-nested-virtual-scroll',
@@ -13,11 +15,18 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     '[class.example-component]': 'true'
   },
   standalone: true,
-  imports: [MatCardModule, NgScrollbarModule, ScrollingModule, CardComponent]
+  imports: [
+    MatCardModule,
+    NgScrollbarModule,
+    ScrollingModule,
+    CardComponent,
+    MatSelectModule,
+    NgScrollbarCdkVirtualScroll
+  ]
 })
 export class ExampleNestedVirtualScrollComponent {
 
-  items = Array.from({ length: 1000 }, (v, k) => k + 1);
-  horizontal = Array.from({ length: 100 }, (v, k) => k + 1);
+  items: number[] = Array.from({ length: 1000 }, (v, k) => k + 1);
+  horizontal: number[] = Array.from({ length: 100 }, (v, k) => k + 1);
 
 }

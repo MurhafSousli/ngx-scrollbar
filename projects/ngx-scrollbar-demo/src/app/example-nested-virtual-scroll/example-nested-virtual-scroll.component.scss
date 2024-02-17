@@ -3,24 +3,38 @@
   border-radius: 3px;
 }
 
+.cdk-virtual-scroll-orientation-horizontal ::ng-deep {
+  .cdk-virtual-scroll-content-wrapper {
+    display: flex;
+  }
+}
+
 .outer-ng-scrollbar {
   color: black;
   border: 2px solid rgba(0, 0, 0, 0.05);
-  --scrollbar-track-color: var(--color-infinite-scroll-example-track-bg);
-  --scrollbar-thumb-color: var(--color-nested-virtual-scroll-example);
-  --scrollbar-size: 12px;
+  --scrollbar-track-color: var(--color-track-orange-passion);
+  --scrollbar-thumb-color: var(--color-orange-passion);
+  --scrollbar-thickness: 12;
   --scrollbar-border-radius: 10px;
+}
+
+.cdk-virtual-scroll-orientation-vertical ::ng-deep > .ng-scroll-content {
+  background: #643761;
+}
+
+.cards {
+  display: flex;
+  flex-direction: row;
 }
 
 .mat-mdc-card {
   margin-bottom: 5em;
-  background-color: var(--color-nested-virtual-scroll-example);
   color: white;
 
   ::ng-deep {
-    .ng-scrollbar-wrapper {
-      border-radius: 3px;
-      overflow: hidden;
+
+    ng-scrollbar {
+      height: 100%;
     }
 
     .scrollbar-control {
@@ -28,7 +42,7 @@
     }
 
     .inner-ng-scrollbar {
-      --scrollbar-hover-size: 10px;
+      --scrollbar-hover-thickness: 10;
 
       .scrollbar-control {
         background-color: transparent;
@@ -42,7 +56,7 @@
 }
 
 .horizontal-scrollable-item {
-  height: 180px;
+  height: 120px;
   display: flex;
   flex-direction: column;
 
@@ -57,18 +71,21 @@
   ng-scrollbar {
     flex: 1;
     --scrollbar-track-color: #d3d3d3;
-    --scrollbar-padding: 8px;
+    --scrollbar-offset: 7;
+    --scrollbar-thickness: 6;
     --scrollbar-thumb-color: var(--color-accent);
   }
 }
 
 h4 {
   margin: 10px;
+  font-size: 30px;
+  position: absolute;
+  z-index: 999;
+  color: var(--color-primary);
 }
 
-.cards {
-  display: grid;
-  gap: 12px;
-  grid-auto-flow: column;
-  margin: 12px;
+.pre-content, .post-content {
+  width: 20px;
+  height: 100%;
 }

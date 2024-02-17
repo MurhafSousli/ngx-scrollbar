@@ -1,0 +1,76 @@
+<div class="toggle-container">
+  <span>Function</span>
+
+  <mat-button-toggle-group class="middle"
+                           #scrollFuncToggleGroup="matButtonToggleGroup"
+                           aria-label="Scroll Function"
+                           [(ngModel)]="options.scrollFunc"
+                           (valueChange)="scrollFuncChanged($event)">
+    <mat-button-toggle value="scrollTo">Scroll To</mat-button-toggle>
+    <mat-button-toggle value="scrollToElement">Scroll To Element</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
+<div class="toggle-container">
+  <span>Axis-Y</span>
+  <mat-button-toggle-group class="middle"
+                           #axisYPropertyToggleGroup="matButtonToggleGroup"
+                           aria-label="ScrollTo axis Y property"
+                           [(ngModel)]="options.axisYProperty">
+    <mat-button-toggle value="top">Top</mat-button-toggle>
+    <mat-button-toggle value="bottom" [disabled]="scrollToElementSelected">Bottom</mat-button-toggle>
+    <mat-button-toggle value="unset">Unset</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
+
+<div class="toggle-container">
+  <span>Axis-X</span>
+
+  <mat-button-toggle-group class="middle"
+                           #axisXPropertyToggleGroup="matButtonToggleGroup"
+                           aria-label="ScrollTo axis X property"
+                           [(ngModel)]="options.axisXProperty">
+    <mat-button-toggle value="start" [disabled]="scrollToElementSelected">Start</mat-button-toggle>
+    <mat-button-toggle value="end" [disabled]="scrollToElementSelected">End</mat-button-toggle>
+    <mat-button-toggle value="left">Left</mat-button-toggle>
+    <mat-button-toggle value="right" [disabled]="scrollToElementSelected">Right</mat-button-toggle>
+    <mat-button-toggle value="unset">Unset</mat-button-toggle>
+  </mat-button-toggle-group>
+
+</div>
+
+<div class="input-container">
+  <mat-form-field class="example-full-width">
+    <mat-label>Duration</mat-label>
+    <input type="number" matInput [(ngModel)]="options.duration">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>{{ options.axisYProperty === 'unset' ? null : scrollToElementSelected ? options.axisYProperty+ ' offset' : options.axisYProperty }}</mat-label>
+    <input matInput
+           type="number"
+           [(ngModel)]="options.axisYValue"
+           [disabled]="options.axisYProperty === 'unset'">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>{{ options.axisXProperty === 'unset' ? null : scrollToElementSelected ? options.axisXProperty+ ' offset' : options.axisXProperty }}</mat-label>
+    <input matInput
+           type="number"
+           [(ngModel)]="options.axisXValue"
+           [disabled]="options.axisXProperty === 'unset'">
+  </mat-form-field>
+</div>
+
+<div class="toggle-container">
+  <span>Result</span>
+
+  <div class="middle display-function">{{displayFunction}}</div>
+
+  <div>
+    <button mat-mini-fab color="primary" [class.changed]="reached" (click)="play()">
+      <mat-icon color="accent">play_arrow</mat-icon>
+    </button>
+  </div>
+</div>

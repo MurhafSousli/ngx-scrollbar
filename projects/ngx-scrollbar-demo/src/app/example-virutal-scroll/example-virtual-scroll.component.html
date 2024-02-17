@@ -6,10 +6,13 @@
   </mat-card-header>
   <mat-card-content>
     <div class="exampleVirtualScroll">
-      <ng-scrollbar appearance="compact"
-                    [autoHeightDisabled]="true"
-                    [autoWidthDisabled]="true">
-        <cdk-virtual-scroll-viewport scrollViewport itemSize="50" minBufferPx="100" maxBufferPx="200">
+      <ng-scrollbar externalViewport
+                    cdkVirtualScrollViewport
+                    style="height: 100%"
+                    appearance="compact">
+        <cdk-virtual-scroll-viewport itemSize="50"
+                                     minBufferPx="100"
+                                     maxBufferPx="200">
           <mat-list>
             <mat-list-item class="example-item" *cdkVirtualFor="let item of items">
               {{item}}

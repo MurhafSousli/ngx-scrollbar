@@ -1,0 +1,55 @@
+<form [formGroup]="form">
+  <div class="input">
+    <span>--scrollbar-offset</span>
+    <input type="text" formControlName="trackOffset">
+  </div>
+  <div class="input">
+    <span>--scrollbar-thickness</span>
+    <input type="text" formControlName="thickness">
+  </div>
+  <div class="input">
+    <span>--scrollbar-hover-thickness</span>
+    <input type="text" formControlName="hoverThickness">
+  </div>
+
+  <div class="input">
+    <span>--scrollbar-track-color</span>
+    <input type="text"
+           formControlName="trackColor"
+           [colorPicker]="form.get('trackColor').value"
+           [value]="form.get('trackColor').value"
+           (colorPickerChange)="form.get('trackColor').setValue($event)">
+  </div>
+  <div class="input">
+    <span>--scrollbar-thumb-color</span>
+    <input type="text"
+           formControlName="thumbColor"
+           [colorPicker]="form.get('thumbColor').value"
+           [value]="form.get('thumbColor').value"
+           (colorPickerChange)="form.get('thumbColor').setValue($event)">
+  </div>
+  <div class="input">
+    <span>--scrollbar-thumb-hover-color</span>
+    <input type="text"
+           formControlName="thumbHoverColor"
+           [colorPicker]="form.get('thumbHoverColor').value"
+           [value]="form.get('thumbHoverColor').value"
+           (colorPickerChange)="form.get('thumbHoverColor').setValue($event)">
+  </div>
+  <div class="input">
+    <span>--scrollbar-border-radius</span>
+    <input type="text" formControlName="borderRadius">
+  </div>
+  <div class="input">
+    <span>--scrollbar-overscroll-behavior</span>
+    <input type="text" formControlName="overscrollBehavior">
+  </div>
+  <div class="input">
+    <span>--scrollbar-transition-duration</span>
+    <input type="text" formControlName="transitionDuration">
+  </div>
+  <div class="input">
+    <span>--scrollbar-transition-delay</span>
+    <input type="text" formControlName="transitionDelay">
+  </div>
+</form>

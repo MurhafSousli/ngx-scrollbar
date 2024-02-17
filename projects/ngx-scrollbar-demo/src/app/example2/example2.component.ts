@@ -2,22 +2,23 @@ import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { NgScrollbar, NgScrollbarModule } from 'ngx-scrollbar';
+import { NgScrollbarExt, NgScrollbarModule } from 'ngx-scrollbar';
+import { NgScrollbarReachedModule } from 'ngx-scrollbar/reached-event';
 
 @Component({
   selector: 'app-example2',
   templateUrl: './example2.component.html',
   styleUrls: ['./example2.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   host: {
     '[class.example-component]': 'true'
   },
   standalone: true,
-  imports: [CommonModule, NgScrollbarModule, MatCardModule, MatButtonModule]
+  imports: [CommonModule, NgScrollbarModule, NgScrollbarReachedModule, MatCardModule, MatButtonModule]
 })
 export class Example2Component {
 
-  @ViewChild(NgScrollbar, { static: true }) scrollbar: NgScrollbar;
+  @ViewChild(NgScrollbarExt, { static: true }) scrollbar: NgScrollbarExt;
 
   list = [
     {
@@ -37,7 +38,7 @@ export class Example2Component {
       completed: true
     },
     {
-      title: 'Mow the law',
+      title: 'Go to gym',
       completed: true
     },
     {
@@ -57,7 +58,7 @@ export class Example2Component {
       completed: true
     },
     {
-      title: 'Mow the law',
+      title: 'Go to gym',
       completed: true
     },
     {
@@ -77,7 +78,7 @@ export class Example2Component {
       completed: true
     },
     {
-      title: 'Mow the law',
+      title: 'Go to gym',
       completed: true
     },
     {
@@ -101,7 +102,7 @@ export class Example2Component {
     ];
   }
 
-  onScrollbarUpdate() {
-    this.scrollbar.scrollTo({ bottom: 0, duration: 200 });
+  onScrollbarUpdate(scrollbarRef: NgScrollbarExt): void {
+    scrollbarRef.scrollTo({ bottom: 0, duration: 200 });
   }
 }

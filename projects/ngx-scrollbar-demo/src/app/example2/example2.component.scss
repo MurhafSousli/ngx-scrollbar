@@ -1,11 +1,12 @@
 ng-scrollbar {
-  --scrollbar-size: 7px;
-  --scrollbar-padding: 16px;
+  --scrollbar-thickness: 7;
+  --scrollbar-offset: 16;
   --scrollbar-track-color: rgba(0, 0, 0, 0.1);
   --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
   --scrollbar-thumb-hover-color: rgba(0, 0, 0, 0.3);
   width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.25);
+  height: 200px;
 }
 
 .example {
@@ -15,11 +16,9 @@ ng-scrollbar {
 }
 
 .example2 {
-  padding-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 230px;
 }
 
 .sample {

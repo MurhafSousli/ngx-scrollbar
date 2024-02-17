@@ -4,7 +4,7 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
   selector: 'app-card',
   template: `
     <div class="app-card-content">
-      [ {{ y }} , {{ x }} ]
+      {{ x }}
     </div>
   `,
   styleUrls: ['./card.component.scss'],

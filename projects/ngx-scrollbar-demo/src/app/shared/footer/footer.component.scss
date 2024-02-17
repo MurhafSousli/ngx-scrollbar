@@ -1,8 +1,9 @@
 .footer {
   color: white;
-  padding: 1em 1em 4em;
+  padding: 1em 0 4em;
   margin: 0 auto;
   position: relative;
+  background: var(--color-app-background);
 
   p {
     margin-bottom: 0;
@@ -20,7 +21,7 @@
 
 .wave-bg {
   position: absolute;
-  bottom: 100%;
+  bottom: 99%;
   left: 0;
   right: 0;
 }

@@ -1,241 +1,185 @@
-import { Directive, Optional, Input, Output, OnInit, OnDestroy, NgZone } from '@angular/core';
-import { Directionality } from '@angular/cdk/bidi';
-import { RtlScrollAxisType } from '@angular/cdk/platform';
-import { NgScrollbar } from 'ngx-scrollbar';
-import { Observable, Subject, Subscription, Subscriber, filter, map, tap, distinctUntilChanged } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
+import {
+  Directive,
+  Input,
+  Output,
+  OnInit,
+  OnDestroy,
+  NgZone,
+  Renderer2,
+  WritableSignal,
+  Injector,
+  inject,
+  signal,
+  effect,
+  numberAttribute,
+  booleanAttribute,
+  runInInjectionContext,
+  EventEmitter,
+  PLATFORM_ID
+} from '@angular/core';
+import { _NgScrollbar, NG_SCROLLBAR } from 'ngx-scrollbar';
 
-// Fix target type on ElementEvent
-type ElementEvent = Event & { target: Element };
-
-class ReachedFunctions {
-  static reachedTop(offset: number, e: ElementEvent): boolean {
-    return ReachedFunctions.reached(-e.target.scrollTop, 0, offset);
-  }
-
-  static reachedBottom(offset: number, e: ElementEvent): boolean {
-    return ReachedFunctions.reached(e.target.scrollTop + e.target.clientHeight, e.target.scrollHeight, offset);
-  }
-
-  static reachedStart(offset: number, e: ElementEvent, direction: 'ltr' | 'rtl', rtlScrollAxisType: RtlScrollAxisType): boolean {
-    if (direction === 'rtl') {
-      if (rtlScrollAxisType === RtlScrollAxisType.NEGATED) {
-        return ReachedFunctions.reached(e.target.scrollLeft, 0, offset);
-      }
-      if (rtlScrollAxisType === RtlScrollAxisType.INVERTED) {
-        return ReachedFunctions.reached(-e.target.scrollLeft, 0, offset);
-      }
-      return ReachedFunctions.reached(e.target.scrollLeft + e.target.clientWidth, e.target.scrollWidth, offset);
-    }
-    return ReachedFunctions.reached(-e.target.scrollLeft, 0, offset);
-  }
-
-  static reachedEnd(offset: number, e: ElementEvent, direction: 'ltr' | 'rtl', rtlScrollAxisType: RtlScrollAxisType): boolean {
-    if (direction === 'rtl') {
-      if (rtlScrollAxisType === RtlScrollAxisType.NEGATED) {
-        return ReachedFunctions.reached(-(e.target.scrollLeft - e.target.clientWidth), e.target.scrollWidth, offset);
-      }
-      if (rtlScrollAxisType === RtlScrollAxisType.INVERTED) {
-        return ReachedFunctions.reached(-(e.target.scrollLeft + e.target.clientWidth), e.target.scrollWidth, offset);
-      }
-      return ReachedFunctions.reached(-e.target.scrollLeft, 0, offset);
-    }
-    return ReachedFunctions.reached(e.target.scrollLeft + e.target.clientWidth, e.target.scrollWidth, offset);
-  }
-
-  static reached(currPosition: number, targetPosition: number, offset: number): boolean {
-    return currPosition >= targetPosition - offset;
-  }
+type ReachedEventAction = {
+  emit: () => void;
 }
 
-@Directive()
-abstract class ScrollReached implements OnDestroy {
+@Directive({
+  selector: 'ng-scrollbar[reachedTop], ng-scrollbar[reachedBottom], ng-scrollbar[reachedStart], ng-scrollbar[reachedEnd]',
+  standalone: true,
+})
+export class NgScrollbarReached implements OnInit, OnDestroy {
 
-  /** offset: Reached offset value in px */
-  @Input('reachedOffset') offset: number = 0;
+  private readonly isBrowser: boolean = isPlatformBrowser(inject(PLATFORM_ID));
 
-  /**
-   * Stream that emits scroll event when `NgScrollbar.scrolled` is initialized.
-   *
-   * **NOTE:** This subject is used to hold the place of `NgScrollbar.scrolled` when it's not initialized yet
-   */
-  protected scrollEvent = new Subject<ElementEvent>();
+  private readonly zone: NgZone = inject(NgZone);
 
-  /** subscription: Scrolled event subscription, used to unsubscribe from the event on destroy */
-  protected subscription = Subscription.EMPTY;
+  private readonly renderer: Renderer2 = inject(Renderer2);
 
-  /** A stream used to assign the reached output */
-  protected reachedEvent = new Observable((subscriber: Subscriber<ElementEvent>) =>
-    this.scrollReached().subscribe(_ =>
-      Promise.resolve().then(() => this.zone.run(() => subscriber.next(_)))));
+  private readonly injector: Injector = inject(Injector);
 
-  protected constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone) {
-    if (!scrollbar) {
-      console.warn('[NgScrollbarReached Directive]: Host element must be an NgScrollbar component.');
+  private readonly scrollbar: _NgScrollbar = inject(NG_SCROLLBAR);
+
+  private readonly disabled: WritableSignal<boolean> = signal(false);
+
+  /** An array that contains all trigger elements  **/
+  private triggerElements: HTMLElement[] = [];
+
+  /** The intersection observer reference */
+  private intersectionObserver: IntersectionObserver;
+
+  /** An array that contains the chosen outputs */
+  private subscribedEvents: string[] = [];
+
+  /** The scrollbars element that contains the trigger elements */
+  private triggerElementsWrapper: HTMLElement;
+
+  /** Reached offset value in px */
+  @Input({ alias: 'reachedOffset', transform: numberAttribute }) set offsetSetter(value: number) {
+    this.setCssVariable('--reached-offset', value);
+  }
+
+  @Input({ alias: 'reachedTopOffset', transform: numberAttribute }) set offsetTopSetter(value: number) {
+    this.setCssVariable('--reached-offset-top', value);
+  }
+
+  @Input({ alias: 'reachedBottomOffset', transform: numberAttribute }) set offsetBottomSetter(value: number) {
+    this.setCssVariable('--reached-offset-bottom', value);
+  }
+
+  @Input({ alias: 'reachedStartOffset', transform: numberAttribute }) set offsetStartSetter(value: number) {
+    this.setCssVariable('--reached-offset-start', value);
+  }
+
+  @Input({ alias: 'reachedEndOffset', transform: numberAttribute }) set offsetEndSetter(value: number) {
+    this.setCssVariable('--reached-offset-end', value);
+  }
+
+  @Input({ alias: 'disableReached', transform: booleanAttribute })
+  set disableReachedSetter(value: boolean) {
+    this.disabled.set(value);
+  }
+
+  @Output() reachedTop: EventEmitter<void> = new EventEmitter<void>();
+  @Output() reachedBottom: EventEmitter<void> = new EventEmitter<void>();
+  @Output() reachedStart: EventEmitter<void> = new EventEmitter<void>();
+  @Output() reachedEnd: EventEmitter<void> = new EventEmitter<void>();
+
+  /** A mapper function to ease forwarding the intersected element to its proper output */
+  readonly reachedEventActions: Record<string, ReachedEventAction> = {
+    top: { emit: (): void => this.scrollbar.isVerticallyScrollable() ? this.reachedTop.emit() : null },
+    bottom: { emit: (): void => this.scrollbar.isVerticallyScrollable() ? this.reachedBottom.emit() : null },
+    start: { emit: (): void => this.scrollbar.isHorizontallyScrollable() ? this.reachedStart.emit() : null },
+    end: { emit: (): void => this.scrollbar.isHorizontallyScrollable() ? this.reachedEnd.emit() : null }
+  };
+
+  private onReached(trigger: string): void {
+    if (trigger) {
+      this.reachedEventActions[trigger]?.emit();
     }
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
-  protected scrollReached(): Observable<ElementEvent> {
-    // current event
-    let currEvent: ElementEvent;
-
-    return this.scrollEvent.pipe(
-      tap((e: ElementEvent) => currEvent = e),
-      // Check if scroll has reached
-      map((e: ElementEvent) => this.reached(this.offset, e)),
-      // Distinct until reached value has changed
-      distinctUntilChanged(),
-      // Emit only if reached is true
-      filter((reached: boolean) => reached),
-      // Return scroll event
-      map(() => currEvent)
-    );
-  }
-
-  protected abstract reached(offset: number, e?: ElementEvent): boolean;
-}
-
-@Directive()
-abstract class VerticalScrollReached extends ScrollReached implements OnInit {
-  protected constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone) {
-    super(scrollbar, zone);
-  }
-
-  ngOnInit() {
+  private activate(): void {
     this.zone.runOutsideAngular(() => {
-      // Fix the viewport size in case the rendered size is not rounded
-      const fixedSize: number = Math.round(this.scrollbar.viewport.nativeElement.getBoundingClientRect().height);
-      this.scrollbar.viewport.nativeElement.style.height = `${ fixedSize }px`;
+      // Create the scrollbars element inside the viewport
+      this.triggerElementsWrapper = this.renderer.createElement('div');
+      this.renderer.addClass(this.triggerElementsWrapper, 'ng-scroll-reached-wrapper');
+      this.renderer.appendChild(this.scrollbar.viewport.contentWrapperElement, this.triggerElementsWrapper);
 
-      this.subscription = this.scrollbar.verticalScrolled!.subscribe(this.scrollEvent);
+      // Create a trigger element for each subscribed event
+      this.subscribedEvents.forEach((event: string) => {
+        const triggerElement: HTMLElement = this.renderer.createElement('div');
+        this.renderer.addClass(triggerElement, 'scroll-reached-trigger-element');
+        this.renderer.setAttribute(triggerElement, 'trigger', event);
+        this.renderer.appendChild(this.triggerElementsWrapper, triggerElement);
+        this.triggerElements.push(triggerElement);
+      });
+
+      // The first time the observer is triggered as soon as the element is observed,
+      // This flag is used to ignore this first trigger
+      let intersectionObserverInit: boolean = false;
+
+      this.intersectionObserver = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
+        if (intersectionObserverInit) {
+          entries.forEach((entry: IntersectionObserverEntry) => {
+            if (entry.isIntersecting) {
+              // Forward the detected trigger element only after the observer is initialized
+              // Only observe the trigger elements when scrollable
+              this.zone.run(() => this.onReached(entry.target.getAttribute('trigger')));
+            }
+          });
+        } else {
+          // Once the initial element is detected set a flag to true
+          intersectionObserverInit = true;
+        }
+      }, {
+        root: this.scrollbar.viewport.nativeElement,
+      });
+
+      this.triggerElements.forEach((el: HTMLElement) => this.intersectionObserver.observe(el));
     });
   }
-}
 
-@Directive()
-abstract class HorizontalScrollReached extends ScrollReached implements OnInit {
-  protected constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone) {
-    super(scrollbar, zone);
+  private deactivate(): void {
+    this.intersectionObserver?.disconnect();
+    this.triggerElementsWrapper?.remove();
+    this.triggerElements = [];
   }
 
-  ngOnInit() {
-    this.zone.runOutsideAngular(() => {
-      // Fix the viewport size in case the rendered size is not rounded
-      const fixedSize: number = Math.round(this.scrollbar.viewport.nativeElement.getBoundingClientRect().width);
-      this.scrollbar.viewport.nativeElement.style.width = `${ fixedSize }px`;
+  private setCssVariable(property: string, value: any): void {
+    if (value) {
+      this.scrollbar.nativeElement.style.setProperty(property, `${ value }px`);
+    }
+  }
 
-      this.subscription = this.scrollbar.horizontalScrolled!.subscribe(this.scrollEvent);
+  ngOnInit(): void {
+    if (this.reachedTop.observed) {
+      this.subscribedEvents.push('top');
+    }
+    if (this.reachedBottom.observed) {
+      this.subscribedEvents.push('bottom');
+    }
+    if (this.reachedStart.observed) {
+      this.subscribedEvents.push('start');
+    }
+    if (this.reachedBottom.observed) {
+      this.subscribedEvents.push('end');
+    }
+
+    runInInjectionContext(this.injector, () => {
+      effect(() => {
+        if (this.disabled()) {
+          this.deactivate();
+        } else {
+          if (this.isBrowser) {
+            this.activate();
+          }
+        }
+      });
     });
   }
-}
 
-@Directive({
-  selector: '[reachedTop], [reached-top]',
-  standalone: true,
-})
-export class NgScrollbarReachedTop extends VerticalScrollReached implements OnInit {
-
-  /** Stream that emits when scroll has reached the top */
-  @Output() reachedTop: Observable<ElementEvent> = this.reachedEvent;
-
-  constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone) {
-    super(scrollbar, zone);
-  }
-
-  ngOnInit() {
-    super.ngOnInit();
-  }
-
-  /**
-   * Check if scroll has reached the top (vertically)
-   * @param offset Scroll offset
-   * @param e Scroll event
-   */
-  protected reached(offset: number, e: ElementEvent): boolean {
-    return ReachedFunctions.reachedTop(offset, e);
-  }
-}
-
-@Directive({
-  selector: '[reachedBottom], [reached-bottom]',
-  standalone: true,
-})
-export class NgScrollbarReachedBottom extends VerticalScrollReached implements OnInit {
-
-  /** Stream that emits when scroll has reached the bottom */
-  @Output() reachedBottom: Observable<ElementEvent> = this.reachedEvent;
-
-  constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone) {
-    super(scrollbar, zone);
-  }
-
-  ngOnInit() {
-    super.ngOnInit();
-  }
-
-  /**
-   * Check if scroll has reached the bottom (vertically)
-   * @param offset Scroll offset
-   * @param e Scroll event
-   */
-  protected reached(offset: number, e: ElementEvent): boolean {
-    return ReachedFunctions.reachedBottom(offset, e);
-  }
-}
-
-@Directive({
-  selector: '[reachedStart], [reached-start]',
-  standalone: true,
-})
-export class NgScrollbarReachedStart extends HorizontalScrollReached implements OnInit {
-
-  /** Stream that emits when scroll has reached the start */
-  @Output() reachedStart: Observable<ElementEvent> = this.reachedEvent;
-
-  constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone, private dir: Directionality) {
-    super(scrollbar, zone);
-  }
-
-  ngOnInit() {
-    super.ngOnInit();
-  }
-
-  /**
-   * Check if scroll has reached the start (horizontally)
-   * @param offset Scroll offset
-   * @param e Scroll event
-   */
-  protected reached(offset: number, e: ElementEvent): boolean {
-    return ReachedFunctions.reachedStart(offset, e, this.dir.value, this.scrollbar.manager.rtlScrollAxisType);
-  }
-}
-
-@Directive({
-  selector: '[reachedEnd], [reached-end]',
-  standalone: true,
-})
-export class NgScrollbarReachedEnd extends HorizontalScrollReached implements OnInit {
-
-  /** Stream that emits when scroll has reached the end */
-  @Output() reachedEnd: Observable<ElementEvent> = this.reachedEvent;
-
-  constructor(@Optional() protected scrollbar: NgScrollbar, protected zone: NgZone, private dir: Directionality) {
-    super(scrollbar, zone);
-  }
-
-  ngOnInit() {
-    super.ngOnInit();
-  }
-
-  /**
-   * Check if scroll has reached the end (horizontally)
-   * @param offset Scroll offset
-   * @param e Scroll event
-   */
-  protected reached(offset: number, e: ElementEvent): boolean {
-    return ReachedFunctions.reachedEnd(offset, e, this.dir.value, this.scrollbar.manager.rtlScrollAxisType);
+  ngOnDestroy(): void {
+    this.deactivate();
   }
 }

@@ -1,44 +1,14 @@
-@import "selectors";
+@use './selectors' as selector;
 
-@mixin hide-scrollbar() {
-  scrollbar-width: none; /* Firefox 64 */
-  -ms-overflow-style: none; /* Internet Explorer 11 */
-  &::-webkit-scrollbar { /** WebKit */
-    display: none;
-  }
-}
+// Only this part cannot be refactored using CSS variable
+// Because once '::-webkit-scrollbar' has been set, the native scrollbars will not look the same when disabled
+// So it is better to use it inside an attribute condition than the a CSS variable way
 
-@mixin hideNativeScrollbar {
-  @include viewport {
-    @include hide-scrollbar();
-  }
-
-  // Hide native horizontal scrollbar if visible
-  @include scrollbarXUsed {
-    @include nativeScrollbarHider {
-      bottom: var(--native-scrollbar-size);
+@mixin HideNativeScrollbars() {
+  @include selector.Viewport {
+    scrollbar-width: none; /* Firefox 64 */
+    &::-webkit-scrollbar { /** WebKit */
+      display: none;
     }
-  }
-
-  // Hide native vertical scrollbar if visible
-  @include scrollbarYUsed {
-    @include nativeScrollbarHider {
-      left: 0;
-      right: var(--native-scrollbar-size);
-    }
-
-    @include rtl {
-      @include nativeScrollbarHider {
-        right: 0;
-        left: var(--native-scrollbar-size);
-      }
-    }
-  }
-}
-
-::ng-deep {
-  /* A class used to measure native scrollbar size */
-  .ng-scrollbar-measure {
-    @include hide-scrollbar();
   }
 }

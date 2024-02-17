@@ -1,23 +1,12 @@
 import { NgModule } from '@angular/core';
-import {
-  NgScrollbarReachedTop,
-  NgScrollbarReachedBottom,
-  NgScrollbarReachedStart,
-  NgScrollbarReachedEnd
-} from './ng-scrollbar-reached';
+import { NgScrollbarReached } from './ng-scrollbar-reached';
 
 @NgModule({
   imports: [
-    NgScrollbarReachedTop,
-    NgScrollbarReachedBottom,
-    NgScrollbarReachedStart,
-    NgScrollbarReachedEnd
+    NgScrollbarReached
   ],
   exports: [
-    NgScrollbarReachedTop,
-    NgScrollbarReachedBottom,
-    NgScrollbarReachedStart,
-    NgScrollbarReachedEnd
+    NgScrollbarReached
   ]
 })
 export class NgScrollbarReachedModule {

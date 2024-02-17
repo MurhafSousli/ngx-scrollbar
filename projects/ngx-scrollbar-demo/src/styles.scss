@@ -2,7 +2,40 @@
 
 @include mat.core();
 
-$app-primary: mat.define-palette(mat.$deep-purple-palette, 400);
+$purple-passion-palette: (
+  50 : #efe9ee,
+  100 : #d6c7d5,
+  200 : #bba2b9,
+  300 : #9f7c9d,
+  400 : #8b6088,
+  500 : #764473,
+  600 : #6e3e6b,
+  700 : #633560,
+  800 : #592d56,
+  900 : #461f43,
+  A100 : #ff8af5,
+  A200 : #ff57f1,
+  A400 : #ff24ed,
+  A700 : #ff0aeb,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #ffffff,
+    A700 : #ffffff,
+  )
+);
+
+$app-primary: mat.define-palette($purple-passion-palette, 500);
 $app-accent: mat.define-palette(mat.$orange-palette, 500);
 $app-warn: mat.define-palette(mat.$red-palette);
 $app-success: mat.define-palette(mat.$light-green-palette);
@@ -19,13 +52,32 @@ $app-theme: mat.define-light-theme((
 
 @include mat.all-component-themes($app-theme);
 
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: var(--color-app-background);
+}
+
+
 :root {
   --color-primary: #{mat.get-color-from-palette($app-primary)};
   --color-accent: #{mat.get-color-from-palette($app-accent)};
   --color-warn: #{mat.get-color-from-palette($app-warn)};
   --color-success: #{mat.get-color-from-palette($app-success)};
 
-  --color-app-background: #{mat.get-color-from-palette(mat.define-palette(mat.$blue-palette, 500))};
+  --mat-sidenav-content-background-color:  #{mat.get-color-from-palette(mat.define-palette($app-primary, 900))};
+
+  --mat-sidenav-container-background-color:  #{mat.get-color-from-palette(mat.define-palette($app-primary, 500))};
+
+
+  --color-orange-passion:  #{mat.get-color-from-palette(mat.define-palette($app-accent, 500))};
+  --color-track-orange-passion:  #975857;
+
+  --color-app-background: #{mat.get-color-from-palette(mat.define-palette($app-primary, 400))};
   --color-app-logo: var(--color-app-background);
 
   --color-examplex-accent: var(--color-app-background);
@@ -35,20 +87,27 @@ $app-theme: mat.define-light-theme((
   --color-example-5: var(--color-app-background);
   --color-example-2: var(--color-app-background);
   --color-virtual-scroll-example: var(--color-app-background);
-  --color-nested-virtual-scroll-example: var(--color-app-background);
   --color-infinite-scroll-example: var(--color-app-background);
   --color-infinite-scroll-example-bar-bg: #{mat.get-color-from-palette(mat.define-palette(mat.$blue-palette, 300))};
-  --color-infinite-scroll-example-track-bg: #{mat.get-color-from-palette(mat.define-palette(mat.$blue-palette, 100))};
 
   --color-light-gray: #{mat.get-color-from-palette(mat.define-palette(mat.$grey-palette, 100))};
   --color-dark-gray: #{mat.get-color-from-palette(mat.define-palette(mat.$grey-palette, 600))};
   --color-example3: #{mat.get-color-from-palette(mat.define-palette(mat.$yellow-palette, 700))};
   --color-example4: var(--color-light-gray);
-  --color-highlight: aquamarine;
+  --color-highlight: #3cffe3;
+}
+
+* {
+  // Disables double tap zoom on mobile
+  touch-action: manipulation;
 }
 
 .primary-bg {
   background-color: var(--color-app-background);
+}
+
+mat-card {
+  margin: 15px 0;
 }
 
 h2 {
@@ -109,11 +168,28 @@ ul {
   }
 }
 
-html, body {
-  height: 100%;
+.input {
+  display: flex;
+  padding: 5px;
+  margin-bottom: 5px;
+
+  span {
+    width: 200px;
+    display: flex;
+    align-items: center;
+  }
+
+  input {
+    flex: 1;
+    color: rgba(0, 0, 0, 0.7);
+    border-radius: 4px;
+    border: none;
+    padding: 5px 8px;
+    outline: none;
+  }
 }
 
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+.mat-button-toggle-group {
+  height: 32px;
+  align-items: center;
 }

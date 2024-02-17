@@ -1,109 +1,165 @@
-@import "styles/hide-native-scrollbars";
-@import "styles/visibility";
-@import "styles/appearance";
+@use "styles/visibility" as visibility;
+@use "styles/appearance" as appearance;
+@use "styles/position" as position;
+@use "styles/viewport" as viewport;
+@use "styles/content" as content;
+@use "styles/hide-native-scrollbars" as nativeScrollbars;
+@use "styles/reached-events" as reachedEvents;
+@use "styles/selectors" as selector;
+@use "styles/scroll" as scroll;
 
 :host {
-  // CSS variables used to customized the look of the scrollbar component
-  --scrollbar-border-radius: 7px;
-  --scrollbar-padding: 4px;
-  --scrollbar-track-color: transparent;
-  --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
-  --scrollbar-thumb-hover-color: var(--scrollbar-thumb-color);
-  --scrollbar-size: 5px;
-  --scrollbar-hover-size: var(--scrollbar-size);
-  --scrollbar-overscroll-behavior: initial;
-  --scrollbar-transition-duration: 400ms;
-  --scrollbar-transition-delay: 800ms;
-  --scrollbar-thumb-transition: height ease-out 150ms, width ease-out 150ms;
-  --scrollbar-track-transition: height ease-out 150ms, width ease-out 150ms;
-
+  // Host element default styles regardless if its a viewport or not
   display: block;
   position: relative;
-  height: 100%;
+  overflow: hidden;
   max-height: 100%;
   max-width: 100%;
-  // Make sure child container are equal to component height when set (auto-height/auto-width)
-  // This also prevent when sometimes the scrollbar appears when it should not
-  box-sizing: content-box !important;
 
-  > .ng-scrollbar-wrapper {
-    --scrollbar-total-size: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
+  // CSS variables used to customized the look of the scrollbar component
 
-    // To enable the hover size, we need to calculate and set variable for each scrollbar
-    --vertical-scrollbar-size: var(--scrollbar-size);
-    --horizontal-scrollbar-size: var(--scrollbar-size);
-    --vertical-scrollbar-total-size: calc(var(--vertical-scrollbar-size) + var(--scrollbar-padding) * 2);
-    --horizontal-scrollbar-total-size: calc(var(--horizontal-scrollbar-size) + var(--scrollbar-padding) * 2);
+  // Scrollbar track border radius
+  --scrollbar-border-radius: 7px;
 
-    // Change vertical scrollbar size in case its hovered or dragged
-    @include scrollbarYHovered {
-      --vertical-scrollbar-size: var(--scrollbar-hover-size);
-      --vertical-scrollbar-total-size: calc(var(--vertical-scrollbar-size) + var(--scrollbar-padding) * 2);
-      cursor: default;
-    }
+  // Scrollbar track thickness
+  --scrollbar-thickness: 5;
 
-    // Change horizontal scrollbar size in case its hovered or dragged
-    @include scrollbarXHovered {
-      --horizontal-scrollbar-size: var(--scrollbar-hover-size);
-      --horizontal-scrollbar-total-size: calc(var(--horizontal-scrollbar-size) + var(--scrollbar-padding) * 2);
-      cursor: default;
-    }
+  // Space between scrollbar track and its surrounding
+  --scrollbar-offset: 4;
 
-    @include enabled {
-      @include nativeAppearance;
-      @include hideNativeScrollbar;
-      @include hoverVisibility;
-    }
+  // Scrollbar track color
+  --scrollbar-track-color: transparent;
 
-    @include scrollbarXUsed {
-      @include viewport {
-        overflow-x: auto;
-        overflow-y: hidden;
-      }
-    }
+  // Scrollbar track transition effect
+  --scrollbar-track-transition: height ease-out 0.15s, width ease-out 0.15s;
 
-    @include scrollbarYUsed {
-      @include viewport {
-        overflow-y: auto;
-        overflow-x: hidden;
-      }
-    }
+  // Scrollbar thumb color
+  --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
 
-    @include allUsed {
-      @include viewport {
-        overflow: auto;
-      }
-    }
+  // Scrollbar thumb color when hovered
+  --scrollbar-thumb-hover-color: var(--scrollbar-thumb-color);
+
+  // Scrollbar thickness when hovered
+  --scrollbar-hover-thickness: var(--scrollbar-thickness);
+
+  // Scrollbar thumb transition effect
+  --scrollbar-thumb-transition: none;
+
+  // The minimum size the scrollbar thumb can get
+  --scrollbar-thumb-min-size: 20;
+
+  // Transition config when [visibility]="hover"
+  --scrollbar-hover-transition-duration: 0.4s;
+  --scrollbar-hover-transition-delay: 0.8s;
+
+  // Viewport overscroll behavior
+  // In firefox and safari the scrollbar bounces if viewport is over-scrolled causing the scrollbars to bounce with it
+  // It seems that the only way around this is by disabling the overscroll behavior
+  // The other option is to give up the sticky scrollbar method and use an absolute position scrollbars
+  --scrollbar-overscroll-behavior: initial;
+
+  // Viewport overscroll behavior in case of mobile devices
+  --scrollbar-mobile-overscroll-behavior: none;
+
+  /** Scrollbar private CSS variables **/
+
+  --_scrollbar-transition: var(--scrollbar-track-transition);
+  --_scrollbar-opacity: initial;
+
+  --_scrollbar-thickness: calc(var(--scrollbar-thickness) + var(--scrollbar-offset) * 2);
+  --_scrollbar-pointer-events: auto;
+
+  // Convert margin to px value to avoid repeating calculation when used in multiple times
+  --_scrollbar-offset-px: calc(var(--scrollbar-offset) * 1px);
+  --_scrollbar-thickness-px: calc(var(--scrollbar-thickness) * 1px);
+  --_scrollbar-hover-thickness-px: calc(var(--scrollbar-hover-thickness) * 1px);
+
+  // Initialize viewport and content paddings
+  --_viewport-padding-top: 0;
+  --_viewport-padding-bottom: 0;
+  --_viewport-padding-left: 0;
+  --_viewport-padding-right: 0;
+
+  // Scrollbar thumb display used to hide thumbs when scrollbar is not scrollable
+  --_horizontal-thumb-display: block;
+  --_vertical-thumb-display: block;
+
+  // The default value for overflow
+  --_viewport-overflow: auto;
+
+  // Scrollbar thumb color variables used to change when hovered or dragged
+  --_thumb-x-color: var(--scrollbar-thumb-color);
+  --_thumb-y-color: var(--scrollbar-thumb-color);
+  --_track-y-thickness: var(--_scrollbar-thickness-px);
+  --_track-x-thickness: var(--_scrollbar-thickness-px);
+
+  // Viewport overscroll behavior
+  --_viewport-overscroll-behavior: var(--scrollbar-overscroll-behavior);
+
+  // Content display, will switch to block if orientation is set to vertical
+  --_scrollbar-content-width: fit-content;
+}
+
+:host {
+  @include viewport.SetViewportStyles();
+  @include content.SetContentStyles();
+
+  @include nativeScrollbars.HideNativeScrollbars();
+  @include position.SetPositionStuff();
+  @include appearance.SetAppearanceStuff();
+  @include visibility.SetVisibilityStuff();
+  @include reachedEvents.SetReachedEventsStyles();
+  @include scroll.SetScrollingStyles();
+
+  &[orientation="vertical"] {
+    --_viewport-overflow: hidden auto;
+    --_scrollbar-content-width: unset;
   }
-}
 
-.ng-scrollbar-wrapper,
-.ng-scroll-viewport-wrapper,
-.ng-scroll-layer,
-::ng-deep .ng-scroll-viewport {
-  @extend %layer;
-}
+  &[orientation="horizontal"] {
+    --_viewport-overflow: auto hidden;
+  }
 
-.ng-scroll-viewport-wrapper {
-  overflow: hidden;
-}
+  &[disableInteraction="true"] {
+    --_scrollbar-pointer-events: none;
+  }
 
-.ng-scroll-viewport {
-  -webkit-overflow-scrolling: touch;
-  contain: strict;
-  will-change: scroll-position;
-  overscroll-behavior: var(--scrollbar-overscroll-behavior);
-}
+  &[isVerticallyScrollable="false"] {
+    // Hide scrollbars thumb when content is not scrollable
+    --_vertical-thumb-display: none;
+  }
 
-::ng-deep .ng-scroll-content {
-  display: inline-block;
-  min-width: 100%;
-}
+  &[isHorizontallyScrollable="false"] {
+    // Hide scrollbars thumb when content is not scrollable
+    --_horizontal-thumb-display: none;
+  }
 
-%layer {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  @include selector.thumbDragging {
+    // Disable selection when a scrollbar thumb is being dragged
+    --_viewport-user-select: none;
+  }
+
+  @include selector.HorizontalUsed {
+    // Calculate the horizontal thumb size
+    --thumb-x-length: max(calc(var(--viewport-width) * var(--track-x-length) / var(--content-width)), var(--scrollbar-thumb-min-size));
+  }
+
+  @include selector.VerticalUsed {
+    // Calculate the vertical thumb size
+    --thumb-y-length: max(calc(var(--viewport-height) * var(--track-y-length) / var(--content-height)), var(--scrollbar-thumb-min-size));
+  }
+
+  @include selector.thumbXDragging {
+    --_track-x-thickness: calc(var(--scrollbar-hover-thickness) * 1px);
+    --_thumb-x-color: var(--scrollbar-thumb-hover-color);
+  }
+
+  @include selector.thumbYDragging {
+    --_track-y-thickness: calc(var(--scrollbar-hover-thickness) * 1px);
+    --_thumb-y-color: var(--scrollbar-thumb-hover-color);
+  }
+
+  @include selector.isMobile {
+    --_viewport-overscroll-behavior: var(--scrollbar-mobile-overscroll-behavior);
+  }
 }

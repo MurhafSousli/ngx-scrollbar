@@ -7,9 +7,8 @@
   <mat-card-content>
     <div class="infinite-scroll-container">
       <ng-scrollbar appearance="compact"
-                    [autoHeightDisabled]="true"
-                    [autoWidthDisabled]="true"
-                    [sensorDisabled]="true">
+                    style="height: 100%"
+                    externalViewport>
         <div scrollViewport
              infiniteScroll
              [infiniteScrollDistance]="1"

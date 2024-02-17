@@ -5,8 +5,8 @@
     --scrollbar-track-color: #f3f4f8;
     --scrollbar-thumb-color: #fff;
     --scrollbar-thumb-hover-color: #fff;
-    --scrollbar-padding: 10px;
-    --scrollbar-size: 10px;
+    --scrollbar-offset: 10;
+    --scrollbar-thickness: 10;
     --scrollbar-border-radius: 5px;
   }
 
@@ -17,10 +17,6 @@
 
     .scrollbar-thumb {
       box-shadow: inset 0 0 0 1px #c4c4c6;
-    }
-
-    .ng-scroll-content {
-      margin: 0 10px;
     }
   }
 }
@@ -39,16 +35,15 @@
 
   li {
     position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding-right: 2px;
     counter-increment: linecounter;
     height: 20px;
+    line-height: 24px;
     width: 40px;
 
     &:before {
       content: counter(linecounter) ".";
-      color: #b9b9bc;
+      color: rgba(180, 170, 169, 0.87);
     }
 
     &:after {
@@ -144,7 +139,7 @@
 pre {
   white-space: initial;
   overflow: visible;
-  margin: 0;
+  margin: 0 10px;
   background-color: transparent;
   color: #8b8a90;
   box-shadow: none;

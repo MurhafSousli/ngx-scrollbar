@@ -22,11 +22,11 @@ export class SmoothScrollManager {
   // Default options
   private readonly _defaultOptions: SmoothScrollToOptions;
 
-  // Keeps track of the ongoing SmoothScroll functions so they can be handled in case of duplication.
+  // Keeps track of the ongoing SmoothScroll functions, so they can be handled in case of duplication.
   // Each scrolled element gets a destroyer stream which gets deleted immediately after it completes.
   // Purpose: If user called a scroll function again on the same element before the scrolls completes,
   // it cancels the ongoing scroll and starts a new one
-  private _onGoingScrolls = new Map<HTMLElement, Subject<void>>();
+  private _onGoingScrolls: Map<HTMLElement, Subject<void>> = new Map<HTMLElement, Subject<void>>();
 
   private get _w(): Window {
     return this._document.defaultView;
@@ -35,10 +35,8 @@ export class SmoothScrollManager {
   /**
    * Timing method
    */
-  private get _now() {
-    return this._w.performance && this._w.performance.now
-      ? this._w.performance.now.bind(this._w.performance)
-      : Date.now;
+  private get _now(): () => number {
+    return this._w.performance?.now?.bind(this._w.performance) || Date.now;
   }
 
   constructor(@Inject(DOCUMENT) private _document: Document,
@@ -126,7 +124,7 @@ export class SmoothScrollManager {
       elapsed = elapsed > 1 ? 1 : elapsed;
 
       // apply easing to elapsed time
-      const value = context.easing(elapsed);
+      const value: number = context.easing(elapsed);
 
       context.currentX = context.startX + (context.x - context.startX) * value;
       context.currentY = context.startY + (context.y - context.startY) * value;

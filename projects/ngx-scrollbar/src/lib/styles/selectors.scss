@@ -1,140 +1,91 @@
-@mixin viewportWrapper {
-  > .ng-scroll-viewport-wrapper {
+// TODO: Check if this attribute is needed
+@mixin init {
+  &[init="true"] {
     @content;
   }
 }
 
-// Viewport offset selector
-// The default viewport is used to hide the native scrollbar
-@mixin nativeScrollbarHider {
-  @include viewportWrapper {
-    > .ng-native-scrollbar-hider,
-      // Custom viewport
-      > * > * > ::ng-deep.ng-native-scrollbar-hider {
-      @content;
-    }
-  }
-}
-
-// Default/Custom Viewport selector
-@mixin viewport {
-  @include viewportWrapper {
-    // Default viewport
-    > .ng-scroll-viewport,
-      // Custom viewport
-    > * > * > ::ng-deep.ng-scroll-viewport {
-      @content;
-    }
-  }
-}
-
-@mixin content {
-  > .ng-scroll-content {
+@mixin Viewport {
+  &.ng-scroll-viewport,
+  &.ng-scrollbar-external-viewport ::ng-deep .ng-scroll-viewport {
     @content;
   }
 }
 
-@mixin enabled {
-  &[deactivated="false"] {
+@mixin ExternalViewport {
+  &.ng-scrollbar-external-viewport ::ng-deep .ng-scroll-viewport {
     @content;
   }
 }
 
-// Vertical Scrollbar is used
-@mixin scrollbarYUsed {
-  &[verticalUsed="true"] {
+@mixin Content {
+  ::ng-deep .ng-scroll-content {
     @content;
   }
 }
 
-// Horizontal Scrollbar is used
-@mixin scrollbarXUsed {
-  &[horizontalUsed="true"] {
-    @content;
-  }
-}
-
-// All Scrollbars are used
-@mixin allUsed {
+@mixin BothUsed {
   &[verticalUsed="true"][horizontalUsed="true"] {
     @content;
   }
 }
 
-@mixin ltr {
+@mixin VerticalUsed {
+  &[verticalUsed="true"] {
+    @content;
+  }
+}
+
+@mixin HorizontalUsed {
+  &[horizontalUsed="true"] {
+    @content;
+  }
+}
+
+@mixin LTR {
   &[dir="ltr"] {
     @content;
   }
 }
 
-@mixin rtl {
+@mixin RTL {
   &[dir="rtl"] {
     @content;
   }
 }
 
-@mixin scrollbarYInverted {
+@mixin VerticalInverted {
   &[position="invertY"], &[position="invertAll"] {
     @content;
   }
 }
 
-@mixin scrollbarXInverted {
+@mixin HorizontalInverted {
   &[position="invertX"], &[position="invertAll"] {
     @content;
   }
 }
 
-@mixin scrollbarY {
-  > scrollbar-y.scrollbar-control {
+@mixin thumbDragging {
+  &[dragging="x"], &[dragging="y"] {
     @content;
   }
 }
 
-@mixin fitScrollbarY {
-  > scrollbar-y.scrollbar-control[fit="true"] {
+@mixin thumbYDragging {
+  &[dragging="y"] {
     @content;
   }
 }
 
-@mixin scrollbarX {
-  > scrollbar-x.scrollbar-control {
+@mixin thumbXDragging {
+  &[dragging="x"] {
     @content;
   }
 }
 
-@mixin fitScrollbarX {
-  > scrollbar-x.scrollbar-control[fit="true"] {
-    @content;
-  }
-}
-
-@mixin viewportPointerEvents {
-  &[pointerEventsMethod="viewport"] {
-    @content;
-  }
-}
-
-@mixin scrollbarPointerEvents {
-  &[pointerEventsMethod="scrollbar"] {
-    @content;
-  }
-}
-
-@mixin scrollbarXHovered {
-  &[horizontalHovered="true"], &[horizontalDragging="true"] {
-    @content;
-  }
-}
-
-@mixin scrollbarYHovered {
-  &[verticalHovered="true"], &[verticalDragging="true"] {
-    @content;
-  }
-}
-
-@mixin scrollbarInAction {
-  &[horizontalDragging="true"], &[verticalDragging="true"], &[scrollbarClicked="true"] {
+@mixin isMobile {
+  &[mobile="true"] {
     @content;
   }
 }
