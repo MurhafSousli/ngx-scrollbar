@@ -1,0 +1,32 @@
+<mat-card class="example mat-elevation-z16">
+  <div class="example-ngx-datatable">
+    <ng-scrollbar externalViewport="datatable-body"
+                  externalContentWrapper="datatable-selection"
+                  asyncDetection>
+      <ngx-datatable class="material"
+                     style="height: 400px"
+                     [rows]="rows()"
+                     [columnMode]="ColumnMode.force"
+                     [headerHeight]="50"
+                     [footerHeight]="50"
+                     [rowHeight]="50"
+                     [scrollbarV]="true"
+                     [sorts]="[{ prop: 'name', dir: 'desc' }]">
+        <ngx-datatable-column name="Company">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.company }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Name">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.name }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Gender"></ngx-datatable-column>
+      </ngx-datatable>
+    </ng-scrollbar>
+  </div>
+</mat-card>
+

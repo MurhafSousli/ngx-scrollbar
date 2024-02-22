@@ -141,7 +141,10 @@ export abstract class TrackAdapter {
         this.updateCSSVariables();
         this.sizeChangeSub?.unsubscribe();
       } else {
-        this.sizeChangeSub = resizeSensor(this.nativeElement, this.cmp.sensorThrottleTime(), true).pipe(
+        this.sizeChangeSub = resizeSensor({
+          element: this.nativeElement,
+          throttleDuration: this.cmp.sensorThrottleTime()
+        }).pipe(
           tap(() => this.updateCSSVariables())
         ).subscribe();
       }

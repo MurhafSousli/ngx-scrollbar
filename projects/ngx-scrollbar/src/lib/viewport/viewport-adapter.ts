@@ -1,12 +1,19 @@
-import { ViewportClasses } from '../ng-scrollbar.model';
+import { signal, WritableSignal } from '@angular/core';
+import { ViewportClasses } from '../utils/common';
 
 export class ViewportAdapter {
 
+  nativeElement: HTMLElement;
   /**
    * The element that wraps the content inside the viewport,
    * used to measure the content size and observe its changes
    */
   contentWrapperElement: HTMLElement;
+
+  /*
+   * A signal that indicates when viewport adapter is initialized
+   */
+  initialized: WritableSignal<boolean> = signal(false);
 
   /** Viewport clientHeight */
   get offsetHeight(): number {
@@ -48,14 +55,14 @@ export class ViewportAdapter {
     return this.contentHeight - this.offsetHeight;
   }
 
-  constructor(public nativeElement: HTMLElement) {
-    nativeElement.classList.add(ViewportClasses.Viewport);
-  }
-
   /**
    * Initialize viewport
    */
-  init(contentSelector: HTMLElement, spacerSelector?: HTMLElement): void {
+  init(viewport: HTMLElement, contentSelector: HTMLElement, spacerSelector?: HTMLElement): void {
+    // Add viewport class
+    viewport.classList.add(ViewportClasses.Viewport);
+    this.nativeElement = viewport;
+
     // Add content wrapper class
     contentSelector.classList.add(ViewportClasses.Content);
 
@@ -70,6 +77,7 @@ export class ViewportAdapter {
       // If spacer is not provided, set it as the content wrapper
       this.contentWrapperElement = contentSelector;
     }
+    this.initialized.set(true);
   }
 
   /**

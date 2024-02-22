@@ -24,7 +24,7 @@ describe('Dragging styles', () => {
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
 
-    component.scrollbars.y.thumb.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
+    component._scrollbars.y.thumb.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
     expect(component.dragging()).toBe('y');
     fixture.detectChanges();
     expect(component.nativeElement.getAttribute('dragging')).toBe('y');
@@ -42,7 +42,7 @@ describe('Dragging styles', () => {
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
 
-    component.scrollbars.x.thumb.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
+    component._scrollbars.x.thumb.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
     expect(component.dragging()).toBe('x');
     fixture.detectChanges();
     expect(component.nativeElement.getAttribute('dragging')).toBe('x');

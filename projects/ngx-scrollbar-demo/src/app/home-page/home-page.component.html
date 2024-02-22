@@ -1,15 +1,10 @@
 <app-header/>
 
-@if(!(platform.SAFARI || platform.ANDROID)) {
+@if (!(platform.SAFARI || platform.ANDROID)) {
   <app-lab/>
 }
 
-<!--    <div class="wide-container">-->
-<!--      <app-example-x *ngIf="largeScreen$ | async"></app-example-x>-->
-<!--    </div>-->
-
 <div class="container">
-
   <h2 class="mat-typography">Examples</h2>
 
   <app-example2/>
@@ -17,9 +12,4 @@
   <app-example3/>
 
   <app-example5/>
-
-  <h2 class="mat-typography">Integrating with other libraries</h2>
-
-  <app-example-infinite-scroll/>
-
 </div>

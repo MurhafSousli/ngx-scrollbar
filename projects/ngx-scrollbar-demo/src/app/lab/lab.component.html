@@ -145,7 +145,7 @@
                           (reachedBottom)="onReached('bottom')"
                           [disableReached]="disableReached">
               <div class="inner"
-                   [style.width.px]="(component.nativeElement.offsetWidth - (appearance === 'standard' ? +variables.thickness + (+variables.trackOffset * 2) : 0)) * slider.contentWidth"
+                   [style.width.px]="(component.nativeElement.offsetWidth - (appearance === 'native' ? +variables.thickness + (+variables.trackOffset * 2) : 0)) * slider.contentWidth"
                    [innerHTML]="content"></div>
 
               <div *ngIf="scrollToElementSelected" id="target">

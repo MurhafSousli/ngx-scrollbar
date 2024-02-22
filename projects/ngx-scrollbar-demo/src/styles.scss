@@ -1,5 +1,19 @@
 @use '@angular/material' as mat;
 
+/* Ngx-datatable core styles and theme */
+@import '../../../node_modules/@swimlane/ngx-datatable/index.css';
+@import '../../../node_modules/@swimlane/ngx-datatable/themes/material.scss';
+@import '../../../node_modules/@swimlane/ngx-datatable/assets/icons.css';
+
+
+/* Core Grid CSS */
+@import 'ag-grid-community/styles/ag-grid.css';
+/* Quartz Theme Specific CSS */
+@import 'ag-grid-community/styles/ag-theme-quartz.css';
+
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+
 @include mat.core();
 
 $purple-passion-palette: (
@@ -36,6 +50,7 @@ $purple-passion-palette: (
 );
 
 $app-primary: mat.define-palette($purple-passion-palette, 500);
+//$app-primary: mat.define-palette(mat.$light-green-palette, 500);
 $app-accent: mat.define-palette(mat.$orange-palette, 500);
 $app-warn: mat.define-palette(mat.$red-palette);
 $app-success: mat.define-palette(mat.$light-green-palette);

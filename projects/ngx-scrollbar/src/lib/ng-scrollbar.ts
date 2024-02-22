@@ -24,14 +24,12 @@ import { Scrollbars } from './scrollbars/scrollbars';
 })
 export class NgScrollbar extends NgScrollbarCore implements OnInit {
 
-  readonly viewport: ViewportAdapter = new ViewportAdapter(this.nativeElement);
-
   @ViewChild('contentWrapper', { static: true }) contentWrapper: ElementRef<HTMLElement>;
 
-  @ViewChild(Scrollbars, { static: true }) scrollbars: Scrollbars;
+  @ViewChild(Scrollbars, { static: true }) _scrollbars: Scrollbars;
 
   override ngOnInit(): void {
-    this.viewport.init(this.contentWrapper.nativeElement);
+    this.viewport.init(this.nativeElement, this.contentWrapper.nativeElement);
     super.ngOnInit();
   }
 }

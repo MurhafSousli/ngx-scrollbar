@@ -1,4 +1,4 @@
-import { ComponentFixture, ComponentFixtureAutoDetect, TestBed, } from '@angular/core/testing';
+import { ComponentFixture, TestBed, } from '@angular/core/testing';
 import { signal } from '@angular/core';
 import { NgScrollbar, ScrollbarOrientation, ScrollbarVisibility } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
@@ -10,10 +10,7 @@ describe('NgScrollbar Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgScrollbar],
-      providers: [
-        { provide: ComponentFixtureAutoDetect, useValue: true }
-      ]
+      imports: [NgScrollbar]
     }).compileComponents();
 
     fixture = TestBed.createComponent(NgScrollbar);
@@ -56,9 +53,9 @@ describe('NgScrollbar Component', () => {
     expect(component.isHorizontallyScrollable()).toBeFalse();
   });
 
-  it('should show vertical scrollbar if visibility="always" even if viewport is not scrollable', async () => {
+  it('should show vertical scrollbar if visibility="visible" even if viewport is not scrollable', async () => {
     component.orientation = signal<ScrollbarOrientation>('vertical') as any;
-    component.visibility = signal<ScrollbarVisibility>('always') as any;
+    component.visibility = signal<ScrollbarVisibility>('visible') as any;
     setDimensions(component, { cmpHeight: 1000, contentHeight: 300 });
     component.ngOnInit();
     component.ngAfterViewInit();
@@ -86,7 +83,7 @@ describe('NgScrollbar Component', () => {
 
   it('should show horizontal scrollbar if viewport is horizontally scrollable', async () => {
     component.orientation = signal<ScrollbarOrientation>('horizontal') as any;
-    component.visibility = signal<ScrollbarVisibility>('always') as any;
+    component.visibility = signal<ScrollbarVisibility>('native') as any;
     setDimensions(component, { cmpWidth: 300, contentHeight: 300, contentWidth: 1000 });
     component.ngOnInit();
     component.ngAfterViewInit();
@@ -100,9 +97,9 @@ describe('NgScrollbar Component', () => {
   });
 
 
-  it('should show horizontal scrollbar if visibility="always" even if viewport is not scrollable', async () => {
+  it('should show horizontal scrollbar if visibility="visible" even if viewport is not scrollable', async () => {
     component.orientation = signal<ScrollbarOrientation>('horizontal') as any;
-    component.visibility = signal<ScrollbarVisibility>('always') as any;
+    component.visibility = signal<ScrollbarVisibility>('visible') as any;
     setDimensions(component, { cmpWidth: 1000, contentHeight: 300, contentWidth: 300 });
     component.ngOnInit();
     component.ngAfterViewInit();
@@ -128,9 +125,9 @@ describe('NgScrollbar Component', () => {
     expect(component.isVerticallyScrollable()).toBeFalse();
   });
 
-  it('should show all scrollbars if visibility="always"', async () => {
+  it('should show all scrollbars if visibility="visible"', async () => {
     component.orientation = signal<ScrollbarOrientation>('auto') as any;
-    component.visibility = signal<ScrollbarVisibility>('always') as any;
+    component.visibility = signal<ScrollbarVisibility>('visible') as any;
     setDimensions(component, { cmpWidth: 1000, cmpHeight: 1000, contentHeight: 300, contentWidth: 300 });
     component.ngOnInit();
     component.ngAfterViewInit();
@@ -145,7 +142,7 @@ describe('NgScrollbar Component', () => {
 
   it('should show all scrollbars if viewport is vertically and horizontally scrollable', async () => {
     component.orientation = signal<ScrollbarOrientation>('auto') as any;
-    component.visibility = signal<ScrollbarVisibility>('always') as any;
+    component.visibility = signal<ScrollbarVisibility>('visible') as any;
     setDimensions(component, { cmpWidth: 200, cmpHeight: 200, contentHeight: 300, contentWidth: 300 });
     component.ngOnInit();
     component.ngAfterViewInit();
@@ -160,14 +157,13 @@ describe('NgScrollbar Component', () => {
 
   it('[Auto-height]: component height and width should match content size by default', () => {
     component.orientation = signal<ScrollbarOrientation>('auto') as any;
-    component.appearance = 'standard';
     setDimensions(component, { contentHeight: 300, contentWidth: 300 });
     component.ngOnInit();
     component.ngAfterViewInit();
 
-    expect(component.scrollbars.y).toBeFalsy();
+    expect(component._scrollbars.y).toBeFalsy();
     expect(component.verticalUsed()).toBeFalsy();
-    expect(component.scrollbars.x).toBeFalsy();
+    expect(component._scrollbars.x).toBeFalsy();
     expect(component.horizontalUsed()).toBeFalsy();
     expect(getComputedStyle(component.nativeElement).height).toBe('300px');
   });

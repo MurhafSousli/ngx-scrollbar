@@ -4,7 +4,7 @@ import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { setDimensions } from './common-test.';
 
-describe('Appearance [standard / compact] styles', () => {
+describe('Appearance [native / compact] styles', () => {
   let component: NgScrollbar;
   let fixture: ComponentFixture<NgScrollbar>;
   let scrollbarSize: string = '13px';
@@ -30,29 +30,29 @@ describe('Appearance [standard / compact] styles', () => {
     component.nativeElement.style.setProperty('--scrollbar-margin', '4');
   });
 
-  it('should set appearance="standard" attribute by default and 0px padding', () => {
+  it('should set appearance="native" attribute by default and 0px padding', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     const appearanceAttr: string = component.nativeElement.getAttribute('appearance');
     const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
-    expect(appearanceAttr).toBe('standard');
+    expect(appearanceAttr).toBe('native');
     expect(styles.padding).toBe('0px');
   });
 
-  it('should set appearance="standard" attribute when [appearance]="standard"', () => {
+  it('should set appearance="native" attribute when [appearance]="native"', () => {
     setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 500, contentWidth: 500 });
-    component.appearance = 'standard';
+    component.appearance = 'native';
     component.ngOnInit();
     component.ngAfterViewInit();
     fixture.detectChanges();
 
     const appearanceAttr: string = component.nativeElement.getAttribute('appearance');
-    expect(appearanceAttr).toBe('standard');
+    expect(appearanceAttr).toBe('native');
   });
 
   it('should have "padding-right" and "padding-bottom" when its scrollable in both directions', async () => {
     setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 500, contentWidth: 500 });
-    component.appearance = 'standard';
+    component.appearance = 'native';
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
@@ -66,7 +66,7 @@ describe('Appearance [standard / compact] styles', () => {
 
   it('should have "padding-right" when its vertically scrollable', async () => {
     setDimensions(component, { cmpHeight: 300, contentHeight: 1000 });
-    component.appearance = 'standard';
+    component.appearance = 'native';
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
@@ -80,7 +80,7 @@ describe('Appearance [standard / compact] styles', () => {
 
   it('should have "padding-bottom" when its horizontally scrollable', async () => {
     setDimensions(component, { cmpHeight: 100, contentHeight: 100, cmpWidth: 300, contentWidth: 1000 });
-    component.appearance = 'standard';
+    component.appearance = 'native';
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
@@ -95,7 +95,7 @@ describe('Appearance [standard / compact] styles', () => {
   it('should have "padding-top" when its horizontally scrollable and [position]="invertX"', async () => {
     setDimensions(component, { cmpHeight: 100, contentHeight: 100, cmpWidth: 300, contentWidth: 1000 });
     component.position = 'invertX';
-    component.appearance = 'standard';
+    component.appearance = 'native';
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
@@ -110,7 +110,7 @@ describe('Appearance [standard / compact] styles', () => {
   it('should have "padding-left" when its vertically scrollable and [position="invertY"]', async () => {
     setDimensions(component, { cmpHeight: 300, contentHeight: 1000 });
     component.position = 'invertY';
-    component.appearance = 'standard';
+    component.appearance = 'native';
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
@@ -125,7 +125,7 @@ describe('Appearance [standard / compact] styles', () => {
   it('should have "padding-left" and "padding-top" when its scrollbar in both directions and [position="invertAll"]', async () => {
     setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 400, contentWidth: 400 });
     component.position = 'invertAll';
-    component.appearance = 'standard';
+    component.appearance = 'native';
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
@@ -140,7 +140,7 @@ describe('Appearance [standard / compact] styles', () => {
   it('should have "padding-left" when its vertically scrollable and [dir="rtl"]', async () => {
     setDimensions(component, { cmpHeight: 300, contentHeight: 1000, cmpWidth: 100, contentWidth: 100 });
     directionalityMock.value = 'rtl';
-    component.appearance = 'standard';
+    component.appearance = 'native';
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
@@ -155,7 +155,7 @@ describe('Appearance [standard / compact] styles', () => {
   it('should have "padding-right" when its vertically scrollable, [dir="rtl"] and [position]="invertY"', async () => {
     setDimensions(component, { cmpHeight: 300, contentHeight: 1000 });
     directionalityMock.value = 'rtl';
-    component.appearance = 'standard';
+    component.appearance = 'native';
     component.position = 'invertY';
     component.ngOnInit();
     component.ngAfterViewInit();
@@ -171,7 +171,7 @@ describe('Appearance [standard / compact] styles', () => {
   it('should have "padding-right" and "padding-top" when its scrollable in both directions, [dir="rtl"] and [position]="invertAll"', async () => {
     setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 400, contentWidth: 400 });
     directionalityMock.value = 'rtl';
-    component.appearance = 'standard';
+    component.appearance = 'native';
     component.position = 'invertAll';
     component.ngOnInit();
     component.ngAfterViewInit();

@@ -16,3 +16,17 @@ export function stopPropagation(): MonoTypeOperatorFunction<any> {
     e.stopPropagation()
   });
 }
+
+export type ScrollbarDragging = 'x' | 'y' | 'none';
+
+export enum ViewportClasses {
+  Viewport = 'ng-scroll-viewport',
+  Content = 'ng-scroll-content'
+}
+
+export interface ViewportBoundaries {
+  contentHeight: number;
+  contentWidth: number;
+  offsetHeight: number;
+  offsetWidth: number;
+}

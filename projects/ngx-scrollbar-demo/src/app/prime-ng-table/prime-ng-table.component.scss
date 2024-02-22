@@ -1,0 +1,42 @@
+:host {
+  ::ng-deep {
+
+    .p-frozen-column, .p-datatable-frozen-tbody {
+      font-weight: bold;
+    }
+
+    table {
+      font-size: 14px;
+    }
+  }
+}
+
+ng-scrollbar {
+  --scrollbar-track-color: rgba(0, 0, 0, 0.05);
+  --scrollbar-thumb-color: var(--color-primary);
+  --scrollbar-thickness: 12;
+
+  border-radius: 3px;
+  border: 2px solid rgba(0, 0, 0, 0.05);
+}
+
+.p-scroller {
+  width: 200px;
+  height: 200px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  color: black;
+  height: 50px;
+
+  &:nth-child(odd) {
+    background: #f1ffff;
+  }
+
+  &:nth-child(even) {
+    background: #ecf8ff;
+  }
+}

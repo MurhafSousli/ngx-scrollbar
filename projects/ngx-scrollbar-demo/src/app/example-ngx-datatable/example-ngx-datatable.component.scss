@@ -1,0 +1,20 @@
+ng-scrollbar {
+  --scrollbar-thickness: 6;
+  --scrollbar-hover-thickness: 10;
+  --scrollbar-offset: 0;
+  --scrollbar-border-radius: 0;
+  --scrollbar-thumb-color: var(--color-primary);
+  --scrollbar-track-color: rgba(0, 0, 0, 0.2);
+
+  //border: 2px solid rgba(0, 0, 0, 0.05);
+
+  ::ng-deep {
+    .ng-scroll-content {
+      display: block;
+    }
+  }
+}
+.example-ngx-datatable {
+  border-radius: 3px;
+  overflow: hidden;
+}

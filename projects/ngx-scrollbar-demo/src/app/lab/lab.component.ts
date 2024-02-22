@@ -81,7 +81,7 @@ export class LabComponent {
   position: ScrollbarPosition = 'native';
   orientation: ScrollbarOrientation = 'auto';
   visibility: ScrollbarVisibility = 'native';
-  appearance: ScrollbarAppearance = 'standard';
+  appearance: ScrollbarAppearance = 'native';
 
   reached: BehaviorSubject<ReachedEvent> = new BehaviorSubject<ReachedEvent>({});
 

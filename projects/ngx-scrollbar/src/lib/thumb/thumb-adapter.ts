@@ -1,10 +1,9 @@
 import { Directive, inject, effect, NgZone, ElementRef } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Observable, of, fromEvent, map, takeUntil, tap, switchMap } from 'rxjs';
-import { enableSelection, preventSelection, stopPropagation } from '../utils/common';
+import { enableSelection, preventSelection, ScrollbarDragging, stopPropagation } from '../utils/common';
 import { TrackAdapter } from '../track/track-adapter';
 import { NG_SCROLLBAR, _NgScrollbar } from '../utils/scrollbar-base';
-import { ScrollbarDragging } from '../ng-scrollbar.model';
 import { ScrollbarManager } from '../utils/scrollbar-manager';
 
 // @dynamic
@@ -14,7 +13,7 @@ export abstract class ThumbAdapter {
   private readonly zone: NgZone = inject(NgZone);
   protected readonly document: Document = inject(DOCUMENT);
   protected readonly cmp: _NgScrollbar = inject(NG_SCROLLBAR);
-  private readonly manager: ScrollbarManager = inject(ScrollbarManager);
+  protected readonly manager: ScrollbarManager = inject(ScrollbarManager);
   private readonly track: TrackAdapter = inject(TrackAdapter);
   readonly nativeElement: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
 

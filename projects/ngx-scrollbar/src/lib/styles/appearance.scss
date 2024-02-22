@@ -22,7 +22,7 @@
 
 @mixin SetAppearanceStuff {
 
-  &[appearance="standard"] {
+  &[appearance="native"] {
     @include selector.VerticalUsed {
 
       @include selector.LTR {

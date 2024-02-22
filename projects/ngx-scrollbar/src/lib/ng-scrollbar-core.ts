@@ -22,11 +22,10 @@ import {
   EffectCleanupRegisterFn,
   InputSignalWithTransform
 } from '@angular/core';
-import { Platform, RtlScrollAxisType } from '@angular/cdk/platform';
+import { Platform } from '@angular/cdk/platform';
 import { Direction, Directionality } from '@angular/cdk/bidi';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Subscription, map, tap } from 'rxjs';
-
 import {
   SmoothScrollElement,
   SmoothScrollManager,
@@ -36,16 +35,29 @@ import {
 import { Scrollbars } from './scrollbars/scrollbars';
 import { _NgScrollbar, NG_SCROLLBAR } from './utils/scrollbar-base';
 import { resizeSensor, ViewportAdapter } from './viewport';
-import { ScrollbarManager } from './utils/scrollbar-manager';
+import { ScrollbarDragging, ViewportBoundaries } from './utils/common';
 import {
   ScrollbarAppearance,
-  ScrollbarDragging,
   ScrollbarPosition,
   ScrollbarOrientation,
   ScrollbarUpdateReason,
   ScrollbarVisibility,
-  ViewportBoundaries
+  NgScrollbarOptions,
+  NG_SCROLLBAR_OPTIONS
 } from './ng-scrollbar.model';
+
+const defaultOptions: NgScrollbarOptions = {
+  trackClass: '',
+  thumbClass: '',
+  orientation: 'auto',
+  appearance: 'native',
+  visibility: 'native',
+  position: 'native',
+  clickScrollDuration: 50,
+  sensorThrottleTime: 0,
+  disableSensor: false,
+  disableInteraction: false
+};
 
 interface ViewportState {
   verticalUsed: boolean,
@@ -74,22 +86,27 @@ interface ViewportState {
 })
 export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterViewInit {
 
-  private readonly platform: Platform = inject(Platform);
+  /** Injected options */
+  private readonly injectedOptions: NgScrollbarOptions = inject(NG_SCROLLBAR_OPTIONS, { optional: true });
+
+  /** Combine injected option with default options */
+  private readonly options: NgScrollbarOptions = this.injectedOptions ? { ...defaultOptions, ...this.injectedOptions } : defaultOptions;
+
   private readonly zone: NgZone = inject(NgZone);
+  private readonly platform: Platform = inject(Platform);
   private readonly injector: Injector = inject(Injector);
 
+  /** A flag that indicates if the platform is mobile */
   readonly isMobile: boolean = this.platform.SAFARI || this.platform.ANDROID;
-
   dir: Directionality = inject(Directionality);
-
-  manager: ScrollbarManager = inject(ScrollbarManager);
 
   smoothScroll: SmoothScrollManager = inject(SmoothScrollManager);
 
   nativeElement: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
 
-  rtlScrollAxisType: RtlScrollAxisType = this.manager.rtlScrollAxisType;
-
+  /**
+   * Indicates if the direction is 'ltr' or 'rtl'
+   */
   direction: Signal<Direction>;
 
   /**
@@ -104,7 +121,7 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
    * - `horizontal` Use both vertical and horizontal scrollbar
    * - `auto` Use both vertical and horizontal scrollbar
    */
-  orientation: InputSignal<ScrollbarOrientation> = input<ScrollbarOrientation>(this.manager.globalOptions.orientation);
+  orientation: InputSignal<ScrollbarOrientation> = input<ScrollbarOrientation>(this.options.orientation);
 
   /**
    * When to show the scrollbar, and there are 3 options:
@@ -113,10 +130,10 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
    * - `hover` Scrollbars are hidden by default, only visible on scrolling or hovering
    * - `always` Scrollbars are always shown even if the viewport is not scrollable
    */
-  visibility: InputSignal<ScrollbarVisibility> = input<ScrollbarVisibility>(this.manager.globalOptions.visibility);
+  visibility: InputSignal<ScrollbarVisibility> = input<ScrollbarVisibility>(this.options.visibility);
 
   /** Disables scrollbar interaction like dragging thumb and jumping by track click */
-  disableInteraction: InputSignalWithTransform<boolean, string | boolean> = input<boolean, string | boolean>(this.manager.globalOptions.disableInteraction, {
+  disableInteraction: InputSignalWithTransform<boolean, string | boolean> = input<boolean, string | boolean>(this.options.disableInteraction, {
     transform: booleanAttribute
   });
 
@@ -126,12 +143,12 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
   });
 
   /** Whether ResizeObserver is disabled */
-  disableSensor: InputSignalWithTransform<boolean, string | boolean> = input<boolean, string | boolean>(this.manager.globalOptions.disableSensor, {
+  disableSensor: InputSignalWithTransform<boolean, string | boolean> = input<boolean, string | boolean>(this.options.disableSensor, {
     transform: booleanAttribute
   });
 
   /** Throttle interval for detecting changes via ResizeObserver */
-  sensorThrottleTime: InputSignal<number> = input<number, number>(this.manager.globalOptions.sensorThrottleTime, {
+  sensorThrottleTime: InputSignal<number> = input<number, number>(this.options.sensorThrottleTime, {
     transform: numberAttribute
   });
 
@@ -155,12 +172,12 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
     // Check if vertical scrollbar should be displayed
     if (orientation === 'auto' || orientation === 'vertical') {
       isVerticallyScrollable = viewport.contentHeight > viewport.offsetHeight;
-      verticalUsed = visibility === 'always' || isVerticallyScrollable;
+      verticalUsed = visibility === 'visible' || isVerticallyScrollable;
     }
     // Check if horizontal scrollbar should be displayed
     if (orientation === 'auto' || orientation === 'horizontal') {
       isHorizontallyScrollable = viewport.contentWidth > viewport.offsetWidth;
-      horizontalUsed = visibility === 'always' || isHorizontallyScrollable;
+      horizontalUsed = visibility === 'visible' || isHorizontallyScrollable;
     }
 
     return {
@@ -180,7 +197,7 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
   @Input({
     alias: 'clickScrollDuration',
     transform: numberAttribute
-  }) trackClickDuration: number = this.manager.globalOptions.clickScrollDuration;
+  }) trackClickDuration: number = this.options.clickScrollDuration;
 
   /**
    *  Sets the appearance of the scrollbar, there are 2 options:
@@ -188,7 +205,7 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
    * - `standard` (default) scrollbar space will be reserved just like with native scrollbar.
    * - `compact` scrollbar doesn't reserve any space, they are placed over the viewport.
    */
-  @Input() appearance: ScrollbarAppearance = this.manager.globalOptions.appearance;
+  @Input() appearance: ScrollbarAppearance = this.options.appearance;
   /**
    * Sets the position of each scrollbar, there are 4 options:
    *
@@ -197,12 +214,12 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
    * - `invertX` Inverts Horizontal scrollbar position
    * - `invertAll` Inverts both scrollbar positions
    */
-  @Input() position: ScrollbarPosition = this.manager.globalOptions.position;
+  @Input() position: ScrollbarPosition = this.options.position;
 
   /** A class forwarded to the scrollbar track element */
-  @Input() trackClass: string = this.manager.globalOptions.trackClass;
+  @Input() trackClass: string = this.options.trackClass;
   /** A class forwarded to the scrollbar thumb element */
-  @Input() thumbClass: string = this.manager.globalOptions.thumbClass;
+  @Input() thumbClass: string = this.options.thumbClass;
 
   /** Steam that emits when scrollbar is initialized */
   @Output() afterInit: EventEmitter<void> = new EventEmitter<void>();
@@ -214,10 +231,10 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
   private sizeChangeSub: Subscription;
 
   /** Viewport adapter instance */
-  abstract viewport: ViewportAdapter;
+  viewport: ViewportAdapter = new ViewportAdapter();
 
   /** The scrollbars component instance used for testing purpose */
-  abstract scrollbars: Scrollbars;
+  abstract _scrollbars: Scrollbars;
 
   ngOnInit(): void {
     runInInjectionContext(this.injector, () => {
@@ -231,10 +248,14 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
           // If sensor is disabled update manually
           this.sizeChangeSub?.unsubscribe();
         } else {
-          if (this.platform.isBrowser) {
+          if (this.platform.isBrowser && this.viewport.initialized()) {
             this.sizeChangeSub?.unsubscribe();
 
-            this.sizeChangeSub = resizeSensor(this.viewport.nativeElement, this.sensorThrottleTime()).pipe(
+            this.sizeChangeSub = resizeSensor({
+              element: this.viewport.nativeElement,
+              contentWrapper: this.viewport.contentWrapperElement,
+              throttleDuration: this.sensorThrottleTime()
+            }).pipe(
               tap((reason: ScrollbarUpdateReason) => this.update(reason))
             ).subscribe();
           }

@@ -1,9 +1,8 @@
 import { InjectionToken, Signal, WritableSignal } from '@angular/core';
 import { Direction } from '@angular/cdk/bidi';
-import { RtlScrollAxisType } from '@angular/cdk/platform';
 import { SmoothScrollToOptions } from 'ngx-scrollbar/smooth-scroll';
 import { ViewportAdapter } from '../viewport';
-import { ScrollbarDragging, ViewportBoundaries } from '../ng-scrollbar.model';
+import { ScrollbarDragging, ViewportBoundaries } from './common';
 
 
 /**
@@ -14,7 +13,6 @@ export const NG_SCROLLBAR: InjectionToken<_NgScrollbar> = new InjectionToken<_Ng
 
 export interface _NgScrollbar {
   nativeElement: HTMLElement;
-  rtlScrollAxisType: RtlScrollAxisType;
   dragging: WritableSignal<ScrollbarDragging>;
   direction: Signal<Direction>;
   disableSensor: Signal<boolean>;

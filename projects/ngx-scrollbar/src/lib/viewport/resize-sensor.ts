@@ -1,7 +1,13 @@
 import { Observable, Observer, throttleTime } from 'rxjs';
 import { ScrollbarUpdateReason } from '../ng-scrollbar.model';
 
-export function resizeSensor(element: HTMLElement, throttleDuration: number, isScrollbar?: boolean): Observable<ScrollbarUpdateReason> {
+interface ResizeArgs {
+  element: HTMLElement;
+  throttleDuration: number;
+  contentWrapper?: HTMLElement;
+}
+
+export function resizeSensor({ element, contentWrapper, throttleDuration }: ResizeArgs): Observable<ScrollbarUpdateReason> {
   // The first time the observer is triggered as soon as the element is observed,
   // So we need to differentiate the reason of the event fired
   let reason: ScrollbarUpdateReason = ScrollbarUpdateReason.AfterInit;
@@ -17,8 +23,8 @@ export function resizeSensor(element: HTMLElement, throttleDuration: number, isS
     resizeObserver.observe(element);
 
     // If a content element has a supporting content scrollbars, observe it!
-    if (!isScrollbar && element.firstElementChild) {
-      resizeObserver.observe(element.firstElementChild);
+    if (contentWrapper) {
+      resizeObserver.observe(contentWrapper);
     }
 
     return () => {
