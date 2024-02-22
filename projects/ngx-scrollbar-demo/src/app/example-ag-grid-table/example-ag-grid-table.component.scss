@@ -1,0 +1,20 @@
+:host {
+  ::ng-deep {
+    .ag-body-vertical-scroll,
+    .ag-body-horizontal-scroll {
+      display: none;
+    }
+
+    .ag-body-viewport {
+      overflow: hidden;
+    }
+  }
+}
+
+ng-scrollbar {
+  --scrollbar-hover-thickness: 10;
+  --scrollbar-thumb-color: var(--color-primary);
+  --scrollbar-track-color: rgba(0, 0, 0, 0.2);
+  --scrollbar-offset: 0;
+  --scrollbar-border-radius: 0;
+}

@@ -1,6 +1,18 @@
 # Changelog
 
-## 14.0.0 beta 🚀
+## 14.0.0-beta.2
+
+- feat: Add a provider function `provideScrollbarOptions` to override of the default options.
+- feat: Add a provider function `provideScrollbarPolyfill` to override the default scroll timeline polyfill link.
+- feat: Add `asyncDetection` directive that helps integration with 3rd-party libraries.
+
+
+### Breaking changes
+
+- Rename `ScrollbarAppearance` default value from `standard` to `native`.
+- Rename `ScrollbarVisibility` value from `always` to `visible`.
+
+## 14.0.0 beta.1
 
 ### The core package has been written from scratch ✨
 
@@ -8,10 +20,8 @@
 updating scroll thumb position is done via native CSS which means the calculation is done on the browser background worker.
 - feat: Auto-height feature is default now, the component behaves like a standard HTML element and will fit its content out of the box.
 - feat: Mimic the scroll behavior when the track is clicked.
-- feat: Allow dragging scrollbar on mobile, replacing `mouse` events with `pointer` events.
 - feat: Add `cdkVirtualScrollViewport` directive to the util package.
 - feat: Add `matSelectViewport` directive to the util package, closes [#537](https://github.com/MurhafSousli/ngx-scrollbar/issues/537).
-- feat: Add `scrollTimelinePolyfill` option to change the path of scroll timeline polyfill.
 - enhance: Add payload to differentiate update cause, closes [#517](https://github.com/MurhafSousli/ngx-scrollbar/issues/517).
 - enhance: Use `throttleTime` instead of `debounceTime` in case resize sensor needed to be throttled.
 - fix: scrollbar disappearing on Firefox/Safari when reaching bottom/end, closes [#529](https://github.com/MurhafSousli/ngx-scrollbar/issues/529).
@@ -51,11 +61,9 @@ When viewport directive is used, it requires `externalViewport` attribute on the
 
 ```html
 <ng-scrollbar externalViewport>
-    <div scrollViewport>
-      <div class="wrapper">
-        ...
-      </div>
-    </div>
+  <div scrollViewport>
+    ...
+  </div>
 </ng-scrollbar>
 ```
 
@@ -65,11 +73,9 @@ Additionally, you can select the viewport by providing a selector `.my-viewport`
 
 ```html
 <ng-scrollbar externalViewport=".my-viewport">
-    <div class="my-viewport">
-      <div class="wrapper">
-        ...
-      </div>
-    </div>
+  <div class="my-viewport">
+    ...
+  </div>
 </ng-scrollbar>
 ```
 

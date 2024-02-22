@@ -1,5 +1,4 @@
 import { Directive, ElementRef, inject, } from '@angular/core';
-import { ViewportAdapter } from './viewport-adapter';
 
 @Directive({
   standalone: true,
@@ -7,6 +6,6 @@ import { ViewportAdapter } from './viewport-adapter';
 })
 export class ScrollViewport {
 
-  readonly viewport: ViewportAdapter = new ViewportAdapter(inject(ElementRef<HTMLElement>).nativeElement);
+  readonly nativeElement: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
 
 }

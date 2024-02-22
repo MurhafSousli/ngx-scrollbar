@@ -1,0 +1,63 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>PrimeNg Table</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <ng-scrollbar externalViewport=".p-scroller"
+                  externalContentWrapper=".p-datatable-scrollable-table"
+                  orientation="vertical"
+                  appearance="compact"
+                  asyncDetection>
+      <p-table [columns]="cols"
+               [value]="cars"
+               [scrollable]="true"
+               scrollHeight="250px"
+               [virtualScroll]="true"
+               [virtualScrollItemSize]="46">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" style="width: 25%;">
+              {{ col.header }}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body"
+                     let-rowData
+                     let-columns="columns">
+          <tr style="height:46px">
+            <td *ngFor="let col of columns">
+              {{ rowData[col.field] }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </ng-scrollbar>
+  </mat-card-content>
+</mat-card>
+
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>PrimeNg Scroller</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <ng-scrollbar externalViewport=".p-scroller"
+                  externalContentWrapper=".p-scroller-content"
+                  externalSpacer=".p-scroller-spacer"
+                  appearance="compact"
+                  asyncDetection>
+      <p-scroller [items]="cars"
+                  [itemSize]="50"
+                  scrollHeight="200px"
+                  styleClass="border-1 surface-border"
+                  [style]="{'width': '200px', 'height': '200px'}">
+        <ng-template pTemplate="item" let-item let-options="options">
+          <div class="item"
+               [ngClass]="{ 'surface-ground': options.odd }">
+            {{ item.vin }}
+          </div>
+        </ng-template>
+      </p-scroller>
+    </ng-scrollbar>
+  </mat-card-content>
+</mat-card>

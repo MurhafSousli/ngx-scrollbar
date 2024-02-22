@@ -1,42 +1,29 @@
-import { Injectable, Inject, inject, Optional, signal, WritableSignal, PLATFORM_ID } from '@angular/core';
+import { Injectable, inject, signal, WritableSignal, PLATFORM_ID } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { getRtlScrollAxisType, RtlScrollAxisType } from '@angular/cdk/platform';
-import { NG_SCROLLBAR_OPTIONS, NgScrollbarOptions } from '../ng-scrollbar.model';
+import { NG_SCROLLBAR_POLYFILL } from '../ng-scrollbar.model';
 
-
-const defaultOptions: NgScrollbarOptions = {
-  scrollTimelinePolyfill: 'https://flackr.github.io/scroll-timeline/dist/scroll-timeline.js',
-  trackClass: '',
-  thumbClass: '',
-  orientation: 'auto',
-  appearance: 'standard',
-  visibility: 'native',
-  position: 'native',
-  clickScrollDuration: 50,
-  sensorThrottleTime: 0,
-  disableSensor: false,
-  disableInteraction: false
-};
-
+const scrollTimelinePolyfillUrl: string = 'https://flackr.github.io/scroll-timeline/dist/scroll-timeline.js';
 
 @Injectable({ providedIn: 'root' })
 export class ScrollbarManager {
 
   private readonly isBrowser: boolean = isPlatformBrowser(inject(PLATFORM_ID));
 
+  private readonly polyfillUrl: string = inject(NG_SCROLLBAR_POLYFILL, { optional: true }) || scrollTimelinePolyfillUrl;
+
   readonly document: Document = inject(DOCUMENT);
 
   readonly window: Window = this.document.defaultView;
 
-  readonly globalOptions: NgScrollbarOptions = {};
-
+  /**
+   * Indicates the RTL scrollAxisType (used for dragging functionality)
+   */
   readonly rtlScrollAxisType: RtlScrollAxisType = getRtlScrollAxisType();
 
   readonly scrollTimelinePolyfill: WritableSignal<any> = signal(null);
 
-  constructor(@Optional() @Inject(NG_SCROLLBAR_OPTIONS) options: NgScrollbarOptions) {
-    this.globalOptions = options ? { ...defaultOptions, ...options } : defaultOptions;
-
+  constructor() {
     if (this.isBrowser && !this.window['ScrollTimeline'] && !CSS.supports('animation-timeline', 'scroll()')) {
       this.initPolyfill();
     }
@@ -46,7 +33,7 @@ export class ScrollbarManager {
     try {
       // Create a script element
       const script: HTMLScriptElement = this.document.createElement('script');
-      script.src = this.globalOptions.scrollTimelinePolyfill;
+      script.src = this.polyfillUrl;
 
       // Wait for the script to load
       await new Promise<any>((resolve, reject) => {

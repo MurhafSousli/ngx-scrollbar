@@ -1,10 +1,9 @@
 import { InjectionToken } from '@angular/core';
 
-export type ScrollbarAppearance = 'standard' | 'compact';
+export type ScrollbarAppearance = 'native' | 'compact';
 export type ScrollbarOrientation = 'auto' | 'vertical' | 'horizontal';
-export type ScrollbarVisibility = 'hover' | 'always' | 'native';
+export type ScrollbarVisibility = 'native' | 'hover' | 'visible';
 export type ScrollbarPosition = 'native' | 'invertY' | 'invertX' | 'invertAll';
-export type ScrollbarDragging = 'x' | 'y' | 'none';
 
 export enum ScrollbarUpdateReason {
   AfterInit = 'AfterInit',
@@ -13,41 +12,42 @@ export enum ScrollbarUpdateReason {
 
 export const NG_SCROLLBAR_OPTIONS: InjectionToken<NgScrollbarOptions> = new InjectionToken<NgScrollbarOptions>('NG_SCROLLBAR_OPTIONS');
 
+export const NG_SCROLLBAR_POLYFILL: InjectionToken<string> = new InjectionToken<string>('NG_SCROLLBAR_POLYFILL');
+
 export interface NgScrollbarOptions {
   /**
-   * Sets the scroll timeline polyfill
-   */
-  scrollTimelinePolyfill?: string;
-  /**
-   * Sets the scroll axis of the viewport, there are 3 options:
-   *
-   * - `vertical` Use both vertical and horizontal scrollbar-control
-   * - `horizontal` Use both vertical and horizontal scrollbar-control
-   * - `all` Use both vertical and horizontal scrollbar-control
+   * Sets the scroll axis of the viewport.
+   * - 'auto': Scrollbars are displayed for both vertical and horizontal scrolling.
+   * - 'vertical': Scrollbars are displayed for vertical scrolling.
+   * - 'horizontal': Scrollbars are displayed for horizontal scrolling.
+   * Defaults to 'auto'.
    */
   orientation?: ScrollbarOrientation;
+
   /**
-   * When to show the scrollbar, and there are 3 options:
-   *
-   * - `native` (default) Scrollbar will be visible when viewport is scrollable like with native scrollbar-control
-   * - `hover` Scrollbars are hidden by default, only visible on scrolling or hovering
-   * - `always` Scrollbars are always shown even if the viewport is not scrollable
+   * Determines when to show the scrollbar.
+   * - 'native': Scrollbar is visible when the viewport is scrollable, similar to native scrollbars.
+   * - 'hover': Scrollbars are hidden by default and become visible on scrolling or hovering.
+   * - 'visible': Scrollbars are always visible, even if the viewport is not scrollable.
+   * Defaults to 'native'.
    */
   visibility?: ScrollbarVisibility;
+
   /**
-   *  Sets the appearance of the scrollbar, there are 2 options:
-   *
-   * - `standard` (default) scrollbar space will be reserved just like with native scrollbar-control.
-   * - `compact` scrollbar doesn't reserve any space, they are placed over the viewport.
+   * Sets the appearance of the scrollbar.
+   * - 'native': Scrollbar space is reserved within the viewport, similar to native scrollbars.
+   * - 'compact': Scrollbars do not reserve any space and are placed over the viewport.
+   * Defaults to 'native'.
    */
   appearance?: ScrollbarAppearance;
+
   /**
-   * Sets the position of each scrollbar, there are 4 options:
-   *
-   * - `native` (Default) Use the default position like in native scrollbar-control.
-   * - `invertY` Inverts vertical scrollbar position
-   * - `invertX` Inverts Horizontal scrollbar position
-   * - `invertAll` Inverts both scrollbar-control positions
+   * Sets the position of each scrollbar.
+   * - 'native': Uses the default position as in native scrollbars.
+   * - 'invertY': Inverts the vertical scrollbar position.
+   * - 'invertX': Inverts the horizontal scrollbar position.
+   * - 'invertAll': Inverts the positions of both vertical and horizontal scrollbars.
+   * Defaults to 'native'.
    */
   position?: ScrollbarPosition;
   /** A class forwarded to the scrollbar track element */
@@ -62,16 +62,4 @@ export interface NgScrollbarOptions {
   sensorThrottleTime?: number;
   /** Whether ResizeObserver is disabled */
   disableSensor?: boolean;
-}
-
-export enum ViewportClasses {
-  Viewport = 'ng-scroll-viewport',
-  Content = 'ng-scroll-content'
-}
-
-export interface ViewportBoundaries {
-  contentHeight: number;
-  contentWidth: number;
-  offsetHeight: number;
-  offsetWidth: number;
 }

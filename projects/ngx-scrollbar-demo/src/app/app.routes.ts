@@ -11,7 +11,11 @@ export const routes: Routes = [
     loadComponent: () => import('./material-page/material-page.component').then(c => c.MaterialPageComponent),
   },
   {
-    path: 'lab',
-    loadComponent: () => import('./lab/lab.component').then(c => c.LabComponent),
-  }
+    path: 'integration',
+    loadComponent: () => import('./integration-page/integration-page.component').then(c => c.IntegrationPageComponent),
+  },
+  // {
+  //   path: 'lab',
+  //   loadComponent: () => import('./lab/lab.component').then(c => c.LabComponent),
+  // }
 ];

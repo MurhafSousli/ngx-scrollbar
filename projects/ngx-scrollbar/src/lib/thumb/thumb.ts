@@ -41,10 +41,10 @@ export class ThumbXDirective extends ThumbAdapter {
     super();
     effect(() => {
       if (this.cmp.direction() === 'rtl') {
-        if (this.cmp.rtlScrollAxisType === RtlScrollAxisType.NEGATED) {
+        if (this.manager.rtlScrollAxisType === RtlScrollAxisType.NEGATED) {
           this.handleDrag = (position: number, scrollMax: number): number => -(scrollMax - position);
         }
-        if (this.cmp.rtlScrollAxisType === RtlScrollAxisType.INVERTED) {
+        if (this.manager.rtlScrollAxisType === RtlScrollAxisType.INVERTED) {
           this.handleDrag = (position: number, scrollMax: number): number => position - scrollMax;
         }
       } else {
