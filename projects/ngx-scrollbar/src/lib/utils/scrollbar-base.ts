@@ -17,7 +17,6 @@ export interface _NgScrollbar {
   direction: Signal<Direction>;
   disableSensor: Signal<boolean>;
   sensorThrottleTime: Signal<number>;
-  interactionDisabled: Signal<boolean>;
   disableInteraction: Signal<boolean>;
   isVerticallyScrollable: Signal<boolean>;
   isHorizontallyScrollable: Signal<boolean>;

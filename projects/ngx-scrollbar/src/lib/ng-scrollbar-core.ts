@@ -80,7 +80,7 @@ interface ViewportState {
     '[attr.appearance]': 'appearance',
     '[attr.visibility]': 'visibility()',
     '[attr.orientation]': 'orientation()',
-    '[attr.disableInteraction]': 'interactionDisabled()'
+    '[attr.disableInteraction]': 'disableInteraction()'
   },
   providers: [{ provide: NG_SCROLLBAR, useExisting: NgScrollbarCore }]
 })
@@ -135,11 +135,6 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
   /** Disables scrollbar interaction like dragging thumb and jumping by track click */
   disableInteraction: InputSignalWithTransform<boolean, string | boolean> = input<boolean, string | boolean>(this.options.disableInteraction, {
     transform: booleanAttribute
-  });
-
-  /** A computed signal for disabling the interaction */
-  interactionDisabled: Signal<boolean> = computed(() => {
-    return this.isMobile || this.disableInteraction();
   });
 
   /** Whether ResizeObserver is disabled */

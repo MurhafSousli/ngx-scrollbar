@@ -1,5 +1,12 @@
 # Changelog
 
+## 14.0.0-beta.3
+
+- fix: In RTL, horizontal scrollbar track click does not work properly, closes [#548](https://github.com/MurhafSousli/ngx-scrollbar/issues/548).
+- fix: PrimeNg integration, native scrollbar still appears in Safari browsers.
+- refactor: Remove the default transition effect when `visibility="hover"`.
+- refactor: Enable scrollbar interactions on mobile devices.
+
 ## 14.0.0-beta.2
 
 - feat: Add a provider function `provideScrollbarOptions` to override of the default options.

@@ -6,9 +6,9 @@
 
 @mixin HideNativeScrollbars() {
   @include selector.Viewport {
-    scrollbar-width: none; /* Firefox 64 */
-    &::-webkit-scrollbar { /** WebKit */
-      display: none;
+    scrollbar-width: none !important; /* Firefox 64 */
+    &::-webkit-scrollbar { /** Chrome, Safari, Edge */
+      display: none !important;
     }
   }
 }

@@ -51,9 +51,8 @@
                   scrollHeight="200px"
                   styleClass="border-1 surface-border"
                   [style]="{'width': '200px', 'height': '200px'}">
-        <ng-template pTemplate="item" let-item let-options="options">
-          <div class="item"
-               [ngClass]="{ 'surface-ground': options.odd }">
+        <ng-template pTemplate="item" let-item>
+          <div class="item">
             {{ item.vin }}
           </div>
         </ng-template>

@@ -20,6 +20,10 @@
 }
 
 .ng-scrollbar-track {
+  // Prevent native scrolling (panning up and down) on mobile
+  touch-action: none;
+  // Prevent selecting when pointer is down while dragging on mobile
+  user-select: none;
   // We use the absolute position for the hover effect
   // Set the proper direction of size transition on hover
   top: var(--_scrollbar-track-top);
