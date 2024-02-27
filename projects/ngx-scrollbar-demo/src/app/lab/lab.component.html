@@ -38,7 +38,7 @@
               <mat-button-toggle-group aria-label="Scrollbar visibility"
                                        [(value)]="visibility">
                 <mat-button-toggle value="native">Native</mat-button-toggle>
-                <mat-button-toggle value="always">Always</mat-button-toggle>
+                <mat-button-toggle value="visible">Visible</mat-button-toggle>
                 <mat-button-toggle value="hover">Hover</mat-button-toggle>
               </mat-button-toggle-group>
             </div>
@@ -47,7 +47,7 @@
               <div class="lab-control-label">Appearance</div>
               <mat-button-toggle-group aria-label="Scrollbar Appearance"
                                        [(value)]="appearance">
-                <mat-button-toggle value="standard">Standard</mat-button-toggle>
+                <mat-button-toggle value="native">Native</mat-button-toggle>
                 <mat-button-toggle value="compact">Compact</mat-button-toggle>
               </mat-button-toggle-group>
             </div>
@@ -161,7 +161,7 @@
         </div>
 
         <div>
-          <app-reached-notifier [reached]="reached | async"/>
+          <app-reached-notifier [reached]="reached()"/>
         </div>
 
         <mat-accordion>
@@ -175,7 +175,7 @@
               </mat-panel-description>
             </mat-expansion-panel-header>
 
-            <app-smooth-scroll-form [reached]="scrollToReached$ | async"
+            <app-smooth-scroll-form [reached]="scrollReached()"
                                     (scrollTo)="onScrollTo($event)"
                                     (scrollToElementSelected)="scrollToElementSelected = $event"/>
           </mat-expansion-panel>

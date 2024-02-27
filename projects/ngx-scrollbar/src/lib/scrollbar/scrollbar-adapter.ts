@@ -32,7 +32,7 @@ export abstract class ScrollbarAdapter {
 
   constructor() {
     effect((onCleanup: EffectCleanupRegisterFn) => {
-      if (this.cmp.interactionDisabled()) {
+      if (this.cmp.disableInteraction()) {
         this.pointerEventsSub?.unsubscribe();
       } else {
         this.zone.runOutsideAngular(() => {

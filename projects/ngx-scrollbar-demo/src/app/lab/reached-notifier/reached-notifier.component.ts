@@ -4,7 +4,6 @@ import { MatChipsModule } from '@angular/material/chips';
 @Component({
   selector: 'app-reached-notifier',
   template: `
-<!--    <span class="reached-event-title">Reached events</span>-->
     <mat-chip-set style="margin-bottom: .5em">
       <mat-chip [class.changed]="reached.top">
         Top

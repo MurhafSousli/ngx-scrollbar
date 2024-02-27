@@ -7,11 +7,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @Component({
+  standalone: true,
   selector: 'app-smooth-scroll-form',
   templateUrl: './smooth-scroll-form.component.html',
   styleUrls: ['./smooth-scroll-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [MatButtonToggleModule, FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule]
 })
 export class SmoothScrollFormComponent implements DoCheck {
@@ -28,14 +28,14 @@ export class SmoothScrollFormComponent implements DoCheck {
   };
 
   @Input() reached: boolean;
-  @Output('scrollToElementSelected') scrollToElement = new EventEmitter();
-  @Output() scrollTo = new EventEmitter();
+  @Output('scrollToElementSelected') scrollToElement: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() scrollTo: EventEmitter<SmoothScrollOptionsForm> = new EventEmitter<SmoothScrollOptionsForm>();
 
   ngDoCheck() {
-    const axisX = this.options.axisXProperty === 'unset' ? '' : `${ this.options.axisXProperty }: ${ this.options.axisXValue }`;
-    const axisY = this.options.axisYProperty === 'unset' ? '' : `${ this.options.axisYProperty }: ${ this.options.axisYValue }`;
-    const comma = this.options.axisXProperty !== 'unset' && this.options.axisYProperty !== 'unset' ? ', ' : '';
-    const durationComma = this.options.axisXProperty !== 'unset' || this.options.axisYProperty !== 'unset' ? ', ' : '';
+    const axisX: string = this.options.axisXProperty === 'unset' ? '' : `${ this.options.axisXProperty }: ${ this.options.axisXValue }`;
+    const axisY: string = this.options.axisYProperty === 'unset' ? '' : `${ this.options.axisYProperty }: ${ this.options.axisYValue }`;
+    const comma: string = this.options.axisXProperty !== 'unset' && this.options.axisYProperty !== 'unset' ? ', ' : '';
+    const durationComma: string = this.options.axisXProperty !== 'unset' || this.options.axisYProperty !== 'unset' ? ', ' : '';
     if (this.options.scrollFunc === 'scrollToElement') {
       this.displayFunction =
         `scrollToElement('#target', {${ axisY }${ comma }${ axisX }${ durationComma }duration: ${ this.options.duration }})`;
@@ -57,10 +57,9 @@ export class SmoothScrollFormComponent implements DoCheck {
   play() {
     this.scrollTo.emit(this.options);
   }
-
 }
 
-interface SmoothScrollOptionsForm {
+export interface SmoothScrollOptionsForm {
   scrollFunc: string;
   duration: number;
   axisYProperty: string;

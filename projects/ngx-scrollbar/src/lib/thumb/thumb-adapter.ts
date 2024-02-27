@@ -1,10 +1,10 @@
 import { Directive, inject, effect, NgZone, ElementRef } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Observable, of, fromEvent, map, takeUntil, tap, switchMap } from 'rxjs';
-import { enableSelection, preventSelection, ScrollbarDragging, stopPropagation } from '../utils/common';
-import { TrackAdapter } from '../track/track-adapter';
+import { ScrollbarDragging, enableSelection, preventSelection, stopPropagation } from '../utils/common';
 import { NG_SCROLLBAR, _NgScrollbar } from '../utils/scrollbar-base';
 import { ScrollbarManager } from '../utils/scrollbar-manager';
+import { TrackAdapter } from '../track/track-adapter';
 
 // @dynamic
 @Directive()
@@ -17,25 +17,24 @@ export abstract class ThumbAdapter {
   private readonly track: TrackAdapter = inject(TrackAdapter);
   readonly nativeElement: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
 
-  // Returns either 'pageX' or 'pageY' according to scrollbar axis
-  protected abstract get pageProperty(): string;
+  // The animation reference used for enabling the polyfill on Safari and Firefox.
+  protected animation: Animation;
 
-  // Returns either 'clientHeight' or 'clientWidth' according to scrollbar axis
+  // Returns either 'clientX' or 'clientY' coordinate of the pointer relative to the viewport
   protected abstract get clientProperty(): string;
 
   abstract get dragStartOffset(): number;
 
   abstract get offset(): number;
 
-  // Returns thumb size, clientHeight or clientWidth
+  // Returns thumb size
   abstract get size(): number;
 
   abstract get viewportScrollMax(): number;
 
   protected abstract axis: 'x' | 'y';
 
-  protected animation: Animation;
-
+  // The maximum space available for scrolling.
   get trackMax(): number {
     return this.track.size - this.size;
   }
@@ -52,16 +51,16 @@ export abstract class ThumbAdapter {
   get dragged(): Observable<number> {
     return fromEvent<PointerEvent>(this.nativeElement, 'pointerdown').pipe(
       stopPropagation(),
+      preventSelection(this.document),
       switchMap((e: PointerEvent) => {
-        let trackMaxStart: number;
-        let scrollMaxStart: number;
+        let startTrackMax: number;
+        let startScrollMax: number;
 
         const dragStart: Observable<PointerEvent> = of<PointerEvent>(e).pipe(
-          preventSelection(this.document),
           tap(() => {
             // Capture scrollMax and trackMax once
-            trackMaxStart = this.trackMax;
-            scrollMaxStart = this.viewportScrollMax;
+            startTrackMax = this.trackMax;
+            startScrollMax = this.viewportScrollMax;
             this.setDragging(this.axis);
           }),
         );
@@ -75,15 +74,15 @@ export abstract class ThumbAdapter {
         );
 
         return dragStart.pipe(
-          map((e: PointerEvent) => e[this.pageProperty]),
-          map((pageOffset: number) => pageOffset - this.dragStartOffset),
-          switchMap((mouseDownOffset: number) => dragging.pipe(
-            map((e: PointerEvent) => e[this.clientProperty]),
+          map((startEvent: PointerEvent) => startEvent[this.clientProperty]),
+          map((startClientOffset: number) => startClientOffset - this.dragStartOffset),
+          switchMap((pointerDownOffset: number) => dragging.pipe(
+            map((moveEvent: PointerEvent) => moveEvent[this.clientProperty]),
             // Calculate how far the pointer is from the top/left of the scrollbar (minus the dragOffset).
-            map((mouseOffset: number) => mouseOffset - this.track.offset),
-            map((offset: number) => scrollMaxStart * (offset - mouseDownOffset) / trackMaxStart),
-            map((position: number) => this.handleDrag(position, scrollMaxStart)),
-            tap((position: number) => this.scrollTo(position)),
+            map((moveClientOffset: number) => moveClientOffset - this.track.offset),
+            map((trackRelativeOffset: number) => startScrollMax * (trackRelativeOffset - pointerDownOffset) / startTrackMax),
+            map((scrollPosition: number) => this.handleDrag(scrollPosition, startScrollMax)),
+            tap((finalScrollPosition: number) => this.scrollTo(finalScrollPosition)),
             takeUntil(dragEnd)
           ))
         );

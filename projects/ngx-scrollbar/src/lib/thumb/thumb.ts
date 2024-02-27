@@ -13,20 +13,16 @@ export class ThumbXDirective extends ThumbAdapter {
     return 'clientX';
   }
 
-  protected get pageProperty(): string {
-    return 'pageX';
-  }
-
   get viewportScrollMax(): number {
     return this.cmp.viewport.scrollMaxX;
   }
 
-  get dragStartOffset(): number {
-    return this.clientRect.left + this.document.defaultView.pageXOffset;
-  }
-
   get offset(): number {
     return this.clientRect.left;
+  }
+
+  get dragStartOffset(): number {
+    return this.offset + this.document.defaultView.scrollX;
   }
 
   get size(): number {
@@ -65,24 +61,20 @@ export class ThumbXDirective extends ThumbAdapter {
 })
 export class ThumbYDirective extends ThumbAdapter {
 
-  protected get pageProperty(): string {
-    return 'pageY';
+  protected get clientProperty(): string {
+    return 'clientY';
   }
 
   get viewportScrollMax(): number {
     return this.cmp.viewport.scrollMaxY;
   }
 
-  protected get clientProperty(): string {
-    return 'clientY';
+  get offset(): number {
+    return this.clientRect.top;
   }
 
   get dragStartOffset(): number {
-    return this.clientRect.top + this.document.defaultView.pageYOffset;
-  }
-
-  get offset(): number {
-    return this.clientRect.top;
+    return this.offset + this.document.defaultView.scrollY;
   }
 
   get size(): number {
