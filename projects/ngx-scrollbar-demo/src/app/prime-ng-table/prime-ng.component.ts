@@ -2,8 +2,10 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { TableModule } from 'primeng/table';
-import { NgScrollbarExt, ScrollbarExtAsyncDetection } from 'ngx-scrollbar';
+import { NgScrollbarExt, AsyncDetection } from 'ngx-scrollbar';
 import { Chance } from 'chance';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
 
 interface Column {
   field: string;
@@ -16,6 +18,11 @@ interface Car {
   color: string;
 }
 
+interface City {
+  name: string;
+  code: string;
+}
+
 @Component({
   selector: 'app-prime-ng-table',
   standalone: true,
@@ -23,22 +30,37 @@ interface Car {
     TableModule,
     CommonModule,
     NgScrollbarExt,
-    ScrollbarExtAsyncDetection,
-    MatCardModule
+    AsyncDetection,
+    MatCardModule,
+    DropdownModule,
+    FormsModule
   ],
-  templateUrl: './prime-ng-table.component.html',
-  styleUrl: './prime-ng-table.component.scss',
+  templateUrl: './prime-ng.component.html',
+  styleUrl: './prime-ng.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PrimeNgTableComponent implements OnInit {
+export class PrimeNgComponent implements OnInit {
 
   chance = new Chance();
 
-  cars!: Car[];
+  cars: Car[];
 
-  virtualCars!: Car[];
+  virtualCars: Car[];
 
-  cols!: Column[];
+  cols: Column[];
+
+  selectedCity: City = { name: 'Damascus', code: 'DMS' };
+
+  cities: City[] = [
+    { name: 'New York', code: 'NY' },
+    { name: 'Rome', code: 'RM' },
+    { name: 'London', code: 'LDN' },
+    { name: 'Istanbul', code: 'IST' },
+    { name: 'Paris', code: 'PRS' },
+    { name: 'Damascus', code: 'DMS' }
+  ];
+
+  selectedCar: Car;
 
   ngOnInit() {
     this.cols = [

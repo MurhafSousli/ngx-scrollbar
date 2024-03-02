@@ -5,14 +5,14 @@
 @mixin SetVisibilityStuff() {
 
   &[visibility="hover"] {
-    --_scrollbar-opacity: 0;
-    --_scrollbar-transition: var(--scrollbar-track-transition), opacity var(--scrollbar-hover-transition-duration) var(--scrollbar-hover-transition-delay);
+    --_scrollbar-hover-opacity: 0;
+    --_scrollbar-opacity-transition: opacity var(--scrollbar-hover-opacity-transition-leave-duration) var(--scrollbar-hover-opacity-transition-leave-delay);
 
     &:hover,
     &:active,
     &:focus {
-      --_scrollbar-opacity: 1;
-      --_scrollbar-transition: var(--scrollbar-track-transition), opacity var(--scrollbar-hover-transition-duration);
+      --_scrollbar-hover-opacity: 1;
+      --_scrollbar-opacity-transition: opacity var(--scrollbar-hover-opacity-transition-enter-duration);
     }
   }
 }

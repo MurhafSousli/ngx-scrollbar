@@ -34,7 +34,7 @@ import {
 } from 'ngx-scrollbar/smooth-scroll';
 import { Scrollbars } from './scrollbars/scrollbars';
 import { _NgScrollbar, NG_SCROLLBAR } from './utils/scrollbar-base';
-import { resizeSensor, ViewportAdapter } from './viewport';
+import { resizeObserver, ViewportAdapter } from './viewport';
 import { ScrollbarDragging, ViewportBoundaries } from './utils/common';
 import {
   ScrollbarAppearance,
@@ -53,7 +53,7 @@ const defaultOptions: NgScrollbarOptions = {
   appearance: 'native',
   visibility: 'native',
   position: 'native',
-  clickScrollDuration: 50,
+  trackScrollDuration: 50,
   sensorThrottleTime: 0,
   disableSensor: false,
   disableInteraction: false
@@ -97,7 +97,7 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
   private readonly injector: Injector = inject(Injector);
 
   /** A flag that indicates if the platform is mobile */
-  readonly isMobile: boolean = this.platform.SAFARI || this.platform.ANDROID;
+  readonly isMobile: boolean = this.platform.IOS || this.platform.ANDROID;
   dir: Directionality = inject(Directionality);
 
   smoothScroll: SmoothScrollManager = inject(SmoothScrollManager);
@@ -189,10 +189,7 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
   horizontalUsed: Signal<boolean> = computed(() => this.state().horizontalUsed);
 
   /** Scroll duration when the scroll track is clicked */
-  @Input({
-    alias: 'clickScrollDuration',
-    transform: numberAttribute
-  }) trackClickDuration: number = this.options.clickScrollDuration;
+  @Input({ transform: numberAttribute }) trackScrollDuration: number = this.options.trackScrollDuration;
 
   /**
    *  Sets the appearance of the scrollbar, there are 2 options:
@@ -246,13 +243,15 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
           if (this.platform.isBrowser && this.viewport.initialized()) {
             this.sizeChangeSub?.unsubscribe();
 
-            this.sizeChangeSub = resizeSensor({
-              element: this.viewport.nativeElement,
-              contentWrapper: this.viewport.contentWrapperElement,
-              throttleDuration: this.sensorThrottleTime()
-            }).pipe(
-              tap((reason: ScrollbarUpdateReason) => this.update(reason))
-            ).subscribe();
+            this.zone.runOutsideAngular(() => {
+              this.sizeChangeSub = resizeObserver({
+                element: this.viewport.nativeElement,
+                contentWrapper: this.viewport.contentWrapperElement,
+                throttleDuration: this.sensorThrottleTime()
+              }).pipe(
+                tap((reason: ScrollbarUpdateReason) => this.update(reason))
+              ).subscribe();
+            });
           }
         }
 
@@ -298,7 +297,7 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
    */
   scrollTo(options: SmoothScrollToOptions): Promise<void> {
     return this.smoothScroll.scrollTo(this.viewport!.nativeElement, {
-      duration: this.trackClickDuration,
+      duration: this.trackScrollDuration,
       ...options
     });
   }

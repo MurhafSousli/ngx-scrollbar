@@ -17,6 +17,8 @@
   width: calc(var(--_scrollbar-wrapper-width) * 1px);
   position: sticky;
   z-index: 100;
+  opacity: var(--_scrollbar-hover-opacity);
+  transition: var(--_scrollbar-opacity-transition);
 }
 
 .ng-scrollbar-track {
@@ -31,9 +33,8 @@
   right: var(--_scrollbar-track-right);
   left: var(--_scrollbar-track-left);
   pointer-events: var(--_scrollbar-pointer-events);
-  opacity: var(--_scrollbar-opacity);
   background-color: var(--scrollbar-track-color);
-  transition: var(--_scrollbar-transition);
+  transition: var(--scrollbar-track-transition);
   border-radius: var(--scrollbar-border-radius);
   position: absolute;
   cursor: default;

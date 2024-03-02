@@ -57,7 +57,7 @@ export class LabComponent {
   disableSensor: boolean = false;
   disableReached: boolean = false;
   sensorThrottleTime: number = 0;
-  clickScrollDuration: number = 50;
+  trackScrollDuration: number = 50;
 
   // Testing options
   slider: ResizeChange = {

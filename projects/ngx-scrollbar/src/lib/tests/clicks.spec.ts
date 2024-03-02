@@ -3,7 +3,7 @@ import { NgScrollbar } from 'ngx-scrollbar';
 import { setDimensions } from './common-test.';
 import { firstValueFrom } from 'rxjs';
 
-describe('Dragging styles', () => {
+describe('Scrollbar thumb dragging styles', () => {
   let component: NgScrollbar;
   let fixture: ComponentFixture<NgScrollbar>;
 

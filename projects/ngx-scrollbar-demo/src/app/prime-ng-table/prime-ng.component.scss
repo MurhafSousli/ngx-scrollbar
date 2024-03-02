@@ -8,6 +8,10 @@
     table {
       font-size: 14px;
     }
+
+    .p-dropdown {
+      width: 100%;
+    }
   }
 }
 
@@ -18,6 +22,14 @@ ng-scrollbar {
 
   border-radius: 3px;
   border: 2px solid rgba(0, 0, 0, 0.05);
+
+  ::ng-deep {
+    .p-scroller {
+      &::-webkit-scrollbar { /** Chrome, Safari, Edge */
+        display: none !important;
+      }
+    }
+  }
 }
 
 .p-scroller {
@@ -40,3 +52,4 @@ ng-scrollbar {
     background: #ecf8ff;
   }
 }
+

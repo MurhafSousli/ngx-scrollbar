@@ -146,13 +146,6 @@ a {
   text-decoration: none;
 }
 
-ul {
-  position: relative;
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-}
-
 .container {
   max-width: 500px;
   margin: 0 auto;
@@ -170,7 +163,6 @@ ul {
 }
 
 .mat-mdc-card {
-  overflow: hidden;
   --mdc-elevated-card-container-color: var(--color-primary);
   color: white;
   @include mat.elevation(16);

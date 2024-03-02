@@ -1,4 +1,4 @@
-import { ContentChild, Directive, inject, effect, ElementRef, EffectCleanupRegisterFn } from '@angular/core';
+import { ContentChild, Directive, inject, effect, ElementRef, EffectCleanupRegisterFn, NgZone } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import {
   Observable,
@@ -20,7 +20,7 @@ import {
 import { NG_SCROLLBAR, _NgScrollbar } from '../utils/scrollbar-base';
 import { enableSelection, preventSelection, stopPropagation } from '../utils/common';
 import { ThumbAdapter } from '../thumb/thumb-adapter';
-import { resizeSensor } from '../viewport';
+import { resizeObserver } from '../viewport';
 
 
 // @dynamic
@@ -34,7 +34,10 @@ export abstract class TrackAdapter {
   protected readonly cmp: _NgScrollbar = inject(NG_SCROLLBAR);
 
   // Reference to the document object
-  protected readonly document: Document = inject(DOCUMENT);
+  private readonly document: Document = inject(DOCUMENT);
+
+  // Reference to angular zone
+  private readonly zone: NgZone = inject(NgZone);
 
   // Subscription for resize observer
   private sizeChangeSub: Subscription;
@@ -50,6 +53,7 @@ export abstract class TrackAdapter {
 
   // Abstract properties and methods to be implemented by subclasses
   abstract readonly clientProperty: string;
+
   abstract readonly cssLengthProperty: string;
 
   protected abstract get viewportScrollSize(): number;
@@ -95,9 +99,7 @@ export abstract class TrackAdapter {
     );
 
     const pointerOut$: Observable<boolean> = fromEvent<PointerEvent>(this.nativeElement, 'pointerout', { passive: true }).pipe(
-      map(() => {
-        return false;
-      })
+      map(() => false)
     );
 
     // Behavior subject to track mouse position over the track
@@ -106,7 +108,7 @@ export abstract class TrackAdapter {
     return pointerDown$.pipe(
       switchMap((startEvent: PointerEvent) => {
         // We need to subscribe to mousemove and mouseout events before calling the onTrackFirstClick
-        // Because we need to tell if mouse is over or not asap the first function is done
+        // Because we need to tell if mouse is over or not asap after the first function is done
         // Otherwise, if user click first time and moved the mouse away immediately, the mouseout will not be detected
         merge(pointerMove$, pointerOut$).pipe(
           distinctUntilChanged(),
@@ -129,7 +131,7 @@ export abstract class TrackAdapter {
             // Otherwise, activate pointermove and pointerout events and switch to ongoing scroll calls
             return pointerOverTrack$.pipe(
               switchMap((over: boolean) => {
-                const currDirection = this.getScrollDirection(this.currMousePosition);
+                const currDirection: 'forward' | 'backward' = this.getScrollDirection(this.currMousePosition);
                 const sameDirection: boolean = this.scrollDirection === currDirection;
                 // If mouse is out the track pause the scroll calls, otherwise keep going
                 return (over && sameDirection) ? this.onTrackOngoingMousedown() : EMPTY;
@@ -152,13 +154,15 @@ export abstract class TrackAdapter {
         this.updateCSSVariables();
         this.sizeChangeSub?.unsubscribe();
       } else {
-        // Update styles with real track size
-        this.sizeChangeSub = resizeSensor({
-          element: this.nativeElement,
-          throttleDuration: this.cmp.sensorThrottleTime()
-        }).pipe(
-          tap(() => this.updateCSSVariables())
-        ).subscribe();
+        this.zone.runOutsideAngular(() => {
+          // Update styles with real track size
+          this.sizeChangeSub = resizeObserver({
+            element: this.nativeElement,
+            throttleDuration: this.cmp.sensorThrottleTime()
+          }).pipe(
+            tap(() => this.updateCSSVariables())
+          ).subscribe();
+        });
       }
 
       onCleanup(() => this.sizeChangeSub?.unsubscribe());
@@ -278,7 +282,7 @@ export abstract class TrackAdapter {
     if (this.scrollDirection === 'forward') {
       return Math.abs(position);
     } else {
-      return Math.abs(position + this.thumb.size - this.viewportScrollSize)
+      return Math.abs(position + this.thumb.size - this.viewportScrollSize);
     }
   }
 

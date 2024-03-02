@@ -22,7 +22,9 @@ describe('Appearance [native / compact] styles', () => {
         { provide: Directionality, useValue: directionalityMock }
       ]
     }).compileComponents();
+
     directionalityMock.value = 'ltr';
+
     fixture = TestBed.createComponent(NgScrollbar);
     component = fixture.componentInstance;
     // Set scrollbar thickness to 13px

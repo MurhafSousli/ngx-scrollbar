@@ -55,7 +55,7 @@ export interface NgScrollbarOptions {
   /** A class forwarded to the scrollbar thumb element */
   thumbClass?: string;
   /** Scrolling speed when clicking on scrollbar rail */
-  clickScrollDuration?: number;
+  trackScrollDuration?: number;
   /** A flag used to enable/disable the scrollbar pointer events */
   disableInteraction?: boolean;
   /** Debounce interval for detecting changes via ResizeObserver */
