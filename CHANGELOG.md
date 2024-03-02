@@ -1,5 +1,25 @@
 # Changelog
 
+## 14.0.0-beta.4
+
+- feat: Added support for dynamically initializing scrollbars for content rendered async (3rd party libraries) using `asyncDetection="auto"`. 
+- fix: Wrong mobile attribute setter (was using `SAFARI` flag instead of `IOS`).
+- enhance: Use `MutationObserver` instead of `ngAfterViewChecked` to detect content in `asyncDetection` directive.
+- refactor: Improve error handling when selectors was not found in `<ng-scrollbar externalViewport>` component.
+- refactor: Remove the default value for track transition.
+- refactor: Add additional CSS variables to customize the fade effect when `visibility="hover"`:
+  - `--scrollbar-hover-opacity-transition-enter-duration`.
+  - `--scrollbar-hover-opacity-transition-leave-duration`.
+  - `--scrollbar-hover-opacity-transition-leave-delay`.
+- refactor: The following CSS variables were removed:
+  - `--scrollbar-hover-transition-duration`.
+  - `--scrollbar-hover-transition-delay`.
+
+### Breaking changes
+
+- Rename the option `clickScrollDuration` to `trackScrollDuration`.
+
+
 ## 14.0.0-beta.3
 
 - fix: In RTL, horizontal scrollbar track click does not work properly, closes [#548](https://github.com/MurhafSousli/ngx-scrollbar/issues/548).
@@ -47,7 +67,7 @@ updating scroll thumb position is done via native CSS which means the calculatio
   - `sensorDisabled` has been renamed to `disableSensor`
   - `sensorDebounce` has been renamed to `sensorThrottleTime`
   - `pointerEventsDisabled` has been renamed to `disableInteraction`
-  - `trackClickScrollDuration` has been renamed to `trackClickDuration`
+  - `trackClickScrollDuration` has been renamed to `clickScrollDuration`
   - `(updated)` has been renamed to `(afterUpdate)`
 
 - Options removed:

@@ -71,6 +71,11 @@ ng-scrollbar {
   }
 
   ul {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+
     &:before,
     &:after {
       content: '';
@@ -83,11 +88,11 @@ ng-scrollbar {
     }
 
     &:before {
-      left: 2em;
+      left: 32px;
     }
 
     &:after {
-      left: 2.4em;
+      left: 27px;
     }
   }
 

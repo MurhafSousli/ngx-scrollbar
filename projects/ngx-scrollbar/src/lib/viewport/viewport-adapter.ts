@@ -58,24 +58,24 @@ export class ViewportAdapter {
   /**
    * Initialize viewport
    */
-  init(viewport: HTMLElement, contentSelector: HTMLElement, spacerSelector?: HTMLElement): void {
+  init(viewportElement: HTMLElement, contentElement: HTMLElement, spacerElement?: HTMLElement): void {
     // Add viewport class
-    viewport.classList.add(ViewportClasses.Viewport);
-    this.nativeElement = viewport;
+    viewportElement.classList.add(ViewportClasses.Viewport);
+    this.nativeElement = viewportElement;
 
     // Add content wrapper class
-    contentSelector.classList.add(ViewportClasses.Content);
+    contentElement.classList.add(ViewportClasses.Content);
 
     // When integrating the scrollbar with virtual scroll, the content wrapper will have fake size,
     // and a spacer element will have the real size
     // Therefore, if spaceElement is provided, it will be observed instead of the content wrapper
-    if (spacerSelector) {
+    if (spacerElement) {
       // Set relative position on the spacer element to enable the functionality of sticky for the scrollbars
-      spacerSelector.style.position = 'relative';
-      this.contentWrapperElement = spacerSelector;
+      spacerElement.style.position = 'relative';
+      this.contentWrapperElement = spacerElement;
     } else {
       // If spacer is not provided, set it as the content wrapper
-      this.contentWrapperElement = contentSelector;
+      this.contentWrapperElement = contentElement;
     }
     this.initialized.set(true);
   }

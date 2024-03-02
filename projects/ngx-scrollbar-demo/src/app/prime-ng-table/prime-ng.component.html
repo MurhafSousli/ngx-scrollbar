@@ -1,5 +1,41 @@
 <mat-card>
   <mat-card-header>
+    <mat-card-title>PrimeNg Dropdown</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <ng-scrollbar externalViewport=".p-dropdown-items-wrapper"
+                  externalContentWrapper=".p-dropdown-items"
+                  asyncDetection="auto">
+      <p-dropdown [options]="cities"
+                  [(ngModel)]="selectedCity"
+                  optionLabel="name"
+                  [showClear]="true"
+                  placeholder="Select a City"/>
+    </ng-scrollbar>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>PrimeNg Dropdown (Virtual Scroll)</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <ng-scrollbar externalViewport=".p-scroller"
+                  externalContentWrapper=".p-scroller-content"
+                  externalSpacer=".p-scroller-spacer"
+                  asyncDetection="auto">
+      <p-dropdown [options]="cars"
+                  [(ngModel)]="selectedCar"
+                  placeholder="Select Car"
+                  optionLabel="brand"
+                  [virtualScroll]="true"
+                  [virtualScrollItemSize]="38"/>
+    </ng-scrollbar>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-header>
     <mat-card-title>PrimeNg Table</mat-card-title>
   </mat-card-header>
   <mat-card-content>

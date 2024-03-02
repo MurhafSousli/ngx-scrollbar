@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
-import { NgScrollbar, NgScrollbarExt, ScrollbarExtAsyncDetection } from 'ngx-scrollbar';
+import { NgScrollbar, NgScrollbarExt, AsyncDetection } from 'ngx-scrollbar';
 
 @Component({
   selector: 'app-example-ag-grid-table',
@@ -9,7 +9,7 @@ import { NgScrollbar, NgScrollbarExt, ScrollbarExtAsyncDetection } from 'ngx-scr
     AgGridAngular,
     NgScrollbar,
     NgScrollbarExt,
-    ScrollbarExtAsyncDetection
+    AsyncDetection
   ],
   templateUrl: './example-ag-grid-table.component.html',
   styleUrl: './example-ag-grid-table.component.scss',

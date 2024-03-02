@@ -1,3 +1,3 @@
 export * from './scroll-viewport';
-export * from './resize-sensor';
+export * from './observer';
 export * from './viewport-adapter';

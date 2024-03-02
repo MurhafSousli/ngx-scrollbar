@@ -72,7 +72,7 @@ export class NgScrollbarExt extends NgScrollbarCore implements OnInit {
   /**
    * Reference to the external viewport directive if used
    */
-  @ContentChild(ScrollViewport, { static: true }) private customViewport: ScrollViewport;
+  @ContentChild(ScrollViewport, { static: true }) customViewport: ScrollViewport;
 
   override ngOnInit(): void {
     if (!this.skipInit) {
@@ -108,23 +108,28 @@ export class NgScrollbarExt extends NgScrollbarCore implements OnInit {
         }
       }
 
-      // If no external spacer or content wrapper is provided, create a content wrapper element
-      if (!this.externalSpacer && !this.externalContentWrapper) {
-        contentWrapperElement = this.renderer.createElement('div');
+      // Make sure viewport element is defined to proceed
+      if (viewportElement) {
+        // If no external spacer or content wrapper is provided, create a content wrapper element
+        if (!this.externalSpacer && !this.externalContentWrapper) {
+          contentWrapperElement = this.renderer.createElement('div');
 
-        // Move all content of the viewport into the content wrapper
-        const childNodes: ChildNode[] = Array.from(viewportElement.childNodes);
-        childNodes.forEach((node: ChildNode) => this.renderer.appendChild(contentWrapperElement, node));
+          // Move all content of the viewport into the content wrapper
+          const childNodes: ChildNode[] = Array.from(viewportElement.childNodes);
+          childNodes.forEach((node: ChildNode) => this.renderer.appendChild(contentWrapperElement, node));
 
-        // Append the content wrapper to the viewport
-        this.renderer.appendChild(viewportElement, contentWrapperElement);
+          // Append the content wrapper to the viewport
+          this.renderer.appendChild(viewportElement, contentWrapperElement);
+        }
+
+        // Make sure content wrapper element is defined to proceed
+        if (contentWrapperElement) {
+          // Initialize viewport
+          this.viewport.init(viewportElement, contentWrapperElement, spacerElement);
+          // Attach scrollbars
+          this.attachScrollbars();
+        }
       }
-
-      // Initialize viewport
-      this.viewport.init(viewportElement, contentWrapperElement, spacerElement);
-
-      // Attach scrollbars
-      this.attachScrollbars();
     }
 
     super.ngOnInit();

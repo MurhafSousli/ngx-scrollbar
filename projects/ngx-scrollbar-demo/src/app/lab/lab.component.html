@@ -94,8 +94,8 @@
             </div>
 
             <div class="lab-control">
-              <div class="lab-control-label">Click scroll duration</div>
-              <input type="number" [(ngModel)]="clickScrollDuration">
+              <div class="lab-control-label">Track scroll duration</div>
+              <input type="number" [(ngModel)]="trackScrollDuration">
             </div>
           </mat-expansion-panel>
 
@@ -137,7 +137,7 @@
                           [disableInteraction]="interactionDisabled"
                           [disableSensor]="disableSensor"
                           [sensorThrottleTime]="sensorThrottleTime"
-                          [clickScrollDuration]="clickScrollDuration"
+                          [trackScrollDuration]="trackScrollDuration"
                           [dir]="direction"
                           (reachedTop)="onReached('top')"
                           (reachedStart)="onReached('start')"

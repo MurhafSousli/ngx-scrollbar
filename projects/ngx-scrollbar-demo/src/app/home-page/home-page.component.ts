@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
-import { NgScrollbar } from 'ngx-scrollbar';
+import { NgScrollbar, NgScrollbarExt, ScrollViewport } from 'ngx-scrollbar';
 import { Example2Component } from '../example2/example2.component';
 import { Example3Component } from '../example3/example3.component';
 import { Example5Component } from '../example5/example5.component';
@@ -19,6 +19,8 @@ import { HeaderComponent } from '../shared/header/header.component';
     LabComponent,
     HeaderComponent,
     NgScrollbar,
+    NgScrollbarExt,
+    ScrollViewport,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

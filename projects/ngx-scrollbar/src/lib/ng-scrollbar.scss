@@ -12,7 +12,6 @@
   // Host element default styles regardless if its a viewport or not
   display: block;
   position: relative;
-  overflow: hidden;
   max-height: 100%;
   max-width: 100%;
 
@@ -30,8 +29,8 @@
   // Scrollbar track color
   --scrollbar-track-color: transparent;
 
-  // Scrollbar track transition effect
-  --scrollbar-track-transition: height ease-out 0.15s, width ease-out 0.15s;
+  // Scrollbar track transition
+  --scrollbar-track-transition: none;
 
   // Scrollbar thumb color
   --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
@@ -48,9 +47,10 @@
   // The minimum size the scrollbar thumb can get
   --scrollbar-thumb-min-size: 20;
 
-  // Transition config when [visibility]="hover"
-  --scrollbar-hover-transition-duration: 0.4s;
-  --scrollbar-hover-transition-delay: 0.8s;
+  // Transition for sticky element when viewport is hovered in [visibility]="hover"
+  --scrollbar-hover-opacity-transition-enter-duration: 0;
+  --scrollbar-hover-opacity-transition-leave-duration: 0.4s;
+  --scrollbar-hover-opacity-transition-leave-delay: 1s;
 
   // Viewport overscroll behavior
   // In firefox and safari the scrollbar bounces if viewport is over-scrolled causing the scrollbars to bounce with it
@@ -62,9 +62,6 @@
   --scrollbar-mobile-overscroll-behavior: none;
 
   /** Scrollbar private CSS variables **/
-
-  --_scrollbar-transition: var(--scrollbar-track-transition);
-  --_scrollbar-opacity: initial;
 
   --_scrollbar-thickness: calc(var(--scrollbar-thickness) + var(--scrollbar-offset) * 2);
   --_scrollbar-pointer-events: auto;

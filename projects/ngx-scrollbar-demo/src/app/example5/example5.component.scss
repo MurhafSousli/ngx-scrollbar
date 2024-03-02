@@ -27,6 +27,10 @@
 }
 
 .numbers {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
   font-size: 13px;
   line-height: 17px;
   font-family: monospace;

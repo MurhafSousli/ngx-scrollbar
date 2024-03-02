@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, OnInit, signal, WritableSig
 import { HttpClient } from '@angular/common/http';
 import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
 import { NgxDatatableModule, ColumnMode } from '@swimlane/ngx-datatable';
-import { NgScrollbarExt, ScrollbarExtAsyncDetection } from 'ngx-scrollbar';
+import { NgScrollbarExt, AsyncDetection } from 'ngx-scrollbar';
 
 interface Employee {
   name: string;
@@ -17,7 +17,7 @@ interface Employee {
   imports: [
     NgxDatatableModule,
     NgScrollbarExt,
-    ScrollbarExtAsyncDetection,
+    AsyncDetection,
     MatCard,
     MatCardHeader,
     MatCardTitle,
