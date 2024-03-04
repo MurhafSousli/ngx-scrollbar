@@ -140,7 +140,6 @@
               "zone.js",
               "zone.js/testing"
             ],
-            "codeCoverage": true,
             "karmaConfig": "projects/ngx-scrollbar/karma.conf.js"
           }
         }

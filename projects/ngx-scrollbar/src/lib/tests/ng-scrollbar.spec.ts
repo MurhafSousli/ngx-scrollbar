@@ -167,5 +167,22 @@ describe('NgScrollbar Component', () => {
     expect(component.horizontalUsed()).toBeFalsy();
     expect(getComputedStyle(component.nativeElement).height).toBe('300px');
   });
+
+  it('should forward scrollToElement function call to SmoothScrollManager service', async () => {
+    setDimensions(component, { contentHeight: 300, contentWidth: 300 });
+    component.ngOnInit();
+    component.ngAfterViewInit();
+
+    const smoothScrollSpy: jasmine.Spy = spyOn(component.smoothScroll, 'scrollToElement');
+
+    await firstValueFrom(component.afterInit);
+
+    component.scrollToElement('.fake-child-element', { top: 100, duration: 500 })
+
+    expect(smoothScrollSpy).toHaveBeenCalledOnceWith(component.viewport.nativeElement, '.fake-child-element', {
+      top: 100,
+      duration: 500
+    });
+  });
 });
 

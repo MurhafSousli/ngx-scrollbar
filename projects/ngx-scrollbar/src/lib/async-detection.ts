@@ -48,12 +48,11 @@ export class AsyncDetection implements OnInit, OnDestroy {
           }
         } else {
           const viewportElement: HTMLElement = this.scrollbar.nativeElement.querySelector(this.scrollbar.externalViewport);
-          if (!viewportElement) {
-            this.scrollbar.viewport.initialized.set(false);
-            return;
-          }
           const contentWrapperElement: HTMLElement = this.scrollbar.nativeElement.querySelector(this.scrollbar.externalContentWrapper);
-          if (!contentWrapperElement) {
+
+          if (!viewportElement || !contentWrapperElement) {
+            this.scrollbar.viewport.nativeElement = null;
+            this.scrollbar.viewport.contentWrapperElement = null;
             this.scrollbar.viewport.initialized.set(false);
           }
         }

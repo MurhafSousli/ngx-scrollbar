@@ -10,7 +10,7 @@ export class ScrollbarManager {
 
   private readonly isBrowser: boolean = isPlatformBrowser(inject(PLATFORM_ID));
 
-  private readonly polyfillUrl: string = inject(NG_SCROLLBAR_POLYFILL, { optional: true }) || scrollTimelinePolyfillUrl;
+  readonly _polyfillUrl: string = inject(NG_SCROLLBAR_POLYFILL, { optional: true }) || scrollTimelinePolyfillUrl;
 
   readonly document: Document = inject(DOCUMENT);
 
@@ -24,7 +24,7 @@ export class ScrollbarManager {
   readonly scrollTimelinePolyfill: WritableSignal<any> = signal(null);
 
   constructor() {
-    if (this.isBrowser && !this.window['ScrollTimeline'] && !CSS.supports('animation-timeline', 'scroll()')) {
+    if (this.isBrowser && (!this.window['ScrollTimeline'] || !CSS.supports('animation-timeline', 'scroll()'))) {
       this.initPolyfill();
     }
   }
@@ -33,7 +33,7 @@ export class ScrollbarManager {
     try {
       // Create a script element
       const script: HTMLScriptElement = this.document.createElement('script');
-      script.src = this.polyfillUrl;
+      script.src = this._polyfillUrl;
 
       // Wait for the script to load
       await new Promise<any>((resolve, reject) => {
@@ -44,12 +44,12 @@ export class ScrollbarManager {
 
       // Once loaded, access and execute the function attached to the window object
       if (this.window['ScrollTimeline']) {
-        this.scrollTimelinePolyfill.set(window['ScrollTimeline']);
+        this.scrollTimelinePolyfill.set(this.window['ScrollTimeline']);
       } else {
-        console.error('ScrollTimeline is not attached to the window object.');
+        console.error('[NgScrollbar]: ScrollTimeline is not attached to the window object.');
       }
     } catch (error) {
-      console.error('Error loading ScrollTimeline script:', error);
+      console.error('[NgScrollbar]: Error loading ScrollTimeline script:', error);
     }
   }
 }

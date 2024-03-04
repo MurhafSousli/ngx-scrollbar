@@ -4,6 +4,7 @@ import { Component, ViewChild, DebugElement, ElementRef } from '@angular/core';
 import { NgScrollbarExt, NgScrollbarModule, AsyncDetection, } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
 import { Scrollbars } from '../scrollbars/scrollbars';
+import { afterTimeout } from './common-test.';
 
 @Component({
   standalone: true,
@@ -33,7 +34,7 @@ class SampleLibComponent {
     <ng-scrollbar [externalViewport]="externalViewport"
                   [externalContentWrapper]="externalContentWrapper"
                   [externalSpacer]="externalSpacer"
-                  asyncDetection>
+                  [asyncDetection]="asyncDetection">
       <sample-lib/>
     </ng-scrollbar>
   `
@@ -42,6 +43,7 @@ class ViewportClassExampleComponent {
   externalViewport: string;
   externalContentWrapper: string;
   externalSpacer: string;
+  asyncDetection: '' | 'auto';
   @ViewChild(NgScrollbarExt, { static: true }) scrollbar: NgScrollbarExt;
   @ViewChild(SampleLibComponent, { static: true }) library: SampleLibComponent;
 }
@@ -145,5 +147,61 @@ describe('External viewport via classes [AsyncDetection]', () => {
     expect(scrollbar._scrollbars).toBe(scrollbarsDebugElement.componentInstance);
     // Check if the created scrollbars component is the direct child of content wrapper element
     expect((scrollbarsDebugElement.nativeElement as Element).parentElement).toBe(scrollbar.viewport.contentWrapperElement);
+  });
+
+  it('[asyncDetection="auto"] should detect content removal', async () => {
+    component.externalViewport = '.my-custom-viewport';
+    component.externalContentWrapper = '.my-custom-content-wrapper';
+    component.asyncDetection = 'auto';
+    fixture.detectChanges();
+
+    scrollbar.ngOnInit();
+    scrollbar.ngAfterViewInit();
+
+    expect(scrollbar.customViewport).toBeFalsy();
+    expect(scrollbar.externalViewport).toBeTruthy();
+    expect(scrollbar.externalContentWrapper).toBeTruthy();
+    expect(scrollbar.externalSpacer).toBeFalsy();
+    expect(scrollbar.skipInit).toBeTruthy();
+    expect(scrollbar.viewport.initialized()).toBeFalsy();
+
+    asyncDetection.ngOnInit();
+
+    // Mock library render after the scrollbar has initialized
+    component.library.show = true;
+    fixture.detectChanges();
+
+    // Verify afterInit is called
+    await firstValueFrom(scrollbar.afterInit);
+
+    const viewportElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalViewport))?.nativeElement;
+    const contentWrapperElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalContentWrapper))?.nativeElement;
+
+    // Verify the viewport
+    expect(scrollbar.viewport.nativeElement).toBe(viewportElement);
+    // Verify that the content wrapper here is the content wrapper element
+    expect(scrollbar.viewport.contentWrapperElement).toBe(contentWrapperElement);
+    // Verify that the content is a direct child of the content wrapper element
+    expect(component.library.content.nativeElement.parentElement).toBe(contentWrapperElement);
+
+    // Check if the scrollbars component is created
+    expect(scrollbar._scrollbars).toBeTruthy();
+    const scrollbarsDebugElement: DebugElement = fixture.debugElement.query(By.directive(Scrollbars));
+    // Verify if the created scrollbars component is the same component instance queried
+    expect(scrollbar._scrollbars).toBe(scrollbarsDebugElement.componentInstance);
+    // Check if the created scrollbars component is the direct child of content wrapper element
+    expect((scrollbarsDebugElement.nativeElement as Element).parentElement).toBe(scrollbar.viewport.contentWrapperElement);
+
+    // MutationObserver has a throttleTime 100ms, need to wait before triggering a detection
+    await afterTimeout(100);
+    // Mock library removes the content (such as dropdown)
+    component.library.show = false;
+    fixture.detectChanges();
+    // Wait 100ms for change to take effect
+    await afterTimeout(100);
+
+    expect(scrollbar.viewport.initialized()).toBeFalse();
+    expect(scrollbar.viewport.nativeElement).toBeFalsy();
+    expect(scrollbar.viewport.contentWrapperElement).toBeFalsy();
   });
 });
