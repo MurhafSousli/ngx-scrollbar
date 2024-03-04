@@ -9,11 +9,9 @@ import { ThumbAdapter } from './thumb-adapter';
 })
 export class ThumbXDirective extends ThumbAdapter {
 
-  protected get clientProperty(): string {
-    return 'clientX';
-  }
+  protected readonly clientProperty: 'clientX' | 'clientY' = 'clientX';
 
-  get viewportScrollMax(): number {
+  protected get viewportScrollMax(): number {
     return this.cmp.viewport.scrollMaxX;
   }
 
@@ -21,12 +19,12 @@ export class ThumbXDirective extends ThumbAdapter {
     return this.clientRect.left;
   }
 
-  get dragStartOffset(): number {
-    return this.offset + this.document.defaultView.scrollX;
-  }
-
   get size(): number {
     return this.nativeElement.clientWidth;
+  }
+
+  protected get dragStartOffset(): number {
+    return this.offset + this.document.defaultView.scrollX;
   }
 
   protected axis: 'x' | 'y' = 'x';
@@ -61,11 +59,9 @@ export class ThumbXDirective extends ThumbAdapter {
 })
 export class ThumbYDirective extends ThumbAdapter {
 
-  protected get clientProperty(): string {
-    return 'clientY';
-  }
+  protected readonly clientProperty: 'clientX' | 'clientY' = 'clientY';
 
-  get viewportScrollMax(): number {
+  protected get viewportScrollMax(): number {
     return this.cmp.viewport.scrollMaxY;
   }
 
@@ -73,15 +69,15 @@ export class ThumbYDirective extends ThumbAdapter {
     return this.clientRect.top;
   }
 
-  get dragStartOffset(): number {
-    return this.offset + this.document.defaultView.scrollY;
-  }
-
   get size(): number {
     return this.nativeElement.clientHeight;
   }
 
-  protected axis: 'x' | 'y' = 'y';
+  protected get dragStartOffset(): number {
+    return this.offset + this.document.defaultView.scrollY;
+  }
+
+  protected readonly axis: 'x' | 'y' = 'y';
 
   protected handleDrag = (position: number): number => position;
 

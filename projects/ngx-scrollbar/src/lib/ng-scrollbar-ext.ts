@@ -76,63 +76,68 @@ export class NgScrollbarExt extends NgScrollbarCore implements OnInit {
 
   override ngOnInit(): void {
     if (!this.skipInit) {
+      this.detectExternalSelectors();
+    }
+    super.ngOnInit();
+  }
 
-      let viewportElement: HTMLElement;
-      if (this.customViewport) {
-        viewportElement = this.customViewport.nativeElement;
-      } else {
-        // If viewport selector was defined, query the element
-        if (this.externalViewport) {
-          viewportElement = this.nativeElement.querySelector(this.externalViewport);
-        }
-        if (!viewportElement) {
-          console.error(`[NgScrollbar]: Could not find the viewport element for the provided selector "${ this.externalViewport }"`);
-        }
+  private detectExternalSelectors(): void {
+    let viewportElement: HTMLElement;
+    if (this.customViewport) {
+      viewportElement = this.customViewport.nativeElement;
+    } else {
+      // If viewport selector was defined, query the element
+      if (this.externalViewport) {
+        viewportElement = this.nativeElement.querySelector(this.externalViewport);
       }
-
-      // If an external spacer selector is provided, attempt to query for it
-      let spacerElement: HTMLElement;
-      if (this.externalSpacer) {
-        spacerElement = this.nativeElement.querySelector(this.externalSpacer);
-        if (!spacerElement) {
-          console.error(`[NgScrollbar]: Spacer element not found for the provided selector "${ this.externalSpacer }"`);
-        }
-      }
-
-      // If an external content wrapper selector is provided, attempt to query for it
-      let contentWrapperElement: HTMLElement;
-      if (this.externalContentWrapper && !this.skipInit) {
-        contentWrapperElement = this.nativeElement.querySelector(this.externalContentWrapper);
-        if (!contentWrapperElement) {
-          console.error(`[NgScrollbar]: Content wrapper element not found for the provided selector "${ this.externalContentWrapper }"`);
-        }
-      }
-
-      // Make sure viewport element is defined to proceed
-      if (viewportElement) {
-        // If no external spacer or content wrapper is provided, create a content wrapper element
-        if (!this.externalSpacer && !this.externalContentWrapper) {
-          contentWrapperElement = this.renderer.createElement('div');
-
-          // Move all content of the viewport into the content wrapper
-          const childNodes: ChildNode[] = Array.from(viewportElement.childNodes);
-          childNodes.forEach((node: ChildNode) => this.renderer.appendChild(contentWrapperElement, node));
-
-          // Append the content wrapper to the viewport
-          this.renderer.appendChild(viewportElement, contentWrapperElement);
-        }
-
-        // Make sure content wrapper element is defined to proceed
-        if (contentWrapperElement) {
-          // Initialize viewport
-          this.viewport.init(viewportElement, contentWrapperElement, spacerElement);
-          // Attach scrollbars
-          this.attachScrollbars();
-        }
+      if (!viewportElement) {
+        console.error(`[NgScrollbar]: Could not find the viewport element for the provided selector "${ this.externalViewport }"`);
+        return;
       }
     }
 
-    super.ngOnInit();
+    // If an external spacer selector is provided, attempt to query for it
+    let spacerElement: HTMLElement;
+    if (this.externalSpacer) {
+      spacerElement = this.nativeElement.querySelector(this.externalSpacer);
+      if (!spacerElement) {
+        console.error(`[NgScrollbar]: Spacer element not found for the provided selector "${ this.externalSpacer }"`);
+        return;
+      }
+    }
+
+    // If an external content wrapper selector is provided, attempt to query for it
+    let contentWrapperElement: HTMLElement;
+    if (this.externalContentWrapper && !this.skipInit) {
+      contentWrapperElement = this.nativeElement.querySelector(this.externalContentWrapper);
+      if (!contentWrapperElement) {
+        console.error(`[NgScrollbar]: Content wrapper element not found for the provided selector "${ this.externalContentWrapper }"`);
+        return;
+      }
+    }
+
+    // Make sure viewport element is defined to proceed
+    if (viewportElement) {
+      // If no external spacer or content wrapper is provided, create a content wrapper element
+      if (!this.externalSpacer && !this.externalContentWrapper) {
+        contentWrapperElement = this.renderer.createElement('div');
+
+        // Move all content of the viewport into the content wrapper
+        const childNodes: ChildNode[] = Array.from(viewportElement.childNodes);
+        childNodes.forEach((node: ChildNode) => this.renderer.appendChild(contentWrapperElement, node));
+
+        // Append the content wrapper to the viewport
+        this.renderer.appendChild(viewportElement, contentWrapperElement);
+      }
+
+      // Make sure content wrapper element is defined to proceed
+      if (contentWrapperElement) {
+        // Initialize viewport
+        this.viewport.init(viewportElement, contentWrapperElement, spacerElement);
+        // Attach scrollbars
+        this.attachScrollbars();
+      }
+    }
   }
 
   attachScrollbars(): void {

@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "build-lib": "ng build ngx-scrollbar",
     "test-lib": "ng test ngx-scrollbar",
-    "test-lib-headless": "ng test ngx-scrollbar --watch=false --no-progress --browsers=ChromeHeadless",
+    "test-lib-headless": "ng test ngx-scrollbar --watch=false --no-progress --browsers=ChromeHeadless --code-coverage",
     "serve:ssr:ngx-scrollbar-demo": "node dist/ngx-scrollbar-demo/server/server.mjs"
   },
   "private": true,

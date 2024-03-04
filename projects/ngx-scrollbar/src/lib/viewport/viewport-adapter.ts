@@ -3,6 +3,9 @@ import { ViewportClasses } from '../utils/common';
 
 export class ViewportAdapter {
 
+  /**
+   * Viewport native element
+   */
   nativeElement: HTMLElement;
   /**
    * The element that wraps the content inside the viewport,

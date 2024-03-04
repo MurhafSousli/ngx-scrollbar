@@ -52,9 +52,9 @@ export abstract class TrackAdapter {
   private scrollMax: number;
 
   // Abstract properties and methods to be implemented by subclasses
-  abstract readonly clientProperty: string;
+  protected abstract readonly clientProperty: 'clientX' | 'clientY';
 
-  abstract readonly cssLengthProperty: string;
+  protected abstract readonly cssLengthProperty: string;
 
   protected abstract get viewportScrollSize(): number;
 

@@ -20,8 +20,8 @@ export abstract class ScrollbarAdapter {
   readonly thumb: ThumbAdapter;
   // Track directive reference
   readonly track: TrackAdapter;
-  // Pointer events subscription
-  private pointerEventsSub: Subscription;
+  // Pointer events subscription (made public for testing purpose)
+  _pointerEventsSub: Subscription;
   // Zone reference
   protected readonly zone: NgZone = inject(NgZone);
   // Host component reference
@@ -33,10 +33,10 @@ export abstract class ScrollbarAdapter {
   constructor() {
     effect((onCleanup: EffectCleanupRegisterFn) => {
       if (this.cmp.disableInteraction()) {
-        this.pointerEventsSub?.unsubscribe();
+        this._pointerEventsSub?.unsubscribe();
       } else {
         this.zone.runOutsideAngular(() => {
-          this.pointerEventsSub = merge(
+          this._pointerEventsSub = merge(
             // Activate scrollbar thumb drag event
             this.thumb.dragged,
             // Activate scrollbar track click event
@@ -45,7 +45,7 @@ export abstract class ScrollbarAdapter {
         });
       }
 
-      onCleanup(() => this.pointerEventsSub?.unsubscribe());
+      onCleanup(() => this._pointerEventsSub?.unsubscribe());
     });
   }
 }

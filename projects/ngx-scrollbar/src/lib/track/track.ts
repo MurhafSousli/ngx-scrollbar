@@ -10,9 +10,9 @@ import { TrackAdapter } from './track-adapter';
 })
 export class TrackXDirective extends TrackAdapter {
 
-  readonly cssLengthProperty: string = '--track-x-length';
+  protected readonly cssLengthProperty: string = '--track-x-length';
 
-  readonly clientProperty: string = 'clientX';
+  protected readonly clientProperty: 'clientX' | 'clientY' = 'clientX';
 
   get offset(): number {
     return this.clientRect.left;
@@ -53,9 +53,9 @@ export class TrackXDirective extends TrackAdapter {
 })
 export class TrackYDirective extends TrackAdapter {
 
-  readonly cssLengthProperty: string = '--track-y-length';
+  protected readonly cssLengthProperty: string = '--track-y-length';
 
-  readonly clientProperty: string = 'clientY';
+  protected readonly clientProperty: 'clientX' | 'clientY' = 'clientY';
 
   get offset(): number {
     return this.clientRect.top;

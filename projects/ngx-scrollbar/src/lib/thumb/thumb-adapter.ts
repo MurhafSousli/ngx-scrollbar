@@ -21,16 +21,16 @@ export abstract class ThumbAdapter {
   protected animation: Animation;
 
   // Returns either 'clientX' or 'clientY' coordinate of the pointer relative to the viewport
-  protected abstract get clientProperty(): string;
+  protected abstract readonly clientProperty: 'clientX' | 'clientY';
 
-  abstract get dragStartOffset(): number;
+  protected abstract get dragStartOffset(): number;
 
   abstract get offset(): number;
 
   // Returns thumb size
   abstract get size(): number;
 
-  abstract get viewportScrollMax(): number;
+  protected abstract get viewportScrollMax(): number;
 
   protected abstract axis: 'x' | 'y';
 

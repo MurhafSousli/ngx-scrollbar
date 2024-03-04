@@ -274,4 +274,31 @@ describe('External viewport via classes', () => {
     expect(attachScrollbarSpy).not.toHaveBeenCalled();
     expect(consoleSpy).toHaveBeenCalledOnceWith(`[NgScrollbar]: Content wrapper element not found for the provided selector "${ scrollbar.externalContentWrapper }"`)
   });
+
+
+  it(`[Error handling - spacer doesn't exist] should NOT initialize viewport or attach scrollbars`, async () => {
+    component.externalViewport = '.my-custom-viewport';
+    component.externalContentWrapper = '.my-custom-content-wrapper';
+    component.externalSpacer = '.not-existing-spacer';
+    component.withContentWrapper = true;
+    fixture.detectChanges();
+    scrollbar = component.scrollbar;
+
+    const consoleSpy: jasmine.Spy = spyOn(console, 'error');
+    const viewportInitSpy: jasmine.Spy = spyOn(scrollbar.viewport, 'init');
+    const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbar, 'attachScrollbars');
+
+    scrollbar.ngOnInit();
+    scrollbar.ngAfterViewInit();
+
+    fixture.detectChanges();
+
+    expect(scrollbar.customViewport).toBeFalsy();
+    expect(scrollbar.skipInit).toBeFalsy();
+    expect(scrollbar.viewport.initialized()).toBeFalsy();
+    expect(scrollbar._scrollbars).toBeFalsy();
+    expect(viewportInitSpy).not.toHaveBeenCalled();
+    expect(attachScrollbarSpy).not.toHaveBeenCalled();
+    expect(consoleSpy).toHaveBeenCalledOnceWith(`[NgScrollbar]: Spacer element not found for the provided selector "${ scrollbar.externalSpacer }"`)
+  });
 });
