@@ -1,5 +1,12 @@
 # Changelog
 
+## 14.0.0-beta.5
+
+- fix: Should not initialize the scrollbar if `externalSpacer` selector was set but was not found.
+- refactor: Unify properties in track and thumb directives.
+- refactor: When `asyncDecetion="true"` reset viewport adapter properties if viewport / content wrapper elements are removed.
+- enhance: Add missing unit tests,
+
 ## 14.0.0-beta.4
 
 - feat: Added support for dynamically initializing scrollbars for content rendered async (3rd party libraries) using `asyncDetection="auto"`. 
