@@ -146,7 +146,7 @@ export class NgScrollbarReached implements OnInit, OnDestroy {
     this.triggerElements = [];
   }
 
-  private setCssVariable(property: string, value: any): void {
+  private setCssVariable(property: string, value: number): void {
     if (value) {
       this.scrollbar.nativeElement.style.setProperty(property, `${ value }px`);
     }

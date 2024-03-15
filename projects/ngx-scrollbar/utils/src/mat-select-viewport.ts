@@ -19,9 +19,7 @@ export class MatSelectViewport {
         if (selected) {
           const element: HTMLElement = Array.isArray(selected) ? selected[0]._getHostElement() : selected._getHostElement();
           const height: number = this.scrollbar.nativeElement.clientHeight;
-          this.scrollbar.scrollTo({
-            top: element.offsetTop + element.offsetHeight - height
-          });
+          this.scrollbar.viewport.scrollYTo(element.offsetTop + element.offsetHeight - height);
         }
       }
     });

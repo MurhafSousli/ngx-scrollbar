@@ -7,7 +7,7 @@ import { setDimensions } from './common-test.';
 describe('Appearance [native / compact] styles', () => {
   let component: NgScrollbar;
   let fixture: ComponentFixture<NgScrollbar>;
-  let scrollbarSize: string = '13px';
+  const scrollbarSize: string = '13px';
 
   const directionalityMock = {
     value: 'ltr',
@@ -30,6 +30,7 @@ describe('Appearance [native / compact] styles', () => {
     // Set scrollbar thickness to 13px
     component.nativeElement.style.setProperty('--scrollbar-thickness', '5');
     component.nativeElement.style.setProperty('--scrollbar-margin', '4');
+    component.nativeElement.style.setProperty('--scrollbar-offset', '4');
   });
 
   it('should set appearance="native" attribute by default and 0px padding', () => {
@@ -117,7 +118,7 @@ describe('Appearance [native / compact] styles', () => {
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
 
-    let styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
+    const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
     expect(styles.paddingLeft).toBe(scrollbarSize);
     expect(styles.paddingBottom).toBe('0px');
     expect(styles.paddingRight).toBe('0px');
@@ -132,7 +133,7 @@ describe('Appearance [native / compact] styles', () => {
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
 
-    let styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
+    const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
     expect(styles.paddingTop).toBe(scrollbarSize);
     expect(styles.paddingLeft).toBe(scrollbarSize);
     expect(styles.paddingBottom).toBe('0px');

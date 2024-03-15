@@ -21,8 +21,9 @@
   --_scrollbar-thumb-transform-to: 0 calc(var(--_scrollbar-y-thumb-transform-to-value) * 1px);
 }
 
-.ng-scrollbar-track {
+.ng-scrollbar-track-wrapper {
   width: var(--_track-y-thickness);
+  flex-direction: column;
 
   &:hover {
     --_track-y-thickness: var(--_scrollbar-hover-thickness-px);

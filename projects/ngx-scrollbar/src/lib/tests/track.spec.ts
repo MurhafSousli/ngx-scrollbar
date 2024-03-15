@@ -1,6 +1,6 @@
 import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement, signal } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { NgScrollbar, NgScrollbarModule, } from 'ngx-scrollbar';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
@@ -8,7 +8,7 @@ import { afterTimeout, setDimensions } from './common-test.';
 import { TrackXDirective, TrackYDirective } from '../track/track';
 import { ThumbXDirective, ThumbYDirective } from '../thumb/thumb';
 
-describe('Track dragging', () => {
+describe('Scrollbar track', () => {
   let component: NgScrollbar;
   let fixture: ComponentFixture<NgScrollbar>;
 
@@ -31,11 +31,11 @@ describe('Track dragging', () => {
     fixture = TestBed.createComponent(NgScrollbar);
     component = fixture.componentInstance;
 
-    component.appearance = signal('compact') as any;
+    fixture.componentRef.setInput('appearance', 'compact');
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 500, contentHeight: 500 });
   });
 
-  it('should scroll to bottom progressively when mousedown on the top edge of the track', async () => {
+  it('[Vertical] should scroll to bottom progressively when mousedown on the bottom edge of the track', async () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
@@ -65,7 +65,7 @@ describe('Track dragging', () => {
     expect(component.viewport.scrollTop).toBe(400);
   });
 
-  it('should scroll to top progressively when mousedown on the bottom edge of the track', async () => {
+  it('[Vertical] should scroll to top progressively when mousedown on the top edge of the track', async () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
@@ -97,7 +97,73 @@ describe('Track dragging', () => {
     expect(component.viewport.scrollTop).toBe(0);
   });
 
-  it('should scroll to end progressively when mousedown on the right edge of the track', async () => {
+  it('[RTL Vertical] should scroll to bottom progressively when mousedown on the bottom edge of the track', async () => {
+    directionalityMock.value = 'rtl';
+
+    component.ngOnInit();
+    component.ngAfterViewInit();
+    await firstValueFrom(component.afterInit);
+
+    const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
+    const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYDirective));
+
+    const trackRect: DOMRect = trackYDebugElement.nativeElement.getBoundingClientRect();
+    const thumbRect: DOMRect = thumbYDebugElement.nativeElement.getBoundingClientRect();
+
+    const clientY: number = trackRect.bottom - thumbRect.height / 2;
+
+    // The event causes the viewport to scroll by 100px
+    trackYDebugElement.nativeElement.dispatchEvent(new PointerEvent('pointerdown', { clientY }));
+
+    // First click
+    await afterTimeout(200);
+    expect(component.viewport.scrollTop).toBe(100);
+    // Ongoing click
+    await afterTimeout(150);
+    expect(component.viewport.scrollTop).toBeGreaterThanOrEqual(200);
+    // Ongoing click
+    await afterTimeout(100);
+    expect(component.viewport.scrollTop).toBeGreaterThanOrEqual(300);
+    // Reached end
+    await afterTimeout(100);
+    expect(component.viewport.scrollTop).toBe(400);
+  });
+
+  it('[RTL Vertical] should scroll to top progressively when mousedown on the top edge of the track', async () => {
+    directionalityMock.value = 'rtl';
+
+    component.ngOnInit();
+    component.ngAfterViewInit();
+    await firstValueFrom(component.afterInit);
+
+    await component.scrollTo({ bottom: 0 });
+
+    const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
+    const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYDirective));
+
+    const trackRect: DOMRect = trackYDebugElement.nativeElement.getBoundingClientRect();
+    const thumbRect: DOMRect = thumbYDebugElement.nativeElement.getBoundingClientRect();
+
+    const clientY: number = trackRect.top + thumbRect.height / 2;
+
+    // The event causes the viewport to scroll by 100px
+    trackYDebugElement.nativeElement.dispatchEvent(new PointerEvent('pointerdown', { clientY }));
+
+    // First click
+    await afterTimeout(200);
+    expect(component.viewport.scrollTop).toBe(300);
+    // Ongoing click
+    await afterTimeout(150);
+    expect(component.viewport.scrollTop).toBeLessThanOrEqual(200);
+    // Ongoing click
+    await afterTimeout(100);
+    expect(component.viewport.scrollTop).toBeLessThanOrEqual(100);
+    // Reached end
+    await afterTimeout(100);
+    expect(component.viewport.scrollTop).toBe(0);
+  });
+
+  it('[Horizontal] should scroll to end progressively when mousedown on the right edge of the track', async () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
@@ -127,7 +193,7 @@ describe('Track dragging', () => {
     expect(component.viewport.scrollLeft).toBe(400);
   });
 
-  it('should scroll to start progressively when mousedown on the left edge of the track', async () => {
+  it('[Horizontal] should scroll to start progressively when mousedown on the left edge of the track', async () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
@@ -158,7 +224,7 @@ describe('Track dragging', () => {
     expect(component.viewport.scrollLeft).toBe(0);
   })
 
-  it('should scroll to end progressively when mousedown on the left edge of the track in RTL', async () => {
+  it('[RTL Horizontal] should scroll to end progressively when mousedown on the left edge of the track in RTL', async () => {
     directionalityMock.value = 'rtl';
 
     component.ngOnInit();
@@ -191,7 +257,7 @@ describe('Track dragging', () => {
     expect(component.viewport.scrollLeft).toBe(-400);
   });
 
-  it('should scroll to start progressively when mousedown on the right edge of the track in RTL', async () => {
+  it('[RTL Horizontal] should scroll to start progressively when mousedown on the right edge of the track in RTL', async () => {
     directionalityMock.value = 'rtl';
 
     component.ngOnInit();
@@ -339,7 +405,7 @@ describe('Track dragging', () => {
 
     const thumbRect: DOMRect = thumbYDebugElement.nativeElement.getBoundingClientRect();
 
-    let clientY: number = thumbRect.bottom + thumbRect.height / 2;
+    const clientY: number = thumbRect.bottom + thumbRect.height / 2;
 
     // The event causes the viewport to scroll by 100px
     trackYDebugElement.nativeElement.dispatchEvent(new PointerEvent('pointerdown', { clientY }));

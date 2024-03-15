@@ -1,11 +1,11 @@
 ng-scrollbar {
   --scrollbar-thickness: 7;
   --scrollbar-offset: 16;
-  --scrollbar-track-color: rgba(0, 0, 0, 0.1);
-  --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
-  --scrollbar-thumb-hover-color: rgba(0, 0, 0, 0.3);
+  --scrollbar-track-color: rgb(0 0 0 / 10%);
+  --scrollbar-thumb-color: rgb(0 0 0 / 20%);
+  --scrollbar-thumb-hover-color: rgb(0 0 0 / 30%);
   width: 100%;
-  border: 1px solid rgba(0, 0, 0, 0.25);
+  border: 1px solid rgb(0 0 0 / 25%);
   height: 200px;
 }
 
@@ -42,7 +42,7 @@ ng-scrollbar {
     height: 3px;
     border-width: 0 1px 1px;
     border-style: none solid solid;
-    border-color: rgba(0, 0, 0, 0.25);
+    border-color: rgb(0 0 0 / 25%);
   }
 
   &:before {

@@ -23,12 +23,12 @@
 }
 
 ng-scrollbar {
-  --scrollbar-track-color: rgba(0, 0, 0, 0.05);
+  --scrollbar-track-color: rgb(0 0 0 / 5%);
   --scrollbar-thumb-color: var(--color-primary);
   --scrollbar-thickness: 12;
 
   border-radius: 3px;
-  border: 2px solid rgba(0, 0, 0, 0.05);
+  border: 2px solid rgb(0 0 0 / 5%);
 
   ::ng-deep {
     .p-scroller {

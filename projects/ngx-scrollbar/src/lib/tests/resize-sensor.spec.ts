@@ -1,5 +1,4 @@
 import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
-import { signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { afterTimeout, setDimensions } from './common-test.';
@@ -83,7 +82,7 @@ describe('Resize Sensor', () => {
   it('[Resize + sensorThrottleTime] should throttle sensor', async () => {
     setDimensions(component, { cmpHeight: 100, cmpWidth: 100, contentHeight: 400, contentWidth: 400 });
     component.appearance = 'compact';
-    component.sensorThrottleTime = signal(200) as any;
+    fixture.componentRef.setInput('sensorThrottleTime', 200);
     component.ngOnInit();
     component.ngAfterViewInit();
 
@@ -117,7 +116,7 @@ describe('Resize Sensor', () => {
 
   it('[Init] should call update afterViewInit and disable the resize sensor when "disableSensor" is used', async () => {
     setDimensions(component, { cmpHeight: 100, cmpWidth: 100, contentHeight: 400, contentWidth: 400 });
-    component.disableSensor = signal(true) as any;
+    fixture.componentRef.setInput('disableSensor', true);
     component.ngOnInit();
     component.ngAfterViewInit();
 

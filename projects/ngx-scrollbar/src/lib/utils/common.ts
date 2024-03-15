@@ -1,15 +1,15 @@
 import { MonoTypeOperatorFunction, tap } from 'rxjs';
 
-export function preventSelection(doc: Document): MonoTypeOperatorFunction<any> {
+export function preventSelection(doc: Document): MonoTypeOperatorFunction<PointerEvent> {
   return tap(() => doc.onselectstart = () => false);
 }
 
-export function enableSelection(doc: Document): MonoTypeOperatorFunction<any> {
+export function enableSelection(doc: Document): MonoTypeOperatorFunction<PointerEvent> {
   return tap(() => doc.onselectstart = null);
 }
 
-export function stopPropagation(): MonoTypeOperatorFunction<any> {
-  return tap((e: MouseEvent) => {
+export function stopPropagation(): MonoTypeOperatorFunction<PointerEvent> {
+  return tap((e: PointerEvent) => {
     // Have to prevent default to avoid unexpected movement whe you grab object beneath scrollbar #476
     // https://github.com/MurhafSousli/ngx-scrollbar/issues/476
     e.preventDefault();
@@ -30,3 +30,5 @@ export interface ViewportBoundaries {
   offsetHeight: number;
   offsetWidth: number;
 }
+
+export type ScrollTimelineFunc = ({ source, axis }: { source: HTMLElement, axis: 'x' | 'y' }) => void;

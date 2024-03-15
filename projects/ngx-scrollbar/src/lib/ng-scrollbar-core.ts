@@ -49,6 +49,7 @@ import {
 const defaultOptions: NgScrollbarOptions = {
   trackClass: '',
   thumbClass: '',
+  buttonClass: '',
   orientation: 'auto',
   appearance: 'native',
   visibility: 'native',
@@ -56,7 +57,8 @@ const defaultOptions: NgScrollbarOptions = {
   trackScrollDuration: 50,
   sensorThrottleTime: 0,
   disableSensor: false,
-  disableInteraction: false
+  disableInteraction: false,
+  buttons: false
 };
 
 interface ViewportState {
@@ -131,6 +133,11 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
    * - `always` Scrollbars are always shown even if the viewport is not scrollable
    */
   visibility: InputSignal<ScrollbarVisibility> = input<ScrollbarVisibility>(this.options.visibility);
+
+  /** Show scrollbar buttons */
+  buttons: InputSignalWithTransform<boolean, string | boolean> = input<boolean, string | boolean>(this.options.buttons, {
+    transform: booleanAttribute
+  });
 
   /** Disables scrollbar interaction like dragging thumb and jumping by track click */
   disableInteraction: InputSignalWithTransform<boolean, string | boolean> = input<boolean, string | boolean>(this.options.disableInteraction, {
@@ -212,6 +219,8 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
   @Input() trackClass: string = this.options.trackClass;
   /** A class forwarded to the scrollbar thumb element */
   @Input() thumbClass: string = this.options.thumbClass;
+  /** A class forwarded to the scrollbar button element */
+  @Input() buttonClass: string = this.options.thumbClass;
 
   /** Steam that emits when scrollbar is initialized */
   @Output() afterInit: EventEmitter<void> = new EventEmitter<void>();

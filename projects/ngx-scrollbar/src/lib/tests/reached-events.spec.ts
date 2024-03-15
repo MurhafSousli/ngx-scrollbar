@@ -49,7 +49,7 @@ describe('Reached Events Directives', () => {
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    onScrollReachedSpy = spyOn<any>(component, 'onScrollReached');
+    onScrollReachedSpy = spyOn(component, 'onScrollReached');
   });
 
   it('[ReachedOffset]: should emit (reachedTop) (reachedBottom) (reachedStart) (reachedEnd)', async () => {

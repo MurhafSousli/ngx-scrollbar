@@ -20,12 +20,12 @@ export class ViewportAdapter {
 
   /** Viewport clientHeight */
   get offsetHeight(): number {
-    return this.nativeElement.offsetHeight;
+    return this.nativeElement.getBoundingClientRect().height;
   }
 
   /** Viewport clientWidth */
   get offsetWidth(): number {
-    return this.nativeElement.offsetWidth;
+    return this.nativeElement.getBoundingClientRect().width;
   }
 
   /** Viewport scrollTop */
@@ -40,12 +40,12 @@ export class ViewportAdapter {
 
   /** Content height, falls back to scroll height */
   get contentHeight(): number {
-    return this.contentWrapperElement?.offsetHeight;
+    return this.contentWrapperElement.getBoundingClientRect().height;
   }
 
   /** Content width, falls back to scroll height */
   get contentWidth(): number {
-    return this.contentWrapperElement?.offsetWidth;
+    return this.contentWrapperElement.getBoundingClientRect().width;
   }
 
   /** The horizontal remaining scrollable distance */

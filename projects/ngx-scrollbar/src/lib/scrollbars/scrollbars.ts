@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy, ViewChild } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { ScrollbarX, ScrollbarY } from '../scrollbar/scrollbar';
 import { NG_SCROLLBAR, _NgScrollbar } from '../utils/scrollbar-base';
 
@@ -22,9 +22,5 @@ import { NG_SCROLLBAR, _NgScrollbar } from '../utils/scrollbar-base';
   `]
 })
 export class Scrollbars {
-  // Scrollbars references used for testing purposes
-  @ViewChild(ScrollbarY) y: ScrollbarY;
-  @ViewChild(ScrollbarX) x: ScrollbarX;
-
   cmp: _NgScrollbar = inject(NG_SCROLLBAR);
 }

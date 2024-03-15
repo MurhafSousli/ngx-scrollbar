@@ -21,7 +21,7 @@
   transition: var(--_scrollbar-opacity-transition);
 }
 
-.ng-scrollbar-track {
+.ng-scrollbar-track-wrapper {
   // Prevent native scrolling (panning up and down) on mobile
   touch-action: none;
   // Prevent selecting when pointer is down while dragging on mobile
@@ -33,12 +33,23 @@
   right: var(--_scrollbar-track-right);
   left: var(--_scrollbar-track-left);
   pointer-events: var(--_scrollbar-pointer-events);
+  transition: var(--scrollbar-track-wrapper-transition);
+  position: absolute;
+  overflow: hidden;
+  display: flex;
+  place-items: center;
+}
+
+.ng-scrollbar-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
   background-color: var(--scrollbar-track-color);
   transition: var(--scrollbar-track-transition);
   border-radius: var(--scrollbar-border-radius);
-  position: absolute;
   cursor: default;
   z-index: 1;
+  order: 2;
 }
 
 .ng-scrollbar-thumb {

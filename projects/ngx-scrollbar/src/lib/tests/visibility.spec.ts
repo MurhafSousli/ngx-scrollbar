@@ -1,7 +1,7 @@
 import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement, signal } from '@angular/core';
-import { NgScrollbar, ScrollbarVisibility } from 'ngx-scrollbar';
+import { DebugElement } from '@angular/core';
+import { NgScrollbar } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
 import { setDimensions } from './common-test.';
 import { TrackYDirective } from '../track/track';
@@ -25,7 +25,7 @@ describe('Visibility styles', () => {
 
   it('[Visibility] should be hidden when visibility="hover"', async () => {
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 100, contentHeight: 200 });
-    component.visibility = signal<ScrollbarVisibility>('hover') as any;
+    fixture.componentRef.setInput('visibility', 'hover');
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
@@ -41,7 +41,7 @@ describe('Visibility styles', () => {
 
   it('[Visibility] should be able to override styles related to sticky container using CSS variables', async () => {
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 100, contentHeight: 200 });
-    component.visibility = signal<ScrollbarVisibility>('hover') as any;
+    fixture.componentRef.setInput('visibility', 'hover');
     // Override track color and transition using CSS variables
     component.nativeElement.style.setProperty('--scrollbar-hover-opacity-transition-enter-duration', '200ms');
     component.nativeElement.style.setProperty('--scrollbar-hover-opacity-transition-leave-duration', '500ms');

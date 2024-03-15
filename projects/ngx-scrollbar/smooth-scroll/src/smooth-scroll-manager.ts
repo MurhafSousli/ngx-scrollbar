@@ -13,11 +13,12 @@ import {
   SmoothScrollToOptions
 } from './smooth-scroll.model';
 
-// @dynamic
 @Injectable({
   providedIn: 'root'
 })
 export class SmoothScrollManager {
+
+  private readonly rtlScrollAxisType: RtlScrollAxisType = getRtlScrollAxisType();
 
   // Default options
   private readonly _defaultOptions: SmoothScrollToOptions;
@@ -181,7 +182,6 @@ export class SmoothScrollManager {
     if (isPlatformBrowser(this._platform)) {
       const el = this._getElement(scrollable);
       const isRtl = getComputedStyle(el).direction === 'rtl';
-      const rtlScrollAxisType = getRtlScrollAxisType();
 
       const options: SmoothScrollToOptions = {
         ...(this._defaultOptions as _Without<_Bottom & _Top>),
@@ -199,14 +199,14 @@ export class SmoothScrollManager {
       }
 
       // Rewrite the right offset as a left offset.
-      if (isRtl && rtlScrollAxisType !== RtlScrollAxisType.NORMAL) {
+      if (isRtl && this.rtlScrollAxisType !== RtlScrollAxisType.NORMAL) {
         if (options.left != null) {
           (options as _Without<_Left> & _Right).right = el.scrollWidth - el.clientWidth - options.left;
         }
 
-        if (rtlScrollAxisType === RtlScrollAxisType.INVERTED) {
+        if (this.rtlScrollAxisType === RtlScrollAxisType.INVERTED) {
           options.left = options.right;
-        } else if (rtlScrollAxisType === RtlScrollAxisType.NEGATED) {
+        } else if (this.rtlScrollAxisType === RtlScrollAxisType.NEGATED) {
           options.left = options.right ? -options.right : options.right;
         }
       } else {

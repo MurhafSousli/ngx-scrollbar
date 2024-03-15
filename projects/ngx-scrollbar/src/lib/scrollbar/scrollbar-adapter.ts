@@ -1,51 +1,28 @@
-import {
-  Directive,
-  ViewChild,
-  effect,
-  inject,
-  NgZone,
-  ElementRef,
-  EffectCleanupRegisterFn
-} from '@angular/core';
-import { merge, Subscription } from 'rxjs';
-import { ThumbAdapter } from '../thumb/thumb-adapter';
-import { TrackAdapter } from '../track/track-adapter';
+import { Directive, inject, InjectionToken } from '@angular/core';
+import { Observable } from 'rxjs';
 import { NG_SCROLLBAR, _NgScrollbar } from '../utils/scrollbar-base';
 
-// @dynamic
+export const SCROLLBAR_CONTROL: InjectionToken<ScrollbarAdapter> = new InjectionToken<ScrollbarAdapter>('SCROLLBAR_CONTROL');
+
 @Directive()
 export abstract class ScrollbarAdapter {
 
-  // Thumb directive reference
-  readonly thumb: ThumbAdapter;
-  // Track directive reference
-  readonly track: TrackAdapter;
-  // Pointer events subscription (made public for testing purpose)
-  _pointerEventsSub: Subscription;
-  // Zone reference
-  protected readonly zone: NgZone = inject(NgZone);
+  // Returns either 'clientX' or 'clientY' coordinate of the pointer relative to the viewport
+  abstract readonly clientProperty: 'clientX' | 'clientY';
+
+  // Return axis
+  abstract readonly axis: 'x' | 'y';
+
+  // Returns viewport scroll max
+  abstract get viewportScrollMax(): number;
+
+  // Returns viewport offset
+  abstract get viewportScrollOffset(): number;
+
   // Host component reference
   readonly cmp: _NgScrollbar = inject(NG_SCROLLBAR);
 
-  // Sticky wrapper reference for testing purpose
-  @ViewChild('sticky', { static: true }) readonly sticky: ElementRef<HTMLElement>;
+  abstract scrollTo(value: number, duration: number): Observable<void>;
 
-  constructor() {
-    effect((onCleanup: EffectCleanupRegisterFn) => {
-      if (this.cmp.disableInteraction()) {
-        this._pointerEventsSub?.unsubscribe();
-      } else {
-        this.zone.runOutsideAngular(() => {
-          this._pointerEventsSub = merge(
-            // Activate scrollbar thumb drag event
-            this.thumb.dragged,
-            // Activate scrollbar track click event
-            this.track.dragged
-          ).subscribe();
-        });
-      }
-
-      onCleanup(() => this._pointerEventsSub?.unsubscribe());
-    });
-  }
+  abstract instantScrollTo(value: number, scrollMax?: number): void;
 }
