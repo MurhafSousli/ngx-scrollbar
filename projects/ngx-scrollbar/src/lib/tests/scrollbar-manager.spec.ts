@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { PLATFORM_ID } from '@angular/core';
-import { getRtlScrollAxisType } from '@angular/cdk/platform';
 import { provideScrollbarPolyfill } from 'ngx-scrollbar';
 import { ScrollbarManager } from '../utils/scrollbar-manager';
 
@@ -22,10 +21,6 @@ describe('ScrollbarManager Service', () => {
     expect(scrollbarManager).toBeDefined();
   });
 
-  it('should not load rtlScrollAxisType set', () => {
-    expect(scrollbarManager.rtlScrollAxisType).toBe(getRtlScrollAxisType());
-  });
-
   it('should load polyfill script and set scrollTimelinePolyfill', async () => {
     // In Chrome, it will not be possible to test if the polyfill will set window.ScrollTimeline
     // Therefore, we will only test the script functionality
@@ -33,7 +28,8 @@ describe('ScrollbarManager Service', () => {
     spyOn(scrollbarManager.document, 'createElement').and.returnValue(scriptMock);
 
     const scrollTimelineFunction: jasmine.Spy = jasmine.createSpy('scrollTimelineFunction');
-    spyOnProperty(scrollbarManager.document, 'defaultView').and.returnValue({ ScrollTimeline: scrollTimelineFunction } as any);
+    // @ts-expect-error return the Window type after assigning ScrollTimeline to make lint happy
+    spyOnProperty(scrollbarManager.document, 'defaultView').and.returnValue({ ScrollTimeline: scrollTimelineFunction } as Window);
 
     await scrollbarManager.initPolyfill();
 
@@ -102,7 +98,7 @@ describe('ScrollbarManager: call initPolyfill in constructor based on browser', 
     delete window['ScrollTimeline'];
 
     TestBed.runInInjectionContext(() => {
-      const service: ScrollbarManager = new ScrollbarManager();
+      new ScrollbarManager();
       expect(initPolyfillSpy).toHaveBeenCalled();
     });
 
@@ -114,7 +110,7 @@ describe('ScrollbarManager: call initPolyfill in constructor based on browser', 
   it('should call initPolyfill if conditions are not met (Chrome)', () => {
     // Mock Chrome environment
     TestBed.runInInjectionContext(() => {
-      const service: ScrollbarManager = new ScrollbarManager();
+      new ScrollbarManager();
       expect(initPolyfillSpy).not.toHaveBeenCalled();
     });
   });

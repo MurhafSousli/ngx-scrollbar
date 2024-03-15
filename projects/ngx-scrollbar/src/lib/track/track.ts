@@ -12,14 +12,12 @@ export class TrackXDirective extends TrackAdapter {
 
   protected readonly cssLengthProperty: string = '--track-x-length';
 
-  protected readonly clientProperty: 'clientX' | 'clientY' = 'clientX';
-
   get offset(): number {
     return this.clientRect.left;
   }
 
   get size(): number {
-    return this.nativeElement.clientWidth;
+    return this.clientRect.width;
   }
 
   protected get viewportScrollSize(): number {
@@ -28,10 +26,6 @@ export class TrackXDirective extends TrackAdapter {
 
   protected get viewportSize(): number {
     return this.cmp.viewport.offsetWidth;
-  }
-
-  protected get viewportScrollOffset(): number {
-    return this.cmp.viewport.scrollLeft;
   }
 
   protected getScrollDirection(position: number): 'forward' | 'backward' {
@@ -44,6 +38,56 @@ export class TrackXDirective extends TrackAdapter {
   protected scrollTo(left: number): Observable<void> {
     return fromPromise(this.cmp.scrollTo({ left, duration: this.cmp.trackScrollDuration }));
   }
+
+  protected getScrollForwardIncrement(): number {
+    if (this.cmp.direction() === 'rtl') {
+      const position: number = -(this.control.viewportScrollOffset - this.viewportSize);
+      return this.scrollMax - position;
+    }
+    return this.control.viewportScrollOffset + this.viewportSize;
+  }
+
+  protected getScrollBackwardIncrement(): number {
+    if (this.cmp.direction() === 'rtl') {
+      const position: number = -(this.control.viewportScrollOffset + this.viewportSize);
+      return this.scrollMax - position;
+    }
+    return this.control.viewportScrollOffset - this.viewportSize;
+  }
+
+  protected getOnGoingScrollForward(): { position: number, nextPosition: number, endPosition: number } {
+    if (this.cmp.direction() === 'rtl') {
+      const position: number = this.control.viewportScrollOffset - this.viewportSize;
+      return {
+        position,
+        nextPosition: this.scrollMax + position,
+        endPosition: 0
+      }
+    }
+    const position: number = this.control.viewportScrollOffset + this.viewportSize;
+    return {
+      position,
+      nextPosition: position,
+      endPosition: this.scrollMax
+    }
+  }
+
+  protected getOnGoingScrollBackward(): { position: number, nextPosition: number, endPosition: number } {
+    if (this.cmp.direction() === 'rtl') {
+      const position: number = this.control.viewportScrollOffset + this.viewportSize;
+      return {
+        position,
+        nextPosition: this.scrollMax + position,
+        endPosition: this.scrollMax
+      }
+    }
+    const position: number = this.control.viewportScrollOffset - this.viewportSize;
+    return {
+      position,
+      nextPosition: position,
+      endPosition: 0
+    }
+  }
 }
 
 @Directive({
@@ -55,14 +99,12 @@ export class TrackYDirective extends TrackAdapter {
 
   protected readonly cssLengthProperty: string = '--track-y-length';
 
-  protected readonly clientProperty: 'clientX' | 'clientY' = 'clientY';
-
   get offset(): number {
     return this.clientRect.top;
   }
 
   get size(): number {
-    return this.nativeElement.clientHeight;
+    return this.clientRect.height;
   }
 
   protected get viewportScrollSize(): number {
@@ -73,15 +115,37 @@ export class TrackYDirective extends TrackAdapter {
     return this.cmp.viewport.offsetHeight;
   }
 
-  protected get viewportScrollOffset(): number {
-    return this.cmp.viewport.scrollTop;
-  }
-
   protected getScrollDirection(position: number): 'forward' | 'backward' {
     return position - this.thumb.offset > 0 ? 'forward' : 'backward';
   }
 
   protected scrollTo(top: number): Observable<void> {
     return fromPromise(this.cmp.scrollTo({ top, duration: this.cmp.trackScrollDuration }));
+  }
+
+  protected getScrollForwardIncrement(): number {
+    return this.control.viewportScrollOffset + this.viewportSize;
+  }
+
+  protected getScrollBackwardIncrement(): number {
+    return this.control.viewportScrollOffset - this.viewportSize;
+  }
+
+  protected getOnGoingScrollForward(): { position: number, nextPosition: number, endPosition: number } {
+    const position: number = this.control.viewportScrollOffset + this.viewportSize;
+    return {
+      position,
+      nextPosition: position,
+      endPosition: this.scrollMax
+    }
+  }
+
+  protected getOnGoingScrollBackward(): { position: number, nextPosition: number, endPosition: number } {
+    const position: number = this.control.viewportScrollOffset - this.viewportSize;
+    return {
+      position,
+      nextPosition: position,
+      endPosition: 0
+    }
   }
 }

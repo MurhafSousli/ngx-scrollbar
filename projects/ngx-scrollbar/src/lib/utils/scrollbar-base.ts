@@ -9,13 +9,14 @@ import { ScrollbarDragging, ViewportBoundaries } from './common';
  * Injection token that can be used to query for a `NgScrollbar`.
  * Used primarily to avoid circular imports.
  */
-export const NG_SCROLLBAR: InjectionToken<_NgScrollbar> = new InjectionToken<_NgScrollbar>('_NG_SCROLLBAR');
+export const NG_SCROLLBAR: InjectionToken<_NgScrollbar> = new InjectionToken<_NgScrollbar>('NG_SCROLLBAR');
 
 export interface _NgScrollbar {
   nativeElement: HTMLElement;
   dragging: WritableSignal<ScrollbarDragging>;
   direction: Signal<Direction>;
   trackScrollDuration: number;
+  buttons: Signal<boolean>;
   disableSensor: Signal<boolean>;
   sensorThrottleTime: Signal<number>;
   disableInteraction: Signal<boolean>;
@@ -26,6 +27,7 @@ export interface _NgScrollbar {
   viewportDimension: Signal<ViewportBoundaries>;
   thumbClass: string;
   trackClass: string;
+  buttonClass: string;
 
   get viewport(): ViewportAdapter;
 

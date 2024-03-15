@@ -1,0 +1,81 @@
+@use "../styles/selectors" as selector;
+
+:host {
+  --scrollbar-button-size: 20px;
+  position: relative;
+  border: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  appearance: none;
+
+  background-color: var(--scrollbar-button-color);
+
+  svg {
+    fill: var(--scrollbar-button-fill);
+  }
+
+  &:hover {
+    background: var(--scrollbar-button-hover-color);
+
+    svg {
+      fill: var(--scrollbar-button-hover-fill);
+    }
+  }
+
+  &:active {
+    background: var(--scrollbar-button-active-color);
+
+    svg {
+      fill: var(--scrollbar-button-active-fill);
+    }
+  }
+
+
+  &[scrollbarButton="top"], &[scrollbarButton="start"] {
+    order: 1;
+  }
+
+  &[scrollbarButton="bottom"], &[scrollbarButton="end"] {
+    order: 3;
+  }
+
+  &[scrollbarButton="top"], &[scrollbarButton="bottom"] {
+    width: 100%;
+    height: var(--scrollbar-button-size);
+  }
+
+  &[scrollbarButton="start"], &[scrollbarButton="end"] {
+    width: var(--scrollbar-button-size);
+    height: 100%;
+  }
+
+  &[scrollbarButton="bottom"] {
+    --_button-rotate: 180deg;
+  }
+
+  &[scrollbarButton="start"] {
+    --_button-rotate: -90deg;
+
+    .ng-scrollbar-button-icon {
+      writing-mode: vertical-lr;
+    }
+  }
+
+  &[scrollbarButton="end"] {
+    --_button-rotate: 90deg;
+
+    .ng-scrollbar-button-icon {
+      writing-mode: vertical-rl;
+    }
+  }
+}
+
+.ng-scrollbar-button-icon {
+  rotate: var(--_button-rotate);
+  display: flex;
+  place-content: center;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+}

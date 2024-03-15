@@ -18,13 +18,16 @@
   // CSS variables used to customized the look of the scrollbar component
 
   // Scrollbar track border radius
-  --scrollbar-border-radius: 7px;
+  --scrollbar-border-radius: 0px;
 
   // Scrollbar track thickness
   --scrollbar-thickness: 5;
 
   // Space between scrollbar track and its surrounding
-  --scrollbar-offset: 4;
+  --scrollbar-offset: 0;
+
+  // Scrollbar track wrapper transition
+  --scrollbar-track-wrapper-transition: width 60ms linear, height 60ms linear;
 
   // Scrollbar track color
   --scrollbar-track-color: transparent;
@@ -33,7 +36,7 @@
   --scrollbar-track-transition: none;
 
   // Scrollbar thumb color
-  --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
+  --scrollbar-thumb-color: rgb(0 0 0 / 20%);
 
   // Scrollbar thumb color when hovered
   --scrollbar-thumb-hover-color: var(--scrollbar-thumb-color);
@@ -46,6 +49,16 @@
 
   // The minimum size the scrollbar thumb can get
   --scrollbar-thumb-min-size: 20;
+
+  // Scrollbar button colors
+  --scrollbar-button-color: var(--scrollbar-thumb-color);
+  --scrollbar-button-hover-color: var(--scrollbar-button-color);
+  --scrollbar-button-active-color: var(--scrollbar-button-hover-color);
+
+  // Scrollbar button arrow fill
+  --scrollbar-button-fill: white;
+  --scrollbar-button-hover-fill: var(--scrollbar-button-fill);
+  --scrollbar-button-active-fill: var(--scrollbar-button-hover-fill);
 
   // Transition for sticky element when viewport is hovered in [visibility]="hover"
   --scrollbar-hover-opacity-transition-enter-duration: 0;

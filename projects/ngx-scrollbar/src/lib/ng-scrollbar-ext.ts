@@ -12,7 +12,7 @@ import {
   ApplicationRef,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { ScrollViewport, ViewportAdapter } from './viewport';
+import { ScrollViewport } from './viewport';
 import { NgScrollbar } from './ng-scrollbar';
 import { NgScrollbarCore } from './ng-scrollbar-core';
 import { NG_SCROLLBAR } from './utils/scrollbar-base';

@@ -1,5 +1,4 @@
-import { ContentChild, Directive, inject, effect, ElementRef, EffectCleanupRegisterFn, NgZone } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { ContentChild, Directive, effect, EffectCleanupRegisterFn } from '@angular/core';
 import {
   Observable,
   Subscription,
@@ -8,7 +7,6 @@ import {
   fromEvent,
   tap,
   map,
-  expand,
   delay,
   switchMap,
   finalize,
@@ -17,27 +15,14 @@ import {
   distinctUntilChanged,
   EMPTY
 } from 'rxjs';
-import { NG_SCROLLBAR, _NgScrollbar } from '../utils/scrollbar-base';
 import { enableSelection, preventSelection, stopPropagation } from '../utils/common';
 import { ThumbAdapter } from '../thumb/thumb-adapter';
 import { resizeObserver } from '../viewport';
+import { PointerEventsAdapter } from '../utils/pointer-events-adapter';
 
 
-// @dynamic
 @Directive()
-export abstract class TrackAdapter {
-
-  // The native element of the track directive
-  readonly nativeElement: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
-
-  // Reference to the NgScrollbar component
-  protected readonly cmp: _NgScrollbar = inject(NG_SCROLLBAR);
-
-  // Reference to the document object
-  private readonly document: Document = inject(DOCUMENT);
-
-  // Reference to angular zone
-  private readonly zone: NgZone = inject(NgZone);
+export abstract class TrackAdapter extends PointerEventsAdapter {
 
   // Subscription for resize observer
   private sizeChangeSub: Subscription;
@@ -49,38 +34,35 @@ export abstract class TrackAdapter {
   private scrollDirection: 'forward' | 'backward';
 
   // The maximum scroll position until the end is reached
-  private scrollMax: number;
+  protected scrollMax: number;
 
-  // Abstract properties and methods to be implemented by subclasses
-  protected abstract readonly clientProperty: 'clientX' | 'clientY';
-
+  // The CSS variable name used to set the length value
   protected abstract readonly cssLengthProperty: string;
 
   protected abstract get viewportScrollSize(): number;
 
   protected abstract get viewportSize(): number;
 
-  protected abstract get viewportScrollOffset(): number;
+  // Get track client rect
+  protected get clientRect(): DOMRect {
+    return this.nativeElement.getBoundingClientRect();
+  }
 
+  // Scrollbar track length
   abstract get size(): number;
 
+  // Scrollbar track offset
   abstract get offset(): number;
 
   protected abstract scrollTo(position: number): Observable<void>;
 
   protected abstract getScrollDirection(position: number): 'forward' | 'backward';
 
-
-  // Get track client rect
-  get clientRect(): DOMRect {
-    return this.nativeElement.getBoundingClientRect();
-  }
-
   // Reference to the ThumbAdapter component
   @ContentChild(ThumbAdapter) protected thumb: ThumbAdapter;
 
   // Observable for track dragging events
-  get dragged(): Observable<any> {
+  get pointerEvents(): Observable<PointerEvent> {
     // Observable streams for pointer events
     const pointerDown$: Observable<PointerEvent> = fromEvent<PointerEvent>(this.nativeElement, 'pointerdown').pipe(
       stopPropagation(),
@@ -93,7 +75,7 @@ export abstract class TrackAdapter {
     // The reason why we use mousemove instead of mouseover, that we need to save the current mouse location
     const pointerMove$: Observable<boolean> = fromEvent<PointerEvent>(this.nativeElement, 'pointermove', { passive: true }).pipe(
       map((e: PointerEvent) => {
-        this.currMousePosition = e[this.clientProperty];
+        this.currMousePosition = e[this.control.clientProperty];
         return true;
       })
     );
@@ -137,7 +119,7 @@ export abstract class TrackAdapter {
                 // Reset the mouseOverTrack$ state
                 pointerOverTrack$.next(true);
               })
-            );
+            ) as Observable<PointerEvent>;
           }),
           takeUntil(pointerUp$),
         );
@@ -148,7 +130,7 @@ export abstract class TrackAdapter {
   constructor() {
     effect((onCleanup: EffectCleanupRegisterFn) => {
       if (this.cmp.disableSensor()) {
-        this.updateCSSVariables();
+        this.update();
         this.sizeChangeSub?.unsubscribe();
       } else {
         this.zone.runOutsideAngular(() => {
@@ -157,16 +139,25 @@ export abstract class TrackAdapter {
             element: this.nativeElement,
             throttleDuration: this.cmp.sensorThrottleTime()
           }).pipe(
-            tap(() => this.updateCSSVariables())
+            tap(() => this.update())
           ).subscribe();
         });
       }
 
       onCleanup(() => this.sizeChangeSub?.unsubscribe());
     });
+    super();
   }
 
-  private updateCSSVariables(): void {
+  protected abstract getScrollForwardIncrement(): number;
+
+  protected abstract getScrollBackwardIncrement(): number;
+
+  protected abstract getOnGoingScrollForward(): { position: number, nextPosition: number, endPosition: number };
+
+  protected abstract getOnGoingScrollBackward(): { position: number, nextPosition: number, endPosition: number };
+
+  private update(): void {
     this.cmp.nativeElement.style.setProperty(this.cssLengthProperty, `${ this.size }`);
   }
 
@@ -175,9 +166,9 @@ export abstract class TrackAdapter {
    */
   onTrackFirstClick(e: PointerEvent): Observable<void> {
     // Initialize variables and determine scroll direction
-    this.currMousePosition = e[this.clientProperty];
+    this.currMousePosition = e[this.control.clientProperty];
     this.scrollDirection = this.getScrollDirection(this.currMousePosition);
-    this.scrollMax = this.viewportScrollSize - this.viewportSize;
+    this.scrollMax = this.control.viewportScrollMax;
 
     // Calculate scroll position and trigger scroll
     let value: number;
@@ -185,14 +176,7 @@ export abstract class TrackAdapter {
     // Check which direction should the scroll go (forward or backward)
     if (this.scrollDirection === 'forward') {
       // Scroll forward
-      let scrollForwardIncrement: number;
-
-      if (this.cmp.direction() === 'rtl') {
-        const position: number = -(this.viewportScrollOffset - this.viewportSize);
-        scrollForwardIncrement = this.scrollMax - position;
-      } else {
-        scrollForwardIncrement = this.viewportScrollOffset + this.viewportSize;
-      }
+      const scrollForwardIncrement: number = this.getScrollForwardIncrement();
 
       // Check if the incremental position is bigger than the scroll max
       if (scrollForwardIncrement >= this.scrollMax) {
@@ -202,14 +186,7 @@ export abstract class TrackAdapter {
       }
     } else {
       // Scroll backward
-      let scrollBackwardIncrement: number;
-      if (this.cmp.direction() === 'rtl') {
-        const position: number = -(this.viewportScrollOffset + this.viewportSize);
-        const scrollMax: number = this.viewportScrollSize - this.viewportSize;
-        scrollBackwardIncrement = scrollMax - position;
-      } else {
-        scrollBackwardIncrement = this.viewportScrollOffset - this.viewportSize;
-      }
+      const scrollBackwardIncrement: number = this.getScrollBackwardIncrement();
 
       if (scrollBackwardIncrement <= 0) {
         value = 0;
@@ -227,44 +204,25 @@ export abstract class TrackAdapter {
    */
   onTrackOngoingMousedown(): Observable<boolean> {
     // Calculate scroll increments and trigger ongoing scroll
+    let position: number;
     let nextPosition: number;
     let endPosition: number;
-    let isFinalStep: boolean;
 
     // Check which direction should the scroll go (forward or backward)
     if (this.scrollDirection === 'forward') {
       // Scroll forward
-      if (this.cmp.direction() === 'rtl') {
-        const position: number = this.viewportScrollOffset - this.viewportSize;
-        nextPosition = this.scrollMax + position;
-        endPosition = 0;
-        isFinalStep = this.isFinalStep(position);
-      } else {
-        nextPosition = this.viewportScrollOffset + this.viewportSize;
-        endPosition = this.scrollMax;
-        isFinalStep = this.isFinalStep(nextPosition);
-      }
-
+      ({ position, nextPosition, endPosition } = this.getOnGoingScrollForward());
     } else {
       // Scroll backward
-      if (this.cmp.direction() === 'rtl') {
-        const position: number = this.viewportScrollOffset + this.viewportSize;
-        nextPosition = this.scrollMax + position;
-        endPosition = this.scrollMax;
-        isFinalStep = this.isFinalStep(position);
-      } else {
-        nextPosition = this.viewportScrollOffset - this.viewportSize;
-        endPosition = 0;
-        isFinalStep = this.isFinalStep(nextPosition);
-      }
+      ({ position, nextPosition, endPosition } = this.getOnGoingScrollBackward());
     }
+    const isFinalStep: boolean = this.isFinalStep(position);
 
     return this.scrollTo(isFinalStep ? endPosition : nextPosition).pipe(
       takeWhile(() => !isFinalStep),
-      expand(() => this.onTrackOngoingMousedown())
+      switchMap(() => this.onTrackOngoingMousedown())
     );
   }
-
 
   /**
    *  Returns the normalized position whether it's forward or backward for both LTR or RTL directions
@@ -282,7 +240,7 @@ export abstract class TrackAdapter {
    */
   private isFinalStep(position: number): boolean {
     // Calculate the length from the input position to the end of the scroll
-    let lengthFromInputToEnd: number = this.viewportScrollSize - this.thumb.size - this.getCurrPosition(position);
+    const lengthFromInputToEnd: number = this.viewportScrollSize - this.thumb.size - this.getCurrPosition(position);
     // Calculate the number of viewport sizes contained from the current position to the end of the scroll
     const numberOfViewportSizes: number = Math.floor(lengthFromInputToEnd / this.viewportSize);
     return numberOfViewportSizes === 0;

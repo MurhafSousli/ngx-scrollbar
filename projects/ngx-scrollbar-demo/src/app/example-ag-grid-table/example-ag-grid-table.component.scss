@@ -14,7 +14,7 @@
 ng-scrollbar {
   --scrollbar-hover-thickness: 10;
   --scrollbar-thumb-color: var(--color-primary);
-  --scrollbar-track-color: rgba(0, 0, 0, 0.2);
+  --scrollbar-track-color: rgb(0 0 0 / 20%);
   --scrollbar-offset: 0;
   --scrollbar-border-radius: 0;
 }

@@ -21,10 +21,41 @@
   // Calculate thumb position
   --_scrollbar-thumb-transform-from: 0;
   --_scrollbar-thumb-transform-to: calc(var(--_scrollbar-x-thumb-transform-to-value) * 1px);
+
+  .ng-scrollbar-button[scrollbarButton="start"] {
+    _--button-rotate: 90;
+  }
+
+  .ng-scrollbar-button[scrollbarButton="end"] {
+    _--button-rotate: -90;
+  }
+
+  @include selector.RTL {
+    .ng-scrollbar-thumb {
+      // In LTR we cannot use translate to move the thumb,
+      // because of this bug https://github.com/w3c/csswg-drafts/issues/4350
+      // Therefore we use "right" to move the thumb.
+      animation-name: scrollbarThumbRTLAnimation;
+      will-change: right;
+
+      // We invert the value here to make it work for the polyfill (firefox)
+      // And for chrome we invert it back again in the RTL animation
+      --_scrollbar-thumb-transform-to: calc(var(--_scrollbar-x-thumb-transform-to-value) * -1px);
+    }
+
+    .ng-scrollbar-button[scrollbarButton="start"] {
+      --_button-rotate: 90deg;
+    }
+
+    .ng-scrollbar-button[scrollbarButton="end"] {
+      --_button-rotate: -90deg;
+    }
+  }
 }
 
-.ng-scrollbar-track {
+.ng-scrollbar-track-wrapper {
   height: var(--_track-x-thickness);
+  flex-direction: row;
 
   &:hover {
     --_track-x-thickness: var(--_scrollbar-hover-thickness-px);
@@ -37,18 +68,6 @@
   min-width: calc(var(--scrollbar-thumb-min-size) * 1px);
   display: var(--_horizontal-thumb-display);
   background-color: var(--_thumb-x-color);
-
-  @include selector.RTL {
-    // In LTR we cannot use translate to move the thumb,
-    // because of this bug https://github.com/w3c/csswg-drafts/issues/4350
-    // Therefore we use "right" to move the thumb.
-    animation-name: scrollbarThumbRTLAnimation;
-    will-change: right;
-
-    // We invert the value here to make it work for the polyfill (firefox)
-    // And for chrome we invert it back again in the RTL animation
-    --_scrollbar-thumb-transform-to: calc(var(--_scrollbar-x-thumb-transform-to-value) * -1px);
-  }
 }
 
 

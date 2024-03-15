@@ -1,27 +1,25 @@
-import { Directive, inject, effect, NgZone, ElementRef } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Directive, inject, effect } from '@angular/core';
 import { Observable, of, fromEvent, map, takeUntil, tap, switchMap } from 'rxjs';
-import { ScrollbarDragging, enableSelection, preventSelection, stopPropagation } from '../utils/common';
-import { NG_SCROLLBAR, _NgScrollbar } from '../utils/scrollbar-base';
+import {
+  ScrollbarDragging,
+  ScrollTimelineFunc,
+  stopPropagation,
+  enableSelection,
+  preventSelection
+} from '../utils/common';
 import { ScrollbarManager } from '../utils/scrollbar-manager';
 import { TrackAdapter } from '../track/track-adapter';
+import { PointerEventsAdapter } from '../utils/pointer-events-adapter';
 
-// @dynamic
+
 @Directive()
-export abstract class ThumbAdapter {
+export abstract class ThumbAdapter extends PointerEventsAdapter {
 
-  private readonly zone: NgZone = inject(NgZone);
-  protected readonly document: Document = inject(DOCUMENT);
-  protected readonly cmp: _NgScrollbar = inject(NG_SCROLLBAR);
   protected readonly manager: ScrollbarManager = inject(ScrollbarManager);
   private readonly track: TrackAdapter = inject(TrackAdapter);
-  readonly nativeElement: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
 
   // The animation reference used for enabling the polyfill on Safari and Firefox.
-  protected animation: Animation;
-
-  // Returns either 'clientX' or 'clientY' coordinate of the pointer relative to the viewport
-  protected abstract readonly clientProperty: 'clientX' | 'clientY';
+  _animation: Animation;
 
   protected abstract get dragStartOffset(): number;
 
@@ -29,10 +27,6 @@ export abstract class ThumbAdapter {
 
   // Returns thumb size
   abstract get size(): number;
-
-  protected abstract get viewportScrollMax(): number;
-
-  protected abstract axis: 'x' | 'y';
 
   // The maximum space available for scrolling.
   get trackMax(): number {
@@ -48,7 +42,7 @@ export abstract class ThumbAdapter {
    * Stream that emits the 'scrollTo' position when a scrollbar thumb element is dragged
    * This function is called by thumb drag event using viewport or scrollbar pointer events
    */
-  get dragged(): Observable<number> {
+  get pointerEvents(): Observable<PointerEvent> {
     return fromEvent<PointerEvent>(this.nativeElement, 'pointerdown').pipe(
       stopPropagation(),
       preventSelection(this.document),
@@ -60,8 +54,8 @@ export abstract class ThumbAdapter {
           tap(() => {
             // Capture scrollMax and trackMax once
             startTrackMax = this.trackMax;
-            startScrollMax = this.viewportScrollMax;
-            this.setDragging(this.axis);
+            startScrollMax = this.control.viewportScrollMax;
+            this.setDragging(this.control.axis);
           }),
         );
 
@@ -74,17 +68,16 @@ export abstract class ThumbAdapter {
         );
 
         return dragStart.pipe(
-          map((startEvent: PointerEvent) => startEvent[this.clientProperty]),
+          map((startEvent: PointerEvent) => startEvent[this.control.clientProperty]),
           map((startClientOffset: number) => startClientOffset - this.dragStartOffset),
           switchMap((pointerDownOffset: number) => dragging.pipe(
-            map((moveEvent: PointerEvent) => moveEvent[this.clientProperty]),
+            map((moveEvent: PointerEvent) => moveEvent[this.control.clientProperty]),
             // Calculate how far the pointer is from the top/left of the scrollbar (minus the dragOffset).
             map((moveClientOffset: number) => moveClientOffset - this.track.offset),
             map((trackRelativeOffset: number) => startScrollMax * (trackRelativeOffset - pointerDownOffset) / startTrackMax),
-            map((scrollPosition: number) => this.handleDrag(scrollPosition, startScrollMax)),
-            tap((finalScrollPosition: number) => this.scrollTo(finalScrollPosition)),
+            tap((scrollPosition: number) => this.control.instantScrollTo(scrollPosition, startScrollMax)),
             takeUntil(dragEnd)
-          ))
+          ) as Observable<PointerEvent>)
         );
       })
     );
@@ -92,25 +85,20 @@ export abstract class ThumbAdapter {
 
   constructor() {
     effect(() => {
-      const script: any = this.manager.scrollTimelinePolyfill();
-      if (script && !this.animation) {
-        this.animation = startPolyfill(script, this.nativeElement, this.cmp.viewport.nativeElement, this.axis);
+      const script: ScrollTimelineFunc = this.manager.scrollTimelinePolyfill();
+      if (script && !this._animation) {
+        this._animation = startPolyfill(script, this.nativeElement, this.cmp.viewport.nativeElement, this.control.axis);
       }
     });
+    super();
   }
 
   private setDragging(value: ScrollbarDragging): void {
     this.zone.run(() => this.cmp.dragging.set(value));
   }
-
-  // Scroll viewport instantly
-  protected abstract scrollTo(position: number): void;
-
-  // Handle dragging position (Support LTR and RTL directions for the horizontal scrollbar)
-  protected abstract handleDrag(position: number, scrollMax?: number): number;
 }
 
-function startPolyfill(ScrollTimeline: any, element: HTMLElement, source: HTMLElement, axis: 'x' | 'y'): Animation {
+function startPolyfill(ScrollTimeline: ScrollTimelineFunc, element: HTMLElement, source: HTMLElement, axis: 'x' | 'y'): Animation {
   return element.animate(
     {
       translate: [
@@ -122,6 +110,6 @@ function startPolyfill(ScrollTimeline: any, element: HTMLElement, source: HTMLEl
       fill: 'both',
       easing: 'linear',
       timeline: new ScrollTimeline({ source, axis })
-    } as any
+    } as unknown
   );
 }

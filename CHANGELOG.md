@@ -2,7 +2,18 @@
 
 ## 14.0.0-beta.6
 
-- refactor: content wrapper selector should be direct child of the viewport
+- feat: Add scrollbar buttons using `buttons` options, closes [#465](https://github.com/MurhafSousli/ngx-scrollbar/issues/465).
+- refactor: Reuse similar code in track, thumb and buttons directives.
+- refactor: content wrapper selector should be direct child of the viewport.
+- refactor: Use `swithcMap` instead of `expand` for track long ongoing pointer down event.
+- refactor: Only use `getRtlScrollAxisType` once on initialization in `SmoothScrollManager`.
+- refactor: `matSelectViewport` use instant scroll function to scroll to the selected item in the list.
+- refactor: Use `getBoundingClientRect` in all directives instead of `clientWidth` and `clientHeight` for high precision calculation.
+
+### Breaking Changes
+
+- The default value for the CSS variable `--scrollbar-offset` became 0 (was 4 before).
+- The default value for the CSS variable `--scrollbar-border-radius` became 0px (was 7px before).
 
 ## 14.0.0-beta.5
 

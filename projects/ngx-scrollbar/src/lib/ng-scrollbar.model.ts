@@ -54,6 +54,8 @@ export interface NgScrollbarOptions {
   trackClass?: string;
   /** A class forwarded to the scrollbar thumb element */
   thumbClass?: string;
+  /** A class forwarded to the scrollbar button element */
+  buttonClass?: string;
   /** Scrolling speed when clicking on scrollbar rail */
   trackScrollDuration?: number;
   /** A flag used to enable/disable the scrollbar pointer events */
@@ -62,4 +64,6 @@ export interface NgScrollbarOptions {
   sensorThrottleTime?: number;
   /** Whether ResizeObserver is disabled */
   disableSensor?: boolean;
+  /** Show scrollbar buttons */
+  buttons?: boolean;
 }

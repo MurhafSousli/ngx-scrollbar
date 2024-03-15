@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, ElementRef, ChangeDetectionStrategy } from '@angular/core';
-import { ScrollViewport, ViewportAdapter } from './viewport';
+import { ScrollViewport } from './viewport';
 import { NgScrollbarCore } from './ng-scrollbar-core';
 import { NG_SCROLLBAR } from './utils/scrollbar-base';
 import { Scrollbars } from './scrollbars/scrollbars';

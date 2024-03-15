@@ -53,6 +53,7 @@ export class LabComponent {
   @ViewChild(NgScrollbar, { static: true }) component: NgScrollbar;
 
   direction: 'ltr' | 'rtl' = 'ltr';
+  buttons: boolean = true;
   interactionDisabled: boolean = false;
   disableSensor: boolean = false;
   disableReached: boolean = false;

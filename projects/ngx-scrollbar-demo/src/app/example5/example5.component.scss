@@ -70,10 +70,10 @@
   position: relative;
   margin: 0 auto;
   padding: 3em 0 1.5em;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid rgb(0 0 0 / 20%);
   background-color: #fff;
   border-radius: 2px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
 
   &:before,
   &:after {
@@ -84,7 +84,7 @@
     height: 2px;
     border-width: 0 1px 1px;
     border-style: none solid solid;
-    border-color: rgba(0, 0, 0, 0.25);
+    border-color: rgb(0 0 0 / 25%);
     border-radius: 0 0 2px 2px;
   }
 

@@ -1,18 +1,40 @@
-import { NgScrollbar } from 'ngx-scrollbar';
 import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { NgScrollbar, NgScrollbarModule } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
 import { setDimensions } from './common-test.';
+import { TrackYDirective } from '../track/track';
+import { ScrollbarButton } from '../button/scrollbar-button.component';
+import { TrackAdapter } from '../track/track-adapter';
+import { ThumbAdapter } from '../thumb/thumb-adapter';
 
 describe('disableInteraction option', () => {
   let component: NgScrollbar;
   let fixture: ComponentFixture<NgScrollbar>;
 
-  let interactionSubscriptionXSpy: jasmine.Spy;
-  let interactionSubscriptionYSpy: jasmine.Spy;
+  let trackY: TrackAdapter;
+  let thumbY: ThumbAdapter;
+  let buttonYTop: ScrollbarButton;
+  let buttonYBottom: ScrollbarButton;
+
+  let trackYSpy: jasmine.Spy;
+  let thumbYSpy: jasmine.Spy;
+  let buttonYTopSpy: jasmine.Spy;
+  let buttonYBottomSpy: jasmine.Spy;
+
+  let trackX: TrackAdapter;
+  let thumbX: ThumbAdapter;
+  let buttonXStart: ScrollbarButton;
+  let buttonXEnd: ScrollbarButton;
+
+  let trackXSpy: jasmine.Spy;
+  let thumbXSpy: jasmine.Spy;
+  let buttonXStartSpy: jasmine.Spy;
+  let buttonXEndSpy: jasmine.Spy;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgScrollbar],
+      imports: [NgScrollbarModule, TrackYDirective],
       providers: [
         { provide: ComponentFixtureAutoDetect, useValue: true }
       ]
@@ -20,6 +42,7 @@ describe('disableInteraction option', () => {
 
     fixture = TestBed.createComponent(NgScrollbar);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('buttons', true);
     fixture.detectChanges();
   });
 
@@ -27,30 +50,46 @@ describe('disableInteraction option', () => {
     expect(component.disableInteraction()).toBeFalse();
     expect(component.nativeElement.getAttribute('disableInteraction')).toBe('false');
 
-    expect(component._scrollbars.x._pointerEventsSub.closed).toBeFalse();
-    expect(component._scrollbars.y._pointerEventsSub.closed).toBeFalse();
+    expect(trackY._pointerEventsSub.closed).toBeFalse();
+    expect(thumbY._pointerEventsSub.closed).toBeFalse();
+    expect(buttonYTop._pointerEventsSub.closed).toBeFalse();
+    expect(buttonYBottom._pointerEventsSub.closed).toBeFalse();
+
+    expect(trackX._pointerEventsSub.closed).toBeFalse();
+    expect(thumbX._pointerEventsSub.closed).toBeFalse();
+    expect(buttonXStart._pointerEventsSub.closed).toBeFalse();
+    expect(buttonXEnd._pointerEventsSub.closed).toBeFalse();
 
     const componentStyles: CSSStyleDeclaration = getComputedStyle(component.nativeElement);
-    const trackXStyles: CSSStyleDeclaration = getComputedStyle(component._scrollbars.x.track.nativeElement);
-    const trackYStyles: CSSStyleDeclaration = getComputedStyle(component._scrollbars.y.track.nativeElement);
+    // Get the styles of the parent element of the track
+    // This will test the pointer-events for track, thumb and buttons
+    const trackXWrapperStyles: CSSStyleDeclaration = getComputedStyle(trackX.nativeElement.parentElement);
+    const trackYWrapperStyles: CSSStyleDeclaration = getComputedStyle(trackY.nativeElement.parentElement);
     expect(componentStyles.getPropertyValue('--_scrollbar-pointer-events')).toBe('auto');
-    expect(trackXStyles.pointerEvents).toBe('auto');
-    expect(trackYStyles.pointerEvents).toBe('auto');
+    expect(trackXWrapperStyles.pointerEvents).toBe('auto');
+    expect(trackYWrapperStyles.pointerEvents).toBe('auto');
   }
 
   function interactionDisabledCases(): void {
     expect(component.disableInteraction()).toBeTrue();
     expect(component.nativeElement.getAttribute('disableInteraction')).toBe('true');
 
-    expect(interactionSubscriptionXSpy).toHaveBeenCalled();
-    expect(interactionSubscriptionYSpy).toHaveBeenCalled();
+    expect(trackYSpy).toHaveBeenCalled();
+    expect(thumbYSpy).toHaveBeenCalled();
+    expect(buttonYTopSpy).toHaveBeenCalled();
+    expect(buttonYBottomSpy).toHaveBeenCalled();
+
+    expect(trackXSpy).toHaveBeenCalled();
+    expect(thumbXSpy).toHaveBeenCalled();
+    expect(buttonXStartSpy).toHaveBeenCalled();
+    expect(buttonXEndSpy).toHaveBeenCalled();
 
     const componentStyles: CSSStyleDeclaration = getComputedStyle(component.nativeElement);
-    const trackXStyles: CSSStyleDeclaration = getComputedStyle(component._scrollbars.x.track.nativeElement);
-    const trackYStyles: CSSStyleDeclaration = getComputedStyle(component._scrollbars.y.track.nativeElement);
+    const trackXWrapperStyles: CSSStyleDeclaration = getComputedStyle(trackX.nativeElement.parentElement);
+    const trackYWrapperStyles: CSSStyleDeclaration = getComputedStyle(trackY.nativeElement.parentElement);
     expect(componentStyles.getPropertyValue('--_scrollbar-pointer-events')).toBe('none');
-    expect(trackXStyles.pointerEvents).toBe('none');
-    expect(trackYStyles.pointerEvents).toBe('none');
+    expect(trackXWrapperStyles.pointerEvents).toBe('none');
+    expect(trackYWrapperStyles.pointerEvents).toBe('none');
   }
 
   it('should disable interactions for track and thumb', async () => {
@@ -59,8 +98,25 @@ describe('disableInteraction option', () => {
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
 
-    interactionSubscriptionXSpy = spyOn(component._scrollbars.x._pointerEventsSub, 'unsubscribe');
-    interactionSubscriptionYSpy = spyOn(component._scrollbars.y._pointerEventsSub, 'unsubscribe');
+    trackY = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-track')).injector.get(TrackAdapter);
+    thumbY = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-thumb')).injector.get(ThumbAdapter);
+    buttonYTop = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-button[scrollbarButton="top"]')).injector.get(ScrollbarButton);
+    buttonYBottom = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-button[scrollbarButton="bottom"]')).injector.get(ScrollbarButton);
+
+    trackX = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-track')).injector.get(TrackAdapter);
+    thumbX = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-thumb')).injector.get(ThumbAdapter);
+    buttonXStart = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-button[scrollbarButton="start"]')).injector.get(ScrollbarButton);
+    buttonXEnd = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-button[scrollbarButton="end"]')).injector.get(ScrollbarButton);
+
+    trackYSpy = spyOn(trackY._pointerEventsSub, 'unsubscribe');
+    thumbYSpy = spyOn(thumbY._pointerEventsSub, 'unsubscribe');
+    buttonYTopSpy = spyOn(buttonYTop._pointerEventsSub, 'unsubscribe');
+    buttonYBottomSpy = spyOn(buttonYBottom._pointerEventsSub, 'unsubscribe');
+
+    trackXSpy = spyOn(trackX._pointerEventsSub, 'unsubscribe');
+    thumbXSpy = spyOn(thumbX._pointerEventsSub, 'unsubscribe');
+    buttonXStartSpy = spyOn(buttonXStart._pointerEventsSub, 'unsubscribe');
+    buttonXEndSpy = spyOn(buttonXEnd._pointerEventsSub, 'unsubscribe');
 
     interactionEnabledCases();
 

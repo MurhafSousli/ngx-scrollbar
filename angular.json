@@ -142,8 +142,22 @@
             ],
             "karmaConfig": "projects/ngx-scrollbar/karma.conf.js"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ngx-scrollbar/**/*.ts",
+              "projects/ngx-scrollbar/**/*.html"
+            ]
+          }
         }
       }
     }
+  },
+  "cli": {
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

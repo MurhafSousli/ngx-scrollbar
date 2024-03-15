@@ -1,7 +1,7 @@
 ng-scrollbar {
   --scrollbar-thumb-color: var(--color-primary);
   --scrollbar-thickness: 8;
-  --scrollbar-track-color: rgba(0, 0, 0, 0.2);
+  --scrollbar-track-color: rgb(0 0 0 / 20%);
 }
 
 .mat-mdc-select {

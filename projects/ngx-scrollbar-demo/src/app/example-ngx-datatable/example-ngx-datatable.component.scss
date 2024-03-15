@@ -4,9 +4,7 @@ ng-scrollbar {
   --scrollbar-offset: 0;
   --scrollbar-border-radius: 0;
   --scrollbar-thumb-color: var(--color-primary);
-  --scrollbar-track-color: rgba(0, 0, 0, 0.2);
-
-  //border: 2px solid rgba(0, 0, 0, 0.05);
+  --scrollbar-track-color: rgb(0 0 0 / 20%);
 
   ::ng-deep {
     .ng-scroll-content {

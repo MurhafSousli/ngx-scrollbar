@@ -22,8 +22,8 @@ export class CssVariablesFormComponent implements OnInit {
       trackColor: new FormControl('#975857'),
       thumbColor: new FormControl('var(--color-scrollbar-example-x)'),
       thumbHoverColor: new FormControl('#ff6060'), //var(--color-scrollbar-example-x)'),
-      trackOffset: new FormControl('4'),
-      borderRadius: new FormControl('10px'),
+      trackOffset: new FormControl('0'),
+      borderRadius: new FormControl('0px'),
       overscrollBehavior: new FormControl('initial'),
       transitionDuration: new FormControl('400ms'),
       transitionDelay: new FormControl('800ms')
