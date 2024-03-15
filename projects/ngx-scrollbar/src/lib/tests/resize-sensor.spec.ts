@@ -2,7 +2,7 @@ import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/
 import { signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { NgScrollbar } from 'ngx-scrollbar';
-import { setDimensions } from './common-test.';
+import { afterTimeout, setDimensions } from './common-test.';
 
 
 describe('Resize Sensor', () => {
@@ -38,48 +38,81 @@ describe('Resize Sensor', () => {
     });
   });
 
-  it('[Resize] should update when component size changes', (done: DoneFn) => {
+  it('[Resize] should update when component size changes', async () => {
     setDimensions(component, { cmpHeight: 100, cmpWidth: 100, contentHeight: 400, contentWidth: 400 });
     component.appearance = 'compact';
     component.ngOnInit();
     component.ngAfterViewInit();
 
-    component.afterUpdate.subscribe(() => {
-      expect(component.viewportDimension()).toEqual({
-        offsetWidth: 200,
-        offsetHeight: 200,
-        contentWidth: 400,
-        contentHeight: 400
-      });
-      done();
-    });
+    await afterTimeout(16);
 
     // Change component size
-    setTimeout(() => {
-      setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 400, contentWidth: 400 });
-    }, 20);
+    setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 400, contentWidth: 400 });
+
+    await firstValueFrom(component.afterUpdate)
+
+    expect(component.viewportDimension()).toEqual({
+      offsetWidth: 200,
+      offsetHeight: 200,
+      contentWidth: 400,
+      contentHeight: 400
+    });
   });
 
-  it('[Resize] should update when content size changes', (done: DoneFn) => {
+  it('[Resize] should update when content size changes', async () => {
     setDimensions(component, { cmpHeight: 100, cmpWidth: 100, contentHeight: 400, contentWidth: 400 });
     component.appearance = 'compact';
     component.ngOnInit();
     component.ngAfterViewInit();
 
-    component.afterUpdate.subscribe(() => {
-      expect(component.viewportDimension()).toEqual({
-        offsetWidth: 100,
-        offsetHeight: 100,
-        contentWidth: 500,
-        contentHeight: 500
-      });
-      done();
-    });
+    await afterTimeout(16);
 
     // Change content size
-    setTimeout(() => {
-      setDimensions(component, { cmpHeight: 100, cmpWidth: 100, contentHeight: 500, contentWidth: 500 });
-    }, 20);
+    setDimensions(component, { cmpHeight: 100, cmpWidth: 100, contentHeight: 500, contentWidth: 500 });
+
+    await firstValueFrom(component.afterUpdate);
+
+    expect(component.viewportDimension()).toEqual({
+      offsetWidth: 100,
+      offsetHeight: 100,
+      contentWidth: 500,
+      contentHeight: 500
+    });
+  });
+
+  it('[Resize + sensorThrottleTime] should throttle sensor', async () => {
+    setDimensions(component, { cmpHeight: 100, cmpWidth: 100, contentHeight: 400, contentWidth: 400 });
+    component.appearance = 'compact';
+    component.sensorThrottleTime = signal(200) as any;
+    component.ngOnInit();
+    component.ngAfterViewInit();
+
+    await afterTimeout(16);
+
+    // Change content size
+    setDimensions(component, { cmpHeight: 100, cmpWidth: 100, contentHeight: 500, contentWidth: 500 });
+
+    // Wait for 200ms
+    await afterTimeout(100);
+
+    // Verify viewport dimension haven't been updated
+    expect(component.viewportDimension()).toEqual({
+      offsetWidth: 100,
+      offsetHeight: 100,
+      contentWidth: 400,
+      contentHeight: 400
+    });
+
+    // Wait for another 200ms
+    await afterTimeout(100);
+
+    // Verify that viewport been updated
+    expect(component.viewportDimension()).toEqual({
+      offsetWidth: 100,
+      offsetHeight: 100,
+      contentWidth: 500,
+      contentHeight: 500
+    });
   });
 
   it('[Init] should call update afterViewInit and disable the resize sensor when "disableSensor" is used', async () => {

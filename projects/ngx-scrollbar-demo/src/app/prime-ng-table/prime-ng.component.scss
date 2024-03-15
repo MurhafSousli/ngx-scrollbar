@@ -12,6 +12,13 @@
     .p-dropdown {
       width: 100%;
     }
+
+    .p-dropdown-panel .p-dropdown-items {
+      .p-dropdown-item {
+        height: 40px;
+        padding: 10px 20px;
+      }
+    }
   }
 }
 

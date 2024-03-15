@@ -19,8 +19,10 @@
 }
 
 @mixin Content {
-  ::ng-deep .ng-scroll-content {
-    @content;
+  @include Viewport {
+    >.ng-scroll-content {
+      @content;
+    }
   }
 }
 

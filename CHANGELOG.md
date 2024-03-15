@@ -1,5 +1,9 @@
 # Changelog
 
+## 14.0.0-beta.6
+
+- refactor: content wrapper selector should be direct child of the viewport
+
 ## 14.0.0-beta.5
 
 - fix: Should not initialize the scrollbar if `externalSpacer` selector was set but was not found.

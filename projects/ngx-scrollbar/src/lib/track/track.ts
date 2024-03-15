@@ -42,7 +42,7 @@ export class TrackXDirective extends TrackAdapter {
   }
 
   protected scrollTo(left: number): Observable<void> {
-    return fromPromise(this.cmp.scrollTo({ left }));
+    return fromPromise(this.cmp.scrollTo({ left, duration: this.cmp.trackScrollDuration }));
   }
 }
 
@@ -82,6 +82,6 @@ export class TrackYDirective extends TrackAdapter {
   }
 
   protected scrollTo(top: number): Observable<void> {
-    return fromPromise(this.cmp.scrollTo({ top }));
+    return fromPromise(this.cmp.scrollTo({ top, duration: this.cmp.trackScrollDuration }));
   }
 }

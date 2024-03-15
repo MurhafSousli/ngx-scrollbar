@@ -296,10 +296,7 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
    * Smooth scroll functions
    */
   scrollTo(options: SmoothScrollToOptions): Promise<void> {
-    return this.smoothScroll.scrollTo(this.viewport!.nativeElement, {
-      duration: this.trackScrollDuration,
-      ...options
-    });
+    return this.smoothScroll.scrollTo(this.viewport!.nativeElement, options);
   }
 
   /**

@@ -43,22 +43,6 @@ ___
 
 If you identify any errors in the library, or have an idea for an improvement, please open an [issue](https://github.com/MurhafSousli/ngx-scrollbar/issues).
 
-## Sponsoring ngx-scrollbar
-
-[![Backers on Open Collective](https://opencollective.com/ngx-scrollbar/tiers/backers/badge.svg?label=Backers&color=brightgreen)](#sponsoring-ngx-scrollbar)
-
-### Sponsors
-
-Become a sponsor and get your logo on our README on GitHub and the front page of [https://ngx-scrollbar.netlify.com/](https://ngx-scrollbar.netlify.com/).
-
-[![Sponsors on Open Collective](https://opencollective.com/ngx-scrollbar/tiers/sponsors.svg?avatarHeight=64)](https://opencollective.com/ngx-scrollbar/contribute/sponsors-11015/checkout)
-
-### Backers
-
-Become a backer and get your logo on our README on GitHub.
-
-[![Backers on Open Collective](https://opencollective.com/ngx-scrollbar/tiers/backers.svg?avatarHeight=64)](https://opencollective.com/ngx-scrollbar/contribute/backers-11014/checkout)
-
 ## Author
 
 - Murhaf Sousli [Github](https://github.com/MurhafSousli), [Twitter](https://twitter.com/MurhafSousli)
