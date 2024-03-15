@@ -123,11 +123,8 @@ export abstract class TrackAdapter {
         ).subscribe();
 
         return this.onTrackFirstClick(startEvent).pipe(
-          switchMap((final: boolean) => {
-            // If scroll has reached the destination from the first scroll call, end the stream
-            if (final) {
-              return EMPTY;
-            }
+          delay(200),
+          switchMap(() => {
             // Otherwise, activate pointermove and pointerout events and switch to ongoing scroll calls
             return pointerOverTrack$.pipe(
               switchMap((over: boolean) => {
@@ -176,7 +173,7 @@ export abstract class TrackAdapter {
   /**
    *  Callback when mouse is first clicked on the track
    */
-  onTrackFirstClick(e: PointerEvent): Observable<boolean> {
+  onTrackFirstClick(e: PointerEvent): Observable<void> {
     // Initialize variables and determine scroll direction
     this.currMousePosition = e[this.clientProperty];
     this.scrollDirection = this.getScrollDirection(this.currMousePosition);
@@ -184,7 +181,6 @@ export abstract class TrackAdapter {
 
     // Calculate scroll position and trigger scroll
     let value: number;
-    let final: boolean;
 
     // Check which direction should the scroll go (forward or backward)
     if (this.scrollDirection === 'forward') {
@@ -201,7 +197,6 @@ export abstract class TrackAdapter {
       // Check if the incremental position is bigger than the scroll max
       if (scrollForwardIncrement >= this.scrollMax) {
         value = this.scrollMax;
-        final = true;
       } else {
         value = scrollForwardIncrement;
       }
@@ -218,16 +213,12 @@ export abstract class TrackAdapter {
 
       if (scrollBackwardIncrement <= 0) {
         value = 0;
-        final = true;
       } else {
         value = scrollBackwardIncrement;
       }
     }
 
-    return this.scrollTo(value).pipe(
-      delay(200),
-      map(() => final)
-    );
+    return this.scrollTo(value);
   }
 
   /**
