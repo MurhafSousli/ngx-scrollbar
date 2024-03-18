@@ -49,8 +49,8 @@ $purple-passion-palette: (
   )
 );
 
-$app-primary: mat.define-palette($purple-passion-palette, 500);
-//$app-primary: mat.define-palette(mat.$light-green-palette, 500);
+//$app-primary: mat.define-palette($purple-passion-palette, 500);
+$app-primary: mat.define-palette(mat.$blue-palette, 500);
 $app-accent: mat.define-palette(mat.$orange-palette, 500);
 $app-warn: mat.define-palette(mat.$red-palette);
 $app-success: mat.define-palette(mat.$light-green-palette);
@@ -90,7 +90,10 @@ body {
 
 
   --color-orange-passion: #{mat.get-color-from-palette(mat.define-palette($app-accent, 500))};
-  --color-track-orange-passion: #975857;
+  --color-track-orange-passion: #963634;
+
+  --mat-option-selected-state-label-text-color: var(--color-track-orange-passion);
+  --mat-option-selected-state-label-text-color: var(--color-track-orange-passion);
 
   --color-app-background: #{mat.get-color-from-palette(mat.define-palette($app-primary, 400))};
   --color-app-logo: var(--color-app-background);
@@ -205,6 +208,6 @@ a {
 
 .mat-mdc-select-panel {
   padding: 0 !important;
-  --mat-minimal-pseudo-checkbox-selected-checkmark-color: var(--color-primary);
-  background-image: linear-gradient( to bottom, var(--color-example3), #EFB436);
+  --mat-minimal-pseudo-checkbox-selected-checkmark-color: var(--color-track-orange-passion);
+  background-image: linear-gradient( to bottom, var(--color-example3), var(--color-accent));
 }

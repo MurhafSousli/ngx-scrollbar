@@ -17,7 +17,7 @@ export class TrackXDirective extends TrackAdapter {
   }
 
   get size(): number {
-    return this.clientRect.width;
+    return this.nativeElement.offsetWidth;
   }
 
   protected get viewportScrollSize(): number {
@@ -104,7 +104,7 @@ export class TrackYDirective extends TrackAdapter {
   }
 
   get size(): number {
-    return this.clientRect.height;
+    return this.nativeElement.offsetHeight;
   }
 
   protected get viewportScrollSize(): number {

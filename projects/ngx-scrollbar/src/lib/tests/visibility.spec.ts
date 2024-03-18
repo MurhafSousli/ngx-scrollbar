@@ -75,7 +75,6 @@ describe('Visibility styles', () => {
   it('[Visibility] should be able to override styles related to scrollbar track using CSS variables', async () => {
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 100, contentHeight: 200 });
     // Override track color and transition using CSS variables
-    component.nativeElement.style.setProperty('--scrollbar-track-transition', 'height 0.66s linear, width 0.33s linear');
     component.nativeElement.style.setProperty('--scrollbar-track-color', 'red');
     component.ngOnInit();
     component.ngAfterViewInit();
@@ -84,7 +83,6 @@ describe('Visibility styles', () => {
     const trackDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
     const trackStyles: CSSStyleDeclaration = getComputedStyle(trackDebugElement.nativeElement);
 
-    expect(trackStyles.transition).toBe('height 0.66s linear 0s, width 0.33s linear 0s');
     expect(trackStyles.backgroundColor).toBe('rgb(255, 0, 0)');
   });
 

@@ -7,44 +7,60 @@
   --reached-offset-start: var(--reached-offset);
   --reached-offset-end: var(--reached-offset);
 
-  @include selector.LTR {
-    ::ng-deep .scroll-reached-trigger-element {
-      &[trigger="start"] {
-        left: 0;
-        right: unset;
-      }
+  --dropped-offset: 1px;
+  --dropped-offset-top: var(--dropped-offset);
+  --dropped-offset-bottom: var(--dropped-offset);
+  --dropped-offset-start: var(--dropped-offset);
+  --dropped-offset-end: var(--dropped-offset);
 
-      &[trigger="end"] {
-        right: 0;
-        left: unset;
+
+  @include selector.LTR {
+    ::ng-deep {
+      .scroll-reached-trigger-element,
+      .scroll-dropped-trigger-element {
+        &[trigger="start"] {
+          left: 0;
+          right: unset;
+        }
+
+        &[trigger="end"] {
+          right: 0;
+          left: unset;
+        }
       }
     }
   }
 
   @include selector.RTL {
-    ::ng-deep .scroll-reached-trigger-element {
-      &[trigger="start"] {
-        right: 0;
-        left: unset;
-      }
+    ::ng-deep {
+      .scroll-reached-trigger-element,
+      .scroll-dropped-trigger-element {
+        &[trigger="start"] {
+          right: 0;
+          left: unset;
+        }
 
-      &[trigger="end"] {
-        left: 0;
-        right: unset;
+        &[trigger="end"] {
+          left: 0;
+          right: unset;
+        }
       }
     }
   }
 
   ::ng-deep {
     .ng-scroll-reached-wrapper,
-    .scroll-reached-trigger-element {
+    .ng-scroll-dropped-wrapper,
+    .scroll-reached-trigger-element,
+    .scroll-dropped-trigger-element {
       position: absolute;
       user-select: none;
       pointer-events: none;
       z-index: -9999;
     }
 
-    .ng-scroll-reached-wrapper {
+    .ng-scroll-reached-wrapper,
+    .ng-scroll-dropped-wrapper {
       visibility: hidden;
       top: 0;
       left: 0;
@@ -56,7 +72,8 @@
 
     // Should only hide the END trigger when content isn't horizontally scrollable
     &[isHorizontallyScrollable="false"] {
-      .scroll-reached-trigger-element {
+      .scroll-reached-trigger-element ,
+      .scroll-dropped-trigger-element {
         &[trigger="end"] {
           display: none;
         }
@@ -65,7 +82,8 @@
 
     // Should only hide the BOTTOM trigger when content isn't vertically scrollable
     &[isVerticallyScrollable="false"] {
-      .scroll-reached-trigger-element {
+      .scroll-reached-trigger-element ,
+      .scroll-dropped-trigger-element {
         &[trigger="bottom"] {
           display: none;
         }
@@ -102,6 +120,38 @@
       &[trigger="end"] {
         width: var(--reached-offset-end);
       }
+    }
+  }
+
+  .scroll-dropped-trigger-element {
+    background: blue;
+
+    &[trigger="top"], &[trigger="bottom"] {
+      left: 0;
+      right: 0;
+    }
+
+    &[trigger="start"], &[trigger="end"] {
+      top: 0;
+      bottom: 0;
+    }
+
+    &[trigger="top"] {
+      top: 0;
+      height: var(--dropped-offset-top);
+    }
+
+    &[trigger="bottom"] {
+      bottom: 0;
+      height: var(--dropped-offset-bottom);
+    }
+
+    &[trigger="start"] {
+      width: var(--dropped-offset-start);
+    }
+
+    &[trigger="end"] {
+      width: var(--dropped-offset-end);
     }
   }
 }

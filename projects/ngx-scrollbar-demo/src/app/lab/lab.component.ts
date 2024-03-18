@@ -12,7 +12,7 @@ import {
   ScrollbarOrientation,
   ScrollbarVisibility
 } from 'ngx-scrollbar';
-import { NgScrollbarReached } from 'ngx-scrollbar/reached-event';
+import { NgScrollDropped, NgScrollReached } from 'ngx-scrollbar/reached-event';
 import { NzResizableModule, NzResizeDirection, NzResizeEvent } from 'ng-zorro-antd/resizable';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
@@ -31,7 +31,8 @@ import { SmoothScrollFormComponent, SmoothScrollOptionsForm } from './smooth-scr
     FormsModule,
     ReactiveFormsModule,
     NgScrollbar,
-    NgScrollbarReached,
+    NgScrollReached,
+    NgScrollDropped,
     MatCardModule,
     MatButtonToggleModule,
     MatExpansionModule,
@@ -57,6 +58,7 @@ export class LabComponent {
   interactionDisabled: boolean = false;
   disableSensor: boolean = false;
   disableReached: boolean = false;
+  disableDropped: boolean = false;
   sensorThrottleTime: number = 0;
   trackScrollDuration: number = 50;
 
@@ -86,6 +88,8 @@ export class LabComponent {
   scrollToElementSelected: boolean = false;
 
   reached: WritableSignal<ReachedEvent> = signal({});
+
+  dropped: WritableSignal<ReachedEvent> = signal({});
 
   scrollReached: WritableSignal<any> = signal(false);
 
@@ -122,6 +126,13 @@ export class LabComponent {
     }, 600);
   }
 
+  onDropped(eventName: string): void {
+    this.dropped.set({ [eventName]: true });
+    setTimeout(() => {
+      this.dropped.set({ [eventName]: false })
+    }, 600);
+  }
+
   onScrollTo(event: SmoothScrollOptionsForm): void {
     // Prepare scrollTo options from event
     const options: Partial<SmoothScrollOptionsForm> = {
@@ -136,7 +147,8 @@ export class LabComponent {
     };
 
     if (this.scrollToElementSelected) {
-      this.component.scrollToElement('#target', options).then(() => onScrollToReached());
+      const target: HTMLElement = document.querySelector('#target');
+      this.component.scrollToElement(target, options).then(() => onScrollToReached());
     } else {
       this.component.scrollTo(options).then(() => onScrollToReached());
     }

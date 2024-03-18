@@ -7,7 +7,7 @@
                       externalViewport
                       appearance="compact"
                       (afterInit)="onScrollbarUpdate(scrollbarRef)"
-                      (afterUpdate)="onScrollbarUpdate(scrollbarRef)">
+                      (afterUpdate)="onScrollbarUpdate(scrollbarRef, 200)">
           <div scrollViewport>
             <ul>
               <li></li>
@@ -22,6 +22,6 @@
     </div>
   </mat-card-content>
   <mat-card-actions align="end">
-    <button mat-raised-button color="accent" (click)="addItem()">Add Task</button>
+    <button mat-flat-button color="accent" (click)="addItem()">Add Task</button>
   </mat-card-actions>
 </mat-card>

@@ -10,6 +10,13 @@
   }
 }
 
+.notifier-wrapper {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+
 .reached-event-title {
   margin-bottom: 5px;
 }
@@ -17,7 +24,7 @@
 .mat-mdc-chip {
   text-align: center;
   transition: background-color ease-out 1s;
-  font-size: 12px;
+  --mdc-chip-label-text-size: 12px;
   width: 66px;
 
   ::ng-deep {
@@ -27,7 +34,19 @@
   }
 
   &.changed {
+    transition: unset !important;
+  }
+}
+
+.reached {
+  .mat-mdc-chip.changed {
     background-color: var(--color-highlight) !important;
     transition: unset !important;
+  }
+}
+
+.dropped {
+  .mat-mdc-chip.changed {
+    background-color: #85ff3f !important;
   }
 }

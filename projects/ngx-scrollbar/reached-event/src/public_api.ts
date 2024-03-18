@@ -1,2 +1,2 @@
-export * from './ng-scrollbar-reached.module';
-export * from './ng-scrollbar-reached';
+export * from './ng-scroll-reached';
+export * from './ng-scroll-dropped';
