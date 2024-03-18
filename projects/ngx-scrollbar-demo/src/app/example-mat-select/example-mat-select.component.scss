@@ -1,10 +1,13 @@
 ng-scrollbar {
-  --scrollbar-thumb-color: var(--color-primary);
+  --scrollbar-thumb-color: var(--color-track-orange-passion);
   --scrollbar-thickness: 8;
   --scrollbar-track-color: rgb(0 0 0 / 20%);
+  --scrollbar-offset: 6;
+  --scrollbar-border-radius: 7px;
 }
 
 .mat-mdc-select {
+  --mat-select-enabled-arrow-color: rgb(255 255 255 / 54%);
   margin-bottom: 30px !important;
   color: white;
 }

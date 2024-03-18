@@ -5,12 +5,22 @@ ng-scrollbar {
   --scrollbar-track-color: rgb(0 0 0 / 30%);
   --scrollbar-border-radius: 0;
 
+  --scrollbar-button-color: var(--scrollbar-thumb-color);
+  --scrollbar-button-hover-color: var(--scrollbar-button-color);
+  --scrollbar-button-active-color: var(--scrollbar-button-hover-color);
+
+  // Scrollbar button arrow fill
+  --scrollbar-button-fill: white;
+  --scrollbar-button-hover-fill: var(--scrollbar-button-fill);
+  --scrollbar-button-active-fill: var(--scrollbar-button-hover-fill);
+
+
   color: white;
   height: calc(100% - 60px);
 
   ::ng-deep {
     .app-scrollbar-track {
-      box-shadow: inset 0 0 0 1px rgb(0 0 0 / 10%);
+      //box-shadow: inset 0 0 0 1px rgb(0 0 0 / 10%);
     }
 
     .app-scrollbar-thumb {

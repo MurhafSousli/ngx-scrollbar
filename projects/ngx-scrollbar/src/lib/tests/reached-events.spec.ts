@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, ViewChild } from '@angular/core';
 import { BidiModule } from '@angular/cdk/bidi';
 import { NgScrollbar, NgScrollbarModule } from 'ngx-scrollbar';
-import { NgScrollbarReachedModule } from 'ngx-scrollbar/reached-event';
+import { NgScrollReached } from 'ngx-scrollbar/reached-event';
 
 @Component({
   template: `
@@ -22,7 +22,7 @@ import { NgScrollbarReachedModule } from 'ngx-scrollbar/reached-event';
     </ng-scrollbar>
   `,
   standalone: true,
-  imports: [BidiModule, NgScrollbarModule, NgScrollbarReachedModule]
+  imports: [BidiModule, NgScrollbarModule, NgScrollReached]
 })
 class TestComponent {
   offset: number;
