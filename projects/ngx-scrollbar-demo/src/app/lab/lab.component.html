@@ -98,6 +98,15 @@
             </div>
 
             <div class="lab-control">
+              <div class="lab-control-label">Disable dropped events</div>
+              <mat-button-toggle-group aria-label="Disable dropped events"
+                                       [(value)]="disableDropped">
+                <mat-button-toggle [value]="true">True</mat-button-toggle>
+                <mat-button-toggle [value]="false">False</mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+
+            <div class="lab-control">
               <div class="lab-control-label">Sensor throttle time</div>
               <input type="number" [(ngModel)]="sensorThrottleTime">
             </div>
@@ -153,7 +162,12 @@
                           (reachedStart)="onReached('start')"
                           (reachedEnd)="onReached('end')"
                           (reachedBottom)="onReached('bottom')"
-                          [disableReached]="disableReached">
+                          [disableReached]="disableReached"
+                          (droppedTop)="onDropped('top')"
+                          (droppedStart)="onDropped('start')"
+                          (droppedEnd)="onDropped('end')"
+                          (droppedBottom)="onDropped('bottom')"
+                          [disableDropped]="disableDropped">
               <div class="inner"
                    [style.width.px]="(component.nativeElement.offsetWidth - (appearance === 'native' ? +variables.thickness + (+variables.trackOffset * 2) : 0)) * slider.contentWidth"
                    [innerHTML]="content"></div>
@@ -171,7 +185,7 @@
         </div>
 
         <div>
-          <app-reached-notifier [reached]="reached()"/>
+          <app-reached-notifier [reached]="reached()" [dropped]="dropped()"/>
         </div>
 
         <mat-accordion>

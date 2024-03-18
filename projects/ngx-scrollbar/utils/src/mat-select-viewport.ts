@@ -4,9 +4,9 @@ import { _NgScrollbar, NG_SCROLLBAR } from 'ngx-scrollbar';
 
 @Directive({
   standalone: true,
-  selector: 'ng-scrollbar[matSelectViewport], ng-scrollbar[mat-select-viewport]'
+  selector: 'ng-scrollbar[matSelectViewport]'
 })
-export class MatSelectViewport {
+export class NgScrollbarMatSelectViewport {
 
   private readonly scrollbar: _NgScrollbar = inject(NG_SCROLLBAR);
 

@@ -4,6 +4,7 @@ ng-scrollbar {
   --scrollbar-track-color: rgb(0 0 0 / 10%);
   --scrollbar-thumb-color: rgb(0 0 0 / 20%);
   --scrollbar-thumb-hover-color: rgb(0 0 0 / 30%);
+  --scrollbar-border-radius: 7px;
   width: 100%;
   border: 1px solid rgb(0 0 0 / 25%);
   height: 200px;
@@ -58,8 +59,8 @@ ng-scrollbar {
   }
 
   header {
-    font-size: 1.1em;
-    padding: .2em;
+    font-size: 16px;
+    padding: 8px;
     letter-spacing: 1px;
     background-image: linear-gradient(to bottom, #3d434a, #242931);
     color: white;

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { NgScrollbarExt, NgScrollbarModule } from 'ngx-scrollbar';
-import { NgScrollbarReachedModule } from 'ngx-scrollbar/reached-event';
+import { NgScrollReached } from 'ngx-scrollbar/reached-event';
 
 @Component({
   selector: 'app-example2',
@@ -14,7 +14,7 @@ import { NgScrollbarReachedModule } from 'ngx-scrollbar/reached-event';
     '[class.example-component]': 'true'
   },
   standalone: true,
-  imports: [CommonModule, NgScrollbarModule, NgScrollbarReachedModule, MatCardModule, MatButtonModule]
+  imports: [CommonModule, NgScrollbarModule, NgScrollReached, MatCardModule, MatButtonModule]
 })
 export class Example2Component {
 
@@ -102,7 +102,7 @@ export class Example2Component {
     ];
   }
 
-  onScrollbarUpdate(scrollbarRef: NgScrollbarExt): void {
-    scrollbarRef.scrollTo({ bottom: 0, duration: 200 });
+  onScrollbarUpdate(scrollbarRef: NgScrollbarExt, duration: number = 0): void {
+    scrollbarRef.scrollTo({ bottom: 0, duration });
   }
 }

@@ -1,5 +1,15 @@
 # Changelog
 
+## 14.0.0-beta.7
+
+- regret: Use `offsetWidth` and `offsetHeight` again instead of `getBoundingClientRect` due to incorrect value when scrollbar is used in an overlay such as `matSelect`.
+- fix: `(reachedEnd)` does not work without subscribing to `(reachedBottom)`.
+
+### Breaking changes:
+
+- Remove `NgScrollbarReachModule`.
+- Rename the directive `MatSelectViewport` to `NgScrollbarMatSelectViewport`.
+
 ## 14.0.0-beta.6
 
 - feat: Add scrollbar buttons using `buttons` options, closes [#465](https://github.com/MurhafSousli/ngx-scrollbar/issues/465).
@@ -8,7 +18,7 @@
 - refactor: Use `swithcMap` instead of `expand` for track long ongoing pointer down event.
 - refactor: Only use `getRtlScrollAxisType` once on initialization in `SmoothScrollManager`.
 - refactor: `matSelectViewport` use instant scroll function to scroll to the selected item in the list.
-- refactor: Use `getBoundingClientRect` in all directives instead of `clientWidth` and `clientHeight` for high precision calculation.
+- refactor: Use `getBoundingClientRect` in all directives instead of `offsetWidth` and `offsetHeight` for high precision calculation.
 
 ### Breaking Changes
 

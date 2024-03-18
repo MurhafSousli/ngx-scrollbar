@@ -19,9 +19,9 @@ export class CssVariablesFormComponent implements OnInit {
     this.form = new FormGroup({
       thickness: new FormControl('12'),
       hoverThickness: new FormControl('15'),
-      trackColor: new FormControl('#975857'),
+      trackColor: new FormControl('#77b4e8'),
       thumbColor: new FormControl('var(--color-scrollbar-example-x)'),
-      thumbHoverColor: new FormControl('#ff6060'), //var(--color-scrollbar-example-x)'),
+      thumbHoverColor: new FormControl('var(--color-scrollbar-example-x)'),
       trackOffset: new FormControl('0'),
       borderRadius: new FormControl('0px'),
       overscrollBehavior: new FormControl('initial'),

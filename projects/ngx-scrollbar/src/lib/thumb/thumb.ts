@@ -13,7 +13,7 @@ export class ThumbXDirective extends ThumbAdapter {
   }
 
   get size(): number {
-    return this.clientRect.width;
+    return this.nativeElement.offsetWidth;
   }
 
   protected get dragStartOffset(): number {
@@ -33,7 +33,7 @@ export class ThumbYDirective extends ThumbAdapter {
   }
 
   get size(): number {
-    return this.clientRect.height;
+    return this.nativeElement.offsetHeight;
   }
 
   protected get dragStartOffset(): number {

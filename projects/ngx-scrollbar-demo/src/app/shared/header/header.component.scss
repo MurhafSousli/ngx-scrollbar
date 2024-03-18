@@ -42,15 +42,14 @@ app-logo {
   margin: 2em 0;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
+  place-content: center;
+  gap: 4px;
 
   a, iframe {
     margin-top: 7px;
   }
 
   a {
-    margin-left: 7px;
     display: flex;
   }
 }

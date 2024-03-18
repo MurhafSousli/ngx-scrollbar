@@ -12,14 +12,17 @@
 .outer-ng-scrollbar {
   color: black;
   border: 2px solid rgb(0 0 0 / 5%);
-  --scrollbar-track-color: var(--color-track-orange-passion);
+  //--scrollbar-track-color: var(--color-track-orange-passion);
+  --scrollbar-track-color: rgb(255 255 255 / 15%);
   --scrollbar-thumb-color: var(--color-orange-passion);
-  --scrollbar-thickness: 12;
+  --scrollbar-offset: 3;
+  --scrollbar-thickness: 10;
   --scrollbar-border-radius: 10px;
 }
 
 .cdk-virtual-scroll-orientation-vertical ::ng-deep > .ng-scroll-content {
-  background: #643761;
+  //background: #643761;
+  background: var(--primary-color);
 }
 
 .cards {
@@ -73,6 +76,7 @@
     --scrollbar-track-color: #d3d3d3;
     --scrollbar-offset: 7;
     --scrollbar-thickness: 6;
+    --scrollbar-border-radius: 7px;
     --scrollbar-thumb-color: var(--color-accent);
   }
 }

@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { Chance } from 'chance';
 import { NgScrollbar } from 'ngx-scrollbar';
-import { MatSelectViewport } from 'ngx-scrollbar/utils';
+import { NgScrollbarMatSelectViewport } from 'ngx-scrollbar/utils';
 
 @Component({
   selector: 'app-example-mat-select',
@@ -16,7 +16,7 @@ import { MatSelectViewport } from 'ngx-scrollbar/utils';
     NgForOf,
     NgScrollbar,
     MatCardModule,
-    MatSelectViewport
+    NgScrollbarMatSelectViewport
   ],
   templateUrl: './example-mat-select.component.html',
   styleUrl: './example-mat-select.component.scss',
