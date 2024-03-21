@@ -36,7 +36,13 @@ import { ScrollbarManager } from '../utils/scrollbar-manager';
 })
 export class ScrollbarY extends ScrollbarAdapter {
 
+  readonly clientRectProperty: 'left' | 'top' = 'top';
+
+  readonly sizeProperty: 'offsetWidth' | 'offsetHeight' = 'offsetHeight';
+
   readonly clientProperty: 'clientX' | 'clientY' = 'clientY';
+
+  readonly offsetProperty: 'offsetX' | 'offsetY' = 'offsetY';
 
   readonly axis: 'x' | 'y' = 'y';
 
@@ -89,7 +95,13 @@ export class ScrollbarX extends ScrollbarAdapter {
 
   readonly manager: ScrollbarManager = inject(ScrollbarManager);
 
+  readonly clientRectProperty: 'left' | 'top' = 'left';
+
+  readonly sizeProperty: 'offsetWidth' | 'offsetHeight' = 'offsetWidth';
+
   readonly clientProperty: 'clientX' | 'clientY' = 'clientX';
+
+  readonly offsetProperty: 'offsetX' | 'offsetY' = 'offsetX';
 
   readonly axis: 'x' | 'y' = 'x';
 
@@ -101,7 +113,8 @@ export class ScrollbarX extends ScrollbarAdapter {
   }
 
   get viewportScrollOffset(): number {
-    return this.cmp.viewport.scrollLeft;
+    // Keep scrollLeft value positive for horizontal scrollbar
+    return Math.abs(this.cmp.viewport.scrollLeft);
   }
 
   constructor() {

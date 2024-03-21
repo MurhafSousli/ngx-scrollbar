@@ -18,6 +18,19 @@ export type SmoothScrollToOptions = Partial<_XAxis> & Partial<_YAxis> & SmoothSc
  */
 export type SmoothScrollToElementOptions = _Top & _Left & SmoothScrollOptions;
 
+export interface SmoothScrollStep {
+  scrollable: Element;
+  startTime: number;
+  startX: number;
+  startY: number;
+  x: number;
+  y: number;
+  duration: number;
+  easing: (k: number) => number;
+  currentX?: number;
+  currentY?: number;
+}
+
 export interface SmoothScrollOptions {
   duration?: number;
   easing?: BezierEasingOptions;

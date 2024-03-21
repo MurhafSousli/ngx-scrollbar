@@ -1,5 +1,10 @@
 # Changelog
 
+## 14.0.0-beta.8
+
+- refactor: Normalize and improve track drag code and functionality.
+- refactor: Refactor smooth scroll manager functionality.
+
 ## 14.0.0-beta.7
 
 - regret: Use `offsetWidth` and `offsetHeight` again instead of `getBoundingClientRect` due to incorrect value when scrollbar is used in an overlay such as `matSelect`.

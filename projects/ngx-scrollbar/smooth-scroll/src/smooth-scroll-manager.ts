@@ -4,21 +4,22 @@ import { coerceElement } from '@angular/cdk/coercion';
 import { _Without, _YAxis } from '@angular/cdk/scrolling';
 import {
   Observable,
+  Subscriber,
   Subject,
-  tap,
+  of,
   take,
   merge,
-  interval,
+  expand,
   finalize,
   fromEvent,
   takeUntil,
-  takeWhile,
-  animationFrameScheduler
+  takeWhile
 } from 'rxjs';
 import BezierEasing from './bezier-easing';
 import {
   SMOOTH_SCROLL_OPTIONS,
   SmoothScrollElement,
+  SmoothScrollStep,
   SmoothScrollToElementOptions,
   SmoothScrollToOptions
 } from './smooth-scroll.model';
@@ -86,6 +87,47 @@ export class SmoothScrollManager {
   }
 
   /**
+   * A function called recursively that, given a context, steps through scrolling
+   */
+  private step(context: SmoothScrollStep): Observable<SmoothScrollStep> {
+    return new Observable((subscriber: Subscriber<SmoothScrollStep>) => {
+      let elapsed: number = (this.now() - context.startTime) / context.duration;
+
+      // avoid elapsed times higher than one
+      elapsed = elapsed > 1 ? 1 : elapsed;
+
+      // apply easing to elapsed time
+      const value: number = context.easing(elapsed);
+
+      context.currentX = context.startX + (context.x - context.startX) * value;
+      context.currentY = context.startY + (context.y - context.startY) * value;
+
+      this.scrollElement(context.scrollable, context.currentX, context.currentY);
+      // Proceed to the step
+      requestAnimationFrame(() => {
+        subscriber.next(context);
+        subscriber.complete();
+      });
+    });
+  }
+
+  /**
+   * Checks if smooth scroll has reached
+   */
+  private isReached(context: SmoothScrollStep): boolean {
+    return context.currentX === context.x && context.currentY === context.y;
+  }
+
+  /**
+   * Deletes the destroyer function, runs if the smooth scroll has finished or interrupted
+   */
+  private onScrollReached(el: Element, resolve: () => void, destroyed: Subject<void>): void {
+    destroyed.complete();
+    this.onGoingScrolls.delete(el);
+    this.zone.run(() => resolve());
+  }
+
+  /**
    * Terminates an ongoing smooth scroll
    */
   private interrupted(el: Element, destroyed: Subject<void>): Observable<Event | void> {
@@ -102,45 +144,32 @@ export class SmoothScrollManager {
       return Promise.resolve();
     }
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.zone.runOutsideAngular(() => {
         // Initialize a destroyer stream, reinitialize it if the element is already being scrolled
         const destroyed: Subject<void> = this.getScrollDestroyerRef(el);
 
-        const startTime: number = this.now();
-        const startX: number = el.scrollLeft;
-        const startY: number = el.scrollTop;
-        const x: number = options.left == null ? el.scrollLeft : ~~options.left;
-        const y: number = options.top == null ? el.scrollTop : ~~options.top;
-        const duration: number = options.duration;
-        const easing: (k: number) => number = BezierEasing(options.easing.x1, options.easing.y1, options.easing.x2, options.easing.y2);
+        const context: SmoothScrollStep = {
+          scrollable: el,
+          startTime: this.now(),
+          startX: el.scrollLeft,
+          startY: el.scrollTop,
+          x: options.left == null ? el.scrollLeft : ~~options.left,
+          y: options.top == null ? el.scrollTop : ~~options.top,
+          duration: options.duration!,
+          easing: BezierEasing(options.easing!.x1!, options.easing!.y1!, options.easing!.x2!, options.easing!.y2!)
+        };
 
-        let currentX: number;
-        let currentY: number;
-
-        interval(0, animationFrameScheduler).pipe(
-          tap(() => {
-            let elapsed: number = (this.now() - startTime) / duration;
-            // avoid elapsed times higher than one
-            elapsed = elapsed > 1 ? 1 : elapsed;
-            // apply easing to elapsed time
-            const value: number = easing(elapsed);
-
-            currentX = startX + (x - startX) * value;
-            currentY = startY + (y - startY) * value;
-
-            this.scrollElement(el, currentX, currentY);
-          }),
-          // Continue while target coordinates hasn't reached yet
-          takeWhile(() => currentX !== x || currentY !== y),
+        // Scroll each step recursively
+        of({}).pipe(
+          expand(() => this.step(context).pipe(
+            // Continue while target coordinates hasn't reached yet
+            takeWhile((context: SmoothScrollStep) => !this.isReached(context)),
+          )),
           // Continue until interrupted by another scroll (new smooth scroll / wheel / touchmove)
           takeUntil(this.interrupted(el, destroyed)),
           // Once finished, clean up the destroyer stream and resolve the promise
-          finalize(() => {
-            destroyed.complete();
-            this.onGoingScrolls.delete(el);
-            this.zone.run(resolve);
-          }),
+          finalize(() => this.onScrollReached(el, resolve, destroyed)),
         ).subscribe();
       });
     });

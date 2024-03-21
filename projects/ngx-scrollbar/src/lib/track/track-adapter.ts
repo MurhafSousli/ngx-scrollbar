@@ -2,24 +2,23 @@ import { ContentChild, Directive, effect, EffectCleanupRegisterFn } from '@angul
 import {
   Observable,
   Subscription,
-  BehaviorSubject,
-  merge,
-  fromEvent,
+  of,
   tap,
   map,
   delay,
+  merge,
+  expand,
+  startWith,
   switchMap,
-  finalize,
-  takeWhile,
+  fromEvent,
   takeUntil,
-  distinctUntilChanged,
+  takeWhile,
   EMPTY
 } from 'rxjs';
 import { enableSelection, preventSelection, stopPropagation } from '../utils/common';
 import { ThumbAdapter } from '../thumb/thumb-adapter';
 import { resizeObserver } from '../viewport';
 import { PointerEventsAdapter } from '../utils/pointer-events-adapter';
-
 
 @Directive()
 export abstract class TrackAdapter extends PointerEventsAdapter {
@@ -31,7 +30,7 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
   private currMousePosition: number;
 
   // The direction of scroll when the track area is clicked
-  private scrollDirection: 'forward' | 'backward';
+  protected scrollDirection: 'forward' | 'backward';
 
   // The maximum scroll position until the end is reached
   protected scrollMax: number;
@@ -39,27 +38,37 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
   // The CSS variable name used to set the length value
   protected abstract readonly cssLengthProperty: string;
 
+  // Returns viewport scroll size
   protected abstract get viewportScrollSize(): number;
 
-  protected abstract get viewportSize(): number;
+  // Returns viewport client size
+  protected get viewportSize(): number {
+    return this.cmp.viewport[this.control.sizeProperty];
+  }
 
   // Get track client rect
   protected get clientRect(): DOMRect {
     return this.nativeElement.getBoundingClientRect();
   }
 
-  // Scrollbar track length
-  abstract get size(): number;
+  // Returns the scroll position relative to the track
+  protected abstract getCurrPosition(): number;
 
-  // Scrollbar track offset
-  abstract get offset(): number;
-
-  protected abstract scrollTo(position: number): Observable<void>;
-
+  // Returns the dragging direction forward or backward
   protected abstract getScrollDirection(position: number): 'forward' | 'backward';
 
-  // Reference to the ThumbAdapter component
-  @ContentChild(ThumbAdapter) protected thumb: ThumbAdapter;
+  // Function that scrolls to the given position
+  protected abstract scrollTo(position: number): Observable<void>;
+
+  // Scrollbar track offset
+  get offset(): number {
+    return this.clientRect[this.control.clientRectProperty];
+  }
+
+  // Scrollbar track length
+  get size(): number {
+    return this.nativeElement[this.control.sizeProperty];
+  }
 
   // Observable for track dragging events
   get pointerEvents(): Observable<PointerEvent> {
@@ -72,35 +81,31 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
       enableSelection(this.document)
     );
 
-    // The reason why we use mousemove instead of mouseover, that we need to save the current mouse location
-    const pointerMove$: Observable<boolean> = fromEvent<PointerEvent>(this.nativeElement, 'pointermove', { passive: true }).pipe(
-      map((e: PointerEvent) => {
-        this.currMousePosition = e[this.control.clientProperty];
-        return true;
-      })
+    const pointerEnter$: Observable<boolean> = fromEvent<PointerEvent>(this.nativeElement, 'pointerenter', { passive: true }).pipe(
+      // When mouse is out and enters again, must set the current position first
+      tap((e: PointerEvent) => this.currMousePosition = e[this.control.offsetProperty]),
+      map(() => true)
     );
-
-    const pointerOut$: Observable<boolean> = fromEvent<PointerEvent>(this.nativeElement, 'pointerout', { passive: true }).pipe(
+    const pointerLeave$: Observable<boolean> = fromEvent<PointerEvent>(this.nativeElement, 'pointerleave', { passive: true }).pipe(
       map(() => false)
     );
 
-    // Behavior subject to track mouse position over the track
-    const pointerOverTrack$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+    const pointerOver$: Observable<boolean> = merge(pointerEnter$, pointerLeave$).pipe(startWith(true));
+
+    // Keep track of current mouse location while dragging
+    const pointerMove$: Observable<PointerEvent> = fromEvent<PointerEvent>(this.nativeElement, 'pointermove', { passive: true }).pipe(
+      tap((e: PointerEvent) => this.currMousePosition = e[this.control.offsetProperty])
+    );
+
+    // Stop propagating the move event when pointer is moving over the thumb
+    const blockThumbMouseMove$: Observable<PointerEvent> = fromEvent(this.thumb.nativeElement, 'pointermove').pipe(
+      stopPropagation()
+    );
 
     return pointerDown$.pipe(
       switchMap((startEvent: PointerEvent) => {
-        // We need to subscribe to mousemove and mouseout events before calling the onTrackFirstClick
-        // Because we need to tell if mouse is over or not asap after the first function is done
-        // Otherwise, if user click first time and moved the mouse away immediately, the mouseout will not be detected
-        merge(pointerMove$, pointerOut$).pipe(
-          distinctUntilChanged(),
-          tap((over: boolean) => pointerOverTrack$.next(over)),
-          takeUntil(pointerUp$)
-        ).subscribe();
-
-        // Stop propagating the move event when pointer is moving over the thumb
-        fromEvent(this.thumb.nativeElement, 'pointermove').pipe(
-          stopPropagation(),
+        // Track pointer location while dragging
+        merge(blockThumbMouseMove$, pointerMove$).pipe(
           takeUntil(pointerUp$)
         ).subscribe();
 
@@ -108,17 +113,13 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
           delay(200),
           switchMap(() => {
             // Otherwise, activate pointermove and pointerout events and switch to ongoing scroll calls
-            return pointerOverTrack$.pipe(
+            return pointerOver$.pipe(
               switchMap((over: boolean) => {
                 const currDirection: 'forward' | 'backward' = this.getScrollDirection(this.currMousePosition);
                 const sameDirection: boolean = this.scrollDirection === currDirection;
                 // If mouse is out the track pause the scroll calls, otherwise keep going
                 return (over && sameDirection) ? this.onTrackOngoingMousedown() : EMPTY;
               }),
-              finalize(() => {
-                // Reset the mouseOverTrack$ state
-                pointerOverTrack$.next(true);
-              })
             ) as Observable<PointerEvent>;
           }),
           takeUntil(pointerUp$),
@@ -126,6 +127,9 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
       })
     );
   }
+
+  // Reference to the ThumbAdapter component
+  @ContentChild(ThumbAdapter) protected thumb: ThumbAdapter;
 
   constructor() {
     effect((onCleanup: EffectCleanupRegisterFn) => {
@@ -149,13 +153,9 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
     super();
   }
 
-  protected abstract getScrollForwardIncrement(): number;
+  protected abstract getScrollForwardStep(): number;
 
-  protected abstract getScrollBackwardIncrement(): number;
-
-  protected abstract getOnGoingScrollForward(): { position: number, nextPosition: number, endPosition: number };
-
-  protected abstract getOnGoingScrollBackward(): { position: number, nextPosition: number, endPosition: number };
+  protected abstract getScrollBackwardStep(): number;
 
   private update(): void {
     this.cmp.nativeElement.style.setProperty(this.cssLengthProperty, `${ this.size }`);
@@ -166,83 +166,56 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
    */
   onTrackFirstClick(e: PointerEvent): Observable<void> {
     // Initialize variables and determine scroll direction
-    this.currMousePosition = e[this.control.clientProperty];
+    this.currMousePosition = e[this.control.offsetProperty];
     this.scrollDirection = this.getScrollDirection(this.currMousePosition);
     this.scrollMax = this.control.viewportScrollMax;
 
-    // Calculate scroll position and trigger scroll
-    let value: number;
+    return this.scrollTo(this.nextStep());
+  }
 
+  private nextStep(): number {
     // Check which direction should the scroll go (forward or backward)
     if (this.scrollDirection === 'forward') {
       // Scroll forward
-      const scrollForwardIncrement: number = this.getScrollForwardIncrement();
+      const scrollForwardIncrement: number = this.getScrollForwardStep();
 
       // Check if the incremental position is bigger than the scroll max
       if (scrollForwardIncrement >= this.scrollMax) {
-        value = this.scrollMax;
-      } else {
-        value = scrollForwardIncrement;
+        return this.scrollMax;
       }
-    } else {
-      // Scroll backward
-      const scrollBackwardIncrement: number = this.getScrollBackwardIncrement();
-
-      if (scrollBackwardIncrement <= 0) {
-        value = 0;
-      } else {
-        value = scrollBackwardIncrement;
-      }
+      return scrollForwardIncrement;
     }
+    // Scroll backward
+    const scrollBackwardIncrement: number = this.getScrollBackwardStep();
 
-    return this.scrollTo(value);
+    if (scrollBackwardIncrement <= 0) {
+      return 0;
+    }
+    return scrollBackwardIncrement;
   }
 
   /**
    * Callback when mouse is still down on the track
    * Incrementally scrolls towards target position until reached
    */
-  onTrackOngoingMousedown(): Observable<boolean> {
-    // Calculate scroll increments and trigger ongoing scroll
-    let position: number;
-    let nextPosition: number;
-    let endPosition: number;
-
-    // Check which direction should the scroll go (forward or backward)
-    if (this.scrollDirection === 'forward') {
-      // Scroll forward
-      ({ position, nextPosition, endPosition } = this.getOnGoingScrollForward());
-    } else {
-      // Scroll backward
-      ({ position, nextPosition, endPosition } = this.getOnGoingScrollBackward());
-    }
-    const isFinalStep: boolean = this.isFinalStep(position);
-
-    return this.scrollTo(isFinalStep ? endPosition : nextPosition).pipe(
-      takeWhile(() => !isFinalStep),
-      switchMap(() => this.onTrackOngoingMousedown())
+  onTrackOngoingMousedown(): Observable<unknown> {
+    return of({}).pipe(
+      expand(() => {
+        const position: number = this.nextStep();
+        return this.scrollTo(position).pipe(
+          takeWhile(() => !this.isReached(position))
+        )
+      })
     );
-  }
-
-  /**
-   *  Returns the normalized position whether it's forward or backward for both LTR or RTL directions
-   */
-  private getCurrPosition(position: number): number {
-    if (this.scrollDirection === 'forward') {
-      return Math.abs(position);
-    } else {
-      return Math.abs(position + this.thumb.size - this.viewportScrollSize);
-    }
   }
 
   /**
    * Returns a flag that determines whether the scroll from the given position is the final step or not
    */
-  private isFinalStep(position: number): boolean {
-    // Calculate the length from the input position to the end of the scroll
-    const lengthFromInputToEnd: number = this.viewportScrollSize - this.thumb.size - this.getCurrPosition(position);
-    // Calculate the number of viewport sizes contained from the current position to the end of the scroll
-    const numberOfViewportSizes: number = Math.floor(lengthFromInputToEnd / this.viewportSize);
-    return numberOfViewportSizes === 0;
+  private isReached(position: number): boolean {
+    if (this.scrollDirection === 'forward') {
+      return position >= this.scrollMax;
+    }
+    return position <= 0;
   }
 }

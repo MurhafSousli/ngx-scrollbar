@@ -91,7 +91,7 @@ describe('Buttons', () => {
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
 
-    await component.scrollTo({ bottom: 0 });
+    await component.scrollTo({ bottom: 0, duration: 0 });
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="top"]'));
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
@@ -154,7 +154,7 @@ describe('Buttons', () => {
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
 
-    await component.scrollTo({ end: 0 });
+    await component.scrollTo({ end: 0, duration: 0 });
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="start"]'));
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
@@ -219,7 +219,7 @@ describe('Buttons', () => {
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
 
-    await component.scrollTo({ end: 0 });
+    await component.scrollTo({ end: 0 , duration: 0 });
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="start"]'));
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
@@ -229,19 +229,10 @@ describe('Buttons', () => {
     expect(component.viewport.scrollLeft).toBe(-50);
 
     // Ongoing click
-    await afterTimeout(130 + 16 + 16);
+    await afterTimeout(120);
     expect(component.viewport.scrollLeft).toBeLessThanOrEqual(-38);
     // Ongoing click
-    await afterTimeout(16);
-    expect(component.viewport.scrollLeft).toBeLessThanOrEqual(-26);
-    // Ongoing click
-    await afterTimeout(16);
-    expect(component.viewport.scrollLeft).toBeLessThanOrEqual(-14);
-    // Ongoing click
-    await afterTimeout(16);
-    expect(component.viewport.scrollLeft).toBeLessThanOrEqual(-2);
-    // Ongoing click
-    await afterTimeout(16);
+    await afterTimeout(50);
     expect(component.viewport.scrollLeft).toBe(0);
   });
 

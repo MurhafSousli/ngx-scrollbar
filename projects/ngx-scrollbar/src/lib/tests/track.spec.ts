@@ -46,7 +46,7 @@ describe('Scrollbar track', () => {
     const trackRect: DOMRect = trackYDebugElement.nativeElement.getBoundingClientRect();
     const thumbRect: DOMRect = thumbYDebugElement.nativeElement.getBoundingClientRect();
 
-    const clientY: number = trackRect.bottom - thumbRect.height / 2;
+    const clientY: number = trackRect.bottom + trackRect.height - thumbRect.height / 2;
 
     // The event causes the viewport to scroll by 100px
     trackYDebugElement.nativeElement.dispatchEvent(new PointerEvent('pointerdown', { clientY }));
@@ -70,7 +70,7 @@ describe('Scrollbar track', () => {
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
 
-    await component.scrollTo({ bottom: 0 });
+    await component.scrollTo({ bottom: 0, duration: 0 });
 
     const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
     const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYDirective));
@@ -110,7 +110,7 @@ describe('Scrollbar track', () => {
     const trackRect: DOMRect = trackYDebugElement.nativeElement.getBoundingClientRect();
     const thumbRect: DOMRect = thumbYDebugElement.nativeElement.getBoundingClientRect();
 
-    const clientY: number = trackRect.bottom - thumbRect.height / 2;
+    const clientY: number = trackRect.bottom + trackRect.height - thumbRect.height / 2;
 
     // The event causes the viewport to scroll by 100px
     trackYDebugElement.nativeElement.dispatchEvent(new PointerEvent('pointerdown', { clientY }));
@@ -136,7 +136,7 @@ describe('Scrollbar track', () => {
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
 
-    await component.scrollTo({ bottom: 0 });
+    await component.scrollTo({ bottom: 0, duration: 0 });
 
     const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
     const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYDirective));
@@ -198,7 +198,7 @@ describe('Scrollbar track', () => {
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
 
-    await component.scrollTo({ end: 0 });
+    await component.scrollTo({ end: 0, duration: 0 });
 
     const trackXDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackXDirective));
     const thumbXDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbXDirective));
@@ -231,7 +231,7 @@ describe('Scrollbar track', () => {
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
 
-    await component.scrollTo({ start: 0 });
+    await component.scrollTo({ start: 0, duration: 0 });
 
     const trackXDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackXDirective));
     const thumbXDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbXDirective));
@@ -264,7 +264,7 @@ describe('Scrollbar track', () => {
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
 
-    await component.scrollTo({ end: 0 });
+    await component.scrollTo({ end: 0, duration: 0 });
 
     const trackXDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackXDirective));
     const thumbXDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbXDirective));
@@ -296,22 +296,18 @@ describe('Scrollbar track', () => {
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
 
-    const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
-    const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYDirective));
-
-    const trackRect: DOMRect = trackYDebugElement.nativeElement.getBoundingClientRect();
-    const thumbRect: DOMRect = thumbYDebugElement.nativeElement.getBoundingClientRect();
-
-    const clientY: number = trackRect.bottom - thumbRect.height / 2;
-
     // Make current scroll position close to bottom, so it triggers only one scroll to the end
-    await component.scrollTo({ bottom: 50, duration: 0 });
+    await component.scrollTo({ bottom: 90, duration: 50 });
+
+    const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
+
+    const clientY: number = 300;
 
     // The event causes the viewport to scroll by 100px
     trackYDebugElement.nativeElement.dispatchEvent(new PointerEvent('pointerdown', { clientY }));
 
     // Reached end from the first click
-    await afterTimeout(200);
+    await afterTimeout(100);
     expect(component.viewport.scrollTop).toBe(400);
     // Wait a bit more just to test that scroll will not change when mouse is still down
     await afterTimeout(100);
@@ -324,7 +320,8 @@ describe('Scrollbar track', () => {
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
 
-    await component.scrollTo({ bottom: 0 });
+    // Make current scroll position close to top, so it triggers only one scroll step to finish
+    await component.scrollTo({ top: 50, duration: 0 });
 
     const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
     const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYDirective));
@@ -333,9 +330,6 @@ describe('Scrollbar track', () => {
     const thumbRect: DOMRect = thumbYDebugElement.nativeElement.getBoundingClientRect();
 
     const clientY: number = trackRect.top + thumbRect.height / 2;
-
-    // Make current scroll position close to bottom, so it triggers only one scroll to the end
-    await component.scrollTo({ top: 50, duration: 0 });
 
     // The event causes the viewport to scroll by 100px
     trackYDebugElement.nativeElement.dispatchEvent(new PointerEvent('pointerdown', { clientY }));
@@ -360,7 +354,7 @@ describe('Scrollbar track', () => {
     const trackRect: DOMRect = trackYDebugElement.nativeElement.getBoundingClientRect();
     const thumbRect: DOMRect = thumbYDebugElement.nativeElement.getBoundingClientRect();
 
-    let clientY: number = trackRect.bottom - thumbRect.height / 2;
+    let clientY: number = trackRect.bottom + trackRect.height - thumbRect.height / 2;
 
     // The event causes the viewport to scroll by 100px
     trackYDebugElement.nativeElement.dispatchEvent(new PointerEvent('pointerdown', { clientY }));
@@ -374,18 +368,18 @@ describe('Scrollbar track', () => {
     trackYDebugElement.nativeElement.dispatchEvent(new PointerEvent('pointermove', { clientY }));
 
     // Ongoing click
-    await afterTimeout(150);
+    await afterTimeout(124);
     expect(component.viewport.scrollTop).toBeGreaterThanOrEqual(200);
 
     // fake mouse out
     const scrollTopBeforeMouseOut: number = component.viewport.scrollTop;
-    trackYDebugElement.nativeElement.dispatchEvent(new PointerEvent('pointerout'));
+    trackYDebugElement.nativeElement.dispatchEvent(new PointerEvent('pointerleave'));
     await afterTimeout(100);
     // Verify scrollTop hasn't changed after mouse is out
     expect(component.viewport.scrollTop).toBe(scrollTopBeforeMouseOut);
 
     // Move the mouse back over the track while mouse is down
-    trackYDebugElement.nativeElement.dispatchEvent(new PointerEvent('pointermove', { clientY }));
+    trackYDebugElement.nativeElement.dispatchEvent(new PointerEvent('pointerenter', { clientY }));
 
     // Ongoing click
     await afterTimeout(100);
@@ -403,9 +397,10 @@ describe('Scrollbar track', () => {
     const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
     const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYDirective));
 
+    const trackRect: DOMRect = trackYDebugElement.nativeElement.getBoundingClientRect();
     const thumbRect: DOMRect = thumbYDebugElement.nativeElement.getBoundingClientRect();
 
-    const clientY: number = thumbRect.bottom + thumbRect.height / 2;
+    const clientY: number = trackRect.top + thumbRect.bottom + thumbRect.height / 2;
 
     // The event causes the viewport to scroll by 100px
     trackYDebugElement.nativeElement.dispatchEvent(new PointerEvent('pointerdown', { clientY }));
