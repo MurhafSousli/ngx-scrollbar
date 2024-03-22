@@ -1,5 +1,14 @@
 # Changelog
 
+## 14.0.0-beta.8
+
+- feat: Support complex markup with `scrollToElement` function, closes [#268](https://github.com/MurhafSousli/ngx-scrollbar/issues/268). 
+- feat: Add `provideSmoothScrollOptions` function to ease overriding the default smooth scroll options.
+- refactor: Enhance and simplify smooth scroll manager.
+- refactor: Enhance track drag code and functionality.
+- refactor: Simplify and reuse code in thumb drag code.
+- refactor: Reuse code in scrollbar button component.
+
 ## 14.0.0-beta.7
 
 - regret: Use `offsetWidth` and `offsetHeight` again instead of `getBoundingClientRect` due to incorrect value when scrollbar is used in an overlay such as `matSelect`.

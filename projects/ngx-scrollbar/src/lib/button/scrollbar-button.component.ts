@@ -1,8 +1,8 @@
 import {
   Component,
   Input,
-  effect,
   inject,
+  effect,
   runInInjectionContext,
   OnInit,
   Injector,
@@ -48,8 +48,8 @@ export class ScrollbarButton extends PointerEventsAdapter implements OnInit {
 
   // canScroll function can work for y-axis and x-axis for both LTR and RTL directions
   private readonly canScrollFunc: Record<'forward' | 'backward', (offset: number, scrollMax?: number) => boolean> = {
-    forward: (scrollOffset: number, scrollMax: number): boolean => Math.abs(scrollOffset) < scrollMax,
-    backward: (scrollOffset: number): boolean => Math.abs(scrollOffset) > 0
+    forward: (scrollOffset: number, scrollMax: number): boolean => scrollOffset < scrollMax,
+    backward: (scrollOffset: number): boolean => scrollOffset > 0
   }
 
   private scrollStepFunc: Record<'forward' | 'backward', (scrollBy: number, offset: number, scrollMax: number) => number> = {
@@ -59,8 +59,8 @@ export class ScrollbarButton extends PointerEventsAdapter implements OnInit {
 
   private readonly horizontalScrollStepFunc: Record<'ltr' | 'rtl', typeof this.scrollStepFunc> = {
     rtl: {
-      forward: (scrollBy: number, offset: number, scrollMax: number) => scrollMax + offset - scrollBy,
-      backward: (scrollBy: number, offset: number, scrollMax: number) => scrollMax + offset + scrollBy
+      forward: (scrollBy: number, offset: number, scrollMax: number) => scrollMax - offset - scrollBy,
+      backward: (scrollBy: number, offset: number, scrollMax: number) => scrollMax - offset + scrollBy
     },
     ltr: this.scrollStepFunc
   }

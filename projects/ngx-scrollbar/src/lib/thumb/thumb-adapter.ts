@@ -11,31 +11,24 @@ import { ScrollbarManager } from '../utils/scrollbar-manager';
 import { TrackAdapter } from '../track/track-adapter';
 import { PointerEventsAdapter } from '../utils/pointer-events-adapter';
 
-
 @Directive()
 export abstract class ThumbAdapter extends PointerEventsAdapter {
 
   protected readonly manager: ScrollbarManager = inject(ScrollbarManager);
+
   private readonly track: TrackAdapter = inject(TrackAdapter);
 
   // The animation reference used for enabling the polyfill on Safari and Firefox.
   _animation: Animation;
 
-  protected abstract get dragStartOffset(): number;
-
-  abstract get offset(): number;
-
   // Returns thumb size
-  abstract get size(): number;
+  get size(): number {
+    return this.nativeElement[this.control.sizeProperty];
+  }
 
   // The maximum space available for scrolling.
   get trackMax(): number {
     return this.track.size - this.size;
-  }
-
-  // Get thumb client rect
-  get clientRect(): DOMRect {
-    return this.nativeElement.getBoundingClientRect();
   }
 
   /**
@@ -68,13 +61,12 @@ export abstract class ThumbAdapter extends PointerEventsAdapter {
         );
 
         return dragStart.pipe(
-          map((startEvent: PointerEvent) => startEvent[this.control.clientProperty]),
-          map((startClientOffset: number) => startClientOffset - this.dragStartOffset),
-          switchMap((pointerDownOffset: number) => dragging.pipe(
+          map((startEvent: PointerEvent) => startEvent[this.control.offsetProperty]),
+          switchMap((startOffset: number) => dragging.pipe(
             map((moveEvent: PointerEvent) => moveEvent[this.control.clientProperty]),
             // Calculate how far the pointer is from the top/left of the scrollbar (minus the dragOffset).
-            map((moveClientOffset: number) => moveClientOffset - this.track.offset),
-            map((trackRelativeOffset: number) => startScrollMax * (trackRelativeOffset - pointerDownOffset) / startTrackMax),
+            map((moveClient: number) => moveClient - this.track.offset),
+            map((trackRelativeOffset: number) => startScrollMax * (trackRelativeOffset - startOffset) / startTrackMax),
             tap((scrollPosition: number) => this.control.instantScrollTo(scrollPosition, startScrollMax)),
             takeUntil(dragEnd)
           ) as Observable<PointerEvent>)

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgZone, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -103,6 +103,8 @@ export class Example2Component {
   }
 
   onScrollbarUpdate(scrollbarRef: NgScrollbarExt, duration: number = 0): void {
-    scrollbarRef.scrollTo({ bottom: 0, duration });
+    scrollbarRef.scrollTo({ bottom: 0, duration }).then(() => {
+      console.log(NgZone.isInAngularZone())
+    });
   }
 }

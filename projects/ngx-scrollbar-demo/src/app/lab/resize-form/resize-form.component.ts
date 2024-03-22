@@ -14,7 +14,7 @@ import { MatDividerModule } from '@angular/material/divider';
 export class ResizeFormComponent implements AfterViewChecked {
 
   @Input() value: ResizeChange;
-  @Output() valueChange = new EventEmitter<ResizeChange>();
+  @Output() valueChange: EventEmitter<ResizeChange> = new EventEmitter<ResizeChange>();
 
   ngAfterViewChecked() {
     this.valueChange.emit(this.value);

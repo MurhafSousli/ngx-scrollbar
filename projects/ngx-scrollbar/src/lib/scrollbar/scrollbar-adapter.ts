@@ -7,8 +7,15 @@ export const SCROLLBAR_CONTROL: InjectionToken<ScrollbarAdapter> = new Injection
 @Directive()
 export abstract class ScrollbarAdapter {
 
+  abstract readonly clientRectProperty: 'left' | 'top';
+
+  abstract readonly sizeProperty: 'offsetWidth' | 'offsetHeight';
+
   // Returns either 'clientX' or 'clientY' coordinate of the pointer relative to the viewport
   abstract readonly clientProperty: 'clientX' | 'clientY';
+
+  // Returns either 'offsetX' or 'offsetY' coordinate of the pointer relative to the edge of the element
+  abstract readonly offsetProperty: 'offsetX' | 'offsetY'
 
   // Return axis
   abstract readonly axis: 'x' | 'y';

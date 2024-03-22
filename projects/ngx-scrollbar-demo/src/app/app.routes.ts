@@ -13,5 +13,9 @@ export const routes: Routes = [
   {
     path: 'other-integrations',
     loadComponent: () => import('./integration-page/integration-page.component').then(c => c.IntegrationPageComponent),
+  },
+  {
+    path: 'scrollto-element',
+    loadComponent: () => import('./example-scrollto-element/example-scrollto-element.component').then(c => c.ExampleScrolltoElementComponent),
   }
 ];
