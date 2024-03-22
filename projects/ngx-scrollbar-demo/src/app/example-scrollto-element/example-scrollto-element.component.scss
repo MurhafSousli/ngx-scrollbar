@@ -1,0 +1,27 @@
+.container {
+  margin: 10px auto;
+  max-width: 948px;
+}
+
+.group {
+  position: relative;
+}
+
+button {
+  margin-bottom: 7px;
+}
+
+.nav-menu {
+  display: flex;
+  place-content: center;
+  gap: 7px;
+}
+
+h3 {
+  font-weight: 300;
+}
+
+h1 {
+  font-weight: 300;
+  text-align: center;
+}

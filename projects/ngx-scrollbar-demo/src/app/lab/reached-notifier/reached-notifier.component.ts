@@ -5,7 +5,7 @@ import { MatChipsModule } from '@angular/material/chips';
   selector: 'app-reached-notifier',
   template: `
     <div class="notifier-wrapper">
-      <div>Reached</div>
+      <div style="width: 70px">Reached</div>
       <mat-chip-set class="reached">
         <mat-chip [class.changed]="reached.top">
           Top
@@ -23,7 +23,7 @@ import { MatChipsModule } from '@angular/material/chips';
     </div>
 
    <div class="notifier-wrapper">
-     <div>Dropped</div>
+     <div style="width: 70px">Dropped</div>
      <mat-chip-set class="dropped">
        <mat-chip [class.changed]="dropped.top">
          Top

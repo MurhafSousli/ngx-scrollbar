@@ -24,7 +24,7 @@
 .mat-mdc-chip {
   text-align: center;
   transition: background-color ease-out 1s;
-  font-size: 12px;
+  --mdc-chip-label-text-size: 12px;
   width: 66px;
 
   ::ng-deep {

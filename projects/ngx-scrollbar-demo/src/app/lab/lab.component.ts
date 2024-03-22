@@ -147,7 +147,8 @@ export class LabComponent {
     };
 
     if (this.scrollToElementSelected) {
-      this.component.scrollToElement('#target', options).then(() => onScrollToReached());
+      const target: HTMLElement = document.querySelector('#target');
+      this.component.scrollToElement(target, options).then(() => onScrollToReached());
     } else {
       this.component.scrollTo(options).then(() => onScrollToReached());
     }

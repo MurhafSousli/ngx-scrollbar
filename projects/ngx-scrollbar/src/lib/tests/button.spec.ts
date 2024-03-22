@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { Directionality } from '@angular/cdk/bidi';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { NgScrollbar, NgScrollbarModule } from 'ngx-scrollbar';
+import { provideSmoothScrollOptions } from 'ngx-scrollbar/smooth-scroll';
 import { afterTimeout, setDimensions } from './common-test.';
 import { ScrollbarButton } from '../button/scrollbar-button.component';
 
@@ -21,7 +22,15 @@ describe('Buttons', () => {
       imports: [NgScrollbarModule],
       providers: [
         { provide: ComponentFixtureAutoDetect, useValue: true },
-        { provide: Directionality, useValue: directionalityMock }
+        { provide: Directionality, useValue: directionalityMock },
+        provideSmoothScrollOptions({
+          easing: {
+            x1: 0,
+            y1: 0,
+            x2: 1,
+            y2: 1
+          }
+        })
       ],
     }).compileComponents();
 
@@ -91,7 +100,7 @@ describe('Buttons', () => {
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
 
-    await component.scrollTo({ bottom: 0 });
+    await component.scrollTo({ bottom: 0, duration: 0 });
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="top"]'));
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
@@ -154,7 +163,7 @@ describe('Buttons', () => {
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
 
-    await component.scrollTo({ end: 0 });
+    await component.scrollTo({ end: 0, duration: 0 });
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="start"]'));
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
@@ -219,7 +228,7 @@ describe('Buttons', () => {
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
 
-    await component.scrollTo({ end: 0 });
+    await component.scrollTo({ end: 0, duration: 0 });
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="start"]'));
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
@@ -230,16 +239,16 @@ describe('Buttons', () => {
 
     // Ongoing click
     await afterTimeout(130 + 16 + 16);
-    expect(component.viewport.scrollLeft).toBeLessThanOrEqual(-38);
+    expect(component.viewport.scrollLeft).toBeGreaterThanOrEqual(-38);
     // Ongoing click
     await afterTimeout(16);
-    expect(component.viewport.scrollLeft).toBeLessThanOrEqual(-26);
+    expect(component.viewport.scrollLeft).toBeGreaterThanOrEqual(-26);
     // Ongoing click
     await afterTimeout(16);
-    expect(component.viewport.scrollLeft).toBeLessThanOrEqual(-14);
+    expect(component.viewport.scrollLeft).toBeGreaterThanOrEqual(-14);
     // Ongoing click
     await afterTimeout(16);
-    expect(component.viewport.scrollLeft).toBeLessThanOrEqual(-2);
+    expect(component.viewport.scrollLeft).toBeGreaterThanOrEqual(-2);
     // Ongoing click
     await afterTimeout(16);
     expect(component.viewport.scrollLeft).toBe(0);
