@@ -1,5 +1,9 @@
 # Changelog
 
+## 14.0.0
+
+- fix: Scrollbar buttons - arrow icons are not being displayed in Safari mobile.
+
 ## 14.0.0-beta.8
 
 - feat: Support complex markup with `scrollToElement` function, closes [#268](https://github.com/MurhafSousli/ngx-scrollbar/issues/268). 

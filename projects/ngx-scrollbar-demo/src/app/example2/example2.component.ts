@@ -103,8 +103,6 @@ export class Example2Component {
   }
 
   onScrollbarUpdate(scrollbarRef: NgScrollbarExt, duration: number = 0): void {
-    scrollbarRef.scrollTo({ bottom: 0, duration }).then(() => {
-      console.log(NgZone.isInAngularZone())
-    });
+    scrollbarRef.scrollTo({ bottom: 0, duration });
   }
 }
