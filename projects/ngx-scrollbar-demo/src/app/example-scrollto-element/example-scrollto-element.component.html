@@ -1,25 +1,26 @@
-<div class="container">
-  <h1>Scroll to element</h1>
-  @for (group of groups; track $index) {
-    <div class="nav-menu">
-      @for (section of sections; track section) {
-        <div>
-          <button mat-flat-button (click)="goToSection(group, section)">Section {{ group }} - {{ section }}</button>
+<div class="row" scrollContent>
+  <overview-content/>
+
+  <div class="container">
+    <h1>Scroll to element</h1>
+    <div class="wrapper">
+      @for (group of groups; track group; let i = $index) {
+        <div scrollAnchor
+             id="group-{{ group }}"
+             linkText="Group {{ group }}"
+             class="group">
+          <h2 #group>Group {{ group }}</h2>
+          @for (section of sections; track section; let j = $index) {
+            <div scrollAnchor
+                 id="group-{{ group }}-section-{{ section }}"
+                 linkText="Section {{ group }} - {{ section }}"
+                 class="section">
+              <h3>Section {{ group }} - {{ section }}</h3>
+              <p> {{ text[i][j] }} </p>
+            </div>
+          }
         </div>
       }
     </div>
-  }
-  <div class="wrapper">
-    @for (group of groups; track group; let i = $index) {
-      <div [id]="'group-' + group" class="group">
-        <h2>Group {{ group }}</h2>
-        @for (section of sections; track section; let j = $index) {
-          <div [id]="'group-' + group + '-section-' + section" class="section">
-            <h3>Section {{ group }} - {{ section }}</h3>
-            <p> {{ text[i][j] }} </p>
-          </div>
-        }
-      </div>
-    }
   </div>
 </div>

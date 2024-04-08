@@ -1,0 +1,15 @@
+@if (links?.length) {
+  <ul>
+    @for (link of links; track link.id) {
+      <li>
+        <a routerLink="."
+           [fragment]="link.id"
+           [class.active]="activeLinkId === link.id">
+          {{ link.linkText }}
+        </a>
+
+        <anchor-link [links]="link.children" [activeLinkId]="activeLinkId"/>
+      </li>
+    }
+  </ul>
+}

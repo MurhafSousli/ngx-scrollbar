@@ -201,7 +201,7 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
   /**
    *  Sets the appearance of the scrollbar, there are 2 options:
    *
-   * - `standard` (default) scrollbar space will be reserved just like with native scrollbar.
+   * - `native` (default) scrollbar space will be reserved just like with native scrollbar.
    * - `compact` scrollbar doesn't reserve any space, they are placed over the viewport.
    */
   @Input() appearance: ScrollbarAppearance = this.options.appearance;

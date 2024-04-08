@@ -1,5 +1,16 @@
 # Changelog
 
+## 14.1.0
+
+- fix: `cdkVirtualScrollViewport` got dependency of @angular/material/select, closes in [#573](https://github.com/MurhafSousli/ngx-scrollbar/issues/573).
+- fix: `cdkVirtualScrollViewport` horizontal scrollbar not showing when orientation is vertical, closes in [#571](https://github.com/MurhafSousli/ngx-scrollbar/issues/571)
+- fix: `ScrollToElement` function wrong scroll position, closes in [#574](https://github.com/MurhafSousli/ngx-scrollbar/issues/574)
+- fix: Remove height and width attributes from the scrollbar SVG icons.
+
+### Breaking changes
+
+- Remove `ngx-scrollbar/utils` package and split its directives into 2 sub-packages `ngx-scrollbar/cdk` and `ngx-scrollbar/mat` to avoid wrong dependency.
+
 ## 14.0.0
 
 - fix: Scrollbar buttons - arrow icons are not being displayed in Safari mobile.
@@ -109,6 +120,7 @@ updating scroll thumb position is done via native CSS which means the calculatio
 ### Breaking changes
 
 - Options renamed:
+  - `track` has been renamed to `orientation`
   - `sensorDisabled` has been renamed to `disableSensor`
   - `sensorDebounce` has been renamed to `sensorThrottleTime`
   - `pointerEventsDisabled` has been renamed to `disableInteraction`

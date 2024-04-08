@@ -1,6 +1,10 @@
 import { signal, WritableSignal } from '@angular/core';
 import { ViewportClasses } from '../utils/common';
 
+/**
+ * Class representing a viewport adapter.
+ * Provides methods and properties to interact with a viewport and its content.
+ */
 export class ViewportAdapter {
 
   /**
@@ -9,7 +13,7 @@ export class ViewportAdapter {
   nativeElement: HTMLElement;
   /**
    * The element that wraps the content inside the viewport,
-   * used to measure the content size and observe its changes
+   * used to measure the content size and observe its changes.
    */
   contentWrapperElement: HTMLElement;
 
@@ -38,17 +42,17 @@ export class ViewportAdapter {
     return this.nativeElement.scrollLeft;
   }
 
-  /** Content height, falls back to scroll height */
+  /** Content height */
   get contentHeight(): number {
     return this.contentWrapperElement.offsetHeight;
   }
 
-  /** Content width, falls back to scroll height */
+  /** Content width */
   get contentWidth(): number {
     return this.contentWrapperElement.offsetWidth;
   }
 
-  /** The horizontal remaining scrollable distance */
+  /** The remaining vertical scrollable distance. */
   get scrollMaxX(): number {
     return this.contentWidth - this.offsetWidth;
   }
@@ -84,14 +88,14 @@ export class ViewportAdapter {
   }
 
   /**
-   * Scroll viewport vertically
+   * Scrolls the viewport vertically to the specified value.
    */
   scrollYTo(value: number): void {
     this.nativeElement.scrollTop = value;
   }
 
   /**
-   * Scroll viewport horizontally
+   * Scrolls the viewport horizontally to the specified value.
    */
   scrollXTo(value: number): void {
     this.nativeElement.scrollLeft = value;
