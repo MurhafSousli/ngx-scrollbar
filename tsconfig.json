@@ -20,8 +20,11 @@
       "ngx-scrollbar/reached-event": [
         "./projects/ngx-scrollbar/reached-event/src/public_api"
       ],
-      "ngx-scrollbar/utils": [
-        "./projects/ngx-scrollbar/utils/src/public_api"
+      "ngx-scrollbar/cdk": [
+        "./projects/ngx-scrollbar/cdk/src/public_api"
+      ],
+      "ngx-scrollbar/mat": [
+        "./projects/ngx-scrollbar/mat/src/public_api"
       ]
     },
     "esModuleInterop": true,

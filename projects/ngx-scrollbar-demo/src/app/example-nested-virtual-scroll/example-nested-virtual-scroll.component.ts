@@ -3,7 +3,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { NgScrollbarModule } from 'ngx-scrollbar';
-import { NgScrollbarCdkVirtualScroll } from 'ngx-scrollbar/utils';
+import { NgScrollbarCdkVirtualScroll } from 'ngx-scrollbar/cdk';
 import { CardComponent } from './card/card.component';
 
 @Component({

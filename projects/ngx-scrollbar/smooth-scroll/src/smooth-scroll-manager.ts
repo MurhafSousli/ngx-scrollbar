@@ -235,12 +235,20 @@ export class SmoothScrollManager {
   scrollToElement(scrollable: SmoothScrollElement, target: SmoothScrollElement, customOptions: SmoothScrollToElementOptions = {}): Promise<void> {
     const scrollableEl: Element = this.getElement(scrollable);
     const targetEl: Element = this.getElement(target, scrollableEl);
-    const rect: DOMRect = targetEl.getBoundingClientRect();
-    const options: SmoothScrollToOptions = {
-      ...customOptions,
-      left: rect.left + (customOptions.left || 0),
-      top: rect.top + (customOptions.top || 0)
-    };
-    return targetEl ? this.scrollTo(scrollableEl, options) : Promise.resolve();
+
+    if (targetEl && scrollableEl) {
+      const scrollableRect: DOMRect = scrollableEl.getBoundingClientRect();
+      const targetRect: DOMRect = targetEl.getBoundingClientRect();
+
+      const options: SmoothScrollToOptions = {
+        ...customOptions,
+        left: targetRect.left + scrollableEl.scrollLeft - scrollableRect.left + (customOptions.left || 0),
+        top: targetRect.top + scrollableEl.scrollTop - scrollableRect.top + (customOptions.top || 0)
+      };
+
+      return this.scrollTo(scrollableEl, options);
+    }
+
+    return Promise.resolve();
   }
 }

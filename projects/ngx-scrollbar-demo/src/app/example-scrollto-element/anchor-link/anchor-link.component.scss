@@ -1,0 +1,19 @@
+a {
+  white-space: normal;
+  color: var(--primary-color);
+  opacity: 0.5;
+  line-height: 20px;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.active {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+ul {
+  padding-left: 10px;
+}
