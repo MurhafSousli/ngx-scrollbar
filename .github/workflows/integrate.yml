@@ -8,6 +8,9 @@ on:
 
 jobs:
   build:
+   # Allow forks to be annotated with code coverage properly
+    permissions:
+      pull-requests: write
     # Machine environment:
     # We specify the Node.js version manually below, and use versioned Chrome from Puppeteer.
     runs-on: ubuntu-latest
