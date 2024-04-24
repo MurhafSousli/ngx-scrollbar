@@ -15,6 +15,8 @@
 
 Custom overlay-scrollbars with native scrolling mechanism for Angular, it also provides a cross-browser smooth scroll directive.
 
+t
+
 ___
 
 ### The documentation is available at the [wiki page](https://github.com/MurhafSousli/ngx-scrollbar/wiki) 📚
