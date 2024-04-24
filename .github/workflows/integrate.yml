@@ -56,8 +56,9 @@ jobs:
 
       - name: Add Coverage PR Comment
         uses: marocchino/sticky-pull-request-comment@v2
-        if: github.event_name == 'pull_request_target'
+        if: github.event_name == 'pull_request'
         with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           recreate: true
           path: code-coverage-results.md
 
