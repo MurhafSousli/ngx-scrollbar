@@ -1,7 +1,7 @@
 ng-scrollbar {
-  --scrollbar-thumb-color: var(--color-track-orange-passion);
+  --scrollbar-track-color: var(--surface-container-low);
+  --scrollbar-thumb-color: var(--color-primary);
   --scrollbar-thickness: 8;
-  --scrollbar-track-color: rgb(0 0 0 / 20%);
   --scrollbar-offset: 6;
   --scrollbar-border-radius: 7px;
 }

@@ -47,6 +47,6 @@
 
 .dropped {
   .mat-mdc-chip.changed {
-    background-color: #85ff3f !important;
+    background-color: var(--color-highlight-dropped) !important;
   }
 }

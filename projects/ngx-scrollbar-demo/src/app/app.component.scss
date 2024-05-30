@@ -14,8 +14,6 @@ ng-scrollbar {
   --scrollbar-button-hover-fill: var(--scrollbar-button-fill);
   --scrollbar-button-active-fill: var(--scrollbar-button-hover-fill);
 
-
-  color: white;
   height: calc(100% - 60px);
 
   ::ng-deep {
@@ -49,7 +47,7 @@ mat-sidenav {
 }
 
 .active-link {
-  background: var(--color-orange-passion);
+  background: var(--color-active-link);
 }
 
 .wrapper {

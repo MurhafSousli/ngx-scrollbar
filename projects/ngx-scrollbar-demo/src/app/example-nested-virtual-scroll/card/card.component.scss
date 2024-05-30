@@ -9,9 +9,10 @@
   font-size: 50px;
   font-weight: bold;
 }
+
 .app-card-content {
   background-color: var(--color-accent);
-  color: #fb5f00;
+  color: var(--color-accent-hover);
   border-radius: 8px;
   display: flex;
   justify-content: center;

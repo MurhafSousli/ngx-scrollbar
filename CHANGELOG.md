@@ -1,5 +1,9 @@
 # Changelog
 
+## 15.0.0
+
+- feat: Upgrade to Angular 18.
+
 ## 14.1.1
 
 - feat: Ship the scroll timeline polyfill with the package.
@@ -9,8 +13,8 @@
 ## 14.1.0
 
 - fix: `cdkVirtualScrollViewport` got dependency of @angular/material/select, closes in [#573](https://github.com/MurhafSousli/ngx-scrollbar/issues/573).
-- fix: `cdkVirtualScrollViewport` horizontal scrollbar not showing when orientation is vertical, closes in [#571](https://github.com/MurhafSousli/ngx-scrollbar/issues/571)
-- fix: `ScrollToElement` function wrong scroll position, closes in [#574](https://github.com/MurhafSousli/ngx-scrollbar/issues/574)
+- fix: `cdkVirtualScrollViewport` horizontal scrollbar not showing when orientation is vertical, closes in [#571](https://github.com/MurhafSousli/ngx-scrollbar/issues/571).
+- fix: `ScrollToElement` function wrong scroll position, closes in [#574](https://github.com/MurhafSousli/ngx-scrollbar/issues/574).
 - fix: Remove height and width attributes from the scrollbar SVG icons.
 
 ### Breaking changes

@@ -3,7 +3,7 @@ import { DebugElement } from '@angular/core';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { By } from '@angular/platform-browser';
 import { firstValueFrom } from 'rxjs';
-import { setDimensions } from './common-test.';
+import { afterTimeout, setDimensions } from './common-test.';
 
 describe('NgScrollbar Component', () => {
   let component: NgScrollbar;
@@ -30,11 +30,12 @@ describe('NgScrollbar Component', () => {
   });
 
 
-  it('should emit afterUpdate after update function is called', () => {
+  it('should emit afterUpdate after update function is called', async () => {
     const afterUpdateEmitSpy: jasmine.Spy = spyOn(component.afterUpdate, 'emit');
     component.ngOnInit();
     component.ngAfterViewInit();
     component.update();
+    await afterTimeout(16);
     expect(afterUpdateEmitSpy).toHaveBeenCalled();
   });
 

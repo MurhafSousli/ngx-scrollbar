@@ -14,7 +14,18 @@
 ng-scrollbar {
   --scrollbar-hover-thickness: 10;
   --scrollbar-thumb-color: var(--color-primary);
-  --scrollbar-track-color: rgb(0 0 0 / 20%);
+  --scrollbar-track-color: var(--surface-container-low);
   --scrollbar-offset: 0;
   --scrollbar-border-radius: 0;
+}
+
+.ag-theme-quartz {
+  --ag-background-color: var(--surface-container-high);
+  --ag-border-color: var(--surface-container-low);
+  --ag-header-column-resize-handle-color: var(--surface-container-high);
+  --ag-header-background-color: var(--surface-container);
+  --ag-foreground-color: var(--mat-sidenav-content-text-color);
+  --ag-range-selection-border-color: var(--color-primary);
+  --ag-active-color: var(--color-primary);
+  --ag-font-size: 12px;
 }

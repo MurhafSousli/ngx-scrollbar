@@ -1,6 +1,4 @@
 .exampleVirtualScroll {
-  background-color: #f3f3f3;
-  border-radius: 3px;
   overflow: hidden;
   height: 200px;
 
@@ -13,25 +11,30 @@
   }
 
   ng-scrollbar {
-    --scrollbar-track-color: rgb(0 0 0 / 5%);
+    --scrollbar-track-color: var(--surface-container-low);
     --scrollbar-thumb-color: var(--color-primary);
     --scrollbar-thickness: 12;
     --scrollbar-offset: 6;
     --scrollbar-border-radius: 8px;
-    border-radius: 3px;
-    border: 2px solid rgb(0 0 0 / 5%);
+
+    ::ng-deep {
+      .ng-scroll-viewport {
+        border-radius: var(--card-viewport-border-radius);
+      }
+    }
   }
 
   .example-item {
     height: 50px;
-    color: black;
+
+    color: var(--mat-sidenav-content-text-color);
 
     &:nth-child(odd) {
-      background: #f1ffff;
+      background: var(--surface-container-highest);
     }
 
     &:nth-child(even) {
-      background: #ecf8ff;
+      background: var(--surface-container-high);
     }
   }
 }

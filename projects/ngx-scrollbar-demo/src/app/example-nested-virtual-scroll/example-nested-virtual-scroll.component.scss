@@ -1,6 +1,5 @@
 .example {
   overflow: hidden;
-  border-radius: 3px;
 }
 
 .cdk-virtual-scroll-orientation-horizontal ::ng-deep {
@@ -10,19 +9,15 @@
 }
 
 .outer-ng-scrollbar {
-  color: black;
-  border: 2px solid rgb(0 0 0 / 5%);
-  //--scrollbar-track-color: var(--color-track-orange-passion);
-  --scrollbar-track-color: rgb(255 255 255 / 15%);
-  --scrollbar-thumb-color: var(--color-orange-passion);
+  --scrollbar-thumb-color: var(--color-primary);
+  --scrollbar-track-color: var(--surface-container-low);
   --scrollbar-offset: 3;
   --scrollbar-thickness: 10;
   --scrollbar-border-radius: 10px;
 }
 
 .cdk-virtual-scroll-orientation-vertical ::ng-deep > .ng-scroll-content {
-  //background: #643761;
-  background: var(--primary-color);
+  //background: rgba(255, 255, 255, 0.1);
 }
 
 .cards {
@@ -41,7 +36,7 @@
     }
 
     .scrollbar-control {
-      background-color: var(--color-infinite-scroll-example-bar-bg);
+      //background-color: var(--color-infinite-scroll-example-bar-bg);
     }
 
     .inner-ng-scrollbar {
@@ -63,21 +58,29 @@
   display: flex;
   flex-direction: column;
 
+  color: var(--mat-sidenav-content-text-color);
+
   &:nth-child(odd) {
-    background: #f1ffff;
+    background: var(--surface-container-highest);
   }
 
   &:nth-child(even) {
-    background: #ecf8ff;
+    background: var(--surface-container-high);
   }
 
   ng-scrollbar {
     flex: 1;
-    --scrollbar-track-color: #d3d3d3;
     --scrollbar-offset: 7;
     --scrollbar-thickness: 6;
     --scrollbar-border-radius: 7px;
-    --scrollbar-thumb-color: var(--color-accent);
+    --scrollbar-thumb-color: var(--color-primary);
+    --scrollbar-track-color: var(--surface-container-low);
+
+    ::ng-deep {
+      .ng-scroll-viewport {
+        border-radius: var(--card-viewport-border-radius);
+      }
+    }
   }
 }
 
@@ -86,7 +89,7 @@ h4 {
   font-size: 30px;
   position: absolute;
   z-index: 999;
-  color: var(--color-primary);
+  color: var(--mat-sidenav-content-text-color);
 }
 
 .pre-content, .post-content {
