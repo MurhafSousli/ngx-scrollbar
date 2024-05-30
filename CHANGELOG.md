@@ -1,5 +1,11 @@
 # Changelog
 
+## 14.1.1
+
+- feat: Ship the scroll timeline polyfill with the package.
+- fix: Content Security Policy violation for script-src, closes [#572](https://github.com/MurhafSousli/ngx-scrollbar/issues/572).
+
+
 ## 14.1.0
 
 - fix: `cdkVirtualScrollViewport` got dependency of @angular/material/select, closes in [#573](https://github.com/MurhafSousli/ngx-scrollbar/issues/573).
