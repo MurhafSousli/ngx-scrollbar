@@ -3,6 +3,7 @@ a {
   color: var(--primary-color);
   opacity: 0.5;
   line-height: 20px;
+  width: 100%;
 
   &:hover {
     opacity: 1;
@@ -15,5 +16,17 @@ a {
 }
 
 ul {
-  padding-left: 10px;
+  //padding-left: 10px;
+  padding-left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style-type: none;
+  gap: 8px;
+  padding-top: 8px;
+
+  ul {
+    flex-direction: column;
+    gap: 8px;
+  }
 }

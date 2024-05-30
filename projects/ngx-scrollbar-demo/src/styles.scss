@@ -5,7 +5,6 @@
 @import '../../../node_modules/@swimlane/ngx-datatable/themes/material.scss';
 @import '../../../node_modules/@swimlane/ngx-datatable/assets/icons.css';
 
-
 /* Core Grid CSS */
 @import 'ag-grid-community/styles/ag-grid.css';
 /* Quartz Theme Specific CSS */
@@ -14,58 +13,66 @@
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.css";
 
-@include mat.core();
-
-$purple-passion-palette: (
-  50 : #efe9ee,
-  100 : #d6c7d5,
-  200 : #bba2b9,
-  300 : #9f7c9d,
-  400 : #8b6088,
-  500 : #764473,
-  600 : #6e3e6b,
-  700 : #633560,
-  800 : #592d56,
-  900 : #461f43,
-  A100 : #ff8af5,
-  A200 : #ff57f1,
-  A400 : #ff24ed,
-  A700 : #ff0aeb,
-  contrast: (
-    50 : #000000,
-    100 : #000000,
-    200 : #000000,
-    300 : #000000,
-    400 : #ffffff,
-    500 : #ffffff,
-    600 : #ffffff,
-    700 : #ffffff,
-    800 : #ffffff,
-    900 : #ffffff,
-    A100 : #000000,
-    A200 : #000000,
-    A400 : #ffffff,
-    A700 : #ffffff,
-  )
-);
 
 //$app-primary: mat.define-palette($purple-passion-palette, 500);
-$app-primary: mat.define-palette(mat.$blue-palette, 500);
-$app-accent: mat.define-palette(mat.$orange-palette, 500);
-$app-warn: mat.define-palette(mat.$red-palette);
-$app-success: mat.define-palette(mat.$light-green-palette);
+$app-primary: mat.m2-define-palette(mat.$m2-blue-palette);
+$app-accent: mat.m2-define-palette(mat.$m2-orange-palette);
+$app-warn: mat.m2-define-palette(mat.$m2-red-palette);
+$app-success: mat.m2-define-palette(mat.$m2-light-green-palette);
 
-$app-theme: mat.define-light-theme((
+// Define the theme object.
+$app-theme: mat.define-theme((
   color: (
-    primary: $app-primary,
-    accent: $app-accent,
-    warn: $app-warn,
+    theme-type: dark,
+    primary: mat.$orange-palette,
+    tertiary: mat.$rose-palette,
   ),
-  typography: mat.define-typography-config(),
-  density: -1
+  density: (
+    scale: 0,
+  )
 ));
 
-@include mat.all-component-themes($app-theme);
+@include mat.core();
+
+@mixin theme($theme) {
+  --mat-toolbar-container-background-color: #{mat.get-theme-color($theme, surface-container-high)};
+  --mat-option-selected-state-label-text-color: var(--color-primary);
+  --mat-sidenav-content-background-color: #{mat.get-theme-color($app-theme, surface-container-highest)};
+  --mat-sidenav-container-background-color: #{mat.get-theme-color($app-theme, primary, 50)};
+
+  --color-primary: #{mat.get-theme-color($app-theme, primary, 50)};
+  --color-primary-container: #{mat.get-theme-color($app-theme, primary-container)};
+  --color-accent: #{mat.get-theme-color($app-theme, secondary, 50)};
+  --color-accent-hover: #{mat.get-theme-color($app-theme, secondary, 60)};
+
+  --color-active-link: #{mat.get-theme-color($app-theme, primary, 70)};
+  --color-primary-60: #{mat.get-theme-color($app-theme, primary, 60)};
+
+  --color-app-background: #{mat.get-theme-color($app-theme, surface-container-high)};
+  --color-app-logo: var(--color-app-background);
+
+  --color-example-5: var(--color-app-background);
+  --color-example-2: var(--color-app-background);
+  --color-virtual-scroll-example: var(--color-app-background);
+  --color-infinite-scroll-example: var(--color-app-background);
+
+  --color-example3: #{mat.get-theme-color($app-theme, primary, 70)};
+  --color-example3-inner: #{mat.get-theme-color($app-theme, surface-container)};
+  --color-highlight: #{mat.get-theme-color($app-theme, error, 30)};
+  --color-highlight-dropped: #{mat.get-theme-color($app-theme, tertiary, 30)};
+
+  --odd-list-item-color: #{mat.get-theme-color($app-theme, primary, 10)};
+  --even-list-item-color: #{mat.get-theme-color($app-theme, primary, 20)};
+  --list-item-border: 2px solid #{mat.get-theme-color($app-theme, primary, 40)};
+
+  --card-bg-color: #{mat.get-theme-color($app-theme, secondary-container)};
+  --surface-container-high: #{mat.get-theme-color($app-theme, surface-container-high)};
+  --surface-container-highest: #{mat.get-theme-color($app-theme, surface-container-highest)};
+  --surface-container-low: #{mat.get-theme-color($app-theme, surface-container-low)};
+  --surface-container: #{mat.get-theme-color($app-theme, surface-container)};
+
+  --card-viewport-border-radius: 5px;
+}
 
 html, body {
   height: 100%;
@@ -77,44 +84,9 @@ body {
   background: var(--color-app-background);
 }
 
-
 :root {
-  --color-primary: #{mat.get-color-from-palette($app-primary)};
-  --color-accent: #{mat.get-color-from-palette($app-accent)};
-  --color-warn: #{mat.get-color-from-palette($app-warn)};
-  --color-success: #{mat.get-color-from-palette($app-success)};
-
-  --mat-sidenav-content-background-color: #{mat.get-color-from-palette(mat.define-palette($app-primary, 900))};
-
-  --mat-sidenav-container-background-color: #{mat.get-color-from-palette(mat.define-palette($app-primary, 500))};
-
-
-  --color-orange-passion: #{mat.get-color-from-palette(mat.define-palette($app-accent, 500))};
-  --color-track-orange-passion: #963634;
-
-  --mat-option-selected-state-label-text-color: var(--color-track-orange-passion);
-  --mat-option-selected-state-label-text-color: var(--color-track-orange-passion);
-
-  --color-app-background: #{mat.get-color-from-palette(mat.define-palette($app-primary, 400))};
-  --color-app-logo: var(--color-app-background);
-
-  --color-examplex-accent: var(--color-app-background);
-  --color-examplex-primary: aliceblue;
-  --color-scrollbar-example-x: var(--color-accent);
-
-  --color-example-5: var(--color-app-background);
-  --color-example-2: var(--color-app-background);
-  --color-virtual-scroll-example: var(--color-app-background);
-  --color-infinite-scroll-example: var(--color-app-background);
-  --color-infinite-scroll-example-bar-bg: #{mat.get-color-from-palette(mat.define-palette(mat.$blue-palette, 300))};
-
-  --color-light-gray: #{mat.get-color-from-palette(mat.define-palette(mat.$grey-palette, 100))};
-  --color-dark-gray: #{mat.get-color-from-palette(mat.define-palette(mat.$grey-palette, 600))};
-  --color-example3: #{mat.get-color-from-palette(mat.define-palette(mat.$yellow-palette, 700))};
-  --color-example4: var(--color-light-gray);
-  --color-highlight: #3cffe3;
-
-  --mat-select-panel-background-color: var(--color-accent);
+  @include mat.all-component-themes($app-theme);
+  @include theme($app-theme);
 }
 
 * {
@@ -124,6 +96,23 @@ body {
 
 .primary-bg {
   background-color: var(--color-app-background);
+}
+
+.mat-drawer-content {
+  overflow: hidden !important;
+}
+
+input {
+  background: var(--mdc-filled-text-field-container-color);
+  color: var(--mdc-filled-text-field-input-text-color);
+}
+
+mat-toolbar {
+  @include mat.elevation(6);
+}
+
+mat-nav-list.mdc-list {
+  padding: 8px;
 }
 
 mat-card {
@@ -152,6 +141,7 @@ a {
 .container {
   max-width: 500px;
   margin: 0 auto;
+  padding: 0 1em;
 }
 
 .wide-container {
@@ -166,9 +156,9 @@ a {
 }
 
 .mat-mdc-card {
-  --mdc-elevated-card-container-color: var(--color-primary);
-  color: white;
   @include mat.elevation(16);
+
+  color: var(--mat-sidenav-content-text-color);
 
   .mat-mdc-card-title {
     font-weight: 300;
@@ -193,7 +183,6 @@ a {
 
   input {
     flex: 1;
-    color: rgb(0 0 0 / 70%);
     border-radius: 4px;
     border: none;
     padding: 5px 8px;
@@ -208,6 +197,5 @@ a {
 
 .mat-mdc-select-panel {
   padding: 0 !important;
-  --mat-minimal-pseudo-checkbox-selected-checkmark-color: var(--color-track-orange-passion);
-  background-image: linear-gradient( to bottom, var(--color-example3), var(--color-accent));
+  --mat-minimal-pseudo-checkbox-selected-checkmark-color: var(--color-primary);
 }

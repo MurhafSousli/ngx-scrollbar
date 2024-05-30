@@ -4,15 +4,48 @@ ng-scrollbar {
   --scrollbar-offset: 1;
   --scrollbar-border-radius: 0;
   --scrollbar-thumb-color: var(--color-primary);
-  --scrollbar-track-color: rgb(0 0 0 / 20%);
+  --scrollbar-track-color: var(--surface-container-low);
 
   ::ng-deep {
     .ng-scroll-content {
       display: block;
     }
+
+    .ngx-datatable.material {
+      .datatable-body .datatable-body-row .datatable-body-cell,
+      .datatable-footer,
+      .datatable-footer .datatable-pager a,
+      .datatable-footer .datatable-pager li.disabled a {
+        color: var(--mat-sidenav-content-text-color) !important;
+      }
+
+      .datatable-header,
+      .datatable-footer,
+      .datatable-header .datatable-header-cell {
+        color: var(--mat-sidenav-content-text-color);
+        background-color: var(--surface-container);
+      }
+
+      .datatable-header .resize-handle {
+        border-right: 1px solid var(--color-primary);
+      }
+
+      &:not(.cell-selection) {
+        .datatable-body-row:hover,
+        .datatable-body-row:hover .datatable-row-group {
+          background-color: var(--color-accent);
+        }
+      }
+    }
   }
 }
+
 .example-ngx-datatable {
   border-radius: 3px;
   overflow: hidden;
+}
+
+.ngx-datatable.material {
+  color: var(--mat-sidenav-content-text-color);
+  background-color: var(--surface-container-high);
 }

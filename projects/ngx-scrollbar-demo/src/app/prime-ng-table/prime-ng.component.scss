@@ -9,21 +9,73 @@
       font-size: 14px;
     }
 
+
+    .p-datatable .p-datatable-thead > tr > th {
+      background-color: var(--surface-container);
+      color: var(--mat-sidenav-content-text-color);
+      border: var(--surface-container-highest);
+    }
+
+    .p-datatable .p-datatable-tbody > tr {
+      background-color: transparent;
+      color: var(--mat-sidenav-content-text-color);
+
+      &:nth-child(odd) {
+        background: var(--surface-container-highest);
+      }
+
+      &:nth-child(even) {
+        background: var(--surface-container-high);
+      }
+
+      > td {
+        border: none;
+      }
+    }
+
     .p-dropdown {
       width: 100%;
+      background: var(--surface-container-high);
+      border: 1px solid var(--surface-container-highest);
+
+      .p-dropdown-trigger,
+      .p-dropdown-clear-icon,
+      .p-inputtext {
+        color: var(--mat-sidenav-content-text-color);
+      }
+
+
+      &:not(.p-disabled).p-focus {
+        box-shadow: 0 0 0 0.2rem var(--color-primary);
+      }
+    }
+
+    .p-dropdown-panel {
+      background-color: var(--surface-container-high);
     }
 
     .p-dropdown-panel .p-dropdown-items {
       .p-dropdown-item {
         height: 40px;
         padding: 10px 20px;
+        color: var(--mat-sidenav-content-text-color);
+
+        &:not(.p-highlight):not(.p-disabled).p-focus,
+        &.p-highlight.p-focus {
+          background-color: var(--color-accent);
+        }
+
+        &.p-highlight.p-focus:hover,
+        &:not(.p-highlight):not(.p-disabled):hover {
+          background-color: var(--color-accent-hover);
+        }
       }
     }
   }
 }
 
 ng-scrollbar {
-  --scrollbar-track-color: rgb(0 0 0 / 5%);
+  --scrollbar-track-color: var(--surface-container-low);
   --scrollbar-thumb-color: var(--color-primary);
   --scrollbar-thickness: 10;
   --scrollbar-offset: 6;
@@ -38,6 +90,10 @@ ng-scrollbar {
         display: none !important;
       }
     }
+
+    .ng-scroll-viewport {
+      border-radius: var(--card-viewport-border-radius);
+    }
   }
 }
 
@@ -50,15 +106,15 @@ ng-scrollbar {
   display: flex;
   align-items: center;
   padding: 0 16px;
-  color: black;
   height: 50px;
+  color: var(--mat-sidenav-content-text-color);
 
   &:nth-child(odd) {
-    background: #f1ffff;
+    background: var(--surface-container-highest);
   }
 
   &:nth-child(even) {
-    background: #ecf8ff;
+    background: var(--surface-container-high);
   }
 }
 

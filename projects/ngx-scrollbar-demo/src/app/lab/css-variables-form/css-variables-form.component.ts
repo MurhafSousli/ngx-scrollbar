@@ -13,15 +13,15 @@ import { ColorPickerModule } from 'ngx-color-picker';
 export class CssVariablesFormComponent implements OnInit {
   form: FormGroup;
 
-  @Output() value = new EventEmitter();
+  @Output() value: EventEmitter<any> = new EventEmitter();
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.form = new FormGroup({
       thickness: new FormControl('12'),
       hoverThickness: new FormControl('15'),
-      trackColor: new FormControl('#77b4e8'),
-      thumbColor: new FormControl('var(--color-scrollbar-example-x)'),
-      thumbHoverColor: new FormControl('var(--color-scrollbar-example-x)'),
+      trackColor: new FormControl('var(--mat-standard-button-toggle-selected-state-background-color)'),
+      thumbColor: new FormControl('var(--color-primary-60)'),
+      thumbHoverColor: new FormControl('var(--color-active-link)'),
       trackOffset: new FormControl('0'),
       borderRadius: new FormControl('0px'),
       overscrollBehavior: new FormControl('initial'),

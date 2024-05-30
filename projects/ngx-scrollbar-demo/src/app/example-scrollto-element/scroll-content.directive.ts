@@ -21,17 +21,17 @@ import { ScrollAnchor } from './scroll-anchor.directive';
 })
 export class ScrollContent {
 
-  readonly isBrowser: boolean = isPlatformBrowser(inject(PLATFORM_ID));
+  // readonly isBrowser: boolean = isPlatformBrowser(inject(PLATFORM_ID));
 
   readonly nativeElement: HTMLElement = inject(ElementRef).nativeElement;
 
-  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  // private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
-  private zone: NgZone = inject(NgZone);
+  // private zone: NgZone = inject(NgZone);
 
-  private fragmentSub$: Subscription;
+  // private fragmentSub$: Subscription;
 
-  activeId: WritableSignal<string> = signal('');
+  // activeId: WritableSignal<string> = signal('');
 
   anchors: Signal<readonly ScrollAnchor[]> = contentChildren<ScrollAnchor>(ScrollAnchor, { descendants: true });
 
@@ -39,12 +39,8 @@ export class ScrollContent {
     return this.anchors().filter((anchor: ScrollAnchor) => anchor.children.length);
   });
 
-  constructor() {
-    effect(() => {
-      console.log(this.anchorsTree());
-    });
-
-    if (this.isBrowser) {
+  // constructor() {
+  //   if (this.isBrowser) {
       // this.zone.runOutsideAngular(() => {
       //   const intersectionObserver: IntersectionObserver = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
       //     console.log(entries)
@@ -70,6 +66,6 @@ export class ScrollContent {
       //   });
       // });
       // });
-    }
-  }
+    // }
+  // }
 }

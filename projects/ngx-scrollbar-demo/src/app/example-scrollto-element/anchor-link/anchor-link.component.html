@@ -2,7 +2,8 @@
   <ul>
     @for (link of links; track link.id) {
       <li>
-        <a routerLink="."
+        <a mat-stroked-button
+           routerLink="."
            [fragment]="link.id"
            [class.active]="activeLinkId === link.id">
           {{ link.linkText }}

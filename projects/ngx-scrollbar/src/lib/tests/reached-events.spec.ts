@@ -55,15 +55,16 @@ describe('Reached Events Directives', () => {
   it('[ReachedOffset]: should emit (reachedTop) (reachedBottom) (reachedStart) (reachedEnd)', async () => {
     component.offset = 10;
     fixture.detectChanges();
+    const scrollTo: number = component.offset - 1;
 
     await component.scrollbar.scrollTo({ top: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ bottom: 10, duration: 50 });
+    await component.scrollbar.scrollTo({ bottom: scrollTo, duration: 50 });
     expect(onScrollReachedSpy).toHaveBeenCalledWith('bottom');
-    await component.scrollbar.scrollTo({ top: 10, duration: 50 });
+    await component.scrollbar.scrollTo({ top: scrollTo, duration: 50 });
     expect(onScrollReachedSpy).toHaveBeenCalledWith('top');
-    await component.scrollbar.scrollTo({ end: 10, duration: 50 });
+    await component.scrollbar.scrollTo({ end: scrollTo, duration: 50 });
     expect(onScrollReachedSpy).toHaveBeenCalledWith('end');
-    await component.scrollbar.scrollTo({ start: 10, duration: 50 });
+    await component.scrollbar.scrollTo({ start: scrollTo, duration: 50 });
     expect(onScrollReachedSpy).toHaveBeenCalledWith('start');
   });
 
@@ -79,9 +80,10 @@ describe('Reached Events Directives', () => {
   it('[ReachedBottomEvent]: should emit (reachedBottom)', async () => {
     component.bottomOffset = 10;
     fixture.detectChanges();
+    const scrollTo: number = component.bottomOffset - 1;
 
     await component.scrollbar.scrollTo({ top: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ bottom: 10, duration: 50 });
+    await component.scrollbar.scrollTo({ bottom: scrollTo, duration: 50 });
     expect(onScrollReachedSpy).toHaveBeenCalledWith('bottom');
   });
 
@@ -97,9 +99,10 @@ describe('Reached Events Directives', () => {
   it('[ReachedEndEvent]: should emit (reachedEnd)', async () => {
     component.endOffset = 10;
     fixture.detectChanges();
+    const scrollTo: number = component.endOffset - 1;
 
     await component.scrollbar.scrollTo({ start: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ end: 10, duration: 50 });
+    await component.scrollbar.scrollTo({ end: scrollTo, duration: 50 });
     expect(onScrollReachedSpy).toHaveBeenCalledWith('end');
   });
 
@@ -107,9 +110,10 @@ describe('Reached Events Directives', () => {
     component.startOffset = 10;
     component.isRtl = true;
     fixture.detectChanges();
+    const scrollTo: number = component.startOffset - 1;
 
     await component.scrollbar.scrollTo({ end: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ start: 10, duration: 50 });
+    await component.scrollbar.scrollTo({ start: scrollTo, duration: 50 });
     expect(onScrollReachedSpy).toHaveBeenCalledWith('start');
   });
 
