@@ -39,6 +39,7 @@ $app-theme: mat.define-theme((
   --mat-option-selected-state-label-text-color: var(--color-primary);
   --mat-sidenav-content-background-color: #{mat.get-theme-color($app-theme, surface-container-highest)};
   --mat-sidenav-container-background-color: #{mat.get-theme-color($app-theme, primary, 50)};
+  --mat-expansion-container-background-color: #{mat.get-theme-color($app-theme, surface-container-high)};
 
   --color-primary: #{mat.get-theme-color($app-theme, primary, 50)};
   --color-primary-container: #{mat.get-theme-color($app-theme, primary-container)};
