@@ -21,7 +21,7 @@
 .cmp-container {
   border: 1px solid #0000001f;
   position: relative;
-  background: #35353524;
+  background: var(--mat-expansion-container-background-color);
 }
 
 mat-card-content {
