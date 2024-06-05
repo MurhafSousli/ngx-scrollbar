@@ -7,6 +7,7 @@ import {
   Signal,
   EffectCleanupRegisterFn
 } from '@angular/core';
+import { Platform } from '@angular/cdk/platform';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { NgScrollbarExt } from 'ngx-scrollbar';
 
@@ -17,6 +18,8 @@ import { NgScrollbarExt } from 'ngx-scrollbar';
 export class NgScrollbarCdkVirtualScroll {
 
   private readonly scrollbar: NgScrollbarExt = inject(NgScrollbarExt);
+
+  private readonly platform: Platform = inject(Platform);
 
   private readonly virtualScrollViewportRef: Signal<CdkVirtualScrollViewport> = contentChild(CdkVirtualScrollViewport);
 
@@ -34,7 +37,7 @@ export class NgScrollbarCdkVirtualScroll {
 
       const spacer: HTMLElement = virtualScrollViewport.elementRef.nativeElement.querySelector(this.scrollbar.externalSpacer);
 
-      if (virtualScrollViewport) {
+      if (this.platform.isBrowser && virtualScrollViewport) {
         resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => {
           entries.forEach((entry: ResizeObserverEntry) => {
             if (virtualScrollViewport.orientation === 'vertical') {
@@ -53,7 +56,7 @@ export class NgScrollbarCdkVirtualScroll {
         });
       }
 
-      onCleanup(() => resizeObserver.disconnect());
+      onCleanup(() => resizeObserver?.disconnect());
     });
   }
 }

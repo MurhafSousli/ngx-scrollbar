@@ -295,13 +295,11 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
 
       // After the upgrade to Angular 18, the effect functions in the inner directives are executed after "afterInit" is emitted,
       // causing the tests to fail. A tiny delay is needed before emitting to the output as a workaround.
-      requestAnimationFrame(() => {
-        if (reason === ScrollbarUpdateReason.AfterInit) {
-          this.afterInit.emit();
-        } else {
-          this.afterUpdate.emit();
-        }
-      });
+      if (reason === ScrollbarUpdateReason.AfterInit) {
+        this.afterInit.emit();
+      } else {
+        this.afterUpdate.emit();
+      }
     });
   }
 

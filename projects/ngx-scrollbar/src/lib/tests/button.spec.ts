@@ -68,6 +68,7 @@ describe('Buttons', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="bottom"]'));
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
@@ -99,6 +100,7 @@ describe('Buttons', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     await component.scrollTo({ bottom: 0, duration: 0 });
 
@@ -131,6 +133,7 @@ describe('Buttons', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="end"]'));
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
@@ -162,6 +165,7 @@ describe('Buttons', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     await component.scrollTo({ end: 0, duration: 0 });
 
@@ -196,6 +200,7 @@ describe('Buttons', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="end"]'));
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
@@ -227,6 +232,7 @@ describe('Buttons', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     await component.scrollTo({ end: 0, duration: 0 });
 
@@ -260,6 +266,7 @@ describe('Buttons', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="bottom"]'));
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
@@ -279,6 +286,7 @@ describe('Buttons', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="bottom"]'));
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));

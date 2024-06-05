@@ -3,7 +3,7 @@ import { DebugElement } from '@angular/core';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { By } from '@angular/platform-browser';
 import { firstValueFrom } from 'rxjs';
-import { afterTimeout, setDimensions } from './common-test.';
+import { setDimensions } from './common-test.';
 
 describe('NgScrollbar Component', () => {
   let component: NgScrollbar;
@@ -35,7 +35,6 @@ describe('NgScrollbar Component', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     component.update();
-    await afterTimeout(16);
     expect(afterUpdateEmitSpy).toHaveBeenCalled();
   });
 

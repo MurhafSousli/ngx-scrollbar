@@ -97,6 +97,7 @@ describe('disableInteraction option', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     trackY = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-track')).injector.get(TrackAdapter);
     thumbY = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-thumb')).injector.get(ThumbAdapter);

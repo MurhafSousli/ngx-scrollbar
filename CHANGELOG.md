@@ -1,5 +1,12 @@
 # Changelog
 
+## 15.0.1
+
+- fix: SSR with CDK Virtual Scroll - `ResizeObserver` is not defined error thrown, closes [#603](https://github.com/MurhafSousli/ngx-scrollbar/issues/603).
+- regret: Remove the `requestAnimationFrame` before emitting to `afterInit` and `afterUpdate` which was added to fix the unit tests.
+
+ > This was not a bug or an issue in the previous version v15.0.0
+
 ## 15.0.0
 
 - feat: Upgrade to Angular 18.

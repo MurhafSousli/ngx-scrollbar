@@ -48,7 +48,7 @@ describe('Resize Sensor', () => {
     // Change component size
     setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 400, contentWidth: 400 });
 
-    await firstValueFrom(component.afterUpdate)
+    await firstValueFrom(component.afterUpdate);
 
     expect(component.viewportDimension()).toEqual({
       offsetWidth: 200,
