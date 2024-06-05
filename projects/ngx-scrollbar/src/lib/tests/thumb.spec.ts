@@ -46,6 +46,7 @@ describe('Scrollbar thumb', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     const thumbY: Element = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-thumb')).nativeElement;
     thumbY.dispatchEvent(new PointerEvent('pointerdown'));
@@ -75,6 +76,7 @@ describe('Scrollbar thumb', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     const thumbX: Element = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-thumb')).nativeElement;
     thumbX.dispatchEvent(new PointerEvent('pointerdown'));
@@ -105,6 +107,7 @@ describe('Scrollbar thumb', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     const thumbX: Element = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-thumb')).nativeElement;
     thumbX.dispatchEvent(new PointerEvent('pointerdown'));
@@ -134,6 +137,7 @@ describe('Scrollbar thumb', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     const thumbAdapter: ThumbAdapter = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-thumb')).injector.get(ThumbAdapter);
     expect(thumbAdapter._animation).toBeTruthy();

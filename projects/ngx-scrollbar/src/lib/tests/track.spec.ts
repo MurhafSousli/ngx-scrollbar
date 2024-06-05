@@ -48,6 +48,7 @@ describe('Scrollbar track', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
     const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYDirective));
@@ -78,6 +79,7 @@ describe('Scrollbar track', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     await component.scrollTo({ bottom: 0, duration: 0 });
 
@@ -112,6 +114,7 @@ describe('Scrollbar track', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
     const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYDirective));
@@ -144,6 +147,7 @@ describe('Scrollbar track', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     await component.scrollTo({ bottom: 0, duration: 0 });
 
@@ -176,6 +180,7 @@ describe('Scrollbar track', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     const trackXDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackXDirective));
     const thumbXDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbXDirective));
@@ -206,6 +211,7 @@ describe('Scrollbar track', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     await component.scrollTo({ end: 0, duration: 0 });
 
@@ -239,6 +245,7 @@ describe('Scrollbar track', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     await component.scrollTo({ start: 0, duration: 0 });
 
@@ -272,6 +279,7 @@ describe('Scrollbar track', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     await component.scrollTo({ end: 0, duration: 0 });
 
@@ -304,6 +312,7 @@ describe('Scrollbar track', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     // Make current scroll position close to bottom, so it triggers only one scroll to the end
     await component.scrollTo({ bottom: 90, duration: 50 });
@@ -328,6 +337,7 @@ describe('Scrollbar track', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     // Make current scroll position close to top, so it triggers only one scroll step to finish
     await component.scrollTo({ top: 50, duration: 0 });
@@ -351,6 +361,7 @@ describe('Scrollbar track', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
 
@@ -394,6 +405,7 @@ describe('Scrollbar track', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
     await firstValueFrom(component.afterInit);
+    TestBed.flushEffects();
 
     const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
     const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYDirective));
