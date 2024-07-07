@@ -36,10 +36,10 @@
   --INTERNAL-scrollbar-thumb-color: var(--scrollbar-thumb-color, rgb(0 0 0 / 20%));
 
   // Scrollbar thumb color when hovered
-  --INTERNAL-scrollbar-thumb-hover-color: var(--scrollbar-thumb-hover-color, --INTERNAL-scrollbar-thumb-color);
+  --INTERNAL-scrollbar-thumb-hover-color: var(--scrollbar-thumb-hover-color, var(--INTERNAL-scrollbar-thumb-color));
 
   // Scrollbar thickness when hovered
-  --INTERNAL-scrollbar-hover-thickness: var(--scrollbar-hover-thickness, --INTERNAL-scrollbar-thickness);
+  --INTERNAL-scrollbar-hover-thickness: var(--scrollbar-hover-thickness, var(--INTERNAL-scrollbar-thickness));
 
   // Scrollbar thumb transition effect
   --INTERNAL-scrollbar-thumb-transition: var(--scrollbar-thumb-transition, none);
@@ -48,14 +48,14 @@
   --INTERNAL-scrollbar-thumb-min-size: var(--scrollbar-thumb-min-size, 20);
 
   // Scrollbar button colors
-  --INTERNAL-scrollbar-button-color: var(--scrollbar-button-color, --INTERNAL-scrollbar-thumb-color);
-  --INTERNAL-scrollbar-button-hover-color: var(--scrollbar-button-hover-color, --INTERNAL-scrollbar-button-color);
-  --INTERNAL-scrollbar-button-active-color: var(--scrollbar-button-active-color, --INTERNAL-scrollbar-button-hover-color);
+  --INTERNAL-scrollbar-button-color: var(--scrollbar-button-color, var(--INTERNAL-scrollbar-thumb-color));
+  --INTERNAL-scrollbar-button-hover-color: var(--scrollbar-button-hover-color, var(--INTERNAL-scrollbar-button-color));
+  --INTERNAL-scrollbar-button-active-color: var(--scrollbar-button-active-color, var(--INTERNAL-scrollbar-button-hover-color));
 
   // Scrollbar button arrow fill
   --INTERNAL-scrollbar-button-fill: var(--scrollbar-button-fill, white);
-  --INTERNAL-scrollbar-button-hover-fill: var(--scrollbar-button-hover-fill, --INTERNAL-scrollbar-button-hover-fill);
-  --INTERNAL-scrollbar-button-active-fill: var(--scrollbar-button-active-fill, --INTERNAL-scrollbar-button-hover-fill);
+  --INTERNAL-scrollbar-button-hover-fill: var(--scrollbar-button-hover-fill, var(--INTERNAL-scrollbar-button-fill));
+  --INTERNAL-scrollbar-button-active-fill: var(--scrollbar-button-active-fill, var(--INTERNAL-scrollbar-button-hover-fill));
 
   // Transition for sticky element when viewport is hovered in [visibility]="hover"
   --INTERNAL-scrollbar-hover-opacity-transition-enter-duration: var(--scrollbar-hover-opacity-transition-enter-duration, 0);
