@@ -85,7 +85,7 @@
   }
 
   @include selector.BothUsed {
-    --_scrollbar-thickness-margin: calc(var(--scrollbar-thickness) + var(--scrollbar-offset) * 3);
+    --_scrollbar-thickness-margin: calc(var(--INTERNAL-scrollbar-thickness) + var(--INTERNAL-scrollbar-offset) * 3);
     --_scrollbar-thickness-margin-px: calc(var(--_scrollbar-thickness-margin) * 1px);
   }
 

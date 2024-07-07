@@ -9,25 +9,25 @@
   border-radius: 0;
   appearance: none;
 
-  background-color: var(--scrollbar-button-color);
+  background-color: var(--INTERNAL-scrollbar-button-color);
 
   svg {
-    fill: var(--scrollbar-button-fill);
+    fill: var(--INTERNAL-scrollbar-button-fill);
   }
 
   &:hover {
-    background: var(--scrollbar-button-hover-color);
+    background: var(--INTERNAL-scrollbar-button-hover-color);
 
     svg {
-      fill: var(--scrollbar-button-hover-fill);
+      fill: var(--INTERNAL-scrollbar-button-hover-fill);
     }
   }
 
   &:active {
-    background: var(--scrollbar-button-active-color);
+    background: var(--INTERNAL-scrollbar-button-active-color);
 
     svg {
-      fill: var(--scrollbar-button-active-fill);
+      fill: var(--INTERNAL-scrollbar-button-active-fill);
     }
   }
 

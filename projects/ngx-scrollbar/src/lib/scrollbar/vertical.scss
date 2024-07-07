@@ -27,13 +27,13 @@
 
   &:hover {
     --_track-y-thickness: var(--_scrollbar-hover-thickness-px);
-    --_thumb-y-color: var(--scrollbar-thumb-hover-color);
+    --_thumb-y-color: var(var(--INTERNAL-scrollbar-thumb-min-size));
   }
 }
 
 .ng-scrollbar-thumb {
   animation-timeline: var(--_animation-timeline-y);
-  min-height: calc(var(--scrollbar-thumb-min-size) * 1px);
+  min-height: calc(var(--INTERNAL-scrollbar-thumb-min-size) * 1px);
   display: var(--_vertical-thumb-display);
   background-color: var(--_thumb-y-color);
 }

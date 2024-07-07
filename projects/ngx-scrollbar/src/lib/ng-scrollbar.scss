@@ -18,68 +18,68 @@
   // CSS variables used to customized the look of the scrollbar component
 
   // Scrollbar track border radius
-  --scrollbar-border-radius: 0px;
+  --INTERNAL-scrollbar-border-radius: var(--scrollbar-border-radius, 0px);
 
   // Scrollbar track thickness
-  --scrollbar-thickness: 5;
+  --INTERNAL-scrollbar-thickness: var(--scrollbar-thickness, 5);
 
   // Space between scrollbar track and its surrounding
-  --scrollbar-offset: 0;
+  --INTERNAL-scrollbar-offset: var(--scrollbar-offset, 0);
 
   // Scrollbar track wrapper transition
-  --scrollbar-track-wrapper-transition: width 60ms linear, height 60ms linear;
+  --INTERNAL-scrollbar-track-wrapper-transition: var(--scrollbar-track-wrapper-transition, width 60ms linear, height 60ms linear);
 
   // Scrollbar track color
-  --scrollbar-track-color: transparent;
+  --INTERNAL-scrollbar-track-color: var(--scrollbar-track-color, transparent);
 
   // Scrollbar thumb color
-  --scrollbar-thumb-color: rgb(0 0 0 / 20%);
+  --INTERNAL-scrollbar-thumb-color: var(--scrollbar-thumb-color, rgb(0 0 0 / 20%));
 
   // Scrollbar thumb color when hovered
-  --scrollbar-thumb-hover-color: var(--scrollbar-thumb-color);
+  --INTERNAL-scrollbar-thumb-hover-color: var(--scrollbar-thumb-hover-color, --INTERNAL-scrollbar-thumb-color);
 
   // Scrollbar thickness when hovered
-  --scrollbar-hover-thickness: var(--scrollbar-thickness);
+  --INTERNAL-scrollbar-hover-thickness: var(--scrollbar-hover-thickness, --INTERNAL-scrollbar-thickness);
 
   // Scrollbar thumb transition effect
-  --scrollbar-thumb-transition: none;
+  --INTERNAL-scrollbar-thumb-transition: var(--scrollbar-thumb-transition, none);
 
   // The minimum size the scrollbar thumb can get
-  --scrollbar-thumb-min-size: 20;
+  --INTERNAL-scrollbar-thumb-min-size: var(--scrollbar-thumb-min-size, 20);
 
   // Scrollbar button colors
-  --scrollbar-button-color: var(--scrollbar-thumb-color);
-  --scrollbar-button-hover-color: var(--scrollbar-button-color);
-  --scrollbar-button-active-color: var(--scrollbar-button-hover-color);
+  --INTERNAL-scrollbar-button-color: var(--scrollbar-button-color, --INTERNAL-scrollbar-thumb-color);
+  --INTERNAL-scrollbar-button-hover-color: var(--scrollbar-button-hover-color, --INTERNAL-scrollbar-button-color);
+  --INTERNAL-scrollbar-button-active-color: var(--scrollbar-button-active-color, --INTERNAL-scrollbar-button-hover-color);
 
   // Scrollbar button arrow fill
-  --scrollbar-button-fill: white;
-  --scrollbar-button-hover-fill: var(--scrollbar-button-fill);
-  --scrollbar-button-active-fill: var(--scrollbar-button-hover-fill);
+  --INTERNAL-scrollbar-button-fill: var(--scrollbar-button-fill, white);
+  --INTERNAL-scrollbar-button-hover-fill: var(--scrollbar-button-hover-fill, --INTERNAL-scrollbar-button-hover-fill);
+  --INTERNAL-scrollbar-button-active-fill: var(--scrollbar-button-active-fill, --INTERNAL-scrollbar-button-hover-fill);
 
   // Transition for sticky element when viewport is hovered in [visibility]="hover"
-  --scrollbar-hover-opacity-transition-enter-duration: 0;
-  --scrollbar-hover-opacity-transition-leave-duration: 0.4s;
-  --scrollbar-hover-opacity-transition-leave-delay: 1s;
+  --INTERNAL-scrollbar-hover-opacity-transition-enter-duration: var(--scrollbar-hover-opacity-transition-enter-duration, 0);
+  --INTERNAL-scrollbar-hover-opacity-transition-leave-duration: var(--scrollbar-hover-opacity-transition-leave-duration, 0.4s);
+  --INTERNAL-scrollbar-hover-opacity-transition-leave-delay: var(--scrollbar-hover-opacity-transition-leave-delay, 1s);
 
   // Viewport overscroll behavior
   // In firefox and safari the scrollbar bounces if viewport is over-scrolled causing the scrollbars to bounce with it
   // It seems that the only way around this is by disabling the overscroll behavior
   // The other option is to give up the sticky scrollbar method and use an absolute position scrollbars
-  --scrollbar-overscroll-behavior: initial;
+  --INTERNAL-scrollbar-overscroll-behavior: var(--scrollbar-overscroll-behavior, initial);
 
   // Viewport overscroll behavior in case of mobile devices
-  --scrollbar-mobile-overscroll-behavior: none;
+  --INTERNAL-scrollbar-mobile-overscroll-behavior: var(--scrollbar-mobile-overscroll-behavior, none);
 
   /** Scrollbar private CSS variables **/
 
-  --_scrollbar-thickness: calc(var(--scrollbar-thickness) + var(--scrollbar-offset) * 2);
+  --_scrollbar-thickness: calc(var(--INTERNAL-scrollbar-thickness) + var(--INTERNAL-scrollbar-offset) * 2);
   --_scrollbar-pointer-events: auto;
 
   // Convert margin to px value to avoid repeating calculation when used in multiple times
-  --_scrollbar-offset-px: calc(var(--scrollbar-offset) * 1px);
-  --_scrollbar-thickness-px: calc(var(--scrollbar-thickness) * 1px);
-  --_scrollbar-hover-thickness-px: calc(var(--scrollbar-hover-thickness) * 1px);
+  --_scrollbar-offset-px: calc(var(--INTERNAL-scrollbar-offset) * 1px);
+  --_scrollbar-thickness-px: calc(var(--INTERNAL-scrollbar-thickness) * 1px);
+  --_scrollbar-hover-thickness-px: calc(var(--INTERNAL-scrollbar-hover-thickness) * 1px);
 
   // Initialize viewport and content paddings
   --_viewport-padding-top: 0;
@@ -95,13 +95,13 @@
   --_viewport-overflow: auto;
 
   // Scrollbar thumb color variables used to change when hovered or dragged
-  --_thumb-x-color: var(--scrollbar-thumb-color);
-  --_thumb-y-color: var(--scrollbar-thumb-color);
+  --_thumb-x-color: var(--INTERNAL-scrollbar-thumb-color);
+  --_thumb-y-color: var(--INTERNAL-scrollbar-thumb-color);
   --_track-y-thickness: var(--_scrollbar-thickness-px);
   --_track-x-thickness: var(--_scrollbar-thickness-px);
 
   // Viewport overscroll behavior
-  --_viewport-overscroll-behavior: var(--scrollbar-overscroll-behavior);
+  --_viewport-overscroll-behavior: var(--INTERNAL-scrollbar-overscroll-behavior);
 
   // Content display, will switch to block if orientation is set to vertical
   --_scrollbar-content-width: fit-content;
@@ -148,25 +148,25 @@
 
   @include selector.HorizontalUsed {
     // Calculate the horizontal thumb size
-    --thumb-x-length: max(calc(var(--viewport-width) * var(--track-x-length) / var(--content-width)), var(--scrollbar-thumb-min-size));
+    --thumb-x-length: max(calc(var(--viewport-width) * var(--track-x-length) / var(--content-width)), var(--INTERNAL-scrollbar-thumb-min-size));
   }
 
   @include selector.VerticalUsed {
     // Calculate the vertical thumb size
-    --thumb-y-length: max(calc(var(--viewport-height) * var(--track-y-length) / var(--content-height)), var(--scrollbar-thumb-min-size));
+    --thumb-y-length: max(calc(var(--viewport-height) * var(--track-y-length) / var(--content-height)), var(--INTERNAL-scrollbar-thumb-min-size));
   }
 
   @include selector.thumbXDragging {
-    --_track-x-thickness: calc(var(--scrollbar-hover-thickness) * 1px);
-    --_thumb-x-color: var(--scrollbar-thumb-hover-color);
+    --_track-x-thickness: calc(var(--INTERNAL-scrollbar-hover-thickness) * 1px);
+    --_thumb-x-color: var(var(--INTERNAL-scrollbar-thumb-min-size));
   }
 
   @include selector.thumbYDragging {
-    --_track-y-thickness: calc(var(--scrollbar-hover-thickness) * 1px);
-    --_thumb-y-color: var(--scrollbar-thumb-hover-color);
+    --_track-y-thickness: calc(var(--INTERNAL-scrollbar-hover-thickness) * 1px);
+    --_thumb-y-color: var(var(--INTERNAL-scrollbar-thumb-min-size));
   }
 
   @include selector.isMobile {
-    --_viewport-overscroll-behavior: var(--scrollbar-mobile-overscroll-behavior);
+    --_viewport-overscroll-behavior: var(--INTERNAL-scrollbar-mobile-overscroll-behavior);
   }
 }
