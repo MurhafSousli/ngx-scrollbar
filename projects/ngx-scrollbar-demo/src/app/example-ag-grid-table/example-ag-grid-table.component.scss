@@ -9,9 +9,8 @@
       overflow: hidden;
     }
   }
-}
 
-ng-scrollbar {
+  --scrollbar-thickness: 6;
   --scrollbar-hover-thickness: 10;
   --scrollbar-thumb-color: var(--color-primary);
   --scrollbar-track-color: var(--surface-container-low);

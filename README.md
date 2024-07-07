@@ -55,6 +55,4 @@ If you identify any errors in the library, or have an idea for an improvement, p
 - [ngx-scrollbar](https://github.com/MurhafSousli/ngx-scrollbar)
 - [ngx-bar-rating](https://github.com/MurhafSousli/ngx-bar-rating)
 - [ngx-disqus](https://github.com/MurhafSousli/ngx-disqus)
-- [ngx-wordpress](https://github.com/MurhafSousli/ngx-wordpress)
 - [ngx-highlightjs](https://github.com/MurhafSousli/ngx-highlightjs)
-- [ngx-teximate](https://github.com/MurhafSousli/ngx-teximate)
