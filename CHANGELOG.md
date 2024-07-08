@@ -1,5 +1,9 @@
 # Changelog
 
+## 15.0.4
+
+- fix: global Angular app styles gets broken in Firefox, closes [#615](https://github.com/MurhafSousli/ngx-scrollbar/issues/615).
+
 ## 15.0.3
 
 - feat: Ability to set the scrollbar CSS variables from `:root` or any parent selector, closes [#591](https://github.com/MurhafSousli/ngx-scrollbar/issues/591) and [#606](https://github.com/MurhafSousli/ngx-scrollbar/issues/606).
