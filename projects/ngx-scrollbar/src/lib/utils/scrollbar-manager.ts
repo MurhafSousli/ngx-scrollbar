@@ -3,7 +3,8 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { NG_SCROLLBAR_POLYFILL } from '../ng-scrollbar.model';
 import { ScrollTimelineFunc } from './common';
 
-const scrollTimelinePolyfillUrl: string = 'https://flackr.github.io/scroll-timeline/dist/scroll-timeline.js';
+// This CDN link is for a modified version of the polyfill to fix the firefox bug https://github.com/MurhafSousli/ngx-scrollbar/issues/615
+const scrollTimelinePolyfillUrl: string = 'https://cdn.statically.io/gist/MurhafSousli/c852b6a672069396953f06ddd4b64620/raw/7089126915c424e85fba611d179fc5687b8743a0/scroll-timeline.js';
 
 @Injectable({ providedIn: 'root' })
 export class ScrollbarManager {
