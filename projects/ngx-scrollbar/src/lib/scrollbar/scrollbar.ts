@@ -11,8 +11,10 @@ import { ScrollbarManager } from '../utils/scrollbar-manager';
   standalone: true,
   selector: 'scrollbar-y',
   template: `
-    <div #sticky class="ng-scrollbar-sticky">
-      <div class="ng-scrollbar-track-wrapper">
+    <div class="ng-scrollbar-sticky"
+         [class.ng-scrollbar-hover]="cmp.hoverOffset()">
+      <div class="ng-scrollbar-track-wrapper"
+           [class.ng-scrollbar-hover]="!cmp.hoverOffset()">
         <div scrollbarTrackY class="ng-scrollbar-track {{ cmp.trackClass }}">
           <div scrollbarThumbY class="ng-scrollbar-thumb {{ cmp.thumbClass }}"></div>
         </div>
@@ -68,8 +70,10 @@ export class ScrollbarY extends ScrollbarAdapter {
   selector: 'scrollbar-x',
   host: { '[attr.dir]': 'cmp.direction()' },
   template: `
-    <div #sticky class="ng-scrollbar-sticky">
-      <div class="ng-scrollbar-track-wrapper">
+    <div class="ng-scrollbar-sticky"
+         [class.ng-scrollbar-hover]="cmp.hoverOffset()">
+      <div class="ng-scrollbar-track-wrapper"
+           [class.ng-scrollbar-hover]="!cmp.hoverOffset()">
         <div scrollbarTrackX class="ng-scrollbar-track {{ cmp.trackClass }}">
           <div scrollbarThumbX class="ng-scrollbar-thumb {{ cmp.thumbClass }}"></div>
         </div>

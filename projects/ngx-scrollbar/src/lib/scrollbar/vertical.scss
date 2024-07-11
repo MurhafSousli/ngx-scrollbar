@@ -24,11 +24,11 @@
 .ng-scrollbar-track-wrapper {
   width: var(--_track-y-thickness);
   flex-direction: column;
+}
 
-  &:hover {
-    --_track-y-thickness: var(--_scrollbar-hover-thickness-px);
-    --_thumb-y-color: var(var(--INTERNAL-scrollbar-thumb-min-size));
-  }
+.ng-scrollbar-hover:hover {
+  --_track-y-thickness: var(--_scrollbar-hover-thickness-px);
+  --_thumb-y-color: var(--INTERNAL-scrollbar-thumb-hover-color);
 }
 
 .ng-scrollbar-thumb {

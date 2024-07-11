@@ -62,6 +62,15 @@
             </div>
 
             <div class="lab-control">
+              <div class="lab-control-label">Hover offset</div>
+              <mat-button-toggle-group aria-label="Hover offset"
+                                       [(value)]="hoverOffset">
+                <mat-button-toggle [value]="true">True</mat-button-toggle>
+                <mat-button-toggle [value]="false">False</mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+
+            <div class="lab-control">
               <div class="lab-control-label">Buttons</div>
               <mat-button-toggle-group aria-label="Buttons"
                                        [(value)]="buttons">
@@ -117,7 +126,9 @@
             </div>
           </mat-expansion-panel>
 
-          <mat-expansion-panel>
+          <mat-expansion-panel [style.overflow]="stylingPanelExpanded ? 'initial' : 'hidden'"
+                               (afterExpand)="stylingPanelExpanded = true"
+                               (expandedChange)="onExpandedChange($event)">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Styling
@@ -153,6 +164,7 @@
                           [position]="position"
                           [style]="cssVariables"
                           [buttons]="buttons"
+                          [hoverOffset]="hoverOffset"
                           [disableInteraction]="interactionDisabled"
                           [disableSensor]="disableSensor"
                           [sensorThrottleTime]="sensorThrottleTime"

@@ -27,9 +27,8 @@ describe('Appearance [native / compact] styles', () => {
 
     fixture = TestBed.createComponent(NgScrollbar);
     component = fixture.componentInstance;
-    // Set scrollbar thickness to 13px
+
     component.nativeElement.style.setProperty('--scrollbar-thickness', '5');
-    component.nativeElement.style.setProperty('--scrollbar-margin', '4');
     component.nativeElement.style.setProperty('--scrollbar-offset', '4');
   });
 

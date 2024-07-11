@@ -16,6 +16,7 @@ export interface _NgScrollbar {
   dragging: WritableSignal<ScrollbarDragging>;
   direction: Signal<Direction>;
   trackScrollDuration: number;
+  hoverOffset: Signal<boolean>;
   buttons: Signal<boolean>;
   disableSensor: Signal<boolean>;
   sensorThrottleTime: Signal<number>;

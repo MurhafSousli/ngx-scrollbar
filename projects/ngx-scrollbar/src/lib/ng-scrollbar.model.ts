@@ -66,4 +66,6 @@ export interface NgScrollbarOptions {
   disableSensor?: boolean;
   /** Show scrollbar buttons */
   buttons?: boolean;
+  /** A flag used to activate hover effect on the offset area around the scrollbar */
+  hoverOffset?: boolean;
 }
