@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal, ViewChild, WritableSignal } from '@angular/core';
+import { Component, inject, signal, ViewChild, WritableSignal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
@@ -51,10 +51,15 @@ import { SmoothScrollFormComponent, SmoothScrollOptionsForm } from './smooth-scr
 })
 export class LabComponent {
 
+  private sanitizer: DomSanitizer = inject(DomSanitizer);
+
   @ViewChild(NgScrollbar, { static: true }) component: NgScrollbar;
+
+  stylingPanelExpanded: boolean;
 
   direction: 'ltr' | 'rtl' = 'ltr';
   buttons: boolean = true;
+  hoverOffset: boolean = false;
   interactionDisabled: boolean = false;
   disableSensor: boolean = false;
   disableReached: boolean = false;
@@ -95,9 +100,6 @@ export class LabComponent {
 
   get content(): string {
     return '<b>Lorem ipsum dolor sit amet</b>' + content.repeat(this.slider.contentSize);
-  }
-
-  constructor(private sanitizer: DomSanitizer) {
   }
 
   width: number = 448;
@@ -154,6 +156,11 @@ export class LabComponent {
     }
   }
 
+  onExpandedChange(expanded: boolean): void {
+    if (!expanded) {
+      this.stylingPanelExpanded = false;
+    }
+  }
 }
 
 const content: string = `

@@ -56,11 +56,11 @@
 .ng-scrollbar-track-wrapper {
   height: var(--_track-x-thickness);
   flex-direction: row;
+}
 
-  &:hover {
-    --_track-x-thickness: var(--_scrollbar-hover-thickness-px);
-    --_thumb-x-color: var(var(--INTERNAL-scrollbar-thumb-min-size));
-  }
+.ng-scrollbar-hover:hover {
+  --_track-x-thickness: var(--_scrollbar-hover-thickness-px);
+  --_thumb-x-color: var(--INTERNAL-scrollbar-thumb-hover-color);
 }
 
 .ng-scrollbar-thumb {

@@ -19,6 +19,7 @@
   z-index: 100;
   opacity: var(--_scrollbar-hover-opacity);
   transition: var(--_scrollbar-opacity-transition);
+  pointer-events: var(--_scrollbar-pointer-events);
 }
 
 .ng-scrollbar-track-wrapper {
@@ -32,7 +33,6 @@
   bottom: var(--_scrollbar-track-bottom);
   right: var(--_scrollbar-track-right);
   left: var(--_scrollbar-track-left);
-  pointer-events: var(--_scrollbar-pointer-events);
   transition: var(--INTERNAL-scrollbar-track-wrapper-transition);
   position: absolute;
   overflow: hidden;

@@ -1,5 +1,10 @@
 # Changelog
 
+## 15.1.0
+
+- feat: Add a new option `hoverOffset` to activate hover effect on the offset area around the scrollbar, closes [#616](https://github.com/MurhafSousli/ngx-scrollbar/issues/616).
+- fix: Scrollbar thumb color is not changing on hover, closes [#625](https://github.com/MurhafSousli/ngx-scrollbar/issues/625).
+
 ## 15.0.4
 
 - fix: global Angular app styles gets broken in Firefox, closes [#615](https://github.com/MurhafSousli/ngx-scrollbar/issues/615).

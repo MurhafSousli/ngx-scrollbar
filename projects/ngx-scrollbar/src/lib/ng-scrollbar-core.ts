@@ -58,7 +58,8 @@ const defaultOptions: NgScrollbarOptions = {
   sensorThrottleTime: 0,
   disableSensor: false,
   disableInteraction: false,
-  buttons: false
+  buttons: false,
+  hoverOffset: false
 };
 
 interface ViewportState {
@@ -152,6 +153,11 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
   /** Throttle interval for detecting changes via ResizeObserver */
   sensorThrottleTime: InputSignal<number> = input<number, number>(this.options.sensorThrottleTime, {
     transform: numberAttribute
+  });
+
+  /** A flag used to activate hover effect on the offset area around the scrollbar */
+  hoverOffset: InputSignalWithTransform<boolean, string | boolean> = input<boolean, string | boolean>(this.options.hoverOffset, {
+    transform: booleanAttribute
   });
 
   viewportDimension: WritableSignal<ViewportBoundaries> = signal({

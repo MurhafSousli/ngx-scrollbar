@@ -15,7 +15,7 @@ describe('Visibility styles', () => {
       imports: [NgScrollbar],
       providers: [
         { provide: ComponentFixtureAutoDetect, useValue: true }
-      ],
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(NgScrollbar);
