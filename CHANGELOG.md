@@ -1,5 +1,9 @@
 # Changelog
 
+## 15.1.1
+
+- Fix scroll-timeline polyfill errors, closes [#631](https://github.com/MurhafSousli/ngx-scrollbar/issues/631), [#624](https://github.com/MurhafSousli/ngx-scrollbar/issues/624), [#594](https://github.com/MurhafSousli/ngx-scrollbar/issues/594) and [#590](https://github.com/MurhafSousli/ngx-scrollbar/issues/590).
+
 ## 15.1.0
 
 - feat: Add a new option `hoverOffset` to activate hover effect on the offset area around the scrollbar, closes [#616](https://github.com/MurhafSousli/ngx-scrollbar/issues/616).
