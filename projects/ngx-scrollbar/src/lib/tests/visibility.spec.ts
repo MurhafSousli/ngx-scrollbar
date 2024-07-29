@@ -36,7 +36,10 @@ describe('Visibility styles', () => {
 
     expect(component.nativeElement.getAttribute('visibility')).toBe('hover');
     expect(stickyStyles.opacity).toBe('0');
-    expect(stickyStyles.transition).toBe('opacity 0.4s ease 1s');
+    expect(stickyStyles.transitionDelay).toBe('1s');
+    expect(stickyStyles.transitionDuration).toBe('0.4s');
+    expect(stickyStyles.transitionTimingFunction).toBe('ease');
+    expect(stickyStyles.transitionProperty).toBe('opacity');
   });
 
   it('[Visibility] should be able to override styles related to sticky container using CSS variables', async () => {
@@ -53,7 +56,10 @@ describe('Visibility styles', () => {
     const stickyDebugElement: DebugElement = fixture.debugElement.query(By.css('.ng-scrollbar-sticky'));
     const stickyStyles: CSSStyleDeclaration = getComputedStyle(stickyDebugElement.nativeElement);
 
-    expect(stickyStyles.transition).toBe('opacity 0.5s ease 3s');
+    expect(stickyStyles.transitionDelay).toBe('3s');
+    expect(stickyStyles.transitionDuration).toBe('0.5s');
+    expect(stickyStyles.transitionTimingFunction).toBe('ease');
+    expect(stickyStyles.transitionProperty).toBe('opacity');
   });
 
   // it('[Visibility] should set default styles and hover effect', async () => {

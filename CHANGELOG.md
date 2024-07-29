@@ -1,5 +1,10 @@
 # Changelog
 
+## 15.1.2
+
+- Set the latest fixed polyfill CDN as default.
+- Update Typescript to v5.5.4, closes [#633](https://github.com/MurhafSousli/ngx-scrollbar/issues/633).
+
 ## 15.1.1
 
 - Fix scroll-timeline polyfill errors, closes [#631](https://github.com/MurhafSousli/ngx-scrollbar/issues/631), [#624](https://github.com/MurhafSousli/ngx-scrollbar/issues/624), [#594](https://github.com/MurhafSousli/ngx-scrollbar/issues/594) and [#590](https://github.com/MurhafSousli/ngx-scrollbar/issues/590).
