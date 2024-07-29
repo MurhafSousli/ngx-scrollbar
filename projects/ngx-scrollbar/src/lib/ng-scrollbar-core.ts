@@ -246,7 +246,7 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
   ngOnInit(): void {
     runInInjectionContext(this.injector, () => {
       // The direction signal cannot be initialized in the constructor
-      // Because it initially returns 'ltr' even if dir.value is 'rtl`
+      // Because it initially returns 'ltr' even if dir.value is 'rtl`, the map function here is crucial
       this.direction = toSignal<Direction, Direction>(this.dir.change.pipe(map(() => this.dir.value)), { initialValue: this.dir.value });
 
       effect((onCleanup: EffectCleanupRegisterFn) => {
