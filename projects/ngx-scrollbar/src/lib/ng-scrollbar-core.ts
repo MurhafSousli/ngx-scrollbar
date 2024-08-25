@@ -46,22 +46,6 @@ import {
   NG_SCROLLBAR_OPTIONS
 } from './ng-scrollbar.model';
 
-const defaultOptions: NgScrollbarOptions = {
-  trackClass: '',
-  thumbClass: '',
-  buttonClass: '',
-  orientation: 'auto',
-  appearance: 'native',
-  visibility: 'native',
-  position: 'native',
-  trackScrollDuration: 50,
-  sensorThrottleTime: 0,
-  disableSensor: false,
-  disableInteraction: false,
-  buttons: false,
-  hoverOffset: false
-};
-
 interface ViewportState {
   verticalUsed: boolean,
   horizontalUsed: boolean,
@@ -89,11 +73,8 @@ interface ViewportState {
 })
 export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterViewInit {
 
-  /** Injected options */
-  private readonly injectedOptions: NgScrollbarOptions = inject(NG_SCROLLBAR_OPTIONS, { optional: true });
-
-  /** Combine injected option with default options */
-  private readonly options: NgScrollbarOptions = this.injectedOptions ? { ...defaultOptions, ...this.injectedOptions } : defaultOptions;
+  /** Global options */
+  private readonly options: NgScrollbarOptions = inject(NG_SCROLLBAR_OPTIONS);
 
   private readonly zone: NgZone = inject(NgZone);
   private readonly platform: Platform = inject(Platform);
@@ -313,7 +294,7 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
    * Smooth scroll functions
    */
   scrollTo(options: SmoothScrollToOptions): Promise<void> {
-    return this.smoothScroll.scrollTo(this.viewport!.nativeElement, options);
+    return this.smoothScroll.scrollTo(this.viewport.nativeElement, options);
   }
 
   /**

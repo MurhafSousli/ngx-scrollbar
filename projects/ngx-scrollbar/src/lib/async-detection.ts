@@ -9,7 +9,7 @@ import { mutationObserver } from './viewport';
 })
 export class AsyncDetection implements OnInit, OnDestroy {
 
-  private readonly scrollbar: NgScrollbarExt = inject(NgScrollbarExt);
+  private readonly scrollbar: NgScrollbarExt = inject(NgScrollbarExt, { self: true });
   private readonly zone: NgZone = inject(NgZone);
 
   private subscription: Subscription;

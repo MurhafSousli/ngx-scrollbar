@@ -1,4 +1,5 @@
 import { InjectionToken } from '@angular/core';
+import { defaultOptions, defaultScrollTimelinePolyfill } from './ng-scrollbar.default';
 
 export type ScrollbarAppearance = 'native' | 'compact';
 export type ScrollbarOrientation = 'auto' | 'vertical' | 'horizontal';
@@ -10,9 +11,15 @@ export enum ScrollbarUpdateReason {
   Resized = 'ResizeObserver'
 }
 
-export const NG_SCROLLBAR_OPTIONS: InjectionToken<NgScrollbarOptions> = new InjectionToken<NgScrollbarOptions>('NG_SCROLLBAR_OPTIONS');
+export const NG_SCROLLBAR_OPTIONS: InjectionToken<NgScrollbarOptions> = new InjectionToken<NgScrollbarOptions>('NG_SCROLLBAR_OPTIONS', {
+  providedIn: 'root',
+  factory: () => defaultOptions
+});
 
-export const NG_SCROLLBAR_POLYFILL: InjectionToken<string> = new InjectionToken<string>('NG_SCROLLBAR_POLYFILL');
+export const NG_SCROLLBAR_POLYFILL: InjectionToken<string> = new InjectionToken<string>('NG_SCROLLBAR_POLYFILL', {
+  providedIn: 'root',
+  factory: () => defaultScrollTimelinePolyfill
+});
 
 export interface NgScrollbarOptions {
   /**

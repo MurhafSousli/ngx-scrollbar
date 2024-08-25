@@ -1,5 +1,11 @@
 # Changelog
 
+## 15.1.3
+
+- enhance: Use injection factory for `NG_SCROLLBAR_OPTIONS` and `NG_SCROLLBAR_POLYFILL` to avoid merging custom options with the default options for every scrollbar component.
+- refactor: Use `self` option when injecting `NgScrollbar` component in all addon directives.
+- fix: Scrollbar with `externalViewport` attached scrollbar not destroyed properly causing memory leak, closes[#611](https://github.com/MurhafSousli/ngx-scrollbar/issues/611).
+
 ## 15.1.2
 
 - Set the latest fixed polyfill CDN as default.

@@ -76,6 +76,7 @@ describe('External viewport via scrollViewportDirective', () => {
       undefined
     );
     expect(attachScrollbarSpy).toHaveBeenCalled();
+    expect(component.scrollbar._scrollbarsRef).toBeTruthy();
 
     await firstValueFrom(scrollbar.afterInit);
 
@@ -91,6 +92,10 @@ describe('External viewport via scrollViewportDirective', () => {
     expect(scrollbar._scrollbars).toBe(scrollbarsDebugElement.componentInstance);
     // Check if the created scrollbars component is the direct child of content wrapper element
     expect((scrollbarsDebugElement.nativeElement as Element).parentElement).toBe(scrollbar.viewport.contentWrapperElement);
+
+    const hostViewDestroySpy: jasmine.Spy = spyOn(scrollbar._scrollbarsRef.hostView, 'destroy');
+    scrollbar.ngOnDestroy();
+    expect(hostViewDestroySpy).toHaveBeenCalled();
   });
 
   it('[Via scrollViewport directive + content wrapper classes] should initialize viewport and attach scrollbars', async () => {
@@ -123,6 +128,7 @@ describe('External viewport via scrollViewportDirective', () => {
       undefined
     );
     expect(attachScrollbarSpy).toHaveBeenCalled();
+    expect(component.scrollbar._scrollbarsRef).toBeTruthy();
 
     await firstValueFrom(scrollbar.afterInit);
 
@@ -140,6 +146,10 @@ describe('External viewport via scrollViewportDirective', () => {
     expect(scrollbar._scrollbars).toBe(scrollbarsDebugElement.componentInstance);
     // Check if the created scrollbars component is the direct child of content wrapper element
     expect((scrollbarsDebugElement.nativeElement as Element).parentElement).toBe(scrollbar.viewport.contentWrapperElement);
+
+    const hostViewDestroySpy: jasmine.Spy = spyOn(scrollbar._scrollbarsRef.hostView, 'destroy');
+    scrollbar.ngOnDestroy();
+    expect(hostViewDestroySpy).toHaveBeenCalled();
   });
 
 
@@ -156,6 +166,7 @@ describe('External viewport via scrollViewportDirective', () => {
 
     scrollbar.ngOnInit();
     scrollbar.ngAfterViewInit();
+    expect(component.scrollbar._scrollbarsRef).toBeTruthy();
 
     fixture.detectChanges();
 
@@ -175,6 +186,7 @@ describe('External viewport via scrollViewportDirective', () => {
       spacerElement
     );
     expect(attachScrollbarSpy).toHaveBeenCalled();
+    expect(component.scrollbar._scrollbarsRef).toBeTruthy();
 
     await firstValueFrom(scrollbar.afterInit);
 
@@ -192,6 +204,10 @@ describe('External viewport via scrollViewportDirective', () => {
     expect(scrollbar._scrollbars).toBe(scrollbarsDebugElement.componentInstance);
     // Check if the created scrollbars component is the direct child of content wrapper element
     expect((scrollbarsDebugElement.nativeElement as Element).parentElement).toBe(scrollbar.viewport.contentWrapperElement);
+
+    const hostViewDestroySpy: jasmine.Spy = spyOn(scrollbar._scrollbarsRef.hostView, 'destroy');
+    scrollbar.ngOnDestroy();
+    expect(hostViewDestroySpy).toHaveBeenCalled();
   });
 
 });
