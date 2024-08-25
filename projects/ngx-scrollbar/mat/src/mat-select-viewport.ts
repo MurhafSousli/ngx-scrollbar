@@ -8,7 +8,7 @@ import { _NgScrollbar, NG_SCROLLBAR } from 'ngx-scrollbar';
 })
 export class NgScrollbarMatSelectViewport {
 
-  private readonly scrollbar: _NgScrollbar = inject(NG_SCROLLBAR);
+  private readonly scrollbar: _NgScrollbar = inject(NG_SCROLLBAR, { self: true });
 
   private readonly matSelect: MatSelect = inject(MatSelect);
 

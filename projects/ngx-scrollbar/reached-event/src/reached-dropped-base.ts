@@ -30,7 +30,7 @@ export abstract class ReachedDroppedBase implements OnInit, OnDestroy {
 
   protected readonly injector: Injector = inject(Injector);
 
-  protected readonly scrollbar: _NgScrollbar = inject(NG_SCROLLBAR);
+  protected readonly scrollbar: _NgScrollbar = inject(NG_SCROLLBAR, { self: true });
 
   /** An array that contains all trigger elements  **/
   protected triggerElements: HTMLElement[] = [];

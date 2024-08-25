@@ -6,6 +6,7 @@ import {
   createComponent,
   booleanAttribute,
   OnInit,
+  OnDestroy,
   Injector,
   Renderer2,
   ComponentRef,
@@ -37,11 +38,13 @@ import { Scrollbars } from './scrollbars/scrollbars';
     { provide: NgScrollbarCore, useExisting: NgScrollbar }
   ],
 })
-export class NgScrollbarExt extends NgScrollbarCore implements OnInit {
+export class NgScrollbarExt extends NgScrollbarCore implements OnInit, OnDestroy {
 
   private readonly renderer: Renderer2 = inject(Renderer2);
 
   private readonly appRef: ApplicationRef = inject(ApplicationRef);
+
+  _scrollbarsRef: ComponentRef<Scrollbars>;
 
   _scrollbars: Scrollbars;
 
@@ -79,6 +82,11 @@ export class NgScrollbarExt extends NgScrollbarCore implements OnInit {
       this.detectExternalSelectors();
     }
     super.ngOnInit();
+  }
+
+  ngOnDestroy(): void {
+    // Destroy the attached scrollbars to avoid memory leak
+    this._scrollbarsRef?.hostView.destroy();
   }
 
   private detectExternalSelectors(): void {
@@ -142,15 +150,15 @@ export class NgScrollbarExt extends NgScrollbarCore implements OnInit {
 
   attachScrollbars(): void {
     // Create the scrollbars component
-    const scrollbarsRef: ComponentRef<Scrollbars> = createComponent(Scrollbars, {
+    this._scrollbarsRef = createComponent(Scrollbars, {
       environmentInjector: this.appRef.injector,
       elementInjector: Injector.create({ providers: [{ provide: NG_SCROLLBAR, useValue: this }] })
     });
     // Attach scrollbar to the content wrapper
-    this.viewport.contentWrapperElement.appendChild(scrollbarsRef.location.nativeElement);
+    this.viewport.contentWrapperElement.appendChild(this._scrollbarsRef.location.nativeElement);
     // Attach the host view of the component to the main change detection tree, so that its lifecycle hooks run.
-    this.appRef.attachView(scrollbarsRef.hostView);
+    this.appRef.attachView(this._scrollbarsRef.hostView);
     // Set the scrollbars instance
-    this._scrollbars = scrollbarsRef.instance;
+    this._scrollbars = this._scrollbarsRef.instance;
   }
 }

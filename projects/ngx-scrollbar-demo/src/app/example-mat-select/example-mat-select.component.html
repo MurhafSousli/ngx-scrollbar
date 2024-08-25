@@ -2,9 +2,9 @@
   <mat-card-content>
     <mat-select [value]="items[8]">
       <ng-scrollbar matSelectViewport>
-        <mat-option *ngFor="let item of items" [value]="item">
-          {{ item }}
-        </mat-option>
+        @for (item of items; track item) {
+          <mat-option [value]="item">{{ item }}</mat-option>
+        }
       </ng-scrollbar>
     </mat-select>
   </mat-card-content>

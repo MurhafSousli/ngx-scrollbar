@@ -102,6 +102,10 @@ describe('External viewport via classes [AsyncDetection]', () => {
     expect(scrollbar._scrollbars).toBe(scrollbarsDebugElement.componentInstance);
     // Check if the created scrollbars component is the direct child of content wrapper element
     expect((scrollbarsDebugElement.nativeElement as Element).parentElement).toBe(scrollbar.viewport.contentWrapperElement);
+
+    const hostViewDestroySpy: jasmine.Spy = spyOn(scrollbar._scrollbarsRef.hostView, 'destroy');
+    scrollbar.ngOnDestroy();
+    expect(hostViewDestroySpy).toHaveBeenCalled();
   });
 
 
@@ -147,6 +151,10 @@ describe('External viewport via classes [AsyncDetection]', () => {
     expect(scrollbar._scrollbars).toBe(scrollbarsDebugElement.componentInstance);
     // Check if the created scrollbars component is the direct child of content wrapper element
     expect((scrollbarsDebugElement.nativeElement as Element).parentElement).toBe(scrollbar.viewport.contentWrapperElement);
+
+    const hostViewDestroySpy: jasmine.Spy = spyOn(scrollbar._scrollbarsRef.hostView, 'destroy');
+    scrollbar.ngOnDestroy();
+    expect(hostViewDestroySpy).toHaveBeenCalled();
   });
 
   it('[asyncDetection="auto"] should detect content removal', async () => {
@@ -203,5 +211,9 @@ describe('External viewport via classes [AsyncDetection]', () => {
     expect(scrollbar.viewport.initialized()).toBeFalse();
     expect(scrollbar.viewport.nativeElement).toBeFalsy();
     expect(scrollbar.viewport.contentWrapperElement).toBeFalsy();
+
+    const hostViewDestroySpy: jasmine.Spy = spyOn(scrollbar._scrollbarsRef.hostView, 'destroy');
+    scrollbar.ngOnDestroy();
+    expect(hostViewDestroySpy).toHaveBeenCalled();
   });
 });

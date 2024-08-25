@@ -104,6 +104,7 @@ describe('External viewport via classes', () => {
       undefined
     );
     expect(attachScrollbarSpy).toHaveBeenCalled();
+    expect(component.scrollbar._scrollbarsRef).toBeTruthy();
 
     await firstValueFrom(scrollbar.afterInit);
 
@@ -119,6 +120,10 @@ describe('External viewport via classes', () => {
     expect(scrollbar._scrollbars).toBe(scrollbarsDebugElement.componentInstance);
     // Check if the created scrollbars component is the direct child of content wrapper element
     expect((scrollbarsDebugElement.nativeElement as Element).parentElement).toBe(scrollbar.viewport.contentWrapperElement);
+
+    const hostViewDestroySpy: jasmine.Spy = spyOn(scrollbar._scrollbarsRef.hostView, 'destroy');
+    scrollbar.ngOnDestroy();
+    expect(hostViewDestroySpy).toHaveBeenCalled();
   });
 
 
@@ -154,6 +159,7 @@ describe('External viewport via classes', () => {
       undefined
     );
     expect(attachScrollbarSpy).toHaveBeenCalled();
+    expect(component.scrollbar._scrollbarsRef).toBeTruthy();
 
     await firstValueFrom(scrollbar.afterInit);
 
@@ -171,6 +177,10 @@ describe('External viewport via classes', () => {
     expect(scrollbar._scrollbars).toBe(scrollbarsDebugElement.componentInstance);
     // Check if the created scrollbars component is the direct child of content wrapper element
     expect((scrollbarsDebugElement.nativeElement as Element).parentElement).toBe(scrollbar.viewport.contentWrapperElement);
+
+    const hostViewDestroySpy: jasmine.Spy = spyOn(scrollbar._scrollbarsRef.hostView, 'destroy');
+    scrollbar.ngOnDestroy();
+    expect(hostViewDestroySpy).toHaveBeenCalled();
   });
 
 
@@ -208,6 +218,7 @@ describe('External viewport via classes', () => {
       spacerElement
     );
     expect(attachScrollbarSpy).toHaveBeenCalled();
+    expect(component.scrollbar._scrollbarsRef).toBeTruthy();
 
     await firstValueFrom(scrollbar.afterInit);
 
@@ -225,6 +236,10 @@ describe('External viewport via classes', () => {
     expect(scrollbar._scrollbars).toBe(scrollbarsDebugElement.componentInstance);
     // Check if the created scrollbars component is the direct child of content wrapper element
     expect((scrollbarsDebugElement.nativeElement as Element).parentElement).toBe(scrollbar.viewport.contentWrapperElement);
+
+    const hostViewDestroySpy: jasmine.Spy = spyOn(scrollbar._scrollbarsRef.hostView, 'destroy');
+    scrollbar.ngOnDestroy();
+    expect(hostViewDestroySpy).toHaveBeenCalled();
   });
 
   it(`[Error handling - content wrapper doesn't exist] should NOT initialize viewport or attach scrollbars`, async () => {

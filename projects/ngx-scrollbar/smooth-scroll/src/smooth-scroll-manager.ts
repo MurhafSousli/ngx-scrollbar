@@ -1,7 +1,6 @@
 import { Injectable, inject, ElementRef, NgZone } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { coerceElement } from '@angular/cdk/coercion';
-import { _Without, _YAxis } from '@angular/cdk/scrolling';
 import {
   Observable,
   Subscriber,
@@ -20,6 +19,7 @@ import {
   SmoothScrollElement,
   SmoothScrollStep,
   SmoothScrollToElementOptions,
+  SmoothScrollOptions,
   SmoothScrollToOptions
 } from './smooth-scroll.model';
 
@@ -33,16 +33,7 @@ export class SmoothScrollManager {
   private zone: NgZone = inject(NgZone);
 
   // Default options
-  private readonly _defaultOptions: SmoothScrollToOptions = {
-    duration: 468,
-    easing: {
-      x1: 0.42,
-      y1: 0,
-      x2: 0.58,
-      y2: 1
-    },
-    ...inject(SMOOTH_SCROLL_OPTIONS, { optional: true }),
-  };
+  private readonly _defaultOptions: SmoothScrollOptions = inject(SMOOTH_SCROLL_OPTIONS);
 
   // Keeps track of the ongoing SmoothScroll functions, so they can be handled in case of duplication.
   // Each scrolled element gets a destroyer stream which gets deleted immediately after it completes.
@@ -161,7 +152,7 @@ export class SmoothScrollManager {
       return Promise.resolve();
     }
 
-    return new Promise((resolve) => {
+    return new Promise((resolve: () => void) => {
       this.zone.runOutsideAngular(() => {
         // Initialize a destroyer stream, reinitialize it if the element is already being scrolled
         const destroyed: Subject<void> = this.getScrollDestroyerRef(el);
@@ -201,13 +192,13 @@ export class SmoothScrollManager {
     const isRtl: boolean = getComputedStyle(el).direction === 'rtl';
 
     const options: SmoothScrollToOptions = {
-      ...(this._defaultOptions as _Without<_YAxis>),
+      ...this._defaultOptions,
       ...customOptions,
       ...({
         // Rewrite start & end offsets as right or left offsets.
         left: customOptions.left == null ? (isRtl ? customOptions.end : customOptions.start) : customOptions.left,
         right: customOptions.right == null ? (isRtl ? customOptions.start : customOptions.end) : customOptions.right
-      } as _Without<_YAxis>)
+      })
     };
 
     // Rewrite the bottom offset as a top offset.

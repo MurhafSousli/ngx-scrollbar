@@ -4,6 +4,7 @@ import { ScrollViewport } from './viewport';
 import { NgScrollbarExt } from './ng-scrollbar-ext';
 import { NG_SCROLLBAR_OPTIONS, NG_SCROLLBAR_POLYFILL, NgScrollbarOptions } from './ng-scrollbar.model';
 import { AsyncDetection } from './async-detection';
+import { defaultOptions } from './ng-scrollbar.default';
 
 @NgModule({
   imports: [
@@ -22,16 +23,16 @@ import { AsyncDetection } from './async-detection';
 export class NgScrollbarModule {
 }
 
-export function provideScrollbarOptions(options: NgScrollbarOptions): Provider[]  {
+export function provideScrollbarOptions(options: NgScrollbarOptions): Provider[] {
   return [
     {
       provide: NG_SCROLLBAR_OPTIONS,
-      useValue: options
+      useValue: { ...defaultOptions, ...options }
     }
   ]
 }
 
-export function provideScrollbarPolyfill(url: string): Provider[]  {
+export function provideScrollbarPolyfill(url: string): Provider[] {
   return [
     {
       provide: NG_SCROLLBAR_POLYFILL,

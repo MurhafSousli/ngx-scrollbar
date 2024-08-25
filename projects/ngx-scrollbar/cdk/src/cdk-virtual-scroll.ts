@@ -17,7 +17,7 @@ import { NgScrollbarExt } from 'ngx-scrollbar';
 })
 export class NgScrollbarCdkVirtualScroll {
 
-  private readonly scrollbar: NgScrollbarExt = inject(NgScrollbarExt);
+  private readonly scrollbar: NgScrollbarExt = inject(NgScrollbarExt, { self: true });
 
   private readonly platform: Platform = inject(Platform);
 

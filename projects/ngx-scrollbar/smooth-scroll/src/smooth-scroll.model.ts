@@ -1,13 +1,17 @@
 import { ElementRef, InjectionToken, Provider } from '@angular/core';
 import { _Left, _Top, _XAxis, _YAxis } from '@angular/cdk/scrolling';
+import { defaultSmoothScrollOptions } from './smooth-scroll.default';
 
-export const SMOOTH_SCROLL_OPTIONS: InjectionToken<SmoothScrollOptions> = new InjectionToken<SmoothScrollOptions>('SMOOTH_SCROLL_OPTIONS');
+export const SMOOTH_SCROLL_OPTIONS: InjectionToken<SmoothScrollOptions> = new InjectionToken<SmoothScrollOptions>('SMOOTH_SCROLL_OPTIONS', {
+  providedIn: 'root',
+  factory: () => defaultSmoothScrollOptions
+});
 
 export function provideSmoothScrollOptions(options: SmoothScrollOptions): Provider[] {
   return [
     {
       provide: SMOOTH_SCROLL_OPTIONS,
-      useValue: options
+      useValue: { ...defaultSmoothScrollOptions, ...options }
     }
   ]
 }
@@ -20,7 +24,7 @@ export type SmoothScrollElement = Element | ElementRef<Element> | string;
 /**
  * Interface for options provided for smooth scrolling.
  */
-export type SmoothScrollToOptions = Partial<_XAxis> & Partial<_YAxis> & SmoothScrollOptions;
+export type SmoothScrollToOptions = Partial<Pick<_XAxis, keyof _XAxis> & Pick<_YAxis, keyof _YAxis>> & SmoothScrollOptions;
 
 /**
  * Interface for options provided for smooth scrolling to an element.
