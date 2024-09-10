@@ -86,7 +86,10 @@ export class NgScrollbarExt extends NgScrollbarCore implements OnInit, OnDestroy
 
   ngOnDestroy(): void {
     // Destroy the attached scrollbars to avoid memory leak
-    this._scrollbarsRef?.hostView.destroy();
+    if (this._scrollbarsRef) {
+      this.appRef.detachView(this._scrollbarsRef.hostView);
+      this._scrollbarsRef.destroy();
+    }
   }
 
   private detectExternalSelectors(): void {

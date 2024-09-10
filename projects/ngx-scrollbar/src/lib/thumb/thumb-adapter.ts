@@ -102,6 +102,6 @@ function startPolyfill(ScrollTimeline: ScrollTimelineFunc, element: HTMLElement,
       fill: 'both',
       easing: 'linear',
       timeline: new ScrollTimeline({ source, axis })
-    } as unknown
+    }
   );
 }
