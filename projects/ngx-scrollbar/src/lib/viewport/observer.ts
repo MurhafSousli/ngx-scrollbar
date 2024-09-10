@@ -16,9 +16,11 @@ export function resizeObserver({ element, contentWrapper, throttleDuration }: Re
 
   const stream: Observable<ScrollbarUpdateReason> = new Observable((observer: Observer<ScrollbarUpdateReason>) => {
     resizeObserver = new ResizeObserver(() => {
-      observer.next(reason);
-      // After first init event, mark the reason to be a resize from now on.
-      reason = ScrollbarUpdateReason.Resized;
+      requestAnimationFrame(() => {
+        observer.next(reason);
+        // After first init event, mark the reason to be a resize from now on.
+        reason = ScrollbarUpdateReason.Resized;
+      });
     });
     resizeObserver.observe(element);
 
