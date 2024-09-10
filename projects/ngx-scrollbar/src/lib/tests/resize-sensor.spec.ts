@@ -91,7 +91,7 @@ describe('Resize Sensor', () => {
     // Change content size
     setDimensions(component, { cmpHeight: 100, cmpWidth: 100, contentHeight: 500, contentWidth: 500 });
 
-    // Wait for 200ms
+    // Wait for 100ms
     await afterTimeout(100);
 
     // Verify viewport dimension haven't been updated
@@ -102,8 +102,8 @@ describe('Resize Sensor', () => {
       contentHeight: 400
     });
 
-    // Wait for another 200ms
-    await afterTimeout(100);
+    // Wait for another 100ms (actually wait a little longer to account for requestAnimationFrame):
+    await afterTimeout(105);
 
     // Verify that viewport been updated
     expect(component.viewportDimension()).toEqual({
