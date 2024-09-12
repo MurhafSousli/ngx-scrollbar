@@ -1,4 +1,4 @@
-import { Directive, Input, inject, OnInit, OnDestroy, NgZone } from '@angular/core';
+import { Directive, Input, inject, effect, untracked, NgZone, EffectCleanupRegisterFn } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NgScrollbarExt } from './ng-scrollbar-ext';
 import { mutationObserver } from './viewport';
@@ -7,60 +7,58 @@ import { mutationObserver } from './viewport';
   standalone: true,
   selector: 'ng-scrollbar[externalViewport][asyncDetection]'
 })
-export class AsyncDetection implements OnInit, OnDestroy {
+export class AsyncDetection {
 
   private readonly scrollbar: NgScrollbarExt = inject(NgScrollbarExt, { self: true });
   private readonly zone: NgZone = inject(NgZone);
-
-  private subscription: Subscription;
 
   @Input() asyncDetection: 'auto' | '';
 
   constructor() {
     this.scrollbar.skipInit = true;
-  }
+    let sub$: Subscription;
 
-  ngOnInit(): void {
-    this.zone.runOutsideAngular(() => {
-      this.subscription = mutationObserver(this.scrollbar.nativeElement, 100).subscribe(() => {
-        if (!this.scrollbar.viewport.initialized()) {
-          // Search for external viewport
-          const viewportElement: HTMLElement = this.scrollbar.nativeElement.querySelector(this.scrollbar.externalViewport);
+    effect((onCleanup: EffectCleanupRegisterFn) => {
+      const init: boolean = this.scrollbar.viewport.initialized();
+      const externalViewport: string = this.scrollbar.externalViewport();
+      const externalContentWrapper: string = this.scrollbar.externalContentWrapper();
+      const externalSpacer: string = this.scrollbar.externalSpacer();
 
-          // Search for external content wrapper
-          const contentWrapperElement: HTMLElement = this.scrollbar.nativeElement.querySelector(this.scrollbar.externalContentWrapper);
+      untracked(() => {
+        let viewportElement: HTMLElement;
+        let contentWrapperElement: HTMLElement;
 
-          if (viewportElement && contentWrapperElement) {
-            // If an external spacer selector is provided, search for it
-            let spacerElement: HTMLElement;
-            if (this.scrollbar.externalSpacer) {
-              spacerElement = this.scrollbar.nativeElement.querySelector(this.scrollbar.externalSpacer);
+        this.zone.runOutsideAngular(() => {
+          sub$ = mutationObserver(this.scrollbar.nativeElement, 100).subscribe(() => {
+            // Search for external viewport
+            viewportElement = this.scrollbar.nativeElement.querySelector(externalViewport);
+
+            // Search for external content wrapper
+            contentWrapperElement = this.scrollbar.nativeElement.querySelector(externalContentWrapper);
+
+            if (!init && viewportElement && contentWrapperElement) {
+              // If an external spacer selector is provided, search for it
+              let spacerElement: HTMLElement;
+              if (externalSpacer) {
+                spacerElement = this.scrollbar.nativeElement.querySelector(externalSpacer);
+              }
+
+              this.scrollbar.skipInit = false;
+              this.scrollbar.altViewport.set(viewportElement);
+              this.scrollbar.altContentWrapper.set(contentWrapperElement);
+              this.scrollbar.altSpacer.set(spacerElement);
+            } else if (!viewportElement || !contentWrapperElement) {
+              this.scrollbar.viewport.reset();
             }
-
-            // Initialize viewport
-            this.scrollbar.viewport.init(viewportElement, contentWrapperElement, spacerElement);
-            // Attach scrollbars
-            this.scrollbar.attachScrollbars();
 
             if (!this.asyncDetection) {
-              this.subscription.unsubscribe();
+              sub$.unsubscribe();
             }
-          }
-        } else {
-          const viewportElement: HTMLElement = this.scrollbar.nativeElement.querySelector(this.scrollbar.externalViewport);
-          const contentWrapperElement: HTMLElement = this.scrollbar.nativeElement.querySelector(this.scrollbar.externalContentWrapper);
+          });
+        });
 
-          if (!viewportElement || !contentWrapperElement) {
-            this.scrollbar.viewport.nativeElement = null;
-            this.scrollbar.viewport.contentWrapperElement = null;
-            this.scrollbar.viewport.initialized.set(false);
-          }
-        }
+        onCleanup(() => sub$?.unsubscribe());
       });
     });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
   }
 }

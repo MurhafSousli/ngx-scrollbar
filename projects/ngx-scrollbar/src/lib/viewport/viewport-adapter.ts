@@ -1,10 +1,11 @@
-import { signal, WritableSignal } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { ViewportClasses } from '../utils/common';
 
 /**
  * Class representing a viewport adapter.
  * Provides methods and properties to interact with a viewport and its content.
  */
+@Injectable()
 export class ViewportAdapter {
 
   /**
@@ -85,6 +86,12 @@ export class ViewportAdapter {
       this.contentWrapperElement = contentElement;
     }
     this.initialized.set(true);
+  }
+
+  reset(): void {
+    this.nativeElement = null;
+    this.contentWrapperElement = null;
+    this.initialized.set(false);
   }
 
   /**

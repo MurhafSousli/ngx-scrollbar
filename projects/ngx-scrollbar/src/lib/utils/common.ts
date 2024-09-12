@@ -1,4 +1,8 @@
-import { MonoTypeOperatorFunction, tap } from 'rxjs';
+import { MonoTypeOperatorFunction, Observable, tap, throttleTime } from 'rxjs';
+
+export function filterResizeEntries(entries: ResizeObserverEntry[], target: Element): DOMRectReadOnly {
+  return entries.filter((entry: ResizeObserverEntry) => entry.target === target)[0]?.contentRect;
+}
 
 export function preventSelection(doc: Document): MonoTypeOperatorFunction<PointerEvent> {
   return tap(() => doc.onselectstart = () => false);
@@ -15,6 +19,20 @@ export function stopPropagation(): MonoTypeOperatorFunction<PointerEvent> {
     e.preventDefault();
     e.stopPropagation()
   });
+}
+
+export function getThrottledStream(stream: Observable<DOMRectReadOnly>, duration: number): Observable<DOMRectReadOnly> {
+  return duration ? stream.pipe(
+    throttleTime(duration, null, {
+      leading: true,
+      trailing: true
+    })
+  ) : stream;
+}
+
+export interface ElementDimension {
+  width?: number;
+  height?: number;
 }
 
 export type ScrollbarDragging = 'x' | 'y' | 'none';

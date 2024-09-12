@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed, } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
-import { NgScrollbar } from 'ngx-scrollbar';
 import { By } from '@angular/platform-browser';
+import { outputToObservable } from '@angular/core/rxjs-interop';
+import { NgScrollbar } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
 import { setDimensions } from './common-test.';
 
@@ -24,7 +25,7 @@ describe('NgScrollbar Component', () => {
   });
 
   it('should initialize component and viewport', () => {
-    component.ngOnInit();
+    // component.ngOnInit();
     expect(component).toBeDefined();
     expect(component.viewport).toBeDefined();
   });
@@ -32,8 +33,6 @@ describe('NgScrollbar Component', () => {
 
   it('should emit afterUpdate after update function is called', async () => {
     const afterUpdateEmitSpy: jasmine.Spy = spyOn(component.afterUpdate, 'emit');
-    component.ngOnInit();
-    component.ngAfterViewInit();
     component.update();
     expect(afterUpdateEmitSpy).toHaveBeenCalled();
   });
@@ -43,10 +42,8 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('orientation', 'vertical');
     fixture.componentRef.setInput('visibility', 'native');
     setDimensions(component, { cmpHeight: 300, contentHeight: 1000 });
-    component.ngOnInit();
-    component.ngAfterViewInit();
 
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
 
     expect(component.verticalUsed()).toBeTrue();
     expect(component.isVerticallyScrollable()).toBeTrue();
@@ -58,10 +55,8 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('orientation', 'vertical');
     fixture.componentRef.setInput('visibility', 'visible');
     setDimensions(component, { cmpHeight: 1000, contentHeight: 300 });
-    component.ngOnInit();
-    component.ngAfterViewInit();
 
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
 
     expect(component.verticalUsed()).toBeTrue();
     expect(component.isVerticallyScrollable()).toBeFalse();
@@ -73,8 +68,6 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('orientation', 'vertical');
     fixture.componentRef.setInput('visibility', 'native');
     setDimensions(component, { cmpWidth: 1000, cmpHeight: 1000, contentHeight: 300 });
-    component.ngOnInit();
-    component.ngAfterViewInit();
 
     expect(component.verticalUsed()).toBeFalse();
     expect(component.isVerticallyScrollable()).toBeFalse();
@@ -86,10 +79,8 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('orientation', 'horizontal');
     fixture.componentRef.setInput('visibility', 'native');
     setDimensions(component, { cmpWidth: 300, contentHeight: 300, contentWidth: 1000 });
-    component.ngOnInit();
-    component.ngAfterViewInit();
 
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
 
     expect(component.horizontalUsed()).toBeTrue();
     expect(component.isHorizontallyScrollable()).toBeTrue();
@@ -102,10 +93,8 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('orientation', 'horizontal');
     fixture.componentRef.setInput('visibility', 'visible');
     setDimensions(component, { cmpWidth: 1000, contentHeight: 300, contentWidth: 300 });
-    component.ngOnInit();
-    component.ngAfterViewInit();
 
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
 
     expect(component.horizontalUsed()).toBeTrue();
     expect(component.isHorizontallyScrollable()).toBeFalse();
@@ -117,8 +106,6 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('orientation', 'horizontal');
     fixture.componentRef.setInput('visibility', 'native');
     setDimensions(component, { cmpWidth: 1000, contentHeight: 300, contentWidth: 300 });
-    component.ngOnInit();
-    component.ngAfterViewInit();
 
     expect(component.horizontalUsed()).toBeFalse();
     expect(component.isHorizontallyScrollable()).toBeFalse();
@@ -130,10 +117,8 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('orientation', 'auto');
     fixture.componentRef.setInput('visibility', 'visible');
     setDimensions(component, { cmpWidth: 1000, cmpHeight: 1000, contentHeight: 300, contentWidth: 300 });
-    component.ngOnInit();
-    component.ngAfterViewInit();
 
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
 
     expect(component.horizontalUsed()).toBeTrue();
     expect(component.isHorizontallyScrollable()).toBeFalse();
@@ -145,10 +130,8 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('orientation', 'auto');
     fixture.componentRef.setInput('visibility', 'visible');
     setDimensions(component, { cmpWidth: 200, cmpHeight: 200, contentHeight: 300, contentWidth: 300 });
-    component.ngOnInit();
-    component.ngAfterViewInit();
 
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
 
     expect(component.horizontalUsed()).toBeTrue();
     expect(component.isHorizontallyScrollable()).toBeTrue();
@@ -159,8 +142,6 @@ describe('NgScrollbar Component', () => {
   it('[Auto-height]: component height and width should match content size by default', () => {
     fixture.componentRef.setInput('orientation', 'auto');
     setDimensions(component, { contentHeight: 300, contentWidth: 300 });
-    component.ngOnInit();
-    component.ngAfterViewInit();
 
     const scrollbarY: DebugElement = fixture.debugElement.query(By.css('scrollbar-y'));
     const scrollbarX: DebugElement = fixture.debugElement.query(By.css('scrollbar-x'));
@@ -174,12 +155,10 @@ describe('NgScrollbar Component', () => {
 
   it('should forward scrollToElement function call to SmoothScrollManager service', async () => {
     setDimensions(component, { contentHeight: 300, contentWidth: 300 });
-    component.ngOnInit();
-    component.ngAfterViewInit();
 
     const smoothScrollSpy: jasmine.Spy = spyOn(component.smoothScroll, 'scrollToElement');
 
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
 
     component.scrollToElement('.fake-child-element', { top: 100, duration: 500 })
 

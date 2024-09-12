@@ -1,4 +1,4 @@
-import { Directive, inject, effect } from '@angular/core';
+import { Directive, inject, effect, untracked } from '@angular/core';
 import { Observable, of, fromEvent, map, takeUntil, tap, switchMap } from 'rxjs';
 import {
   ScrollbarDragging,
@@ -78,9 +78,11 @@ export abstract class ThumbAdapter extends PointerEventsAdapter {
   constructor() {
     effect(() => {
       const script: ScrollTimelineFunc = this.manager.scrollTimelinePolyfill();
-      if (script && !this._animation) {
-        this._animation = startPolyfill(script, this.nativeElement, this.cmp.viewport.nativeElement, this.control.axis);
-      }
+      untracked(() => {
+        if (script && !this._animation) {
+          this._animation = startPolyfill(script, this.nativeElement, this.cmp.viewport.nativeElement, this.control.axis);
+        }
+      })
     });
     super();
   }

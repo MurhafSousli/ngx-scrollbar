@@ -1,5 +1,5 @@
-import { Component, ViewChild, OnInit, ElementRef, ChangeDetectionStrategy } from '@angular/core';
-import { ScrollViewport } from './viewport';
+import { Component, effect, untracked, viewChild, Signal, ElementRef, ChangeDetectionStrategy } from '@angular/core';
+import { ScrollViewport, ViewportAdapter } from './viewport';
 import { NgScrollbarCore } from './ng-scrollbar-core';
 import { NG_SCROLLBAR } from './utils/scrollbar-base';
 import { Scrollbars } from './scrollbars/scrollbars';
@@ -19,17 +19,23 @@ import { Scrollbars } from './scrollbars/scrollbars';
   styleUrls: ['./ng-scrollbar.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    { provide: NG_SCROLLBAR, useExisting: NgScrollbar }
+    { provide: NG_SCROLLBAR, useExisting: NgScrollbar },
+    ViewportAdapter
   ]
 })
-export class NgScrollbar extends NgScrollbarCore implements OnInit {
+export class NgScrollbar extends NgScrollbarCore {
 
-  @ViewChild('contentWrapper', { static: true }) contentWrapper: ElementRef<HTMLElement>;
+  contentWrapper: Signal<ElementRef<HTMLElement>> = viewChild.required('contentWrapper');
 
-  @ViewChild(Scrollbars, { static: true }) _scrollbars: Scrollbars;
+  _scrollbars: Signal<Scrollbars> = viewChild.required(Scrollbars);
 
-  override ngOnInit(): void {
-    this.viewport.init(this.nativeElement, this.contentWrapper.nativeElement);
-    super.ngOnInit();
+  constructor() {
+    effect(() => {
+      const contentWrapper: HTMLElement = this.contentWrapper().nativeElement;
+      untracked(() => {
+        this.viewport.init(this.nativeElement, contentWrapper);
+      });
+    });
+    super();
   }
 }

@@ -1,5 +1,18 @@
 # Changelog
 
+## 15.2.0
+
+- refactor: switch to `InputSignal` instead of standards input decorator across components. 
+- refactor: Use effects instead of `ngOnInit` to initialize the scrollbar component. 
+- feat: `scrollViewport` directive can be a descent child, not necessarily a direct child of `<ng-scrollbar externalViewport>`
+- enhance: Improve scrollbar rendering speed that uses `externalViewport` such as integrating with 3rd party library 
+- feat: Use the shared resize observer from Angular CDK to do the necessary calculation.
+
+
+### Breaking changes
+
+- Minimum compatibility is Angular v17.3.0
+
 ## 15.1.3
 
 - enhance: Use injection factory for `NG_SCROLLBAR_OPTIONS` and `NG_SCROLLBAR_POLYFILL` to avoid merging custom options with the default options for every scrollbar component.

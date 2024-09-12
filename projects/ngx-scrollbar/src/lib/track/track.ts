@@ -12,6 +12,8 @@ export class TrackXDirective extends TrackAdapter {
 
   protected readonly cssLengthProperty: string = '--track-x-length';
 
+  protected readonly refProperty: string = 'width';
+
   protected get viewportScrollSize(): number {
     return this.cmp.viewport.contentWidth;
   }
@@ -43,7 +45,7 @@ export class TrackXDirective extends TrackAdapter {
   }
 
   protected scrollTo(start: number): Observable<void> {
-    return fromPromise(this.cmp.scrollTo({ start, duration: this.cmp.trackScrollDuration }));
+    return fromPromise(this.cmp.scrollTo({ start, duration: this.cmp.trackScrollDuration() }));
   }
 
   protected getScrollForwardStep(): number {
@@ -64,6 +66,8 @@ export class TrackYDirective extends TrackAdapter {
 
   protected readonly cssLengthProperty: string = '--track-y-length';
 
+  protected readonly refProperty: string = 'height';
+
   protected get viewportScrollSize(): number {
     return this.cmp.viewport.contentHeight;
   }
@@ -77,7 +81,7 @@ export class TrackYDirective extends TrackAdapter {
   }
 
   protected scrollTo(top: number): Observable<void> {
-    return fromPromise(this.cmp.scrollTo({ top, duration: this.cmp.trackScrollDuration }));
+    return fromPromise(this.cmp.scrollTo({ top, duration: this.cmp.trackScrollDuration() }));
   }
 
   protected getScrollForwardStep(): number {

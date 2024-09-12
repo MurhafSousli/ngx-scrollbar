@@ -19,8 +19,6 @@ describe('Content scrollbars styles', () => {
 
   it('should have the default content styles', () => {
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 50, contentHeight: 50 });
-    component.ngOnInit();
-    component.ngAfterViewInit();
     const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
     expect(styles.display).toBe('block');
     expect(styles.minWidth).toBe('100%');

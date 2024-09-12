@@ -1,28 +1,26 @@
-import { ContentChild, Directive, effect, EffectCleanupRegisterFn } from '@angular/core';
+import { Directive, effect, inject, untracked, EffectCleanupRegisterFn } from '@angular/core';
+import { SharedResizeObserver } from '@angular/cdk/observers/private';
 import {
   Observable,
   Subscription,
-  tap,
-  map,
   delay,
+  fromEvent,
+  map,
   merge,
   startWith,
   switchMap,
-  fromEvent,
   takeUntil,
   takeWhile,
+  tap,
   EMPTY
 } from 'rxjs';
-import { enableSelection, preventSelection, stopPropagation } from '../utils/common';
-import { ThumbAdapter } from '../thumb/thumb-adapter';
-import { resizeObserver } from '../viewport';
+import { enableSelection, filterResizeEntries, preventSelection, stopPropagation } from '../utils/common';
 import { PointerEventsAdapter } from '../utils/pointer-events-adapter';
 
 @Directive()
 export abstract class TrackAdapter extends PointerEventsAdapter {
 
-  // Subscription for resize observer
-  private sizeChangeSub: Subscription;
+  private sharedResizeObserver: SharedResizeObserver = inject(SharedResizeObserver);
 
   // The current position of the mouse during track dragging
   private currMousePosition: number;
@@ -35,6 +33,8 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
 
   // The CSS variable name used to set the length value
   protected abstract readonly cssLengthProperty: string;
+
+  protected abstract readonly refProperty: string;
 
   // Returns viewport scroll size
   protected abstract get viewportScrollSize(): number;
@@ -119,27 +119,28 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
     );
   }
 
-  // Reference to the ThumbAdapter component
-  @ContentChild(ThumbAdapter) protected thumb: ThumbAdapter;
-
   constructor() {
-    effect((onCleanup: EffectCleanupRegisterFn) => {
-      if (this.cmp.disableSensor()) {
-        this.update();
-        this.sizeChangeSub?.unsubscribe();
-      } else {
-        this.zone.runOutsideAngular(() => {
-          // Update styles with real track size
-          this.sizeChangeSub = resizeObserver({
-            element: this.nativeElement,
-            throttleDuration: this.cmp.sensorThrottleTime()
-          }).pipe(
-            tap(() => this.update())
-          ).subscribe();
-        });
-      }
+    let resizeSub$: Subscription;
 
-      onCleanup(() => this.sizeChangeSub?.unsubscribe());
+    effect((onCleanup: EffectCleanupRegisterFn) => {
+      const disableSensor: boolean = this.cmp.disableSensor();
+
+      untracked(() => {
+        if (disableSensor) {
+          const rect: DOMRect = this.nativeElement.getBoundingClientRect();
+          this.update(rect[this.refProperty]);
+        } else {
+          this.zone.runOutsideAngular(() => {
+            // Update styles with real track size
+            resizeSub$ = this.sharedResizeObserver.observe(this.nativeElement).pipe(
+              map((entries: ResizeObserverEntry[]) => filterResizeEntries(entries, this.nativeElement)),
+              tap((rect: DOMRectReadOnly) => this.update(rect[this.refProperty]))
+            ).subscribe();
+          });
+        }
+
+        onCleanup(() => resizeSub$?.unsubscribe());
+      });
     });
     super();
   }
@@ -148,8 +149,8 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
 
   protected abstract getScrollBackwardStep(): number;
 
-  private update(): void {
-    this.cmp.nativeElement.style.setProperty(this.cssLengthProperty, `${ this.size }`);
+  private update(size: number): void {
+    this.cmp.nativeElement.style.setProperty(this.cssLengthProperty, `${ size }`);
   }
 
   /**

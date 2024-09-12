@@ -13,7 +13,6 @@ import { Chance } from 'chance';
   imports: [
     MatOptionModule,
     MatSelectModule,
-    NgForOf,
     NgScrollbar,
     MatCardModule,
     NgScrollbarMatSelectViewport
