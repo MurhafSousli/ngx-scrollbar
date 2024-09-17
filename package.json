@@ -30,7 +30,7 @@
     "ag-grid-angular": "^32.1.0",
     "ag-grid-community": "^32.1.0",
     "chance": "^1.1.12",
-    "express": "^4.18.2",
+    "express": "^4.21.0",
     "ng-zorro-antd": "^18.1.1",
     "ngx-color-picker": "^17.0.0",
     "ngx-infinite-scroll": "^18.0.0",
