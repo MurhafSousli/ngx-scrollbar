@@ -1,4 +1,4 @@
-import { Directive, effect, inject, ElementRef, NgZone, EffectCleanupRegisterFn } from '@angular/core';
+import { Directive, effect, inject, untracked, ElementRef, NgZone, EffectCleanupRegisterFn } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Observable, Subscription } from 'rxjs';
 import { _NgScrollbar, NG_SCROLLBAR } from '../utils/scrollbar-base';
@@ -29,13 +29,15 @@ export abstract class PointerEventsAdapter {
 
   constructor() {
     effect((onCleanup: EffectCleanupRegisterFn) => {
-      if (this.cmp.disableInteraction()) {
-        this._pointerEventsSub?.unsubscribe();
-      } else {
-        this.zone.runOutsideAngular(() => {
-          this._pointerEventsSub = this.pointerEvents.subscribe();
-        });
-      }
+      const disableInteraction: boolean = this.cmp.disableInteraction();
+
+      untracked(() => {
+        if (!disableInteraction) {
+          this.zone.runOutsideAngular(() => {
+            this._pointerEventsSub = this.pointerEvents.subscribe();
+          });
+        }
+      });
 
       onCleanup(() => this._pointerEventsSub?.unsubscribe());
     });

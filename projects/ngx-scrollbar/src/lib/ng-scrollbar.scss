@@ -3,6 +3,7 @@
 @use "styles/position" as position;
 @use "styles/viewport" as viewport;
 @use "styles/content" as content;
+@use "styles/spacer" as spacer;
 @use "styles/hide-native-scrollbars" as nativeScrollbars;
 @use "styles/reached-events" as reachedEvents;
 @use "styles/selectors" as selector;
@@ -110,6 +111,7 @@
 :host {
   @include viewport.SetViewportStyles();
   @include content.SetContentStyles();
+  @include spacer.SetSpacerStyles();
 
   @include nativeScrollbars.HideNativeScrollbars();
   @include position.SetPositionStuff();
@@ -144,16 +146,6 @@
   @include selector.thumbDragging {
     // Disable selection when a scrollbar thumb is being dragged
     --_viewport-user-select: none;
-  }
-
-  @include selector.HorizontalUsed {
-    // Calculate the horizontal thumb size
-    --thumb-x-length: max(calc(var(--viewport-width) * var(--track-x-length) / var(--content-width)), var(--INTERNAL-scrollbar-thumb-min-size));
-  }
-
-  @include selector.VerticalUsed {
-    // Calculate the vertical thumb size
-    --thumb-y-length: max(calc(var(--viewport-height) * var(--track-y-length) / var(--content-height)), var(--INTERNAL-scrollbar-thumb-min-size));
   }
 
   @include selector.thumbXDragging {

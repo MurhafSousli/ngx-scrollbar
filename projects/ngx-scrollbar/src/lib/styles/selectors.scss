@@ -26,6 +26,14 @@
   }
 }
 
+@mixin Spacer {
+  @include Viewport {
+    >.ng-scroll-spacer {
+      @content;
+    }
+  }
+}
+
 @mixin BothUsed {
   &[verticalUsed="true"][horizontalUsed="true"] {
     @content;

@@ -12,7 +12,6 @@ export async function afterTimeout(timeout: number): Promise<void> {
   await new Promise<void>((resolve) => setTimeout(resolve, timeout));
 }
 
-
 export function setDimensions(comp: NgScrollbar, d: TestDimension): void {
   comp.nativeElement.style.width = `${ d.cmpWidth }px`;
   comp.nativeElement.style.height = `${ d.cmpHeight }px`;

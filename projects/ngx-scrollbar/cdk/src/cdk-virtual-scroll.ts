@@ -1,13 +1,4 @@
-import {
-  Directive,
-  Input,
-  inject,
-  effect,
-  contentChild,
-  Signal,
-  EffectCleanupRegisterFn
-} from '@angular/core';
-import { Platform } from '@angular/cdk/platform';
+import { Directive, inject, effect, untracked, contentChild, Signal } from '@angular/core';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { NgScrollbarExt } from 'ngx-scrollbar';
 
@@ -19,44 +10,26 @@ export class NgScrollbarCdkVirtualScroll {
 
   private readonly scrollbar: NgScrollbarExt = inject(NgScrollbarExt, { self: true });
 
-  private readonly platform: Platform = inject(Platform);
-
   private readonly virtualScrollViewportRef: Signal<CdkVirtualScrollViewport> = contentChild(CdkVirtualScrollViewport);
 
-  @Input() cdkVirtualScrollViewport: '' | 'auto';
-
   constructor() {
-    this.scrollbar.externalViewport = '.cdk-virtual-scroll-viewport';
-    this.scrollbar.externalContentWrapper = '.cdk-virtual-scroll-content-wrapper';
-    this.scrollbar.externalSpacer = '.cdk-virtual-scroll-spacer';
+    this.scrollbar.skipInit = true;
 
-    effect((onCleanup: EffectCleanupRegisterFn) => {
-      // If content width is bigger than the viewport, we need to update the spacer width to display horizontal scrollbar
-      let resizeObserver: ResizeObserver;
+    effect(() => {
       const virtualScrollViewport: CdkVirtualScrollViewport = this.virtualScrollViewportRef();
 
-      const spacer: HTMLElement = virtualScrollViewport.elementRef.nativeElement.querySelector(this.scrollbar.externalSpacer);
+      untracked(() => {
+        if (virtualScrollViewport) {
+          const viewport: HTMLElement = virtualScrollViewport.elementRef.nativeElement;
+          const contentWrapper: HTMLElement = virtualScrollViewport._contentWrapper.nativeElement;
+          const spacer: HTMLElement = virtualScrollViewport.elementRef.nativeElement.querySelector('.cdk-virtual-scroll-spacer');
 
-      if (this.platform.isBrowser && virtualScrollViewport) {
-        resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => {
-          entries.forEach((entry: ResizeObserverEntry) => {
-            if (virtualScrollViewport.orientation === 'vertical') {
-              spacer.style.setProperty('width', `${ entry.contentRect.width }px`);
-            } else {
-              spacer.style.setProperty('height', `${ entry.contentRect.height }px`);
-            }
-          });
-
-          // Disconnect after first change if directive is not set to auto
-          if (this.cdkVirtualScrollViewport !== 'auto') {
-            resizeObserver.disconnect();
-          }
-          // Observe content wrapper for size changes
-          resizeObserver.observe(virtualScrollViewport._contentWrapper.nativeElement);
-        });
-      }
-
-      onCleanup(() => resizeObserver?.disconnect());
+          this.scrollbar.skipInit = false;
+          this.scrollbar.altViewport.set(viewport);
+          this.scrollbar.altContentWrapper.set(contentWrapper);
+          this.scrollbar.altSpacer.set(spacer);
+        }
+      });
     });
   }
 }

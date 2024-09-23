@@ -194,11 +194,11 @@ export class SmoothScrollManager {
     const options: SmoothScrollToOptions = {
       ...this._defaultOptions,
       ...customOptions,
-      ...({
+      ...{
         // Rewrite start & end offsets as right or left offsets.
         left: customOptions.left == null ? (isRtl ? customOptions.end : customOptions.start) : customOptions.left,
         right: customOptions.right == null ? (isRtl ? customOptions.start : customOptions.end) : customOptions.right
-      })
+      }
     };
 
     // Rewrite the bottom offset as a top offset.
@@ -226,20 +226,66 @@ export class SmoothScrollManager {
   scrollToElement(scrollable: SmoothScrollElement, target: SmoothScrollElement, customOptions: SmoothScrollToElementOptions = {}): Promise<void> {
     const scrollableEl: Element = this.getElement(scrollable);
     const targetEl: Element = this.getElement(target, scrollableEl);
+    const isRtl: boolean = getComputedStyle(scrollableEl).direction === 'rtl';
 
-    if (targetEl && scrollableEl) {
-      const scrollableRect: DOMRect = scrollableEl.getBoundingClientRect();
-      const targetRect: DOMRect = targetEl.getBoundingClientRect();
-
-      const options: SmoothScrollToOptions = {
-        ...customOptions,
-        left: targetRect.left + scrollableEl.scrollLeft - scrollableRect.left + (customOptions.left || 0),
-        top: targetRect.top + scrollableEl.scrollTop - scrollableRect.top + (customOptions.top || 0)
-      };
-
-      return this.scrollTo(scrollableEl, options);
+    if (!targetEl || !scrollableEl) {
+      return Promise.resolve();
     }
 
-    return Promise.resolve();
+    const scrollableRect: DOMRect = scrollableEl.getBoundingClientRect();
+    const targetRect: DOMRect = targetEl.getBoundingClientRect();
+
+    const options: SmoothScrollToOptions = {
+      ...this._defaultOptions,
+      ...customOptions,
+      ...{
+        top: targetRect.top + scrollableEl.scrollTop - scrollableRect.top + (customOptions.top || 0),
+        // Rewrite start & end offsets as right or left offsets.
+        left: customOptions.left == null ? (isRtl ? customOptions.end : customOptions.start) : customOptions.left,
+        right: customOptions.right == null ? (isRtl ? customOptions.start : customOptions.end) : customOptions.right
+      }
+    };
+
+    if (customOptions.center) {
+      // Calculate the center of the container
+      const containerCenterX = scrollableRect.left + scrollableRect.width / 2;
+      const containerCenterY = scrollableRect.top + scrollableRect.height / 2;
+
+      // Calculate the target's position relative to the container
+      const targetCenterX = targetRect.left + targetRect.width / 2;
+      const targetCenterY = targetRect.top + targetRect.height / 2;
+
+      // Calculate the scroll position to center the target element in the container
+      options.left = targetCenterX - containerCenterX + scrollableEl.scrollLeft;
+      options.top = targetCenterY - containerCenterY + scrollableEl.scrollTop;
+      return this.applyScrollToOptions(scrollableEl, options);
+    }
+
+    if (options.bottom != null) {
+      const bottomEdge: number = scrollableRect.height - targetRect.height;
+      options.top = targetRect.top + scrollableEl.scrollTop - scrollableRect.top - bottomEdge + (customOptions.bottom || 0);
+    }
+
+    // Rewrite the right offset as a left offset.
+    if (isRtl) {
+      options.left = targetRect.left - scrollableRect.left + scrollableEl.scrollLeft + (options.left || 0);
+      if (options.right != null) {
+        options.left = targetRect.right - scrollableRect.left + scrollableEl.scrollLeft - scrollableRect.width + (options.right || 0);
+      }
+    } else {
+      options.left = targetRect.left - scrollableRect.left + scrollableEl.scrollLeft + (options.left || 0);
+      if (options.right != null) {
+        options.left = targetRect.right - scrollableRect.left + scrollableEl.scrollLeft - scrollableRect.width + (options.right || 0);
+      }
+    }
+
+    const computedOptions: SmoothScrollToOptions = {
+      top: options.top,
+      left: options.left,
+      easing: options.easing,
+      duration: options.duration
+    }
+
+    return this.applyScrollToOptions(scrollableEl, computedOptions);
   }
 }

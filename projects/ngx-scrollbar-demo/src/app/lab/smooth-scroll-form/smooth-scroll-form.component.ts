@@ -1,4 +1,16 @@
-import { Component, ChangeDetectionStrategy, Output, EventEmitter, DoCheck, Input } from '@angular/core';
+import {
+  Component,
+  output,
+  signal,
+  effect,
+  computed,
+  input,
+  Signal,
+  InputSignal,
+  WritableSignal,
+  OutputEmitterRef,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,48 +26,55 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatButtonToggleModule, FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule]
 })
-export class SmoothScrollFormComponent implements DoCheck {
-  displayFunction: string;
+export class SmoothScrollFormComponent {
   scrollToElementSelected: boolean;
 
-  options: SmoothScrollOptionsForm = {
-    scrollFunc: 'scrollTo',
-    duration: 800,
-    axisYProperty: 'bottom',
-    axisYValue: 0,
-    axisXProperty: 'end',
-    axisXValue: 0
-  };
+  scrollFunc: WritableSignal<string> = signal('scrollTo');
+  duration: WritableSignal<number> = signal(800);
+  axisYProperty: WritableSignal<string> = signal('bottom');
+  axisYValue: WritableSignal<number> = signal(0);
+  axisXProperty: WritableSignal<string> = signal('end');
+  axisXValue: WritableSignal<number> = signal(0);
+  center: WritableSignal<boolean> =  signal(false);
 
-  @Input() reached: boolean;
-  @Output('scrollToElementSelected') scrollToElement: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() scrollTo: EventEmitter<SmoothScrollOptionsForm> = new EventEmitter<SmoothScrollOptionsForm>();
-
-  ngDoCheck() {
-    const axisX: string = this.options.axisXProperty === 'unset' ? '' : `${ this.options.axisXProperty }: ${ this.options.axisXValue }`;
-    const axisY: string = this.options.axisYProperty === 'unset' ? '' : `${ this.options.axisYProperty }: ${ this.options.axisYValue }`;
-    const comma: string = this.options.axisXProperty !== 'unset' && this.options.axisYProperty !== 'unset' ? ', ' : '';
-    const durationComma: string = this.options.axisXProperty !== 'unset' || this.options.axisYProperty !== 'unset' ? ', ' : '';
-    if (this.options.scrollFunc === 'scrollToElement') {
-      this.displayFunction =
-        `scrollToElement('#target', {${ axisY }${ comma }${ axisX }${ durationComma }duration: ${ this.options.duration }})`;
-    } else {
-      this.displayFunction =
-        `scrollTo({${ axisY }${ comma }${ axisX }${ durationComma }duration: ${ this.options.duration }})`;
+  options: Signal<SmoothScrollOptionsForm> = computed(() => {
+    return {
+      scrollFunc: this.scrollFunc(),
+      duration: this.duration(),
+      axisYProperty: this.axisYProperty(),
+      axisYValue: this.axisYValue(),
+      axisXProperty: this.axisXProperty(),
+      axisXValue: this.axisXValue(),
+      center: this.center()
     }
-  }
+  });
 
-  scrollFuncChanged(e: string) {
-    this.scrollToElementSelected = e === 'scrollToElement';
-    if (this.scrollToElementSelected) {
-      this.options.axisXProperty = 'unset';
-      this.options.axisYProperty = 'unset';
+  displayFunction: Signal<string> = computed(() => {
+    const center: boolean = this.center();
+    if (center) {
+      return `scrollToElement('#target', { center: true , duration: ${ this.duration() }})`;
     }
-    this.scrollToElement.emit(this.scrollToElementSelected);
-  }
+    const axisX: string = this.axisXProperty() === 'unset' ? '' : `${ this.axisXProperty() }: ${ this.axisXValue() }`;
+    const axisY: string = this.axisYProperty() === 'unset' ? '' : `${ this.axisYProperty() }: ${ this.axisYValue() }`;
+    const comma: string = this.axisXProperty() !== 'unset' && this.axisYProperty() !== 'unset' ? ', ' : '';
+    const durationComma: string = this.axisXProperty() !== 'unset' || this.axisYProperty() !== 'unset' ? ', ' : '';
+    if (this.scrollFunc() === 'scrollToElement') {
+      return `scrollToElement('#target', {${ axisY }${ comma }${ axisX }${ durationComma }duration: ${ this.duration() }})`;
+    }
+    return `scrollTo({${ axisY }${ comma }${ axisX }${ durationComma }duration: ${ this.duration() }})`;
+  });
 
-  play() {
-    this.scrollTo.emit(this.options);
+  reached: InputSignal<boolean> = input<boolean>();
+
+  scrollToElement: OutputEmitterRef<boolean> = output<boolean>({ alias: 'scrollToElementSelected' });
+
+  scrollTo: OutputEmitterRef<SmoothScrollOptionsForm> = output<SmoothScrollOptionsForm>();
+
+  constructor() {
+    effect(() => {
+      this.scrollToElementSelected = this.scrollFunc() === 'scrollToElement';
+      this.scrollToElement.emit(this.scrollToElementSelected);
+    });
   }
 }
 
@@ -66,4 +85,5 @@ export interface SmoothScrollOptionsForm {
   axisYValue: number;
   axisXProperty: string;
   axisXValue: number;
+  center: boolean;
 }

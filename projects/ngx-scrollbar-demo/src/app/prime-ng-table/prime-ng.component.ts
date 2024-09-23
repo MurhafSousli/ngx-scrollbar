@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { TableModule } from 'primeng/table';
 import { NgScrollbarExt, AsyncDetection } from 'ngx-scrollbar';
@@ -28,7 +27,6 @@ interface City {
   standalone: true,
   imports: [
     TableModule,
-    CommonModule,
     NgScrollbarExt,
     AsyncDetection,
     MatCardModule,

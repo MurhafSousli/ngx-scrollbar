@@ -14,11 +14,16 @@
   --_scrollbar-track-right: var(--_horizontal-right);
   --_scrollbar-track-left: var(--_horizontal-left);
 
+  // Calculate the horizontal thumb size
+  --thumb-size: max(calc(var(--viewport-width) * var(--track-size) / var(--content-width)), var(--INTERNAL-scrollbar-thumb-min-size));
+
   // Scrollbar thumb variables
   --_thumb-height: 100%;
-  --_thumb-width: calc(var(--thumb-x-length) * 1px);
+  --_thumb-width: calc(var(--thumb-size) * 1px);
 
   // Calculate thumb position
+  --_scrollbar-x-thumb-transform-to-value: calc(var(--track-size) - var(--thumb-size));
+
   --_scrollbar-thumb-transform-from: 0;
   --_scrollbar-thumb-transform-to: calc(var(--_scrollbar-x-thumb-transform-to-value) * 1px);
 
@@ -58,9 +63,11 @@
   flex-direction: row;
 }
 
-.ng-scrollbar-hover:hover {
-  --_track-x-thickness: var(--_scrollbar-hover-thickness-px);
-  --_thumb-x-color: var(--INTERNAL-scrollbar-thumb-hover-color);
+.ng-scrollbar-hover {
+  &:hover, &:active {
+    --_track-x-thickness: var(--_scrollbar-hover-thickness-px);
+    --_thumb-x-color: var(--INTERNAL-scrollbar-thumb-hover-color);
+  }
 }
 
 .ng-scrollbar-thumb {

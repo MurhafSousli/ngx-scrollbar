@@ -2,6 +2,7 @@ import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
+import { outputToObservable } from '@angular/core/rxjs-interop';
 import { NgScrollbar, NgScrollbarModule, } from 'ngx-scrollbar';
 import { provideSmoothScrollOptions } from 'ngx-scrollbar/smooth-scroll';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
@@ -36,18 +37,19 @@ describe('Scrollbar track', () => {
     }).compileComponents();
 
     directionalityMock.value = 'ltr';
+    directionalityMock.change.next('ltr');
 
     fixture = TestBed.createComponent(NgScrollbar);
     component = fixture.componentInstance;
 
     fixture.componentRef.setInput('appearance', 'compact');
+
+    TestBed.flushEffects();
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 500, contentHeight: 500 });
   });
 
   it('[Vertical] should scroll to bottom progressively when mousedown on the bottom edge of the track', async () => {
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
@@ -76,9 +78,7 @@ describe('Scrollbar track', () => {
   });
 
   it('[Vertical] should scroll to top progressively when mousedown on the top edge of the track', async () => {
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     await component.scrollTo({ bottom: 0, duration: 0 });
@@ -110,10 +110,9 @@ describe('Scrollbar track', () => {
 
   it('[RTL Vertical] should scroll to bottom progressively when mousedown on the bottom edge of the track', async () => {
     directionalityMock.value = 'rtl';
+    directionalityMock.change.next('rtl');
 
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
@@ -143,10 +142,9 @@ describe('Scrollbar track', () => {
 
   it('[RTL Vertical] should scroll to top progressively when mousedown on the top edge of the track', async () => {
     directionalityMock.value = 'rtl';
+    directionalityMock.change.next('rtl');
 
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     await component.scrollTo({ bottom: 0, duration: 0 });
@@ -177,9 +175,7 @@ describe('Scrollbar track', () => {
   });
 
   it('[Horizontal] should scroll to end progressively when mousedown on the right edge of the track', async () => {
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     const trackXDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackXDirective));
@@ -208,9 +204,7 @@ describe('Scrollbar track', () => {
   });
 
   it('[Horizontal] should scroll to start progressively when mousedown on the left edge of the track', async () => {
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     await component.scrollTo({ end: 0, duration: 0 });
@@ -241,10 +235,9 @@ describe('Scrollbar track', () => {
 
   it('[RTL Horizontal] should scroll to end progressively when mousedown on the left edge of the track in RTL', async () => {
     directionalityMock.value = 'rtl';
+    directionalityMock.change.next('rtl');
 
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     await component.scrollTo({ start: 0, duration: 0 });
@@ -275,10 +268,9 @@ describe('Scrollbar track', () => {
 
   it('[RTL Horizontal] should scroll to start progressively when mousedown on the right edge of the track in RTL', async () => {
     directionalityMock.value = 'rtl';
+    directionalityMock.change.next('rtl');
 
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     await component.scrollTo({ end: 0, duration: 0 });
@@ -309,9 +301,7 @@ describe('Scrollbar track', () => {
 
 
   it('should scroll to bottom with one step on first click if incremental position exceeds scroll maximum', async () => {
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     // Make current scroll position close to bottom, so it triggers only one scroll to the end
@@ -334,9 +324,7 @@ describe('Scrollbar track', () => {
 
 
   it('should scroll to top with one step on first click if incremental position exceeds scroll maximum', async () => {
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     // Make current scroll position close to top, so it triggers only one scroll step to finish
@@ -358,9 +346,7 @@ describe('Scrollbar track', () => {
   });
 
   it('should not scroll when mouse is down and moves away', async () => {
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
@@ -402,9 +388,7 @@ describe('Scrollbar track', () => {
   });
 
   it('should scroll only once one if destination is one step below the thumb position', async () => {
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));

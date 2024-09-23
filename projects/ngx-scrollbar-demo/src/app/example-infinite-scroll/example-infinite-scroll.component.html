@@ -18,9 +18,9 @@
              (scrolled)="onScrollDown($event)"
              (scrolledUp)="onUp($event)">
           <mat-list>
-            <mat-list-item class="example-item" *ngFor="let i of array">
-              {{ i }}
-            </mat-list-item>
+            @for (i of array; track i) {
+              <mat-list-item class="example-item">{{ i }}</mat-list-item>
+            }
           </mat-list>
         </div>
       </ng-scrollbar>

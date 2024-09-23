@@ -21,7 +21,7 @@ describe('Global options', () => {
   });
 
   it('should override default options', () => {
-    expect(component.appearance).toBe('compact');
+    expect(component.appearance()).toBe('compact');
     expect(component.visibility()).toBe('visible');
     expect(component.disableInteraction()).toBe(true);
   });

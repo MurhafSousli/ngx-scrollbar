@@ -1,13 +1,4 @@
-import {
-  Component,
-  Input,
-  inject,
-  effect,
-  runInInjectionContext,
-  OnInit,
-  Injector,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, effect, untracked, input, InputSignal, ChangeDetectionStrategy, } from '@angular/core';
 import { Direction } from '@angular/cdk/bidi';
 import {
   Observable,
@@ -24,6 +15,29 @@ import {
 import { enableSelection, preventSelection, stopPropagation } from '../utils/common';
 import { PointerEventsAdapter } from '../utils/pointer-events-adapter';
 
+type CanScrollFn = (offset: number, scrollMax?: number) => boolean;
+
+type ScrollStepFn = (scrollBy: number, offset: number, scrollMax: number) => number;
+
+// canScroll function can work for y-axis and x-axis for both LTR and RTL directions
+const canScrollFunc: Record<'forward' | 'backward', CanScrollFn> = {
+  forward: (scrollOffset: number, scrollMax: number): boolean => scrollOffset < scrollMax,
+  backward: (scrollOffset: number): boolean => scrollOffset > 0
+}
+
+const scrollStepFunc: Record<'forward' | 'backward', ScrollStepFn> = {
+  forward: (scrollBy: number, offset: number) => offset + scrollBy,
+  backward: (scrollBy: number, offset: number) => offset - scrollBy
+};
+
+const horizontalScrollStepFunc: Record<'ltr' | 'rtl', Record<'forward' | 'backward', ScrollStepFn>> = {
+  rtl: {
+    forward: (scrollBy: number, offset: number, scrollMax: number) => scrollMax - offset - scrollBy,
+    backward: (scrollBy: number, offset: number, scrollMax: number) => scrollMax - offset + scrollBy
+  },
+  ltr: scrollStepFunc
+}
+
 @Component({
   standalone: true,
   selector: 'button[scrollbarButton]',
@@ -31,12 +45,10 @@ import { PointerEventsAdapter } from '../utils/pointer-events-adapter';
   styleUrl: './scrollbar-button.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ScrollbarButton extends PointerEventsAdapter implements OnInit {
+export class ScrollbarButton extends PointerEventsAdapter {
 
-  private readonly injector: Injector = inject(Injector);
-
-  @Input({ required: true }) scrollbarButton: 'top' | 'bottom' | 'start' | 'end';
-  @Input({ required: true }) scrollDirection: 'forward' | 'backward';
+  scrollbarButton: InputSignal<'top' | 'bottom' | 'start' | 'end'> = input.required();
+  scrollDirection: InputSignal<'forward' | 'backward'> = input.required();
 
   private afterFirstClickDelay: number = 120;
   private firstClickDuration: number = 100;
@@ -45,25 +57,6 @@ export class ScrollbarButton extends PointerEventsAdapter implements OnInit {
 
   private nextStep: (scrollBy: number, offset: number, scrollMax: number) => number;
   private canScroll: (offset: number, scrollMax: number) => boolean;
-
-  // canScroll function can work for y-axis and x-axis for both LTR and RTL directions
-  private readonly canScrollFunc: Record<'forward' | 'backward', (offset: number, scrollMax?: number) => boolean> = {
-    forward: (scrollOffset: number, scrollMax: number): boolean => scrollOffset < scrollMax,
-    backward: (scrollOffset: number): boolean => scrollOffset > 0
-  }
-
-  private scrollStepFunc: Record<'forward' | 'backward', (scrollBy: number, offset: number, scrollMax: number) => number> = {
-    forward: (scrollBy: number, offset: number) => offset + scrollBy,
-    backward: (scrollBy: number, offset: number) => offset - scrollBy
-  };
-
-  private readonly horizontalScrollStepFunc: Record<'ltr' | 'rtl', typeof this.scrollStepFunc> = {
-    rtl: {
-      forward: (scrollBy: number, offset: number, scrollMax: number) => scrollMax - offset - scrollBy,
-      backward: (scrollBy: number, offset: number, scrollMax: number) => scrollMax - offset + scrollBy
-    },
-    ltr: this.scrollStepFunc
-  }
 
   get pointerEvents(): Observable<PointerEvent> {
     const pointerDown$: Observable<PointerEvent> = fromEvent<PointerEvent>(this.nativeElement, 'pointerdown').pipe(
@@ -88,22 +81,25 @@ export class ScrollbarButton extends PointerEventsAdapter implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-    // Get the canScroll function according to scroll direction (forward/backward)
-    this.canScroll = this.canScrollFunc[this.scrollDirection];
+  constructor() {
+    effect(() => {
+      const scrollDirection: 'forward' | 'backward' = this.scrollDirection();
+      const dir: Direction = this.cmp.direction();
 
-    if (this.control.axis === 'x') {
-      runInInjectionContext(this.injector, () => {
-        effect(() => {
-          const dir: Direction = this.cmp.direction();
+      untracked(() => {
+        // Get the canScroll function according to scroll direction (forward/backward)
+        this.canScroll = canScrollFunc[scrollDirection];
+
+        if (this.control.axis === 'x') {
           // Get the nextStep function according to scroll direction (forward/backward) and layout direction (LTR/RTL)
-          this.nextStep = this.horizontalScrollStepFunc[dir][this.scrollDirection];
-        });
+          this.nextStep = horizontalScrollStepFunc[dir][scrollDirection];
+        } else {
+          // Get the nextStep function according to scroll direction (forward/backward)
+          this.nextStep = scrollStepFunc[scrollDirection];
+        }
       });
-    } else {
-      // Get the nextStep function according to scroll direction (forward/backward)
-      this.nextStep = this.scrollStepFunc[this.scrollDirection];
-    }
+    });
+    super();
   }
 
   private firstScrollStep(): Observable<void> {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
+import { Component, effect, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { fromPromise } from 'rxjs/internal/observable/innerFrom';
 import { TrackXDirective, TrackYDirective } from '../track/track';
@@ -15,14 +15,14 @@ import { ScrollbarManager } from '../utils/scrollbar-manager';
          [class.ng-scrollbar-hover]="cmp.hoverOffset()">
       <div class="ng-scrollbar-track-wrapper"
            [class.ng-scrollbar-hover]="!cmp.hoverOffset()">
-        <div scrollbarTrackY class="ng-scrollbar-track {{ cmp.trackClass }}">
-          <div scrollbarThumbY class="ng-scrollbar-thumb {{ cmp.thumbClass }}"></div>
+        <div scrollbarTrackY class="ng-scrollbar-track {{ cmp.trackClass() }}">
+          <div scrollbarThumbY class="ng-scrollbar-thumb {{ cmp.thumbClass() }}"></div>
         </div>
         @if (cmp.buttons()) {
-          <button class="ng-scrollbar-button {{ cmp.buttonClass }}"
+          <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
                   scrollbarButton="top"
                   scrollDirection="backward"></button>
-          <button class="ng-scrollbar-button {{ cmp.buttonClass }}"
+          <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
                   scrollbarButton="bottom"
                   scrollDirection="forward"></button>
         }
@@ -34,11 +34,16 @@ import { ScrollbarManager } from '../utils/scrollbar-manager';
   providers: [
     { provide: SCROLLBAR_CONTROL, useExisting: ScrollbarY }
   ],
+  host: {
+    '[style.--track-size]': 'trackSize()'
+  },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScrollbarY extends ScrollbarAdapter {
 
-  readonly clientRectProperty: 'left' | 'top' = 'top';
+  readonly rectOffsetProperty: 'left' | 'top' = 'top';
+
+  readonly rectSizeProperty: 'width' | 'height' = 'height';
 
   readonly sizeProperty: 'offsetWidth' | 'offsetHeight' = 'offsetHeight';
 
@@ -68,20 +73,19 @@ export class ScrollbarY extends ScrollbarAdapter {
 @Component({
   standalone: true,
   selector: 'scrollbar-x',
-  host: { '[attr.dir]': 'cmp.direction()' },
   template: `
     <div class="ng-scrollbar-sticky"
          [class.ng-scrollbar-hover]="cmp.hoverOffset()">
       <div class="ng-scrollbar-track-wrapper"
            [class.ng-scrollbar-hover]="!cmp.hoverOffset()">
-        <div scrollbarTrackX class="ng-scrollbar-track {{ cmp.trackClass }}">
-          <div scrollbarThumbX class="ng-scrollbar-thumb {{ cmp.thumbClass }}"></div>
+        <div scrollbarTrackX class="ng-scrollbar-track {{ cmp.trackClass() }}">
+          <div scrollbarThumbX class="ng-scrollbar-thumb {{ cmp.thumbClass() }}"></div>
         </div>
         @if (cmp.buttons()) {
-          <button class="ng-scrollbar-button {{ cmp.buttonClass }}"
+          <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
                   scrollbarButton="start"
                   scrollDirection="backward"></button>
-          <button class="ng-scrollbar-button {{ cmp.buttonClass }}"
+          <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
                   scrollbarButton="end"
                   scrollDirection="forward"></button>
         }
@@ -93,13 +97,19 @@ export class ScrollbarY extends ScrollbarAdapter {
   providers: [
     { provide: SCROLLBAR_CONTROL, useExisting: ScrollbarX }
   ],
+  host: {
+    '[attr.dir]': 'cmp.direction()',
+    '[style.--track-size]': 'trackSize()'
+  },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScrollbarX extends ScrollbarAdapter {
 
   readonly manager: ScrollbarManager = inject(ScrollbarManager);
 
-  readonly clientRectProperty: 'left' | 'top' = 'left';
+  readonly rectOffsetProperty: 'left' | 'top' = 'left';
+
+  readonly rectSizeProperty: 'width' | 'height' = 'width';
 
   readonly sizeProperty: 'offsetWidth' | 'offsetHeight' = 'offsetWidth';
 

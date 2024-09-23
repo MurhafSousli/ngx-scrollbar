@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { MatCardModule } from '@angular/material/card';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { Chance } from 'chance';
@@ -15,7 +15,7 @@ import { Chance } from 'chance';
     '[class.example-component]': 'true'
   },
   standalone: true,
-  imports: [MatCardModule, NgScrollbarModule, InfiniteScrollModule, MatListModule, CommonModule]
+  imports: [MatCardModule, NgScrollbarModule, MatListModule, CommonModule, InfiniteScrollDirective]
 })
 export class ExampleInfiniteScrollComponent {
   chance = new Chance();

@@ -11,6 +11,8 @@
                   disableSensor
                   class="outer-ng-scrollbar">
       <cdk-virtual-scroll-viewport itemSize="120"
+                                   minBufferPx="480"
+                                   maxBufferPx="960"
                                    class="example-viewport">
 
         <div class="horizontal-scrollable-item" *cdkVirtualFor="let itemY of items">
