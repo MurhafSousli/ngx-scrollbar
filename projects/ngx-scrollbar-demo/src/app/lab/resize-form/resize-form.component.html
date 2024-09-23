@@ -1,15 +1,21 @@
 <div class="testing-slider">
   <span>Content length</span>
-  <mat-slider color="accent" [min]="1" [max]="9">
-    <input matSliderThumb [(ngModel)]="value.contentSize" >
+  <mat-slider color="accent"
+              min="1"
+              max="9"
+              discrete
+              [displayWith]="contentWidthDisplayWith">
+    <input matSliderThumb [(ngModel)]="value().contentSize">
   </mat-slider>
 </div>
-<!--<mat-divider></mat-divider>-->
 <div class="testing-slider">
   <span>Content width</span>
   <mat-slider color="accent"
-              [min]="1" [max]="8" [step]="1"
+              min="1"
+              max="8"
+              step="1"
+              discrete
               [displayWith]="contentWidthDisplayWith">
-    <input matSliderThumb [(ngModel)]="value.contentWidth">
+    <input matSliderThumb [(ngModel)]="value().contentWidth">
   </mat-slider>
 </div>

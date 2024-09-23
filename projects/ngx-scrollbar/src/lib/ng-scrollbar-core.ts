@@ -1,31 +1,28 @@
 import {
   Directive,
-  Input,
-  Output,
   inject,
   signal,
   effect,
+  output,
   computed,
+  untracked,
   numberAttribute,
   booleanAttribute,
-  runInInjectionContext,
   input,
-  EventEmitter,
-  OnInit,
-  AfterViewInit,
-  ElementRef,
   NgZone,
   Signal,
+  ElementRef,
   InputSignal,
-  Injector,
   WritableSignal,
+  OutputEmitterRef,
   EffectCleanupRegisterFn,
-  InputSignalWithTransform
+  InputSignalWithTransform,
 } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
 import { Direction, Directionality } from '@angular/cdk/bidi';
+import { SharedResizeObserver } from '@angular/cdk/observers/private';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Subscription, map, tap } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import {
   SmoothScrollElement,
   SmoothScrollManager,
@@ -34,16 +31,16 @@ import {
 } from 'ngx-scrollbar/smooth-scroll';
 import { Scrollbars } from './scrollbars/scrollbars';
 import { _NgScrollbar, NG_SCROLLBAR } from './utils/scrollbar-base';
-import { resizeObserver, ViewportAdapter } from './viewport';
-import { ScrollbarDragging, ViewportBoundaries } from './utils/common';
+import { ViewportAdapter } from './viewport';
+import { ElementDimension, ScrollbarDragging, getThrottledStream } from './utils/common';
 import {
-  ScrollbarAppearance,
-  ScrollbarPosition,
-  ScrollbarOrientation,
-  ScrollbarUpdateReason,
-  ScrollbarVisibility,
+  NG_SCROLLBAR_OPTIONS,
   NgScrollbarOptions,
-  NG_SCROLLBAR_OPTIONS
+  ScrollbarAppearance,
+  ScrollbarOrientation,
+  ScrollbarPosition,
+  ScrollbarUpdateReason,
+  ScrollbarVisibility
 } from './ng-scrollbar.model';
 
 interface ViewportState {
@@ -62,36 +59,48 @@ interface ViewportState {
     '[attr.isHorizontallyScrollable]': 'isHorizontallyScrollable()',
     '[attr.mobile]': 'isMobile',
     '[attr.dir]': 'direction()',
-    '[attr.position]': 'position',
+    '[attr.position]': 'position()',
     '[attr.dragging]': 'dragging()',
-    '[attr.appearance]': 'appearance',
+    '[attr.appearance]': 'appearance()',
     '[attr.visibility]': 'visibility()',
     '[attr.orientation]': 'orientation()',
-    '[attr.disableInteraction]': 'disableInteraction()'
+    '[attr.disableInteraction]': 'disableInteraction()',
+    '[style.--content-height]': 'contentDimension().height',
+    '[style.--content-width]': 'contentDimension().width',
+    '[style.--viewport-height]': 'viewportDimension().height',
+    '[style.--viewport-width]': 'viewportDimension().width'
   },
-  providers: [{ provide: NG_SCROLLBAR, useExisting: NgScrollbarCore }]
+  providers: [
+    { provide: NG_SCROLLBAR, useExisting: NgScrollbarCore }
+  ]
 })
-export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterViewInit {
+export abstract class NgScrollbarCore implements _NgScrollbar {
 
   /** Global options */
   private readonly options: NgScrollbarOptions = inject(NG_SCROLLBAR_OPTIONS);
 
+  private readonly sharedResizeObserver: SharedResizeObserver = inject(SharedResizeObserver);
+
   private readonly zone: NgZone = inject(NgZone);
+
   private readonly platform: Platform = inject(Platform);
-  private readonly injector: Injector = inject(Injector);
 
   /** A flag that indicates if the platform is mobile */
   readonly isMobile: boolean = this.platform.IOS || this.platform.ANDROID;
-  dir: Directionality = inject(Directionality);
 
-  smoothScroll: SmoothScrollManager = inject(SmoothScrollManager);
+  readonly dir: Directionality = inject(Directionality);
 
-  nativeElement: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
+  readonly smoothScroll: SmoothScrollManager = inject(SmoothScrollManager);
+
+  /** Viewport adapter instance */
+  readonly viewport: ViewportAdapter = inject(ViewportAdapter, { self: true });
+
+  readonly nativeElement: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
 
   /**
    * Indicates if the direction is 'ltr' or 'rtl'
    */
-  direction: Signal<Direction>;
+  direction: Signal<Direction> = toSignal<Direction, Direction>(this.dir.change, { initialValue: this.dir.value });
 
   /**
    * Indicates when scrollbar thumb is being dragged
@@ -141,14 +150,13 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
     transform: booleanAttribute
   });
 
-  viewportDimension: WritableSignal<ViewportBoundaries> = signal({
-    contentHeight: 0,
-    contentWidth: 0,
-    offsetHeight: 0,
-    offsetWidth: 0
-  });
+  /** Viewport dimension */
+  viewportDimension: WritableSignal<ElementDimension> = signal<ElementDimension>({ width: 0, height: 0 });
 
-  state: Signal<ViewportState> = computed(() => {
+  /** Content dimension */
+  contentDimension: WritableSignal<ElementDimension> = signal<ElementDimension>({ width: 0, height: 0 });
+
+  private state: Signal<ViewportState> = computed(() => {
     let verticalUsed: boolean = false;
     let horizontalUsed: boolean = false;
     let isVerticallyScrollable: boolean = false;
@@ -156,16 +164,18 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
 
     const orientation: ScrollbarOrientation = this.orientation();
     const visibility: ScrollbarVisibility = this.visibility();
-    const viewport: ViewportBoundaries = this.viewportDimension();
+
+    const viewportDimensions: ElementDimension = this.viewportDimension();
+    const contentDimensions: ElementDimension = this.contentDimension();
 
     // Check if vertical scrollbar should be displayed
     if (orientation === 'auto' || orientation === 'vertical') {
-      isVerticallyScrollable = viewport.contentHeight > viewport.offsetHeight;
+      isVerticallyScrollable = contentDimensions.height > viewportDimensions.height;
       verticalUsed = visibility === 'visible' || isVerticallyScrollable;
     }
     // Check if horizontal scrollbar should be displayed
     if (orientation === 'auto' || orientation === 'horizontal') {
-      isHorizontallyScrollable = viewport.contentWidth > viewport.offsetWidth;
+      isHorizontallyScrollable = contentDimensions.width > viewportDimensions.width;
       horizontalUsed = visibility === 'visible' || isHorizontallyScrollable;
     }
 
@@ -183,7 +193,9 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
   horizontalUsed: Signal<boolean> = computed(() => this.state().horizontalUsed);
 
   /** Scroll duration when the scroll track is clicked */
-  @Input({ transform: numberAttribute }) trackScrollDuration: number = this.options.trackScrollDuration;
+  trackScrollDuration: InputSignalWithTransform<number, string | number> = input<number, string | number>(this.options.trackScrollDuration, {
+    transform: numberAttribute
+  });
 
   /**
    *  Sets the appearance of the scrollbar, there are 2 options:
@@ -191,7 +203,7 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
    * - `native` (default) scrollbar space will be reserved just like with native scrollbar.
    * - `compact` scrollbar doesn't reserve any space, they are placed over the viewport.
    */
-  @Input() appearance: ScrollbarAppearance = this.options.appearance;
+  appearance: InputSignal<ScrollbarAppearance> = input<ScrollbarAppearance>(this.options.appearance);
   /**
    * Sets the position of each scrollbar, there are 4 options:
    *
@@ -200,94 +212,81 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
    * - `invertX` Inverts Horizontal scrollbar position
    * - `invertAll` Inverts both scrollbar positions
    */
-  @Input() position: ScrollbarPosition = this.options.position;
+  position: InputSignal<ScrollbarPosition> = input<ScrollbarPosition>(this.options.position);
 
   /** A class forwarded to the scrollbar track element */
-  @Input() trackClass: string = this.options.trackClass;
+  trackClass: InputSignal<string> = input<string>(this.options.trackClass);
   /** A class forwarded to the scrollbar thumb element */
-  @Input() thumbClass: string = this.options.thumbClass;
+  thumbClass: InputSignal<string> = input<string>(this.options.thumbClass);
   /** A class forwarded to the scrollbar button element */
-  @Input() buttonClass: string = this.options.thumbClass;
+  buttonClass: InputSignal<string> = input<string>(this.options.thumbClass);
 
   /** Steam that emits when scrollbar is initialized */
-  @Output() afterInit: EventEmitter<void> = new EventEmitter<void>();
+  afterInit: OutputEmitterRef<void> = output<void>();
 
   /** Steam that emits when scrollbar is updated */
-  @Output() afterUpdate: EventEmitter<void> = new EventEmitter<void>();
-
-  /** Resize observer subscription */
-  private sizeChangeSub: Subscription;
-
-  /** Viewport adapter instance */
-  viewport: ViewportAdapter = new ViewportAdapter();
+  afterUpdate: OutputEmitterRef<void> = output<void>();
 
   /** The scrollbars component instance used for testing purpose */
-  abstract _scrollbars: Scrollbars;
+  abstract _scrollbars: Signal<Scrollbars>;
 
-  ngOnInit(): void {
-    runInInjectionContext(this.injector, () => {
-      // The direction signal cannot be initialized in the constructor
-      // Because it initially returns 'ltr' even if dir.value is 'rtl`, the map function here is crucial
-      this.direction = toSignal<Direction, Direction>(this.dir.change.pipe(map(() => this.dir.value)), { initialValue: this.dir.value });
+  protected constructor() {
+    let resizeSub$: Subscription;
+    let hasInitialized: boolean;
 
-      effect((onCleanup: EffectCleanupRegisterFn) => {
-        // Check whether sensor should be enabled
-        if (this.disableSensor()) {
-          // If sensor is disabled update manually
-          this.sizeChangeSub?.unsubscribe();
-        } else {
-          if (this.platform.isBrowser && this.viewport.initialized()) {
-            this.sizeChangeSub?.unsubscribe();
+    effect((onCleanup: EffectCleanupRegisterFn) => {
+      const disableSensor: boolean = this.disableSensor();
+      const throttleDuration: number = this.sensorThrottleTime();
+      const viewportInit: boolean = this.viewport.initialized();
 
+      untracked(() => {
+        if (viewportInit) {
+          // If resize sensor is disabled, update manually the first time
+          if (disableSensor) {
+            requestAnimationFrame(() => this.update(ScrollbarUpdateReason.AfterInit));
+          } else {
+            // Observe size changes for viewport and content wrapper
             this.zone.runOutsideAngular(() => {
-              this.sizeChangeSub = resizeObserver({
-                element: this.viewport.nativeElement,
-                contentWrapper: this.viewport.contentWrapperElement,
-                throttleDuration: this.sensorThrottleTime()
-              }).pipe(
-                tap((reason: ScrollbarUpdateReason) => this.update(reason))
-              ).subscribe();
+              resizeSub$ = getThrottledStream(
+                combineLatest([
+                  this.sharedResizeObserver.observe(this.viewport.nativeElement),
+                  this.sharedResizeObserver.observe(this.viewport.contentWrapperElement)
+                ]),
+                throttleDuration
+              ).subscribe(() => {
+                // After deep investigation, it appears that setting the dimension directly from the element properties
+                // is much faster than to set them from resize callback values
+                this.zone.run(() => {
+                  this.updateDimensions();
+
+                  if (hasInitialized) {
+                    this.afterUpdate.emit();
+                  } else {
+                    this.afterInit.emit();
+                  }
+                  hasInitialized = true;
+                });
+              });
             });
           }
         }
 
-        onCleanup(() => this.sizeChangeSub?.unsubscribe());
+        onCleanup(() => resizeSub$?.unsubscribe());
       });
     });
-  }
-
-  ngAfterViewInit(): void {
-    // If sensor is disabled, update to evaluate the state
-    if (this.platform.isBrowser && this.disableSensor()) {
-      // In case of 3rd party library, need to wait for content to be rendered
-      requestAnimationFrame(() => {
-        this.update(ScrollbarUpdateReason.AfterInit);
-      });
-    }
   }
 
   /**
-   * Update local state and the internal scrollbar controls
+   * Manual update
    */
   update(reason?: ScrollbarUpdateReason): void {
-    this.updateCSSVariables();
+    this.updateDimensions();
 
-    this.zone.run(() => {
-      this.viewportDimension.set({
-        contentHeight: this.viewport.contentHeight,
-        contentWidth: this.viewport.contentWidth,
-        offsetHeight: this.viewport.offsetHeight,
-        offsetWidth: this.viewport.offsetWidth
-      });
-
-      // After the upgrade to Angular 18, the effect functions in the inner directives are executed after "afterInit" is emitted,
-      // causing the tests to fail. A tiny delay is needed before emitting to the output as a workaround.
-      if (reason === ScrollbarUpdateReason.AfterInit) {
-        this.afterInit.emit();
-      } else {
-        this.afterUpdate.emit();
-      }
-    });
+    if (reason === ScrollbarUpdateReason.AfterInit) {
+      this.afterInit.emit();
+    } else {
+      this.afterUpdate.emit();
+    }
   }
 
   /**
@@ -304,13 +303,8 @@ export abstract class NgScrollbarCore implements _NgScrollbar, OnInit, AfterView
     return this.smoothScroll.scrollToElement(this.viewport.nativeElement, target, options);
   }
 
-  /**
-   * Update Essential CSS variables
-   */
-  private updateCSSVariables(): void {
-    this.nativeElement.style.setProperty('--content-height', `${ this.viewport.contentHeight }`);
-    this.nativeElement.style.setProperty('--content-width', `${ this.viewport.contentWidth }`);
-    this.nativeElement.style.setProperty('--viewport-height', `${ this.viewport.offsetHeight }`);
-    this.nativeElement.style.setProperty('--viewport-width', `${ this.viewport.offsetWidth }`);
+  private updateDimensions(): void {
+    this.viewportDimension.set({ width: this.viewport.offsetWidth, height: this.viewport.offsetHeight });
+    this.contentDimension.set({ width: this.viewport.contentWidth, height: this.viewport.contentHeight });
   }
 }

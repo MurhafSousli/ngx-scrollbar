@@ -1,28 +1,22 @@
-import { ContentChild, Directive, effect, EffectCleanupRegisterFn } from '@angular/core';
+import { Directive, effect, untracked } from '@angular/core';
 import {
   Observable,
-  Subscription,
-  tap,
-  map,
   delay,
+  fromEvent,
+  map,
   merge,
   startWith,
   switchMap,
-  fromEvent,
   takeUntil,
   takeWhile,
+  tap,
   EMPTY
 } from 'rxjs';
 import { enableSelection, preventSelection, stopPropagation } from '../utils/common';
-import { ThumbAdapter } from '../thumb/thumb-adapter';
-import { resizeObserver } from '../viewport';
 import { PointerEventsAdapter } from '../utils/pointer-events-adapter';
 
 @Directive()
 export abstract class TrackAdapter extends PointerEventsAdapter {
-
-  // Subscription for resize observer
-  private sizeChangeSub: Subscription;
 
   // The current position of the mouse during track dragging
   private currMousePosition: number;
@@ -33,11 +27,8 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
   // The maximum scroll position until the end is reached
   protected scrollMax: number;
 
-  // The CSS variable name used to set the length value
-  protected abstract readonly cssLengthProperty: string;
-
   // Returns viewport scroll size
-  protected abstract get viewportScrollSize(): number;
+  protected abstract get contentSize(): number;
 
   // Returns viewport client size
   protected get viewportSize(): number {
@@ -60,12 +51,12 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
 
   // Scrollbar track offset
   get offset(): number {
-    return this.clientRect[this.control.clientRectProperty];
+    return this.clientRect[this.control.rectOffsetProperty];
   }
 
   // Scrollbar track length
   get size(): number {
-    return this.nativeElement[this.control.sizeProperty];
+    return this.clientRect[this.control.rectSizeProperty];
   }
 
   // Observable for track dragging events
@@ -119,27 +110,13 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
     );
   }
 
-  // Reference to the ThumbAdapter component
-  @ContentChild(ThumbAdapter) protected thumb: ThumbAdapter;
-
   constructor() {
-    effect((onCleanup: EffectCleanupRegisterFn) => {
-      if (this.cmp.disableSensor()) {
-        this.update();
-        this.sizeChangeSub?.unsubscribe();
-      } else {
-        this.zone.runOutsideAngular(() => {
-          // Update styles with real track size
-          this.sizeChangeSub = resizeObserver({
-            element: this.nativeElement,
-            throttleDuration: this.cmp.sensorThrottleTime()
-          }).pipe(
-            tap(() => this.update())
-          ).subscribe();
-        });
-      }
-
-      onCleanup(() => this.sizeChangeSub?.unsubscribe());
+    effect(() => {
+      this.cmp.viewportDimension();
+      this.cmp.contentDimension();
+      untracked(() => {
+        requestAnimationFrame(() => this.control.trackSize.set(this.size));
+      });
     });
     super();
   }
@@ -147,10 +124,6 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
   protected abstract getScrollForwardStep(): number;
 
   protected abstract getScrollBackwardStep(): number;
-
-  private update(): void {
-    this.cmp.nativeElement.style.setProperty(this.cssLengthProperty, `${ this.size }`);
-  }
 
   /**
    *  Callback when mouse is first clicked on the track

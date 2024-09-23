@@ -1,6 +1,7 @@
 import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
 import { Directionality } from '@angular/cdk/bidi';
 import { By } from '@angular/platform-browser';
+import { outputToObservable } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { setDimensions } from './common-test.';
@@ -23,6 +24,7 @@ describe('Fit styles', () => {
       ]
     }).compileComponents();
     directionalityMock.value = 'ltr';
+    directionalityMock.change.next('ltr');
     fixture = TestBed.createComponent(NgScrollbar);
     component = fixture.componentInstance;
 
@@ -34,9 +36,7 @@ describe('Fit styles', () => {
 
   it('should fit both _scrollbars only if both of them are displayed', async () => {
     setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 500, contentWidth: 500 });
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
 
     const trackYElement: Element = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-track')).nativeElement;
     const trackXElement: Element = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-track')).nativeElement;
@@ -50,9 +50,7 @@ describe('Fit styles', () => {
 
   it('should not fit vertical scrollbar if horizontal is not displayed', async () => {
     setDimensions(component, { cmpHeight: 200, contentHeight: 500, cmpWidth: 200, contentWidth: 200 });
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
 
     const trackYElement: Element = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-track')).nativeElement;
 
@@ -61,9 +59,7 @@ describe('Fit styles', () => {
 
   it('should not fit horizontal scrollbar if vertical is not displayed', async () => {
     setDimensions(component, { cmpWidth: 200, contentWidth: 500, cmpHeight: 200, contentHeight: 200 });
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
 
     const trackXElement: Element = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-track')).nativeElement;
     expect(trackXElement.clientWidth).toBe(200 - scrollbarOffset);

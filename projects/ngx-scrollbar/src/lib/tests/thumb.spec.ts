@@ -2,6 +2,7 @@ import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/
 import { signal } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { Directionality } from '@angular/cdk/bidi';
+import { outputToObservable } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { ThumbAdapter } from '../thumb/thumb-adapter';
@@ -32,6 +33,7 @@ describe('Scrollbar thumb', () => {
     }).compileComponents();
 
     directionalityMock.value = 'ltr';
+    directionalityMock.change.next('ltr');
 
     fixture = TestBed.createComponent(NgScrollbar);
     component = fixture.componentInstance;
@@ -43,9 +45,7 @@ describe('Scrollbar thumb', () => {
 
   it('should set "isDragging" to true and scroll accordingly when vertical scrollbar thumb is being dragged', async () => {
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 100, contentHeight: 400 });
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     const thumbY: Element = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-thumb')).nativeElement;
@@ -73,9 +73,7 @@ describe('Scrollbar thumb', () => {
 
   it('should set "isDragging" to true and scroll accordingly when horizontal scrollbar is being dragged', async () => {
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 400, contentHeight: 100 });
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     const thumbX: Element = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-thumb')).nativeElement;
@@ -102,11 +100,10 @@ describe('Scrollbar thumb', () => {
 
   it('[RTL] should set "isDragging" to true and scroll accordingly when horizontal scrollbar is being dragged', async () => {
     directionalityMock.value = 'rtl';
+    directionalityMock.change.next('rtl');
 
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 400, contentHeight: 100 });
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     const thumbX: Element = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-thumb')).nativeElement;
@@ -134,9 +131,7 @@ describe('Scrollbar thumb', () => {
 
   it('should set the animation when polyfill script is loaded', async () => {
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 400, contentHeight: 100 });
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     const thumbAdapter: ThumbAdapter = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-thumb')).injector.get(ThumbAdapter);

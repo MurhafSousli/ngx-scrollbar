@@ -1,10 +1,11 @@
-import { signal, WritableSignal } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { ViewportClasses } from '../utils/common';
 
 /**
  * Class representing a viewport adapter.
  * Provides methods and properties to interact with a viewport and its content.
  */
+@Injectable()
 export class ViewportAdapter {
 
   /**
@@ -77,14 +78,19 @@ export class ViewportAdapter {
     // and a spacer element will have the real size
     // Therefore, if spaceElement is provided, it will be observed instead of the content wrapper
     if (spacerElement) {
-      // Set relative position on the spacer element to enable the functionality of sticky for the scrollbars
-      spacerElement.style.position = 'relative';
+      spacerElement.classList.add(ViewportClasses.Spacer);
       this.contentWrapperElement = spacerElement;
     } else {
       // If spacer is not provided, set it as the content wrapper
       this.contentWrapperElement = contentElement;
     }
     this.initialized.set(true);
+  }
+
+  reset(): void {
+    this.nativeElement = null;
+    this.contentWrapperElement = null;
+    this.initialized.set(false);
   }
 
   /**

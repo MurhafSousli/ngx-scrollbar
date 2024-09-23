@@ -9,13 +9,14 @@
       <ng-scrollbar externalViewport
                     cdkVirtualScrollViewport
                     style="height: 100%"
-                    appearance="compact">
+                    appearance="compact"
+                    disableSensor>
         <cdk-virtual-scroll-viewport itemSize="50"
                                      minBufferPx="100"
                                      maxBufferPx="200">
           <mat-list>
             <mat-list-item class="example-item" *cdkVirtualFor="let item of items">
-              {{item}}
+              {{ item }}
             </mat-list-item>
           </mat-list>
         </cdk-virtual-scroll-viewport>

@@ -42,8 +42,7 @@
     <ng-scrollbar externalViewport=".p-scroller"
                   externalContentWrapper=".p-datatable-scrollable-table"
                   orientation="vertical"
-                  appearance="compact"
-                  asyncDetection>
+                  appearance="compact">
       <p-table [columns]="cols"
                [value]="cars"
                [scrollable]="true"
@@ -52,18 +51,18 @@
                [virtualScrollItemSize]="46">
         <ng-template pTemplate="header" let-columns>
           <tr>
-            <th *ngFor="let col of columns" style="width: 25%;">
-              {{ col.header }}
-            </th>
+            @for (col of columns; track col.header) {
+              <th style="width: 25%;">{{ col.header }}</th>
+            }
           </tr>
         </ng-template>
         <ng-template pTemplate="body"
                      let-rowData
                      let-columns="columns">
           <tr style="height:46px">
-            <td *ngFor="let col of columns">
-              {{ rowData[col.field] }}
-            </td>
+            @for (col of columns; track col.header) {
+              <td>{{ rowData[col.field] }}</td>
+            }
           </tr>
         </ng-template>
       </p-table>
@@ -80,8 +79,7 @@
     <ng-scrollbar externalViewport=".p-scroller"
                   externalContentWrapper=".p-scroller-content"
                   externalSpacer=".p-scroller-spacer"
-                  appearance="compact"
-                  asyncDetection>
+                  appearance="compact">
       <p-scroller [items]="cars"
                   [itemSize]="50"
                   scrollHeight="200px"

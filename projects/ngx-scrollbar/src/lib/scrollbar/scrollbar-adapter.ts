@@ -1,4 +1,4 @@
-import { Directive, inject, InjectionToken } from '@angular/core';
+import { Directive, inject, signal, WritableSignal, InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NG_SCROLLBAR, _NgScrollbar } from '../utils/scrollbar-base';
 
@@ -7,7 +7,11 @@ export const SCROLLBAR_CONTROL: InjectionToken<ScrollbarAdapter> = new Injection
 @Directive()
 export abstract class ScrollbarAdapter {
 
-  abstract readonly clientRectProperty: 'left' | 'top';
+  trackSize: WritableSignal<number> = signal(0);
+
+  abstract readonly rectOffsetProperty: 'left' | 'top';
+
+  abstract readonly rectSizeProperty: 'width' | 'height';
 
   abstract readonly sizeProperty: 'offsetWidth' | 'offsetHeight';
 

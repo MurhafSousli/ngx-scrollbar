@@ -1,4 +1,4 @@
-import { MonoTypeOperatorFunction, tap } from 'rxjs';
+import { MonoTypeOperatorFunction, Observable, tap, throttleTime } from 'rxjs';
 
 export function preventSelection(doc: Document): MonoTypeOperatorFunction<PointerEvent> {
   return tap(() => doc.onselectstart = () => false);
@@ -17,11 +17,26 @@ export function stopPropagation(): MonoTypeOperatorFunction<PointerEvent> {
   });
 }
 
+export function getThrottledStream<T>(stream: Observable<T>, duration: number): Observable<T> {
+  return stream.pipe(
+    throttleTime(duration || 0, null, {
+      leading: false,
+      trailing: true
+    })
+  );
+}
+
+export interface ElementDimension {
+  width?: number;
+  height?: number;
+}
+
 export type ScrollbarDragging = 'x' | 'y' | 'none';
 
 export enum ViewportClasses {
   Viewport = 'ng-scroll-viewport',
-  Content = 'ng-scroll-content'
+  Content = 'ng-scroll-content',
+  Spacer = 'ng-scroll-spacer'
 }
 
 export interface ViewportBoundaries {

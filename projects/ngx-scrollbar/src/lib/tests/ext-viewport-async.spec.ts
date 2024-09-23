@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Component, ViewChild, DebugElement, ElementRef } from '@angular/core';
-import { NgScrollbarExt, NgScrollbarModule, AsyncDetection, } from 'ngx-scrollbar';
+import { outputToObservable } from '@angular/core/rxjs-interop';
+import { NgScrollbarExt, NgScrollbarModule } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
 import { Scrollbars } from '../scrollbars/scrollbars';
 import { afterTimeout } from './common-test.';
@@ -52,13 +53,11 @@ describe('External viewport via classes [AsyncDetection]', () => {
   let fixture: ComponentFixture<ViewportClassExampleComponent>;
   let component: ViewportClassExampleComponent;
   let scrollbar: NgScrollbarExt;
-  let asyncDetection: AsyncDetection;
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewportClassExampleComponent);
     component = fixture.componentInstance;
     scrollbar = component.scrollbar;
-    asyncDetection = fixture.debugElement.query(By.directive(AsyncDetection)).componentInstance;
   });
 
   it('[Viewport + content wrapper classes] should initialize viewport and attach scrollbars', async () => {
@@ -66,27 +65,22 @@ describe('External viewport via classes [AsyncDetection]', () => {
     component.externalContentWrapper = '.my-custom-content-wrapper';
     fixture.detectChanges();
 
-    scrollbar.ngOnInit();
-    scrollbar.ngAfterViewInit();
-
-    expect(scrollbar.customViewport).toBeFalsy();
-    expect(scrollbar.externalViewport).toBeTruthy();
-    expect(scrollbar.externalContentWrapper).toBeTruthy();
-    expect(scrollbar.externalSpacer).toBeFalsy();
+    expect(scrollbar.customViewport()).toBeFalsy();
+    expect(scrollbar.externalViewport()).toBeTruthy();
+    expect(scrollbar.externalContentWrapper()).toBeTruthy();
+    expect(scrollbar.externalSpacer()).toBeFalsy();
     expect(scrollbar.skipInit).toBeTruthy();
     expect(scrollbar.viewport.initialized()).toBeFalsy();
-
-    asyncDetection.ngOnInit();
 
     // Mock library render after the scrollbar has initialized
     component.library.show = true;
     fixture.detectChanges();
 
     // Verify afterInit is called
-    await firstValueFrom(scrollbar.afterInit);
+    await firstValueFrom(outputToObservable(scrollbar.afterInit));
 
-    const viewportElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalViewport))?.nativeElement;
-    const contentWrapperElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalContentWrapper))?.nativeElement;
+    const viewportElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalViewport()))?.nativeElement;
+    const contentWrapperElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalContentWrapper()))?.nativeElement;
 
     // Verify the viewport
     expect(scrollbar.viewport.nativeElement).toBe(viewportElement);
@@ -96,15 +90,15 @@ describe('External viewport via classes [AsyncDetection]', () => {
     expect(component.library.content.nativeElement.parentElement).toBe(contentWrapperElement);
 
     // Check if the scrollbars component is created
-    expect(scrollbar._scrollbars).toBeTruthy();
+    expect(scrollbar._scrollbars()).toBeTruthy();
     const scrollbarsDebugElement: DebugElement = fixture.debugElement.query(By.directive(Scrollbars));
     // Verify if the created scrollbars component is the same component instance queried
-    expect(scrollbar._scrollbars).toBe(scrollbarsDebugElement.componentInstance);
+    expect(scrollbar._scrollbars()).toBe(scrollbarsDebugElement.componentInstance);
     // Check if the created scrollbars component is the direct child of content wrapper element
     expect((scrollbarsDebugElement.nativeElement as Element).parentElement).toBe(scrollbar.viewport.contentWrapperElement);
 
     const hostViewDestroySpy: jasmine.Spy = spyOn(scrollbar._scrollbarsRef.hostView, 'destroy');
-    scrollbar.ngOnDestroy();
+    fixture.destroy();
     expect(hostViewDestroySpy).toHaveBeenCalled();
   });
 
@@ -115,27 +109,22 @@ describe('External viewport via classes [AsyncDetection]', () => {
     component.externalSpacer = '.my-custom-spacer';
     fixture.detectChanges();
 
-    scrollbar.ngOnInit();
-    scrollbar.ngAfterViewInit();
-
-    expect(scrollbar.customViewport).toBeFalsy();
-    expect(scrollbar.externalViewport).toBeTruthy();
-    expect(scrollbar.externalContentWrapper).toBeTruthy();
-    expect(scrollbar.externalSpacer).toBeTruthy();
+    expect(scrollbar.customViewport()).toBeFalsy();
+    expect(scrollbar.externalViewport()).toBeTruthy();
+    expect(scrollbar.externalContentWrapper()).toBeTruthy();
+    expect(scrollbar.externalSpacer()).toBeTruthy();
     expect(scrollbar.skipInit).toBeTruthy();
     expect(scrollbar.viewport.initialized()).toBeFalsy();
-
-    asyncDetection.ngOnInit();
 
     // Mock library render after the scrollbar has initialized
     component.library.show = true;
     fixture.detectChanges();
 
-    await firstValueFrom(scrollbar.afterInit);
+    await firstValueFrom(outputToObservable(scrollbar.afterInit));
 
-    const viewportElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalViewport))?.nativeElement;
-    const contentWrapperElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalContentWrapper))?.nativeElement;
-    const spacerElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalSpacer))?.nativeElement;
+    const viewportElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalViewport()))?.nativeElement;
+    const contentWrapperElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalContentWrapper()))?.nativeElement;
+    const spacerElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalSpacer()))?.nativeElement;
 
     // Verify the viewport
     expect(scrollbar.viewport.nativeElement).toBe(viewportElement);
@@ -145,15 +134,15 @@ describe('External viewport via classes [AsyncDetection]', () => {
     expect(component.library.content.nativeElement.parentElement).toBe(contentWrapperElement);
 
     // Check if the scrollbars component is created
-    expect(scrollbar._scrollbars).toBeTruthy();
+    expect(scrollbar._scrollbars()).toBeTruthy();
     const scrollbarsDebugElement: DebugElement = fixture.debugElement.query(By.directive(Scrollbars));
     // Verify if the created scrollbars component is the same component instance queried
-    expect(scrollbar._scrollbars).toBe(scrollbarsDebugElement.componentInstance);
+    expect(scrollbar._scrollbars()).toBe(scrollbarsDebugElement.componentInstance);
     // Check if the created scrollbars component is the direct child of content wrapper element
     expect((scrollbarsDebugElement.nativeElement as Element).parentElement).toBe(scrollbar.viewport.contentWrapperElement);
 
     const hostViewDestroySpy: jasmine.Spy = spyOn(scrollbar._scrollbarsRef.hostView, 'destroy');
-    scrollbar.ngOnDestroy();
+    fixture.destroy();
     expect(hostViewDestroySpy).toHaveBeenCalled();
   });
 
@@ -163,27 +152,22 @@ describe('External viewport via classes [AsyncDetection]', () => {
     component.asyncDetection = 'auto';
     fixture.detectChanges();
 
-    scrollbar.ngOnInit();
-    scrollbar.ngAfterViewInit();
-
-    expect(scrollbar.customViewport).toBeFalsy();
-    expect(scrollbar.externalViewport).toBeTruthy();
-    expect(scrollbar.externalContentWrapper).toBeTruthy();
-    expect(scrollbar.externalSpacer).toBeFalsy();
+    expect(scrollbar.customViewport()).toBeFalsy();
+    expect(scrollbar.externalViewport()).toBeTruthy();
+    expect(scrollbar.externalContentWrapper()).toBeTruthy();
+    expect(scrollbar.externalSpacer()).toBeFalsy();
     expect(scrollbar.skipInit).toBeTruthy();
     expect(scrollbar.viewport.initialized()).toBeFalsy();
-
-    asyncDetection.ngOnInit();
 
     // Mock library render after the scrollbar has initialized
     component.library.show = true;
     fixture.detectChanges();
 
     // Verify afterInit is called
-    await firstValueFrom(scrollbar.afterInit);
+    await firstValueFrom(outputToObservable(scrollbar.afterInit));
 
-    const viewportElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalViewport))?.nativeElement;
-    const contentWrapperElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalContentWrapper))?.nativeElement;
+    const viewportElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalViewport()))?.nativeElement;
+    const contentWrapperElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalContentWrapper()))?.nativeElement;
 
     // Verify the viewport
     expect(scrollbar.viewport.nativeElement).toBe(viewportElement);
@@ -193,10 +177,10 @@ describe('External viewport via classes [AsyncDetection]', () => {
     expect(component.library.content.nativeElement.parentElement).toBe(contentWrapperElement);
 
     // Check if the scrollbars component is created
-    expect(scrollbar._scrollbars).toBeTruthy();
+    expect(scrollbar._scrollbars()).toBeTruthy();
     const scrollbarsDebugElement: DebugElement = fixture.debugElement.query(By.directive(Scrollbars));
     // Verify if the created scrollbars component is the same component instance queried
-    expect(scrollbar._scrollbars).toBe(scrollbarsDebugElement.componentInstance);
+    expect(scrollbar._scrollbars()).toBe(scrollbarsDebugElement.componentInstance);
     // Check if the created scrollbars component is the direct child of content wrapper element
     expect((scrollbarsDebugElement.nativeElement as Element).parentElement).toBe(scrollbar.viewport.contentWrapperElement);
 
@@ -205,15 +189,15 @@ describe('External viewport via classes [AsyncDetection]', () => {
     // Mock library removes the content (such as dropdown)
     component.library.show = false;
     fixture.detectChanges();
-    // Wait 100ms for change to take effect
-    await afterTimeout(100);
+    // Wait a bit more than 100ms for change to take effect
+    await afterTimeout(110);
 
     expect(scrollbar.viewport.initialized()).toBeFalse();
     expect(scrollbar.viewport.nativeElement).toBeFalsy();
     expect(scrollbar.viewport.contentWrapperElement).toBeFalsy();
 
     const hostViewDestroySpy: jasmine.Spy = spyOn(scrollbar._scrollbarsRef.hostView, 'destroy');
-    scrollbar.ngOnDestroy();
+    fixture.destroy();
     expect(hostViewDestroySpy).toHaveBeenCalled();
   });
 });

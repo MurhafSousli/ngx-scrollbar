@@ -14,16 +14,12 @@
     --_timeline-scope: --scrollerY;
     --_animation-timeline-y: --scrollerY;
     --_viewport_scroll-timeline: --scrollerY y;
-
-    --_scrollbar-y-thumb-transform-to-value: calc(var(--track-y-length) - var(--thumb-y-length));
  }
 
   @include selector.HorizontalUsed {
     --_timeline-scope: --scrollerX;
     --_animation-timeline-x: --scrollerX;
     --_viewport_scroll-timeline: --scrollerX x;
-
-    --_scrollbar-x-thumb-transform-to-value: calc(var(--track-x-length) - var(--thumb-x-length));
   }
 
   @include selector.BothUsed {

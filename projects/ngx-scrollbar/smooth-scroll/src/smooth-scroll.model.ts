@@ -1,5 +1,5 @@
 import { ElementRef, InjectionToken, Provider } from '@angular/core';
-import { _Left, _Top, _XAxis, _YAxis } from '@angular/cdk/scrolling';
+import { _XAxis, _YAxis } from '@angular/cdk/scrolling';
 import { defaultSmoothScrollOptions } from './smooth-scroll.default';
 
 export const SMOOTH_SCROLL_OPTIONS: InjectionToken<SmoothScrollOptions> = new InjectionToken<SmoothScrollOptions>('SMOOTH_SCROLL_OPTIONS', {
@@ -29,7 +29,7 @@ export type SmoothScrollToOptions = Partial<Pick<_XAxis, keyof _XAxis> & Pick<_Y
 /**
  * Interface for options provided for smooth scrolling to an element.
  */
-export type SmoothScrollToElementOptions = _Top & _Left & SmoothScrollOptions;
+export type SmoothScrollToElementOptions = SmoothScrollToOptions & { center?: boolean };
 
 export interface SmoothScrollStep {
   scrollable: Element;

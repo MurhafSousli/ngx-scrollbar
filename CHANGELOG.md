@@ -1,5 +1,25 @@
 # Changelog
 
+## 16.0.0-beta.2
+
+- feat: `scrollViewport` directive can be a descent child, not necessarily a direct child of `<ng-scrollbar externalViewport>`.
+- feat: Add `start`, `end`, `right`, `bottom` and `center` options to `scrollToElement` (supports RTL), closes [#637](https://github.com/MurhafSousli/ngx-scrollbar/issues/637).
+- feat: Add `syncSpacer` directive that is applied on `<ng-scrollbar externalViewport>` component to sync spacer element with content dimension changes.
+- fix: `ResizeObserver` loop completed with undelivered notifications, closes [#650](https://github.com/MurhafSousli/ngx-scrollbar/issues/650).
+- enhance: Improve scrollbar rendering speed that uses `externalViewport` such as integrating with 3rd party library.
+- enhance: Use the shared resize observer from the CDK to do the necessary calculation.
+- enhance: `asyncDetection` Use the content observer service from the CDK to detect viewport and content wrapper elements.
+- enhance: use `--scrollbar-thumb-hover-color` not only when hovered but also when active.
+- enhance: `track` and `thumb` controls uses more accurate measures using `getBoundingClientRect` instead of direct size properties.
+- refactor: Switch to `InputSignal` instead of standards inputs across components.
+- refactor: Use effects instead of `ngOnInit` to initialize the scrollbar component. 
+- refactor: Remove `scrollViewport` directive from `ng-scrollbar` hostDirectives because it's redundant.
+- refactor: the `TrackAdapter` now uses viewport & content dimension signals to update the track size instead of `ResizeObserver` events. 
+
+### Breaking changes
+
+- Minimum compatibility is Angular v17.3.0
+
 ## 15.1.3
 
 - enhance: Use injection factory for `NG_SCROLLBAR_OPTIONS` and `NG_SCROLLBAR_POLYFILL` to avoid merging custom options with the default options for every scrollbar component.

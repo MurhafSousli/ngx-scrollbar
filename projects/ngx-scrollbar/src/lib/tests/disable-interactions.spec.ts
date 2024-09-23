@@ -1,5 +1,6 @@
 import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { outputToObservable } from '@angular/core/rxjs-interop';
 import { NgScrollbar, NgScrollbarModule } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
 import { setDimensions } from './common-test.';
@@ -94,9 +95,7 @@ describe('disableInteraction option', () => {
 
   it('should disable interactions for track and thumb', async () => {
     setDimensions(component, { cmpHeight: 100, cmpWidth: 100, contentHeight: 300, contentWidth: 300 });
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     trackY = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-track')).injector.get(TrackAdapter);

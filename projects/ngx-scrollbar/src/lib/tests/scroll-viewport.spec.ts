@@ -6,25 +6,25 @@ import { setDimensions } from './common-test.';
 describe('Viewport Adapter', () => {
   let component: NgScrollbar;
   let fixture: ComponentFixture<NgScrollbar>;
+  let viewportInitSpy: jasmine.Spy;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NgScrollbar],
-      providers: [{ provide: ComponentFixtureAutoDetect, useValue: true }]
+      providers: [
+        { provide: ComponentFixtureAutoDetect, useValue: true }
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(NgScrollbar);
     component = fixture.componentInstance;
+    viewportInitSpy = spyOn(component.viewport, 'init').and.callThrough();
   });
 
   it('should initialize viewport and add the proper classes to viewport and content wrapper', () => {
     expect(component.viewport).toBeDefined();
 
-    const viewportInitSpy: jasmine.Spy = spyOn(component.viewport, 'init');
-    component.ngOnInit();
-
-    expect(viewportInitSpy).toHaveBeenCalledOnceWith(component.nativeElement, component.contentWrapper.nativeElement);
-    component.ngAfterViewInit();
+    expect(viewportInitSpy).toHaveBeenCalledOnceWith(component.nativeElement, component.contentWrapper().nativeElement);
 
     expect(component.viewport.nativeElement).toBeDefined();
     expect(component.viewport.contentWrapperElement).toBeDefined();
@@ -36,9 +36,8 @@ describe('Viewport Adapter', () => {
   });
 
   it('should instantly jump to scroll position when using scrollYTo and scrollXTo', () => {
+    TestBed.flushEffects();
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 400, contentHeight: 400 });
-    component.ngOnInit();
-    component.ngAfterViewInit();
 
     component.viewport.scrollYTo(200);
     expect(component.viewport.scrollTop).toBe(200);

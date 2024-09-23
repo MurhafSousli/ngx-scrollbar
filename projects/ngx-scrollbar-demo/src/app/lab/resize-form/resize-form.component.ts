@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, model, ModelSignal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatDividerModule } from '@angular/material/divider';
@@ -11,14 +11,9 @@ import { MatDividerModule } from '@angular/material/divider';
   standalone: true,
   imports: [MatSliderModule, FormsModule, MatDividerModule]
 })
-export class ResizeFormComponent implements AfterViewChecked {
+export class ResizeFormComponent {
 
-  @Input() value: ResizeChange;
-  @Output() valueChange: EventEmitter<ResizeChange> = new EventEmitter<ResizeChange>();
-
-  ngAfterViewChecked() {
-    this.valueChange.emit(this.value);
-  }
+  value: ModelSignal<ResizeChange> = model<ResizeChange>()
 
   contentWidthDisplayWith(value: number) {
     return `x${ value }`;

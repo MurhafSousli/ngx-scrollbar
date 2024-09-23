@@ -1,6 +1,7 @@
 import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { outputToObservable } from '@angular/core/rxjs-interop';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
 import { setDimensions } from './common-test.';
@@ -21,14 +22,12 @@ describe('Visibility styles', () => {
     fixture = TestBed.createComponent(NgScrollbar);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 100, contentHeight: 200 });
   });
 
   it('[Visibility] should be hidden when visibility="hover"', async () => {
-    setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 100, contentHeight: 200 });
     fixture.componentRef.setInput('visibility', 'hover');
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit));
 
     const stickyDebugElement: DebugElement = fixture.debugElement.query(By.css('.ng-scrollbar-sticky'));
 
@@ -43,15 +42,12 @@ describe('Visibility styles', () => {
   });
 
   it('[Visibility] should be able to override styles related to sticky container using CSS variables', async () => {
-    setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 100, contentHeight: 200 });
     fixture.componentRef.setInput('visibility', 'hover');
     // Override track color and transition using CSS variables
     component.nativeElement.style.setProperty('--scrollbar-hover-opacity-transition-enter-duration', '200ms');
     component.nativeElement.style.setProperty('--scrollbar-hover-opacity-transition-leave-duration', '500ms');
     component.nativeElement.style.setProperty('--scrollbar-hover-opacity-transition-leave-delay', '3s');
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit));
 
     const stickyDebugElement: DebugElement = fixture.debugElement.query(By.css('.ng-scrollbar-sticky'));
     const stickyStyles: CSSStyleDeclaration = getComputedStyle(stickyDebugElement.nativeElement);
@@ -62,29 +58,10 @@ describe('Visibility styles', () => {
     expect(stickyStyles.transitionProperty).toBe('opacity');
   });
 
-  // it('[Visibility] should set default styles and hover effect', async () => {
-  //   setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 100, contentHeight: 200 });
-  //   component.ngOnInit();
-  //   component.ngAfterViewInit();
-  //   await firstValueFrom(component.afterInit);
-  //
-  //   const trackStyles: CSSStyleDeclaration = getComputedStyle(component._scrollbars.y.track.nativeElement);
-  //
-  //   expect(component.nativeElement.getAttribute('visibility')).toBe('native');
-  //   expect(trackStyles.position).toBe('absolute');
-  //
-  //   expect(trackStyles.opacity).toBe('1');
-  //   expect(trackStyles.transition).toBe('height 0.15s ease-out 0s, width 0.15s ease-out 0s');
-  //   expect(trackStyles.backgroundColor).toBe('rgba(0, 0, 0, 0)');
-  // });
-  //
   it('[Visibility] should be able to override styles related to scrollbar track using CSS variables', async () => {
-    setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 100, contentHeight: 200 });
     // Override track color and transition using CSS variables
     component.nativeElement.style.setProperty('--scrollbar-track-color', 'red');
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit));
 
     const trackDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
     const trackStyles: CSSStyleDeclaration = getComputedStyle(trackDebugElement.nativeElement);

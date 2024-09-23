@@ -19,7 +19,7 @@ describe('Native scrollbars', () => {
 
   it('should hide the native scrollbars by default', () => {
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 200, contentHeight: 200 });
-    component.ngOnInit();
+    // component.ngOnInit();
 
     const pseudoStyle: CSSStyleDeclaration = getComputedStyle(component.viewport.nativeElement, '::-webkit-scrollbar');
     const scrollbarDisplay: string = pseudoStyle.getPropertyValue('display');

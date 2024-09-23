@@ -76,3 +76,7 @@ export interface NgScrollbarOptions {
   /** A flag used to activate hover effect on the offset area around the scrollbar */
   hoverOffset?: boolean;
 }
+
+export function filterResizeEntries(entries: ResizeObserverEntry[], target: Element): DOMRectReadOnly {
+  return entries.filter((entry: ResizeObserverEntry) => entry.target === target)[0]?.contentRect;
+}

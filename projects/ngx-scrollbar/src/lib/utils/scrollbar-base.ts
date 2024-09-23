@@ -2,7 +2,7 @@ import { InjectionToken, Signal, WritableSignal } from '@angular/core';
 import { Direction } from '@angular/cdk/bidi';
 import { SmoothScrollToOptions } from 'ngx-scrollbar/smooth-scroll';
 import { ViewportAdapter } from '../viewport';
-import { ScrollbarDragging, ViewportBoundaries } from './common';
+import { ElementDimension, ScrollbarDragging } from './common';
 
 
 /**
@@ -15,7 +15,7 @@ export interface _NgScrollbar {
   nativeElement: HTMLElement;
   dragging: WritableSignal<ScrollbarDragging>;
   direction: Signal<Direction>;
-  trackScrollDuration: number;
+  trackScrollDuration: Signal<number>;
   hoverOffset: Signal<boolean>;
   buttons: Signal<boolean>;
   disableSensor: Signal<boolean>;
@@ -25,10 +25,11 @@ export interface _NgScrollbar {
   isHorizontallyScrollable: Signal<boolean>;
   verticalUsed: Signal<boolean>;
   horizontalUsed: Signal<boolean>;
-  viewportDimension: Signal<ViewportBoundaries>;
-  thumbClass: string;
-  trackClass: string;
-  buttonClass: string;
+  thumbClass: Signal<string>;
+  trackClass: Signal<string>;
+  buttonClass: Signal<string>;
+  viewportDimension: WritableSignal<ElementDimension>;
+  contentDimension: WritableSignal<ElementDimension>;
 
   get viewport(): ViewportAdapter;
 

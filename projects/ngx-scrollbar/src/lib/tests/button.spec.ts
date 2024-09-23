@@ -2,6 +2,7 @@ import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { Directionality } from '@angular/cdk/bidi';
+import { outputToObservable } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { NgScrollbar, NgScrollbarModule } from 'ngx-scrollbar';
 import { provideSmoothScrollOptions } from 'ngx-scrollbar/smooth-scroll';
@@ -35,19 +36,20 @@ describe('Buttons', () => {
     }).compileComponents();
 
     directionalityMock.value = 'ltr';
+    directionalityMock.change.next('ltr');
 
     fixture = TestBed.createComponent(NgScrollbar);
     component = fixture.componentInstance;
 
     fixture.componentRef.setInput('appearance', 'compact');
+
+    TestBed.flushEffects();
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 200, contentHeight: 200 });
   });
 
   it('should not display the scrollbar buttons when [buttons]="false"', async () => {
     fixture.componentRef.setInput('buttons', false);
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
 
     const buttons: DebugElement[] = fixture.debugElement.queryAll(By.directive(ScrollbarButton));
     expect(buttons.length).toBeFalsy();
@@ -55,9 +57,7 @@ describe('Buttons', () => {
 
   it('should display buttons when [buttons]="true"', async () => {
     fixture.componentRef.setInput('buttons', true);
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
 
     const buttons: DebugElement[] = fixture.debugElement.queryAll(By.directive(ScrollbarButton));
     expect(buttons.length).toBeTruthy();
@@ -65,9 +65,7 @@ describe('Buttons', () => {
 
   it('should scroll to bottom on arrow-down button click', async () => {
     fixture.componentRef.setInput('buttons', true);
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="bottom"]'));
@@ -97,9 +95,7 @@ describe('Buttons', () => {
 
   it('should scroll to top on arrow-up button click', async () => {
     fixture.componentRef.setInput('buttons', true);
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit));
     TestBed.flushEffects();
 
     await component.scrollTo({ bottom: 0, duration: 0 });
@@ -130,9 +126,7 @@ describe('Buttons', () => {
 
   it('should scroll to right on arrow-right button click', async () => {
     fixture.componentRef.setInput('buttons', true);
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="end"]'));
@@ -162,9 +156,7 @@ describe('Buttons', () => {
 
   it('should scroll to left on arrow-left button click', async () => {
     fixture.componentRef.setInput('buttons', true);
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     await component.scrollTo({ end: 0, duration: 0 });
@@ -196,10 +188,9 @@ describe('Buttons', () => {
 
   it('[RTL] should scroll to left on arrow-left button click', async () => {
     directionalityMock.value = 'rtl';
+    directionalityMock.change.next('rtl');
     fixture.componentRef.setInput('buttons', true);
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="end"]'));
@@ -228,10 +219,9 @@ describe('Buttons', () => {
 
   it('[RTL] should scroll to right on arrow-right button click', async () => {
     directionalityMock.value = 'rtl';
+    directionalityMock.change.next('rtl');
     fixture.componentRef.setInput('buttons', true);
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     await component.scrollTo({ end: 0, duration: 0 });
@@ -263,9 +253,7 @@ describe('Buttons', () => {
 
   it('should stop scrolling when pointer is up', async () => {
     fixture.componentRef.setInput('buttons', true);
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="bottom"]'));
@@ -283,9 +271,7 @@ describe('Buttons', () => {
 
   it('should stop scrolling when pointer leaves the button', async () => {
     fixture.componentRef.setInput('buttons', true);
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
     TestBed.flushEffects();
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="bottom"]'));

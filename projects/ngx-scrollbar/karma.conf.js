@@ -35,7 +35,13 @@ module.exports = function (config) {
       ]
     },
     reporters: ['progress', 'kjhtml'],
-    browsers: ['Chrome'],
+    browsers: ["MyChromeWithoutSearchSelect"],
+    customLaunchers: {
+      MyChromeWithoutSearchSelect: {
+        base: "Chrome",
+        flags: ["-disable-search-engine-choice-screen"],
+      },
+    },
     restartOnFileChange: true
   });
 };

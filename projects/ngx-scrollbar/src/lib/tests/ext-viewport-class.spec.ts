@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Component, DebugElement, ElementRef, ViewChild } from '@angular/core';
+import { Component, DebugElement, ElementRef, Signal, viewChild, ViewChild } from '@angular/core';
+import { outputToObservable } from '@angular/core/rxjs-interop';
 import { NgScrollbarExt, NgScrollbarModule, } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
 import { Scrollbars } from '../scrollbars/scrollbars';
@@ -40,177 +41,165 @@ class SampleWithoutContentWrapperComponent {
   standalone: true,
   imports: [NgScrollbarModule, SampleContentComponent, SampleWithoutContentWrapperComponent],
   template: `
-    @if (withContentWrapper) {
-      <ng-scrollbar [externalViewport]="externalViewport"
-                    [externalContentWrapper]="externalContentWrapper"
-                    [externalSpacer]="externalSpacer">
-        <sample-content/>
-      </ng-scrollbar>
-    } @else {
-      <ng-scrollbar [externalViewport]="externalViewport">
-        <sample-without-content-wrapper/>
-      </ng-scrollbar>
-    }
+    <ng-scrollbar [externalViewport]="externalViewport">
+      <sample-without-content-wrapper/>
+    </ng-scrollbar>
   `
 })
-class ViewportClassExampleComponent {
+class WithViewportDirectiveComponent {
+  externalViewport: string;
+  scrollbar: Signal<NgScrollbarExt> = viewChild(NgScrollbarExt);
+  sample1: Signal<SampleWithoutContentWrapperComponent> = viewChild(SampleWithoutContentWrapperComponent);
+}
+
+@Component({
+  standalone: true,
+  imports: [NgScrollbarModule, SampleContentComponent, SampleWithoutContentWrapperComponent],
+  template: `
+    <ng-scrollbar [externalViewport]="externalViewport"
+                  [externalContentWrapper]="externalContentWrapper"
+                  [externalSpacer]="externalSpacer">
+      <sample-content/>
+    </ng-scrollbar>
+  `
+})
+class WithViewportDirectiveAndInputsComponent {
   externalViewport: string;
   externalContentWrapper: string;
   externalSpacer: string;
-
-  withContentWrapper: boolean;
-
-  @ViewChild(NgScrollbarExt) scrollbar: NgScrollbarExt;
-  @ViewChild(SampleContentComponent) sample2: SampleContentComponent;
-  @ViewChild(SampleWithoutContentWrapperComponent) sample1: SampleWithoutContentWrapperComponent;
+  scrollbar: Signal<NgScrollbarExt> = viewChild(NgScrollbarExt);
+  sample2: Signal<SampleContentComponent> = viewChild(SampleContentComponent);
 }
 
 describe('External viewport via classes', () => {
-  let fixture: ComponentFixture<ViewportClassExampleComponent>;
-  let component: ViewportClassExampleComponent;
-  let scrollbar: NgScrollbarExt;
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ViewportClassExampleComponent);
-    component = fixture.componentInstance;
-  });
 
   it('[Viewport class] should initialize viewport and attach scrollbars', async () => {
+    const fixture: ComponentFixture<WithViewportDirectiveComponent> = TestBed.createComponent(WithViewportDirectiveComponent);
+    const component: WithViewportDirectiveComponent = fixture.componentInstance;
+    const scrollbarCmp: NgScrollbarExt = component.scrollbar();
+
+    const viewportInitSpy: jasmine.Spy = spyOn(scrollbarCmp.viewport, 'init').and.callThrough();
+    const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbarCmp, 'attachScrollbars').and.callThrough();
     component.externalViewport = '.my-custom-viewport';
-    fixture.detectChanges();
 
-    scrollbar = component.scrollbar;
-
-    const viewportInitSpy: jasmine.Spy = spyOn(scrollbar.viewport, 'init');
-    const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbar, 'attachScrollbars');
-
-    scrollbar.ngOnInit();
-    scrollbar.ngAfterViewInit();
 
     fixture.detectChanges();
 
-    expect(scrollbar.customViewport).toBeFalsy();
-    expect(scrollbar.externalViewport).toBeTruthy();
-    expect(scrollbar.externalContentWrapper).toBeFalsy();
-    expect(scrollbar.externalSpacer).toBeFalsy();
-    expect(scrollbar.skipInit).toBeFalsy();
-    expect(scrollbar.viewport.initialized()).toBeTruthy();
+    expect(scrollbarCmp.customViewport()).toBeFalsy();
+    expect(scrollbarCmp.externalViewport()).toBeTruthy();
+    expect(scrollbarCmp.externalContentWrapper()).toBeFalsy();
+    expect(scrollbarCmp.externalSpacer()).toBeFalsy();
+    expect(scrollbarCmp.skipInit).toBeFalsy();
+    expect(scrollbarCmp.viewport.initialized()).toBeTruthy();
 
-    const viewportElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalViewport))?.nativeElement;
+    const viewportElement: HTMLElement = fixture.debugElement.query(By.css(scrollbarCmp.externalViewport()))?.nativeElement;
 
     expect(viewportInitSpy).toHaveBeenCalledOnceWith(
       viewportElement,
       viewportElement.firstElementChild as HTMLElement,
-      undefined
+      null
     );
     expect(attachScrollbarSpy).toHaveBeenCalled();
-    expect(component.scrollbar._scrollbarsRef).toBeTruthy();
+    expect(scrollbarCmp._scrollbarsRef).toBeTruthy();
 
-    await firstValueFrom(scrollbar.afterInit);
+    await firstValueFrom(outputToObservable(scrollbarCmp.afterInit));
 
     // Verify the viewport
-    expect(scrollbar.viewport.nativeElement).toBe(viewportElement);
+    expect(scrollbarCmp.viewport.nativeElement).toBe(viewportElement);
     // // Verify that the content is a direct child of the content wrapper element
-    expect(scrollbar.viewport.contentWrapperElement).toEqual(component.sample1.content.nativeElement.parentElement);
+    expect(scrollbarCmp.viewport.contentWrapperElement).toEqual(component.sample1().content.nativeElement.parentElement);
 
     // Check if the scrollbars component is created
-    expect(scrollbar._scrollbars).toBeTruthy();
+    expect(scrollbarCmp._scrollbars()).toBeTruthy();
     const scrollbarsDebugElement: DebugElement = fixture.debugElement.query(By.directive(Scrollbars));
     // Verify if the created scrollbars component is the same component instance queried
-    expect(scrollbar._scrollbars).toBe(scrollbarsDebugElement.componentInstance);
+    expect(scrollbarCmp._scrollbars()).toBe(scrollbarsDebugElement.componentInstance);
     // Check if the created scrollbars component is the direct child of content wrapper element
-    expect((scrollbarsDebugElement.nativeElement as Element).parentElement).toBe(scrollbar.viewport.contentWrapperElement);
+    expect((scrollbarsDebugElement.nativeElement as Element).parentElement).toBe(scrollbarCmp.viewport.contentWrapperElement);
 
-    const hostViewDestroySpy: jasmine.Spy = spyOn(scrollbar._scrollbarsRef.hostView, 'destroy');
-    scrollbar.ngOnDestroy();
+    const hostViewDestroySpy: jasmine.Spy = spyOn(scrollbarCmp._scrollbarsRef.hostView, 'destroy');
+    fixture.destroy();
     expect(hostViewDestroySpy).toHaveBeenCalled();
   });
 
 
   it('[Viewport + content wrapper classes] should initialize viewport and attach scrollbars', async () => {
+    const fixture: ComponentFixture<WithViewportDirectiveAndInputsComponent> = TestBed.createComponent(WithViewportDirectiveAndInputsComponent);
+    const component: WithViewportDirectiveAndInputsComponent = fixture.componentInstance;
+    const scrollbarCmp: NgScrollbarExt = component.scrollbar();
+
+    const viewportInitSpy: jasmine.Spy = spyOn(scrollbarCmp.viewport, 'init').and.callThrough();
+    const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbarCmp, 'attachScrollbars').and.callThrough();
     component.externalViewport = '.my-custom-viewport';
     component.externalContentWrapper = '.my-custom-content-wrapper';
-    component.withContentWrapper = true;
-    fixture.detectChanges();
 
-    scrollbar = component.scrollbar;
-
-    const viewportInitSpy: jasmine.Spy = spyOn(scrollbar.viewport, 'init');
-    const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbar, 'attachScrollbars');
-
-    scrollbar.ngOnInit();
-    scrollbar.ngAfterViewInit();
 
     fixture.detectChanges();
 
-    expect(scrollbar.customViewport).toBeFalsy();
-    expect(scrollbar.externalViewport).toBeTruthy();
-    expect(scrollbar.externalContentWrapper).toBeTruthy();
-    expect(scrollbar.externalSpacer).toBeFalsy();
-    expect(scrollbar.skipInit).toBeFalsy();
-    expect(scrollbar.viewport.initialized()).toBeTruthy();
+    expect(scrollbarCmp.customViewport()).toBeFalsy();
+    expect(scrollbarCmp.externalViewport()).toBeTruthy();
+    expect(scrollbarCmp.externalContentWrapper()).toBeTruthy();
+    expect(scrollbarCmp.externalSpacer()).toBeFalsy();
+    expect(scrollbarCmp.skipInit).toBeFalsy();
+    expect(scrollbarCmp.viewport.initialized()).toBeTruthy();
 
-    const viewportElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalViewport))?.nativeElement;
-    const contentWrapperElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalContentWrapper))?.nativeElement;
+    const viewportElement: HTMLElement = fixture.debugElement.query(By.css(scrollbarCmp.externalViewport()))?.nativeElement;
+    const contentWrapperElement: HTMLElement = fixture.debugElement.query(By.css(scrollbarCmp.externalContentWrapper()))?.nativeElement;
 
     expect(viewportInitSpy).toHaveBeenCalledOnceWith(
       viewportElement,
       contentWrapperElement,
-      undefined
+      null
     );
     expect(attachScrollbarSpy).toHaveBeenCalled();
-    expect(component.scrollbar._scrollbarsRef).toBeTruthy();
+    expect(scrollbarCmp._scrollbarsRef).toBeTruthy();
 
-    await firstValueFrom(scrollbar.afterInit);
+    await firstValueFrom(outputToObservable(scrollbarCmp.afterInit));
 
     // Verify the viewport
-    expect(scrollbar.viewport.nativeElement).toBe(viewportElement);
+    expect(scrollbarCmp.viewport.nativeElement).toBe(viewportElement);
     // Verify that the content wrapper
-    expect(scrollbar.viewport.contentWrapperElement).toBe(contentWrapperElement);
+    expect(scrollbarCmp.viewport.contentWrapperElement).toBe(contentWrapperElement);
     // Verify that the content is a direct child of the content wrapper element
-    expect(component.sample2.content.nativeElement.parentElement).toBe(contentWrapperElement);
+    expect(component.sample2().content.nativeElement.parentElement).toBe(contentWrapperElement);
 
     // Check if the scrollbars component is created
-    expect(scrollbar._scrollbars).toBeTruthy();
+    expect(scrollbarCmp._scrollbars()).toBeTruthy();
     const scrollbarsDebugElement: DebugElement = fixture.debugElement.query(By.directive(Scrollbars));
     // Verify if the created scrollbars component is the same component instance queried
-    expect(scrollbar._scrollbars).toBe(scrollbarsDebugElement.componentInstance);
+    expect(scrollbarCmp._scrollbars()).toBe(scrollbarsDebugElement.componentInstance);
     // Check if the created scrollbars component is the direct child of content wrapper element
-    expect((scrollbarsDebugElement.nativeElement as Element).parentElement).toBe(scrollbar.viewport.contentWrapperElement);
+    expect((scrollbarsDebugElement.nativeElement as Element).parentElement).toBe(scrollbarCmp.viewport.contentWrapperElement);
 
-    const hostViewDestroySpy: jasmine.Spy = spyOn(scrollbar._scrollbarsRef.hostView, 'destroy');
-    scrollbar.ngOnDestroy();
+    const hostViewDestroySpy: jasmine.Spy = spyOn(scrollbarCmp._scrollbarsRef.hostView, 'destroy');
+    fixture.destroy();
     expect(hostViewDestroySpy).toHaveBeenCalled();
   });
 
-
   it('[Viewport + content wrapper + spacer classes] should initialize viewport and attach scrollbars', async () => {
+    const fixture: ComponentFixture<WithViewportDirectiveAndInputsComponent> = TestBed.createComponent(WithViewportDirectiveAndInputsComponent);
+    const component: WithViewportDirectiveAndInputsComponent = fixture.componentInstance;
+    const scrollbarCmp: NgScrollbarExt = component.scrollbar();
+
+    const viewportInitSpy: jasmine.Spy = spyOn(scrollbarCmp.viewport, 'init').and.callThrough();
+    const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbarCmp, 'attachScrollbars').and.callThrough();
     component.externalViewport = '.my-custom-viewport';
     component.externalContentWrapper = '.my-custom-content-wrapper';
     component.externalSpacer = '.my-custom-spacer';
-    component.withContentWrapper = true;
-    fixture.detectChanges();
 
-    scrollbar = component.scrollbar;
-
-    const viewportInitSpy: jasmine.Spy = spyOn(scrollbar.viewport, 'init');
-    const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbar, 'attachScrollbars');
-
-    scrollbar.ngOnInit();
-    scrollbar.ngAfterViewInit();
 
     fixture.detectChanges();
 
-    expect(scrollbar.customViewport).toBeFalsy();
-    expect(scrollbar.externalViewport).toBeTruthy();
-    expect(scrollbar.externalContentWrapper).toBeTruthy();
-    expect(scrollbar.externalSpacer).toBeTruthy();
-    expect(scrollbar.skipInit).toBeFalsy();
-    expect(scrollbar.viewport.initialized()).toBeTruthy();
+    expect(scrollbarCmp.customViewport()).toBeFalsy();
+    expect(scrollbarCmp.externalViewport()).toBeTruthy();
+    expect(scrollbarCmp.externalContentWrapper()).toBeTruthy();
+    expect(scrollbarCmp.externalSpacer()).toBeTruthy();
+    expect(scrollbarCmp.skipInit).toBeFalsy();
+    expect(scrollbarCmp.viewport.initialized()).toBeTruthy();
 
-    const viewportElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalViewport))?.nativeElement;
-    const contentWrapperElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalContentWrapper))?.nativeElement;
-    const spacerElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalSpacer))?.nativeElement;
+    const viewportElement: HTMLElement = fixture.debugElement.query(By.css(scrollbarCmp.externalViewport()))?.nativeElement;
+    const contentWrapperElement: HTMLElement = fixture.debugElement.query(By.css(scrollbarCmp.externalContentWrapper()))?.nativeElement;
+    const spacerElement: HTMLElement = fixture.debugElement.query(By.css(scrollbarCmp.externalSpacer()))?.nativeElement;
 
     expect(viewportInitSpy).toHaveBeenCalledOnceWith(
       viewportElement,
@@ -218,102 +207,99 @@ describe('External viewport via classes', () => {
       spacerElement
     );
     expect(attachScrollbarSpy).toHaveBeenCalled();
-    expect(component.scrollbar._scrollbarsRef).toBeTruthy();
+    expect(scrollbarCmp._scrollbarsRef).toBeTruthy();
 
-    await firstValueFrom(scrollbar.afterInit);
+    await firstValueFrom(outputToObservable(scrollbarCmp.afterInit));
 
     // Verify the viewport
-    expect(scrollbar.viewport.nativeElement).toBe(viewportElement);
+    expect(scrollbarCmp.viewport.nativeElement).toBe(viewportElement);
     // Verify that the content wrapper to be the spacer element
-    expect(scrollbar.viewport.contentWrapperElement).toBe(spacerElement);
+    expect(scrollbarCmp.viewport.contentWrapperElement).toBe(spacerElement);
     // Verify that the content is a direct child of the content wrapper element
-    expect(component.sample2.content.nativeElement.parentElement).toBe(contentWrapperElement);
+    expect(component.sample2().content.nativeElement.parentElement).toBe(contentWrapperElement);
 
     // Check if the scrollbars component is created
-    expect(scrollbar._scrollbars).toBeTruthy();
+    expect(scrollbarCmp._scrollbars()).toBeTruthy();
     const scrollbarsDebugElement: DebugElement = fixture.debugElement.query(By.directive(Scrollbars));
     // Verify if the created scrollbars component is the same component instance queried
-    expect(scrollbar._scrollbars).toBe(scrollbarsDebugElement.componentInstance);
+    expect(scrollbarCmp._scrollbars()).toBe(scrollbarsDebugElement.componentInstance);
     // Check if the created scrollbars component is the direct child of content wrapper element
-    expect((scrollbarsDebugElement.nativeElement as Element).parentElement).toBe(scrollbar.viewport.contentWrapperElement);
+    expect((scrollbarsDebugElement.nativeElement as Element).parentElement).toBe(scrollbarCmp.viewport.contentWrapperElement);
 
-    const hostViewDestroySpy: jasmine.Spy = spyOn(scrollbar._scrollbarsRef.hostView, 'destroy');
-    scrollbar.ngOnDestroy();
+    const hostViewDestroySpy: jasmine.Spy = spyOn(scrollbarCmp._scrollbarsRef.hostView, 'destroy');
+    fixture.destroy();
     expect(hostViewDestroySpy).toHaveBeenCalled();
   });
 
   it(`[Error handling - content wrapper doesn't exist] should NOT initialize viewport or attach scrollbars`, async () => {
+    const fixture: ComponentFixture<WithViewportDirectiveAndInputsComponent> = TestBed.createComponent(WithViewportDirectiveAndInputsComponent);
+    const component: WithViewportDirectiveAndInputsComponent = fixture.componentInstance;
+    const scrollbarCmp: NgScrollbarExt = component.scrollbar();
+
+    const viewportInitSpy: jasmine.Spy = spyOn(scrollbarCmp.viewport, 'init').and.callThrough();
+    const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbarCmp, 'attachScrollbars').and.callThrough();
+    const consoleSpy: jasmine.Spy = spyOn(console, 'error').and.callThrough();
+
     component.externalViewport = '.not-existing-viewport';
-    fixture.detectChanges();
-    scrollbar = component.scrollbar;
 
-    const consoleSpy: jasmine.Spy = spyOn(console, 'error');
-    const viewportInitSpy: jasmine.Spy = spyOn(scrollbar.viewport, 'init');
-    const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbar, 'attachScrollbars');
-
-    scrollbar.ngOnInit();
-    scrollbar.ngAfterViewInit();
 
     fixture.detectChanges();
 
-    expect(scrollbar.customViewport).toBeFalsy();
-    expect(scrollbar.skipInit).toBeFalsy();
-    expect(scrollbar.viewport.initialized()).toBeFalsy();
-    expect(scrollbar._scrollbars).toBeFalsy();
+    expect(scrollbarCmp.customViewport()).toBeFalsy();
+    expect(scrollbarCmp.skipInit).toBeFalsy();
+    expect(scrollbarCmp.viewport.initialized()).toBeFalsy();
+    expect(scrollbarCmp._scrollbars()).toBeFalsy();
     expect(viewportInitSpy).not.toHaveBeenCalled();
     expect(attachScrollbarSpy).not.toHaveBeenCalled();
-    expect(consoleSpy).toHaveBeenCalledOnceWith(`[NgScrollbar]: Could not find the viewport element for the provided selector "${ scrollbar.externalViewport }"`)
+    expect(consoleSpy).toHaveBeenCalledOnceWith(`[NgScrollbar]: Could not find the viewport element for the provided selector "${ scrollbarCmp.externalViewport() }"`)
   });
 
   it(`[Error handling - content wrapper doesn't exist] should NOT initialize viewport or attach scrollbars`, async () => {
+    const fixture: ComponentFixture<WithViewportDirectiveAndInputsComponent> = TestBed.createComponent(WithViewportDirectiveAndInputsComponent);
+    const component: WithViewportDirectiveAndInputsComponent = fixture.componentInstance;
+    const scrollbarCmp: NgScrollbarExt = component.scrollbar();
+
+    const viewportInitSpy: jasmine.Spy = spyOn(scrollbarCmp.viewport, 'init').and.callThrough();
+    const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbarCmp, 'attachScrollbars').and.callThrough();
+    const consoleSpy: jasmine.Spy = spyOn(console, 'error').and.callThrough();
+
     component.externalViewport = '.my-custom-viewport';
     component.externalContentWrapper = '.not-existing-content-wrapper';
-    component.withContentWrapper = true;
-    fixture.detectChanges();
-    scrollbar = component.scrollbar;
 
-    const consoleSpy: jasmine.Spy = spyOn(console, 'error');
-    const viewportInitSpy: jasmine.Spy = spyOn(scrollbar.viewport, 'init');
-    const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbar, 'attachScrollbars');
-
-    scrollbar.ngOnInit();
-    scrollbar.ngAfterViewInit();
 
     fixture.detectChanges();
 
-    expect(scrollbar.customViewport).toBeFalsy();
-    expect(scrollbar.skipInit).toBeFalsy();
-    expect(scrollbar.viewport.initialized()).toBeFalsy();
-    expect(scrollbar._scrollbars).toBeFalsy();
+    expect(scrollbarCmp.customViewport()).toBeFalsy();
+    expect(scrollbarCmp.skipInit).toBeFalsy();
+    expect(scrollbarCmp.viewport.initialized()).toBeFalsy();
+    expect(scrollbarCmp._scrollbars()).toBeFalsy();
     expect(viewportInitSpy).not.toHaveBeenCalled();
     expect(attachScrollbarSpy).not.toHaveBeenCalled();
-    expect(consoleSpy).toHaveBeenCalledOnceWith(`[NgScrollbar]: Content wrapper element not found for the provided selector "${ scrollbar.externalContentWrapper }"`)
+    expect(consoleSpy).toHaveBeenCalledOnceWith(`[NgScrollbar]: Content wrapper element not found for the provided selector "${ scrollbarCmp.externalContentWrapper() }"`)
   });
 
-
   it(`[Error handling - spacer doesn't exist] should NOT initialize viewport or attach scrollbars`, async () => {
+    const fixture: ComponentFixture<WithViewportDirectiveAndInputsComponent> = TestBed.createComponent(WithViewportDirectiveAndInputsComponent);
+    const component: WithViewportDirectiveAndInputsComponent = fixture.componentInstance;
+    const scrollbarCmp: NgScrollbarExt = component.scrollbar();
+
+    const viewportInitSpy: jasmine.Spy = spyOn(scrollbarCmp.viewport, 'init').and.callThrough();
+    const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbarCmp, 'attachScrollbars').and.callThrough();
+    const consoleSpy: jasmine.Spy = spyOn(console, 'error').and.callThrough();
+
     component.externalViewport = '.my-custom-viewport';
     component.externalContentWrapper = '.my-custom-content-wrapper';
     component.externalSpacer = '.not-existing-spacer';
-    component.withContentWrapper = true;
-    fixture.detectChanges();
-    scrollbar = component.scrollbar;
 
-    const consoleSpy: jasmine.Spy = spyOn(console, 'error');
-    const viewportInitSpy: jasmine.Spy = spyOn(scrollbar.viewport, 'init');
-    const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbar, 'attachScrollbars');
-
-    scrollbar.ngOnInit();
-    scrollbar.ngAfterViewInit();
 
     fixture.detectChanges();
 
-    expect(scrollbar.customViewport).toBeFalsy();
-    expect(scrollbar.skipInit).toBeFalsy();
-    expect(scrollbar.viewport.initialized()).toBeFalsy();
-    expect(scrollbar._scrollbars).toBeFalsy();
+    expect(scrollbarCmp.customViewport()).toBeFalsy();
+    expect(scrollbarCmp.skipInit).toBeFalsy();
+    expect(scrollbarCmp.viewport.initialized()).toBeFalsy();
+    expect(scrollbarCmp._scrollbars()).toBeFalsy();
     expect(viewportInitSpy).not.toHaveBeenCalled();
     expect(attachScrollbarSpy).not.toHaveBeenCalled();
-    expect(consoleSpy).toHaveBeenCalledOnceWith(`[NgScrollbar]: Spacer element not found for the provided selector "${ scrollbar.externalSpacer }"`)
+    expect(consoleSpy).toHaveBeenCalledOnceWith(`[NgScrollbar]: Spacer element not found for the provided selector "${ scrollbarCmp.externalSpacer() }"`)
   });
 });

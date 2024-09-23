@@ -184,9 +184,11 @@
                    [style.width.px]="(component.nativeElement.offsetWidth - (appearance === 'native' ? +variables.thickness + (+variables.trackOffset * 2) : 0)) * slider.contentWidth"
                    [innerHTML]="content"></div>
 
-              <div *ngIf="scrollToElementSelected" id="target">
-                <app-logo></app-logo>
-              </div>
+              @if (scrollToElementSelected) {
+                <div id="target">
+                  <app-logo></app-logo>
+                </div>
+              }
 
             </ng-scrollbar>
 

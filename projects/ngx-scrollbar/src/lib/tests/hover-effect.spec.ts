@@ -1,5 +1,6 @@
 import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { outputToObservable } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { setDimensions } from './common-test.';
@@ -26,9 +27,7 @@ describe('Hover effect', () => {
   it('Should activate hover effect only when mouse is over the scrollbar in case [hoverOffset]="false"', async () => {
     setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 400, contentWidth: 400 });
     fixture.componentRef.setInput('hoverOffset', false);
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
 
     const stickyYElement: Element = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-sticky')).nativeElement;
     const stickyXElement: Element = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-sticky')).nativeElement;
@@ -45,9 +44,7 @@ describe('Hover effect', () => {
   it('Should activate hover effect when mouse is over the offset area in case [hoverOffset]="true"', async () => {
     setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 400, contentWidth: 400 });
     fixture.componentRef.setInput('hoverOffset', true);
-    component.ngOnInit();
-    component.ngAfterViewInit();
-    await firstValueFrom(component.afterInit);
+    await firstValueFrom(outputToObservable(component.afterInit))
 
     const stickyYElement: Element = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-sticky')).nativeElement;
     const stickyXElement: Element = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-sticky')).nativeElement;

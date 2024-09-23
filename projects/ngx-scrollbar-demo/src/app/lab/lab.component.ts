@@ -140,6 +140,7 @@ export class LabComponent {
     const options: Partial<SmoothScrollOptionsForm> = {
       [event.axisXProperty]: event.axisXValue,
       [event.axisYProperty]: event.axisYValue,
+      center: event.center,
       duration: event.duration
     };
     // This shows effect on play button when scrollTo has reached
