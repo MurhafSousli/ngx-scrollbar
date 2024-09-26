@@ -6,7 +6,8 @@
       "glob": "*",
       "input": "./src/assets/",
       "output": "assets"
-    }
+    },
+    "docs/*.md"
   ],
   "lib": {
     "entryFile": "src/public-api.ts"

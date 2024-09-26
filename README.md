@@ -15,18 +15,14 @@
 
 Custom overlay-scrollbars with native scrolling mechanism for Angular, it also provides a cross-browser smooth scroll directive.
 
-___
-
-### The documentation is available at the [wiki page](https://github.com/MurhafSousli/ngx-scrollbar/wiki) 📚
-
-___
+***
 
 ## Features
 
 - Exceptional performance, see [comparing test results](https://github.com/MurhafSousli/ngx-scrollbar/wiki/Performance-analysis).
 - Native scrolling mechanism.
 - Easily Customizable using CSS variables.
-- Easy integration with other libraries.
+- Easy integration with 3rd party libraries.
 - RTL support.
 - Mobile support.
 - SSR support.
@@ -34,9 +30,39 @@ ___
 #### Addons directives:
 
 - Smooth scroll functionality.
-- Scroll reached events.
+- Scroll reached & dropped events.
 - **MatSelect** integration.
 - **CdkVirtualScroll** integration.
+
+***
+
+## Documentations
+
+### Table of contents
+
+* [Usage](projects/ngx-scrollbar/docs/Usage.md)
+* [Styling](projects/ngx-scrollbar/docs/Styling.md)
+* [Global Options](projects/ngx-scrollbar/docs/Global-options.md)
+* [Smooth Scroll Functions](projects/ngx-scrollbar/docs/Smooth-Scroll-Functions.md)
+* [Scroll Timeline Polyfill](projects/ngx-scrollbar/docs/Scroll-timeline-polyfill.md)
+
+### Addons:
+
+* [Integration Examples](projects/ngx-scrollbar/docs/Integration.md)
+  * [Material Select](projects/ngx-scrollbar/docs/Integration.md#material-select)
+  * [Material Dialog](projects/ngx-scrollbar/docs/Integration.md#material-dialog)
+  * [CDK Virtual Scroll](projects/ngx-scrollbar/docs/Integration.md#cdk-virtual-scroll)
+  * [ngx-datatable table](projects/ngx-scrollbar/docs/Integration.md#ngx-datatable-table)
+  * [Ag-grid table](projects/ngx-scrollbar/docs/Integration.md#ag-grid-table)
+  * [PrimeNG Scroller](projects/ngx-scrollbar/docs/Integration.md#primeng-scroller)
+  * [PrimeNG Table](projects/ngx-scrollbar/docs/Integration.md#primeng-table)
+  * [PrimeNG Dropdown](projects/ngx-scrollbar/docs/Integration.md#primeng-dropdown)
+  * [PrimeNg Dropdown (Virtual Scroll)](projects/ngx-scrollbar/docs/Integration.md#primeng-dropdown-virtual-scroll)
+  * [Kendu UI Grid](projects/ngx-scrollbar/docs/Integration.md#kendu-ui-grid)
+* [Reached & Dropped Events](projects/ngx-scrollbar/docs/Reached-&-Dropped-Events.md)
+* [Smooth Scroll Functions (without NgScrollbar)](projects/ngx-scrollbar/docs/Smooth-Scroll.md)
+
+___
 
 
 ## Issues

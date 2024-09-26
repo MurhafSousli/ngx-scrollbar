@@ -1,5 +1,9 @@
 # Changelog
 
+## 16.0.0
+
+- fix: `asyncDetection` scrollbars rendering delay.
+
 ## 16.0.0-beta.2
 
 - feat: `scrollViewport` directive can be a descent child, not necessarily a direct child of `<ng-scrollbar externalViewport>`.
@@ -19,6 +23,9 @@
 ### Breaking changes
 
 - Minimum compatibility is Angular v17.3.0
+- The directive `cdkVirtualScrollViewport` no longer accepts `auto` value, instead use `syncSpacer`
+  * Before `<ng-scrollbar externalViewport cdkVirtualScrollViewport="auto">`
+  * After `<ng-scrollbar externalViewport cdkVirtualScrollViewport syncSpacer>`
 
 ## 15.1.3
 

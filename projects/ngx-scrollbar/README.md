@@ -15,18 +15,14 @@
 
 Custom overlay-scrollbars with native scrolling mechanism for Angular, it also provides a cross-browser smooth scroll directive.
 
-___
-
-### The documentation is available at the [wiki page](https://github.com/MurhafSousli/ngx-scrollbar/wiki) 📚
-
-___
+***
 
 ## Features
 
 - Exceptional performance, see [comparing test results](https://github.com/MurhafSousli/ngx-scrollbar/wiki/Performance-analysis).
 - Native scrolling mechanism.
 - Easily Customizable using CSS variables.
-- Easy integration with other libraries.
+- Easy integration with 3rd party libraries.
 - RTL support.
 - Mobile support.
 - SSR support.
@@ -34,9 +30,39 @@ ___
 #### Addons directives:
 
 - Smooth scroll functionality.
-- Scroll reached events.
+- Scroll reached & dropped events.
 - **MatSelect** integration.
 - **CdkVirtualScroll** integration.
+
+***
+
+## Documentations
+
+### Table of contents
+
+* [Usage](docs/Usage.md)
+* [Styling](docs/Styling.md)
+* [Global Options](docs/Global-options.md)
+* [Smooth Scroll Functions](docs/Smooth-Scroll-Functions.md)
+* [Scroll Timeline Polyfill](docs/Scroll-timeline-polyfill.md)
+
+### Addons:
+
+* [Integration Examples](docs/Integration.md)
+  * [Material Select](docs/Integration.md#material-select)
+  * [Material Dialog](docs/Integration.md#material-dialog)
+  * [CDK Virtual Scroll](docs/Integration.md#cdk-virtual-scroll)
+  * [ngx-datatable table](docs/Integration.md#ngx-datatable-table)
+  * [Ag-grid table](docs/Integration.md#ag-grid-table)
+  * [PrimeNG Scroller](docs/Integration.md#primeng-scroller)
+  * [PrimeNG Table](docs/Integration.md#primeng-table)
+  * [PrimeNG Dropdown](docs/Integration.md#primeng-dropdown)
+  * [PrimeNg Dropdown (Virtual Scroll)](docs/Integration.md#primeng-dropdown-virtual-scroll)
+  * [Kendu UI Grid](docs/Integration.md#kendu-ui-grid)
+* [Reached & Dropped Events](docs/Reached-&-Dropped-Events.md)
+* [Smooth Scroll Functions (without NgScrollbar)](docs/Smooth-Scroll.md)
+
+___
 
 
 ## Issues
