@@ -9,9 +9,8 @@ import {
   EffectCleanupRegisterFn
 } from '@angular/core';
 import { ContentObserver } from '@angular/cdk/observers';
-import { Subscription } from 'rxjs';
+import { Subscription, throttleTime } from 'rxjs';
 import { NgScrollbarExt } from './ng-scrollbar-ext';
-import { getThrottledStream } from './utils/common';
 
 @Directive({
   standalone: true,
@@ -42,7 +41,14 @@ export class AsyncDetection {
         let contentWrapperElement: HTMLElement;
 
         this.zone.runOutsideAngular(() => {
-          sub$ = getThrottledStream(this.contentObserver.observe(this.scrollbar.nativeElement), 100).subscribe(() => {
+          // The content observer should not be throttled using the same function we use for ResizeObserver,
+          // It should detect the content change asap to attach the scrollbar
+          sub$ = this.contentObserver.observe(this.scrollbar.nativeElement).pipe(
+            throttleTime(100, null, {
+              leading: true,
+              trailing: true
+            })
+          ).subscribe(() => {
             // Search for external viewport
             viewportElement = this.scrollbar.nativeElement.querySelector(externalViewport);
 

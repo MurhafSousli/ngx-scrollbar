@@ -169,7 +169,7 @@ export class NgScrollbarExt extends NgScrollbarCore {
               // Initialize viewport
               this.viewport.init(viewportElement, contentWrapperElement, spacerElement);
               // Attach scrollbars
-              this.attachScrollbars();
+              this._attachScrollbars();
             }
           }
         }
@@ -185,7 +185,7 @@ export class NgScrollbarExt extends NgScrollbarCore {
     super();
   }
 
-  attachScrollbars(): void {
+  _attachScrollbars(): void {
     // Create the scrollbars component
     this._scrollbarsRef = createComponent(Scrollbars, {
       environmentInjector: this.appRef.injector,

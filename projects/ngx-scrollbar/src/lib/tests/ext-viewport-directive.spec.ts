@@ -53,7 +53,7 @@ describe('External viewport via scrollViewportDirective', () => {
     const scrollbarCmp: NgScrollbarExt = component.scrollbar();
 
     const viewportInitSpy: jasmine.Spy = spyOn(scrollbarCmp.viewport, 'init').and.callThrough();
-    const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbarCmp, 'attachScrollbars').and.callThrough();
+    const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbarCmp, '_attachScrollbars').and.callThrough();
 
     fixture.detectChanges();
 
@@ -98,7 +98,7 @@ describe('External viewport via scrollViewportDirective', () => {
     const scrollbarCmp: NgScrollbarExt = component.scrollbar();
 
     const viewportInitSpy: jasmine.Spy = spyOn(scrollbarCmp.viewport, 'init').and.callThrough();
-    const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbarCmp, 'attachScrollbars').and.callThrough();
+    const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbarCmp, '_attachScrollbars').and.callThrough();
     component.externalContentWrapper = '.my-custom-content-wrapper';
 
     fixture.detectChanges();
@@ -149,7 +149,7 @@ describe('External viewport via scrollViewportDirective', () => {
     const scrollbarCmp: NgScrollbarExt = component.scrollbar();
 
     const viewportInitSpy: jasmine.Spy = spyOn(scrollbarCmp.viewport, 'init').and.callThrough();
-    const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbarCmp, 'attachScrollbars').and.callThrough();
+    const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbarCmp, '_attachScrollbars').and.callThrough();
 
     component.externalContentWrapper = '.my-custom-content-wrapper';
     component.externalSpacer = '.my-custom-spacer';

@@ -41,7 +41,6 @@
   <mat-card-content>
     <ng-scrollbar externalViewport=".p-scroller"
                   externalContentWrapper=".p-datatable-scrollable-table"
-                  orientation="vertical"
                   appearance="compact">
       <p-table [columns]="cols"
                [value]="cars"
@@ -86,9 +85,7 @@
                   styleClass="border-1 surface-border"
                   [style]="{'width': '200px', 'height': '200px'}">
         <ng-template pTemplate="item" let-item>
-          <div class="item">
-            {{ item.vin }}
-          </div>
+          <div class="item">{{ item.vin }}</div>
         </ng-template>
       </p-scroller>
     </ng-scrollbar>
