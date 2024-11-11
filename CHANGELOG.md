@@ -1,11 +1,14 @@
 # Changelog
 
+## 16.1.0
+
+- feat: Disable / Suppress the scroll bar during runtime, in [#658](https://github.com/MurhafSousli/ngx-scrollbar/issues/658).
+- fix: Wrong track size when used in 3rd party dropdown components, in [#669](https://github.com/MurhafSousli/ngx-scrollbar/issues/669).
+- fix: Scrollbar buttons icons not showing in Safari, in [#664](https://github.com/MurhafSousli/ngx-scrollbar/issues/664).
+
 ## 16.0.0
 
 - fix: `asyncDetection` scrollbars rendering delay.
-
-## 16.0.0-beta.2
-
 - feat: `scrollViewport` directive can be a descent child, not necessarily a direct child of `<ng-scrollbar externalViewport>`.
 - feat: Add `start`, `end`, `right`, `bottom` and `center` options to `scrollToElement` (supports RTL), closes [#637](https://github.com/MurhafSousli/ngx-scrollbar/issues/637).
 - feat: Add `syncSpacer` directive that is applied on `<ng-scrollbar externalViewport>` component to sync spacer element with content dimension changes.

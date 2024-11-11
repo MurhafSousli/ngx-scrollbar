@@ -82,7 +82,6 @@ describe('External viewport via classes', () => {
     const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbarCmp, '_attachScrollbars').and.callThrough();
     component.externalViewport = '.my-custom-viewport';
 
-
     fixture.detectChanges();
 
     expect(scrollbarCmp.customViewport()).toBeFalsy();
@@ -231,7 +230,7 @@ describe('External viewport via classes', () => {
     expect(hostViewDestroySpy).toHaveBeenCalled();
   });
 
-  it(`[Error handling - content wrapper doesn't exist] should NOT initialize viewport or attach scrollbars`, async () => {
+  it(`[Error handling - viewport doesn't exist] should NOT initialize viewport or attach scrollbars`, async () => {
     const fixture: ComponentFixture<WithViewportDirectiveAndInputsComponent> = TestBed.createComponent(WithViewportDirectiveAndInputsComponent);
     const component: WithViewportDirectiveAndInputsComponent = fixture.componentInstance;
     const scrollbarCmp: NgScrollbarExt = component.scrollbar();
@@ -240,8 +239,7 @@ describe('External viewport via classes', () => {
     const attachScrollbarSpy: jasmine.Spy = spyOn(scrollbarCmp, '_attachScrollbars').and.callThrough();
     const consoleSpy: jasmine.Spy = spyOn(console, 'error').and.callThrough();
 
-    component.externalViewport = '.not-existing-viewport';
-
+    component.externalViewport = null;
 
     fixture.detectChanges();
 

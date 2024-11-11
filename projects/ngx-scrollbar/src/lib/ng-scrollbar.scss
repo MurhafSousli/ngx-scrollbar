@@ -94,6 +94,7 @@
 
   // The default value for overflow
   --_viewport-overflow: auto;
+  --_viewport-pointer-events: auto;
 
   // Scrollbar thumb color variables used to change when hovered or dragged
   --_thumb-x-color: var(--INTERNAL-scrollbar-thumb-color);
@@ -130,6 +131,7 @@
   }
 
   &[disableInteraction="true"] {
+    --_viewport-pointer-events: none;
     --_scrollbar-pointer-events: none;
   }
 

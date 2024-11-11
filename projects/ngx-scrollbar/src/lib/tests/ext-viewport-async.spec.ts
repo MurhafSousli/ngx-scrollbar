@@ -14,9 +14,11 @@ import { afterTimeout } from './common-test.';
     @if (show) {
       <div class="some-wrapper">
         <div class="my-custom-viewport">
-          <div class="my-custom-content-wrapper">
-            <div #sample class="content-sample">Content Sample</div>
-          </div>
+          @if (showWrapper) {
+            <div class="my-custom-content-wrapper">
+              <div #sample class="content-sample">Content Sample</div>
+            </div>
+          }
           <div class="my-custom-spacer"></div>
         </div>
       </div>
@@ -25,6 +27,7 @@ import { afterTimeout } from './common-test.';
 })
 class SampleLibComponent {
   show: boolean;
+  showWrapper: boolean = true;
   @ViewChild('sample') content: ElementRef<HTMLElement>;
 }
 
@@ -188,6 +191,61 @@ describe('External viewport via classes [AsyncDetection]', () => {
     await afterTimeout(100);
     // Mock library removes the content (such as dropdown)
     component.library.show = false;
+    fixture.detectChanges();
+    // Wait a bit more than 100ms for change to take effect
+    await afterTimeout(110);
+
+    expect(scrollbar.viewport.initialized()).toBeFalse();
+    expect(scrollbar.viewport.nativeElement).toBeFalsy();
+    expect(scrollbar.viewport.contentWrapperElement).toBeFalsy();
+
+    const hostViewDestroySpy: jasmine.Spy = spyOn(scrollbar._scrollbarsRef.hostView, 'destroy');
+    fixture.destroy();
+    expect(hostViewDestroySpy).toHaveBeenCalled();
+  });
+
+  it('[asyncDetection="auto"] should detect content wrapper removal', async () => {
+    component.externalViewport = '.my-custom-viewport';
+    component.externalContentWrapper = '.my-custom-content-wrapper';
+    component.asyncDetection = 'auto';
+    fixture.detectChanges();
+
+    expect(scrollbar.customViewport()).toBeFalsy();
+    expect(scrollbar.externalViewport()).toBeTruthy();
+    expect(scrollbar.externalContentWrapper()).toBeTruthy();
+    expect(scrollbar.externalSpacer()).toBeFalsy();
+    expect(scrollbar.skipInit).toBeTruthy();
+    expect(scrollbar.viewport.initialized()).toBeFalsy();
+
+    // Mock library render after the scrollbar has initialized
+    component.library.show = true;
+    fixture.detectChanges();
+
+    // Verify afterInit is called
+    await firstValueFrom(outputToObservable(scrollbar.afterInit));
+
+    const viewportElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalViewport()))?.nativeElement;
+    const contentWrapperElement: HTMLElement = fixture.debugElement.query(By.css(scrollbar.externalContentWrapper()))?.nativeElement;
+
+    // Verify the viewport
+    expect(scrollbar.viewport.nativeElement).toBe(viewportElement);
+    // Verify that the content wrapper here is the content wrapper element
+    expect(scrollbar.viewport.contentWrapperElement).toBe(contentWrapperElement);
+    // Verify that the content is a direct child of the content wrapper element
+    expect(component.library.content.nativeElement.parentElement).toBe(contentWrapperElement);
+
+    // Check if the scrollbars component is created
+    expect(scrollbar._scrollbars()).toBeTruthy();
+    const scrollbarsDebugElement: DebugElement = fixture.debugElement.query(By.directive(Scrollbars));
+    // Verify if the created scrollbars component is the same component instance queried
+    expect(scrollbar._scrollbars()).toBe(scrollbarsDebugElement.componentInstance);
+    // Check if the created scrollbars component is the direct child of content wrapper element
+    expect((scrollbarsDebugElement.nativeElement as Element).parentElement).toBe(scrollbar.viewport.contentWrapperElement);
+
+    // MutationObserver has a throttleTime 100ms, need to wait before triggering a detection
+    await afterTimeout(100);
+    // Mock library removes the content (such as dropdown)
+    component.library.showWrapper = false;
     fixture.detectChanges();
     // Wait a bit more than 100ms for change to take effect
     await afterTimeout(110);

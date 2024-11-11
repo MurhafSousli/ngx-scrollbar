@@ -56,7 +56,9 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
 
   // Scrollbar track length
   get size(): number {
-    return this.clientRect[this.control.rectSizeProperty];
+    // Noticed that clientHeight is evaluated before getClientRect.height,
+    // causing a wrong track size when integrated in dropdown integration
+    return this.nativeElement[this.control.sizeProperty];
   }
 
   // Observable for track dragging events
@@ -114,9 +116,7 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
     effect(() => {
       this.cmp.viewportDimension();
       this.cmp.contentDimension();
-      untracked(() => {
-        requestAnimationFrame(() => this.control.trackSize.set(this.size));
-      });
+      untracked(() => this.control.trackSize.set(this.size));
     });
     super();
   }

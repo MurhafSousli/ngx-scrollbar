@@ -67,6 +67,8 @@ describe('disableInteraction option', () => {
     const trackXWrapperStyles: CSSStyleDeclaration = getComputedStyle(trackX.nativeElement.parentElement);
     const trackYWrapperStyles: CSSStyleDeclaration = getComputedStyle(trackY.nativeElement.parentElement);
     expect(componentStyles.getPropertyValue('--_scrollbar-pointer-events')).toBe('auto');
+    expect(componentStyles.getPropertyValue('--_viewport-pointer-events')).toBe('auto');
+    expect(componentStyles.pointerEvents).toBe('auto');
     expect(trackXWrapperStyles.pointerEvents).toBe('auto');
     expect(trackYWrapperStyles.pointerEvents).toBe('auto');
   }
@@ -89,6 +91,8 @@ describe('disableInteraction option', () => {
     const trackXWrapperStyles: CSSStyleDeclaration = getComputedStyle(trackX.nativeElement.parentElement);
     const trackYWrapperStyles: CSSStyleDeclaration = getComputedStyle(trackY.nativeElement.parentElement);
     expect(componentStyles.getPropertyValue('--_scrollbar-pointer-events')).toBe('none');
+    expect(componentStyles.getPropertyValue('--_viewport-pointer-events')).toBe('none');
+    expect(componentStyles.pointerEvents).toBe('none');
     expect(trackXWrapperStyles.pointerEvents).toBe('none');
     expect(trackYWrapperStyles.pointerEvents).toBe('none');
   }
