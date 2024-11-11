@@ -34,5 +34,8 @@
 
     // In case scroll bounce need to be disabled
     overscroll-behavior: var(--_viewport-overscroll-behavior);
+
+    // Disables scroll when disableInteraction is set to true
+    pointer-events: var(--_viewport-pointer-events);
   }
 }

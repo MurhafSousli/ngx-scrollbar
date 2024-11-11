@@ -12,6 +12,9 @@
   background-color: var(--INTERNAL-scrollbar-button-color);
 
   svg {
+    // Must set height and width of SVG so it can render on Safari browsers
+    width: 100%;
+    height:  100%;
     fill: var(--INTERNAL-scrollbar-button-fill);
   }
 
