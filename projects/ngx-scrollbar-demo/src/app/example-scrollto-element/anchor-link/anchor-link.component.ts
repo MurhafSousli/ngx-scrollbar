@@ -4,7 +4,6 @@ import { ScrollAnchor } from '../scroll-anchor.directive';
 import { MatAnchor } from '@angular/material/button';
 
 @Component({
-  standalone: true,
   selector: 'anchor-link',
   templateUrl: './anchor-link.component.html',
   styleUrl: './anchor-link.component.scss',

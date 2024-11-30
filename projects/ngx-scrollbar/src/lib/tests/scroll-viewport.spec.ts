@@ -1,4 +1,4 @@
-import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { ViewportClasses } from '../utils/common';
 import { setDimensions } from './common-test.';
@@ -10,10 +10,7 @@ describe('Viewport Adapter', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgScrollbar],
-      providers: [
-        { provide: ComponentFixtureAutoDetect, useValue: true }
-      ]
+      imports: [NgScrollbar]
     }).compileComponents();
 
     fixture = TestBed.createComponent(NgScrollbar);
@@ -23,6 +20,7 @@ describe('Viewport Adapter', () => {
 
   it('should initialize viewport and add the proper classes to viewport and content wrapper', () => {
     expect(component.viewport).toBeDefined();
+    fixture.detectChanges();
 
     expect(viewportInitSpy).toHaveBeenCalledOnceWith(component.nativeElement, component.contentWrapper().nativeElement);
 
@@ -36,7 +34,7 @@ describe('Viewport Adapter', () => {
   });
 
   it('should instantly jump to scroll position when using scrollYTo and scrollXTo', () => {
-    TestBed.flushEffects();
+    fixture.detectChanges();
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 400, contentHeight: 400 });
 
     component.viewport.scrollYTo(200);

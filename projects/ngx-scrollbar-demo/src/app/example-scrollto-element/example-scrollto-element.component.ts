@@ -1,19 +1,16 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { NgScrollbar } from 'ngx-scrollbar';
 import { Chance } from 'chance';
 import { OverviewContentComponent } from './overview-content/overview-content.component';
 import { ScrollContent } from './scroll-content.directive';
 import { ScrollAnchor } from './scroll-anchor.directive';
 
 @Component({
-  standalone: true,
   selector: 'app-example-scrollto-element',
   templateUrl: './example-scrollto-element.component.html',
   styleUrl: './example-scrollto-element.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgScrollbar,
     MatButtonModule,
     OverviewContentComponent,
     ScrollContent,

@@ -3,7 +3,6 @@ import { FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
-  standalone: true,
   selector: 'app-toggle-form',
   template: `
     <mat-slide-toggle [(ngModel)]="value().disableSensor">Disable Resize Sensor</mat-slide-toggle>

@@ -1,9 +1,10 @@
 <ng-scrollbar externalViewport=".ag-center-cols-viewport"
-              externalContentWrapper=".ag-center-cols-container">
-  <ag-grid-angular
-    style="height: 300px;"
-    class="ag-theme-quartz"
-    [rowData]="rowData"
-    [columnDefs]="colDefs"
-    [pagination]="true"/>
+              externalContentWrapper=".ag-center-cols-container"
+              asyncDetection>
+
+  <ag-grid-angular style="height: 300px"
+                   [theme]="theme"
+                   [rowData]="rowData"
+                   [columnDefs]="colDefs"
+                   pagination/>
 </ng-scrollbar>

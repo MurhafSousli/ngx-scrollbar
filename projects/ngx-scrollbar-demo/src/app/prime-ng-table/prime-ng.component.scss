@@ -1,4 +1,6 @@
 :host {
+  --p-highlight-focus-background: var(--color-primary);
+
   ::ng-deep {
 
     .p-frozen-column, .p-datatable-frozen-tbody {
@@ -12,13 +14,13 @@
 
     .p-datatable .p-datatable-thead > tr > th {
       background-color: var(--surface-container);
-      color: var(--mat-sidenav-content-text-color);
+      color: #ece0da;
       border: var(--surface-container-highest);
     }
 
     .p-datatable .p-datatable-tbody > tr {
       background-color: transparent;
-      color: var(--mat-sidenav-content-text-color);
+      color: #ece0da;
 
       &:nth-child(odd) {
         background: var(--surface-container-highest);
@@ -33,41 +35,24 @@
       }
     }
 
-    .p-dropdown {
+    .p-select {
       width: 100%;
-      background: var(--surface-container-high);
-      border: 1px solid var(--surface-container-highest);
+      --p-select-color: #fff;
+      --p-select-dropdown-color: #fff;
+      --p-select-background: var(--surface-container-high);
+      --p-select-overlay-background: var(--surface-container-high);
+      --p-select-border-color: var(--surface-container-highest);
+      --p-select-hover-border-color: var(--color-primary);
+      --p-select-focus-border-color: var(--color-primary);
+      --p-select-option-selected-background: var(--color-accent);
+      --p-select-option-selected-focus-background: var(--color-accent);
+      --p-select-option-focus-background: rgba(236, 224, 218, .08);
+      --p-select-focus-ring-color: var(--color-primary);
+      --p-select-focus-ring-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--color-primary), transparent 80%);
 
-      .p-dropdown-trigger,
-      .p-dropdown-clear-icon,
-      .p-inputtext {
-        color: var(--mat-sidenav-content-text-color);
-      }
-
-
-      &:not(.p-disabled).p-focus {
-        box-shadow: 0 0 0 0.2rem var(--color-primary);
-      }
-    }
-
-    .p-dropdown-panel {
-      background-color: var(--surface-container-high);
-    }
-
-    .p-dropdown-panel .p-dropdown-items {
-      .p-dropdown-item {
-        height: 40px;
-        padding: 10px 20px;
-        color: var(--mat-sidenav-content-text-color);
-
-        &:not(.p-highlight):not(.p-disabled).p-focus,
-        &.p-highlight.p-focus {
-          background-color: var(--color-accent);
-        }
-
-        &.p-highlight.p-focus:hover,
-        &:not(.p-highlight):not(.p-disabled):hover {
-          background-color: var(--color-accent-hover);
+      ::ng-deep {
+        input {
+          font-size: 16px;
         }
       }
     }
@@ -98,17 +83,12 @@ ng-scrollbar {
   }
 }
 
-.p-scroller {
-  width: 200px;
-  height: 200px;
-}
-
 .item {
   display: flex;
   align-items: center;
   padding: 0 16px;
   height: 50px;
-  color: var(--mat-sidenav-content-text-color);
+  color: #ece0da;
 
   &:nth-child(odd) {
     background: var(--surface-container-highest);

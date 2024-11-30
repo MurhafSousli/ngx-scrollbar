@@ -1,16 +1,15 @@
-import { Directive, effect, inject, PLATFORM_ID, untracked } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Directive, untracked, afterRenderEffect } from '@angular/core';
 import {
   Observable,
-  delay,
-  fromEvent,
+  tap,
   map,
   merge,
+  delay,
+  fromEvent,
   startWith,
   switchMap,
   takeUntil,
   takeWhile,
-  tap,
   EMPTY
 } from 'rxjs';
 import { enableSelection, preventSelection, stopPropagation } from '../utils/common';
@@ -18,8 +17,6 @@ import { PointerEventsAdapter } from '../utils/pointer-events-adapter';
 
 @Directive()
 export abstract class TrackAdapter extends PointerEventsAdapter {
-
-  private readonly isBrowser: boolean = isPlatformBrowser(inject(PLATFORM_ID));
 
   // The current position of the mouse during track dragging
   private currMousePosition: number;
@@ -116,17 +113,19 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
   }
 
   constructor() {
-    effect(() => {
-      this.cmp.viewportDimension();
-      this.cmp.contentDimension();
+    afterRenderEffect({
+      earlyRead: (): void => {
+        this.cmp.viewportDimension();
+        this.cmp.contentDimension();
 
-      // Avoid SSR error because we're using `requestAnimationFrame`
-      if (!this.isBrowser) return;
-
-      untracked(() => {
-        // Use animation frame to give the track element time to render (avoid size 0)
-        requestAnimationFrame(() => this.control.trackSize.set(this.size));
-      });
+        untracked(() => {
+          this.control.trackSize.set(this.size);
+          if (!this.size) {
+            // In some rare cases size could be 0 due to first render, use animation frame to give the track element time to render
+            requestAnimationFrame(() => this.control.trackSize.set(this.size));
+          }
+        });
+      }
     });
     super();
   }

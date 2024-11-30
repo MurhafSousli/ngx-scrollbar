@@ -1,7 +1,6 @@
 @use "../styles/selectors" as selector;
 
 :host {
-  --scrollbar-button-size: 20px;
   position: relative;
   border: none;
   margin: 0;
@@ -45,11 +44,11 @@
 
   &[scrollbarButton="top"], &[scrollbarButton="bottom"] {
     width: 100%;
-    height: var(--scrollbar-button-size);
+    height: var(--INTERNAL-scrollbar-button-size);
   }
 
   &[scrollbarButton="start"], &[scrollbarButton="end"] {
-    width: var(--scrollbar-button-size);
+    width: var(--INTERNAL-scrollbar-button-size);
     height: 100%;
   }
 

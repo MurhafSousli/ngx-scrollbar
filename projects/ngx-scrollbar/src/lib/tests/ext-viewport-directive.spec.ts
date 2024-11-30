@@ -7,7 +7,6 @@ import { NgScrollbarExt, NgScrollbarModule } from 'ngx-scrollbar';
 import { Scrollbars } from '../scrollbars/scrollbars';
 
 @Component({
-  standalone: true,
   imports: [NgScrollbarModule],
   template: `
     <ng-scrollbar externalViewport>
@@ -23,7 +22,6 @@ class WithViewportDirectiveComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NgScrollbarModule],
   template: `
     <ng-scrollbar externalViewport

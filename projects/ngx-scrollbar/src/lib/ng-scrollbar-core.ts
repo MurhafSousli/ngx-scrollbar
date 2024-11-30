@@ -2,12 +2,12 @@ import {
   Directive,
   inject,
   signal,
-  effect,
   output,
   computed,
   untracked,
   numberAttribute,
   booleanAttribute,
+  afterRenderEffect,
   input,
   NgZone,
   Signal,
@@ -16,7 +16,7 @@ import {
   WritableSignal,
   OutputEmitterRef,
   EffectCleanupRegisterFn,
-  InputSignalWithTransform,
+  InputSignalWithTransform
 } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
 import { Direction, Directionality } from '@angular/cdk/bidi';
@@ -234,45 +234,47 @@ export abstract class NgScrollbarCore implements _NgScrollbar {
     let resizeSub$: Subscription;
     let hasInitialized: boolean;
 
-    effect((onCleanup: EffectCleanupRegisterFn) => {
-      const disableSensor: boolean = this.disableSensor();
-      const throttleDuration: number = this.sensorThrottleTime();
-      const viewportInit: boolean = this.viewport.initialized();
+    afterRenderEffect({
+      earlyRead: (onCleanup: EffectCleanupRegisterFn): void => {
+        const disableSensor: boolean = this.disableSensor();
+        const throttleDuration: number = this.sensorThrottleTime();
+        const viewportInit: boolean = this.viewport.initialized();
 
-      untracked(() => {
-        if (viewportInit) {
-          // If resize sensor is disabled, update manually the first time
-          if (disableSensor) {
-            requestAnimationFrame(() => this.update(ScrollbarUpdateReason.AfterInit));
-          } else {
-            // Observe size changes for viewport and content wrapper
-            this.zone.runOutsideAngular(() => {
-              resizeSub$ = getThrottledStream(
-                combineLatest([
-                  this.sharedResizeObserver.observe(this.viewport.nativeElement),
-                  this.sharedResizeObserver.observe(this.viewport.contentWrapperElement)
-                ]),
-                throttleDuration
-              ).subscribe(() => {
-                // After deep investigation, it appears that setting the dimension directly from the element properties
-                // is much faster than to set them from resize callback values
-                this.zone.run(() => {
-                  this.updateDimensions();
+        untracked(() => {
+          if (viewportInit) {
+            // If resize sensor is disabled, update manually the first time
+            if (disableSensor) {
+              requestAnimationFrame(() => this.update(ScrollbarUpdateReason.AfterInit));
+            } else {
+              // Observe size changes for viewport and content wrapper
+              this.zone.runOutsideAngular(() => {
+                resizeSub$ = getThrottledStream(
+                  combineLatest([
+                    this.sharedResizeObserver.observe(this.viewport.nativeElement),
+                    this.sharedResizeObserver.observe(this.viewport.contentWrapperElement)
+                  ]),
+                  throttleDuration
+                ).subscribe(() => {
+                  // After deep investigation, it appears that setting the dimension directly from the element properties
+                  // is much faster than to set them from resize callback values
+                  this.zone.run(() => {
+                    this.updateDimensions();
 
-                  if (hasInitialized) {
-                    this.afterUpdate.emit();
-                  } else {
-                    this.afterInit.emit();
-                  }
-                  hasInitialized = true;
+                    if (hasInitialized) {
+                      this.afterUpdate.emit();
+                    } else {
+                      this.afterInit.emit();
+                    }
+                    hasInitialized = true;
+                  });
                 });
               });
-            });
+            }
           }
-        }
 
-        onCleanup(() => resizeSub$?.unsubscribe());
-      });
+          onCleanup(() => resizeSub$?.unsubscribe());
+        });
+      }
     });
   }
 

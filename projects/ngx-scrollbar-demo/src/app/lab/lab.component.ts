@@ -18,14 +18,13 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
 import { LogoComponent } from '../shared/logo/logo.component';
 import { ResizeChange, ResizeFormComponent } from './resize-form/resize-form.component';
-import { ToggleChange, ToggleFormComponent } from './toggle-form/toggle-form.component';
+import { ToggleChange } from './toggle-form/toggle-form.component';
 import { ReachedEvent, ReachedNotifierComponent } from './reached-notifier/reached-notifier.component';
 import { CssVariablesFormComponent } from './css-variables-form/css-variables-form.component';
 import { SmoothScrollFormComponent, SmoothScrollOptionsForm } from './smooth-scroll-form/smooth-scroll-form.component';
 
 @Component({
   selector: 'app-lab',
-  standalone: true,
   imports: [
     CommonModule,
     FormsModule,
@@ -41,12 +40,11 @@ import { SmoothScrollFormComponent, SmoothScrollOptionsForm } from './smooth-scr
     LogoComponent,
     CssVariablesFormComponent,
     SmoothScrollFormComponent,
-    ToggleFormComponent,
     ResizeFormComponent,
     ReachedNotifierComponent
   ],
   templateUrl: './lab.component.html',
-  styleUrls: ['./lab.component.scss'],
+  styleUrl: './lab.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LabComponent {

@@ -45,7 +45,7 @@
             "server": "projects/ngx-scrollbar-demo/src/main.server.ts",
             "prerender": true,
             "ssr": {
-              "entry": "projects/ngx-scrollbar-demo/server.ts"
+              "entry": "projects/ngx-scrollbar-demo/src/server.ts"
             }
           },
           "configurations": {

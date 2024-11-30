@@ -58,6 +58,9 @@
   --INTERNAL-scrollbar-button-hover-fill: var(--scrollbar-button-hover-fill, var(--INTERNAL-scrollbar-button-fill));
   --INTERNAL-scrollbar-button-active-fill: var(--scrollbar-button-active-fill, var(--INTERNAL-scrollbar-button-hover-fill));
 
+  // Scrollbar button size
+  --INTERNAL-scrollbar-button-size: var(--scrollbar-button-size, 20px);
+
   // Transition for sticky element when viewport is hovered in [visibility]="hover"
   --INTERNAL-scrollbar-hover-opacity-transition-enter-duration: var(--scrollbar-hover-opacity-transition-enter-duration, 0);
   --INTERNAL-scrollbar-hover-opacity-transition-leave-duration: var(--scrollbar-hover-opacity-transition-leave-duration, 0.4s);

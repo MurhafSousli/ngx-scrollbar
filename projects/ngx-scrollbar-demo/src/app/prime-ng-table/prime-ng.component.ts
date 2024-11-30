@@ -1,15 +1,16 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { TableModule } from 'primeng/table';
+import { SelectModule } from 'primeng/select';
 import { NgScrollbarExt, AsyncDetection } from 'ngx-scrollbar';
 import { Chance } from 'chance';
-import { DropdownModule } from 'primeng/dropdown';
-import { FormsModule } from '@angular/forms';
 
 interface Column {
   field: string;
   header: string;
 }
+
 interface Car {
   vin: string;
   brand: string;
@@ -24,14 +25,13 @@ interface City {
 
 @Component({
   selector: 'app-prime-ng-table',
-  standalone: true,
   imports: [
     TableModule,
     NgScrollbarExt,
     AsyncDetection,
     MatCardModule,
-    DropdownModule,
-    FormsModule
+    FormsModule,
+    SelectModule
   ],
   templateUrl: './prime-ng.component.html',
   styleUrl: './prime-ng.component.scss',
@@ -73,7 +73,7 @@ export class PrimeNgComponent implements OnInit {
         vin: this.chance.last({ nationality: 'en' }),
         brand: this.chance.last({ nationality: 'en' }),
         year: this.chance.integer({ min: 1970, max: 2024 }),
-        color: this.chance.color({format: 'hex'})
+        color: this.chance.color({ format: 'hex' })
       }
     });
     this.virtualCars = Array.from({ length: 1000 });

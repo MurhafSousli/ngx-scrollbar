@@ -13,6 +13,7 @@ export class NgScrollbarMatSelectViewport {
   private readonly matSelect: MatSelect = inject(MatSelect);
 
   constructor() {
+    // The scroll position be set before the panel is rendered, that's why we use effect over afterRenderEffect.
     effect(() => {
       const isVerticallyScrollable: boolean = this.scrollbar.isVerticallyScrollable();
 

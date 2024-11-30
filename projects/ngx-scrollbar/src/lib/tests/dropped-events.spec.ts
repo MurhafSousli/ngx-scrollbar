@@ -21,7 +21,6 @@ import { NgScrollDropped } from 'ngx-scrollbar/reached-event';
       <div style="width: 300px; height: 300px"></div>
     </ng-scrollbar>
   `,
-  standalone: true,
   imports: [BidiModule, NgScrollbarModule, NgScrollDropped]
 })
 class TestComponent {

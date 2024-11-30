@@ -11,15 +11,13 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 
 import { FooterComponent } from './shared/footer/footer.component';
 import { SponsorsComponent } from './sponsors/sponsors.component';
-import { HeaderComponent } from './shared/header/header.component';
 import { LogoComponent } from './shared/logo/logo.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     CommonModule,
     RouterModule,
@@ -29,7 +27,6 @@ import { LogoComponent } from './shared/logo/logo.component';
     MatToolbarModule,
     MatListModule,
     MatSidenavModule,
-    HeaderComponent,
     FooterComponent,
     SponsorsComponent,
     LogoComponent

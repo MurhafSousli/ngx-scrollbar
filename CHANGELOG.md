@@ -1,5 +1,12 @@
 # Changelog
 
+## 17.0.0
+
+- Upgrade to Angular 19.
+- refactor: Use `afterRenderEffect` when suitable instead of `effect`.
+- refactor: In `<ng-scrollbar externalViewport>` use `LinkedSignal` to set external elements.
+- enhance: Make `--scrollbar-button-size` settable from `:root`.
+
 ## 16.1.1
 
 - fix: Bug with `visibility="visible"` closes [#674](https://github.com/MurhafSousli/ngx-scrollbar/issues/674).

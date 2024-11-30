@@ -23,7 +23,7 @@ export class AsyncDetection {
 
   private readonly contentObserver: ContentObserver = inject(ContentObserver);
 
-  asyncDetection: InputSignal<'auto' | ''> = input();
+  asyncDetection: InputSignal<'auto' | ''> = input<'auto' | ''>();
 
   constructor() {
     this.scrollbar.skipInit = true;
@@ -62,11 +62,7 @@ export class AsyncDetection {
                 if (externalSpacer) {
                   spacerElement = this.scrollbar.nativeElement.querySelector(externalSpacer);
                 }
-
-                this.scrollbar.skipInit = false;
-                this.scrollbar.altViewport.set(viewportElement);
-                this.scrollbar.altContentWrapper.set(contentWrapperElement);
-                this.scrollbar.altSpacer.set(spacerElement);
+                this.scrollbar.initialize(viewportElement, contentWrapperElement, spacerElement);
               } else if (!viewportElement || !contentWrapperElement) {
                 this.scrollbar.viewport.reset();
               }

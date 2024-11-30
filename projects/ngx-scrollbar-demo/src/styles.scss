@@ -2,77 +2,98 @@
 
 /* Ngx-datatable core styles and theme */
 @import '../../../node_modules/@swimlane/ngx-datatable/index.css';
-@import '../../../node_modules/@swimlane/ngx-datatable/themes/material.scss';
+@import '../../../node_modules/@swimlane/ngx-datatable/themes/material.css';
 @import '../../../node_modules/@swimlane/ngx-datatable/assets/icons.css';
 
-/* Core Grid CSS */
-@import 'ag-grid-community/styles/ag-grid.css';
-/* Quartz Theme Specific CSS */
-@import 'ag-grid-community/styles/ag-theme-quartz.css';
+:root {
+  --color-primary: #ff8e36;
+  --color-app-background: #2f2926;
 
-@import "primeng/resources/themes/lara-light-blue/theme.css";
-@import "primeng/resources/primeng.css";
+  --color-active-link: var(--color-primary);
 
+  --color-example-5: var(--color-app-background);
+  --color-example-2: var(--color-app-background);
+  //--color-virtual-scroll-example: var(--color-app-background);
+  //--color-infinite-scroll-example: var(--color-app-background);
 
-//$app-primary: mat.define-palette($purple-passion-palette, 500);
-$app-primary: mat.m2-define-palette(mat.$m2-blue-palette);
-$app-accent: mat.m2-define-palette(mat.$m2-orange-palette);
-$app-warn: mat.m2-define-palette(mat.$m2-red-palette);
-$app-success: mat.m2-define-palette(mat.$m2-light-green-palette);
+  --color-example3: var(--color-primary);
+  --color-example3-inner: var(--color-app-background);
 
-// Define the theme object.
-$app-theme: mat.define-theme((
-  color: (
-    theme-type: dark,
-    primary: mat.$orange-palette,
-    tertiary: mat.$rose-palette,
-  ),
-  density: (
-    scale: 0,
-  )
-));
+  //--card-bg-color: #{mat.get-theme-color($app-theme, secondary-container)};
+  --surface-container-high: var(--color-app-background);
+  --surface-container-highest: #3f3834;
+  --surface-container-low: #201a17;
+  --color-accent: #90715d;
+  --color-accent-hover: #ab8a75;
+  --surface-container: #241e1b;
 
-@include mat.core();
+  --color-highlight: #93000a;
+  --color-highlight-dropped: #8f0045;
+
+  --card-viewport-border-radius: 5px;
+
+  @include mat.toolbar-overrides((
+    //container-background-color: orange,
+    //container-text-color: red,
+  ));
+
+  @include mat.select-overrides((
+    //panel-background-color: orange,
+    //enabled-trigger-text-color: red,
+  ));
+
+  @include mat.slide-toggle-overrides((
+    //track-outline-color: orange,
+    //disabled-unselected-track-outline-color: red,
+  ));
+
+  @include mat.list-overrides((
+    //active-indicator-color: orange,
+    //list-item-container-color: red,
+    list-item-selected-container-color: #ff8e36,
+    active-indicator-color: #ff8e36
+  ));
+
+  @include mat.sidenav-overrides((
+    container-background-color: #bc5d00,
+    content-background-color: #3f3834
+  ));
+
+  @include mat.expansion-overrides((
+    container-background-color: #2f2926
+  ));
+
+  @include mat.card-overrides((
+    elevated-container-color: #201a17
+  ));
+}
 
 @mixin theme($theme) {
-  --mat-toolbar-container-background-color: #{mat.get-theme-color($theme, surface-container-high)};
-  --mat-option-selected-state-label-text-color: var(--color-primary);
-  --mat-sidenav-content-background-color: #{mat.get-theme-color($app-theme, surface-container-highest)};
-  --mat-sidenav-container-background-color: #{mat.get-theme-color($app-theme, primary, 50)};
-  --mat-expansion-container-background-color: #{mat.get-theme-color($app-theme, surface-container-high)};
-
-  --color-primary: #{mat.get-theme-color($app-theme, primary, 50)};
   --color-primary-container: #{mat.get-theme-color($app-theme, primary-container)};
   --color-accent: #{mat.get-theme-color($app-theme, secondary, 50)};
   --color-accent-hover: #{mat.get-theme-color($app-theme, secondary, 60)};
 
-  --color-active-link: #{mat.get-theme-color($app-theme, primary, 70)};
   --color-primary-60: #{mat.get-theme-color($app-theme, primary, 60)};
 
-  --color-app-background: #{mat.get-theme-color($app-theme, surface-container-high)};
   --color-app-logo: var(--color-app-background);
 
-  --color-example-5: var(--color-app-background);
-  --color-example-2: var(--color-app-background);
-  --color-virtual-scroll-example: var(--color-app-background);
-  --color-infinite-scroll-example: var(--color-app-background);
-
-  --color-example3: #{mat.get-theme-color($app-theme, primary, 70)};
-  --color-example3-inner: #{mat.get-theme-color($app-theme, surface-container)};
   --color-highlight: #{mat.get-theme-color($app-theme, error, 30)};
   --color-highlight-dropped: #{mat.get-theme-color($app-theme, tertiary, 30)};
 
   --odd-list-item-color: #{mat.get-theme-color($app-theme, primary, 10)};
   --even-list-item-color: #{mat.get-theme-color($app-theme, primary, 20)};
   --list-item-border: 2px solid #{mat.get-theme-color($app-theme, primary, 40)};
+}
 
-  --card-bg-color: #{mat.get-theme-color($app-theme, secondary-container)};
-  --surface-container-high: #{mat.get-theme-color($app-theme, surface-container-high)};
-  --surface-container-highest: #{mat.get-theme-color($app-theme, surface-container-highest)};
-  --surface-container-low: #{mat.get-theme-color($app-theme, surface-container-low)};
-  --surface-container: #{mat.get-theme-color($app-theme, surface-container)};
-
-  --card-viewport-border-radius: 5px;
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$orange-palette,
+      theme-type: dark
+    ),
+    typography: Roboto,
+    density: 0
+  ));
 }
 
 html, body {
@@ -83,11 +104,6 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background: var(--color-app-background);
-}
-
-:root {
-  @include mat.all-component-themes($app-theme);
-  @include theme($app-theme);
 }
 
 * {
@@ -106,10 +122,6 @@ body {
 input {
   background: var(--mdc-filled-text-field-container-color);
   color: var(--mdc-filled-text-field-input-text-color);
-}
-
-mat-toolbar {
-  @include mat.elevation(6);
 }
 
 mat-nav-list.mdc-list {
@@ -198,5 +210,5 @@ a {
 
 .mat-mdc-select-panel {
   padding: 0 !important;
-  --mat-minimal-pseudo-checkbox-selected-checkmark-color: var(--color-primary);
+  //--mat-minimal-pseudo-checkbox-selected-checkmark-color: var(--color-primary);
 }
