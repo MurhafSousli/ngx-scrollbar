@@ -27,7 +27,7 @@ export abstract class PointerEventsAdapter {
 
   abstract get pointerEvents(): Observable<PointerEvent>;
 
-  constructor() {
+  protected constructor() {
     effect((onCleanup: EffectCleanupRegisterFn) => {
       const disableInteraction: boolean = this.cmp.disableInteraction();
 
@@ -37,9 +37,9 @@ export abstract class PointerEventsAdapter {
             this._pointerEventsSub = this.pointerEvents.subscribe();
           });
         }
-      });
 
-      onCleanup(() => this._pointerEventsSub?.unsubscribe());
+        onCleanup(() => this._pointerEventsSub?.unsubscribe());
+      });
     });
   }
 }

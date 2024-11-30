@@ -1,5 +1,11 @@
 # Changelog
 
+## 16.1.1
+
+- fix: Bug with `visibility="visible"` closes [#674](https://github.com/MurhafSousli/ngx-scrollbar/issues/674).
+- refactor: In effects, move `onCleanup` function inside `untracked` function in the `PointerEventsAdapter` class.
+- refactor: Use `from` instead of `fromPromise` to convert a promise to observable.
+
 ## 16.1.0
 
 - feat: Disable / Suppress the scroll bar during runtime, in [#658](https://github.com/MurhafSousli/ngx-scrollbar/issues/658).
