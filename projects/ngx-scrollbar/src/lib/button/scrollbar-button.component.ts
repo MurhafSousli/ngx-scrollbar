@@ -39,7 +39,6 @@ const horizontalScrollStepFunc: Record<'ltr' | 'rtl', Record<'forward' | 'backwa
 }
 
 @Component({
-  standalone: true,
   selector: 'button[scrollbarButton]',
   templateUrl: './scrollbar-button.component.html',
   styleUrl: './scrollbar-button.component.scss',

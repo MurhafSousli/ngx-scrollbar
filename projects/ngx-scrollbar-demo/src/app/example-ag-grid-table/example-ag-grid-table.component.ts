@@ -1,21 +1,32 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
-import { NgScrollbar, NgScrollbarExt, AsyncDetection } from 'ngx-scrollbar';
+import { AsyncDetection, NgScrollbarExt } from 'ngx-scrollbar';
+import {
+  Theme,
+  ModuleRegistry,
+  ClientSideRowModelModule,
+  PaginationModule,
+  ValidationModule,
+  themeQuartz
+} from 'ag-grid-community';
+
+ModuleRegistry.registerModules([
+  ClientSideRowModelModule,
+  PaginationModule,
+  ValidationModule
+]);
 
 @Component({
   selector: 'app-example-ag-grid-table',
-  standalone: true,
-  imports: [
-    AgGridAngular,
-    NgScrollbar,
-    NgScrollbarExt,
-    AsyncDetection
-  ],
   templateUrl: './example-ag-grid-table.component.html',
   styleUrl: './example-ag-grid-table.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [AgGridAngular, NgScrollbarExt, AsyncDetection]
 })
 export class ExampleAgGridTableComponent {
+
+  theme: Theme = themeQuartz;
+
   // Row Data: The data to be displayed.
   rowData: any[] = [
     { make: "Tesla", model: "Model Y", price: 64950, electric: true },

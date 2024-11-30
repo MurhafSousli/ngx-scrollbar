@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NgForOf } from '@angular/common';
 import { MatOptionModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
@@ -9,7 +8,6 @@ import { Chance } from 'chance';
 
 @Component({
   selector: 'app-example-mat-select',
-  standalone: true,
   imports: [
     MatOptionModule,
     MatSelectModule,

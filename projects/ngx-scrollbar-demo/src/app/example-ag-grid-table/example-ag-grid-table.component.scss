@@ -18,13 +18,14 @@
   --scrollbar-border-radius: 0;
 }
 
-.ag-theme-quartz {
+ag-grid-angular {
   --ag-background-color: var(--surface-container-high);
   --ag-border-color: var(--surface-container-low);
   --ag-header-column-resize-handle-color: var(--surface-container-high);
   --ag-header-background-color: var(--surface-container);
-  --ag-foreground-color: var(--mat-sidenav-content-text-color);
   --ag-range-selection-border-color: var(--color-primary);
   --ag-active-color: var(--color-primary);
+  --ag-accent-color: var(--color-primary);
+  --ag-text-color: #ece0da;
   --ag-font-size: 12px;
 }

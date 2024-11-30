@@ -104,9 +104,9 @@ Here is an [integration with material dialog example](https://stackblitz.com/edi
 ## PrimeNg Scroller
 
 ```html
-<ng-scrollbar externalViewport=".p-scroller"
-              externalContentWrapper=".p-scroller-content"
-              externalSpacer=".p-scroller-spacer"
+<ng-scrollbar externalViewport=".p-virtualscroller"
+              externalContentWrapper=".p-virtualscroller-content"
+              externalSpacer=".p-virtualscroller-spacer"
               appearance="compact">
   <p-scroller [items]="cars"
               [itemSize]="50"
@@ -123,7 +123,7 @@ Here is an [integration with material dialog example](https://stackblitz.com/edi
 ## PrimeNg Table
 
 ```html
-<ng-scrollbar externalViewport=".p-scroller"
+<ng-scrollbar externalViewport=".p-virtualscroller"
               externalContentWrapper=".p-datatable-scrollable-table"
               appearance="compact">
   <p-table [columns]="cols"
@@ -152,11 +152,41 @@ Here is an [integration with material dialog example](https://stackblitz.com/edi
 </ng-scrollbar>
 ```
 
-## PrimeNg Dropdown
+## PrimeNg Select
 
 When utilizing the scrollbar with the PrimeNG dropdown, the scrollbar component initializes, but the dropdown menu is
 generated only upon user interaction (i.e., clicking the dropdown). To ensure the scrollbar correctly detects when the
 dropdown menu is rendered, use the `asyncDetection="auto"` directive.
+
+```html
+<ng-scrollbar externalViewport=".p-select-list-container"
+              externalContentWrapper=".p-select-list"
+              asyncDetection="auto">
+  <p-select [options]="cities"
+            [(ngModel)]="selectedCity"
+            placeholder="Select a City"
+            [editable]="true"
+            optionLabel="name" class="w-full md:w-56"/>
+</ng-scrollbar>
+```
+
+## PrimeNg Select (Virtual Scroll)
+
+```html
+<ng-scrollbar externalViewport=".p-virtualscroller"
+              externalContentWrapper=".p-virtualscroller-content"
+              externalSpacer=".p-virtualscroller-spacer"
+              asyncDetection="auto">
+  <p-select [options]="cars"
+            [(ngModel)]="selectedCar"
+            placeholder="Select Option"
+            optionLabel="brand"
+            [virtualScroll]="true"
+            [virtualScrollItemSize]="40"/>
+</ng-scrollbar>
+```
+
+## PrimeNg Dropdown (works same as select only different class names)
 
 ```html
 <ng-scrollbar externalViewport=".p-dropdown-items-wrapper"

@@ -1,20 +1,18 @@
-import { ChangeDetectionStrategy, Component, NgZone, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { NgScrollbarExt, NgScrollbarModule } from 'ngx-scrollbar';
-import { NgScrollReached } from 'ngx-scrollbar/reached-event';
 
 @Component({
-  selector: 'app-example2',
-  templateUrl: './example2.component.html',
-  styleUrls: ['./example2.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default,
   host: {
     '[class.example-component]': 'true'
   },
-  standalone: true,
-  imports: [CommonModule, NgScrollbarModule, NgScrollReached, MatCardModule, MatButtonModule]
+  selector: 'app-example2',
+  templateUrl: './example2.component.html',
+  styleUrl: './example2.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, NgScrollbarModule, MatCardModule, MatButtonModule]
 })
 export class Example2Component {
 

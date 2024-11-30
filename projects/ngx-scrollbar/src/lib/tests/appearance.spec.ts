@@ -56,7 +56,6 @@ describe('Appearance [native / compact] styles', () => {
     await firstValueFrom(outputToObservable(component.afterInit))
 
     const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
-    console.log(styles.paddingBottom)
     expect(styles.paddingRight).toBe(scrollbarSize);
     expect(styles.paddingBottom).toBe(scrollbarSize);
     expect(styles.paddingTop).toBe('0px');

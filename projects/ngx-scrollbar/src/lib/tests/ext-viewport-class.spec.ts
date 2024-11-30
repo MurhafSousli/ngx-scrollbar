@@ -38,9 +38,8 @@ class SampleWithoutContentWrapperComponent {
 }
 
 @Component({
-  standalone: true,
-  imports: [NgScrollbarModule, SampleContentComponent, SampleWithoutContentWrapperComponent],
-  template: `
+    imports: [NgScrollbarModule, SampleContentComponent, SampleWithoutContentWrapperComponent],
+    template: `
     <ng-scrollbar [externalViewport]="externalViewport">
       <sample-without-content-wrapper/>
     </ng-scrollbar>
@@ -53,9 +52,8 @@ class WithViewportDirectiveComponent {
 }
 
 @Component({
-  standalone: true,
-  imports: [NgScrollbarModule, SampleContentComponent, SampleWithoutContentWrapperComponent],
-  template: `
+    imports: [NgScrollbarModule, SampleContentComponent, SampleWithoutContentWrapperComponent],
+    template: `
     <ng-scrollbar [externalViewport]="externalViewport"
                   [externalContentWrapper]="externalContentWrapper"
                   [externalSpacer]="externalSpacer">

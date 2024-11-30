@@ -33,7 +33,7 @@ export class SyncSpacer {
   /**
    * A signal used to sync spacer dimension when content dimension changes
    */
-  spacerDimension: WritableSignal<ElementDimension> = signal({});
+  spacerDimension: WritableSignal<ElementDimension> = signal<ElementDimension>({});
 
   constructor() {
     let sub$: Subscription;

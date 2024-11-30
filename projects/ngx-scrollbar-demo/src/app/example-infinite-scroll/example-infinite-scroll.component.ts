@@ -7,14 +7,13 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { Chance } from 'chance';
 
 @Component({
-  selector: 'app-example-infinite-scroll',
-  templateUrl: './example-infinite-scroll.component.html',
-  styleUrls: ['./example-infinite-scroll.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.example-component]': 'true'
   },
-  standalone: true,
+  selector: 'app-example-infinite-scroll',
+  templateUrl: './example-infinite-scroll.component.html',
+  styleUrl: './example-infinite-scroll.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatCardModule, NgScrollbarModule, MatListModule, CommonModule, InfiniteScrollDirective]
 })
 export class ExampleInfiniteScrollComponent {

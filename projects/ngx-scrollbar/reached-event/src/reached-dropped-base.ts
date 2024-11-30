@@ -1,18 +1,14 @@
 import {
   Directive,
   inject,
-  effect,
-  runInInjectionContext,
+  afterRenderEffect,
   OnInit,
-  OnDestroy,
   NgZone,
-  Injector,
   Renderer2,
   EventEmitter,
-  PLATFORM_ID,
+  EffectCleanupRegisterFn,
   InputSignalWithTransform
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
 import { _NgScrollbar, NG_SCROLLBAR } from 'ngx-scrollbar';
 
 type EventAction = {
@@ -20,15 +16,11 @@ type EventAction = {
 }
 
 @Directive()
-export abstract class ReachedDroppedBase implements OnInit, OnDestroy {
-
-  protected readonly isBrowser: boolean = isPlatformBrowser(inject(PLATFORM_ID));
+export abstract class ReachedDroppedBase implements OnInit {
 
   protected readonly zone: NgZone = inject(NgZone);
 
   protected readonly renderer: Renderer2 = inject(Renderer2);
-
-  protected readonly injector: Injector = inject(Injector);
 
   protected readonly scrollbar: _NgScrollbar = inject(NG_SCROLLBAR, { self: true });
 
@@ -70,6 +62,17 @@ export abstract class ReachedDroppedBase implements OnInit, OnDestroy {
     end: { emit: (): void => this.scrollbar.isHorizontallyScrollable() ? this.end.emit() : null }
   };
 
+  constructor() {
+    afterRenderEffect({
+      earlyRead: (onCleanUp: EffectCleanupRegisterFn): void => {
+        if (!this.disabled() && this.scrollbar.viewport.initialized()) {
+          this.activate();
+        }
+        onCleanUp(() => this.deactivate())
+      }
+    });
+  }
+
   private onAction(trigger: string): void {
     if (trigger) {
       this.eventActions[trigger]?.emit();
@@ -88,6 +91,7 @@ export abstract class ReachedDroppedBase implements OnInit, OnDestroy {
       this.triggerElementsWrapper = this.renderer.createElement('div');
       this.renderer.addClass(this.triggerElementsWrapper, this.triggerElementsWrapperClass);
       this.renderer.appendChild(this.scrollbar.viewport.contentWrapperElement, this.triggerElementsWrapper);
+
 
       // Create a trigger element for each subscribed event
       this.subscribedEvents.forEach((event: string) => {
@@ -116,7 +120,7 @@ export abstract class ReachedDroppedBase implements OnInit, OnDestroy {
           intersectionObserverInit = true;
         }
       }, {
-        root: this.scrollbar.viewport.nativeElement,
+        root: this.scrollbar.viewport.nativeElement
       });
 
       this.triggerElements.forEach((el: HTMLElement) => this.intersectionObserver.observe(el));
@@ -142,21 +146,5 @@ export abstract class ReachedDroppedBase implements OnInit, OnDestroy {
     if (this.end.observed) {
       this.subscribedEvents.push('end');
     }
-
-    runInInjectionContext(this.injector, () => {
-      effect(() => {
-        if (this.disabled()) {
-          this.deactivate();
-        } else {
-          if (this.isBrowser) {
-            this.activate();
-          }
-        }
-      });
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.deactivate();
   }
 }

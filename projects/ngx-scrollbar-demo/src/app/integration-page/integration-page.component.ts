@@ -6,7 +6,6 @@ import { PrimeNgComponent } from '../prime-ng-table/prime-ng.component';
 
 @Component({
   selector: 'app-integration-page',
-  standalone: true,
   imports: [
     ExampleNgxDatatableComponent,
     ExampleInfiniteScrollComponent,

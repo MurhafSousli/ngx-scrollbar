@@ -8,7 +8,6 @@ import { MatDividerModule } from '@angular/material/divider';
   templateUrl: './resize-form.component.html',
   styleUrls: ['./resize-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [MatSliderModule, FormsModule, MatDividerModule]
 })
 export class ResizeFormComponent {

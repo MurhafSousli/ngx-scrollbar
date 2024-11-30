@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
+import { MatCard } from '@angular/material/card';
 import { NgxDatatableModule, ColumnMode } from '@swimlane/ngx-datatable';
-import { NgScrollbarExt, AsyncDetection } from 'ngx-scrollbar';
+import { NgScrollbarExt } from 'ngx-scrollbar';
 
 interface Employee {
   name: string;
@@ -13,16 +13,7 @@ interface Employee {
 
 @Component({
   selector: 'app-example-ngx-datatable',
-  standalone: true,
-  imports: [
-    NgxDatatableModule,
-    NgScrollbarExt,
-    AsyncDetection,
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent
-  ],
+  imports: [NgxDatatableModule, NgScrollbarExt, MatCard],
   templateUrl: './example-ngx-datatable.component.html',
   styleUrl: './example-ngx-datatable.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

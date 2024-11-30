@@ -19,10 +19,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @Component({
-  standalone: true,
   selector: 'app-smooth-scroll-form',
   templateUrl: './smooth-scroll-form.component.html',
-  styleUrls: ['./smooth-scroll-form.component.scss'],
+  styleUrl: './smooth-scroll-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatButtonToggleModule, FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule]
 })
@@ -35,7 +34,7 @@ export class SmoothScrollFormComponent {
   axisYValue: WritableSignal<number> = signal(0);
   axisXProperty: WritableSignal<string> = signal('end');
   axisXValue: WritableSignal<number> = signal(0);
-  center: WritableSignal<boolean> =  signal(false);
+  center: WritableSignal<boolean> = signal(false);
 
   options: Signal<SmoothScrollOptionsForm> = computed(() => {
     return {

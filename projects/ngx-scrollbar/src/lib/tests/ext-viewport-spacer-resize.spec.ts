@@ -6,7 +6,6 @@ import { NgScrollbarExt, SyncSpacer } from 'ngx-scrollbar';
 import { afterTimeout } from './common-test.';
 
 @Component({
-  standalone: true,
   selector: 'sample-content',
   imports: [NgScrollbarExt, SyncSpacer],
   template: `

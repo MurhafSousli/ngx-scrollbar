@@ -1,35 +1,35 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>PrimeNg Dropdown</mat-card-title>
+    <mat-card-title>PrimeNg Select</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <ng-scrollbar externalViewport=".p-dropdown-items-wrapper"
-                  externalContentWrapper=".p-dropdown-items"
+    <ng-scrollbar externalViewport=".p-select-list-container"
+                  externalContentWrapper=".p-select-list"
                   asyncDetection="auto">
-      <p-dropdown [options]="cities"
-                  [(ngModel)]="selectedCity"
-                  optionLabel="name"
-                  [showClear]="true"
-                  placeholder="Select a City"/>
+      <p-select [options]="cities"
+                [(ngModel)]="selectedCity"
+                placeholder="Select a City"
+                [editable]="true"
+                optionLabel="name" class="w-full md:w-56"/>
     </ng-scrollbar>
   </mat-card-content>
 </mat-card>
 
 <mat-card>
   <mat-card-header>
-    <mat-card-title>PrimeNg Dropdown (Virtual Scroll)</mat-card-title>
+    <mat-card-title>PrimeNg Select (Virtual Scroll)</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <ng-scrollbar externalViewport=".p-scroller"
-                  externalContentWrapper=".p-scroller-content"
-                  externalSpacer=".p-scroller-spacer"
+    <ng-scrollbar externalViewport=".p-virtualscroller"
+                  externalContentWrapper=".p-virtualscroller-content"
+                  externalSpacer=".p-virtualscroller-spacer"
                   asyncDetection="auto">
-      <p-dropdown [options]="cars"
-                  [(ngModel)]="selectedCar"
-                  placeholder="Select Option"
-                  optionLabel="brand"
-                  [virtualScroll]="true"
-                  [virtualScrollItemSize]="40"/>
+      <p-select [options]="cars"
+                [(ngModel)]="selectedCar"
+                placeholder="Select Option"
+                optionLabel="brand"
+                [virtualScroll]="true"
+                [virtualScrollItemSize]="40"/>
     </ng-scrollbar>
   </mat-card-content>
 </mat-card>
@@ -39,9 +39,10 @@
     <mat-card-title>PrimeNg Table</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <ng-scrollbar externalViewport=".p-scroller"
+    <ng-scrollbar externalViewport=".p-virtualscroller"
                   externalContentWrapper=".p-datatable-scrollable-table"
-                  appearance="compact">
+                  appearance="compact"
+                  asyncDetection>
       <p-table [columns]="cols"
                [value]="cars"
                [scrollable]="true"
@@ -75,10 +76,11 @@
     <mat-card-title>PrimeNg Scroller</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <ng-scrollbar externalViewport=".p-scroller"
-                  externalContentWrapper=".p-scroller-content"
-                  externalSpacer=".p-scroller-spacer"
-                  appearance="compact">
+    <ng-scrollbar externalViewport=".p-virtualscroller"
+                  externalContentWrapper=".p-virtualscroller-content"
+                  externalSpacer=".p-virtualscroller-spacer"
+                  appearance="compact"
+                  asyncDetection>
       <p-scroller [items]="cars"
                   [itemSize]="50"
                   scrollHeight="200px"

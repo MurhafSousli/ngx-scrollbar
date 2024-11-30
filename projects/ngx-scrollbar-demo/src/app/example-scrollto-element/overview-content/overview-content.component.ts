@@ -14,12 +14,11 @@ import { AnchorLinkComponent } from '../anchor-link/anchor-link.component';
 import { ScrollContent } from '../scroll-content.directive';
 
 @Component({
-  standalone: true,
   selector: 'overview-content',
   template: `
     <anchor-link [links]="scrollContent.anchorsTree()" [activeLinkId]="activeLinkId()"/>
   `,
-  styleUrls: ['./overview-content.component.scss'],
+  styleUrl: './overview-content.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AnchorLinkComponent]
 })

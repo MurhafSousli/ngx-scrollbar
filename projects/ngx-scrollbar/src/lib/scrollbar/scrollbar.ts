@@ -7,7 +7,6 @@ import { ScrollbarButton } from '../button/scrollbar-button.component';
 import { ScrollbarManager } from '../utils/scrollbar-manager';
 
 @Component({
-  standalone: true,
   selector: 'scrollbar-y',
   template: `
     <div class="ng-scrollbar-sticky"
@@ -70,7 +69,6 @@ export class ScrollbarY extends ScrollbarAdapter {
 }
 
 @Component({
-  standalone: true,
   selector: 'scrollbar-x',
   template: `
     <div class="ng-scrollbar-sticky"

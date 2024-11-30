@@ -7,14 +7,13 @@ import { NgScrollbarCdkVirtualScroll } from 'ngx-scrollbar/cdk';
 import { CardComponent } from './card/card.component';
 
 @Component({
-  selector: 'app-example-nested-virtual-scroll',
-  templateUrl: './example-nested-virtual-scroll.component.html',
-  styleUrls: ['./example-nested-virtual-scroll.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.example-component]': 'true'
   },
-  standalone: true,
+  selector: 'app-example-nested-virtual-scroll',
+  templateUrl: './example-nested-virtual-scroll.component.html',
+  styleUrl: './example-nested-virtual-scroll.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatCardModule,
     NgScrollbarModule,

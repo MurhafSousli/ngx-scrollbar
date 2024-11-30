@@ -1,24 +1,23 @@
 import {
   Component,
-  Input,
   inject,
   signal,
   effect,
   computed,
   untracked,
+  linkedSignal,
   createComponent,
-  booleanAttribute,
   input,
   contentChild,
   Signal,
   InputSignal,
   WritableSignal,
   Injector,
+  OnDestroy,
   Renderer2,
   ComponentRef,
   ApplicationRef,
-  ChangeDetectionStrategy,
-  EffectCleanupRegisterFn
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { ScrollViewport, ViewportAdapter } from './viewport';
 import { NgScrollbar } from './ng-scrollbar';
@@ -31,7 +30,7 @@ import { Scrollbars } from './scrollbars/scrollbars';
   selector: 'ng-scrollbar[externalViewport]',
   exportAs: 'ngScrollbar',
   template: '<ng-content/>',
-  styleUrls: ['ng-scrollbar.scss'],
+  styleUrl: 'ng-scrollbar.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     // This component appends a content wrapper element to the viewport
@@ -46,7 +45,7 @@ import { Scrollbars } from './scrollbars/scrollbars';
     ViewportAdapter
   ],
 })
-export class NgScrollbarExt extends NgScrollbarCore {
+export class NgScrollbarExt extends NgScrollbarCore implements OnDestroy {
 
   private readonly renderer: Renderer2 = inject(Renderer2);
 
@@ -74,21 +73,10 @@ export class NgScrollbarExt extends NgScrollbarCore {
    */
   externalSpacer: InputSignal<string> = input<string>();
 
-  // At the time being, InputSignal value cannot be overridden programmatically from another directive,
-  altViewport: WritableSignal<HTMLElement> = signal<HTMLElement>(null);
-  altContentWrapper: WritableSignal<HTMLElement> = signal<HTMLElement>(null);
-  altSpacer: WritableSignal<HTMLElement> = signal<HTMLElement>(null);
-
-  viewportElement: Signal<HTMLElement> = computed(() => {
-    if (this.customViewport()) {
-      return this.customViewport().nativeElement;
-    }
-    if (this.altViewport()) {
-      return this.altViewport();
-    }
+  viewportElement: WritableSignal<HTMLElement> = linkedSignal({
+    source: this.externalViewport,
     // If viewport selector was defined, query the element
-    const selector: string = this.externalViewport();
-    return selector ? this.nativeElement.querySelector(selector) : null;
+    computation: (selector: string) => this.getElement(selector) || this.customViewport()?.nativeElement
   });
 
   viewportError: Signal<string> = computed(() => {
@@ -97,12 +85,9 @@ export class NgScrollbarExt extends NgScrollbarCore {
       : null;
   });
 
-  contentWrapperElement: Signal<HTMLElement> = computed(() => {
-    if (this.altContentWrapper()) {
-      return this.altContentWrapper();
-    }
-    const selector: string = this.externalContentWrapper();
-    return selector ? this.nativeElement.querySelector(selector) : null;
+  contentWrapperElement: WritableSignal<HTMLElement> = linkedSignal({
+    source: this.externalContentWrapper,
+    computation: (selector: string) => this.getElement(selector)
   });
 
   contentWrapperError: Signal<string> = computed(() => {
@@ -111,12 +96,9 @@ export class NgScrollbarExt extends NgScrollbarCore {
       : null;
   });
 
-  spacerElement: Signal<HTMLElement> = computed(() => {
-    if (this.altSpacer()) {
-      return this.altSpacer();
-    }
-    const selector: string = this.externalSpacer();
-    return selector ? this.nativeElement.querySelector(selector) : null
+  spacerElement: WritableSignal<HTMLElement> = linkedSignal({
+    source: this.externalSpacer,
+    computation: (selector: string) => this.getElement(selector)
   });
 
   spacerError: Signal<string> = computed(() => {
@@ -129,7 +111,7 @@ export class NgScrollbarExt extends NgScrollbarCore {
    * Skip initializing the viewport and the scrollbar
    * this is used when the component needs to wait for 3rd party library to render
    */
-  @Input({ transform: booleanAttribute }) skipInit: boolean;
+  skipInit: boolean;
 
   /**
    * Reference to the external viewport directive if used
@@ -137,10 +119,12 @@ export class NgScrollbarExt extends NgScrollbarCore {
   customViewport: Signal<ScrollViewport> = contentChild(ScrollViewport, { descendants: true });
 
   constructor() {
-    effect((onCleanup: EffectCleanupRegisterFn) => {
+    // Using `afterRenderEffect` would run twice, one when viewport directive is detected
+    // and one when content wrapper is detected, therefore `effect` is better because it runs only once.
+    effect(() => {
       const viewportElement: HTMLElement = this.viewportElement();
+      const contentWrapperElement: HTMLElement = this.contentWrapperElement();
       const spacerElement: HTMLElement = this.spacerElement();
-      let contentWrapperElement: HTMLElement = this.contentWrapperElement();
 
       const viewportError: string = this.viewportError();
       const contentWrapperError: string = this.contentWrapperError();
@@ -152,37 +136,48 @@ export class NgScrollbarExt extends NgScrollbarCore {
           if (error) {
             console.error(error);
           } else {
-            // If no external spacer or content wrapper is provided, create a content wrapper element
-            if (!spacerElement && !contentWrapperElement) {
-              contentWrapperElement = this.renderer.createElement('div');
-
-              // Move all content of the viewport into the content wrapper
-              const childNodes: ChildNode[] = Array.from(viewportElement.childNodes);
-              childNodes.forEach((node: ChildNode) => this.renderer.appendChild(contentWrapperElement, node));
-
-              // Append the content wrapper to the viewport
-              this.renderer.appendChild(viewportElement, contentWrapperElement);
-            }
-
-            // Make sure content wrapper element is defined to proceed
-            if (contentWrapperElement) {
-              // Initialize viewport
-              this.viewport.init(viewportElement, contentWrapperElement, spacerElement);
-              // Attach scrollbars
-              this._attachScrollbars();
-            }
+            this.initialize(viewportElement, contentWrapperElement, spacerElement);
           }
         }
-
-        onCleanup(() => {
-          if (this._scrollbarsRef) {
-            this.appRef.detachView(this._scrollbarsRef.hostView);
-            this._scrollbarsRef.destroy();
-          }
-        })
       });
     });
     super();
+  }
+
+  ngOnDestroy(): void {
+    if (this._scrollbarsRef) {
+      this.appRef.detachView(this._scrollbarsRef.hostView);
+      this._scrollbarsRef.destroy();
+    }
+  }
+
+  initialize(viewportElement: HTMLElement, contentWrapperElement: HTMLElement, spacerElement: HTMLElement): void {
+    if (this.skipInit) {
+      // If initialized via async detection, then we should set the signals
+      this.viewportElement.set(viewportElement);
+      this.contentWrapperElement.set(contentWrapperElement);
+      this.spacerElement.set(spacerElement);
+    }
+
+    // If no external spacer and no content wrapper are provided, create a content wrapper element
+    if (!spacerElement && !contentWrapperElement) {
+      contentWrapperElement = this.renderer.createElement('div');
+
+      // Move all content of the viewport into the content wrapper
+      const childNodes: ChildNode[] = Array.from(viewportElement.childNodes);
+      childNodes.forEach((node: ChildNode) => this.renderer.appendChild(contentWrapperElement, node));
+
+      // Append the content wrapper to the viewport
+      this.renderer.appendChild(viewportElement, contentWrapperElement);
+    }
+
+    // Make sure content wrapper element is defined to proceed
+    if (contentWrapperElement) {
+      // Initialize viewport
+      this.viewport.init(viewportElement, contentWrapperElement, spacerElement);
+      // Attach scrollbars
+      this._attachScrollbars();
+    }
   }
 
   _attachScrollbars(): void {
@@ -197,5 +192,9 @@ export class NgScrollbarExt extends NgScrollbarCore {
     this.appRef.attachView(this._scrollbarsRef.hostView);
     // Set the scrollbars instance
     this._scrollbars.set(this._scrollbarsRef.instance);
+  }
+
+  private getElement(selector: string): HTMLElement {
+    return selector ? this.nativeElement.querySelector(selector) as HTMLElement : null;
   }
 }

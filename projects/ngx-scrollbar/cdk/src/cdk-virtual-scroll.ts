@@ -15,6 +15,7 @@ export class NgScrollbarCdkVirtualScroll {
   constructor() {
     this.scrollbar.skipInit = true;
 
+    // Since 'effects' runs before 'afterNextRender' and our elements are defined, will use 'effects'.
     effect(() => {
       const virtualScrollViewport: CdkVirtualScrollViewport = this.virtualScrollViewportRef();
 
@@ -24,10 +25,7 @@ export class NgScrollbarCdkVirtualScroll {
           const contentWrapper: HTMLElement = virtualScrollViewport._contentWrapper.nativeElement;
           const spacer: HTMLElement = virtualScrollViewport.elementRef.nativeElement.querySelector('.cdk-virtual-scroll-spacer');
 
-          this.scrollbar.skipInit = false;
-          this.scrollbar.altViewport.set(viewport);
-          this.scrollbar.altContentWrapper.set(contentWrapper);
-          this.scrollbar.altSpacer.set(spacer);
+          this.scrollbar.initialize(viewport, contentWrapper, spacer);
         }
       });
     });

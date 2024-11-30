@@ -32,9 +32,8 @@ class SampleLibComponent {
 }
 
 @Component({
-  standalone: true,
-  imports: [NgScrollbarModule, SampleLibComponent],
-  template: `
+    imports: [NgScrollbarModule, SampleLibComponent],
+    template: `
     <ng-scrollbar [externalViewport]="externalViewport"
                   [externalContentWrapper]="externalContentWrapper"
                   [externalSpacer]="externalSpacer"

@@ -5,7 +5,6 @@ import { NG_SCROLLBAR } from './utils/scrollbar-base';
 import { Scrollbars } from './scrollbars/scrollbars';
 
 @Component({
-  standalone: true,
   selector: 'ng-scrollbar:not([externalViewport])',
   exportAs: 'ngScrollbar',
   imports: [Scrollbars],
@@ -15,7 +14,7 @@ import { Scrollbars } from './scrollbars/scrollbars';
       <scrollbars/>
     </div>
   `,
-  styleUrls: ['./ng-scrollbar.scss'],
+  styleUrl: './ng-scrollbar.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: NG_SCROLLBAR, useExisting: NgScrollbar },

@@ -1,0 +1,37 @@
+<div class="notifier-wrapper">
+  <div style="width: 70px">Reached</div>
+  @let reachedEvent = reached();
+  <mat-chip-set class="reached">
+    <mat-chip [class.changed]="reachedEvent.top">
+      Top
+    </mat-chip>
+    <mat-chip [class.changed]="reachedEvent.bottom">
+      Bottom
+    </mat-chip>
+    <mat-chip [class.changed]="reachedEvent.start">
+      Start
+    </mat-chip>
+    <mat-chip [class.changed]="reachedEvent.end">
+      End
+    </mat-chip>
+  </mat-chip-set>
+</div>
+
+<div class="notifier-wrapper">
+  <div style="width: 70px">Dropped</div>
+  @let droppedEvent = dropped();
+  <mat-chip-set class="dropped">
+    <mat-chip [class.changed]="droppedEvent.top">
+      Top
+    </mat-chip>
+    <mat-chip [class.changed]="droppedEvent.bottom">
+      Bottom
+    </mat-chip>
+    <mat-chip [class.changed]="droppedEvent.start">
+      Start
+    </mat-chip>
+    <mat-chip [class.changed]="droppedEvent.end">
+      End
+    </mat-chip>
+  </mat-chip-set>
+</div>
