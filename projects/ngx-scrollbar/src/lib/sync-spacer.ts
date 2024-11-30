@@ -63,7 +63,7 @@ export class SyncSpacer {
             });
           });
         }
-        onCleanup(() => sub$?.unsubscribe())
+        onCleanup(() => sub$?.unsubscribe());
       });
     });
   }

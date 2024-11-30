@@ -1,6 +1,5 @@
 import { Component, effect, inject, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
-import { fromPromise } from 'rxjs/internal/observable/innerFrom';
+import { from, Observable } from 'rxjs';
 import { TrackXDirective, TrackYDirective } from '../track/track';
 import { ThumbXDirective, ThumbYDirective } from '../thumb/thumb';
 import { SCROLLBAR_CONTROL, ScrollbarAdapter } from './scrollbar-adapter';
@@ -62,7 +61,7 @@ export class ScrollbarY extends ScrollbarAdapter {
   }
 
   scrollTo(top: number, duration: number): Observable<void> {
-    return fromPromise(this.cmp.scrollTo({ top, duration }));
+    return from(this.cmp.scrollTo({ top, duration }));
   }
 
   instantScrollTo(value: number): void {
@@ -143,7 +142,7 @@ export class ScrollbarX extends ScrollbarAdapter {
   }
 
   scrollTo(left: number, duration: number): Observable<void> {
-    return fromPromise(this.cmp.scrollTo({ left, duration }));
+    return from(this.cmp.scrollTo({ left, duration }));
   }
 
   instantScrollTo(value: number, scrollMax?: number): void {

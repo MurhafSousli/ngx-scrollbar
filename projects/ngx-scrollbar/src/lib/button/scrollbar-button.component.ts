@@ -1,4 +1,4 @@
-import { Component, effect, untracked, input, InputSignal, ChangeDetectionStrategy, } from '@angular/core';
+import { Component, effect, untracked, input, InputSignal, ChangeDetectionStrategy } from '@angular/core';
 import { Direction } from '@angular/cdk/bidi';
 import {
   Observable,

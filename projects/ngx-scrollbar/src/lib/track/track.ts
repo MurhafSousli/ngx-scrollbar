@@ -1,6 +1,5 @@
 import { Directive, effect } from '@angular/core';
-import { Observable } from 'rxjs';
-import { fromPromise } from 'rxjs/internal/observable/innerFrom';
+import { from, Observable } from 'rxjs';
 import { TrackAdapter } from './track-adapter';
 
 @Directive({
@@ -41,7 +40,7 @@ export class TrackXDirective extends TrackAdapter {
   }
 
   protected scrollTo(start: number): Observable<void> {
-    return fromPromise(this.cmp.scrollTo({ start, duration: this.cmp.trackScrollDuration() }));
+    return from(this.cmp.scrollTo({ start, duration: this.cmp.trackScrollDuration() }));
   }
 
   protected getScrollForwardStep(): number {
@@ -73,7 +72,7 @@ export class TrackYDirective extends TrackAdapter {
   }
 
   protected scrollTo(top: number): Observable<void> {
-    return fromPromise(this.cmp.scrollTo({ top, duration: this.cmp.trackScrollDuration() }));
+    return from(this.cmp.scrollTo({ top, duration: this.cmp.trackScrollDuration() }));
   }
 
   protected getScrollForwardStep(): number {

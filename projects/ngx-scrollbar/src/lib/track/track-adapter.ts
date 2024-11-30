@@ -1,4 +1,5 @@
-import { Directive, effect, untracked } from '@angular/core';
+import { Directive, effect, inject, PLATFORM_ID, untracked } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import {
   Observable,
   delay,
@@ -17,6 +18,8 @@ import { PointerEventsAdapter } from '../utils/pointer-events-adapter';
 
 @Directive()
 export abstract class TrackAdapter extends PointerEventsAdapter {
+
+  private readonly isBrowser: boolean = isPlatformBrowser(inject(PLATFORM_ID));
 
   // The current position of the mouse during track dragging
   private currMousePosition: number;
@@ -116,7 +119,14 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
     effect(() => {
       this.cmp.viewportDimension();
       this.cmp.contentDimension();
-      untracked(() => this.control.trackSize.set(this.size));
+
+      // Avoid SSR error because we're using `requestAnimationFrame`
+      if (!this.isBrowser) return;
+
+      untracked(() => {
+        // Use animation frame to give the track element time to render (avoid size 0)
+        requestAnimationFrame(() => this.control.trackSize.set(this.size));
+      });
     });
     super();
   }
