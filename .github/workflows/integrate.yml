@@ -59,4 +59,4 @@ jobs:
         continue-on-error: true  # Allow this step to fail
 
       - name: Build demo (ssr)
-        run: npm run build
+        run: npm run build-ssr
