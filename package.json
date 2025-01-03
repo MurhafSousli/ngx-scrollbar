@@ -4,7 +4,8 @@
   "scripts": {
     "start": "ng serve",
     "start-mobile": "ng serve --host 0.0.0.0",
-    "build": "ng build ngx-scrollbar-demo",
+    "build": "ng build ngx-scrollbar-demo --ssr=false --prerender=false",
+    "build-ssr": "ng build ngx-scrollbar-demo",
     "watch": "ng build --watch --configuration development",
     "build-lib": "ng build ngx-scrollbar",
     "lint-lib": "ng lint ngx-scrollbar",
