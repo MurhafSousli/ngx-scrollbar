@@ -1,4 +1,4 @@
-import { NgModule, Provider } from '@angular/core';
+import { Provider, EnvironmentProviders, NgModule, makeEnvironmentProviders } from '@angular/core';
 import { NgScrollbar } from './ng-scrollbar';
 import { ScrollViewport } from './viewport';
 import { NgScrollbarExt } from './ng-scrollbar-ext';
@@ -35,11 +35,11 @@ export function provideScrollbarOptions(options: NgScrollbarOptions): Provider[]
   ]
 }
 
-export function provideScrollbarPolyfill(url: string): Provider[] {
-  return [
+export function provideScrollbarPolyfill(url: string): EnvironmentProviders {
+  return makeEnvironmentProviders([
     {
       provide: NG_SCROLLBAR_POLYFILL,
       useValue: url
     }
-  ]
+  ]);
 }

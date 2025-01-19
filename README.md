@@ -1,5 +1,5 @@
 <p align="center">
-  <img height="165px" width="165px" style="text-align: center;" src="https://cdn.statically.io/gh/MurhafSousli/ngx-scrollbar/master/projects/ngx-scrollbar-demo/src/assets/logo.svg">
+  <img height="165px" width="165px" style="text-align: center;" src="https://cdn.statically.io/gh/MurhafSousli/ngx-scrollbar/master/projects/ngx-scrollbar-demo/public/logo.svg">
   <h1 align="center">Angular Custom Scrollbar</h1>
 </p>
 

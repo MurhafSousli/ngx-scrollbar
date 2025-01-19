@@ -141,7 +141,7 @@ export abstract class NgScrollbarCore implements _NgScrollbar {
   });
 
   /** Throttle interval for detecting changes via ResizeObserver */
-  sensorThrottleTime: InputSignal<number> = input<number, number>(this.options.sensorThrottleTime, {
+  sensorThrottleTime: InputSignalWithTransform<number, string | number> = input<number, string | number>(this.options.sensorThrottleTime, {
     transform: numberAttribute
   });
 
