@@ -29,8 +29,10 @@
             "tsConfig": "projects/ngx-scrollbar-demo/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/ngx-scrollbar-demo/src/favicon.ico",
-              "projects/ngx-scrollbar-demo/src/assets"
+              {
+                "glob": "**/*",
+                "input": "projects/ngx-scrollbar-demo/public"
+              }
             ],
             "styles": [
               "projects/ngx-scrollbar-demo/src/styles.scss",
@@ -100,8 +102,10 @@
             "tsConfig": "projects/ngx-scrollbar-demo/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/ngx-scrollbar-demo/src/favicon.ico",
-              "projects/ngx-scrollbar-demo/src/assets"
+              {
+                "glob": "**/*",
+                "input": "projects/ngx-scrollbar-demo/public"
+              }
             ],
             "styles": [
               "projects/ngx-scrollbar-demo/src/styles.scss"

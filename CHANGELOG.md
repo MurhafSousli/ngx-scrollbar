@@ -1,5 +1,13 @@
 # Changelog
 
+## 18.0.0
+
+- refactor: Change the transformer interface of the `sensorThrottleTime` input, closes [#682](https://github.com/MurhafSousli/ngx-scrollbar/issues/682).
+
+### Possible breaking changes
+
+-  refactor: Prevent `provideScrollbarPolyfill` from being accidentally referenced in `@Component` in a component injector.
+
 ## 17.0.0
 
 - Upgrade to Angular 19.
