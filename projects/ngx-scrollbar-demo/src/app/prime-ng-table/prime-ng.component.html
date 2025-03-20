@@ -17,6 +17,22 @@
 
 <mat-card>
   <mat-card-header>
+    <mat-card-title>PrimeNg Select (appendTo="body")</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p-select [options]="cities"
+              [(ngModel)]="selectedCity"
+              (onShow)="onShow()"
+              (onHide)="onHide()"
+              placeholder="Select a City"
+              [editable]="true"
+              appendTo="body"
+              optionLabel="name" class="w-full md:w-56"/>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-header>
     <mat-card-title>PrimeNg Select (Virtual Scroll)</mat-card-title>
   </mat-card-header>
   <mat-card-content>

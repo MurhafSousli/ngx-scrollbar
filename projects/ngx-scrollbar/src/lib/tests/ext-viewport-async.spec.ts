@@ -8,7 +8,6 @@ import { Scrollbars } from '../scrollbars/scrollbars';
 import { afterTimeout } from './common-test.';
 
 @Component({
-  standalone: true,
   selector: 'sample-lib',
   template: `
     @if (show) {

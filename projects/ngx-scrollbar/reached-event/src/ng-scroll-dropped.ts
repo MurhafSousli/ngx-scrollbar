@@ -11,8 +11,7 @@ import {
 import { ReachedDroppedBase } from './reached-dropped-base';
 
 @Directive({
-  selector: 'ng-scrollbar[droppedTop], ng-scrollbar[droppedBottom], ng-scrollbar[droppedStart], ng-scrollbar[droppedEnd]',
-  standalone: true,
+  selector: 'ng-scrollbar[droppedTop], ng-scrollbar[droppedBottom], ng-scrollbar[droppedStart], ng-scrollbar[droppedEnd]'
 })
 export class NgScrollDropped extends ReachedDroppedBase {
 

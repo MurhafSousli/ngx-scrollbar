@@ -14,7 +14,6 @@ After installation, import `NgScrollbarModule` into your component imports:
 import { NgScrollbarModule } from 'ngx-scrollbar';
 
 @Component({
-  standalone: true,
   selector: 'app-root',
   templateUrl: './app.html',
   imports: [

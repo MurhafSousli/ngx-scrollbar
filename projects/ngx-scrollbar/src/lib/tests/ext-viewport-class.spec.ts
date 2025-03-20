@@ -7,7 +7,6 @@ import { firstValueFrom } from 'rxjs';
 import { Scrollbars } from '../scrollbars/scrollbars';
 
 @Component({
-  standalone: true,
   selector: 'sample-content',
   template: `
     <div class="some-wrapper">
@@ -25,7 +24,6 @@ class SampleContentComponent {
 }
 
 @Component({
-  standalone: true,
   selector: 'sample-without-content-wrapper',
   template: `
     <div class="my-custom-viewport">

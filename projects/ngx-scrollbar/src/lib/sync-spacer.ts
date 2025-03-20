@@ -15,7 +15,6 @@ import { filterResizeEntries } from './ng-scrollbar.model';
 import { ElementDimension, getThrottledStream } from './utils/common';
 
 @Directive({
-  standalone: true,
   selector: 'ng-scrollbar[externalViewport][syncSpacer]',
   host: {
     '[style.--spacer-width]': 'spacerDimension().width',

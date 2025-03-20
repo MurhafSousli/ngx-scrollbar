@@ -18,7 +18,6 @@ import { NgScrollbar } from 'ngx-scrollbar';
 import { NgScrollReached } from 'ngx-scrollbar/reached-event';
 
 @Component({
-  standalone: true,
   selector: 'example-component',
   template: `
     <ng-scrollbar (reachedBottom)="onBottomReached()">
@@ -66,7 +65,6 @@ import { NgScrollbar } from 'ngx-scrollbar';
 import { NgScrollDropped } from 'ngx-scrollbar/reached-event';
 
 @Component({
-  standalone: true,
   selector: 'example-component',
   template: `
     <ng-scrollbar (droppedTop)="onTopDropped()">

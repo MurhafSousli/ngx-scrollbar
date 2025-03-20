@@ -3,7 +3,6 @@ import { SmoothScrollManager } from './smooth-scroll-manager';
 import { SmoothScrollElement, SmoothScrollToElementOptions, SmoothScrollToOptions } from './smooth-scroll.model';
 
 @Directive({
-  standalone: true,
   selector: '[smoothScroll]',
   exportAs: 'smoothScroll'
 })

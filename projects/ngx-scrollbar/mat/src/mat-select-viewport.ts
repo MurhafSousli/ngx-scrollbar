@@ -3,7 +3,6 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { _NgScrollbar, NG_SCROLLBAR } from 'ngx-scrollbar';
 
 @Directive({
-  standalone: true,
   selector: 'ng-scrollbar[matSelectViewport]'
 })
 export class NgScrollbarMatSelectViewport {

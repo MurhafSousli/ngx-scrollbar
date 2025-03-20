@@ -3,7 +3,6 @@ import { from, Observable } from 'rxjs';
 import { TrackAdapter } from './track-adapter';
 
 @Directive({
-  standalone: true,
   selector: '[scrollbarTrackX]',
   providers: [{ provide: TrackAdapter, useExisting: TrackXDirective }]
 })
@@ -53,7 +52,6 @@ export class TrackXDirective extends TrackAdapter {
 }
 
 @Directive({
-  standalone: true,
   selector: '[scrollbarTrackY]',
   providers: [{ provide: TrackAdapter, useExisting: TrackYDirective }]
 })
