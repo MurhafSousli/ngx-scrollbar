@@ -1,5 +1,11 @@
 # Changelog
 
+## 18.1.0
+
+- feat: Add `ScrollbarAnywhere` service which provides `createScrollbar` to attach scrollbar on any host element without having to use `ng-scrollbar` component.
+- feat: Add `matSelectScrollbar` directive that can be used to attach scrollbar on `mat-select` overlay menu.
+- refactor: Remove `standalone` from all components.
+
 ## 18.0.0
 
 - refactor: Change the transformer interface of the `sensorThrottleTime` input, closes [#682](https://github.com/MurhafSousli/ngx-scrollbar/issues/682).

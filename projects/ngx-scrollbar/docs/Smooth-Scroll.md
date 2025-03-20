@@ -12,7 +12,6 @@ Import `SmoothScroll` in your component the use the directive on your scrollable
 
 ```ts
 @Component({
-  standalone: true,
   selector: 'my-app',
   imports: [SmoothScroll],
   template: `

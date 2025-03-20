@@ -2,7 +2,6 @@ import { Directive, computed, contentChildren, Signal } from '@angular/core';
 import { ScrollAnchor } from './scroll-anchor.directive';
 
 @Directive({
-  standalone: true,
   selector: '[scrollContent]'
 })
 export class ScrollContent {

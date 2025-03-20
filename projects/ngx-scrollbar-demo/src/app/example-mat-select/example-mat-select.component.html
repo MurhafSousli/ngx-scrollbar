@@ -9,3 +9,13 @@
     </mat-select>
   </mat-card-content>
 </mat-card>
+
+<mat-card class="example example-mat-select mat-elevation-z16">
+  <mat-card-content>
+    <mat-select matSelectScrollbar [value]="items[8]">
+      @for (item of items; track item) {
+        <mat-option [value]="item">{{ item }}</mat-option>
+      }
+    </mat-select>
+  </mat-card-content>
+</mat-card>

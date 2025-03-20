@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { TableModule } from 'primeng/table';
 import { SelectModule } from 'primeng/select';
-import { NgScrollbarExt, AsyncDetection } from 'ngx-scrollbar';
+import { NgScrollbarExt, AsyncDetection, ScrollbarAnywhere, ScrollbarRef } from 'ngx-scrollbar';
 import { Chance } from 'chance';
 
 interface Column {
@@ -39,6 +39,10 @@ interface City {
 })
 export class PrimeNgComponent implements OnInit {
 
+  anywhere: ScrollbarAnywhere = inject(ScrollbarAnywhere);
+
+  scrollbar: ScrollbarRef<NgScrollbarExt>;
+
   chance = new Chance();
 
   cars: Car[];
@@ -60,7 +64,7 @@ export class PrimeNgComponent implements OnInit {
 
   selectedCar: Car;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.cols = [
       { field: 'vin', header: 'Vin' },
       { field: 'year', header: 'Year' },
@@ -77,5 +81,17 @@ export class PrimeNgComponent implements OnInit {
       }
     });
     this.virtualCars = Array.from({ length: 1000 });
+  }
+
+  onShow(): void {
+    this.scrollbar = this.anywhere.createScrollbarExt({
+      host: '.p-select-overlay.p-component',
+      viewport: '.p-select-list-container',
+      contentWrapper: '.p-select-list'
+    });
+  }
+
+  onHide(): void {
+    this.scrollbar.destroy();
   }
 }

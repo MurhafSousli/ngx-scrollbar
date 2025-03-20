@@ -26,7 +26,6 @@ import { NG_SCROLLBAR } from './utils/scrollbar-base';
 import { Scrollbars } from './scrollbars/scrollbars';
 
 @Component({
-  standalone: true,
   selector: 'ng-scrollbar[externalViewport]',
   exportAs: 'ngScrollbar',
   template: '<ng-content/>',
@@ -148,6 +147,7 @@ export class NgScrollbarExt extends NgScrollbarCore implements OnDestroy {
     if (this._scrollbarsRef) {
       this.appRef.detachView(this._scrollbarsRef.hostView);
       this._scrollbarsRef.destroy();
+      this._scrollbarsRef = null;
     }
   }
 

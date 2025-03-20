@@ -1,7 +1,6 @@
 import { Directive, Input, inject, ElementRef } from '@angular/core';
 
 @Directive({
-  standalone: true,
   selector: '[scrollAnchor]',
   host: {
     '[id]': 'id'

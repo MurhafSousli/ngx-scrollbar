@@ -13,7 +13,6 @@ import { Subscription, throttleTime } from 'rxjs';
 import { NgScrollbarExt } from './ng-scrollbar-ext';
 
 @Directive({
-  standalone: true,
   selector: 'ng-scrollbar[externalViewport][asyncDetection]'
 })
 export class AsyncDetection {

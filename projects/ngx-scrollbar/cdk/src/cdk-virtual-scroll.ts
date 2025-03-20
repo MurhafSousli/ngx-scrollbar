@@ -3,7 +3,6 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { NgScrollbarExt } from 'ngx-scrollbar';
 
 @Directive({
-  standalone: true,
   selector: 'ng-scrollbar[cdkVirtualScrollViewport]'
 })
 export class NgScrollbarCdkVirtualScroll {
