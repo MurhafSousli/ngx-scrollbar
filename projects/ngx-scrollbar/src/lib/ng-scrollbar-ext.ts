@@ -14,7 +14,6 @@ import {
   WritableSignal,
   Injector,
   OnDestroy,
-  Renderer2,
   ComponentRef,
   ApplicationRef,
   ChangeDetectionStrategy
@@ -24,6 +23,7 @@ import { NgScrollbar } from './ng-scrollbar';
 import { NgScrollbarCore } from './ng-scrollbar-core';
 import { NG_SCROLLBAR } from './utils/scrollbar-base';
 import { Scrollbars } from './scrollbars/scrollbars';
+import { ScrollbarViewport } from './viewport/scrollbar-viewport';
 
 @Component({
   selector: 'ng-scrollbar[externalViewport]',
@@ -32,10 +32,6 @@ import { Scrollbars } from './scrollbars/scrollbars';
   styleUrl: 'ng-scrollbar.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    // This component appends a content wrapper element to the viewport
-    // A hydration mismatch error will be thrown (NG0500) during DOM manipulation.
-    // To avoid this error, the 'ngSkipHydration' attribute is added to skip hydration.
-    ngSkipHydration: 'true',
     '[class.ng-scrollbar-external-viewport]': 'true'
   },
   providers: [
@@ -46,11 +42,9 @@ import { Scrollbars } from './scrollbars/scrollbars';
 })
 export class NgScrollbarExt extends NgScrollbarCore implements OnDestroy {
 
-  private readonly renderer: Renderer2 = inject(Renderer2);
-
   private readonly appRef: ApplicationRef = inject(ApplicationRef);
 
-  _scrollbarsRef: ComponentRef<Scrollbars>;
+  viewportRef: ComponentRef<ScrollbarViewport>;
 
   _scrollbars: WritableSignal<Scrollbars> = signal<Scrollbars>(null);
 
@@ -130,6 +124,7 @@ export class NgScrollbarExt extends NgScrollbarCore implements OnDestroy {
       const spacerError: string = this.spacerError();
 
       untracked(() => {
+        console.log('👽', viewportElement, contentWrapperElement, spacerElement)
         if (!this.skipInit) {
           const error: string = viewportError || contentWrapperError || spacerError;
           if (error) {
@@ -144,10 +139,10 @@ export class NgScrollbarExt extends NgScrollbarCore implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this._scrollbarsRef) {
-      this.appRef.detachView(this._scrollbarsRef.hostView);
-      this._scrollbarsRef.destroy();
-      this._scrollbarsRef = null;
+    if (this.viewportRef) {
+      this.appRef.detachView(this.viewportRef.hostView);
+      this.viewportRef.destroy();
+      this.viewportRef = null;
     }
   }
 
@@ -158,40 +153,21 @@ export class NgScrollbarExt extends NgScrollbarCore implements OnDestroy {
       this.contentWrapperElement.set(contentWrapperElement);
       this.spacerElement.set(spacerElement);
     }
+    console.log('🐦', this.contentWrapperElement());
 
-    // If no external spacer and no content wrapper are provided, create a content wrapper element
-    if (!spacerElement && !contentWrapperElement) {
-      contentWrapperElement = this.renderer.createElement('div');
-
-      // Move all content of the viewport into the content wrapper
-      const childNodes: ChildNode[] = Array.from(viewportElement.childNodes);
-      childNodes.forEach((node: ChildNode) => this.renderer.appendChild(contentWrapperElement, node));
-
-      // Append the content wrapper to the viewport
-      this.renderer.appendChild(viewportElement, contentWrapperElement);
-    }
-
-    // Make sure content wrapper element is defined to proceed
-    if (contentWrapperElement) {
-      // Initialize viewport
-      this.viewport.init(viewportElement, contentWrapperElement, spacerElement);
-      // Attach scrollbars
-      this._attachScrollbars();
-    }
-  }
-
-  _attachScrollbars(): void {
-    // Create the scrollbars component
-    this._scrollbarsRef = createComponent(Scrollbars, {
+    this.viewportRef = createComponent(ScrollbarViewport, {
+      hostElement: viewportElement,
       environmentInjector: this.appRef.injector,
-      elementInjector: Injector.create({ providers: [{ provide: NG_SCROLLBAR, useValue: this }] })
+      elementInjector: Injector.create({
+        providers: [
+          { provide: NG_SCROLLBAR, useValue: this },
+          { provide: ViewportAdapter, useValue: this.viewport }
+        ]
+      })
     });
-    // Attach scrollbar to the content wrapper
-    this.renderer.appendChild(this.viewport.contentWrapperElement, this._scrollbarsRef.location.nativeElement)
-    // Attach the host view of the component to the main change detection tree, so that its lifecycle hooks run.
-    this.appRef.attachView(this._scrollbarsRef.hostView);
-    // Set the scrollbars instance
-    this._scrollbars.set(this._scrollbarsRef.instance);
+    this.viewportRef.instance.contentElement = this.contentWrapperElement();
+    this.viewportRef.instance.spacerElement = this.spacerElement();
+    this.appRef.attachView(this.viewportRef.hostView);
   }
 
   private getElement(selector: string): HTMLElement {
