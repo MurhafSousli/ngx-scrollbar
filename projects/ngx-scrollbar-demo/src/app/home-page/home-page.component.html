@@ -1,15 +1,35 @@
 <app-header/>
 
-@if (!(platform.IOS || platform.ANDROID)) {
-  <app-lab/>
-}
+<!--@if (!(platform.IOS || platform.ANDROID)) {-->
+<!--  <app-lab/>-->
+<!--}-->
 
 <div class="container">
   <h2 class="mat-typography">Examples</h2>
 
-  <app-example2/>
+  <ng-scrollbar externalViewport="#test"
+                externalContentWrapper="#content">
+    <div id="test" style="height: 125px">
+      <div id="content" style="height: 500px">Hello world</div>
+    </div>
+  </ng-scrollbar>
 
-  <app-example3/>
+  <ng-scrollbar externalViewport="#test2">
+    <div id="test2" style="height: 125px">
+      <div id="content2" style="height: 500px">Hello world</div>
+    </div>
+  </ng-scrollbar>
 
-  <app-example5/>
+<!--  <button mat-button (click)="test()">Test</button>-->
+
+<!--  @if (flag) {-->
+<!--    <div id="test" style="height: 125px">-->
+<!--      <div style="height: 500px">Hello world</div>-->
+<!--    </div>-->
+<!--  }-->
+<!--    <app-example2/>-->
+
+  <!--  <app-example3/>-->
+
+  <!--  <app-example5/>-->
 </div>

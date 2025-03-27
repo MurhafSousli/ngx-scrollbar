@@ -30,6 +30,8 @@
   --color-highlight: #93000a;
   --color-highlight-dropped: #8f0045;
 
+  --scrollbar-thumb-color: var(--color-highlight);
+
   --card-viewport-border-radius: 5px;
 
   @include mat.toolbar-overrides((

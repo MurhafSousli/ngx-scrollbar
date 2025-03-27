@@ -3,16 +3,17 @@ import { ViewportAdapter } from './viewport';
 import { NgScrollbarCore } from './ng-scrollbar-core';
 import { NG_SCROLLBAR } from './utils/scrollbar-base';
 import { Scrollbars } from './scrollbars/scrollbars';
+import { ScrollbarContent } from './viewport/scrollbar-content';
 
 @Component({
   selector: 'ng-scrollbar:not([externalViewport])',
   exportAs: 'ngScrollbar',
-  imports: [Scrollbars],
+  imports: [Scrollbars, ScrollbarContent],
   template: `
-    <div #contentWrapper>
+    <scroll-content #contentWrapper>
       <ng-content/>
       <scrollbars/>
-    </div>
+    </scroll-content>
   `,
   styleUrl: './ng-scrollbar.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,7 +24,7 @@ import { Scrollbars } from './scrollbars/scrollbars';
 })
 export class NgScrollbar extends NgScrollbarCore {
 
-  contentWrapper: Signal<ElementRef<HTMLElement>> = viewChild.required('contentWrapper');
+  contentWrapper: Signal<ElementRef<HTMLElement>> = viewChild.required('contentWrapper', { read: ElementRef });
 
   _scrollbars: Signal<Scrollbars> = viewChild.required(Scrollbars);
 

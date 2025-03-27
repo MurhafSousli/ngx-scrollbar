@@ -71,15 +71,12 @@ export class ViewportAdapter {
     viewportElement.classList.add(ViewportClasses.Viewport);
     this.nativeElement = viewportElement;
 
-    // Add content wrapper class
-    contentElement.classList.add(ViewportClasses.Content);
-
     // When integrating the scrollbar with virtual scroll, the content wrapper will have fake size,
     // and a spacer element will have the real size
     // Therefore, if spaceElement is provided, it will be observed instead of the content wrapper
     if (spacerElement) {
       spacerElement.classList.add(ViewportClasses.Spacer);
-      this.contentWrapperElement = spacerElement;
+     this.contentWrapperElement = spacerElement;
     } else {
       // If spacer is not provided, set it as the content wrapper
       this.contentWrapperElement = contentElement;
