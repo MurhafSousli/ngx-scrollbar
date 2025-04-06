@@ -7,10 +7,6 @@ ng-scrollbar {
   --scrollbar-track-color: var(--surface-container-low);
 
   ::ng-deep {
-    .ng-scroll-content {
-      display: block;
-    }
-
     .ngx-datatable.material {
       .datatable-body .datatable-body-row .datatable-body-cell,
       .datatable-footer,

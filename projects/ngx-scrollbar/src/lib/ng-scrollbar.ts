@@ -8,22 +8,40 @@ import {
   ElementRef,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { ViewportAdapter, ScrollbarContent } from './viewport';
+import { ViewportAdapter, ScrollContent } from './viewport';
 import { NgScrollbarCore } from './ng-scrollbar-core';
 import { NG_SCROLLBAR } from './utils/scrollbar-base';
 import { Scrollbars } from './scrollbars/scrollbars';
 
 @Component({
+  host: {
+    '[attr.verticalUsed]': 'verticalUsed()',
+    '[attr.horizontalUsed]': 'horizontalUsed()',
+    '[attr.isVerticallyScrollable]': 'isVerticallyScrollable()',
+    '[attr.isHorizontallyScrollable]': 'isHorizontallyScrollable()',
+    '[attr.mobile]': 'isMobile',
+    '[attr.dir]': 'direction()',
+    '[attr.position]': 'position()',
+    '[attr.dragging]': 'dragging()',
+    '[attr.appearance]': 'appearance()',
+    '[attr.visibility]': 'visibility()',
+    '[attr.orientation]': 'orientation()',
+    '[attr.disableInteraction]': 'disableInteraction()',
+    '[style.--content-height]': 'contentDimension().height',
+    '[style.--content-width]': 'contentDimension().width',
+    '[style.--viewport-height]': 'viewportDimension().height',
+    '[style.--viewport-width]': 'viewportDimension().width'
+  },
   selector: 'ng-scrollbar:not([externalViewport])',
   exportAs: 'ngScrollbar',
-  imports: [Scrollbars, ScrollbarContent],
+  imports: [Scrollbars, ScrollContent],
   template: `
     <ng-scroll-content>
       <ng-content/>
       <scrollbars/>
     </ng-scroll-content>
   `,
-  styleUrl: './ng-scrollbar.scss',
+  styleUrl: 'viewport/scroll-viewport.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: NG_SCROLLBAR, useExisting: NgScrollbar },
@@ -32,7 +50,7 @@ import { Scrollbars } from './scrollbars/scrollbars';
 })
 export class NgScrollbar extends NgScrollbarCore {
 
-  private contentWrapper: Signal<ElementRef<HTMLElement>> = viewChild.required(ScrollbarContent, { read: ElementRef });
+  private contentWrapper: Signal<ElementRef<HTMLElement>> = viewChild.required(ScrollContent, { read: ElementRef });
 
   contentWrapperElement: Signal<HTMLElement> = computed(() => this.contentWrapper().nativeElement);
 

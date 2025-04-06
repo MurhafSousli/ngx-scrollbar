@@ -11,20 +11,41 @@ import {
   ApplicationRef,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { ScrollbarContent } from './scrollbar-content';
+import { ScrollContent } from './scroll-content';
 import { ViewportAdapter } from './viewport-adapter';
 import { Scrollbars } from '../scrollbars/scrollbars';
 import { ViewportClasses } from '../utils/common';
+import { _NgScrollbar, NG_SCROLLBAR } from '../utils/scrollbar-base';
 
 @Component({
   host: {
-    '[class.ng-scroll-viewport]': 'true'
+    '[class.ng-scroll-viewport]': 'true',
+    '[class.ng-external-scroll-viewport]': 'true',
+    '[attr.verticalUsed]': 'host.verticalUsed()',
+    '[attr.horizontalUsed]': 'host.horizontalUsed()',
+    '[attr.isVerticallyScrollable]': 'host.isVerticallyScrollable()',
+    '[attr.isHorizontallyScrollable]': 'host.isHorizontallyScrollable()',
+    '[attr.mobile]': 'host.isMobile',
+    '[attr.dir]': 'host.direction()',
+    '[attr.position]': 'host.position()',
+    '[attr.dragging]': 'host.dragging()',
+    '[attr.appearance]': 'host.appearance()',
+    '[attr.visibility]': 'host.visibility()',
+    '[attr.orientation]': 'host.orientation()',
+    '[attr.disableInteraction]': 'host.disableInteraction()',
+    '[style.--content-height]': 'host.contentDimension().height',
+    '[style.--content-width]': 'host.contentDimension().width',
+    '[style.--viewport-height]': 'host.viewportDimension().height',
+    '[style.--viewport-width]': 'host.viewportDimension().width'
   },
   selector: 'ng-scroll-viewport',
   template: '',
+  styleUrl: 'scroll-viewport.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ScrollbarViewport implements OnDestroy {
+export class ScrollViewport implements OnDestroy {
+
+  readonly host: _NgScrollbar = inject(NG_SCROLLBAR);
 
   private readonly renderer: Renderer2 = inject(Renderer2);
 
@@ -50,7 +71,7 @@ export class ScrollbarViewport implements OnDestroy {
 
   scrollbarsRef: ComponentRef<Scrollbars> | undefined;
 
-  actualContentRef: ComponentRef<ScrollbarContent> | undefined;
+  actualContentRef: ComponentRef<ScrollContent> | undefined;
 
   /**
    * The element that wraps the content inside the viewport.
@@ -108,13 +129,13 @@ export class ScrollbarViewport implements OnDestroy {
   createContentWrapper(hostElement: HTMLElement): void {
     if (hostElement) {
       // Attach content wrapper component to a given host element
-      this.actualContentRef = createComponent(ScrollbarContent, {
+      this.actualContentRef = createComponent(ScrollContent, {
         hostElement,
         elementInjector: this.injector,
         environmentInjector: this.appRef.injector
       });
     } else {
-      this.actualContentRef = createComponent(ScrollbarContent, {
+      this.actualContentRef = createComponent(ScrollContent, {
         elementInjector: this.injector,
         environmentInjector: this.appRef.injector,
         projectableNodes: [Array.from(this.nativeElement.childNodes)]

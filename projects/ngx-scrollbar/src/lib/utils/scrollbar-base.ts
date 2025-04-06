@@ -31,6 +31,12 @@ export interface _NgScrollbar {
   viewportDimension: WritableSignal<ElementDimension>;
   contentDimension: WritableSignal<ElementDimension>;
 
+  isMobile: boolean;
+  position: Signal<string>;
+  appearance: Signal<string>;
+  visibility: Signal<string>;
+  orientation: Signal<string>;
+
   get viewport(): ViewportAdapter;
 
   scrollTo(options: SmoothScrollToOptions): Promise<void>;

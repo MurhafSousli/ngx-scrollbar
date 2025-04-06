@@ -6,13 +6,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   },
   selector: 'ng-scroll-content',
   template: '<ng-content/>',
-  styles: [`
-    /** Make sure content is positioned relatively so scrollbars can be sticky */
-    :host {
-      position: relative;
-    }
-  `],
+  styleUrl: 'scroll-content.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ScrollbarContent {
+export class ScrollContent {
 }
