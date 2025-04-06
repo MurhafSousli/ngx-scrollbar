@@ -19,7 +19,6 @@ import { LogoComponent } from './shared/logo/logo.component';
   styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     RouterModule,
     NgScrollbarModule,
     MatButtonModule,

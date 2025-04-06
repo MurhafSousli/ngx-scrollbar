@@ -16,7 +16,7 @@ import {
   ApplicationRef,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { ViewportAdapter, ScrollbarViewport } from './viewport';
+import { ViewportAdapter, ScrollViewport } from './viewport';
 import { NgScrollbar } from './ng-scrollbar';
 import { NgScrollbarCore } from './ng-scrollbar-core';
 import { NG_SCROLLBAR } from './utils/scrollbar-base';
@@ -25,7 +25,6 @@ import { NG_SCROLLBAR } from './utils/scrollbar-base';
   selector: 'ng-scrollbar[externalViewport]',
   exportAs: 'ngScrollbar',
   template: '<ng-content/>',
-  styleUrl: 'ng-scrollbar.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.ng-scrollbar-external-viewport]': 'true'
@@ -42,7 +41,7 @@ export class NgScrollbarExt extends NgScrollbarCore implements OnDestroy {
 
   private readonly injector: Injector = inject(Injector);
 
-  viewportRef: ComponentRef<ScrollbarViewport>;
+  viewportRef: ComponentRef<ScrollViewport>;
 
   /**
    * Selector used to query the viewport element.
@@ -144,7 +143,7 @@ export class NgScrollbarExt extends NgScrollbarCore implements OnDestroy {
       this.spacerElement.set(spacerElement);
     }
 
-    this.viewportRef = createComponent(ScrollbarViewport, {
+    this.viewportRef = createComponent(ScrollViewport, {
       hostElement: viewportElement,
       elementInjector: this.injector,
       environmentInjector: this.appRef.injector

@@ -1,0 +1,203 @@
+@use "../styles/visibility" as visibility;
+@use "../styles/appearance" as appearance;
+@use "../styles/position" as position;
+@use "../styles/viewport" as viewport;
+@use "../styles/spacer" as spacer;
+@use "../styles/hide-native-scrollbars" as nativeScrollbars;
+@use "../styles/reached-events" as reachedEvents;
+@use "../styles/selectors" as selector;
+@use "../styles/scroll" as scroll;
+
+:host {
+  // CSS variables used to customized the look of the scrollbar component
+
+  // Scrollbar track border radius
+  --INTERNAL-scrollbar-border-radius: var(--scrollbar-border-radius, 0px);
+
+  // Scrollbar track thickness
+  --INTERNAL-scrollbar-thickness: var(--scrollbar-thickness, 5);
+
+  // Space between scrollbar track and its surrounding
+  --INTERNAL-scrollbar-offset: var(--scrollbar-offset, 0);
+
+  // Scrollbar track wrapper transition
+  --INTERNAL-scrollbar-track-wrapper-transition: var(--scrollbar-track-wrapper-transition, width 60ms linear, height 60ms linear);
+
+  // Scrollbar track color
+  --INTERNAL-scrollbar-track-color: var(--scrollbar-track-color, transparent);
+
+  // Scrollbar thumb color
+  --INTERNAL-scrollbar-thumb-color: var(--scrollbar-thumb-color, rgb(0 0 0 / 20%));
+
+  // Scrollbar thumb color when hovered
+  --INTERNAL-scrollbar-thumb-hover-color: var(--scrollbar-thumb-hover-color, var(--INTERNAL-scrollbar-thumb-color));
+
+  // Scrollbar thickness when hovered
+  --INTERNAL-scrollbar-hover-thickness: var(--scrollbar-hover-thickness, var(--INTERNAL-scrollbar-thickness));
+
+  // Scrollbar thumb transition effect
+  --INTERNAL-scrollbar-thumb-transition: var(--scrollbar-thumb-transition, none);
+
+  // The minimum size the scrollbar thumb can get
+  --INTERNAL-scrollbar-thumb-min-size: var(--scrollbar-thumb-min-size, 20);
+
+  // Scrollbar button colors
+  --INTERNAL-scrollbar-button-color: var(--scrollbar-button-color, var(--INTERNAL-scrollbar-thumb-color));
+  --INTERNAL-scrollbar-button-hover-color: var(--scrollbar-button-hover-color, var(--INTERNAL-scrollbar-button-color));
+  --INTERNAL-scrollbar-button-active-color: var(--scrollbar-button-active-color, var(--INTERNAL-scrollbar-button-hover-color));
+
+  // Scrollbar button arrow fill
+  --INTERNAL-scrollbar-button-fill: var(--scrollbar-button-fill, white);
+  --INTERNAL-scrollbar-button-hover-fill: var(--scrollbar-button-hover-fill, var(--INTERNAL-scrollbar-button-fill));
+  --INTERNAL-scrollbar-button-active-fill: var(--scrollbar-button-active-fill, var(--INTERNAL-scrollbar-button-hover-fill));
+
+  // Scrollbar button size
+  --INTERNAL-scrollbar-button-size: var(--scrollbar-button-size, 20px);
+
+  // Transition for sticky element when viewport is hovered in [visibility]="hover"
+  --INTERNAL-scrollbar-hover-opacity-transition-enter-duration: var(--scrollbar-hover-opacity-transition-enter-duration, 0);
+  --INTERNAL-scrollbar-hover-opacity-transition-leave-duration: var(--scrollbar-hover-opacity-transition-leave-duration, 0.4s);
+  --INTERNAL-scrollbar-hover-opacity-transition-leave-delay: var(--scrollbar-hover-opacity-transition-leave-delay, 1s);
+
+  // Viewport overscroll behavior
+  // In firefox and safari the scrollbar bounces if viewport is over-scrolled causing the scrollbars to bounce with it
+  // It seems that the only way around this is by disabling the overscroll behavior
+  // The other option is to give up the sticky scrollbar method and use an absolute position scrollbars
+  --INTERNAL-scrollbar-overscroll-behavior: var(--scrollbar-overscroll-behavior, initial);
+
+  // Viewport overscroll behavior in case of mobile devices
+  --INTERNAL-scrollbar-mobile-overscroll-behavior: var(--scrollbar-mobile-overscroll-behavior, none);
+
+  /** Scrollbar private CSS variables **/
+
+  --_scrollbar-thickness: calc(var(--INTERNAL-scrollbar-thickness) + var(--INTERNAL-scrollbar-offset) * 2);
+  --_scrollbar-pointer-events: auto;
+
+  // Convert margin to px value to avoid repeating calculation when used in multiple times
+  --_scrollbar-offset-px: calc(var(--INTERNAL-scrollbar-offset) * 1px);
+  --_scrollbar-thickness-px: calc(var(--INTERNAL-scrollbar-thickness) * 1px);
+  --_scrollbar-hover-thickness-px: calc(var(--INTERNAL-scrollbar-hover-thickness) * 1px);
+
+  // Initialize viewport and content paddings
+  --_viewport-padding-top: 0;
+  --_viewport-padding-bottom: 0;
+  --_viewport-padding-left: 0;
+  --_viewport-padding-right: 0;
+
+  // Scrollbar thumb display used to hide thumbs when scrollbar is not scrollable
+  --_horizontal-thumb-display: block;
+  --_vertical-thumb-display: block;
+
+  // The default value for overflow
+  --_viewport-overflow: auto;
+  --_viewport-pointer-events: auto;
+
+  // Scrollbar thumb color variables used to change when hovered or dragged
+  --_thumb-x-color: var(--INTERNAL-scrollbar-thumb-color);
+  --_thumb-y-color: var(--INTERNAL-scrollbar-thumb-color);
+  --_track-y-thickness: var(--_scrollbar-thickness-px);
+  --_track-x-thickness: var(--_scrollbar-thickness-px);
+
+  // Viewport overscroll behavior
+  --_viewport-overscroll-behavior: var(--INTERNAL-scrollbar-overscroll-behavior);
+
+  // Content display, will switch to block if orientation is set to vertical
+  --_scrollbar-content-width: fit-content;
+
+  // Must have relative position to make reached triggers moves with the scroll
+  position: relative;
+
+  // Enables scrolling
+  overflow: var(--_viewport-overflow);
+
+  // Required for scroll timeline
+  scroll-timeline: var(--_viewport_scroll-timeline);
+
+  // Must have border-box to avoid infinite auto-height scaling
+  box-sizing: border-box !important;
+
+  // Enables “momentum” (smooth) scrolling
+  -webkit-overflow-scrolling: touch;
+
+  // Optimize for scrolling
+  will-change: scroll-position;
+
+  // Disable selection when a scrollbar is being dragged
+  user-select: var(--_viewport-user-select);
+
+  // In case scroll bounce need to be disabled
+  overscroll-behavior: var(--_viewport-overscroll-behavior);
+
+  // Disables scroll when disableInteraction is set to true
+  pointer-events: var(--_viewport-pointer-events);
+
+
+  &[orientation="vertical"] {
+    --_viewport-overflow: hidden auto;
+    --_scrollbar-content-width: unset;
+  }
+
+  &[orientation="horizontal"] {
+    --_viewport-overflow: auto hidden;
+  }
+
+  &[disableInteraction="true"] {
+    --_viewport-pointer-events: none;
+    --_scrollbar-pointer-events: none;
+  }
+
+  &[isVerticallyScrollable="false"] {
+    // Hide scrollbars thumb when content is not scrollable
+    --_vertical-thumb-display: none;
+  }
+
+  &[isHorizontallyScrollable="false"] {
+    // Hide scrollbars thumb when content is not scrollable
+    --_horizontal-thumb-display: none;
+  }
+
+  &[dragging="x"], &[dragging="y"] {
+    // Disable selection when a scrollbar thumb is being dragged
+    --_viewport-user-select: none;
+  }
+
+  &[dragging="x"] {
+    --_track-x-thickness: calc(var(--INTERNAL-scrollbar-hover-thickness) * 1px);
+    --_thumb-x-color: var(var(--INTERNAL-scrollbar-thumb-min-size));
+  }
+
+  &[dragging="y"] {
+    --_track-y-thickness: calc(var(--INTERNAL-scrollbar-hover-thickness) * 1px);
+    --_thumb-y-color: var(var(--INTERNAL-scrollbar-thumb-min-size));
+  }
+
+  &[mobile="true"] {
+    --_viewport-overscroll-behavior: var(--INTERNAL-scrollbar-mobile-overscroll-behavior);
+  }
+
+  @include spacer.SetSpacerStyles();
+
+  @include nativeScrollbars.HideNativeScrollbars();
+  @include position.SetPositionStuff();
+  @include appearance.SetAppearanceStuff();
+  @include visibility.SetVisibilityStuff();
+  @include reachedEvents.SetReachedEventsStyles();
+  @include scroll.SetScrollingStyles();
+}
+
+:host.ng-external-scroll-viewport {
+  // For cdk scroll
+  min-height: 100%;
+  min-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+@layer default {
+  :host {
+    display: block;
+    max-height: 100%;
+    max-width: 100%;
+  }
+}

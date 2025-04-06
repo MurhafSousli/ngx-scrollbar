@@ -51,23 +51,7 @@ interface ViewportState {
 
 @Directive({
   host: {
-    '[class.ng-scrollbar]': 'true',
-    '[attr.verticalUsed]': 'verticalUsed()',
-    '[attr.horizontalUsed]': 'horizontalUsed()',
-    '[attr.isVerticallyScrollable]': 'isVerticallyScrollable()',
-    '[attr.isHorizontallyScrollable]': 'isHorizontallyScrollable()',
-    '[attr.mobile]': 'isMobile',
-    '[attr.dir]': 'direction()',
-    '[attr.position]': 'position()',
-    '[attr.dragging]': 'dragging()',
-    '[attr.appearance]': 'appearance()',
-    '[attr.visibility]': 'visibility()',
-    '[attr.orientation]': 'orientation()',
-    '[attr.disableInteraction]': 'disableInteraction()',
-    '[style.--content-height]': 'contentDimension().height',
-    '[style.--content-width]': 'contentDimension().width',
-    '[style.--viewport-height]': 'viewportDimension().height',
-    '[style.--viewport-width]': 'viewportDimension().width'
+    '[class.ng-scrollbar]': 'true'
   },
   providers: [
     { provide: NG_SCROLLBAR, useExisting: NgScrollbarCore }

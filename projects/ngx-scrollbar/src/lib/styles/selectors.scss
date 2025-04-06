@@ -1,13 +1,6 @@
-// TODO: Check if this attribute is needed
-@mixin init {
-  &[init="true"] {
-    @content;
-  }
-}
-
 @mixin Viewport {
-  &.ng-scroll-viewport,
-  &.ng-scrollbar-external-viewport ::ng-deep .ng-scroll-viewport {
+  &.ng-scroll-viewport {
+    //&.ng-scrollbar-external-viewport ::ng-deep .ng-scroll-viewport {
     @content;
   }
 }
@@ -20,19 +13,17 @@
 
 @mixin Content {
   @include Viewport {
-    >.ng-scroll-content {
+    > .ng-scroll-content {
       @content;
     }
   }
 }
 
-@mixin Spacer {
-  @include Viewport {
-    >.ng-scroll-spacer {
-      @content;
-    }
-  }
-}
+//@mixin Spacer {
+//  .ng-scroll-spacer {
+//    @content;
+//  }
+//}
 
 @mixin BothUsed {
   &[verticalUsed="true"][horizontalUsed="true"] {

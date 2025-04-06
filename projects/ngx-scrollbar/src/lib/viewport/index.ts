@@ -1,3 +1,3 @@
 export * from './viewport-adapter';
-export * from './scrollbar-content';
-export * from './scrollbar-viewport';
+export * from './scroll-content';
+export * from './scroll-viewport';

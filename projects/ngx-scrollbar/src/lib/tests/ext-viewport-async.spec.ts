@@ -6,7 +6,7 @@ import { NgScrollbarExt, NgScrollbarModule } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
 import { Scrollbars } from '../scrollbars/scrollbars';
 import { afterTimeout } from './common-test.';
-import { ScrollbarViewport } from '../viewport';
+import { ScrollViewport } from '../viewport';
 
 @Component({
   selector: 'sample-lib',
@@ -55,7 +55,7 @@ describe('<ng-scrollbar externalViewport asyncDetection>', () => {
   let fixture: ComponentFixture<ViewportClassExampleComponent>;
   let component: ViewportClassExampleComponent;
   let scrollbarCmp: NgScrollbarExt;
-  let viewportComponent: ScrollbarViewport;
+  let viewportComponent: ScrollViewport;
   let viewportElement: HTMLElement;
 
   async function setupTest(viewport: string, contentWrapper?: string, spacer?: string, asyncDetection?: 'auto'): Promise<void> {

@@ -1,0 +1,30 @@
+:host {
+  // Set the width of the content wrapper depending on the orientation:
+  // - For auto or horizontal orientation, adjust the width to fit the content to allow the horizontal scrollbar to appear if necessary.
+  // - For vertical orientation, the width should not be constrained by the content to enable resizing with the window.
+  width: var(--_scrollbar-content-width);
+
+  // Add z-index to content wrapper, in case of using with cdk-virtual-scroll,
+  // The spacer element gets a position relative so scrollbars can be sticky,
+  // but as a side effect the spacer will block the content wrapper, therefore setting z-index will return it on top.
+  z-index: 1;
+
+  min-width: 100%;
+  min-height: 100%;
+  contain: content;
+
+  // Add padding for standard appearance
+  padding: var(--_viewport-padding-top, 0) var(--_viewport-padding-right, 0) var(--_viewport-padding-bottom, 0) var(--_viewport-padding-left, 0);
+}
+
+@layer default {
+  :host {
+    // Make sure content is positioned relatively so scrollbars can be stick
+    position: relative;
+  }
+
+  // Set use display block except if host is table element
+  :host:not(table) {
+    display: block;
+  }
+}

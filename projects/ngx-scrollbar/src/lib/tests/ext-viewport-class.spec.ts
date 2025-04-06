@@ -5,7 +5,7 @@ import { outputToObservable } from '@angular/core/rxjs-interop';
 import { NgScrollbarExt, NgScrollbarModule } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
 import { Scrollbars } from '../scrollbars/scrollbars';
-import { ScrollbarViewport } from '../viewport';
+import { ScrollViewport } from '../viewport';
 
 @Component({
   selector: 'sample-content',
@@ -72,7 +72,7 @@ describe('<ng-scrollbar externalViewport>', () => {
   let fixture: ComponentFixture<any>;
   let component: any;
   let scrollbarCmp: NgScrollbarExt;
-  let viewportComponent: ScrollbarViewport;
+  let viewportComponent: ScrollViewport;
   let viewportElement: HTMLElement;
   let viewportInitSpy: jasmine.Spy;
   let attachScrollbarSpy: jasmine.Spy;
