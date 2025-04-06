@@ -5,9 +5,8 @@ describe('Global options', () => {
   let component: NgScrollbar;
   let fixture: ComponentFixture<NgScrollbar>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [NgScrollbar],
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       providers: [
         provideScrollbarOptions({
           visibility: 'visible',

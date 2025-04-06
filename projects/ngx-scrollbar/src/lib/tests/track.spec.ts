@@ -1,9 +1,9 @@
-import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { outputToObservable } from '@angular/core/rxjs-interop';
-import { NgScrollbar, NgScrollbarModule, } from 'ngx-scrollbar';
+import { NgScrollbar } from 'ngx-scrollbar';
 import { provideSmoothScrollOptions } from 'ngx-scrollbar/smooth-scroll';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { afterTimeout, setDimensions } from './common-test.';
@@ -19,11 +19,9 @@ describe('Scrollbar track', () => {
     change: new BehaviorSubject<string>('ltr'),
   };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [NgScrollbarModule],
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       providers: [
-        { provide: ComponentFixtureAutoDetect, useValue: true },
         { provide: Directionality, useValue: directionalityMock },
         provideSmoothScrollOptions({
           easing: {
@@ -40,6 +38,7 @@ describe('Scrollbar track', () => {
     directionalityMock.change.next('ltr');
 
     fixture = TestBed.createComponent(NgScrollbar);
+    fixture.autoDetectChanges();
     component = fixture.componentInstance;
 
     fixture.componentRef.setInput('appearance', 'compact');
@@ -49,7 +48,7 @@ describe('Scrollbar track', () => {
   });
 
   it('[Vertical] should scroll to bottom progressively when mousedown on the bottom edge of the track', async () => {
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(component.afterInit));
     TestBed.flushEffects();
 
     const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));

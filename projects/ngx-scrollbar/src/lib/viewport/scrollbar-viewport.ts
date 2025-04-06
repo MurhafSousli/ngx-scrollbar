@@ -2,103 +2,136 @@ import {
   Component,
   inject,
   createComponent,
+  afterNextRender,
   Injector,
   Renderer2,
   OnDestroy,
   ElementRef,
   ComponentRef,
   ApplicationRef,
-  ChangeDetectionStrategy, afterNextRender
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { ScrollbarContent } from './scrollbar-content';
 import { ViewportAdapter } from './viewport-adapter';
 import { Scrollbars } from '../scrollbars/scrollbars';
-import { _NgScrollbar, NG_SCROLLBAR } from '../utils/scrollbar-base';
+import { ViewportClasses } from '../utils/common';
 
 @Component({
   host: {
     '[class.ng-scroll-viewport]': 'true'
   },
-  selector: 'scroll-viewport',
-  template: '<ng-content/>',
+  selector: 'ng-scroll-viewport',
+  template: '',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScrollbarViewport implements OnDestroy {
-
-  private readonly host: _NgScrollbar = inject(NG_SCROLLBAR);
 
   private readonly renderer: Renderer2 = inject(Renderer2);
 
   private readonly appRef: ApplicationRef = inject(ApplicationRef);
 
+  private readonly injector: Injector = inject(Injector);
+
   /** Viewport adapter instance */
   readonly viewport: ViewportAdapter = inject(ViewportAdapter);
 
-  private readonly nativeElement: HTMLElement = inject(ElementRef).nativeElement;
+  externalUse: boolean;
 
-  scrollbarsRef: ComponentRef<Scrollbars>;
+  /**
+   * Viewport native element
+   */
+  nativeElement: HTMLElement = inject(ElementRef).nativeElement;
+  /**
+   * The element used to measure the content size and observe its changes.
+   * It can be either the actual content wrapper or the spacer in case of virtual scroll.
+   * TODO: rename to content size measurement or something relevant.
+   */
+  contentWrapperElement: HTMLElement | undefined;
 
-  contentRef: ComponentRef<ScrollbarContent>;
+  scrollbarsRef: ComponentRef<Scrollbars> | undefined;
 
-  contentElement: HTMLElement;
+  actualContentRef: ComponentRef<ScrollbarContent> | undefined;
 
-  spacerElement: HTMLElement;
+  /**
+   * The element that wraps the content inside the viewport.
+   */
+  actualContentElement: HTMLElement | undefined;
+
+  /**
+   * The spacer element used by virtual scroll component.
+   */
+  spacerElement: HTMLElement | undefined;
 
   constructor() {
     afterNextRender({
-      // This is the right time when we can modify DOM, and also get the content and spacer elements
       write: () => {
+        if (!this.externalUse) return;
+
         // Create scroll content
-        this.createContentWrapper(this.contentElement);
+        this.createContentWrapper(this.actualContentElement);
+
+        // When integrating the scrollbar with virtual scroll, the content wrapper will have fake size,
+        // and a spacer element will have the real size
+        // Therefore, if spaceElement is provided, it will be observed instead of the content wrapper
+        if (this.spacerElement) {
+          this.spacerElement.classList.add(ViewportClasses.Spacer);
+          this.contentWrapperElement = this.spacerElement;
+        } else {
+          // If spacer is not provided, set it as the content wrapper
+          this.contentWrapperElement = this.actualContentElement;
+        }
         // Attach scrollbars
-        this.attachScrollbars(this.spacerElement || this.contentRef.location.nativeElement);
+        this.attachScrollbars(this.contentWrapperElement);
+
         // Initialize viewport
-        this.viewport.init(this.nativeElement, this.contentRef.location.nativeElement, this.spacerElement);
-        // console.log('🦌', this.contentElement);
+        this.viewport.init(this.nativeElement, this.actualContentRef.location.nativeElement, this.spacerElement);
       }
     })
   }
 
   ngOnDestroy(): void {
+    this.viewport.reset();
+
     if (this.scrollbarsRef) {
       this.appRef.detachView(this.scrollbarsRef.hostView);
       this.scrollbarsRef.destroy();
       this.scrollbarsRef = null;
     }
 
-    if (this.contentRef) {
-      this.appRef.detachView(this.contentRef.hostView);
-      this.contentRef.destroy();
-      this.contentRef = null;
+    if (this.actualContentRef) {
+      this.appRef.detachView(this.actualContentRef.hostView);
+      this.actualContentRef.destroy();
+      this.actualContentRef = null;
     }
   }
 
-  private createContentWrapper(hostElement: HTMLElement): void {
+  createContentWrapper(hostElement: HTMLElement): void {
     if (hostElement) {
-      this.contentRef = createComponent(ScrollbarContent, {
+      // Attach content wrapper component to a given host element
+      this.actualContentRef = createComponent(ScrollbarContent, {
         hostElement,
+        elementInjector: this.injector,
         environmentInjector: this.appRef.injector
       });
     } else {
-      this.contentRef = createComponent(ScrollbarContent, {
+      this.actualContentRef = createComponent(ScrollbarContent, {
+        elementInjector: this.injector,
         environmentInjector: this.appRef.injector,
         projectableNodes: [Array.from(this.nativeElement.childNodes)]
       });
-      this.renderer.appendChild(this.nativeElement, this.contentRef.location.nativeElement);
+      this.actualContentElement = this.actualContentRef.location.nativeElement;
+      this.renderer.appendChild(this.nativeElement, this.actualContentElement);
     }
-    this.appRef.attachView(this.contentRef.hostView);
+    this.appRef.attachView(this.actualContentRef.hostView);
   }
 
   attachScrollbars(hostElement: HTMLElement): void {
     // Create the scrollbars component
     this.scrollbarsRef = createComponent(Scrollbars, {
-      hostElement,
-      environmentInjector: this.appRef.injector,
-      elementInjector: Injector.create({ providers: [{ provide: NG_SCROLLBAR, useValue: this.host }] }),
+      elementInjector: this.injector,
+      environmentInjector: this.appRef.injector
     });
-    this.scrollbarsRef.location.nativeElement.style.display = 'block';
-    // Attach scrollbar to the content wrapper
-    // this.renderer.appendChild(hostElement, this.scrollbarsRef.location.nativeElement);
+    this.renderer.appendChild(hostElement, this.scrollbarsRef.location.nativeElement);
     // Attach the host view of the component to the main change detection tree, so that its lifecycle hooks run.
     this.appRef.attachView(this.scrollbarsRef.hostView);
   }

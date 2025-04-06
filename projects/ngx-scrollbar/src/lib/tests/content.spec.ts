@@ -1,4 +1,4 @@
-import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { setDimensions } from './common-test.';
 
@@ -7,13 +7,8 @@ describe('Content scrollbars styles', () => {
   let fixture: ComponentFixture<NgScrollbar>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [NgScrollbar],
-      providers: [
-        { provide: ComponentFixtureAutoDetect, useValue: true },
-      ]
-    }).compileComponents();
     fixture = TestBed.createComponent(NgScrollbar);
+    fixture.autoDetectChanges();
     component = fixture.componentInstance;
   });
 

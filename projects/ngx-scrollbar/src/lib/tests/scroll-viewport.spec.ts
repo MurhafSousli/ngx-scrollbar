@@ -8,11 +8,7 @@ describe('Viewport Adapter', () => {
   let fixture: ComponentFixture<NgScrollbar>;
   let viewportInitSpy: jasmine.Spy;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [NgScrollbar]
-    }).compileComponents();
-
+  beforeEach(() => {
     fixture = TestBed.createComponent(NgScrollbar);
     component = fixture.componentInstance;
     viewportInitSpy = spyOn(component.viewport, 'init').and.callThrough();
@@ -22,7 +18,7 @@ describe('Viewport Adapter', () => {
     expect(component.viewport).toBeDefined();
     fixture.detectChanges();
 
-    expect(viewportInitSpy).toHaveBeenCalledOnceWith(component.nativeElement, component.contentWrapper().nativeElement);
+    expect(viewportInitSpy).toHaveBeenCalledOnceWith(component.nativeElement, component.contentWrapperElement());
 
     expect(component.viewport.nativeElement).toBeDefined();
     expect(component.viewport.contentWrapperElement).toBeDefined();

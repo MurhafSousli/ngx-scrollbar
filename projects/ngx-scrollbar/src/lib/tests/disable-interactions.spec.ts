@@ -1,10 +1,9 @@
-import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { outputToObservable } from '@angular/core/rxjs-interop';
-import { NgScrollbar, NgScrollbarModule } from 'ngx-scrollbar';
+import { NgScrollbar } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
 import { setDimensions } from './common-test.';
-import { TrackYDirective } from '../track/track';
 import { ScrollbarButton } from '../button/scrollbar-button.component';
 import { TrackAdapter } from '../track/track-adapter';
 import { ThumbAdapter } from '../thumb/thumb-adapter';
@@ -33,15 +32,9 @@ describe('disableInteraction option', () => {
   let buttonXStartSpy: jasmine.Spy;
   let buttonXEndSpy: jasmine.Spy;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [NgScrollbarModule, TrackYDirective],
-      providers: [
-        { provide: ComponentFixtureAutoDetect, useValue: true }
-      ]
-    }).compileComponents();
-
+  beforeEach(() => {
     fixture = TestBed.createComponent(NgScrollbar);
+    fixture.autoDetectChanges();
     component = fixture.componentInstance;
     fixture.componentRef.setInput('buttons', true);
     fixture.detectChanges();
