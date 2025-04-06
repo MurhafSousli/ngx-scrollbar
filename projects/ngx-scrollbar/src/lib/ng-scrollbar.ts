@@ -1,19 +1,27 @@
-import { Component, effect, untracked, viewChild, Signal, ElementRef, ChangeDetectionStrategy } from '@angular/core';
-import { ViewportAdapter } from './viewport';
+import {
+  Component,
+  effect,
+  computed,
+  untracked,
+  viewChild,
+  Signal,
+  ElementRef,
+  ChangeDetectionStrategy
+} from '@angular/core';
+import { ViewportAdapter, ScrollbarContent } from './viewport';
 import { NgScrollbarCore } from './ng-scrollbar-core';
 import { NG_SCROLLBAR } from './utils/scrollbar-base';
 import { Scrollbars } from './scrollbars/scrollbars';
-import { ScrollbarContent } from './viewport/scrollbar-content';
 
 @Component({
   selector: 'ng-scrollbar:not([externalViewport])',
   exportAs: 'ngScrollbar',
   imports: [Scrollbars, ScrollbarContent],
   template: `
-    <scroll-content #contentWrapper>
+    <ng-scroll-content>
       <ng-content/>
       <scrollbars/>
-    </scroll-content>
+    </ng-scroll-content>
   `,
   styleUrl: './ng-scrollbar.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,13 +32,13 @@ import { ScrollbarContent } from './viewport/scrollbar-content';
 })
 export class NgScrollbar extends NgScrollbarCore {
 
-  contentWrapper: Signal<ElementRef<HTMLElement>> = viewChild.required('contentWrapper', { read: ElementRef });
+  private contentWrapper: Signal<ElementRef<HTMLElement>> = viewChild.required(ScrollbarContent, { read: ElementRef });
 
-  _scrollbars: Signal<Scrollbars> = viewChild.required(Scrollbars);
+  contentWrapperElement: Signal<HTMLElement> = computed(() => this.contentWrapper().nativeElement);
 
   constructor() {
     effect(() => {
-      const contentWrapper: HTMLElement = this.contentWrapper().nativeElement;
+      const contentWrapper: HTMLElement = this.contentWrapperElement();
       untracked(() => {
         this.viewport.init(this.nativeElement, contentWrapper);
       });

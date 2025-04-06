@@ -1,4 +1,4 @@
-import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Directionality } from '@angular/cdk/bidi';
 import { By } from '@angular/platform-browser';
 import { outputToObservable } from '@angular/core/rxjs-interop';
@@ -15,17 +15,16 @@ describe('Fit styles', () => {
     change: new BehaviorSubject<string>('ltr'),
   };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [NgScrollbar],
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       providers: [
-        { provide: ComponentFixtureAutoDetect, useValue: true },
         { provide: Directionality, useValue: directionalityMock }
       ]
     }).compileComponents();
     directionalityMock.value = 'ltr';
     directionalityMock.change.next('ltr');
     fixture = TestBed.createComponent(NgScrollbar);
+    fixture.autoDetectChanges();
     component = fixture.componentInstance;
 
     // Set scrollbar offset value

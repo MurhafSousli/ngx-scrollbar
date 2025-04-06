@@ -1,4 +1,4 @@
-import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { outputToObservable } from '@angular/core/rxjs-interop';
@@ -11,17 +11,10 @@ describe('Visibility styles', () => {
   let component: NgScrollbar;
   let fixture: ComponentFixture<NgScrollbar>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [NgScrollbar],
-      providers: [
-        { provide: ComponentFixtureAutoDetect, useValue: true }
-      ]
-    }).compileComponents();
-
+  beforeEach(() => {
     fixture = TestBed.createComponent(NgScrollbar);
+    fixture.autoDetectChanges();
     component = fixture.componentInstance;
-    fixture.detectChanges();
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 100, contentHeight: 200 });
   });
 

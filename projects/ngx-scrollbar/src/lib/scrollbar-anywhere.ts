@@ -49,13 +49,13 @@ export class ScrollbarAnywhere {
     }
 
     // Create the scrollbar component
-    const componentRef: ComponentRef<T> = createComponent(component, {
+    let componentRef: ComponentRef<T> = createComponent(component, {
       hostElement,
       environmentInjector: this.environmentInjector,
       projectableNodes: projectNodes ? [Array.from(hostElement.childNodes)] : []
     });
 
-    // Attach the component's view to Angular's change detection tree
+    // Attach the component's view to Angular change detection tree
     this.appRef.attachView(componentRef.hostView);
 
     return {
@@ -63,6 +63,7 @@ export class ScrollbarAnywhere {
       destroy: () => {
         this.appRef.detachView(componentRef.hostView);
         componentRef.destroy();
+        componentRef = null;
       }
     };
   }

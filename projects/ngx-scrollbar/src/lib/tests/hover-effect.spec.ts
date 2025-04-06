@@ -1,4 +1,4 @@
-import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
@@ -9,15 +9,9 @@ describe('Hover effect', () => {
   let component: NgScrollbar;
   let fixture: ComponentFixture<NgScrollbar>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [NgScrollbar],
-      providers: [
-        { provide: ComponentFixtureAutoDetect, useValue: true }
-      ]
-    }).compileComponents();
-
+  beforeEach(() => {
     fixture = TestBed.createComponent(NgScrollbar);
+    fixture.autoDetectChanges();
     component = fixture.componentInstance;
     component.nativeElement.style.setProperty('--scrollbar-thickness', '5');
     component.nativeElement.style.setProperty('--scrollbar-hover-thickness', '10');

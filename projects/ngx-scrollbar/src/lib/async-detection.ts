@@ -22,7 +22,7 @@ export class AsyncDetection {
 
   private readonly contentObserver: ContentObserver = inject(ContentObserver);
 
-  asyncDetection: InputSignal<'auto' | ''> = input<'auto' | ''>();
+  asyncDetection: InputSignal<'auto' | ''> = input.required<'auto' | ''>();
 
   constructor() {
     this.scrollbar.skipInit = true;

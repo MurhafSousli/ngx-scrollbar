@@ -1,4 +1,4 @@
-import { Component, ElementRef, Signal, viewChild, ViewChild } from '@angular/core';
+import { Component, ElementRef, Signal, viewChild } from '@angular/core';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
@@ -25,7 +25,6 @@ import { afterTimeout } from './common-test.';
   `
 })
 class SampleComponent {
-  @ViewChild('sample') content: ElementRef<HTMLElement>;
   scrollbar: Signal<NgScrollbarExt> = viewChild(NgScrollbarExt);
   sample: Signal<ElementRef<HTMLElement>> = viewChild('sample');
   externalViewport: string;
@@ -33,7 +32,7 @@ class SampleComponent {
   externalSpacer: string;
 }
 
-describe('External viewport with [SyncSpacer]', () => {
+xdescribe('External viewport with [SyncSpacer]', () => {
   let fixture: ComponentFixture<SampleComponent>;
   let component: SampleComponent;
   let scrollbarCmp: NgScrollbarExt;

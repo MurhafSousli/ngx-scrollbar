@@ -8,15 +8,16 @@
     <div class="infinite-scroll-container">
       <ng-scrollbar appearance="compact"
                     style="height: 100%"
-                    externalViewport>
-        <div scrollViewport
+                    externalViewport="[infiniteScroll]"
+                    externalContentWrapper="mat-list">
+        <div class="infinite-scroll"
              infiniteScroll
              [infiniteScrollDistance]="1"
              [infiniteScrollUpDistance]="2"
              [infiniteScrollThrottle]="50"
              [scrollWindow]="false"
-             (scrolled)="onScrollDown($event)"
-             (scrolledUp)="onUp($event)">
+             (scrolled)="onScrollDown()"
+             (scrolledUp)="onUp()">
           <mat-list>
             @for (i of array; track i) {
               <mat-list-item class="example-item">{{ i }}</mat-list-item>

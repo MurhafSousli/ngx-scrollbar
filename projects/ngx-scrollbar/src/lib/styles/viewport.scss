@@ -1,6 +1,12 @@
 @use './selectors' as selector;
 
 @mixin SetViewportStyles() {
+  // Set only the content component display to block
+  // Should not override the display property if content component attached to another element.
+  ng-scroll-content {
+    display: block;
+  }
+
   @include selector.ExternalViewport {
     // For cdk scroll
     min-height: 100%;

@@ -1,4 +1,4 @@
-import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { signal } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { Directionality } from '@angular/cdk/bidi';
@@ -22,11 +22,9 @@ describe('Scrollbar thumb', () => {
     scrollTimelinePolyfill: signal(window['ScrollTimeline'])
   };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [NgScrollbar],
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       providers: [
-        { provide: ComponentFixtureAutoDetect, useValue: true },
         { provide: Directionality, useValue: directionalityMock },
         { provide: ScrollbarManager, useValue: scrollbarManagerMock }
       ]
@@ -36,6 +34,7 @@ describe('Scrollbar thumb', () => {
     directionalityMock.change.next('ltr');
 
     fixture = TestBed.createComponent(NgScrollbar);
+    fixture.autoDetectChanges();
     component = fixture.componentInstance;
 
     fixture.componentRef.setInput('appearance', 'compact');

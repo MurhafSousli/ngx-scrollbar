@@ -1,14 +1,12 @@
 import {
   Component,
   inject,
-  signal,
   effect,
   computed,
   untracked,
   linkedSignal,
   createComponent,
   input,
-  contentChild,
   Signal,
   InputSignal,
   WritableSignal,
@@ -18,12 +16,10 @@ import {
   ApplicationRef,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { ScrollViewport, ViewportAdapter } from './viewport';
+import { ViewportAdapter, ScrollbarViewport } from './viewport';
 import { NgScrollbar } from './ng-scrollbar';
 import { NgScrollbarCore } from './ng-scrollbar-core';
 import { NG_SCROLLBAR } from './utils/scrollbar-base';
-import { Scrollbars } from './scrollbars/scrollbars';
-import { ScrollbarViewport } from './viewport/scrollbar-viewport';
 
 @Component({
   selector: 'ng-scrollbar[externalViewport]',
@@ -44,14 +40,14 @@ export class NgScrollbarExt extends NgScrollbarCore implements OnDestroy {
 
   private readonly appRef: ApplicationRef = inject(ApplicationRef);
 
-  viewportRef: ComponentRef<ScrollbarViewport>;
+  private readonly injector: Injector = inject(Injector);
 
-  _scrollbars: WritableSignal<Scrollbars> = signal<Scrollbars>(null);
+  viewportRef: ComponentRef<ScrollbarViewport>;
 
   /**
    * Selector used to query the viewport element.
    */
-  externalViewport: InputSignal<string> = input<string>();
+  externalViewport: InputSignal<string> = input.required<string>();
 
   /**
    * Selector used to query the content wrapper element.
@@ -69,7 +65,7 @@ export class NgScrollbarExt extends NgScrollbarCore implements OnDestroy {
   viewportElement: WritableSignal<HTMLElement> = linkedSignal({
     source: this.externalViewport,
     // If viewport selector was defined, query the element
-    computation: (selector: string) => this.getElement(selector) || this.customViewport()?.nativeElement
+    computation: (selector: string) => this.getElement(selector)
   });
 
   viewportError: Signal<string> = computed(() => {
@@ -104,12 +100,7 @@ export class NgScrollbarExt extends NgScrollbarCore implements OnDestroy {
    * Skip initializing the viewport and the scrollbar
    * this is used when the component needs to wait for 3rd party library to render
    */
-  skipInit: boolean;
-
-  /**
-   * Reference to the external viewport directive if used
-   */
-  customViewport: Signal<ScrollViewport> = contentChild(ScrollViewport, { descendants: true });
+  skipInit: boolean = false;
 
   constructor() {
     // Using `afterRenderEffect` would run twice, one when viewport directive is detected
@@ -124,7 +115,6 @@ export class NgScrollbarExt extends NgScrollbarCore implements OnDestroy {
       const spacerError: string = this.spacerError();
 
       untracked(() => {
-        console.log('👽', viewportElement, contentWrapperElement, spacerElement)
         if (!this.skipInit) {
           const error: string = viewportError || contentWrapperError || spacerError;
           if (error) {
@@ -153,19 +143,14 @@ export class NgScrollbarExt extends NgScrollbarCore implements OnDestroy {
       this.contentWrapperElement.set(contentWrapperElement);
       this.spacerElement.set(spacerElement);
     }
-    console.log('🐦', this.contentWrapperElement());
 
     this.viewportRef = createComponent(ScrollbarViewport, {
       hostElement: viewportElement,
-      environmentInjector: this.appRef.injector,
-      elementInjector: Injector.create({
-        providers: [
-          { provide: NG_SCROLLBAR, useValue: this },
-          { provide: ViewportAdapter, useValue: this.viewport }
-        ]
-      })
+      elementInjector: this.injector,
+      environmentInjector: this.appRef.injector
     });
-    this.viewportRef.instance.contentElement = this.contentWrapperElement();
+    this.viewportRef.instance.externalUse = true;
+    this.viewportRef.instance.actualContentElement = this.contentWrapperElement();
     this.viewportRef.instance.spacerElement = this.spacerElement();
     this.appRef.attachView(this.viewportRef.hostView);
   }

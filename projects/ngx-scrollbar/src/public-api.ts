@@ -5,5 +5,4 @@ export * from './lib/ng-scrollbar-ext';
 export * from './lib/async-detection';
 export * from './lib/sync-spacer';
 export * from './lib/utils/scrollbar-base';
-export * from './lib/viewport/scroll-viewport';
 export * from './lib/scrollbar-anywhere';

@@ -29,7 +29,6 @@ import {
   SmoothScrollToElementOptions,
   SmoothScrollToOptions
 } from 'ngx-scrollbar/smooth-scroll';
-import { Scrollbars } from './scrollbars/scrollbars';
 import { _NgScrollbar, NG_SCROLLBAR } from './utils/scrollbar-base';
 import { ViewportAdapter } from './viewport';
 import { ElementDimension, ScrollbarDragging, getThrottledStream } from './utils/common';
@@ -226,9 +225,6 @@ export abstract class NgScrollbarCore implements _NgScrollbar {
 
   /** Steam that emits when scrollbar is updated */
   afterUpdate: OutputEmitterRef<void> = output<void>();
-
-  /** The scrollbars component instance used for testing purpose */
-  abstract _scrollbars: Signal<Scrollbars>;
 
   protected constructor() {
     let resizeSub$: Subscription;

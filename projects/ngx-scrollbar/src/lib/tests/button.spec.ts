@@ -1,10 +1,10 @@
-import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { Directionality } from '@angular/cdk/bidi';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
-import { NgScrollbar, NgScrollbarModule } from 'ngx-scrollbar';
+import { NgScrollbar } from 'ngx-scrollbar';
 import { provideSmoothScrollOptions } from 'ngx-scrollbar/smooth-scroll';
 import { afterTimeout, setDimensions } from './common-test.';
 import { ScrollbarButton } from '../button/scrollbar-button.component';
@@ -18,11 +18,9 @@ describe('Buttons', () => {
     change: new BehaviorSubject<string>('ltr'),
   };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [NgScrollbarModule],
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       providers: [
-        { provide: ComponentFixtureAutoDetect, useValue: true },
         { provide: Directionality, useValue: directionalityMock },
         provideSmoothScrollOptions({
           easing: {
@@ -39,6 +37,7 @@ describe('Buttons', () => {
     directionalityMock.change.next('ltr');
 
     fixture = TestBed.createComponent(NgScrollbar);
+    fixture.autoDetectChanges();
     component = fixture.componentInstance;
 
     fixture.componentRef.setInput('appearance', 'compact');

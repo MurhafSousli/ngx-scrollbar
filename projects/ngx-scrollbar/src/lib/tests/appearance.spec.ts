@@ -1,4 +1,4 @@
-import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Directionality } from '@angular/cdk/bidi';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
@@ -15,11 +15,9 @@ describe('Appearance [native / compact] styles', () => {
     change: new BehaviorSubject<string>('ltr'),
   };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [NgScrollbar],
+  beforeEach( () => {
+     TestBed.configureTestingModule({
       providers: [
-        { provide: ComponentFixtureAutoDetect, useValue: true },
         { provide: Directionality, useValue: directionalityMock }
       ]
     }).compileComponents();
@@ -28,6 +26,7 @@ describe('Appearance [native / compact] styles', () => {
     directionalityMock.change.next('ltr');
 
     fixture = TestBed.createComponent(NgScrollbar);
+    fixture.autoDetectChanges();
     component = fixture.componentInstance;
 
     component.nativeElement.style.setProperty('--scrollbar-thickness', '5');

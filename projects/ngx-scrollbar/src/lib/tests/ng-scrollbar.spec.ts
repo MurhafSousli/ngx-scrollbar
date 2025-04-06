@@ -10,11 +10,7 @@ describe('NgScrollbar Component', () => {
   let component: NgScrollbar;
   let fixture: ComponentFixture<NgScrollbar>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [NgScrollbar]
-    }).compileComponents();
-
+  beforeEach(() => {
     fixture = TestBed.createComponent(NgScrollbar);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -25,11 +21,9 @@ describe('NgScrollbar Component', () => {
   });
 
   it('should initialize component and viewport', () => {
-    // component.ngOnInit();
     expect(component).toBeDefined();
     expect(component.viewport).toBeDefined();
   });
-
 
   it('should emit afterUpdate after update function is called', async () => {
     const afterUpdateEmitSpy: jasmine.Spy = spyOn(component.afterUpdate, 'emit');
@@ -37,13 +31,12 @@ describe('NgScrollbar Component', () => {
     expect(afterUpdateEmitSpy).toHaveBeenCalled();
   });
 
-
   it('should show vertical scrollbar when viewport is scrollable', async () => {
     fixture.componentRef.setInput('orientation', 'vertical');
     fixture.componentRef.setInput('visibility', 'native');
     setDimensions(component, { cmpHeight: 300, contentHeight: 1000 });
 
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(component.afterInit));
 
     expect(component.verticalUsed()).toBeTrue();
     expect(component.isVerticallyScrollable()).toBeTrue();
@@ -56,7 +49,7 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('visibility', 'visible');
     setDimensions(component, { cmpHeight: 1000, contentHeight: 300 });
 
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(component.afterInit));
 
     expect(component.verticalUsed()).toBeTrue();
     expect(component.isVerticallyScrollable()).toBeFalse();
@@ -80,7 +73,7 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('visibility', 'native');
     setDimensions(component, { cmpWidth: 300, contentHeight: 300, contentWidth: 1000 });
 
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(component.afterInit));
 
     expect(component.horizontalUsed()).toBeTrue();
     expect(component.isHorizontallyScrollable()).toBeTrue();
