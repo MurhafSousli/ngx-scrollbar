@@ -1,10 +1,14 @@
 # Changelog
 
-## 19.0.0
+## 19.0.0 beta
 
 - feat: Add `ScrollbarAnywhere` service which provides `createScrollbar` to attach scrollbar on any host element without having to use `ng-scrollbar` component.
 - feat: Add `matSelectScrollbar` directive that can be used to attach scrollbar on `mat-select` overlay menu.
 - refactor: Remove `standalone` from all components.
+- refactor: Move attributes and styles to viewport elements
+- refactor: Use `padding-block` and `padding-inline` properties to set up appearance option styles.
+- refactor: Use `inset-block` and `inset-inline` properties to set up scrollbar positioning styles.
+- refactor: Use `inset-block` and `inset-inline` properties to set up scrollbar positioning styles.
 
 ### Breaking Changes
 

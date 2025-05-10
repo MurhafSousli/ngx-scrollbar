@@ -2,48 +2,28 @@
 
 @mixin SetReachedEventsStyles() {
   --reached-offset: 1px;
-  --reached-offset-top: var(--reached-offset);
-  --reached-offset-bottom: var(--reached-offset);
-  --reached-offset-start: var(--reached-offset);
-  --reached-offset-end: var(--reached-offset);
+  --_reached-offset-top: var(--reached-offset);
+  --_reached-offset-bottom: var(--reached-offset);
+  --_reached-offset-start: var(--reached-offset);
+  --_reached-offset-end: var(--reached-offset);
 
   --dropped-offset: 1px;
-  --dropped-offset-top: var(--dropped-offset);
-  --dropped-offset-bottom: var(--dropped-offset);
-  --dropped-offset-start: var(--dropped-offset);
-  --dropped-offset-end: var(--dropped-offset);
+  --_dropped-offset-top: var(--dropped-offset);
+  --_dropped-offset-bottom: var(--dropped-offset);
+  --_dropped-offset-start: var(--dropped-offset);
+  --_dropped-offset-end: var(--dropped-offset);
 
-
-  @include selector.LTR {
-    ::ng-deep {
-      .scroll-reached-trigger-element,
-      .scroll-dropped-trigger-element {
-        &[trigger="start"] {
-          left: 0;
-          right: unset;
-        }
-
-        &[trigger="end"] {
-          right: 0;
-          left: unset;
-        }
+  ::ng-deep {
+    .scroll-reached-trigger-element,
+    .scroll-dropped-trigger-element {
+      &[trigger="start"] {
+        inset-inline-start: 0;
+        inset-inline-end: unset;
       }
-    }
-  }
 
-  @include selector.RTL {
-    ::ng-deep {
-      .scroll-reached-trigger-element,
-      .scroll-dropped-trigger-element {
-        &[trigger="start"] {
-          right: 0;
-          left: unset;
-        }
-
-        &[trigger="end"] {
-          left: 0;
-          right: unset;
-        }
+      &[trigger="end"] {
+        inset-inline-end: 0;
+        inset-inline-start: unset;
       }
     }
   }
@@ -72,7 +52,7 @@
 
     // Should only hide the END trigger when content isn't horizontally scrollable
     &[isHorizontallyScrollable="false"] {
-      .scroll-reached-trigger-element ,
+      .scroll-reached-trigger-element,
       .scroll-dropped-trigger-element {
         &[trigger="end"] {
           display: none;
@@ -82,7 +62,7 @@
 
     // Should only hide the BOTTOM trigger when content isn't vertically scrollable
     &[isVerticallyScrollable="false"] {
-      .scroll-reached-trigger-element ,
+      .scroll-reached-trigger-element,
       .scroll-dropped-trigger-element {
         &[trigger="bottom"] {
           display: none;
@@ -105,20 +85,20 @@
 
       &[trigger="top"] {
         top: 0;
-        height: var(--reached-offset-top);
+        height: var(--_reached-offset-top);
       }
 
       &[trigger="bottom"] {
         bottom: 0;
-        height: var(--reached-offset-bottom);
+        height: var(--_reached-offset-bottom);
       }
 
       &[trigger="start"] {
-        width: var(--reached-offset-start);
+        width: var(--_reached-offset-start);
       }
 
       &[trigger="end"] {
-        width: var(--reached-offset-end);
+        width: var(--_reached-offset-end);
       }
     }
   }
@@ -138,20 +118,20 @@
 
     &[trigger="top"] {
       top: 0;
-      height: var(--dropped-offset-top);
+      height: var(--_dropped-offset-top);
     }
 
     &[trigger="bottom"] {
       bottom: 0;
-      height: var(--dropped-offset-bottom);
+      height: var(--_dropped-offset-bottom);
     }
 
     &[trigger="start"] {
-      width: var(--dropped-offset-start);
+      width: var(--_dropped-offset-start);
     }
 
     &[trigger="end"] {
-      width: var(--dropped-offset-end);
+      width: var(--_dropped-offset-end);
     }
   }
 }

@@ -33,10 +33,10 @@ describe('Appearance [native / compact] styles', () => {
     component.nativeElement.style.setProperty('--scrollbar-offset', '4');
   });
 
-  it('should set appearance="native" attribute by default and 0px padding', () => {
+  it('should set appearance="compact" attribute by default and 0px padding', () => {
     const appearanceAttr: string = component.nativeElement.getAttribute('appearance');
     const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
-    expect(appearanceAttr).toBe('native');
+    expect(appearanceAttr).toBe('compact');
     expect(styles.padding).toBe('0px');
   });
 

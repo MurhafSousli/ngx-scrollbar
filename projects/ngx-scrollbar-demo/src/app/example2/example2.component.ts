@@ -101,6 +101,6 @@ export class Example2Component {
   }
 
   onScrollbarUpdate(scrollbarRef: NgScrollbarExt, duration: number = 0): void {
-    scrollbarRef.scrollTo({ bottom: 0, duration });
+    // scrollbarRef.scrollTo({ bottom: 0, duration });
   }
 }

@@ -1,14 +1,14 @@
 import { Directive, effect, inject, untracked, ElementRef, NgZone, EffectCleanupRegisterFn } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Observable, Subscription } from 'rxjs';
-import { _NgScrollbar, NG_SCROLLBAR } from '../utils/scrollbar-base';
 import { SCROLLBAR_CONTROL, ScrollbarAdapter } from '../scrollbar/scrollbar-adapter';
+import { _NgScrollbar, NG_SCROLLBAR } from '../utils/scrollbar-base';
 
 @Directive()
 export abstract class PointerEventsAdapter {
 
-  // Reference to the NgScrollbar component
-  protected readonly cmp: _NgScrollbar = inject(NG_SCROLLBAR);
+  // Reference to the ScrollViewport component
+  protected readonly host: _NgScrollbar = inject(NG_SCROLLBAR);
 
   // Reference to the Scrollbar control component
   protected readonly control: ScrollbarAdapter = inject(SCROLLBAR_CONTROL);
@@ -29,7 +29,7 @@ export abstract class PointerEventsAdapter {
 
   protected constructor() {
     effect((onCleanup: EffectCleanupRegisterFn) => {
-      const disableInteraction: boolean = this.cmp.disableInteraction();
+      const disableInteraction: boolean = this.host.disableInteraction();
 
       untracked(() => {
         if (!disableInteraction) {

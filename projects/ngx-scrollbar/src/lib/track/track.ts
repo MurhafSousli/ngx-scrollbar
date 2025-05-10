@@ -9,7 +9,7 @@ import { TrackAdapter } from './track-adapter';
 export class TrackXDirective extends TrackAdapter {
 
   protected get contentSize(): number {
-    return this.cmp.viewport.contentWidth;
+    return this.host.viewport.contentWidth;
   }
 
   getCurrPosition: () => number;
@@ -18,7 +18,7 @@ export class TrackXDirective extends TrackAdapter {
 
   constructor() {
     effect(() => {
-      if (this.cmp.direction() === 'rtl') {
+      if (this.host.direction() === 'rtl') {
         this.getCurrPosition = (): number => {
           const offset: number = this.contentSize - this.viewportSize - this.control.viewportScrollOffset;
           return offset * this.size / this.contentSize;
@@ -39,7 +39,7 @@ export class TrackXDirective extends TrackAdapter {
   }
 
   protected scrollTo(start: number): Observable<void> {
-    return from(this.cmp.scrollTo({ start, duration: this.cmp.trackScrollDuration() }));
+    return from(this.host.scrollTo({ start, duration: this.host.trackScrollDuration() }));
   }
 
   protected getScrollForwardStep(): number {
@@ -58,7 +58,7 @@ export class TrackXDirective extends TrackAdapter {
 export class TrackYDirective extends TrackAdapter {
 
   protected get contentSize(): number {
-    return this.cmp.viewport.contentHeight;
+    return this.host.viewport.contentHeight;
   }
 
   protected getCurrPosition(): number {
@@ -70,7 +70,7 @@ export class TrackYDirective extends TrackAdapter {
   }
 
   protected scrollTo(top: number): Observable<void> {
-    return from(this.cmp.scrollTo({ top, duration: this.cmp.trackScrollDuration() }));
+    return from(this.host.scrollTo({ top, duration: this.host.trackScrollDuration() }));
   }
 
   protected getScrollForwardStep(): number {

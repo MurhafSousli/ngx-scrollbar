@@ -156,41 +156,41 @@
                [style.width.px]="width"
                (nzResize)="onResize($event)">
 
-            <ng-scrollbar class="sample"
-                          [class.highlight-layout]="toggle.highlight"
-                          [orientation]="orientation"
-                          [appearance]="appearance"
-                          [visibility]="visibility"
-                          [position]="position"
-                          [style]="cssVariables"
-                          [buttons]="buttons"
-                          [hoverOffset]="hoverOffset"
-                          [disableInteraction]="interactionDisabled"
-                          [disableSensor]="disableSensor"
-                          [sensorThrottleTime]="sensorThrottleTime"
-                          [trackScrollDuration]="trackScrollDuration"
-                          [dir]="direction"
-                          (reachedTop)="onReached('top')"
-                          (reachedStart)="onReached('start')"
-                          (reachedEnd)="onReached('end')"
-                          (reachedBottom)="onReached('bottom')"
-                          [disableReached]="disableReached"
-                          (droppedTop)="onDropped('top')"
-                          (droppedStart)="onDropped('start')"
-                          (droppedEnd)="onDropped('end')"
-                          (droppedBottom)="onDropped('bottom')"
-                          [disableDropped]="disableDropped">
-              <div class="inner"
-                   [style.width.px]="(component.nativeElement.offsetWidth - (appearance === 'native' ? +variables.thickness + (+variables.trackOffset * 2) : 0)) * slider.contentWidth"
-                   [innerHTML]="content"></div>
+<!--            <ng-scrollbar class="sample"-->
+<!--                          [class.highlight-layout]="toggle.highlight"-->
+<!--                          [orientation]="orientation"-->
+<!--                          [appearance]="appearance"-->
+<!--                          [visibility]="visibility"-->
+<!--                          [position]="position"-->
+<!--                          [style]="cssVariables"-->
+<!--                          [buttons]="buttons"-->
+<!--                          [hoverOffset]="hoverOffset"-->
+<!--                          [disableInteraction]="interactionDisabled"-->
+<!--                          [disableSensor]="disableSensor"-->
+<!--                          [sensorThrottleTime]="sensorThrottleTime"-->
+<!--                          [trackScrollDuration]="trackScrollDuration"-->
+<!--                          [dir]="direction"-->
+<!--                          (reachedTop)="onReached('top')"-->
+<!--                          (reachedStart)="onReached('start')"-->
+<!--                          (reachedEnd)="onReached('end')"-->
+<!--                          (reachedBottom)="onReached('bottom')"-->
+<!--                          [disableReached]="disableReached"-->
+<!--                          (droppedTop)="onDropped('top')"-->
+<!--                          (droppedStart)="onDropped('start')"-->
+<!--                          (droppedEnd)="onDropped('end')"-->
+<!--                          (droppedBottom)="onDropped('bottom')"-->
+<!--                          [disableDropped]="disableDropped">-->
+<!--              <div class="inner"-->
+<!--                   [style.width.px]="(component.nativeElement.offsetWidth - (appearance === 'native' ? +variables.thickness + (+variables.trackOffset * 2) : 0)) * slider.contentWidth"-->
+<!--                   [innerHTML]="content"></div>-->
 
-              @if (scrollToElementSelected) {
-                <div id="target">
-                  <app-logo/>
-                </div>
-              }
+<!--              @if (scrollToElementSelected) {-->
+<!--                <div id="target">-->
+<!--                  <app-logo/>-->
+<!--                </div>-->
+<!--              }-->
 
-            </ng-scrollbar>
+<!--            </ng-scrollbar>-->
 
             <nz-resize-handle nzDirection="bottomRight">
               <span class="bottom-right" nz-icon nzType="caret-up" nzTheme="outline" [nzRotate]="135"></span>

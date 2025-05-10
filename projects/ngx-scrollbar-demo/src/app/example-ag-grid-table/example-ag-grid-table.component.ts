@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
-import { AsyncDetection, NgScrollbarExt } from 'ngx-scrollbar';
+import { NgScrollbarExt } from 'ngx-scrollbar';
 import {
   Theme,
   ModuleRegistry,
@@ -21,7 +21,7 @@ ModuleRegistry.registerModules([
   templateUrl: './example-ag-grid-table.component.html',
   styleUrl: './example-ag-grid-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AgGridAngular, NgScrollbarExt, AsyncDetection]
+  imports: [AgGridAngular, NgScrollbarExt]
 })
 export class ExampleAgGridTableComponent {
 

@@ -20,11 +20,15 @@ export class NgScrollbarCdkVirtualScroll {
 
       untracked(() => {
         if (virtualScrollViewport) {
-          const viewport: HTMLElement = virtualScrollViewport.elementRef.nativeElement;
-          const contentWrapper: HTMLElement = virtualScrollViewport._contentWrapper.nativeElement;
-          const spacer: HTMLElement = virtualScrollViewport.elementRef.nativeElement.querySelector('.cdk-virtual-scroll-spacer');
+          this.scrollbar.viewportElement.set(virtualScrollViewport.elementRef.nativeElement);
+          this.scrollbar.contentWrapperElement.set(virtualScrollViewport._contentWrapper.nativeElement);
+          this.scrollbar.spacerElement.set(virtualScrollViewport.elementRef.nativeElement.querySelector('.cdk-virtual-scroll-spacer'));
 
-          this.scrollbar.initialize(viewport, contentWrapper, spacer);
+          this.scrollbar.initialize(
+            this.scrollbar.viewportElement(),
+            this.scrollbar.contentWrapperElement(),
+            this.scrollbar.spacerElement()
+          );
         }
       });
     });

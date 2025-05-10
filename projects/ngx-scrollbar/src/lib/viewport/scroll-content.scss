@@ -14,7 +14,10 @@
   contain: content;
 
   // Add padding for standard appearance
-  padding: var(--_viewport-padding-top, 0) var(--_viewport-padding-right, 0) var(--_viewport-padding-bottom, 0) var(--_viewport-padding-left, 0);
+  padding-block-start: var(--_viewport-padding-block-start, 0);
+  padding-block-end: var(--_viewport-padding-block-end, 0);
+  padding-inline-start: var(--_viewport-padding-inline-start, 0);
+  padding-inline-end: var(--_viewport-padding-inline-end, 0);
 }
 
 @layer default {

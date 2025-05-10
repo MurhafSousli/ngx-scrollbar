@@ -12,7 +12,7 @@ import {
   ScrollbarOrientation,
   ScrollbarVisibility
 } from 'ngx-scrollbar';
-import { NgScrollDropped, NgScrollReached } from 'ngx-scrollbar/reached-event';
+// import { NgScrollDropped, NgScrollReached } from 'ngx-scrollbar/reached-event';
 import { NzResizableModule, NzResizeDirection, NzResizeEvent } from 'ng-zorro-antd/resizable';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
@@ -30,8 +30,8 @@ import { SmoothScrollFormComponent, SmoothScrollOptionsForm } from './smooth-scr
     FormsModule,
     ReactiveFormsModule,
     NgScrollbar,
-    NgScrollReached,
-    NgScrollDropped,
+    // NgScrollReached,
+    // NgScrollDropped,
     MatCardModule,
     MatButtonToggleModule,
     MatExpansionModule,
