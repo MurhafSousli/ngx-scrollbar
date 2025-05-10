@@ -10,7 +10,7 @@
                 [(ngModel)]="selectedCity"
                 placeholder="Select a City"
                 [editable]="true"
-                optionLabel="name" class="w-full md:w-56"/>
+                optionLabel="name"/>
     </ng-scrollbar>
   </mat-card-content>
 </mat-card>
@@ -27,7 +27,7 @@
               placeholder="Select a City"
               [editable]="true"
               appendTo="body"
-              optionLabel="name" class="w-full md:w-56"/>
+              optionLabel="name"/>
   </mat-card-content>
 </mat-card>
 
@@ -57,8 +57,7 @@
   <mat-card-content>
     <ng-scrollbar externalViewport=".p-virtualscroller"
                   externalContentWrapper=".p-datatable-scrollable-table"
-                  appearance="compact"
-                  asyncDetection>
+                  appearance="compact">
       <p-table [columns]="cols"
                [value]="cars"
                [scrollable]="true"
@@ -95,13 +94,10 @@
     <ng-scrollbar externalViewport=".p-virtualscroller"
                   externalContentWrapper=".p-virtualscroller-content"
                   externalSpacer=".p-virtualscroller-spacer"
-                  appearance="compact"
-                  asyncDetection>
+                  appearance="compact">
       <p-scroller [items]="cars"
                   [itemSize]="50"
-                  scrollHeight="200px"
-                  styleClass="border-1 surface-border"
-                  [style]="{'width': '200px', 'height': '200px'}">
+                  scrollHeight="200px">
         <ng-template pTemplate="item" let-item>
           <div class="item">{{ item.vin }}</div>
         </ng-template>

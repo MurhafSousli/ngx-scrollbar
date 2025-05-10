@@ -1,45 +1,47 @@
 import {
   Component,
   inject,
-  effect,
   computed,
   untracked,
   linkedSignal,
   createComponent,
+  afterNextRender,
   input,
   Signal,
   InputSignal,
-  WritableSignal,
   Injector,
   OnDestroy,
+  ElementRef,
   ComponentRef,
   ApplicationRef,
+  WritableSignal,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { ViewportAdapter, ScrollViewport } from './viewport';
-import { NgScrollbar } from './ng-scrollbar';
-import { NgScrollbarCore } from './ng-scrollbar-core';
-import { NG_SCROLLBAR } from './utils/scrollbar-base';
+import { ScrollViewport, ViewportAdapter } from './viewport';
+import { Core } from './core';
+import { NG_SCROLLBAR_OPTIONS, NgScrollbarOptions } from './ng-scrollbar.model';
 
 @Component({
   selector: 'ng-scrollbar[externalViewport]',
   exportAs: 'ngScrollbar',
   template: '<ng-content/>',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[class.ng-scrollbar-external-viewport]': 'true'
-  },
   providers: [
-    { provide: NG_SCROLLBAR, useExisting: NgScrollbarExt },
-    { provide: NgScrollbarCore, useExisting: NgScrollbar },
     ViewportAdapter
   ],
+  styles: [`
+    /*:host {*/
+    /*  display: contents;*/
+    /*}*/
+  `]
 })
-export class NgScrollbarExt extends NgScrollbarCore implements OnDestroy {
+export class NgScrollbarExt extends Core implements OnDestroy {
 
   private readonly appRef: ApplicationRef = inject(ApplicationRef);
 
   private readonly injector: Injector = inject(Injector);
+
+  readonly nativeElement: HTMLElement = inject(ElementRef).nativeElement;
 
   viewportRef: ComponentRef<ScrollViewport>;
 
@@ -95,6 +97,24 @@ export class NgScrollbarExt extends NgScrollbarCore implements OnDestroy {
       : null;
   });
 
+  computedOptions: Signal<NgScrollbarOptions> = computed(() => {
+    return {
+      buttons: this.buttons(),
+      position: this.position(),
+      appearance: this.appearance(),
+      visibility: this.visibility(),
+      trackClass: this.trackClass(),
+      thumbClass: this.thumbClass(),
+      buttonClass: this.buttonClass(),
+      orientation: this.orientation(),
+      hoverOffset: this.hoverOffset(),
+      disableSensor: this.disableSensor(),
+      disableInteraction: this.disableInteraction(),
+      sensorThrottleTime: this.sensorThrottleTime(),
+      trackScrollDuration: this.trackScrollDuration()
+    };
+  });
+
   /**
    * Skip initializing the viewport and the scrollbar
    * this is used when the component needs to wait for 3rd party library to render
@@ -102,32 +122,60 @@ export class NgScrollbarExt extends NgScrollbarCore implements OnDestroy {
   skipInit: boolean = false;
 
   constructor() {
-    // Using `afterRenderEffect` would run twice, one when viewport directive is detected
-    // and one when content wrapper is detected, therefore `effect` is better because it runs only once.
-    effect(() => {
-      const viewportElement: HTMLElement = this.viewportElement();
-      const contentWrapperElement: HTMLElement = this.contentWrapperElement();
-      const spacerElement: HTMLElement = this.spacerElement();
+    super();
 
-      const viewportError: string = this.viewportError();
-      const contentWrapperError: string = this.contentWrapperError();
-      const spacerError: string = this.spacerError();
+    afterNextRender({
+      earlyRead: () => {
+        if (this.skipInit) return;
 
-      untracked(() => {
-        if (!this.skipInit) {
+        const viewportElement: HTMLElement = this.viewportElement();
+        const contentWrapperElement: HTMLElement = this.contentWrapperElement();
+        const spacerElement: HTMLElement = this.spacerElement();
+
+        const viewportError: string = this.viewportError();
+        const contentWrapperError: string = this.contentWrapperError();
+        const spacerError: string = this.spacerError();
+
+        untracked(() => {
           const error: string = viewportError || contentWrapperError || spacerError;
           if (error) {
             console.error(error);
           } else {
             this.initialize(viewportElement, contentWrapperElement, spacerElement);
           }
-        }
-      });
+        });
+      }
     });
-    super();
   }
 
   ngOnDestroy(): void {
+    this.destroy();
+  }
+
+  initialize(viewportElement: HTMLElement, contentWrapperElement: HTMLElement, spacerElement: HTMLElement): void {
+    this.viewportRef = createComponent(ScrollViewport, {
+      hostElement: viewportElement,
+      projectableNodes: [Array.from(viewportElement.childNodes)],
+      environmentInjector: this.appRef.injector,
+      elementInjector: Injector.create({
+        parent: this.injector,
+        providers: [
+          {
+            provide: NG_SCROLLBAR_OPTIONS,
+            useValue: this.computedOptions()
+          }
+        ]
+      })
+    });
+
+    this.viewportRef.instance.actualContentElement = contentWrapperElement;
+    this.viewportRef.instance.spacerElement = spacerElement;
+    this.viewportRef.instance.afterInit.subscribe(() => this.afterInit.emit());
+    this.viewportRef.instance.afterUpdate.subscribe(() => this.afterUpdate.emit());
+    this.appRef.attachView(this.viewportRef.hostView);
+  }
+
+  destroy(): void {
     if (this.viewportRef) {
       this.appRef.detachView(this.viewportRef.hostView);
       this.viewportRef.destroy();
@@ -135,26 +183,7 @@ export class NgScrollbarExt extends NgScrollbarCore implements OnDestroy {
     }
   }
 
-  initialize(viewportElement: HTMLElement, contentWrapperElement: HTMLElement, spacerElement: HTMLElement): void {
-    if (this.skipInit) {
-      // If initialized via async detection, then we should set the signals
-      this.viewportElement.set(viewportElement);
-      this.contentWrapperElement.set(contentWrapperElement);
-      this.spacerElement.set(spacerElement);
-    }
-
-    this.viewportRef = createComponent(ScrollViewport, {
-      hostElement: viewportElement,
-      elementInjector: this.injector,
-      environmentInjector: this.appRef.injector
-    });
-    this.viewportRef.instance.externalUse = true;
-    this.viewportRef.instance.actualContentElement = this.contentWrapperElement();
-    this.viewportRef.instance.spacerElement = this.spacerElement();
-    this.appRef.attachView(this.viewportRef.hostView);
-  }
-
-  private getElement(selector: string): HTMLElement {
+  getElement(selector: string): HTMLElement {
     return selector ? this.nativeElement.querySelector(selector) as HTMLElement : null;
   }
 }

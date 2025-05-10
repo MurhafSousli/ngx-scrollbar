@@ -1,23 +1,23 @@
 @use "selectors" as selector;
 
-@mixin paddingTop() {
-  --_viewport-padding-top: calc(var(--_scrollbar-thickness) * 1px);
-  --_viewport-padding-bottom: 0;
+@mixin paddingBlockStart() {
+  --_viewport-padding-block-start: calc(var(--_scrollbar-thickness) * 1px);
+  --_viewport-padding-block-end: 0;
 }
 
-@mixin paddingBottom() {
-  --_viewport-padding-top: 0;
-  --_viewport-padding-bottom: calc(var(--_scrollbar-thickness) * 1px);
+@mixin paddingBlockEnd() {
+  --_viewport-padding-block-start: 0;
+  --_viewport-padding-block-end: calc(var(--_scrollbar-thickness) * 1px);
 }
 
-@mixin paddingLeft() {
-  --_viewport-padding-left: calc(var(--_scrollbar-thickness) * 1px);
-  --_viewport-padding-right: 0;
+@mixin paddingInlineStart() {
+  --_viewport-padding-inline-start: calc(var(--_scrollbar-thickness) * 1px);
+  --_viewport-padding-inline-end: 0;
 }
 
-@mixin paddingRight() {
-  --_viewport-padding-left: 0;
-  --_viewport-padding-right: calc(var(--_scrollbar-thickness) * 1px);
+@mixin paddingInlineEnd() {
+  --_viewport-padding-inline-start: 0;
+  --_viewport-padding-inline-end: calc(var(--_scrollbar-thickness) * 1px);
 }
 
 @mixin SetAppearanceStuff {
@@ -25,31 +25,19 @@
   &[appearance="native"] {
     @include selector.VerticalUsed {
 
-      @include selector.LTR {
-        @include paddingRight();
-      }
-
-      @include selector.RTL {
-        @include paddingLeft();
-      }
+      @include paddingInlineEnd();
 
       @include selector.VerticalInverted {
-        @include selector.LTR {
-          @include paddingLeft();
-        }
-
-        @include selector.RTL {
-          @include paddingRight();
-        }
+        @include paddingInlineStart();
       }
     }
 
     @include selector.HorizontalUsed {
 
-      @include paddingBottom();
+      @include paddingBlockEnd();
 
       @include selector.HorizontalInverted {
-        @include paddingTop();
+        @include paddingBlockStart();
       }
     }
   }

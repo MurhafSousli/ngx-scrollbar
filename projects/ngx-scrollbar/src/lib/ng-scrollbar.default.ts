@@ -5,7 +5,7 @@ export const defaultOptions: NgScrollbarOptions = {
   thumbClass: '',
   buttonClass: '',
   orientation: 'auto',
-  appearance: 'native',
+  appearance: 'compact',
   visibility: 'native',
   position: 'native',
   trackScrollDuration: 50,

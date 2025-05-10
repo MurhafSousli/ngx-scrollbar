@@ -32,7 +32,7 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
 
   // Returns viewport client size
   protected get viewportSize(): number {
-    return this.cmp.viewport[this.control.sizeProperty];
+    return this.host.viewport[this.control.sizeProperty];
   }
 
   // Get track client rect
@@ -115,8 +115,8 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
   constructor() {
     afterRenderEffect({
       earlyRead: (): void => {
-        this.cmp.viewportDimension();
-        this.cmp.contentDimension();
+        this.host.viewportDimension();
+        this.host.contentDimension();
 
         untracked(() => {
           this.control.trackSize.set(this.size);

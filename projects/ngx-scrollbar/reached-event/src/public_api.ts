@@ -1,2 +1,1 @@
-export * from './ng-scroll-reached';
-export * from './ng-scroll-dropped';
+export * from './ng-scroll-reach-drop';

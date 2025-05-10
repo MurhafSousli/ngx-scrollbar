@@ -2,17 +2,17 @@
 
 :host {
   // Sticky scrollbar track scrollbars variables
-  --_scrollbar-wrapper-top: var(--_scrollbar-wrapper-x-top);
-  --_scrollbar-wrapper-left: 0;
-  --_scrollbar-wrapper-right: 0;
+  --_scrollbar-wrapper-inset-block-start: var(--_scrollbar-wrapper-x-start);
+  --_scrollbar-wrapper-inset-inline-start: 0;
+  --_scrollbar-wrapper-inset-inline-end: 0;
 
   --_scrollbar-wrapper-height: var(--_scrollbar-thickness);
   --_scrollbar-wrapper-width: var(--viewport-width);
 
-  --_scrollbar-track-top: var(--_horizontal-top);
-  --_scrollbar-track-bottom: var(--_horizontal-bottom);
-  --_scrollbar-track-right: var(--_horizontal-right);
-  --_scrollbar-track-left: var(--_horizontal-left);
+  --_scrollbar-track-inset-block-start: var(--_horizontal-block-start);
+  --_scrollbar-track-inset-block-end: var(--_horizontal-block-end);
+  --_scrollbar-track-inset-inline-end: var(--_horizontal-inline-end);
+  --_scrollbar-track-inset-inline-start: var(--_horizontal-inline-start);
 
   // Calculate the horizontal thumb size
   --thumb-size: max(calc(var(--viewport-width) * var(--track-size) / var(--content-width)), var(--INTERNAL-scrollbar-thumb-min-size));

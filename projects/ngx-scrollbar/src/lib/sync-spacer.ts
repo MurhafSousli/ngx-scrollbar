@@ -38,12 +38,13 @@ export class SyncSpacer {
     let sub$: Subscription;
 
     effect((onCleanup: EffectCleanupRegisterFn) => {
-      const spacerElement: HTMLElement = this.scrollbar.spacerElement();
-      const contentWrapperElement: HTMLElement = this.scrollbar.contentWrapperElement();
       const throttleDuration: number = this.scrollbar.sensorThrottleTime();
       const disableSensor: boolean = this.scrollbar.disableSensor();
 
       untracked(() => {
+        const contentWrapperElement: HTMLElement = this.scrollbar.contentWrapperElement();
+        const spacerElement: HTMLElement = this.scrollbar.spacerElement();
+
         if (!disableSensor && contentWrapperElement && spacerElement) {
           // Sync spacer dimension with content wrapper dimensions to allow both scrollbars to be displayed
           this.zone.runOutsideAngular(() => {

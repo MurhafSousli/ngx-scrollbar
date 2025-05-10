@@ -7,6 +7,7 @@ import { NgScrollbar, ScrollbarAnywhere, ScrollbarRef } from 'ngx-scrollbar';
   selector: 'mat-select[matSelectScrollbar]'
 })
 export class NgScrollbarMatSelect {
+  // TODO: Add all options by extending directive class
 
   private readonly matSelect: MatSelect = inject(MatSelect, { self: true });
 

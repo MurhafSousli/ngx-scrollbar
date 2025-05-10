@@ -1,87 +1,74 @@
 @use "selectors" as selector;
 
-@mixin horizontalTop() {
-  --_horizontal-top: var(--_scrollbar-offset-px);
-  --_horizontal-bottom: initial;
+@mixin horizontalBlockStart() {
+  --_horizontal-block-start: var(--_scrollbar-offset-px);
+  --_horizontal-block-end: initial;
 
-  --_scrollbar-wrapper-x-top: 0;
+  --_scrollbar-wrapper-x-start: 0;
 }
 
-@mixin horizontalBottom() {
-  --_horizontal-top: initial;
-  --_horizontal-bottom: var(--_scrollbar-offset-px);
+@mixin horizontalBlockEnd() {
+  --_horizontal-block-start: initial;
+  --_horizontal-block-end: var(--_scrollbar-offset-px);
 
-  --_scrollbar-wrapper-x-top: calc(var(--viewport-height) - var(--_scrollbar-thickness));
+  --_scrollbar-wrapper-x-start: calc(var(--viewport-height) - var(--_scrollbar-thickness));
 }
 
-@mixin VerticalLeft() {
-  --_vertical-left: var(--_scrollbar-offset-px);
-  --_vertical-right: initial;
+@mixin VerticalInlineStart() {
+  --_vertical-inset-inline-start: var(--_scrollbar-offset-px);
+  --_vertical-inset-inline-end: initial;
 
 }
 
-@mixin VerticalRight() {
-  --_vertical-right: var(--_scrollbar-offset-px);
-  --_vertical-left: initial;
+@mixin VerticalInlineEnd() {
+  --_vertical-inset-inline-end: var(--_scrollbar-offset-px);
+  --_vertical-inset-inline-start: initial;
 }
 
 /**
  * FIT MIXIN: When both scrollbars are shown, show leave a space in the corner
  */
-@mixin verticalFitBottom() {
-  --_vertical-top: var(--_scrollbar-offset-px);
-  --_vertical-bottom: var(--_scrollbar-thickness-margin-px);
+@mixin verticalFitBlockEnd() {
+  --_vertical-inset-block-start: var(--_scrollbar-offset-px);
+  --_vertical-inset-block-end: var(--_scrollbar-thickness-margin-px);
 }
 
-@mixin verticalFitTop() {
-  --_vertical-top: var(--_scrollbar-thickness-margin-px);
-  --_vertical-bottom: var(--_scrollbar-offset-px);
+@mixin verticalFitBlockStart() {
+  --_vertical-inset-block-start: var(--_scrollbar-thickness-margin-px);
+  --_vertical-inset-block-end: var(--_scrollbar-offset-px);
 }
 
-@mixin horizontalFitLeft() {
-  --_horizontal-left: var(--_scrollbar-thickness-margin-px);
-  --_horizontal-right: var(--_scrollbar-offset-px);
+@mixin horizontalFitInlineStart() {
+  --_horizontal-inline-start: var(--_scrollbar-thickness-margin-px);
+  --_horizontal-inline-end: var(--_scrollbar-offset-px);
 }
 
-@mixin horizontalFitRight() {
-  --_horizontal-left: var(--_scrollbar-offset-px);
-  --_horizontal-right: var(--_scrollbar-thickness-margin-px);
+@mixin horizontalFitInlineEnd() {
+  --_horizontal-inline-start: var(--_scrollbar-offset-px);
+  --_horizontal-inline-end: var(--_scrollbar-thickness-margin-px);
 }
 
 @mixin SetPositionStuff() {
-  --_vertical-top: var(--_scrollbar-offset-px);
-  --_vertical-bottom: var(--_scrollbar-offset-px);
+  --_vertical-inset-block-start: var(--_scrollbar-offset-px);
+  --_vertical-inset-block-end: var(--_scrollbar-offset-px);
 
-  --_horizontal-left: var(--_scrollbar-offset-px);
-  --_horizontal-right: var(--_scrollbar-offset-px);
+  --_horizontal-inline-start: var(--_scrollbar-offset-px);
+  --_horizontal-inline-end: var(--_scrollbar-offset-px);
 
-  @include horizontalBottom();
+  @include horizontalBlockEnd();
 
   @include selector.HorizontalInverted {
-    @include horizontalTop();
+    @include horizontalBlockStart();
   }
 
-  @include selector.LTR {
-    --_scrollbar-wrapper-y-right: initial;
-    @include VerticalRight();
-    --_scrollbar-wrapper-y-left: calc(var(--viewport-width) - var(--_scrollbar-thickness));
+  --_scrollbar-wrapper-y-end: initial;
+  @include VerticalInlineEnd();
+  --_scrollbar-wrapper-y-start: calc(var(--viewport-width) - var(--_scrollbar-thickness));
 
 
-    @include selector.VerticalInverted {
-      @include VerticalLeft();
-      --_scrollbar-wrapper-y-left: 0;
-    }
-  }
-
-  @include selector.RTL {
-    --_scrollbar-wrapper-y-left: initial;
-    @include VerticalLeft();
-    --_scrollbar-wrapper-y-right: calc(var(--viewport-width) - var(--_scrollbar-thickness));
-
-    @include selector.VerticalInverted {
-      @include VerticalRight();
-      --_scrollbar-wrapper-y-right: 0;
-    }
+  @include selector.VerticalInverted {
+    @include VerticalInlineStart();
+    --_scrollbar-wrapper-y-start: 0;
   }
 
   @include selector.BothUsed {
@@ -91,31 +78,19 @@
 
   @include selector.HorizontalUsed {
 
-    @include verticalFitBottom();
+    @include verticalFitBlockEnd();
 
     &[position="invertX"], &[position="invertAll"] {
-      @include verticalFitTop();
+      @include verticalFitBlockStart();
     }
   }
 
   @include selector.VerticalUsed {
 
-    @include selector.LTR {
-      @include horizontalFitRight();
-    }
-
-    @include selector.RTL {
-      @include horizontalFitLeft();
-    }
+    @include horizontalFitInlineEnd();
 
     &[position="invertY"], &[position="invertAll"] {
-      @include selector.LTR {
-        @include horizontalFitLeft();
-      }
-
-      @include selector.RTL {
-        @include horizontalFitRight();
-      }
+      @include horizontalFitInlineStart();
     }
   }
 }

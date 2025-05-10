@@ -22,8 +22,14 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
-        preset: Lara
-      }
+        preset: Lara,
+        options: {
+          cssLayer: {
+            name: 'primeng',
+            order: 'app-styles, primeng'
+          }
+        }
+      },
     })
   ]
 };

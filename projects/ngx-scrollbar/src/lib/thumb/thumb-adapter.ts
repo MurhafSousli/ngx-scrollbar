@@ -81,7 +81,7 @@ export abstract class ThumbAdapter extends PointerEventsAdapter {
         const script: ScrollTimelineFunc = this.manager.scrollTimelinePolyfill();
         untracked(() => {
           if (script && !this._animation) {
-            this._animation = startPolyfill(script, this.nativeElement, this.cmp.viewport.nativeElement, this.control.axis);
+            this._animation = startPolyfill(script, this.nativeElement, this.host.viewport.nativeElement, this.control.axis);
           }
         });
       }
@@ -90,7 +90,7 @@ export abstract class ThumbAdapter extends PointerEventsAdapter {
   }
 
   private setDragging(value: ScrollbarDragging): void {
-    this.zone.run(() => this.cmp.dragging.set(value));
+    this.zone.run(() => this.host.dragging.set(value));
   }
 }
 

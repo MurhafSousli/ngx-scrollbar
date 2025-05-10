@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, ViewChild } from '@angular/core';
 import { BidiModule } from '@angular/cdk/bidi';
 import { NgScrollbar, NgScrollbarModule } from 'ngx-scrollbar';
-import { NgScrollDropped } from 'ngx-scrollbar/reached-event';
+import { NgScrollReachDrop } from 'ngx-scrollbar/reached-event';
 
 @Component({
   template: `
@@ -11,20 +11,18 @@ import { NgScrollDropped } from 'ngx-scrollbar/reached-event';
                   (droppedBottom)="onScrollDropped('bottom')"
                   (droppedStart)="onScrollDropped('start')"
                   (droppedEnd)="onScrollDropped('end')"
-                  [droppedOffset]="offset"
                   [droppedTopOffset]="topOffset"
                   [droppedBottomOffset]="bottomOffset"
                   [droppedStartOffset]="startOffset"
                   [droppedEndOffset]="endOffset"
-                  [disableDropped]="disabled"
+                  [disableReached]="disabled"
                   [dir]="isRtl ? 'rtl' : 'ltr'">
       <div style="width: 300px; height: 300px"></div>
     </ng-scrollbar>
   `,
-  imports: [BidiModule, NgScrollbarModule, NgScrollDropped]
+  imports: [BidiModule, NgScrollbarModule, NgScrollReachDrop]
 })
 class TestComponent {
-  offset: number;
   topOffset: number;
   bottomOffset: number;
   startOffset: number;
@@ -52,7 +50,6 @@ describe('Dropped Events Directives', () => {
   });
 
   it('[DroppedOffset]: should emit (droppedTop) (droppedBottom) (droppedStart) (droppedEnd)', async () => {
-    component.offset = 10;
     fixture.detectChanges();
 
     await component.scrollbar.scrollTo({ top: 0, duration: 0 });

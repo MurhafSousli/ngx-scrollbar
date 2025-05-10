@@ -10,8 +10,8 @@
   }
 
   ::ng-deep > .ng-scroll-spacer {
-    // Set relative position on the spacer element to enable the functionality of sticky for the scrollbars
-    position: relative;
+    // Set absolute position on the spacer element to enable the functionality of sticky for the scrollbars
+    position: absolute;
 
     // In virtual scroll, in vertical mode, the spacer element width should match the content wrapper width and same goes in horizontal mode.
     width: calc(var(--_spacer-width) * 1px);

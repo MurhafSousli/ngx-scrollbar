@@ -2,6 +2,10 @@
   overflow: hidden;
 }
 
+.cdk-virtual-scroll-viewport {
+  height: 100%;
+}
+
 .cdk-virtual-scroll-orientation-horizontal ::ng-deep {
   .cdk-virtual-scroll-content-wrapper {
     display: flex;
@@ -15,10 +19,6 @@
   --scrollbar-thickness: 10;
   --scrollbar-hover-thickness: 10;
   --scrollbar-border-radius: 10px;
-}
-
-.cdk-virtual-scroll-orientation-vertical ::ng-deep > .ng-scroll-content {
-  //background: rgba(255, 255, 255, 0.1);
 }
 
 .cards {

@@ -6,46 +6,29 @@ import {
   Injector,
   Renderer2,
   OnDestroy,
-  ElementRef,
   ComponentRef,
   ApplicationRef,
   ChangeDetectionStrategy
 } from '@angular/core';
 import { ScrollContent } from './scroll-content';
-import { ViewportAdapter } from './viewport-adapter';
 import { Scrollbars } from '../scrollbars/scrollbars';
 import { ViewportClasses } from '../utils/common';
-import { _NgScrollbar, NG_SCROLLBAR } from '../utils/scrollbar-base';
+import { NG_SCROLLBAR } from '../utils/scrollbar-base';
+import { NgScrollbarCore } from '../ng-scrollbar-core';
 
 @Component({
   host: {
-    '[class.ng-scroll-viewport]': 'true',
-    '[class.ng-external-scroll-viewport]': 'true',
-    '[attr.verticalUsed]': 'host.verticalUsed()',
-    '[attr.horizontalUsed]': 'host.horizontalUsed()',
-    '[attr.isVerticallyScrollable]': 'host.isVerticallyScrollable()',
-    '[attr.isHorizontallyScrollable]': 'host.isHorizontallyScrollable()',
-    '[attr.mobile]': 'host.isMobile',
-    '[attr.dir]': 'host.direction()',
-    '[attr.position]': 'host.position()',
-    '[attr.dragging]': 'host.dragging()',
-    '[attr.appearance]': 'host.appearance()',
-    '[attr.visibility]': 'host.visibility()',
-    '[attr.orientation]': 'host.orientation()',
-    '[attr.disableInteraction]': 'host.disableInteraction()',
-    '[style.--content-height]': 'host.contentDimension().height',
-    '[style.--content-width]': 'host.contentDimension().width',
-    '[style.--viewport-height]': 'host.viewportDimension().height',
-    '[style.--viewport-width]': 'host.viewportDimension().width'
+    '[class.ng-scroll-external-viewport]': 'true'
   },
   selector: 'ng-scroll-viewport',
-  template: '',
+  template: '<ng-content/>',
   styleUrl: 'scroll-viewport.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    { provide: NG_SCROLLBAR, useExisting: ScrollViewport },
+  ]
 })
-export class ScrollViewport implements OnDestroy {
-
-  readonly host: _NgScrollbar = inject(NG_SCROLLBAR);
+export class ScrollViewport extends NgScrollbarCore implements OnDestroy {
 
   private readonly renderer: Renderer2 = inject(Renderer2);
 
@@ -53,15 +36,6 @@ export class ScrollViewport implements OnDestroy {
 
   private readonly injector: Injector = inject(Injector);
 
-  /** Viewport adapter instance */
-  readonly viewport: ViewportAdapter = inject(ViewportAdapter);
-
-  externalUse: boolean;
-
-  /**
-   * Viewport native element
-   */
-  nativeElement: HTMLElement = inject(ElementRef).nativeElement;
   /**
    * The element used to measure the content size and observe its changes.
    * It can be either the actual content wrapper or the spacer in case of virtual scroll.
@@ -86,8 +60,6 @@ export class ScrollViewport implements OnDestroy {
   constructor() {
     afterNextRender({
       write: () => {
-        if (!this.externalUse) return;
-
         // Create scroll content
         this.createContentWrapper(this.actualContentElement);
 
@@ -107,7 +79,8 @@ export class ScrollViewport implements OnDestroy {
         // Initialize viewport
         this.viewport.init(this.nativeElement, this.actualContentRef.location.nativeElement, this.spacerElement);
       }
-    })
+    });
+    super();
   }
 
   ngOnDestroy(): void {
@@ -128,11 +101,12 @@ export class ScrollViewport implements OnDestroy {
 
   createContentWrapper(hostElement: HTMLElement): void {
     if (hostElement) {
-      // Attach content wrapper component to a given host element
+      // Attach a content wrapper component to a given host element
       this.actualContentRef = createComponent(ScrollContent, {
         hostElement,
         elementInjector: this.injector,
-        environmentInjector: this.appRef.injector
+        environmentInjector: this.appRef.injector,
+        projectableNodes: [Array.from(hostElement.childNodes)]
       });
     } else {
       this.actualContentRef = createComponent(ScrollContent, {

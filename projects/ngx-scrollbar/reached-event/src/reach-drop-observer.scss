@@ -1,0 +1,114 @@
+:host {
+  --_reached-offset-top: var(--reached-offset-top, 1px);
+  --_reached-offset-bottom: var(--reached-offset-bottom, 1px);
+  --_reached-offset-start: var(--reached-offset-start, 1px);
+  --_reached-offset-end: var(--reached-offset-end, 1px);
+
+  --_dropped-offset-top: var(--dropped-offset-top, 1px);
+  --_dropped-offset-bottom: var(--dropped-offset-bottom, 1px);
+  --_dropped-offset-start: var(--dropped-offset-start, 1px);
+  --_dropped-offset-end: var(--dropped-offset-end, 1px);
+
+
+  //display: contents;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-width: calc(var(--viewport-width) * 1px);
+  min-height: calc(var(--viewport-height) * 1px);
+
+  &[isHorizontallyScrollable="false"] {
+    // Should only hide the END trigger when content isn't horizontally scrollable
+    [trigger="end"] {
+      display: none;
+    }
+  }
+
+  &[isVerticallyScrollable="false"] {
+    // Should only hide the BOTTOM trigger when content isn't vertically scrollable
+    [trigger="bottom"] {
+      display: none;
+    }
+  }
+}
+
+.scroll-trigger-element {
+  position: absolute;
+  user-select: none;
+  pointer-events: none;
+  z-index: -9999;
+  visibility: hidden;
+
+  &[event="reached"] {
+    background: red;
+  }
+
+  &[event="dropped"] {
+    background: blue;
+  }
+
+  &:is([trigger="top"], [trigger="bottom"]) {
+    left: 0;
+    right: 0;
+  }
+
+  &:is([trigger="start"], [trigger="end"]) {
+    top: 0;
+    bottom: 0;
+  }
+
+  &[trigger="top"] {
+    top: 0;
+  }
+
+  &[trigger="bottom"] {
+    bottom: 0;
+  }
+
+  &[trigger="start"] {
+    inset-inline-start: 0;
+    inset-inline-end: unset;
+  }
+
+  &[trigger="end"] {
+    inset-inline-end: 0;
+    inset-inline-start: unset;
+  }
+
+  // Reached Elements
+  &[trigger="top"][event="reached"] {
+    height: var(--_reached-offset-top);
+  }
+
+  &[trigger="bottom"][event="reached"] {
+    height: var(--_reached-offset-bottom);
+  }
+
+  &[trigger="start"][event="reached"] {
+    width: var(--_reached-offset-start);
+  }
+
+  &[trigger="end"][event="reached"] {
+    width: var(--_reached-offset-end);
+  }
+
+  // Dropped Elements
+  &[trigger="top"][event="dropped"] {
+    height: var(--_dropped-offset-top);
+  }
+
+  &[trigger="bottom"][event="dropped"] {
+    height: var(--_dropped-offset-bottom);
+  }
+
+  &[trigger="start"][event="dropped"] {
+    width: var(--_dropped-offset-start);
+  }
+
+  &[trigger="end"][event="dropped"] {
+    width: var(--_dropped-offset-end);
+  }
+}

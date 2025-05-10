@@ -6,3 +6,6 @@ export * from './lib/async-detection';
 export * from './lib/sync-spacer';
 export * from './lib/utils/scrollbar-base';
 export * from './lib/scrollbar-anywhere';
+export * from './lib/scrollbar-document';
+export * from './lib/ng-scrollbar-directive';
+export * from './lib/viewport/viewport-adapter';

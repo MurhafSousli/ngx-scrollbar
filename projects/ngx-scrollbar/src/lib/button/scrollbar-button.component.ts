@@ -83,17 +83,17 @@ export class ScrollbarButton extends PointerEventsAdapter {
   constructor() {
     effect(() => {
       const scrollDirection: 'forward' | 'backward' = this.scrollDirection();
-      const dir: Direction = this.cmp.direction();
+      const dir: Direction = this.host.direction();
 
       untracked(() => {
-        // Get the canScroll function according to scroll direction (forward/backward)
+        // Get the canScroll function according to the scroll direction (forward/backward)
         this.canScroll = canScrollFunc[scrollDirection];
 
         if (this.control.axis === 'x') {
-          // Get the nextStep function according to scroll direction (forward/backward) and layout direction (LTR/RTL)
+          // Get the nextStep function according to the scroll direction (forward/backward) and layout direction (LTR/RTL)
           this.nextStep = horizontalScrollStepFunc[dir][scrollDirection];
         } else {
-          // Get the nextStep function according to scroll direction (forward/backward)
+          // Get the nextStep function according to the scroll direction (forward/backward)
           this.nextStep = scrollStepFunc[scrollDirection];
         }
       });

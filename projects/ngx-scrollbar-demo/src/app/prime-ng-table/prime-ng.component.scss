@@ -2,7 +2,6 @@
   --p-highlight-focus-background: var(--color-primary);
 
   ::ng-deep {
-
     .p-frozen-column, .p-datatable-frozen-tbody {
       font-weight: bold;
     }
@@ -34,29 +33,11 @@
         border: none;
       }
     }
-
-    .p-select {
-      width: 100%;
-      --p-select-color: #fff;
-      --p-select-dropdown-color: #fff;
-      --p-select-background: var(--surface-container-high);
-      --p-select-overlay-background: var(--surface-container-high);
-      --p-select-border-color: var(--surface-container-highest);
-      --p-select-hover-border-color: var(--color-primary);
-      --p-select-focus-border-color: var(--color-primary);
-      --p-select-option-selected-background: var(--color-accent);
-      --p-select-option-selected-focus-background: var(--color-accent);
-      --p-select-option-focus-background: rgba(236, 224, 218, .08);
-      --p-select-focus-ring-color: var(--color-primary);
-      --p-select-focus-ring-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--color-primary), transparent 80%);
-
-      ::ng-deep {
-        input {
-          font-size: 16px;
-        }
-      }
-    }
   }
+}
+
+.p-select {
+  width: 100%;
 }
 
 ng-scrollbar {
@@ -66,21 +47,6 @@ ng-scrollbar {
   --scrollbar-hover-thickness: 10;
   --scrollbar-offset: 6;
   --scrollbar-border-radius: 7px;
-
-  border-radius: 3px;
-  border: 2px solid rgb(0 0 0 / 5%);
-
-  ::ng-deep {
-    .p-scroller {
-      &::-webkit-scrollbar { /** Chrome, Safari, Edge */
-        display: none !important;
-      }
-    }
-
-    .ng-scroll-viewport {
-      border-radius: var(--card-viewport-border-radius);
-    }
-  }
 }
 
 .item {

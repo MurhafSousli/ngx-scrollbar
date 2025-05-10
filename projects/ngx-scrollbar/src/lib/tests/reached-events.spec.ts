@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, ViewChild } from '@angular/core';
 import { BidiModule } from '@angular/cdk/bidi';
 import { NgScrollbar, NgScrollbarModule } from 'ngx-scrollbar';
-import { NgScrollReached } from 'ngx-scrollbar/reached-event';
+import { NgScrollReachDrop } from 'ngx-scrollbar/reached-event';
 
 @Component({
   template: `
@@ -11,7 +11,6 @@ import { NgScrollReached } from 'ngx-scrollbar/reached-event';
                   (reachedBottom)="onScrollReached('bottom')"
                   (reachedStart)="onScrollReached('start')"
                   (reachedEnd)="onScrollReached('end')"
-                  [reachedOffset]="offset"
                   [reachedTopOffset]="topOffset"
                   [reachedBottomOffset]="bottomOffset"
                   [reachedStartOffset]="startOffset"
@@ -21,10 +20,9 @@ import { NgScrollReached } from 'ngx-scrollbar/reached-event';
       <div style="width: 300px; height: 300px"></div>
     </ng-scrollbar>
   `,
-  imports: [BidiModule, NgScrollbarModule, NgScrollReached]
+  imports: [BidiModule, NgScrollbarModule, NgScrollReachDrop]
 })
 class TestComponent {
-  offset: number;
   topOffset: number;
   bottomOffset: number;
   startOffset: number;
@@ -52,11 +50,10 @@ describe('Reached Events Directives', () => {
   });
 
   it('[ReachedOffset]: should emit (reachedTop) (reachedBottom) (reachedStart) (reachedEnd)', async () => {
-    component.offset = 10;
     fixture.detectChanges();
-    const scrollTo: number = component.offset - 1;
+    const scrollTo: number = 0;
 
-    await component.scrollbar.scrollTo({ top: 0, duration: 0 });
+    await component.scrollbar.scrollTo({ top: scrollTo, duration: 0 });
     await component.scrollbar.scrollTo({ bottom: scrollTo, duration: 50 });
     expect(onScrollReachedSpy).toHaveBeenCalledWith('bottom');
     await component.scrollbar.scrollTo({ top: scrollTo, duration: 50 });
@@ -70,9 +67,10 @@ describe('Reached Events Directives', () => {
   it('[ReachedTopEvent]: should emit (reachedTop)', async () => {
     component.topOffset = 10;
     fixture.detectChanges();
+    const scrollTo: number = component.topOffset - 1;
 
     await component.scrollbar.scrollTo({ bottom: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ top: 10, duration: 50 });
+    await component.scrollbar.scrollTo({ top: scrollTo, duration: 50 });
     expect(onScrollReachedSpy).toHaveBeenCalledWith('top');
   });
 
@@ -89,9 +87,10 @@ describe('Reached Events Directives', () => {
   it('[ReachedStartEvent]: should emit (reachedStart)', async () => {
     component.startOffset = 10;
     fixture.detectChanges();
+    const scrollTo: number = component.startOffset - 1;
 
     await component.scrollbar.scrollTo({ end: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ start: 10, duration: 50 });
+    await component.scrollbar.scrollTo({ start: scrollTo, duration: 50 });
     expect(onScrollReachedSpy).toHaveBeenCalledWith('start');
   });
 
