@@ -21,7 +21,7 @@ export class ScrollbarDocument {
       hostElement: viewport,
       environmentInjector: this.appRef.injector
     });
-    this.scrollbarRef.instance.actualContentElement = contentWrapper;
+    this.scrollbarRef.instance.contentWrapperElement = contentWrapper;
     this.appRef.attachView(this.scrollbarRef.hostView);
   }
 }

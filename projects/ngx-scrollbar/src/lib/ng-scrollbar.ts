@@ -39,8 +39,8 @@ import { Scrollbars } from './scrollbars/scrollbars';
   template: `
     <ng-scroll-content>
       <ng-content/>
-      <scrollbars/>
     </ng-scroll-content>
+    <scrollbars/>
   `,
   styleUrl: 'viewport/scroll-viewport.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
