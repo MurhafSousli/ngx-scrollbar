@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { SharedResizeObserver } from '@angular/cdk/observers/private';
 import { Subscription, map } from 'rxjs';
+import { ViewportAdapter } from './viewport';
 import { NgScrollbarExt } from './ng-scrollbar-ext';
 import { filterResizeEntries } from './ng-scrollbar.model';
 import { ElementDimension, getThrottledStream } from './utils/common';
@@ -27,6 +28,8 @@ export class SyncSpacer {
 
   private readonly scrollbar: NgScrollbarExt = inject(NgScrollbarExt, { self: true });
 
+  private readonly viewport: ViewportAdapter = inject(ViewportAdapter, { self: true });
+
   private readonly zone: NgZone = inject(NgZone);
 
   /**
@@ -38,8 +41,8 @@ export class SyncSpacer {
     let sub$: Subscription;
 
     effect((onCleanup: EffectCleanupRegisterFn) => {
-      const throttleDuration: number = this.scrollbar.sensorThrottleTime();
-      const disableSensor: boolean = this.scrollbar.disableSensor();
+      const throttleDuration: number = this.viewport.sensorThrottleTime();
+      const disableSensor: boolean = this.viewport.disableSensor();
 
       untracked(() => {
         const contentWrapperElement: HTMLElement = this.scrollbar.contentWrapperElement();

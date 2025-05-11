@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, tap } from 'rxjs';
-import { NgScrollbar } from 'ngx-scrollbar';
+import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
 import { AnchorLinkComponent } from '../anchor-link/anchor-link.component';
 import { ScrollContent } from '../scroll-content.directive';
 
@@ -28,7 +28,7 @@ export class OverviewContentComponent implements AfterViewInit, OnDestroy {
 
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
-  private scrollbar: NgScrollbar = inject(NgScrollbar, { skipSelf: true });
+  private scrollbar: ViewportAdapter = inject(ViewportAdapter, { skipSelf: true });
 
   scrollContent: ScrollContent = inject(ScrollContent, { skipSelf: true });
 

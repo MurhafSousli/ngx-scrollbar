@@ -56,7 +56,7 @@ describe('<ng-scrollbar externalViewport>', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
   let scrollbarCmp: NgScrollbarExt;
-  let viewportRef: ViewportAdapter;
+  let adapter: ViewportAdapter;
   let viewportComponent: ScrollViewport;
   let viewportElement: HTMLElement;
 
@@ -65,26 +65,25 @@ describe('<ng-scrollbar externalViewport>', () => {
     component = fixture.componentInstance;
     const scrollbarFixture: DebugElement = fixture.debugElement.query(By.directive(NgScrollbarExt));
     scrollbarCmp = scrollbarFixture.componentInstance;
+    adapter = scrollbarFixture.injector.get(ViewportAdapter);
   });
 
   function verifyElements(scrollbarHost: HTMLElement): void {
     const viewportFixture: DebugElement = fixture.debugElement.query(By.directive(ScrollViewport));
     viewportComponent = viewportFixture.componentInstance;
-    viewportRef = viewportFixture.injector.get(ViewportAdapter);
 
     expect(scrollbarCmp.skipInit).toBeFalse();
-    expect(viewportComponent.viewport).toBe(viewportRef);
 
-    expect(viewportRef.initialized()).toBeTrue();
+    expect(adapter.initialized()).toBeTrue();
     // Verify the viewport
-    expect(viewportRef.nativeElement).toBe(viewportElement);
+    expect(adapter.nativeElement).toBe(viewportElement);
     // Check if the scrollbars component is created
     expect(viewportComponent.scrollbarsRef).toBeDefined();
     const scrollbarsDebugElement: DebugElement = fixture.debugElement.query(By.directive(Scrollbars));
     // Verify if the created scrollbars component is the same component instance queried
     expect(viewportComponent.scrollbarsRef.instance).toBe(scrollbarsDebugElement.componentInstance);
     // Verify that the content wrapper here is the scrollbar host element
-    expect(viewportRef.contentWrapperElement).toBe(scrollbarHost);
+    expect(adapter.contentWrapperElement).toBe(scrollbarHost);
     // Check if the created scrollbars component is attached to the scrollbar host element
     expect(scrollbarsDebugElement.nativeElement.parentElement).toBe(viewportElement);
     // Verify that the content is a direct child of the content wrapper element
@@ -109,7 +108,7 @@ describe('<ng-scrollbar externalViewport>', () => {
     expect(scrollbarCmp.contentWrapperElement()).toBeNull();
     expect(scrollbarCmp.spacerElement()).toBeNull();
 
-    await firstValueFrom(outputToObservable(scrollbarCmp.afterInit));
+    await firstValueFrom(outputToObservable(adapter.afterInit));
 
     viewportElement = fixture.debugElement.query(By.css(scrollbarCmp.externalViewport()))?.nativeElement;
 
@@ -127,7 +126,7 @@ describe('<ng-scrollbar externalViewport>', () => {
     expect(scrollbarCmp.contentWrapperElement()).toBeDefined();
     expect(scrollbarCmp.spacerElement()).toBeNull();
 
-    await firstValueFrom(outputToObservable(scrollbarCmp.afterInit));
+    await firstValueFrom(outputToObservable(adapter.afterInit));
 
     viewportElement = fixture.debugElement.query(By.css(scrollbarCmp.externalViewport()))?.nativeElement;
     const contentWrapperElement: HTMLElement = fixture.debugElement.query(By.css(scrollbarCmp.externalContentWrapper()))?.nativeElement;
@@ -147,7 +146,7 @@ describe('<ng-scrollbar externalViewport>', () => {
     expect(scrollbarCmp.contentWrapperElement()).toBeDefined();
     expect(scrollbarCmp.spacerElement()).toBeDefined();
 
-    await firstValueFrom(outputToObservable(scrollbarCmp.afterInit));
+    await firstValueFrom(outputToObservable(adapter.afterInit));
 
     viewportElement = fixture.debugElement.query(By.css(scrollbarCmp.externalViewport()))?.nativeElement;
     const spacerElement: HTMLElement = fixture.debugElement.query(By.css(scrollbarCmp.externalSpacer()))?.nativeElement;

@@ -9,14 +9,14 @@ import {
   ElementRef,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { NG_SCROLLBAR, _NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
+import { ViewportAdapter } from 'ngx-scrollbar';
 import { Subject } from 'rxjs';
 import { ReachedEvent } from './reached.model';
 
 @Component({
   host: {
-    '[attr.isVerticallyScrollable]': 'host.isVerticallyScrollable()',
-    '[attr.isHorizontallyScrollable]': 'host.isHorizontallyScrollable()',
+    '[attr.isVerticallyScrollable]': 'viewport.isVerticallyScrollable()',
+    '[attr.isHorizontallyScrollable]': 'viewport.isHorizontallyScrollable()',
   },
   selector: 'scroll-reached',
   template: `
@@ -33,11 +33,9 @@ import { ReachedEvent } from './reached.model';
 })
 export class ReachDropObserver implements OnDestroy {
 
-  readonly host: _NgScrollbar = inject(NG_SCROLLBAR);
-
   private zone: NgZone = inject(NgZone);
 
-  private viewport: ViewportAdapter = inject(ViewportAdapter);
+  viewport: ViewportAdapter = inject(ViewportAdapter);
 
   /** The intersection observer reference */
   private intersectionObserver: IntersectionObserver;

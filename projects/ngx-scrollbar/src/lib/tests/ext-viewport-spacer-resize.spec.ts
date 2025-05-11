@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
-import { NgScrollbarExt, SyncSpacer } from 'ngx-scrollbar';
+import { NgScrollbarExt, SyncSpacer, ViewportAdapter } from 'ngx-scrollbar';
 import { afterTimeout } from './common-test.';
-import { ScrollViewport } from '../viewport';
 
 @Component({
   selector: 'sample-content',
@@ -34,24 +33,25 @@ describe('External viewport with [SyncSpacer]', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
   let scrollbarCmp: NgScrollbarExt;
-  let viewportCmp: ScrollViewport;
+  let adapter: ViewportAdapter;
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
-    scrollbarCmp = fixture.debugElement.query(By.directive(NgScrollbarExt)).componentInstance;
+    const scrollbarFixture: DebugElement = fixture.debugElement.query(By.directive(NgScrollbarExt));
+    scrollbarCmp = scrollbarFixture.componentInstance;
+    adapter = scrollbarFixture.injector.get(ViewportAdapter);
     fixture.detectChanges();
   });
 
   it('[SyncSpacer] should sync spacer dimension with content dimension',  fakeAsync( async () => {
-    await firstValueFrom(outputToObservable(scrollbarCmp.afterInit));
-    viewportCmp = fixture.debugElement.query(By.directive(ScrollViewport)).componentInstance;
+    await firstValueFrom(outputToObservable(adapter.afterInit));
 
     // Verify that only the vertical scrollbar is shown
-    expect(viewportCmp.verticalUsed()).toBeTrue();
-    expect(viewportCmp.isVerticallyScrollable()).toBeTrue();
-    expect(viewportCmp.horizontalUsed()).toBeFalse();
-    expect(viewportCmp.isHorizontallyScrollable()).toBeFalse();
+    expect(adapter.verticalUsed()).toBeTrue();
+    expect(adapter.isVerticallyScrollable()).toBeTrue();
+    expect(adapter.horizontalUsed()).toBeFalse();
+    expect(adapter.isHorizontallyScrollable()).toBeFalse();
 
     // Change the content size
     component.contentWidth = 200;
@@ -64,8 +64,8 @@ describe('External viewport with [SyncSpacer]', () => {
     // Wait for content wrapper resize observer to pick the change
     await afterTimeout(16);
 
-    expect(viewportCmp.horizontalUsed()).toBeTrue();
-    expect(viewportCmp.isHorizontallyScrollable()).toBeTrue();
+    expect(adapter.horizontalUsed()).toBeTrue();
+    expect(adapter.isHorizontallyScrollable()).toBeTrue();
     expect(scrollbarCmp.spacerElement().clientWidth).toBe(200);
 
     // Change the content size to trigger spacer resize event
@@ -81,8 +81,8 @@ describe('External viewport with [SyncSpacer]', () => {
     // Wait for content wrapper resize observer to pick the change
     await afterTimeout( 16);
 
-    expect(viewportCmp.horizontalUsed()).toBeFalse();
-    expect(viewportCmp.isHorizontallyScrollable()).toBeFalse();
+    expect(adapter.horizontalUsed()).toBeFalse();
+    expect(adapter.isHorizontallyScrollable()).toBeFalse();
     expect(scrollbarCmp.spacerElement().clientWidth).toBe(100);
   }));
 });

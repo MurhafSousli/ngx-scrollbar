@@ -2,7 +2,7 @@ import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Component, DebugElement, input, InputSignal } from '@angular/core';
 import { outputToObservable } from '@angular/core/rxjs-interop';
-import { NgScrollbarExt, NgScrollbarModule } from 'ngx-scrollbar';
+import { NgScrollbarExt, NgScrollbarModule, ViewportAdapter } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -53,12 +53,14 @@ describe('<ng-scrollbar externalViewport asyncDetection>', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
   let scrollbarCmp: NgScrollbarExt;
+  let adapter: ViewportAdapter;
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
     const scrollbarFixture: DebugElement = fixture.debugElement.query(By.directive(NgScrollbarExt));
     scrollbarCmp = scrollbarFixture.componentInstance;
+    adapter = scrollbarFixture.injector.get(ViewportAdapter);
   });
 
   it('[externalViewport] [externalContentWrapper]', async () => {
@@ -72,7 +74,7 @@ describe('<ng-scrollbar externalViewport asyncDetection>', () => {
     component.showLib = true;
     fixture.detectChanges();
     await fixture.whenStable();
-    await firstValueFrom(outputToObservable(scrollbarCmp.afterInit));
+    await firstValueFrom(outputToObservable(adapter.afterInit));
     expect(scrollbarCmp.viewportRef).toBeDefined();
   });
 
@@ -88,7 +90,7 @@ describe('<ng-scrollbar externalViewport asyncDetection>', () => {
     component.showLib = true;
     fixture.detectChanges();
     await fixture.whenStable();
-    await firstValueFrom(outputToObservable(scrollbarCmp.afterInit));
+    await firstValueFrom(outputToObservable(adapter.afterInit));
     expect(scrollbarCmp.viewportRef).toBeDefined();
   }));
 
@@ -104,7 +106,7 @@ describe('<ng-scrollbar externalViewport asyncDetection>', () => {
     component.showLib = true;
     fixture.detectChanges();
     await fixture.whenStable();
-    await firstValueFrom(outputToObservable(scrollbarCmp.afterInit));
+    await firstValueFrom(outputToObservable(adapter.afterInit));
     expect(scrollbarCmp.viewportRef).toBeDefined();
 
     // Mock library removes the content (such as dropdown)

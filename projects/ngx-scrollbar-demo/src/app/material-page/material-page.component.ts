@@ -4,6 +4,7 @@ import { ExampleMatSelectComponent } from '../example-mat-select/example-mat-sel
 import {
   ExampleNestedVirtualScrollComponent
 } from '../example-nested-virtual-scroll/example-nested-virtual-scroll.component';
+import { ExampleVirtualScrollExtComponent } from '../example-virtual-scroll-ext/example-virtual-scroll-ext.component';
 
 @Component({
   selector: 'app-material-page',
@@ -13,7 +14,8 @@ import {
   imports: [
     ExampleNestedVirtualScrollComponent,
     ExampleVirtualScrollComponent,
-    ExampleMatSelectComponent
+    ExampleMatSelectComponent,
+    ExampleVirtualScrollExtComponent
   ],
 })
 export class MaterialPageComponent {

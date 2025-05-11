@@ -1,12 +1,188 @@
-import { Injectable, signal, WritableSignal } from '@angular/core';
-import { ViewportClasses } from '../utils/common';
+import {
+  Directive,
+  inject,
+  signal,
+  output,
+  computed,
+  numberAttribute,
+  booleanAttribute,
+  input,
+  Signal,
+  InputSignal,
+  WritableSignal,
+  OutputEmitterRef,
+  InputSignalWithTransform
+} from '@angular/core';
+import { Platform } from '@angular/cdk/platform';
+import { Direction, Directionality } from '@angular/cdk/bidi';
+import { toSignal } from '@angular/core/rxjs-interop';
+import {
+  SmoothScrollElement,
+  SmoothScrollManager,
+  SmoothScrollToOptions,
+  SmoothScrollToElementOptions
+} from 'ngx-scrollbar/smooth-scroll';
+import {
+  NG_SCROLLBAR_OPTIONS,
+  ScrollbarPosition,
+  NgScrollbarOptions,
+  ScrollbarVisibility,
+  ScrollbarAppearance,
+  ScrollbarOrientation
+} from '../ng-scrollbar.model';
+import { ElementDimension, ScrollbarDragging, ViewportClasses } from '../utils/common';
 
+interface ViewportState {
+  verticalUsed: boolean,
+  horizontalUsed: boolean,
+  isVerticallyScrollable: boolean,
+  isHorizontallyScrollable: boolean,
+}
 /**
  * Class representing a viewport adapter.
  * Provides methods and properties to interact with a viewport and its content.
  */
-@Injectable()
+@Directive()
 export class ViewportAdapter {
+
+  /** Global options */
+  private readonly options: NgScrollbarOptions = inject(NG_SCROLLBAR_OPTIONS);
+
+  readonly smoothScroll: SmoothScrollManager = inject(SmoothScrollManager);
+
+  readonly dir: Directionality = inject(Directionality);
+
+  /**
+   * Indicates if the direction is 'ltr' or 'rtl'
+   */
+  direction: Signal<Direction> = toSignal<Direction, Direction>(this.dir.change, { initialValue: this.dir.value });
+
+  /**
+   * Indicates when scrollbar thumb is being dragged
+   */
+  dragging: WritableSignal<ScrollbarDragging> = signal('none');
+
+
+  /**
+   * Sets the supported scroll track of the viewport, there are 3 options:
+   *
+   * - `vertical` Use both vertical and horizontal scrollbar
+   * - `horizontal` Use both vertical and horizontal scrollbar
+   * - `auto` Use both vertical and horizontal scrollbar
+   */
+  orientation: InputSignal<ScrollbarOrientation> = input<ScrollbarOrientation>(this.options.orientation);
+
+  /**
+   * When to show the scrollbar, and there are 3 options:
+   *
+   * - `native` (default) Scrollbar will be visible when viewport is scrollable like with native scrollbar
+   * - `hover` Scrollbars are hidden by default, only visible on scrolling or hovering
+   * - `always` Scrollbars are always shown even if the viewport is not scrollable
+   */
+  visibility: InputSignal<ScrollbarVisibility> = input<ScrollbarVisibility>(this.options.visibility);
+
+  /** Show scrollbar buttons */
+  buttons: InputSignalWithTransform<boolean, string | boolean> = input<boolean, string | boolean>(this.options.buttons, {
+    transform: booleanAttribute
+  });
+
+  /** Disables scrollbar interaction like dragging thumb and jumping by track click */
+  disableInteraction: InputSignalWithTransform<boolean, string | boolean> = input<boolean, string | boolean>(this.options.disableInteraction, {
+    transform: booleanAttribute
+  });
+
+  /** Whether ResizeObserver is disabled */
+  disableSensor: InputSignalWithTransform<boolean, string | boolean> = input<boolean, string | boolean>(this.options.disableSensor, {
+    transform: booleanAttribute
+  });
+
+  /** Throttle interval for detecting changes via ResizeObserver */
+  sensorThrottleTime: InputSignalWithTransform<number, string | number> = input<number, string | number>(this.options.sensorThrottleTime, {
+    transform: numberAttribute
+  });
+
+  /** A flag used to activate hover effect on the offset area around the scrollbar */
+  hoverOffset: InputSignalWithTransform<boolean, string | boolean> = input<boolean, string | boolean>(this.options.hoverOffset, {
+    transform: booleanAttribute
+  });
+
+  /** Scroll duration when the scroll track is clicked */
+  trackScrollDuration: InputSignalWithTransform<number, string | number> = input<number, string | number>(this.options.trackScrollDuration, {
+    transform: numberAttribute
+  });
+
+  /**
+   *  Sets the appearance of the scrollbar, there are 2 options:
+   *
+   * - `native` (default) scrollbar space will be reserved just like with native scrollbar.
+   * - `compact` scrollbar doesn't reserve any space, they are placed over the viewport.
+   */
+  appearance: InputSignal<ScrollbarAppearance> = input<ScrollbarAppearance>(this.options.appearance);
+  /**
+   * Sets the position of each scrollbar, there are 4 options:
+   *
+   * - `native` (Default) Use the default position like in native scrollbar.
+   * - `invertY` Inverts vertical scrollbar position
+   * - `invertX` Inverts Horizontal scrollbar position
+   * - `invertAll` Inverts both scrollbar positions
+   */
+  position: InputSignal<ScrollbarPosition> = input<ScrollbarPosition>(this.options.position);
+
+  /** A class forwarded to the scrollbar track element */
+  trackClass: InputSignal<string> = input<string>(this.options.trackClass);
+  /** A class forwarded to the scrollbar thumb element */
+  thumbClass: InputSignal<string> = input<string>(this.options.thumbClass);
+  /** A class forwarded to the scrollbar button element */
+  buttonClass: InputSignal<string> = input<string>(this.options.thumbClass);
+
+  /** Steam that emits when scrollbar is initialized */
+  afterInit: OutputEmitterRef<void> = output<void>();
+
+  /** Steam that emits when scrollbar is updated */
+  afterUpdate: OutputEmitterRef<void> = output<void>();
+
+
+  private state: Signal<ViewportState> = computed(() => {
+    let verticalUsed: boolean = false;
+    let horizontalUsed: boolean = false;
+    let isVerticallyScrollable: boolean = false;
+    let isHorizontallyScrollable: boolean = false;
+
+    const orientation: ScrollbarOrientation = this.orientation();
+    const visibility: ScrollbarVisibility = this.visibility();
+
+    const viewportDimensions: ElementDimension = this.viewportDimension();
+    const contentDimensions: ElementDimension = this.contentDimension();
+
+    // Check if the vertical scrollbar should be displayed
+    if (orientation === 'auto' || orientation === 'vertical') {
+      isVerticallyScrollable = contentDimensions.height > viewportDimensions.height;
+      verticalUsed = visibility === 'visible' || isVerticallyScrollable;
+    }
+    // Check if the horizontal scrollbar should be displayed
+    if (orientation === 'auto' || orientation === 'horizontal') {
+      isHorizontallyScrollable = contentDimensions.width > viewportDimensions.width;
+      horizontalUsed = visibility === 'visible' || isHorizontallyScrollable;
+    }
+
+    return {
+      verticalUsed,
+      horizontalUsed,
+      isVerticallyScrollable,
+      isHorizontallyScrollable,
+    };
+  });
+
+  isVerticallyScrollable: Signal<boolean> = computed(() => this.state().isVerticallyScrollable);
+  isHorizontallyScrollable: Signal<boolean> = computed(() => this.state().isHorizontallyScrollable);
+  verticalUsed: Signal<boolean> = computed(() => this.state().verticalUsed);
+  horizontalUsed: Signal<boolean> = computed(() => this.state().horizontalUsed);
+
+  /** Viewport dimension */
+  viewportDimension: WritableSignal<ElementDimension> = signal<ElementDimension>({ width: 0, height: 0 });
+
+  /** Content dimension */
+  contentDimension: WritableSignal<ElementDimension> = signal<ElementDimension>({ width: 0, height: 0 });
 
   /**
    * Viewport native element
@@ -103,4 +279,20 @@ export class ViewportAdapter {
   scrollXTo(value: number): void {
     this.nativeElement.scrollLeft = value;
   }
+
+
+  /**
+   * Smooth scroll functions
+   */
+  scrollTo(options: SmoothScrollToOptions): Promise<void> {
+    return this.smoothScroll.scrollTo(this.nativeElement, options);
+  }
+
+  /**
+   * Scroll to an element by reference or selector
+   */
+  scrollToElement(target: SmoothScrollElement, options?: SmoothScrollToElementOptions): Promise<void> {
+    return this.smoothScroll.scrollToElement(this.nativeElement, target, options);
+  }
+
 }

@@ -2,11 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Directionality } from '@angular/cdk/bidi';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
-import { NgScrollbar } from 'ngx-scrollbar';
+import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
 import { setDimensions } from './common-test.';
 
 describe('Appearance [native / compact] styles', () => {
   let component: NgScrollbar;
+  let adapter: ViewportAdapter;
   let fixture: ComponentFixture<NgScrollbar>;
   const scrollbarSize: string = '13px';
 
@@ -28,6 +29,7 @@ describe('Appearance [native / compact] styles', () => {
     fixture = TestBed.createComponent(NgScrollbar);
     fixture.autoDetectChanges();
     component = fixture.componentInstance;
+    adapter = fixture.debugElement.injector.get(ViewportAdapter);
 
     component.nativeElement.style.setProperty('--scrollbar-thickness', '5');
     component.nativeElement.style.setProperty('--scrollbar-offset', '4');
@@ -52,7 +54,7 @@ describe('Appearance [native / compact] styles', () => {
   it('should have "padding-right" and "padding-bottom" when its scrollable in both directions', async () => {
     setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 500, contentWidth: 500 });
     fixture.componentRef.setInput('appearance', 'native');
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
 
     const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
     expect(styles.paddingRight).toBe(scrollbarSize);
@@ -64,7 +66,7 @@ describe('Appearance [native / compact] styles', () => {
   it('should have "padding-right" when its vertically scrollable', async () => {
     setDimensions(component, { cmpHeight: 300, contentHeight: 1000 });
     fixture.componentRef.setInput('appearance', 'native');
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
 
     const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
     expect(styles.paddingRight).toBe(scrollbarSize);
@@ -76,7 +78,7 @@ describe('Appearance [native / compact] styles', () => {
   it('should have "padding-bottom" when its horizontally scrollable', async () => {
     setDimensions(component, { cmpHeight: 100, contentHeight: 100, cmpWidth: 300, contentWidth: 1000 });
     fixture.componentRef.setInput('appearance', 'native');
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
 
     const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
     expect(styles.paddingBottom).toBe(scrollbarSize);
@@ -89,7 +91,7 @@ describe('Appearance [native / compact] styles', () => {
     setDimensions(component, { cmpHeight: 100, contentHeight: 100, cmpWidth: 300, contentWidth: 1000 });
     fixture.componentRef.setInput('position', 'invertX');
     fixture.componentRef.setInput('appearance', 'native');
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
 
     const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
     expect(styles.paddingTop).toBe(scrollbarSize);
@@ -102,7 +104,7 @@ describe('Appearance [native / compact] styles', () => {
     setDimensions(component, { cmpHeight: 300, contentHeight: 1000 });
     fixture.componentRef.setInput('position', 'invertY');
     fixture.componentRef.setInput('appearance', 'native');
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
 
     const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
     expect(styles.paddingLeft).toBe(scrollbarSize);
@@ -115,7 +117,7 @@ describe('Appearance [native / compact] styles', () => {
     setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 400, contentWidth: 400 });
     fixture.componentRef.setInput('position', 'invertAll');
     fixture.componentRef.setInput('appearance', 'native');
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
 
     const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
     expect(styles.paddingTop).toBe(scrollbarSize);
@@ -129,7 +131,7 @@ describe('Appearance [native / compact] styles', () => {
     directionalityMock.value = 'rtl';
     directionalityMock.change.next('rtl');
     fixture.componentRef.setInput('appearance', 'native');
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
 
     const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
     expect(styles.paddingLeft).toBe(scrollbarSize);
@@ -144,7 +146,7 @@ describe('Appearance [native / compact] styles', () => {
     directionalityMock.change.next('rtl');
     fixture.componentRef.setInput('appearance', 'native');
     fixture.componentRef.setInput('position', 'invertY');
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
 
     const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
     expect(styles.paddingRight).toBe(scrollbarSize);
@@ -159,7 +161,7 @@ describe('Appearance [native / compact] styles', () => {
     directionalityMock.change.next('rtl');
     fixture.componentRef.setInput('appearance', 'native');
     fixture.componentRef.setInput('position', 'invertAll');
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
 
     const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
     expect(styles.paddingRight).toBe(scrollbarSize);

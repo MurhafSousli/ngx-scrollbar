@@ -4,13 +4,14 @@ import { By } from '@angular/platform-browser';
 import { Directionality } from '@angular/cdk/bidi';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
-import { NgScrollbar } from 'ngx-scrollbar';
+import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
 import { ThumbAdapter } from '../thumb/thumb-adapter';
 import { ScrollbarManager } from '../utils/scrollbar-manager';
 import { setDimensions } from './common-test.';
 
 describe('Scrollbar thumb', () => {
   let component: NgScrollbar;
+  let adapter: ViewportAdapter;
   let fixture: ComponentFixture<NgScrollbar>;
 
   const directionalityMock = {
@@ -36,6 +37,7 @@ describe('Scrollbar thumb', () => {
     fixture = TestBed.createComponent(NgScrollbar);
     fixture.autoDetectChanges();
     component = fixture.componentInstance;
+    adapter = fixture.debugElement.injector.get(ViewportAdapter);
 
     fixture.componentRef.setInput('appearance', 'compact');
     component.nativeElement.style.setProperty('--scrollbar-offset', '0');
@@ -44,14 +46,14 @@ describe('Scrollbar thumb', () => {
 
   it('should set "isDragging" to true and scroll accordingly when vertical scrollbar thumb is being dragged', async () => {
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 100, contentHeight: 400 });
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
     const thumbY: Element = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-thumb')).nativeElement;
     thumbY.dispatchEvent(new PointerEvent('pointerdown'));
 
     // Verify dragging signal and attribute is set to 'Y'
-    expect(component.dragging()).toBe('y');
+    expect(adapter.dragging()).toBe('y');
     fixture.detectChanges();
     expect(component.nativeElement.getAttribute('dragging')).toBe('y');
 
@@ -64,7 +66,7 @@ describe('Scrollbar thumb', () => {
     expect(component.viewport.scrollTop).toBe(0);
 
     document.dispatchEvent(new PointerEvent('pointerup'));
-    expect(component.dragging()).toBe('none');
+    expect(adapter.dragging()).toBe('none');
     fixture.detectChanges();
     expect(component.nativeElement.getAttribute('dragging')).toBe('none');
   });
@@ -72,14 +74,14 @@ describe('Scrollbar thumb', () => {
 
   it('should set "isDragging" to true and scroll accordingly when horizontal scrollbar is being dragged', async () => {
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 400, contentHeight: 100 });
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
     const thumbX: Element = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-thumb')).nativeElement;
     thumbX.dispatchEvent(new PointerEvent('pointerdown'));
 
     // Verify dragging signal and attribute is set to 'X'
-    expect(component.dragging()).toBe('x');
+    expect(adapter.dragging()).toBe('x');
     fixture.detectChanges();
     expect(component.nativeElement.getAttribute('dragging')).toBe('x');
 
@@ -92,7 +94,7 @@ describe('Scrollbar thumb', () => {
     expect(component.viewport.scrollLeft).toBe(0);
 
     component.viewport.nativeElement.dispatchEvent(new PointerEvent('pointerup'));
-    expect(component.dragging()).toBe('none');
+    expect(adapter.dragging()).toBe('none');
     fixture.detectChanges();
     expect(component.nativeElement.getAttribute('dragging')).toBe('none');
   });
@@ -102,14 +104,14 @@ describe('Scrollbar thumb', () => {
     directionalityMock.change.next('rtl');
 
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 400, contentHeight: 100 });
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
     const thumbX: Element = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-thumb')).nativeElement;
     thumbX.dispatchEvent(new PointerEvent('pointerdown'));
 
     // Verify dragging signal and attribute is set to 'X'
-    expect(component.dragging()).toBe('x');
+    expect(adapter.dragging()).toBe('x');
     fixture.detectChanges();
     expect(component.nativeElement.getAttribute('dragging')).toBe('x');
 
@@ -122,7 +124,7 @@ describe('Scrollbar thumb', () => {
     expect(component.viewport.scrollLeft).toBe(0);
 
     component.viewport.nativeElement.dispatchEvent(new PointerEvent('pointerup'));
-    expect(component.dragging()).toBe('none');
+    expect(adapter.dragging()).toBe('none');
     fixture.detectChanges();
     expect(component.nativeElement.getAttribute('dragging')).toBe('none');
   });
@@ -130,7 +132,7 @@ describe('Scrollbar thumb', () => {
 
   it('should set the animation when polyfill script is loaded', async () => {
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 400, contentHeight: 100 });
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
     const thumbAdapter: ThumbAdapter = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-thumb')).injector.get(ThumbAdapter);

@@ -2,17 +2,19 @@ import { ComponentFixture, TestBed, } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { outputToObservable } from '@angular/core/rxjs-interop';
-import { NgScrollbar } from 'ngx-scrollbar';
+import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
 import { setDimensions } from './common-test.';
 
 describe('NgScrollbar Component', () => {
   let component: NgScrollbar;
+  let adapter: ViewportAdapter;
   let fixture: ComponentFixture<NgScrollbar>;
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NgScrollbar);
     component = fixture.componentInstance;
+    adapter = fixture.debugElement.injector.get(ViewportAdapter);
     fixture.detectChanges();
   });
 
@@ -26,8 +28,8 @@ describe('NgScrollbar Component', () => {
   });
 
   it('should emit afterUpdate after update function is called', async () => {
-    const afterUpdateEmitSpy: jasmine.Spy = spyOn(component.afterUpdate, 'emit');
-    component.update();
+    const afterUpdateEmitSpy: jasmine.Spy = spyOn(adapter.afterUpdate, 'emit');
+    component.update()
     expect(afterUpdateEmitSpy).toHaveBeenCalled();
   });
 
@@ -36,12 +38,12 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('visibility', 'native');
     setDimensions(component, { cmpHeight: 300, contentHeight: 1000 });
 
-    await firstValueFrom(outputToObservable(component.afterInit));
+    await firstValueFrom(outputToObservable(adapter.afterInit));
 
-    expect(component.verticalUsed()).toBeTrue();
-    expect(component.isVerticallyScrollable()).toBeTrue();
-    expect(component.horizontalUsed()).toBeFalse();
-    expect(component.isHorizontallyScrollable()).toBeFalse();
+    expect(adapter.verticalUsed()).toBeTrue();
+    expect(adapter.isVerticallyScrollable()).toBeTrue();
+    expect(adapter.horizontalUsed()).toBeFalse();
+    expect(adapter.isHorizontallyScrollable()).toBeFalse();
   });
 
   it('should show vertical scrollbar if visibility="visible" even if viewport is not scrollable', async () => {
@@ -49,12 +51,12 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('visibility', 'visible');
     setDimensions(component, { cmpHeight: 1000, contentHeight: 300 });
 
-    await firstValueFrom(outputToObservable(component.afterInit));
+    await firstValueFrom(outputToObservable(adapter.afterInit));
 
-    expect(component.verticalUsed()).toBeTrue();
-    expect(component.isVerticallyScrollable()).toBeFalse();
-    expect(component.horizontalUsed()).toBeFalse();
-    expect(component.isHorizontallyScrollable()).toBeFalse();
+    expect(adapter.verticalUsed()).toBeTrue();
+    expect(adapter.isVerticallyScrollable()).toBeFalse();
+    expect(adapter.horizontalUsed()).toBeFalse();
+    expect(adapter.isHorizontallyScrollable()).toBeFalse();
   });
 
   it('should not show vertical scrollbar when viewport is not scrollable', () => {
@@ -62,10 +64,10 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('visibility', 'native');
     setDimensions(component, { cmpWidth: 1000, cmpHeight: 1000, contentHeight: 300 });
 
-    expect(component.verticalUsed()).toBeFalse();
-    expect(component.isVerticallyScrollable()).toBeFalse();
-    expect(component.horizontalUsed()).toBeFalse();
-    expect(component.isHorizontallyScrollable()).toBeFalse();
+    expect(adapter.verticalUsed()).toBeFalse();
+    expect(adapter.isVerticallyScrollable()).toBeFalse();
+    expect(adapter.horizontalUsed()).toBeFalse();
+    expect(adapter.isHorizontallyScrollable()).toBeFalse();
   });
 
   it('should show horizontal scrollbar if viewport is horizontally scrollable', async () => {
@@ -73,12 +75,12 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('visibility', 'native');
     setDimensions(component, { cmpWidth: 300, contentHeight: 300, contentWidth: 1000 });
 
-    await firstValueFrom(outputToObservable(component.afterInit));
+    await firstValueFrom(outputToObservable(adapter.afterInit));
 
-    expect(component.horizontalUsed()).toBeTrue();
-    expect(component.isHorizontallyScrollable()).toBeTrue();
-    expect(component.verticalUsed()).toBeFalse();
-    expect(component.isVerticallyScrollable()).toBeFalse();
+    expect(adapter.horizontalUsed()).toBeTrue();
+    expect(adapter.isHorizontallyScrollable()).toBeTrue();
+    expect(adapter.verticalUsed()).toBeFalse();
+    expect(adapter.isVerticallyScrollable()).toBeFalse();
   });
 
 
@@ -87,12 +89,12 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('visibility', 'visible');
     setDimensions(component, { cmpWidth: 1000, contentHeight: 300, contentWidth: 300 });
 
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
 
-    expect(component.horizontalUsed()).toBeTrue();
-    expect(component.isHorizontallyScrollable()).toBeFalse();
-    expect(component.verticalUsed()).toBeFalse();
-    expect(component.isVerticallyScrollable()).toBeFalse();
+    expect(adapter.horizontalUsed()).toBeTrue();
+    expect(adapter.isHorizontallyScrollable()).toBeFalse();
+    expect(adapter.verticalUsed()).toBeFalse();
+    expect(adapter.isVerticallyScrollable()).toBeFalse();
   });
 
   it('should not show horizontal scrollbar if viewport is not scrollable', () => {
@@ -100,10 +102,10 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('visibility', 'native');
     setDimensions(component, { cmpWidth: 1000, contentHeight: 300, contentWidth: 300 });
 
-    expect(component.horizontalUsed()).toBeFalse();
-    expect(component.isHorizontallyScrollable()).toBeFalse();
-    expect(component.verticalUsed()).toBeFalse();
-    expect(component.isVerticallyScrollable()).toBeFalse();
+    expect(adapter.horizontalUsed()).toBeFalse();
+    expect(adapter.isHorizontallyScrollable()).toBeFalse();
+    expect(adapter.verticalUsed()).toBeFalse();
+    expect(adapter.isVerticallyScrollable()).toBeFalse();
   });
 
   it('should show all scrollbars if visibility="visible"', async () => {
@@ -111,12 +113,12 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('visibility', 'visible');
     setDimensions(component, { cmpWidth: 1000, cmpHeight: 1000, contentHeight: 300, contentWidth: 300 });
 
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
 
-    expect(component.horizontalUsed()).toBeTrue();
-    expect(component.isHorizontallyScrollable()).toBeFalse();
-    expect(component.verticalUsed()).toBeTrue();
-    expect(component.isVerticallyScrollable()).toBeFalse();
+    expect(adapter.horizontalUsed()).toBeTrue();
+    expect(adapter.isHorizontallyScrollable()).toBeFalse();
+    expect(adapter.verticalUsed()).toBeTrue();
+    expect(adapter.isVerticallyScrollable()).toBeFalse();
   });
 
   it('should show all scrollbars if viewport is vertically and horizontally scrollable', async () => {
@@ -124,12 +126,12 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('visibility', 'visible');
     setDimensions(component, { cmpWidth: 200, cmpHeight: 200, contentHeight: 300, contentWidth: 300 });
 
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
 
-    expect(component.horizontalUsed()).toBeTrue();
-    expect(component.isHorizontallyScrollable()).toBeTrue();
-    expect(component.verticalUsed()).toBeTrue();
-    expect(component.isVerticallyScrollable()).toBeTrue();
+    expect(adapter.horizontalUsed()).toBeTrue();
+    expect(adapter.isHorizontallyScrollable()).toBeTrue();
+    expect(adapter.verticalUsed()).toBeTrue();
+    expect(adapter.isVerticallyScrollable()).toBeTrue();
   });
 
   it('[Auto-height]: component height and width should match content size by default', () => {
@@ -140,20 +142,20 @@ describe('NgScrollbar Component', () => {
     const scrollbarX: DebugElement = fixture.debugElement.query(By.css('scrollbar-x'));
 
     expect(scrollbarY).toBeFalsy();
-    expect(component.verticalUsed()).toBeFalsy();
+    expect(adapter.verticalUsed()).toBeFalsy();
     expect(scrollbarX).toBeFalsy();
-    expect(component.horizontalUsed()).toBeFalsy();
+    expect(adapter.horizontalUsed()).toBeFalsy();
     expect(getComputedStyle(component.nativeElement).height).toBe('300px');
   });
 
   it('should forward scrollToElement function call to SmoothScrollManager service', async () => {
     setDimensions(component, { contentHeight: 300, contentWidth: 300 });
 
-    const smoothScrollSpy: jasmine.Spy = spyOn(component.smoothScroll, 'scrollToElement');
+    const smoothScrollSpy: jasmine.Spy = spyOn(adapter.smoothScroll, 'scrollToElement');
 
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
 
-    component.scrollToElement('.fake-child-element', { top: 100, duration: 500 })
+    adapter.scrollToElement('.fake-child-element', { top: 100, duration: 500 })
 
     expect(smoothScrollSpy).toHaveBeenCalledOnceWith(component.viewport.nativeElement, '.fake-child-element', {
       top: 100,

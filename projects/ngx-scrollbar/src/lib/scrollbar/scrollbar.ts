@@ -52,11 +52,11 @@ export class ScrollbarY extends ScrollbarAdapter {
   readonly axis: 'x' | 'y' = 'y';
 
   get viewportScrollMax(): number {
-    return this.cmp.viewport.scrollMaxY;
+    return this.cmp.scrollMaxY;
   }
 
   get viewportScrollOffset(): number {
-    return this.cmp.viewport.scrollTop;
+    return this.cmp.scrollTop;
   }
 
   scrollTo(top: number, duration: number): Observable<void> {
@@ -64,7 +64,7 @@ export class ScrollbarY extends ScrollbarAdapter {
   }
 
   instantScrollTo(value: number): void {
-    this.cmp.viewport.scrollYTo(value);
+    this.cmp.scrollYTo(value);
   }
 }
 
@@ -120,12 +120,12 @@ export class ScrollbarX extends ScrollbarAdapter {
   private handlePosition: (value: number, scrollMax: number) => number;
 
   get viewportScrollMax(): number {
-    return this.cmp.viewport.scrollMaxX;
+    return this.cmp.scrollMaxX;
   }
 
   get viewportScrollOffset(): number {
     // Keep scrollLeft value positive for horizontal scrollbar
-    return Math.abs(this.cmp.viewport.scrollLeft);
+    return Math.abs(this.cmp.scrollLeft);
   }
 
   constructor() {
@@ -144,6 +144,6 @@ export class ScrollbarX extends ScrollbarAdapter {
   }
 
   instantScrollTo(value: number, scrollMax?: number): void {
-    this.cmp.viewport.scrollXTo(this.handlePosition(value, scrollMax));
+    this.cmp.scrollXTo(this.handlePosition(value, scrollMax));
   }
 }

@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, ViewChild } from '@angular/core';
+import { By } from '@angular/platform-browser';
+import { Component } from '@angular/core';
 import { BidiModule } from '@angular/cdk/bidi';
-import { NgScrollbar, NgScrollbarModule } from 'ngx-scrollbar';
+import { NgScrollbar, NgScrollbarModule, ViewportAdapter } from 'ngx-scrollbar';
 import { NgScrollReachDrop } from 'ngx-scrollbar/reached-event';
 
 @Component({
@@ -30,8 +31,6 @@ class TestComponent {
   isRtl: boolean = false;
   disabled: boolean = false;
 
-  @ViewChild(NgScrollbar, { static: true }) scrollbar: NgScrollbar;
-
   onScrollDropped(value: string): void {
     console.log(value);
   }
@@ -40,11 +39,13 @@ class TestComponent {
 describe('Dropped Events Directives', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
+  let adapter: ViewportAdapter;
   let onScrollDroppedSpy: jasmine.Spy;
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
+    adapter = fixture.debugElement.query(By.directive(NgScrollbar)).injector.get(ViewportAdapter);
     fixture.detectChanges();
     onScrollDroppedSpy = spyOn(component, 'onScrollDropped');
   });
@@ -52,17 +53,17 @@ describe('Dropped Events Directives', () => {
   it('[DroppedOffset]: should emit (droppedTop) (droppedBottom) (droppedStart) (droppedEnd)', async () => {
     fixture.detectChanges();
 
-    await component.scrollbar.scrollTo({ top: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ top: 11, duration: 50 });
+    await adapter.scrollTo({ top: 0, duration: 0 });
+    await adapter.scrollTo({ top: 11, duration: 50 });
     expect(onScrollDroppedSpy).toHaveBeenCalledWith('top');
-    await component.scrollbar.scrollTo({ bottom: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ bottom: 11, duration: 50 });
+    await adapter.scrollTo({ bottom: 0, duration: 0 });
+    await adapter.scrollTo({ bottom: 11, duration: 50 });
     expect(onScrollDroppedSpy).toHaveBeenCalledWith('bottom');
-    await component.scrollbar.scrollTo({ end: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ end: 11, duration: 50 });
+    await adapter.scrollTo({ end: 0, duration: 0 });
+    await adapter.scrollTo({ end: 11, duration: 50 });
     expect(onScrollDroppedSpy).toHaveBeenCalledWith('end');
-    await component.scrollbar.scrollTo({ start: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ start: 11, duration: 50 });
+    await adapter.scrollTo({ start: 0, duration: 0 });
+    await adapter.scrollTo({ start: 11, duration: 50 });
     expect(onScrollDroppedSpy).toHaveBeenCalledWith('start');
   });
 
@@ -70,8 +71,8 @@ describe('Dropped Events Directives', () => {
     component.topOffset = 10;
     fixture.detectChanges();
 
-    await component.scrollbar.scrollTo({ top: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ top: 11, duration: 50 });
+    await adapter.scrollTo({ top: 0, duration: 0 });
+    await adapter.scrollTo({ top: 11, duration: 50 });
     expect(onScrollDroppedSpy).toHaveBeenCalledWith('top');
   });
 
@@ -79,8 +80,8 @@ describe('Dropped Events Directives', () => {
     component.bottomOffset = 10;
     fixture.detectChanges();
 
-    await component.scrollbar.scrollTo({ bottom: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ bottom: 11, duration: 50 });
+    await adapter.scrollTo({ bottom: 0, duration: 0 });
+    await adapter.scrollTo({ bottom: 11, duration: 50 });
     expect(onScrollDroppedSpy).toHaveBeenCalledWith('bottom');
   });
 
@@ -88,8 +89,8 @@ describe('Dropped Events Directives', () => {
     component.startOffset = 10;
     fixture.detectChanges();
 
-    await component.scrollbar.scrollTo({ start: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ start: 11, duration: 50 });
+    await adapter.scrollTo({ start: 0, duration: 0 });
+    await adapter.scrollTo({ start: 11, duration: 50 });
     expect(onScrollDroppedSpy).toHaveBeenCalledWith('start');
   });
 
@@ -97,8 +98,8 @@ describe('Dropped Events Directives', () => {
     component.endOffset = 10;
     fixture.detectChanges();
 
-    await component.scrollbar.scrollTo({ end: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ end: 11, duration: 50 });
+    await adapter.scrollTo({ end: 0, duration: 0 });
+    await adapter.scrollTo({ end: 11, duration: 50 });
     expect(onScrollDroppedSpy).toHaveBeenCalledWith('end');
   });
 
@@ -107,8 +108,8 @@ describe('Dropped Events Directives', () => {
     component.isRtl = true;
     fixture.detectChanges();
 
-    await component.scrollbar.scrollTo({ start: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ start: 11, duration: 50 });
+    await adapter.scrollTo({ start: 0, duration: 0 });
+    await adapter.scrollTo({ start: 11, duration: 50 });
     expect(onScrollDroppedSpy).toHaveBeenCalledWith('start');
   });
 
@@ -117,8 +118,8 @@ describe('Dropped Events Directives', () => {
     component.isRtl = true;
     fixture.detectChanges();
 
-    await component.scrollbar.scrollTo({ end: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ end: 11, duration: 50 });
+    await adapter.scrollTo({ end: 0, duration: 0 });
+    await adapter.scrollTo({ end: 11, duration: 50 });
     expect(onScrollDroppedSpy).toHaveBeenCalledWith('end');
   });
 
@@ -126,8 +127,8 @@ describe('Dropped Events Directives', () => {
   it('[reachDisabled]: should not emit when scroll is dropped destination', async () => {
     component.disabled = true;
     fixture.detectChanges();
-    await component.scrollbar.scrollTo({ bottom: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ bottom: 11, duration: 50 });
+    await adapter.scrollTo({ bottom: 0, duration: 0 });
+    await adapter.scrollTo({ bottom: 11, duration: 50 });
     expect(onScrollDroppedSpy).not.toHaveBeenCalledWith('bottom');
   });
 });

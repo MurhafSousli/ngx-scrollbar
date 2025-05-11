@@ -10,28 +10,11 @@ import {
 } from '@angular/core';
 import { ViewportAdapter, ScrollContent } from './viewport';
 import { NgScrollbarCore } from './ng-scrollbar-core';
-import { NG_SCROLLBAR } from './utils/scrollbar-base';
 import { Scrollbars } from './scrollbars/scrollbars';
 
 @Component({
   host: {
-    '[class.ng-scrollbar]': 'true',
-    // '[attr.verticalUsed]': 'verticalUsed()',
-    // '[attr.horizontalUsed]': 'horizontalUsed()',
-    // '[attr.isVerticallyScrollable]': 'isVerticallyScrollable()',
-    // '[attr.isHorizontallyScrollable]': 'isHorizontallyScrollable()',
-    // '[attr.mobile]': 'isMobile',
-    // '[attr.dir]': 'direction()',
-    // '[attr.position]': 'position()',
-    // '[attr.dragging]': 'dragging()',
-    // '[attr.appearance]': 'appearance()',
-    // '[attr.visibility]': 'visibility()',
-    // '[attr.orientation]': 'orientation()',
-    // '[attr.disableInteraction]': 'disableInteraction()',
-    // '[style.--content-height]': 'contentDimension().height',
-    // '[style.--content-width]': 'contentDimension().width',
-    // '[style.--viewport-height]': 'viewportDimension().height',
-    // '[style.--viewport-width]': 'viewportDimension().width'
+    '[class.ng-scrollbar]': 'true'
   },
   selector: 'ng-scrollbar:not([externalViewport])',
   exportAs: 'ngScrollbar',
@@ -44,10 +27,25 @@ import { Scrollbars } from './scrollbars/scrollbars';
   `,
   styleUrl: 'viewport/scroll-viewport.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    { provide: NG_SCROLLBAR, useExisting: NgScrollbar },
-    ViewportAdapter
-  ]
+  hostDirectives: [{
+    directive: ViewportAdapter ,
+    inputs: [
+      'position',
+      'buttons',
+      'appearance',
+      'thumbClass',
+      'trackClass',
+      'buttonClass',
+      'visibility',
+      'hoverOffset',
+      'orientation',
+      'disableSensor',
+      'sensorThrottleTime',
+      'disableInteraction',
+      'trackScrollDuration'
+    ],
+    outputs: ['afterInit', 'afterUpdate']
+  }]
 })
 export class NgScrollbar extends NgScrollbarCore {
 
