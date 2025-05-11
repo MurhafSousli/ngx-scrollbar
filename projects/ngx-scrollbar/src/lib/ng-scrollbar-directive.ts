@@ -247,7 +247,7 @@ export class NgScrollbarExtDirective implements OnDestroy {
         ]
       })
     });
-    this.viewportRef.instance.actualContentElement = contentWrapperElement;
+    this.viewportRef.instance.contentWrapperElement = contentWrapperElement;
     this.viewportRef.instance.spacerElement = spacerElement;
     this.appRef.attachView(this.viewportRef.hostView);
   }

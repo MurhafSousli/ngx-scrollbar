@@ -86,14 +86,14 @@ describe('<ng-scrollbar externalViewport>', () => {
     // Verify that the content wrapper here is the scrollbar host element
     expect(viewportRef.contentWrapperElement).toBe(scrollbarHost);
     // Check if the created scrollbars component is attached to the scrollbar host element
-    expect(scrollbarsDebugElement.nativeElement.parentElement).toBe(scrollbarHost);
+    expect(scrollbarsDebugElement.nativeElement.parentElement).toBe(viewportElement);
     // Verify that the content is a direct child of the content wrapper element
     const contentSample: DebugElement = fixture.debugElement.query(By.css('.content-sample'));
-    expect(viewportComponent.actualContentElement).toBe(contentSample.nativeElement.parentElement);
+    expect(viewportComponent.contentWrapperElement).toBe(contentSample.nativeElement.parentElement);
   }
 
   function verifyDestroyed(): void {
-    const contentDestroySpy: jasmine.Spy = spyOn(viewportComponent.actualContentRef.hostView, 'destroy');
+    const contentDestroySpy: jasmine.Spy = spyOn(viewportComponent.contentWrapperRef.hostView, 'destroy');
     const scrollbarsDestroySpy: jasmine.Spy = spyOn(viewportComponent.scrollbarsRef.hostView, 'destroy');
     fixture.destroy();
     expect(contentDestroySpy).toHaveBeenCalled();

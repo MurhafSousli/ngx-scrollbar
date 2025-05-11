@@ -1,10 +1,10 @@
 :host {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   pointer-events: none;
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  width: calc(var(--content-width) * 1px);
+  height: calc(var(--content-height) * 1px);
   min-width: calc(var(--viewport-width) * 1px);
   min-height: calc(var(--viewport-height) * 1px);
 }

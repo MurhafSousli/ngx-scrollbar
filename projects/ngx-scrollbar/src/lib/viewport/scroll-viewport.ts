@@ -36,21 +36,14 @@ export class ScrollViewport extends NgScrollbarCore implements OnDestroy {
 
   private readonly injector: Injector = inject(Injector);
 
-  /**
-   * The element used to measure the content size and observe its changes.
-   * It can be either the actual content wrapper or the spacer in case of virtual scroll.
-   * TODO: rename to content size measurement or something relevant.
-   */
-  contentWrapperElement: HTMLElement | undefined;
-
   scrollbarsRef: ComponentRef<Scrollbars> | undefined;
 
-  actualContentRef: ComponentRef<ScrollContent> | undefined;
+  contentWrapperRef: ComponentRef<ScrollContent> | undefined;
 
   /**
    * The element that wraps the content inside the viewport.
    */
-  actualContentElement: HTMLElement | undefined;
+  contentWrapperElement: HTMLElement | undefined;
 
   /**
    * The spacer element used by virtual scroll component.
@@ -61,23 +54,15 @@ export class ScrollViewport extends NgScrollbarCore implements OnDestroy {
     afterNextRender({
       write: () => {
         // Create scroll content
-        this.createContentWrapper(this.actualContentElement);
-
-        // When integrating the scrollbar with virtual scroll, the content wrapper will have fake size,
-        // and a spacer element will have the real size
-        // Therefore, if spaceElement is provided, it will be observed instead of the content wrapper
+        this.createContentWrapper(this.contentWrapperElement);
+        // Attach scrollbars
+        this.attachScrollbars(this.nativeElement);
+        // Initialize viewport
+        this.viewport.init(this.nativeElement, this.contentWrapperElement, this.spacerElement);
+        // If spaceElement is provided, add the appropriate class
         if (this.spacerElement) {
           this.spacerElement.classList.add(ViewportClasses.Spacer);
-          this.contentWrapperElement = this.spacerElement;
-        } else {
-          // If spacer is not provided, set it as the content wrapper
-          this.contentWrapperElement = this.actualContentElement;
         }
-        // Attach scrollbars
-        this.attachScrollbars(this.contentWrapperElement);
-
-        // Initialize viewport
-        this.viewport.init(this.nativeElement, this.actualContentRef.location.nativeElement, this.spacerElement);
       }
     });
     super();
@@ -92,32 +77,32 @@ export class ScrollViewport extends NgScrollbarCore implements OnDestroy {
       this.scrollbarsRef = null;
     }
 
-    if (this.actualContentRef) {
-      this.appRef.detachView(this.actualContentRef.hostView);
-      this.actualContentRef.destroy();
-      this.actualContentRef = null;
+    if (this.contentWrapperRef) {
+      this.appRef.detachView(this.contentWrapperRef.hostView);
+      this.contentWrapperRef.destroy();
+      this.contentWrapperRef = null;
     }
   }
 
   createContentWrapper(hostElement: HTMLElement): void {
     if (hostElement) {
       // Attach a content wrapper component to a given host element
-      this.actualContentRef = createComponent(ScrollContent, {
+      this.contentWrapperRef = createComponent(ScrollContent, {
         hostElement,
         elementInjector: this.injector,
         environmentInjector: this.appRef.injector,
         projectableNodes: [Array.from(hostElement.childNodes)]
       });
     } else {
-      this.actualContentRef = createComponent(ScrollContent, {
+      this.contentWrapperRef = createComponent(ScrollContent, {
         elementInjector: this.injector,
         environmentInjector: this.appRef.injector,
         projectableNodes: [Array.from(this.nativeElement.childNodes)]
       });
-      this.actualContentElement = this.actualContentRef.location.nativeElement;
-      this.renderer.appendChild(this.nativeElement, this.actualContentElement);
+      this.contentWrapperElement = this.contentWrapperRef.location.nativeElement;
+      this.renderer.appendChild(this.nativeElement, this.contentWrapperElement);
     }
-    this.appRef.attachView(this.actualContentRef.hostView);
+    this.appRef.attachView(this.contentWrapperRef.hostView);
   }
 
   attachScrollbars(hostElement: HTMLElement): void {

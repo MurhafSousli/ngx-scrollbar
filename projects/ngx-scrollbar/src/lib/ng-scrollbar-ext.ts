@@ -168,7 +168,7 @@ export class NgScrollbarExt extends Core implements OnDestroy {
       })
     });
 
-    this.viewportRef.instance.actualContentElement = contentWrapperElement;
+    this.viewportRef.instance.contentWrapperElement = contentWrapperElement;
     this.viewportRef.instance.spacerElement = spacerElement;
     this.viewportRef.instance.afterInit.subscribe(() => this.afterInit.emit());
     this.viewportRef.instance.afterUpdate.subscribe(() => this.afterUpdate.emit());
