@@ -1,6 +1,6 @@
 import { Directive, inject, signal, WritableSignal, InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
-import { NG_SCROLLBAR, _NgScrollbar } from '../utils/scrollbar-base';
+import { ViewportAdapter } from '../viewport/viewport-adapter';
 
 export const SCROLLBAR_CONTROL: InjectionToken<ScrollbarAdapter> = new InjectionToken<ScrollbarAdapter>('SCROLLBAR_CONTROL');
 
@@ -31,7 +31,7 @@ export abstract class ScrollbarAdapter {
   abstract get viewportScrollOffset(): number;
 
   // Host component reference
-  readonly cmp: _NgScrollbar = inject(NG_SCROLLBAR);
+  readonly cmp: ViewportAdapter = inject(ViewportAdapter);
 
   abstract scrollTo(value: number, duration: number): Observable<void>;
 

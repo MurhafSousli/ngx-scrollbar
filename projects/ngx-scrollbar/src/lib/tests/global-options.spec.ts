@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgScrollbar, provideScrollbarOptions } from 'ngx-scrollbar';
+import { NgScrollbar, provideScrollbarOptions, ViewportAdapter } from 'ngx-scrollbar';
 
 describe('Global options', () => {
   let component: NgScrollbar;
+  let adapter: ViewportAdapter;
   let fixture: ComponentFixture<NgScrollbar>;
 
   beforeEach(() => {
@@ -17,11 +18,12 @@ describe('Global options', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(NgScrollbar);
     component = fixture.componentInstance;
+    adapter = fixture.debugElement.injector.get(ViewportAdapter);
   });
 
   it('should override default options', () => {
-    expect(component.appearance()).toBe('compact');
-    expect(component.visibility()).toBe('visible');
-    expect(component.disableInteraction()).toBe(true);
+    expect(adapter.appearance()).toBe('compact');
+    expect(adapter.visibility()).toBe('visible');
+    expect(adapter.disableInteraction()).toBe(true);
   });
 });

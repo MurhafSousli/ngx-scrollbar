@@ -32,7 +32,7 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
 
   // Returns viewport client size
   protected get viewportSize(): number {
-    return this.host.viewport[this.control.sizeProperty];
+    return this.host[this.control.sizeProperty];
   }
 
   // Get track client rect

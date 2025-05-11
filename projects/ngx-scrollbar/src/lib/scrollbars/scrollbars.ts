@@ -1,6 +1,6 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { ScrollbarX, ScrollbarY } from '../scrollbar/scrollbar';
-import { NG_SCROLLBAR, _NgScrollbar } from '../utils/scrollbar-base';
+import { ViewportAdapter } from '../viewport/viewport-adapter';
 
 @Component({
   selector: 'scrollbars',
@@ -22,5 +22,5 @@ import { NG_SCROLLBAR, _NgScrollbar } from '../utils/scrollbar-base';
   `]
 })
 export class Scrollbars {
-  cmp: _NgScrollbar = inject(NG_SCROLLBAR);
+  cmp: ViewportAdapter = inject(ViewportAdapter);
 }

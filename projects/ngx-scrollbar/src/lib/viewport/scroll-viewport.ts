@@ -13,7 +13,6 @@ import {
 import { ScrollContent } from './scroll-content';
 import { Scrollbars } from '../scrollbars/scrollbars';
 import { ViewportClasses } from '../utils/common';
-import { NG_SCROLLBAR } from '../utils/scrollbar-base';
 import { NgScrollbarCore } from '../ng-scrollbar-core';
 
 @Component({
@@ -23,10 +22,7 @@ import { NgScrollbarCore } from '../ng-scrollbar-core';
   selector: 'ng-scroll-viewport',
   template: '<ng-content/>',
   styleUrl: 'scroll-viewport.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    { provide: NG_SCROLLBAR, useExisting: ScrollViewport },
-  ]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScrollViewport extends NgScrollbarCore implements OnDestroy {
 

@@ -9,7 +9,7 @@ import { TrackAdapter } from './track-adapter';
 export class TrackXDirective extends TrackAdapter {
 
   protected get contentSize(): number {
-    return this.host.viewport.contentWidth;
+    return this.host.contentWidth;
   }
 
   getCurrPosition: () => number;
@@ -58,7 +58,7 @@ export class TrackXDirective extends TrackAdapter {
 export class TrackYDirective extends TrackAdapter {
 
   protected get contentSize(): number {
-    return this.host.viewport.contentHeight;
+    return this.host.contentHeight;
   }
 
   protected getCurrPosition(): number {

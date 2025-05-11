@@ -2,25 +2,27 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { outputToObservable } from '@angular/core/rxjs-interop';
-import { NgScrollbar } from 'ngx-scrollbar';
+import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
 import { setDimensions } from './common-test.';
 import { TrackYDirective } from '../track/track';
 
 describe('Visibility styles', () => {
   let component: NgScrollbar;
+  let adapter: ViewportAdapter;
   let fixture: ComponentFixture<NgScrollbar>;
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NgScrollbar);
     fixture.autoDetectChanges();
     component = fixture.componentInstance;
+    adapter = fixture.debugElement.injector.get(ViewportAdapter);
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 100, contentHeight: 200 });
   });
 
   it('[Visibility] should be hidden when visibility="hover"', async () => {
     fixture.componentRef.setInput('visibility', 'hover');
-    await firstValueFrom(outputToObservable(component.afterInit));
+    await firstValueFrom(outputToObservable(adapter.afterInit));
 
     const stickyDebugElement: DebugElement = fixture.debugElement.query(By.css('.ng-scrollbar-sticky'));
 
@@ -40,7 +42,7 @@ describe('Visibility styles', () => {
     component.nativeElement.style.setProperty('--scrollbar-hover-opacity-transition-enter-duration', '200ms');
     component.nativeElement.style.setProperty('--scrollbar-hover-opacity-transition-leave-duration', '500ms');
     component.nativeElement.style.setProperty('--scrollbar-hover-opacity-transition-leave-delay', '3s');
-    await firstValueFrom(outputToObservable(component.afterInit));
+    await firstValueFrom(outputToObservable(adapter.afterInit));
 
     const stickyDebugElement: DebugElement = fixture.debugElement.query(By.css('.ng-scrollbar-sticky'));
     const stickyStyles: CSSStyleDeclaration = getComputedStyle(stickyDebugElement.nativeElement);
@@ -54,7 +56,7 @@ describe('Visibility styles', () => {
   it('[Visibility] should be able to override styles related to scrollbar track using CSS variables', async () => {
     // Override track color and transition using CSS variables
     component.nativeElement.style.setProperty('--scrollbar-track-color', 'red');
-    await firstValueFrom(outputToObservable(component.afterInit));
+    await firstValueFrom(outputToObservable(adapter.afterInit));
 
     const trackDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
     const trackStyles: CSSStyleDeclaration = getComputedStyle(trackDebugElement.nativeElement);

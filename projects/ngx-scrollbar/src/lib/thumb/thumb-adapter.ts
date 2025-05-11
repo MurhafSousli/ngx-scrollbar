@@ -81,7 +81,7 @@ export abstract class ThumbAdapter extends PointerEventsAdapter {
         const script: ScrollTimelineFunc = this.manager.scrollTimelinePolyfill();
         untracked(() => {
           if (script && !this._animation) {
-            this._animation = startPolyfill(script, this.nativeElement, this.host.viewport.nativeElement, this.control.axis);
+            this._animation = startPolyfill(script, this.nativeElement, this.host.nativeElement, this.control.axis);
           }
         });
       }

@@ -7,10 +7,11 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
 import {
   NgScrollbar,
-  ScrollbarAppearance,
+  ViewportAdapter,
   ScrollbarPosition,
-  ScrollbarOrientation,
-  ScrollbarVisibility
+  ScrollbarVisibility,
+  ScrollbarAppearance,
+  ScrollbarOrientation
 } from 'ngx-scrollbar';
 // import { NgScrollDropped, NgScrollReached } from 'ngx-scrollbar/reached-event';
 import { NzResizableModule, NzResizeDirection, NzResizeEvent } from 'ng-zorro-antd/resizable';
@@ -51,7 +52,7 @@ export class LabComponent {
 
   private sanitizer: DomSanitizer = inject(DomSanitizer);
 
-  @ViewChild(NgScrollbar, { static: true }) component: NgScrollbar;
+  @ViewChild(ViewportAdapter, { static: true }) component: ViewportAdapter;
 
   stylingPanelExpanded: boolean;
 

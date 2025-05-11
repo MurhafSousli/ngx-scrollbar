@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { outputToObservable } from '@angular/core/rxjs-interop';
-import { NgScrollbar } from 'ngx-scrollbar';
+import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
 import { setDimensions } from './common-test.';
 import { ScrollbarButton } from '../button/scrollbar-button.component';
@@ -10,6 +10,7 @@ import { ThumbAdapter } from '../thumb/thumb-adapter';
 
 describe('disableInteraction option', () => {
   let component: NgScrollbar;
+  let adapter: ViewportAdapter;
   let fixture: ComponentFixture<NgScrollbar>;
 
   let trackY: TrackAdapter;
@@ -36,12 +37,13 @@ describe('disableInteraction option', () => {
     fixture = TestBed.createComponent(NgScrollbar);
     fixture.autoDetectChanges();
     component = fixture.componentInstance;
+    adapter = fixture.debugElement.injector.get(ViewportAdapter);
     fixture.componentRef.setInput('buttons', true);
     fixture.detectChanges();
   });
 
   function interactionEnabledCases(): void {
-    expect(component.disableInteraction()).toBeFalse();
+    expect(adapter.disableInteraction()).toBeFalse();
     expect(component.nativeElement.getAttribute('disableInteraction')).toBe('false');
 
     expect(trackY._pointerEventsSub.closed).toBeFalse();
@@ -67,7 +69,7 @@ describe('disableInteraction option', () => {
   }
 
   function interactionDisabledCases(): void {
-    expect(component.disableInteraction()).toBeTrue();
+    expect(adapter.disableInteraction()).toBeTrue();
     expect(component.nativeElement.getAttribute('disableInteraction')).toBe('true');
 
     expect(trackYSpy).toHaveBeenCalled();
@@ -92,7 +94,7 @@ describe('disableInteraction option', () => {
 
   it('should disable interactions for track and thumb', async () => {
     setDimensions(component, { cmpHeight: 100, cmpWidth: 100, contentHeight: 300, contentWidth: 300 });
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
     trackY = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-track')).injector.get(TrackAdapter);

@@ -22,7 +22,7 @@ describe('ScrollbarManager Service', () => {
   });
 
   it('should load polyfill script and set scrollTimelinePolyfill', async () => {
-    // In Chrome, it will not be possible to test if the polyfill will set window.ScrollTimeline
+    // In Chrome, it will not be possible to test if the polyfill sets window.ScrollTimeline
     // Therefore, we will only test the script functionality
     const scriptMock: jasmine.SpyObj<HTMLScriptElement> = scrollbarManager.document.createElement('script') as jasmine.SpyObj<HTMLScriptElement>;
     spyOn(scrollbarManager.document, 'createElement').and.returnValue(scriptMock);

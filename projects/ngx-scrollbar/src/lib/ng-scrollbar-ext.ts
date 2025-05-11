@@ -18,16 +18,32 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { ScrollViewport, ViewportAdapter } from './viewport';
-import { Core } from './core';
-import { NG_SCROLLBAR_OPTIONS, NgScrollbarOptions } from './ng-scrollbar.model';
 
 @Component({
   selector: 'ng-scrollbar[externalViewport]',
   exportAs: 'ngScrollbar',
   template: '<ng-content/>',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    ViewportAdapter
+  hostDirectives: [
+    {
+      directive: ViewportAdapter,
+      inputs: [
+        'position',
+        'buttons',
+        'appearance',
+        'thumbClass',
+        'trackClass',
+        'buttonClass',
+        'visibility',
+        'hoverOffset',
+        'orientation',
+        'disableSensor',
+        'sensorThrottleTime',
+        'disableInteraction',
+        'trackScrollDuration'
+      ],
+      outputs: ['afterInit', 'afterUpdate']
+    }
   ],
   styles: [`
     /*:host {*/
@@ -35,7 +51,7 @@ import { NG_SCROLLBAR_OPTIONS, NgScrollbarOptions } from './ng-scrollbar.model';
     /*}*/
   `]
 })
-export class NgScrollbarExt extends Core implements OnDestroy {
+export class NgScrollbarExt implements OnDestroy {
 
   private readonly appRef: ApplicationRef = inject(ApplicationRef);
 
@@ -97,24 +113,6 @@ export class NgScrollbarExt extends Core implements OnDestroy {
       : null;
   });
 
-  computedOptions: Signal<NgScrollbarOptions> = computed(() => {
-    return {
-      buttons: this.buttons(),
-      position: this.position(),
-      appearance: this.appearance(),
-      visibility: this.visibility(),
-      trackClass: this.trackClass(),
-      thumbClass: this.thumbClass(),
-      buttonClass: this.buttonClass(),
-      orientation: this.orientation(),
-      hoverOffset: this.hoverOffset(),
-      disableSensor: this.disableSensor(),
-      disableInteraction: this.disableInteraction(),
-      sensorThrottleTime: this.sensorThrottleTime(),
-      trackScrollDuration: this.trackScrollDuration()
-    };
-  });
-
   /**
    * Skip initializing the viewport and the scrollbar
    * this is used when the component needs to wait for 3rd party library to render
@@ -122,8 +120,6 @@ export class NgScrollbarExt extends Core implements OnDestroy {
   skipInit: boolean = false;
 
   constructor() {
-    super();
-
     afterNextRender({
       earlyRead: () => {
         if (this.skipInit) return;
@@ -157,21 +153,11 @@ export class NgScrollbarExt extends Core implements OnDestroy {
       hostElement: viewportElement,
       projectableNodes: [Array.from(viewportElement.childNodes)],
       environmentInjector: this.appRef.injector,
-      elementInjector: Injector.create({
-        parent: this.injector,
-        providers: [
-          {
-            provide: NG_SCROLLBAR_OPTIONS,
-            useValue: this.computedOptions()
-          }
-        ]
-      })
+      elementInjector: this.injector
     });
 
     this.viewportRef.instance.contentWrapperElement = contentWrapperElement;
     this.viewportRef.instance.spacerElement = spacerElement;
-    this.viewportRef.instance.afterInit.subscribe(() => this.afterInit.emit());
-    this.viewportRef.instance.afterUpdate.subscribe(() => this.afterUpdate.emit());
     this.appRef.attachView(this.viewportRef.hostView);
   }
 

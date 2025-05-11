@@ -8,7 +8,7 @@ export interface TestDimension {
 }
 
 export async function afterTimeout(timeout: number): Promise<void> {
-  // Use await with a setTimeout promise
+  // Use 'await' with a setTimeout promise
   await new Promise<void>((resolve) => setTimeout(resolve, timeout));
 }
 

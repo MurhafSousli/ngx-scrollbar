@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, ViewChild } from '@angular/core';
+import { By } from '@angular/platform-browser';
+import { Component } from '@angular/core';
 import { BidiModule } from '@angular/cdk/bidi';
-import { NgScrollbar, NgScrollbarModule } from 'ngx-scrollbar';
+import { NgScrollbar, NgScrollbarModule, ViewportAdapter } from 'ngx-scrollbar';
 import { NgScrollReachDrop } from 'ngx-scrollbar/reached-event';
 
 @Component({
@@ -30,8 +31,6 @@ class TestComponent {
   isRtl: boolean = false;
   disabled: boolean = false;
 
-  @ViewChild(NgScrollbar, { static: true }) scrollbar: NgScrollbar;
-
   onScrollReached(value: string): void {
     console.log(value);
   }
@@ -40,11 +39,13 @@ class TestComponent {
 describe('Reached Events Directives', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
+  let adapter: ViewportAdapter;
   let onScrollReachedSpy: jasmine.Spy;
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
+    adapter = fixture.debugElement.query(By.directive(NgScrollbar)).injector.get(ViewportAdapter);
     fixture.detectChanges();
     onScrollReachedSpy = spyOn(component, 'onScrollReached');
   });
@@ -53,14 +54,14 @@ describe('Reached Events Directives', () => {
     fixture.detectChanges();
     const scrollTo: number = 0;
 
-    await component.scrollbar.scrollTo({ top: scrollTo, duration: 0 });
-    await component.scrollbar.scrollTo({ bottom: scrollTo, duration: 50 });
+    await adapter.scrollTo({ top: scrollTo, duration: 0 });
+    await adapter.scrollTo({ bottom: scrollTo, duration: 50 });
     expect(onScrollReachedSpy).toHaveBeenCalledWith('bottom');
-    await component.scrollbar.scrollTo({ top: scrollTo, duration: 50 });
+    await adapter.scrollTo({ top: scrollTo, duration: 50 });
     expect(onScrollReachedSpy).toHaveBeenCalledWith('top');
-    await component.scrollbar.scrollTo({ end: scrollTo, duration: 50 });
+    await adapter.scrollTo({ end: scrollTo, duration: 50 });
     expect(onScrollReachedSpy).toHaveBeenCalledWith('end');
-    await component.scrollbar.scrollTo({ start: scrollTo, duration: 50 });
+    await adapter.scrollTo({ start: scrollTo, duration: 50 });
     expect(onScrollReachedSpy).toHaveBeenCalledWith('start');
   });
 
@@ -69,8 +70,8 @@ describe('Reached Events Directives', () => {
     fixture.detectChanges();
     const scrollTo: number = component.topOffset - 1;
 
-    await component.scrollbar.scrollTo({ bottom: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ top: scrollTo, duration: 50 });
+    await adapter.scrollTo({ bottom: 0, duration: 0 });
+    await adapter.scrollTo({ top: scrollTo, duration: 50 });
     expect(onScrollReachedSpy).toHaveBeenCalledWith('top');
   });
 
@@ -79,8 +80,8 @@ describe('Reached Events Directives', () => {
     fixture.detectChanges();
     const scrollTo: number = component.bottomOffset - 1;
 
-    await component.scrollbar.scrollTo({ top: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ bottom: scrollTo, duration: 50 });
+    await adapter.scrollTo({ top: 0, duration: 0 });
+    await adapter.scrollTo({ bottom: scrollTo, duration: 50 });
     expect(onScrollReachedSpy).toHaveBeenCalledWith('bottom');
   });
 
@@ -89,8 +90,8 @@ describe('Reached Events Directives', () => {
     fixture.detectChanges();
     const scrollTo: number = component.startOffset - 1;
 
-    await component.scrollbar.scrollTo({ end: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ start: scrollTo, duration: 50 });
+    await adapter.scrollTo({ end: 0, duration: 0 });
+    await adapter.scrollTo({ start: scrollTo, duration: 50 });
     expect(onScrollReachedSpy).toHaveBeenCalledWith('start');
   });
 
@@ -99,8 +100,8 @@ describe('Reached Events Directives', () => {
     fixture.detectChanges();
     const scrollTo: number = component.endOffset - 1;
 
-    await component.scrollbar.scrollTo({ start: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ end: scrollTo, duration: 50 });
+    await adapter.scrollTo({ start: 0, duration: 0 });
+    await adapter.scrollTo({ end: scrollTo, duration: 50 });
     expect(onScrollReachedSpy).toHaveBeenCalledWith('end');
   });
 
@@ -110,8 +111,8 @@ describe('Reached Events Directives', () => {
     fixture.detectChanges();
     const scrollTo: number = component.startOffset - 1;
 
-    await component.scrollbar.scrollTo({ end: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ start: scrollTo, duration: 50 });
+    await adapter.scrollTo({ end: 0, duration: 0 });
+    await adapter.scrollTo({ start: scrollTo, duration: 50 });
     expect(onScrollReachedSpy).toHaveBeenCalledWith('start');
   });
 
@@ -120,8 +121,8 @@ describe('Reached Events Directives', () => {
     component.isRtl = true;
     fixture.detectChanges();
 
-    await component.scrollbar.scrollTo({ start: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ end: 10, duration: 50 });
+    await adapter.scrollTo({ start: 0, duration: 0 });
+    await adapter.scrollTo({ end: 10, duration: 50 });
     expect(onScrollReachedSpy).toHaveBeenCalledWith('end');
   });
 
@@ -129,8 +130,8 @@ describe('Reached Events Directives', () => {
   it('[reachDisabled]: should not emit when scroll is reached destination', async () => {
     component.disabled = true;
     fixture.detectChanges();
-    await component.scrollbar.scrollTo({ top: 0, duration: 0 });
-    await component.scrollbar.scrollTo({ bottom: 0, duration: 50 });
+    await adapter.scrollTo({ top: 0, duration: 0 });
+    await adapter.scrollTo({ bottom: 0, duration: 50 });
     expect(onScrollReachedSpy).not.toHaveBeenCalledWith('bottom');
   });
 });

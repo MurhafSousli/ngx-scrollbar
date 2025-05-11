@@ -2,13 +2,13 @@ import { Directive, effect, inject, untracked, ElementRef, NgZone, EffectCleanup
 import { DOCUMENT } from '@angular/common';
 import { Observable, Subscription } from 'rxjs';
 import { SCROLLBAR_CONTROL, ScrollbarAdapter } from '../scrollbar/scrollbar-adapter';
-import { _NgScrollbar, NG_SCROLLBAR } from '../utils/scrollbar-base';
+import { ViewportAdapter } from '../viewport/viewport-adapter';
 
 @Directive()
 export abstract class PointerEventsAdapter {
 
   // Reference to the ScrollViewport component
-  protected readonly host: _NgScrollbar = inject(NG_SCROLLBAR);
+  protected readonly host: ViewportAdapter = inject(ViewportAdapter);
 
   // Reference to the Scrollbar control component
   protected readonly control: ScrollbarAdapter = inject(SCROLLBAR_CONTROL);

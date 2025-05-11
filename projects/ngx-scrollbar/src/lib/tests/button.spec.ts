@@ -4,13 +4,14 @@ import { By } from '@angular/platform-browser';
 import { Directionality } from '@angular/cdk/bidi';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
-import { NgScrollbar } from 'ngx-scrollbar';
+import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
 import { provideSmoothScrollOptions } from 'ngx-scrollbar/smooth-scroll';
 import { afterTimeout, setDimensions } from './common-test.';
 import { ScrollbarButton } from '../button/scrollbar-button.component';
 
 describe('Buttons', () => {
   let component: NgScrollbar;
+  let adapter: ViewportAdapter;
   let fixture: ComponentFixture<NgScrollbar>;
 
   const directionalityMock = {
@@ -39,6 +40,7 @@ describe('Buttons', () => {
     fixture = TestBed.createComponent(NgScrollbar);
     fixture.autoDetectChanges();
     component = fixture.componentInstance;
+    adapter = fixture.debugElement.injector.get(ViewportAdapter);
 
     fixture.componentRef.setInput('appearance', 'compact');
 
@@ -48,7 +50,7 @@ describe('Buttons', () => {
 
   it('should not display the scrollbar buttons when [buttons]="false"', async () => {
     fixture.componentRef.setInput('buttons', false);
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
 
     const buttons: DebugElement[] = fixture.debugElement.queryAll(By.directive(ScrollbarButton));
     expect(buttons.length).toBeFalsy();
@@ -56,7 +58,7 @@ describe('Buttons', () => {
 
   it('should display buttons when [buttons]="true"', async () => {
     fixture.componentRef.setInput('buttons', true);
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
 
     const buttons: DebugElement[] = fixture.debugElement.queryAll(By.directive(ScrollbarButton));
     expect(buttons.length).toBeTruthy();
@@ -64,7 +66,7 @@ describe('Buttons', () => {
 
   it('should scroll to bottom on arrow-down button click', async () => {
     fixture.componentRef.setInput('buttons', true);
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="bottom"]'));
@@ -94,10 +96,10 @@ describe('Buttons', () => {
 
   it('should scroll to top on arrow-up button click', async () => {
     fixture.componentRef.setInput('buttons', true);
-    await firstValueFrom(outputToObservable(component.afterInit));
+    await firstValueFrom(outputToObservable(adapter.afterInit));
     TestBed.flushEffects();
 
-    await component.scrollTo({ bottom: 0, duration: 0 });
+    await adapter.scrollTo({ bottom: 0, duration: 0 });
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="top"]'));
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
@@ -125,7 +127,7 @@ describe('Buttons', () => {
 
   it('should scroll to right on arrow-right button click', async () => {
     fixture.componentRef.setInput('buttons', true);
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="end"]'));
@@ -155,10 +157,10 @@ describe('Buttons', () => {
 
   it('should scroll to left on arrow-left button click', async () => {
     fixture.componentRef.setInput('buttons', true);
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
-    await component.scrollTo({ end: 0, duration: 0 });
+    await adapter.scrollTo({ end: 0, duration: 0 });
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="start"]'));
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
@@ -189,7 +191,7 @@ describe('Buttons', () => {
     directionalityMock.value = 'rtl';
     directionalityMock.change.next('rtl');
     fixture.componentRef.setInput('buttons', true);
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="end"]'));
@@ -220,10 +222,10 @@ describe('Buttons', () => {
     directionalityMock.value = 'rtl';
     directionalityMock.change.next('rtl');
     fixture.componentRef.setInput('buttons', true);
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
-    await component.scrollTo({ end: 0, duration: 0 });
+    await adapter.scrollTo({ end: 0, duration: 0 });
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="start"]'));
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
@@ -252,7 +254,7 @@ describe('Buttons', () => {
 
   it('should stop scrolling when pointer is up', async () => {
     fixture.componentRef.setInput('buttons', true);
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="bottom"]'));
@@ -270,7 +272,7 @@ describe('Buttons', () => {
 
   it('should stop scrolling when pointer leaves the button', async () => {
     fixture.componentRef.setInput('buttons', true);
-    await firstValueFrom(outputToObservable(component.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
     const button: DebugElement = fixture.debugElement.query(By.css('button[scrollbarButton="bottom"]'));
