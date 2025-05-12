@@ -25,7 +25,7 @@ import { CardComponent } from './card/card.component';
 })
 export class ExampleNestedVirtualScrollComponent {
 
-  items: number[] = Array.from({ length: 1000 }, (v, k) => k + 1);
+  items: number[] = Array.from({ length: 100 }, (v, k) => k + 1);
   horizontal: number[] = Array.from({ length: 100 }, (v, k) => k + 1);
 
 }

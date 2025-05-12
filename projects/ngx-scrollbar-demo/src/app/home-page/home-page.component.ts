@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
 import { MatButton } from '@angular/material/button';
-import { NgScrollbarExtDirective, ScrollbarDocument } from 'ngx-scrollbar';
+import { ScrollbarDocument } from 'ngx-scrollbar';
 import { Example2Component } from '../example2/example2.component';
 import { Example3Component } from '../example3/example3.component';
 import { Example5Component } from '../example5/example5.component';
@@ -23,7 +23,6 @@ import { NgScrollReachDrop } from 'ngx-scrollbar/reached-event';
     MatButton,
     NgScrollbarExt,
     AsyncDetection,
-    NgScrollbarExtDirective,
     NgScrollReachDrop,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -48,7 +47,7 @@ export class HomePageComponent {
     console.log('🤖', t);
   }
 
-  log(e){
+  log(e) {
     console.log('🐴', e);
   }
 

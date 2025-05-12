@@ -5,7 +5,7 @@ import {
   afterRenderEffect,
   NgZone,
   ElementRef,
-  EffectCleanupRegisterFn,
+  EffectCleanupRegisterFn
 } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
 import { SharedResizeObserver } from '@angular/cdk/observers/private';
@@ -20,6 +20,11 @@ import { ScrollbarUpdateReason } from './ng-scrollbar.model';
     '[attr.mobile]': 'isMobile',
     '[attr.dir]': 'viewport.direction()',
     '[attr.dragging]': 'viewport.dragging()',
+    '[attr.position]': 'viewport.position()',
+    '[attr.appearance]': 'viewport.appearance()',
+    '[attr.visibility]': 'viewport.visibility()',
+    '[attr.orientation]': 'viewport.orientation()',
+    '[attr.disableInteraction]': 'viewport.disableInteraction()',
     '[attr.verticalUsed]': 'viewport.verticalUsed()',
     '[attr.horizontalUsed]': 'viewport.horizontalUsed()',
     '[attr.isVerticallyScrollable]': 'viewport.isVerticallyScrollable()',
@@ -27,30 +32,25 @@ import { ScrollbarUpdateReason } from './ng-scrollbar.model';
     '[style.--content-height]': 'viewport.contentDimension().height',
     '[style.--content-width]': 'viewport.contentDimension().width',
     '[style.--viewport-height]': 'viewport.viewportDimension().height',
-    '[style.--viewport-width]': 'viewport.viewportDimension().width',
-    '[attr.position]': 'viewport.position()',
-    '[attr.appearance]': 'viewport.appearance()',
-    '[attr.visibility]': 'viewport.visibility()',
-    '[attr.orientation]': 'viewport.orientation()',
-    '[attr.disableInteraction]': 'viewport.disableInteraction()'
+    '[style.--viewport-width]': 'viewport.viewportDimension().width'
   }
 })
 export class NgScrollbarCore {
-
-  private readonly sharedResizeObserver: SharedResizeObserver = inject(SharedResizeObserver);
 
   private readonly zone: NgZone = inject(NgZone);
 
   private readonly platform: Platform = inject(Platform);
 
-  /** A flag that indicates if the platform is mobile */
-  readonly isMobile: boolean = this.platform.IOS || this.platform.ANDROID;
+  private readonly sharedResizeObserver: SharedResizeObserver = inject(SharedResizeObserver);
 
   /** Viewport adapter instance */
   readonly viewport: ViewportAdapter = inject(ViewportAdapter);
 
   /** Viewport native element */
   readonly nativeElement: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
+
+  /** A flag that indicates if the platform is mobile */
+  readonly isMobile: boolean = this.platform.IOS || this.platform.ANDROID;
 
   protected constructor() {
     let resizeSub$: Subscription;
