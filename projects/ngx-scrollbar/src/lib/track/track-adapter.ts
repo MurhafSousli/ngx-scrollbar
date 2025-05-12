@@ -73,7 +73,7 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
     );
 
     const pointerEnter$: Observable<boolean> = fromEvent<PointerEvent>(this.nativeElement, 'pointerover', { passive: true }).pipe(
-      // When mouse is out and enters again, must set the current position first
+      // When the mouse is out and enters again, must set the current position first
       tap((e: PointerEvent) => this.currMousePosition = e[this.control.offsetProperty]),
       map(() => true)
     );
@@ -83,7 +83,7 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
 
     const pointerOver$: Observable<boolean> = merge(pointerEnter$, pointerLeave$).pipe(startWith(true));
 
-    // Keep track of current mouse location while dragging
+    // Keep track of the current mouse location while dragging
     const pointerMove$: Observable<PointerEvent> = fromEvent<PointerEvent>(this.nativeElement, 'pointermove', { passive: true }).pipe(
       tap((e: PointerEvent) => this.currMousePosition = e[this.control.offsetProperty])
     );

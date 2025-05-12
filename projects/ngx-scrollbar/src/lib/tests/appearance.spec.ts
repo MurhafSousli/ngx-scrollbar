@@ -35,20 +35,20 @@ describe('Appearance [native / compact] styles', () => {
     component.nativeElement.style.setProperty('--scrollbar-offset', '4');
   });
 
-  it('should set appearance="compact" attribute by default and 0px padding', () => {
+  it('should set appearance="native" attribute by default and 0px padding', () => {
     const appearanceAttr: string = component.nativeElement.getAttribute('appearance');
     const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
-    expect(appearanceAttr).toBe('compact');
+    expect(appearanceAttr).toBe('native');
     expect(styles.padding).toBe('0px');
   });
 
-  it('should set appearance="native" attribute when [appearance]="native"', () => {
+  it('should set appearance="compact" attribute when [appearance]="compact"', () => {
     setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 500, contentWidth: 500 });
-    fixture.componentRef.setInput('appearance', 'native');
+    fixture.componentRef.setInput('appearance', 'compact');
     fixture.detectChanges();
 
     const appearanceAttr: string = component.nativeElement.getAttribute('appearance');
-    expect(appearanceAttr).toBe('native');
+    expect(appearanceAttr).toBe('compact');
   });
 
   it('should have "padding-right" and "padding-bottom" when its scrollable in both directions', async () => {
