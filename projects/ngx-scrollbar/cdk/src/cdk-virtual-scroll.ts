@@ -1,9 +1,9 @@
-import { Directive, inject, effect, untracked, contentChild, Signal } from '@angular/core';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { Directive, inject, effect, untracked, Signal, contentChild } from '@angular/core';
+import { CdkVirtualScrollableElement, CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { NgScrollbarExt } from 'ngx-scrollbar';
 
 @Directive({
-  selector: 'ng-scrollbar[cdkVirtualScrollViewport]'
+  selector: 'ng-scrollbar[externalViewport][cdkVirtualScrollViewport]'
 })
 export class NgScrollbarCdkVirtualScroll {
 
@@ -11,25 +11,30 @@ export class NgScrollbarCdkVirtualScroll {
 
   private readonly virtualScrollViewportRef: Signal<CdkVirtualScrollViewport> = contentChild(CdkVirtualScrollViewport);
 
+  private readonly virtualScrollableElement: Signal<CdkVirtualScrollableElement> = contentChild(CdkVirtualScrollableElement);
+
   constructor() {
     this.scrollbar.skipInit = true;
 
     // Since 'effects' runs before 'afterNextRender' and our elements are defined, will use 'effects'.
     effect(() => {
       const virtualScrollViewport: CdkVirtualScrollViewport = this.virtualScrollViewportRef();
+      if (!virtualScrollViewport) {
+        console.error('The [CdkVirtualScrollViewport] component was not found!');
+        return;
+      }
 
       untracked(() => {
-        if (virtualScrollViewport) {
-          this.scrollbar.viewportElement.set(virtualScrollViewport.elementRef.nativeElement);
-          this.scrollbar.contentWrapperElement.set(virtualScrollViewport._contentWrapper.nativeElement);
-          this.scrollbar.spacerElement.set(virtualScrollViewport.elementRef.nativeElement.querySelector('.cdk-virtual-scroll-spacer'));
+        const viewport: HTMLElement = virtualScrollViewport.scrollable.getElementRef().nativeElement;
 
-          this.scrollbar.initialize(
-            this.scrollbar.viewportElement(),
-            this.scrollbar.contentWrapperElement(),
-            this.scrollbar.spacerElement()
-          );
+        let contentWrapper: HTMLElement;
+        let spacer: HTMLElement;
+        if (!this.virtualScrollableElement()) {
+          contentWrapper = virtualScrollViewport._contentWrapper.nativeElement;
+          spacer = virtualScrollViewport.elementRef.nativeElement.querySelector('.cdk-virtual-scroll-spacer');
         }
+
+        this.scrollbar.initialize(viewport, contentWrapper, spacer);
       });
     });
   }

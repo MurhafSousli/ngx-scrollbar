@@ -34,3 +34,15 @@
     }
   }
 }
+
+.example-header,
+.example-footer {
+  height: 100px;
+  background-color: var(--color-accent);
+  color: var(--color-accent-hover);
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 20px;
+}

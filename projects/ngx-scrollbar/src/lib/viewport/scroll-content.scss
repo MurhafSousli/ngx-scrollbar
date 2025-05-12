@@ -11,6 +11,7 @@
 
   min-width: 100%;
   min-height: 100%;
+  // TODO: Investigate why we should to use 'contain: content'
   contain: content;
 
   // Add padding for standard appearance
