@@ -103,8 +103,9 @@
   // Content display, will switch to block if orientation is set to vertical
   --_scrollbar-content-width: fit-content;
 
-  // Must have relative position to make reached triggers moves with the scroll
-  position: relative;
+  // Must have relative position to make reached triggers moves with the scroll,
+  // Use !important to enforce relative position to override styles applied by other component such as (mat-select-panel)
+  position: relative !important;
 
   // Enables scrolling
   overflow: var(--_viewport-overflow);

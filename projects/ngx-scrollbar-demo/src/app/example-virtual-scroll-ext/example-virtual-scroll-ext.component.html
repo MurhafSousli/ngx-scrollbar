@@ -8,17 +8,15 @@
     <div class="example-virtual-scroll">
       <ng-scrollbar externalViewport cdkVirtualScrollViewport>
         <div class="example-viewport" cdkVirtualScrollingElement>
-          <div class="content">
-            <div class="example-header">Content before</div>
-            <cdk-virtual-scroll-viewport itemSize="50">
-              <mat-list>
-                <mat-list-item class="example-item" *cdkVirtualFor="let item of items">
-                  {{ item }}
-                </mat-list-item>
-              </mat-list>
-            </cdk-virtual-scroll-viewport>
-            <div class="example-footer">Content after</div>
-          </div>
+          <div class="example-header">Content before</div>
+          <cdk-virtual-scroll-viewport itemSize="50">
+            <mat-list>
+              <mat-list-item class="example-item" *cdkVirtualFor="let item of items">
+                {{ item }}
+              </mat-list-item>
+            </mat-list>
+          </cdk-virtual-scroll-viewport>
+          <div class="example-footer">Content after</div>
         </div>
       </ng-scrollbar>
     </div>

@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
 import { SharedResizeObserver } from '@angular/cdk/observers/private';
-import { combineLatest, Subscription } from 'rxjs';
+import { combineLatest, SubscriptionLike } from 'rxjs';
 import { ViewportAdapter } from './viewport';
 import { getThrottledStream } from './utils/common';
 import { ScrollbarUpdateReason } from './ng-scrollbar.model';
@@ -53,7 +53,7 @@ export class NgScrollbarCore {
   readonly isMobile: boolean = this.platform.IOS || this.platform.ANDROID;
 
   protected constructor() {
-    let resizeSub$: Subscription;
+    let resizeSub$: SubscriptionLike;
     let hasInitialized: boolean;
 
     afterRenderEffect({

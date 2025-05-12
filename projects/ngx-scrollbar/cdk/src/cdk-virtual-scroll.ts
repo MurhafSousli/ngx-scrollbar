@@ -34,6 +34,11 @@ export class NgScrollbarCdkVirtualScroll {
           spacer = virtualScrollViewport.elementRef.nativeElement.querySelector('.cdk-virtual-scroll-spacer');
         }
 
+        // Set the scrollbar component elements, in case access is needed (syncSpacer directive)
+        this.scrollbar.viewportElement.set(viewport);
+        this.scrollbar.contentWrapperElement.set(contentWrapper);
+        this.scrollbar.spacerElement.set(spacer);
+
         this.scrollbar.initialize(viewport, contentWrapper, spacer);
       });
     });
