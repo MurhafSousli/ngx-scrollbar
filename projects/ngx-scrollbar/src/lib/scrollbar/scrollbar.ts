@@ -1,10 +1,10 @@
 import { Component, effect, inject, ChangeDetectionStrategy } from '@angular/core';
 import { from, Observable } from 'rxjs';
-import { TrackXDirective, TrackYDirective } from '../track/track';
-import { ThumbXDirective, ThumbYDirective } from '../thumb/thumb';
 import { SCROLLBAR_CONTROL, ScrollbarAdapter } from './scrollbar-adapter';
-import { ScrollbarButton } from '../button/scrollbar-button.component';
 import { ScrollbarManager } from '../utils/scrollbar-manager';
+import { TrackXComponent, TrackYComponent } from '../track/track';
+import { ThumbXComponent, ThumbYComponent } from '../thumb/thumb';
+import { ScrollbarButton } from '../button/scrollbar-button.component';
 
 @Component({
   selector: 'scrollbar-y',
@@ -13,9 +13,9 @@ import { ScrollbarManager } from '../utils/scrollbar-manager';
          [class.ng-scrollbar-hover]="cmp.hoverOffset()">
       <div class="ng-scrollbar-track-wrapper"
            [class.ng-scrollbar-hover]="!cmp.hoverOffset()">
-        <div scrollbarTrackY class="ng-scrollbar-track {{ cmp.trackClass() }}">
-          <div scrollbarThumbY class="ng-scrollbar-thumb {{ cmp.thumbClass() }}"></div>
-        </div>
+        <scrollbar-track-y class="ng-scrollbar-track {{ cmp.trackClass() }}">
+          <scrollbar-thumb-y class="ng-scrollbar-thumb {{ cmp.thumbClass() }}"/>
+        </scrollbar-track-y>
         @if (cmp.buttons()) {
           <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
                   scrollbarButton="top"
@@ -28,7 +28,7 @@ import { ScrollbarManager } from '../utils/scrollbar-manager';
     </div>
   `,
   styleUrls: ['./shared.scss', './vertical.scss'],
-  imports: [TrackYDirective, ThumbYDirective, ScrollbarButton],
+  imports: [TrackYComponent, ThumbYComponent, ScrollbarButton],
   providers: [
     { provide: SCROLLBAR_CONTROL, useExisting: ScrollbarY }
   ],
@@ -75,9 +75,9 @@ export class ScrollbarY extends ScrollbarAdapter {
          [class.ng-scrollbar-hover]="cmp.hoverOffset()">
       <div class="ng-scrollbar-track-wrapper"
            [class.ng-scrollbar-hover]="!cmp.hoverOffset()">
-        <div scrollbarTrackX class="ng-scrollbar-track {{ cmp.trackClass() }}">
-          <div scrollbarThumbX class="ng-scrollbar-thumb {{ cmp.thumbClass() }}"></div>
-        </div>
+        <scrollbar-track-x class="ng-scrollbar-track {{ cmp.trackClass() }}">
+          <scrollbar-thumb-x class="ng-scrollbar-thumb {{ cmp.thumbClass() }}" [attr.dir]="cmp.direction()"/>
+        </scrollbar-track-x>
         @if (cmp.buttons()) {
           <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
                   scrollbarButton="start"
@@ -90,7 +90,7 @@ export class ScrollbarY extends ScrollbarAdapter {
     </div>
   `,
   styleUrls: ['./shared.scss', './horizontal.scss'],
-  imports: [TrackXDirective, ThumbXDirective, ScrollbarButton],
+  imports: [TrackXComponent, ThumbXComponent, ScrollbarButton],
   providers: [
     { provide: SCROLLBAR_CONTROL, useExisting: ScrollbarX }
   ],

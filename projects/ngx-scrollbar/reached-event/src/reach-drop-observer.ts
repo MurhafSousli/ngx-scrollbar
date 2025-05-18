@@ -82,8 +82,9 @@ export class ReachDropObserver implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.events.complete();
-    this.intersectionObserver.disconnect();
+    // TODO: Check why this is being called when it should not
+    this.events?.complete();
+    this.intersectionObserver?.disconnect();
     this.intersectionObserver = null;
   }
 }

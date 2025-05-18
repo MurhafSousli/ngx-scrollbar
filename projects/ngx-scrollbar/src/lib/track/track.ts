@@ -1,15 +1,52 @@
-import { Directive, effect } from '@angular/core';
-import { from, Observable } from 'rxjs';
+import { Component, effect, ChangeDetectionStrategy } from '@angular/core';
+import { Observable, from } from 'rxjs';
 import { TrackAdapter } from './track-adapter';
 
-@Directive({
-  selector: '[scrollbarTrackX]',
-  providers: [{ provide: TrackAdapter, useExisting: TrackXDirective }]
+@Component({
+  selector: 'scrollbar-track-y',
+  template: '<ng-content/>',
+  styleUrl: './track.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{ provide: TrackAdapter, useExisting: TrackYComponent }]
 })
-export class TrackXDirective extends TrackAdapter {
+export class TrackYComponent extends TrackAdapter {
 
   protected get contentSize(): number {
-    return this.host.contentWidth;
+    return this.adapter.contentHeight;
+  }
+
+  protected getCurrPosition(): number {
+    return this.control.viewportScrollOffset * this.size / this.contentSize;
+  }
+
+  protected getScrollDirection(position: number): 'forward' | 'backward' {
+    return position > this.getCurrPosition() ? 'forward' : 'backward';
+  }
+
+  protected scrollTo(top: number): Observable<void> {
+    return from(this.adapter.scrollTo({ top, duration: this.adapter.trackScrollDuration() }));
+  }
+
+  protected getScrollForwardStep(): number {
+    return this.control.viewportScrollOffset + this.viewportSize;
+  }
+
+  protected getScrollBackwardStep(): number {
+    return this.control.viewportScrollOffset - this.viewportSize;
+  }
+}
+
+@Component({
+  selector: 'scrollbar-track-x',
+  template: '<ng-content/>',
+  styleUrl: './track.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{ provide: TrackAdapter, useExisting: TrackXComponent }]
+})
+export class TrackXComponent extends TrackAdapter {
+
+  protected get contentSize(): number {
+    return this.adapter.contentWidth;
   }
 
   getCurrPosition: () => number;
@@ -18,7 +55,7 @@ export class TrackXDirective extends TrackAdapter {
 
   constructor() {
     effect(() => {
-      if (this.host.direction() === 'rtl') {
+      if (this.adapter.direction() === 'rtl') {
         this.getCurrPosition = (): number => {
           const offset: number = this.contentSize - this.viewportSize - this.control.viewportScrollOffset;
           return offset * this.size / this.contentSize;
@@ -39,38 +76,7 @@ export class TrackXDirective extends TrackAdapter {
   }
 
   protected scrollTo(start: number): Observable<void> {
-    return from(this.host.scrollTo({ start, duration: this.host.trackScrollDuration() }));
-  }
-
-  protected getScrollForwardStep(): number {
-    return this.control.viewportScrollOffset + this.viewportSize;
-  }
-
-  protected getScrollBackwardStep(): number {
-    return this.control.viewportScrollOffset - this.viewportSize;
-  }
-}
-
-@Directive({
-  selector: '[scrollbarTrackY]',
-  providers: [{ provide: TrackAdapter, useExisting: TrackYDirective }]
-})
-export class TrackYDirective extends TrackAdapter {
-
-  protected get contentSize(): number {
-    return this.host.contentHeight;
-  }
-
-  protected getCurrPosition(): number {
-    return this.control.viewportScrollOffset * this.size / this.contentSize;
-  }
-
-  protected getScrollDirection(position: number): 'forward' | 'backward' {
-    return position > this.getCurrPosition() ? 'forward' : 'backward';
-  }
-
-  protected scrollTo(top: number): Observable<void> {
-    return from(this.host.scrollTo({ top, duration: this.host.trackScrollDuration() }));
+    return from(this.adapter.scrollTo({ start, duration: this.adapter.trackScrollDuration() }));
   }
 
   protected getScrollForwardStep(): number {

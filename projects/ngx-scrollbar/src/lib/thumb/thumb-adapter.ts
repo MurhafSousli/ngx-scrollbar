@@ -11,8 +11,9 @@ import { ScrollbarManager } from '../utils/scrollbar-manager';
 import { TrackAdapter } from '../track/track-adapter';
 import { PointerEventsAdapter } from '../utils/pointer-events-adapter';
 
+// TODO: Check if we can remove the directive decorator
 @Directive()
-export abstract class ThumbAdapter extends PointerEventsAdapter {
+export class ThumbAdapter extends PointerEventsAdapter {
 
   protected readonly manager: ScrollbarManager = inject(ScrollbarManager);
 
@@ -81,7 +82,7 @@ export abstract class ThumbAdapter extends PointerEventsAdapter {
         const script: ScrollTimelineFunc = this.manager.scrollTimelinePolyfill();
         untracked(() => {
           if (script && !this._animation) {
-            this._animation = startPolyfill(script, this.nativeElement, this.host.nativeElement, this.control.axis);
+            this._animation = startPolyfill(script, this.nativeElement, this.adapter.nativeElement, this.control.axis);
           }
         });
       }
@@ -90,7 +91,7 @@ export abstract class ThumbAdapter extends PointerEventsAdapter {
   }
 
   private setDragging(value: ScrollbarDragging): void {
-    this.zone.run(() => this.host.dragging.set(value));
+    this.zone.run(() => this.adapter.dragging.set(value));
   }
 }
 

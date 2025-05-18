@@ -7,7 +7,6 @@ import { ViewportAdapter } from '../viewport/viewport-adapter';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ScrollbarX, ScrollbarY],
   template: `
-    <ng-content/>
     @if (cmp.verticalUsed()) {
       <scrollbar-y/>
     }

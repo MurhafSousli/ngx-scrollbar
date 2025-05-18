@@ -1,4 +1,12 @@
-import { Component, inject, signal, ViewChild, WritableSignal, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  inject,
+  signal,
+  viewChild,
+  Signal,
+  WritableSignal,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
@@ -14,9 +22,10 @@ import {
   ScrollbarOrientation
 } from 'ngx-scrollbar';
 // import { NgScrollDropped, NgScrollReached } from 'ngx-scrollbar/reached-event';
+import { NgScrollReachDrop } from 'ngx-scrollbar/reached-event';
 import { NzResizableModule, NzResizeDirection, NzResizeEvent } from 'ng-zorro-antd/resizable';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { LogoComponent } from '../shared/logo/logo.component';
 import { ResizeChange, ResizeFormComponent } from './resize-form/resize-form.component';
 import { ToggleChange } from './toggle-form/toggle-form.component';
@@ -42,7 +51,8 @@ import { SmoothScrollFormComponent, SmoothScrollOptionsForm } from './smooth-scr
     CssVariablesFormComponent,
     SmoothScrollFormComponent,
     ResizeFormComponent,
-    ReachedNotifierComponent
+    ReachedNotifierComponent,
+    NgScrollReachDrop
   ],
   templateUrl: './lab.component.html',
   styleUrl: './lab.component.scss',
@@ -52,7 +62,7 @@ export class LabComponent {
 
   private sanitizer: DomSanitizer = inject(DomSanitizer);
 
-  @ViewChild(ViewportAdapter, { static: true }) component: ViewportAdapter;
+  scrollbarAdapter: Signal<ViewportAdapter> = viewChild(ViewportAdapter);
 
   stylingPanelExpanded: boolean;
 
@@ -150,9 +160,9 @@ export class LabComponent {
 
     if (this.scrollToElementSelected) {
       const target: HTMLElement = document.querySelector('#target');
-      this.component.scrollToElement(target, options).then(() => onScrollToReached());
+      this.scrollbarAdapter().scrollToElement(target, options).then(() => onScrollToReached());
     } else {
-      this.component.scrollTo(options).then(() => onScrollToReached());
+      this.scrollbarAdapter().scrollTo(options).then(() => onScrollToReached());
     }
   }
 

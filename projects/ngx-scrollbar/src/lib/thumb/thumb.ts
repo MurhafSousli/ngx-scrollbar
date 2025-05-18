@@ -1,16 +1,22 @@
-import { Directive } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ThumbAdapter } from './thumb-adapter';
 
-@Directive({
-  selector: '[scrollbarThumbX]',
-  providers: [{ provide: ThumbAdapter, useExisting: ThumbXDirective }]
+@Component({
+  selector: 'scrollbar-thumb-y',
+  template: '',
+  styleUrls: ['./thumb.scss', './thumb-y.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{ provide: ThumbAdapter, useExisting: ThumbYComponent }]
 })
-export class ThumbXDirective extends ThumbAdapter {
+export class ThumbYComponent extends ThumbAdapter {
 }
 
-@Directive({
-  selector: '[scrollbarThumbY]',
-  providers: [{ provide: ThumbAdapter, useExisting: ThumbYDirective }]
+@Component({
+  selector: 'scrollbar-thumb-x',
+  template: '',
+  styleUrls: ['./thumb.scss', './thumb-x.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{ provide: ThumbAdapter, useExisting: ThumbXComponent }]
 })
-export class ThumbYDirective extends ThumbAdapter {
+export class ThumbXComponent extends ThumbAdapter {
 }

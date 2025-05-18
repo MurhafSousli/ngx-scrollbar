@@ -8,31 +8,52 @@
   border-radius: 0;
   appearance: none;
 
-  background-color: var(--INTERNAL-scrollbar-button-color);
+  // Since the button is used inside a flexbox parent, it can influence the computed size, e.g. size is 20px but computed is 18.32px
+  flex: 0 0 var(--_scrollbar-button-size);
+
+  // Instead of setting the width or height to 100%, we can just use block-size
+  block-size: 100%;
+
+  background-color: var(--_scrollbar-button-color);
 
   svg {
     // Must set height and width of SVG so it can render on Safari browsers
     width: 100%;
-    height:  100%;
-    fill: var(--INTERNAL-scrollbar-button-fill);
+    height: 100%;
+    fill: var(--_scrollbar-button-fill);
   }
 
   &:hover {
-    background: var(--INTERNAL-scrollbar-button-hover-color);
+    background: var(--_scrollbar-button-hover-color);
 
     svg {
-      fill: var(--INTERNAL-scrollbar-button-hover-fill);
+      fill: var(--_scrollbar-button-hover-fill);
     }
   }
 
   &:active {
-    background: var(--INTERNAL-scrollbar-button-active-color);
+    background: var(--_scrollbar-button-active-color);
 
     svg {
-      fill: var(--INTERNAL-scrollbar-button-active-fill);
+      fill: var(--_scrollbar-button-active-fill);
     }
   }
 
+  &[scrollbarButton="top"] {
+    --_button-rotate: var(--_button-icon-rotate-top);
+  }
+
+  &[scrollbarButton="bottom"] {
+    --_button-rotate: var(--_button-icon-rotate-bottom);
+  }
+
+  &[scrollbarButton="start"] {
+    --_button-rotate: var(--_button-icon-rotate-start);
+  }
+
+  &[scrollbarButton="end"] {
+    --_button-rotate: var(--_button-icon-rotate-end);
+  }
 
   &[scrollbarButton="top"], &[scrollbarButton="start"] {
     order: 1;
@@ -40,36 +61,6 @@
 
   &[scrollbarButton="bottom"], &[scrollbarButton="end"] {
     order: 3;
-  }
-
-  &[scrollbarButton="top"], &[scrollbarButton="bottom"] {
-    width: 100%;
-    height: var(--INTERNAL-scrollbar-button-size);
-  }
-
-  &[scrollbarButton="start"], &[scrollbarButton="end"] {
-    width: var(--INTERNAL-scrollbar-button-size);
-    height: 100%;
-  }
-
-  &[scrollbarButton="bottom"] {
-    --_button-rotate: 180deg;
-  }
-
-  &[scrollbarButton="start"] {
-    --_button-rotate: -90deg;
-
-    .ng-scrollbar-button-icon {
-      writing-mode: vertical-lr;
-    }
-  }
-
-  &[scrollbarButton="end"] {
-    --_button-rotate: 90deg;
-
-    .ng-scrollbar-button-icon {
-      writing-mode: vertical-rl;
-    }
   }
 }
 

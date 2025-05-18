@@ -5,7 +5,7 @@ import { outputToObservable } from '@angular/core/rxjs-interop';
 import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
 import { setDimensions } from './common-test.';
-import { TrackYDirective } from '../track/track';
+import { TrackYComponent } from '../track/track';
 
 describe('Visibility styles', () => {
   let component: NgScrollbar;
@@ -58,7 +58,7 @@ describe('Visibility styles', () => {
     component.nativeElement.style.setProperty('--scrollbar-track-color', 'red');
     await firstValueFrom(outputToObservable(adapter.afterInit));
 
-    const trackDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
+    const trackDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYComponent));
     const trackStyles: CSSStyleDeclaration = getComputedStyle(trackDebugElement.nativeElement);
 
     expect(trackStyles.backgroundColor).toBe('rgb(255, 0, 0)');

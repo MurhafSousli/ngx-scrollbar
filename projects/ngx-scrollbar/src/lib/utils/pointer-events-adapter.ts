@@ -8,7 +8,7 @@ import { ViewportAdapter } from '../viewport/viewport-adapter';
 export abstract class PointerEventsAdapter {
 
   // Reference to the ScrollViewport component
-  protected readonly host: ViewportAdapter = inject(ViewportAdapter);
+  protected readonly adapter: ViewportAdapter = inject(ViewportAdapter);
 
   // Reference to the Scrollbar control component
   protected readonly control: ScrollbarAdapter = inject(SCROLLBAR_CONTROL);
@@ -29,7 +29,7 @@ export abstract class PointerEventsAdapter {
 
   protected constructor() {
     effect((onCleanup: EffectCleanupRegisterFn) => {
-      const disableInteraction: boolean = this.host.disableInteraction();
+      const disableInteraction: boolean = this.adapter.disableInteraction();
 
       untracked(() => {
         if (!disableInteraction) {
