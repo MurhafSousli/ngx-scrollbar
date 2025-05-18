@@ -1,0 +1,10 @@
+:host {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: var(--INTERNAL-scrollbar-track-color);
+  border-radius: var(--INTERNAL-scrollbar-border-radius);
+  cursor: default;
+  z-index: 1;
+  order: 2;
+}

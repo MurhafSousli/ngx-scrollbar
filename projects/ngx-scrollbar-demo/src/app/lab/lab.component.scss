@@ -6,6 +6,10 @@
   }
 }
 
+ng-scrollbar {
+  --scrollbar-button-color: var(--color-primary);
+}
+
 .lab-container {
   margin: 10px auto;
   max-width: 948px;

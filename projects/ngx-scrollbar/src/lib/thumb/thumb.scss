@@ -1,0 +1,21 @@
+:host {
+  box-sizing: border-box;
+  position: absolute;
+  transition: var(--INTERNAL-scrollbar-thumb-transition);
+  border-radius: var(--INTERNAL-scrollbar-border-radius);
+  height: var(--_thumb-height);
+  width: var(--_thumb-width);
+
+  animation-name: scrollbarThumbAnimation;
+  animation-duration: 1ms; /* Firefox requires this to apply the animation */
+  animation-timing-function: linear;
+}
+
+@keyframes scrollbarThumbAnimation {
+  from {
+    translate: var(--_scrollbar-thumb-transform-from);
+  }
+  to {
+    translate: var(--_scrollbar-thumb-transform-to);
+  }
+}

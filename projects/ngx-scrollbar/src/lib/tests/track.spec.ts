@@ -7,8 +7,8 @@ import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
 import { provideSmoothScrollOptions } from 'ngx-scrollbar/smooth-scroll';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { afterTimeout, setDimensions } from './common-test.';
-import { TrackXDirective, TrackYDirective } from '../track/track';
-import { ThumbXDirective, ThumbYDirective } from '../thumb/thumb';
+import { TrackXComponent, TrackYComponent } from '../track/track';
+import { ThumbXComponent, ThumbYComponent } from '../thumb/thumb';
 
 describe('Scrollbar track', () => {
   let component: NgScrollbar;
@@ -53,8 +53,8 @@ describe('Scrollbar track', () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
     TestBed.flushEffects();
 
-    const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
-    const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYDirective));
+    const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYComponent));
+    const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYComponent));
 
     const trackRect: DOMRect = trackYDebugElement.nativeElement.getBoundingClientRect();
     const thumbRect: DOMRect = thumbYDebugElement.nativeElement.getBoundingClientRect();
@@ -84,8 +84,8 @@ describe('Scrollbar track', () => {
 
     await adapter.scrollTo({ bottom: 0, duration: 0 });
 
-    const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
-    const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYDirective));
+    const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYComponent));
+    const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYComponent));
 
     const trackRect: DOMRect = trackYDebugElement.nativeElement.getBoundingClientRect();
     const thumbRect: DOMRect = thumbYDebugElement.nativeElement.getBoundingClientRect();
@@ -116,8 +116,8 @@ describe('Scrollbar track', () => {
     await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
-    const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
-    const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYDirective));
+    const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYComponent));
+    const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYComponent));
 
     const trackRect: DOMRect = trackYDebugElement.nativeElement.getBoundingClientRect();
     const thumbRect: DOMRect = thumbYDebugElement.nativeElement.getBoundingClientRect();
@@ -150,8 +150,8 @@ describe('Scrollbar track', () => {
 
     await adapter.scrollTo({ bottom: 0, duration: 0 });
 
-    const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
-    const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYDirective));
+    const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYComponent));
+    const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYComponent));
 
     const trackRect: DOMRect = trackYDebugElement.nativeElement.getBoundingClientRect();
     const thumbRect: DOMRect = thumbYDebugElement.nativeElement.getBoundingClientRect();
@@ -179,8 +179,8 @@ describe('Scrollbar track', () => {
     await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
-    const trackXDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackXDirective));
-    const thumbXDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbXDirective));
+    const trackXDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackXComponent));
+    const thumbXDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbXComponent));
 
     const trackRect: DOMRect = trackXDebugElement.nativeElement.getBoundingClientRect();
     const thumbRect: DOMRect = thumbXDebugElement.nativeElement.getBoundingClientRect();
@@ -210,8 +210,8 @@ describe('Scrollbar track', () => {
 
     await adapter.scrollTo({ end: 0, duration: 0 });
 
-    const trackXDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackXDirective));
-    const thumbXDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbXDirective));
+    const trackXDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackXComponent));
+    const thumbXDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbXComponent));
 
     const trackRect: DOMRect = trackXDebugElement.nativeElement.getBoundingClientRect();
     const thumbRect: DOMRect = thumbXDebugElement.nativeElement.getBoundingClientRect();
@@ -243,8 +243,8 @@ describe('Scrollbar track', () => {
 
     await adapter.scrollTo({ start: 0, duration: 0 });
 
-    const trackXDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackXDirective));
-    const thumbXDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbXDirective));
+    const trackXDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackXComponent));
+    const thumbXDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbXComponent));
 
     const trackRect: DOMRect = trackXDebugElement.nativeElement.getBoundingClientRect();
     const thumbRect: DOMRect = thumbXDebugElement.nativeElement.getBoundingClientRect();
@@ -276,8 +276,8 @@ describe('Scrollbar track', () => {
 
     await adapter.scrollTo({ end: 0, duration: 0 });
 
-    const trackXDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackXDirective));
-    const thumbXDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbXDirective));
+    const trackXDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackXComponent));
+    const thumbXDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbXComponent));
 
     const trackRect: DOMRect = trackXDebugElement.nativeElement.getBoundingClientRect();
     const thumbRect: DOMRect = thumbXDebugElement.nativeElement.getBoundingClientRect();
@@ -308,7 +308,7 @@ describe('Scrollbar track', () => {
     // Make the current scroll position close to bottom, so it triggers only one scroll to the end
     await adapter.scrollTo({ bottom: 90, duration: 50 });
 
-    const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
+    const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYComponent));
 
     const clientY: number = 300;
 
@@ -331,7 +331,7 @@ describe('Scrollbar track', () => {
     // Make the current scroll position close to top, so it triggers only one scroll step to finish
     await adapter.scrollTo({ top: 50, duration: 0 });
 
-    const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
+    const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYComponent));
 
     const clientY: number = 10;
 
@@ -350,7 +350,7 @@ describe('Scrollbar track', () => {
     await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
-    const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
+    const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYComponent));
 
     let clientY: number = 290;
 
@@ -391,8 +391,8 @@ describe('Scrollbar track', () => {
     await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
-    const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYDirective));
-    const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYDirective));
+    const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYComponent));
+    const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYComponent));
 
     const trackRect: DOMRect = trackYDebugElement.nativeElement.getBoundingClientRect();
     const thumbRect: DOMRect = thumbYDebugElement.nativeElement.getBoundingClientRect();

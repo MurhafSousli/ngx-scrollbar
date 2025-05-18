@@ -4,11 +4,11 @@
       <div class="sample">
         <header>TODO</header>
         <ng-scrollbar #scrollbarRef="ngScrollbar"
-                      externalViewport
+                      externalViewport=".viewport"
                       appearance="compact"
                       (afterInit)="onScrollbarUpdate(scrollbarRef)"
                       (afterUpdate)="onScrollbarUpdate(scrollbarRef, 200)">
-          <div scrollViewport>
+          <div class="viewport">
             <ul>
               <li></li>
               @for (item of list; track item.title) {

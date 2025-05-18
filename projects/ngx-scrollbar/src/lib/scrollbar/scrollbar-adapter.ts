@@ -19,7 +19,7 @@ export abstract class ScrollbarAdapter {
   abstract readonly clientProperty: 'clientX' | 'clientY';
 
   // Returns either 'offsetX' or 'offsetY' coordinate of the pointer relative to the edge of the element
-  abstract readonly offsetProperty: 'offsetX' | 'offsetY'
+  abstract readonly offsetProperty: 'offsetX' | 'offsetY';
 
   // Return axis
   abstract readonly axis: 'x' | 'y';

@@ -24,6 +24,10 @@
 
   --_scrollbar-thumb-transform-from: 0 0;
   --_scrollbar-thumb-transform-to: 0 calc(var(--_scrollbar-y-thumb-transform-to-value) * 1px);
+
+  // Button arrow icon direction
+  --_button-icon-rotate-top: 0deg;
+  --_button-icon-rotate-bottom: 180deg;
 }
 
 .ng-scrollbar-track-wrapper {
@@ -36,11 +40,4 @@
     --_track-y-thickness: var(--_scrollbar-hover-thickness-px);
     --_thumb-y-color: var(--INTERNAL-scrollbar-thumb-hover-color);
   }
-}
-
-.ng-scrollbar-thumb {
-  animation-timeline: var(--_animation-timeline-y);
-  min-height: calc(var(--INTERNAL-scrollbar-thumb-min-size) * 1px);
-  display: var(--_vertical-thumb-display);
-  background-color: var(--_thumb-y-color);
 }

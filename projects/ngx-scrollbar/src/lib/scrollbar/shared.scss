@@ -1,4 +1,5 @@
 :host {
+  // This is the layer that contains the scrollbar, it must has absolute position to mask the viewport dimension
   pointer-events: none;
   position: absolute;
   inset-block-start: 0;
@@ -38,37 +39,4 @@
   overflow: hidden;
   display: flex;
   place-items: center;
-}
-
-.ng-scrollbar-track {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background-color: var(--INTERNAL-scrollbar-track-color);
-  border-radius: var(--INTERNAL-scrollbar-border-radius);
-  cursor: default;
-  z-index: 1;
-  order: 2;
-}
-
-.ng-scrollbar-thumb {
-  box-sizing: border-box;
-  position: absolute;
-  transition: var(--INTERNAL-scrollbar-thumb-transition);
-  border-radius: var(--INTERNAL-scrollbar-border-radius);
-  height: var(--_thumb-height);
-  width: var(--_thumb-width);
-
-  animation-name: scrollbarThumbAnimation;
-  animation-duration: 1ms; /* Firefox requires this to apply the animation */
-  animation-timing-function: linear;
-}
-
-@keyframes scrollbarThumbAnimation {
-  from {
-    translate: var(--_scrollbar-thumb-transform-from);
-  }
-  to {
-    translate: var(--_scrollbar-thumb-transform-to);
-  }
 }

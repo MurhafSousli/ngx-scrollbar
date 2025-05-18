@@ -1,4 +1,4 @@
-import { Directive, untracked, afterRenderEffect } from '@angular/core';
+import { afterRenderEffect, Directive, untracked } from '@angular/core';
 import {
   Observable,
   tap,
@@ -32,7 +32,7 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
 
   // Returns viewport client size
   protected get viewportSize(): number {
-    return this.host[this.control.sizeProperty];
+    return this.adapter[this.control.sizeProperty];
   }
 
   // Get track client rect
@@ -115,14 +115,18 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
   constructor() {
     afterRenderEffect({
       earlyRead: (): void => {
-        this.host.viewportDimension();
-        this.host.contentDimension();
+        this.adapter.viewportDimension();
+        this.adapter.contentDimension();
 
         untracked(() => {
           this.control.trackSize.set(this.size);
+          // console.log('🧪', this.size);
           if (!this.size) {
             // In some rare cases size could be 0 due to first render, use animation frame to give the track element time to render
-            requestAnimationFrame(() => this.control.trackSize.set(this.size));
+            requestAnimationFrame(() => {
+              console.log('TEST')
+              this.control.trackSize.set(this.size)
+            });
           }
         });
       }

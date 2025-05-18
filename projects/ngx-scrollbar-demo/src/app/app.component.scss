@@ -2,7 +2,7 @@
   height: 100%;
 }
 
-ng-scrollbar {
+ng-scrollbar.main-scrollbar {
   --scrollbar-thickness: 12;
   --scrollbar-hover-thickness: 18;
   --scrollbar-offset: 0;
@@ -18,13 +18,9 @@ ng-scrollbar {
   --scrollbar-button-hover-fill: var(--scrollbar-button-fill);
   --scrollbar-button-active-fill: var(--scrollbar-button-hover-fill);
 
-  height: calc(100% - 60px);
+  flex: 1;
 
   ::ng-deep {
-    .app-scrollbar-track {
-      //box-shadow: inset 0 0 0 1px rgb(0 0 0 / 10%);
-    }
-
     .app-scrollbar-thumb {
       background-image: linear-gradient(to bottom, var(--color-example3), #EFB436);
       box-shadow: inset 0 -1px 0 #f9df91;
@@ -34,6 +30,11 @@ ng-scrollbar {
 
 app-logo {
   padding: 5px 10px 5px 0;
+}
+
+.mat-drawer-content {
+  display: flex;
+  flex-direction: column;
 }
 
 mat-toolbar {
