@@ -6,7 +6,7 @@
   --_scrollbar-wrapper-inset-inline-start: 0;
   --_scrollbar-wrapper-inset-inline-end: 0;
 
-  --_scrollbar-wrapper-height: var(--_scrollbar-thickness);
+  --_scrollbar-wrapper-height: var(--_scrollbar-computed-thickness);
   --_scrollbar-wrapper-width: var(--viewport-width);
 
   --_scrollbar-track-inset-block-start: var(--_horizontal-block-start);
@@ -45,6 +45,6 @@
 .ng-scrollbar-hover {
   &:hover, &:active {
     --_track-x-thickness: var(--_scrollbar-hover-thickness-px);
-    --_thumb-x-color: var(--INTERNAL-scrollbar-thumb-hover-color);
+    --_thumb-x-color: var(--_scrollbar-thumb-hover-color);
   }
 }

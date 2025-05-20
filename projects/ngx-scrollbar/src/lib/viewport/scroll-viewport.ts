@@ -52,7 +52,7 @@ export class ScrollViewport extends NgScrollbarCore implements OnDestroy {
         // Create scroll content
         this.createContentWrapper(this.contentWrapperElement);
         // Attach scrollbars
-        this.attachScrollbars(this.nativeElement);
+        this.attachScrollbars(this.spacerElement || this.contentWrapperElement);
         // Initialize viewport
         this.viewport.init(this.nativeElement, this.contentWrapperElement, this.spacerElement);
         // If spaceElement is provided, add the appropriate class

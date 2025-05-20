@@ -9,14 +9,15 @@
   --_dropped-offset-start: var(--dropped-offset-start, 1px);
   --_dropped-offset-end: var(--dropped-offset-end, 1px);
 
-
-  //display: contents;
   display: block;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: -9999;
+  user-select: none;
+  pointer-events: none;
   min-width: calc(var(--viewport-width) * 1px);
   min-height: calc(var(--viewport-height) * 1px);
 

@@ -85,7 +85,7 @@ describe('<ng-scrollbar externalViewport>', () => {
     // Verify that the content wrapper here is the scrollbar host element
     expect(adapter.contentWrapperElement).toBe(scrollbarHost);
     // Check if the created scrollbars component is attached to the scrollbar host element
-    expect(scrollbarsDebugElement.nativeElement.parentElement).toBe(viewportElement);
+    expect(scrollbarsDebugElement.nativeElement.parentElement).toBe(scrollbarHost);
     // Verify that the content is a direct child of the content wrapper element
     const contentSample: DebugElement = fixture.debugElement.query(By.css('.content-sample'));
     expect(viewportComponent.contentWrapperElement).toBe(contentSample.nativeElement.parentElement);

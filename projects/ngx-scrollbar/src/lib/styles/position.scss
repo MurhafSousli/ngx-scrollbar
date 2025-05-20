@@ -11,7 +11,7 @@
   --_horizontal-block-start: initial;
   --_horizontal-block-end: var(--_scrollbar-offset-px);
 
-  --_scrollbar-wrapper-x-start: calc(var(--viewport-height) - var(--_scrollbar-thickness));
+  --_scrollbar-wrapper-x-start: calc(var(--viewport-height) - var(--_scrollbar-computed-thickness));
 }
 
 @mixin VerticalInlineStart() {
@@ -63,7 +63,7 @@
 
   --_scrollbar-wrapper-y-end: initial;
   @include VerticalInlineEnd();
-  --_scrollbar-wrapper-y-start: calc(var(--viewport-width) - var(--_scrollbar-thickness));
+  --_scrollbar-wrapper-y-start: calc(var(--viewport-width) - var(--_scrollbar-computed-thickness));
 
 
   @include selector.VerticalInverted {

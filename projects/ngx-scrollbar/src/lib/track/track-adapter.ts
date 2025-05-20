@@ -120,11 +120,9 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
 
         untracked(() => {
           this.control.trackSize.set(this.size);
-          // console.log('🧪', this.size);
           if (!this.size) {
             // In some rare cases size could be 0 due to first render, use animation frame to give the track element time to render
             requestAnimationFrame(() => {
-              console.log('TEST')
               this.control.trackSize.set(this.size)
             });
           }
