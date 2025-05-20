@@ -4,7 +4,7 @@ import { SCROLLBAR_CONTROL, ScrollbarAdapter } from './scrollbar-adapter';
 import { ScrollbarManager } from '../utils/scrollbar-manager';
 import { TrackXComponent, TrackYComponent } from '../track/track';
 import { ThumbXComponent, ThumbYComponent } from '../thumb/thumb';
-import { ScrollbarButton } from '../button/scrollbar-button.component';
+import { ScrollbarButton } from '../button/scrollbar-button';
 
 @Component({
   selector: 'scrollbar-y',

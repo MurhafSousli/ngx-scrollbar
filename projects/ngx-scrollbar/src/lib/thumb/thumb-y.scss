@@ -1,6 +1,6 @@
 :host {
   animation-timeline: var(--_animation-timeline-y);
-  min-height: calc(var(--INTERNAL-scrollbar-thumb-min-size) * 1px);
+  min-height: calc(var(--_scrollbar-thumb-min-size) * 1px);
   display: var(--_vertical-thumb-display);
   background-color: var(--_thumb-y-color);
 }
