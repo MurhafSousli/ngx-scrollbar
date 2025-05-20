@@ -13,7 +13,7 @@
   --_scrollbar-track-inset-inline-start: var(--_vertical-inset-inline-start);
 
   // Calculate the vertical thumb size
-  --thumb-size: max(calc(var(--viewport-height) * var(--track-size) / var(--content-height)), var(--INTERNAL-scrollbar-thumb-min-size));
+  --thumb-size: max(calc(var(--viewport-height) * var(--track-size) / var(--content-height)), var(--_scrollbar-thumb-min-size));
 
   // Scrollbar thumb variables
   --_thumb-height: calc(var(--thumb-size) * 1px);

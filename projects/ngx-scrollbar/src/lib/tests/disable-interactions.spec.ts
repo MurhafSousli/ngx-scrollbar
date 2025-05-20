@@ -4,7 +4,7 @@ import { outputToObservable } from '@angular/core/rxjs-interop';
 import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
 import { setDimensions } from './common-test.';
-import { ScrollbarButton } from '../button/scrollbar-button.component';
+import { ScrollbarButton } from '../button/scrollbar-button';
 import { TrackAdapter } from '../track/track-adapter';
 import { ThumbAdapter } from '../thumb/thumb-adapter';
 

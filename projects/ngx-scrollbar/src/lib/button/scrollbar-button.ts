@@ -40,8 +40,8 @@ const horizontalScrollStepFunc: Record<'ltr' | 'rtl', Record<'forward' | 'backwa
 
 @Component({
   selector: 'button[scrollbarButton]',
-  templateUrl: './scrollbar-button.component.html',
-  styleUrl: './scrollbar-button.component.scss',
+  templateUrl: './scrollbar-button.html',
+  styleUrl: './scrollbar-button.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScrollbarButton extends PointerEventsAdapter {

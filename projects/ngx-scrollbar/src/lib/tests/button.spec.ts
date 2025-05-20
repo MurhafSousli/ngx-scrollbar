@@ -7,7 +7,7 @@ import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
 import { provideSmoothScrollOptions } from 'ngx-scrollbar/smooth-scroll';
 import { afterTimeout, setDimensions } from './common-test.';
-import { ScrollbarButton } from '../button/scrollbar-button.component';
+import { ScrollbarButton } from '../button/scrollbar-button';
 
 describe('Buttons', () => {
   let component: NgScrollbar;
