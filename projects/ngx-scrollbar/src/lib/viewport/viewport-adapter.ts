@@ -201,12 +201,12 @@ export class ViewportAdapter {
 
   /** Viewport clientHeight */
   get offsetHeight(): number {
-    return this.nativeElement.offsetHeight;
+    return this.nativeElement.clientHeight;
   }
 
   /** Viewport clientWidth */
   get offsetWidth(): number {
-    return this.nativeElement.offsetWidth;
+    return this.nativeElement.clientWidth;
   }
 
   /** Viewport scrollTop */
@@ -221,12 +221,12 @@ export class ViewportAdapter {
 
   /** Content height */
   get contentHeight(): number {
-    return this.contentWrapperElement.offsetHeight;
+    return this.contentWrapperElement.clientHeight;
   }
 
   /** Content width */
   get contentWidth(): number {
-    return this.contentWrapperElement.offsetWidth;
+    return this.contentWrapperElement.clientWidth;
   }
 
   /** The remaining vertical scrollable distance. */
