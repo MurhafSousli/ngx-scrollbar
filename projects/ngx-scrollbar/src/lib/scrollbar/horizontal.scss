@@ -38,13 +38,6 @@
 }
 
 .ng-scrollbar-track-wrapper {
-  height: var(--_track-x-thickness);
+  height: var(--_track-thickness-px);
   flex-direction: row;
-}
-
-.ng-scrollbar-hover {
-  &:hover, &:active {
-    --_track-x-thickness: var(--_scrollbar-hover-thickness-px);
-    --_thumb-x-color: var(--_scrollbar-thumb-hover-color);
-  }
 }

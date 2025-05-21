@@ -2,7 +2,6 @@
   animation-timeline: var(--_animation-timeline-x);
   min-width: calc(var(--_scrollbar-thumb-min-size) * 1px);
   display: var(--_horizontal-thumb-display);
-  background-color: var(--_thumb-x-color);
 
   &[dir="rtl"] {
     // In LTR we cannot use translate to move the thumb,

@@ -38,3 +38,13 @@
   display: flex;
   place-items: center;
 }
+
+.ng-scrollbar-hover {
+  --_track-thickness-px: var(--_scrollbar-thickness-px);
+  --_thumb-color: var(--_scrollbar-thumb-color);
+
+  &:hover, &:active {
+    --_track-thickness-px: var(--_scrollbar-hover-thickness-px);
+    --_thumb-color: var(--_scrollbar-thumb-hover-color);
+  }
+}

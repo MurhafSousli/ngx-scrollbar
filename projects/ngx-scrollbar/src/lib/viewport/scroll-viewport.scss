@@ -91,12 +91,6 @@
   --_viewport-overflow: auto;
   --_viewport-pointer-events: auto;
 
-  // Scrollbar thumb color variables used to change when hovered or dragged
-  --_thumb-x-color: var(--_scrollbar-thumb-color);
-  --_thumb-y-color: var(--_scrollbar-thumb-color);
-  --_track-y-thickness: var(--_scrollbar-thickness-px);
-  --_track-x-thickness: var(--_scrollbar-thickness-px);
-
   // Viewport overscroll behavior
   --_viewport-overscroll-behavior: var(--_scrollbar-overscroll-behavior);
 
@@ -159,16 +153,6 @@
   &[dragging="x"], &[dragging="y"] {
     // Disable selection when a scrollbar thumb is being dragged
     --_viewport-user-select: none;
-  }
-
-  &[dragging="x"] {
-    --_track-x-thickness: var(--_scrollbar-hover-thickness-px);
-    --_thumb-x-color: var(var(--_scrollbar-thumb-min-size));
-  }
-
-  &[dragging="y"] {
-    --_track-y-thickness: var(--_scrollbar-hover-thickness-px);
-    --_thumb-y-color: var(var(--_scrollbar-thumb-min-size));
   }
 
   &[mobile="true"] {

@@ -1,6 +1,7 @@
 :host {
   box-sizing: border-box;
   position: absolute;
+  background-color: var(--_thumb-color);
   transition: var(--_scrollbar-thumb-transition);
   border-radius: var(--_scrollbar-border-radius);
   height: var(--_thumb-height);
