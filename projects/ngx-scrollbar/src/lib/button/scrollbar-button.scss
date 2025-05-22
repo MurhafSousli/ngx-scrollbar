@@ -1,6 +1,16 @@
 @use "../styles/selectors" as selector;
 
 :host {
+  // Scrollbar button colors
+  --_scrollbar-button-color: var(--scrollbar-button-color, var(--scrollbar-thumb-color));
+  --_scrollbar-button-hover-color: var(--scrollbar-button-hover-color, var(--_scrollbar-button-color));
+  --_scrollbar-button-active-color: var(--scrollbar-button-active-color, var(--_scrollbar-button-hover-color));
+
+  // Scrollbar button arrow fill
+  --_scrollbar-button-fill: var(--scrollbar-button-fill, white);
+  --_scrollbar-button-hover-fill: var(--scrollbar-button-hover-fill, var(--_scrollbar-button-fill));
+  --_scrollbar-button-active-fill: var(--scrollbar-button-active-fill, var(--_scrollbar-button-hover-fill));
+
   position: relative;
   border: none;
   margin: 0;

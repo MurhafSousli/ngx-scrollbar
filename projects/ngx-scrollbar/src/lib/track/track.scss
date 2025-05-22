@@ -2,8 +2,8 @@
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: var(--_scrollbar-track-color);
-  border-radius: var(--_scrollbar-border-radius);
+  background-color: var(--scrollbar-track-color, transparent);
+  border-radius: var(--scrollbar-border-radius, 0px);
   cursor: default;
   z-index: 1;
   order: 2;

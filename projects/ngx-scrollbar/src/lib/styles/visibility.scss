@@ -6,13 +6,13 @@
 
   &[visibility="hover"] {
     --_scrollbar-hover-opacity: 0;
-    --_scrollbar-opacity-transition: opacity var(--_scrollbar-hover-opacity-transition-leave-duration) var(--_scrollbar-hover-opacity-transition-leave-delay);
+    --_scrollbar-opacity-transition: opacity var(--_scrollbar-hover-opacity-transition-leave-duration, 0.4s) var(--_scrollbar-hover-opacity-transition-leave-delay, 1s);
 
     &:hover,
     &:active,
     &:focus {
       --_scrollbar-hover-opacity: 1;
-      --_scrollbar-opacity-transition: opacity var(--_scrollbar-hover-opacity-transition-enter-duration);
+      --_scrollbar-opacity-transition: opacity var(--_scrollbar-hover-opacity-transition-enter-duration, 0);
     }
   }
 }
