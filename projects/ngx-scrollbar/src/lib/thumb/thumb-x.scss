@@ -1,20 +1,21 @@
 :host {
   animation-timeline: var(--_animation-timeline-x);
   display: var(--_horizontal-thumb-display);
+  background-color: var(--_thumb-x-color);
 
   height: 100%;
   width: calc(var(--thumb-size-percent) * 1%);
 
-  /* Raw thumb percent from scroll ratio */
+  // Raw thumb percent from scroll ratio
   --_thumb-size-percent-raw: calc(var(--viewport-width) / var(--content-width) * 100);
 
-  /* Min thumb size in px, converted to percentage of the track */
+  // Min thumb size in px, converted to percentage of the track
   --_min-thumb-size-percent: calc(var(--_scrollbar-thumb-min-size) / var(--viewport-width) * 100);
 
-  /* Clamped thumb size */
+  // Clamped thumb size
   --thumb-size-percent: max(var(--_thumb-size-percent-raw), var(--_min-thumb-size-percent));
 
-  /* Effective ratio based on visual thumb size */
+  // Effective ratio based on visual thumb size
   --_effective-thumb-ratio: calc(var(--thumb-size-percent) / 100);
 
   // Calculate thumb position

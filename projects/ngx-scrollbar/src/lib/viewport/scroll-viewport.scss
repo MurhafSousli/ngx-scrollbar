@@ -5,6 +5,7 @@
 @use "../styles/hide-native-scrollbars" as nativeScrollbars;
 @use "../styles/selectors" as selector;
 @use "../styles/scroll" as scroll;
+@use "../styles/dragging" as dragging;
 
 :host {
   // CSS variables used to customized the look of the scrollbar component
@@ -113,11 +114,6 @@
     --_horizontal-thumb-display: none;
   }
 
-  &[dragging="x"], &[dragging="y"] {
-    // Disable selection when a scrollbar thumb is being dragged
-    --_viewport-user-select: none;
-  }
-
   &[mobile="true"] {
     --_viewport-overscroll-behavior: var(--_scrollbar-mobile-overscroll-behavior);
   }
@@ -129,6 +125,7 @@
   @include appearance.SetAppearanceStuff();
   @include visibility.SetVisibilityStuff();
   @include scroll.SetScrollingStyles();
+  @include dragging.SetDraggingStuff();
 }
 
 @layer default {

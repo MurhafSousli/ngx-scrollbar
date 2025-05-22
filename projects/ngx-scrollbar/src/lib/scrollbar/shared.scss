@@ -40,13 +40,3 @@
   display: flex;
   place-items: center;
 }
-
-.ng-scrollbar-hover {
-  --_track-thickness-px: var(--_scrollbar-thickness-px);
-  --_thumb-color: var(--scrollbar-thumb-color, rgb(0 0 0 / 20%));
-
-  &:hover, &:active {
-    --_track-thickness-px: calc(var(--scrollbar-hover-thickness) * 1px);
-    --_thumb-color: var(--scrollbar-thumb-hover-color, var(--_scrollbar-thumb-color));
-  }
-}
