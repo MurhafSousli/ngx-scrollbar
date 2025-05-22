@@ -32,7 +32,9 @@
   inset-block-end: var(--_scrollbar-track-inset-block-end);
   inset-inline-start: var(--_scrollbar-track-inset-inline-start);
   inset-inline-end: var(--_scrollbar-track-inset-inline-end);
-  transition: var(--_scrollbar-track-wrapper-transition);
+
+  // Scrollbar track wrapper transition
+  transition: var(--scrollbar-track-wrapper-transition, width 60ms linear, height 60ms linear);
   position: absolute;
   overflow: hidden;
   display: flex;
@@ -41,10 +43,10 @@
 
 .ng-scrollbar-hover {
   --_track-thickness-px: var(--_scrollbar-thickness-px);
-  --_thumb-color: var(--_scrollbar-thumb-color);
+  --_thumb-color: var(--scrollbar-thumb-color, rgb(0 0 0 / 20%));
 
   &:hover, &:active {
-    --_track-thickness-px: var(--_scrollbar-hover-thickness-px);
-    --_thumb-color: var(--_scrollbar-thumb-hover-color);
+    --_track-thickness-px: calc(var(--scrollbar-hover-thickness) * 1px);
+    --_thumb-color: var(--scrollbar-thumb-hover-color, var(--_scrollbar-thumb-color));
   }
 }
