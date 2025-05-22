@@ -1,4 +1,4 @@
-import { afterRenderEffect, Directive, untracked } from '@angular/core';
+import { Directive } from '@angular/core';
 import {
   Observable,
   tap,
@@ -113,22 +113,6 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
   }
 
   constructor() {
-    afterRenderEffect({
-      earlyRead: (): void => {
-        this.adapter.viewportDimension();
-        this.adapter.contentDimension();
-
-        untracked(() => {
-          this.control.trackSize.set(this.size);
-          if (!this.size) {
-            // In some rare cases size could be 0 due to first render, use animation frame to give the track element time to render
-            requestAnimationFrame(() => {
-              this.control.trackSize.set(this.size)
-            });
-          }
-        });
-      }
-    });
     super();
   }
 

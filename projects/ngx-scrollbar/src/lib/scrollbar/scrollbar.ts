@@ -32,9 +32,6 @@ import { ScrollbarButton } from '../button/scrollbar-button';
   providers: [
     { provide: SCROLLBAR_CONTROL, useExisting: ScrollbarY }
   ],
-  host: {
-    '[style.--track-size]': 'trackSize()'
-  },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScrollbarY extends ScrollbarAdapter {
@@ -95,8 +92,7 @@ export class ScrollbarY extends ScrollbarAdapter {
     { provide: SCROLLBAR_CONTROL, useExisting: ScrollbarX }
   ],
   host: {
-    '[attr.dir]': 'cmp.direction()',
-    '[style.--track-size]': 'trackSize()'
+    '[attr.dir]': 'cmp.direction()'
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
