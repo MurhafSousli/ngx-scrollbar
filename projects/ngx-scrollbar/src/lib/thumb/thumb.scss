@@ -15,7 +15,7 @@
   animation-timing-function: linear;
 
   // Calculate thumb position
-  --_scrollbar-thumb-transform-to-value: calc((100 / var(--thumb-ratio) - 100) * 1%);
+  --_scrollbar-thumb-transform-to-value: calc((100 / var(--_effective-thumb-ratio) - 100) * 1%);
 }
 
 @keyframes scrollbarThumbAnimation {

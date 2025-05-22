@@ -1,13 +1,21 @@
 :host {
   animation-timeline: var(--_animation-timeline-x);
-  min-width: calc(var(--_scrollbar-thumb-min-size) * 1px);
   display: var(--_horizontal-thumb-display);
 
   height: 100%;
-  width: calc(var(--thumb-ratio) * 100%);
+  width: calc(var(--thumb-size-percent) * 1%);
 
-  // Calculate the horizontal thumb size
-  --thumb-ratio: calc(var(--viewport-width) / var(--content-width));
+  /* Raw thumb percent from scroll ratio */
+  --_thumb-size-percent-raw: calc(var(--viewport-width) / var(--content-width) * 100);
+
+  /* Min thumb size in px, converted to percentage of the track */
+  --_min-thumb-size-percent: calc(var(--_scrollbar-thumb-min-size) / var(--viewport-width) * 100);
+
+  /* Clamped thumb size */
+  --thumb-size-percent: max(var(--_thumb-size-percent-raw), var(--_min-thumb-size-percent));
+
+  /* Effective ratio based on visual thumb size */
+  --_effective-thumb-ratio: calc(var(--thumb-size-percent) / 100);
 
   // Calculate thumb position
   --_scrollbar-thumb-transform-from: 0;
@@ -33,6 +41,6 @@
   }
   to {
     // Calculation for chrome
-    right: calc((var(--thumb-ratio) - 100 + var(--thumb-ratio) * 100) * -1%);
+    right: calc((var(--_effective-thumb-ratio) - 100 + var(--_effective-thumb-ratio) * 100) * -1%);
   }
 }
