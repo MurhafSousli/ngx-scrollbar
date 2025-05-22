@@ -43,18 +43,6 @@
   }
 }
 
-@mixin LTR {
-  &[dir="ltr"] {
-    @content;
-  }
-}
-
-@mixin RTL {
-  &[dir="rtl"] {
-    @content;
-  }
-}
-
 @mixin VerticalInverted {
   &[position="invertY"], &[position="invertAll"] {
     @content;

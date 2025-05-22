@@ -1,0 +1,30 @@
+@mixin SetDraggingStuff {
+  // It's important to set the CSS variables here, so nested scrollbar don't inherit dragging effects
+
+  --_scrollbar-thumb-color: var(--scrollbar-thumb-color, rgb(0 0 0 / 20%));
+  --_thumb-hover-color: var(--scrollbar-thumb-hover-color, var(--_scrollbar-thumb-color));
+
+  --_thumb-y-color: var(--_scrollbar-thumb-color);
+  --_thumb-x-color: var(--_scrollbar-thumb-color);
+
+  --_scrollbar-hover-thickness: var(--scrollbar-hover-thickness, var(--scrollbar-thickness));
+  --_scrollbar-hover-thickness-px: calc(var(--_scrollbar-hover-thickness) * 1px);
+  --_track-y-thickness-px: var(--_scrollbar-thickness-px);
+  --_track-x-thickness-px: var(--_scrollbar-thickness-px);
+
+
+  &[dragging="x"], &[dragging="y"] {
+    // Disable selection when a scrollbar thumb is being dragged
+    --_viewport-user-select: none;
+  }
+
+  &[dragging="x"] {
+    --_thumb-x-color: var(--_thumb-hover-color);
+    --_track-x-thickness-px: var(--_scrollbar-hover-thickness-px);
+  }
+
+  &[dragging="y"] {
+    --_thumb-y-color: var(--_thumb-hover-color);
+    --_track-y-thickness-px: var(--_scrollbar-hover-thickness-px);
+  }
+}

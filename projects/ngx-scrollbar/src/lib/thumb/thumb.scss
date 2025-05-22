@@ -1,7 +1,6 @@
 :host {
   box-sizing: border-box;
   position: absolute;
-  background-color: var(--_thumb-color);
   transition: var(--scrollbar-thumb-transition, none);
 
   // Inherit the border radius from the track

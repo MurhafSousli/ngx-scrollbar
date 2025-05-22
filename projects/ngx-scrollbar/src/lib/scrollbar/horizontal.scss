@@ -18,13 +18,20 @@
   --_button-icon-rotate-start: -90deg;
   --_button-icon-rotate-end: 90deg;
 
-  @include selector.RTL {
+  &[dir="rtl"] {
     --_button-icon-rotate-start: 90deg;
     --_button-icon-rotate-end: -90deg;
   }
 }
 
 .ng-scrollbar-track-wrapper {
-  height: var(--_track-thickness-px);
+  height: var(--_track-x-thickness-px);
   flex-direction: row;
+}
+
+.ng-scrollbar-hover {
+  &:hover, &:active {
+    --_thumb-x-color: var(--_thumb-hover-color);
+    --_track-x-thickness-px: var(--_scrollbar-hover-thickness-px);
+  }
 }
