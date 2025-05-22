@@ -14,19 +14,6 @@
   --_scrollbar-track-inset-inline-end: var(--_horizontal-inline-end);
   --_scrollbar-track-inset-inline-start: var(--_horizontal-inline-start);
 
-  // Calculate the horizontal thumb size
-  --thumb-size: max(calc(var(--viewport-width) * var(--track-size) / var(--content-width)), var(--_scrollbar-thumb-min-size));
-
-  // Scrollbar thumb variables
-  --_thumb-height: 100%;
-  --_thumb-width: calc(var(--thumb-size) * 1px);
-
-  // Calculate thumb position
-  --_scrollbar-x-thumb-transform-to-value: calc(var(--track-size) - var(--thumb-size));
-
-  --_scrollbar-thumb-transform-from: 0;
-  --_scrollbar-thumb-transform-to: calc(var(--_scrollbar-x-thumb-transform-to-value) * 1px);
-
   // Button arrow icon direction
   --_button-icon-rotate-start: -90deg;
   --_button-icon-rotate-end: 90deg;

@@ -1,4 +1,4 @@
-import { Directive, inject, signal, WritableSignal, InjectionToken } from '@angular/core';
+import { Directive, inject, InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ViewportAdapter } from '../viewport/viewport-adapter';
 
@@ -6,8 +6,6 @@ export const SCROLLBAR_CONTROL: InjectionToken<ScrollbarAdapter> = new Injection
 
 @Directive()
 export abstract class ScrollbarAdapter {
-
-  trackSize: WritableSignal<number> = signal(0);
 
   abstract readonly rectOffsetProperty: 'left' | 'top';
 

@@ -2,4 +2,14 @@
   animation-timeline: var(--_animation-timeline-y);
   min-height: calc(var(--_scrollbar-thumb-min-size) * 1px);
   display: var(--_vertical-thumb-display);
+
+  height: calc(var(--thumb-ratio) * 100%);
+  width: 100%;
+
+  // Calculate the vertical thumb size
+  --thumb-ratio: calc(var(--viewport-height) / var(--content-height));
+
+  // Calculate thumb position
+  --_scrollbar-thumb-transform-from: 0 0;
+  --_scrollbar-thumb-transform-to: 0 var(--_scrollbar-thumb-transform-to-value);
 }

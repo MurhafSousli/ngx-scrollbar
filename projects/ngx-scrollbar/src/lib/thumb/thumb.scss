@@ -2,16 +2,20 @@
   box-sizing: border-box;
   position: absolute;
   background-color: var(--_thumb-color);
-  transition: var(--_scrollbar-thumb-transition);
-  height: var(--_thumb-height);
-  width: var(--_thumb-width);
+  transition: var(--scrollbar-thumb-transition, none);
 
   // Inherit the border radius from the track
   border-radius: inherit;
 
+  // Hint the browser to optimize the transform animation
+  will-change: transform;
+
   animation-name: scrollbarThumbAnimation;
   animation-duration: 1ms; /* Firefox requires this to apply the animation */
   animation-timing-function: linear;
+
+  // Calculate thumb position
+  --_scrollbar-thumb-transform-to-value: calc((100 / var(--thumb-ratio) - 100) * 1%);
 }
 
 @keyframes scrollbarThumbAnimation {
