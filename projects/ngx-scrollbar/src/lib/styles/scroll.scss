@@ -1,6 +1,6 @@
 @use "selectors" as selector;
 
-@mixin SetScrollingStyles() {
+@mixin SetScrollingStuff() {
   --_viewport_scroll-timeline: unset;
   --_animation-timeline-y: unset;
 

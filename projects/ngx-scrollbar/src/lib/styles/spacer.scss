@@ -1,5 +1,3 @@
-@use './selectors' as selector;
-
 @mixin SetSpacerStyles() {
   --_spacer-width: var(--spacer-width);
   --_spacer-height: var(--spacer-height);

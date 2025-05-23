@@ -1,0 +1,13 @@
+@mixin SetOverscrollBehaviorStuff() {
+  // Viewport overscroll behavior
+  // In firefox and safari the scrollbar bounces if viewport is over-scrolled causing the scrollbars to bounce with it
+  // It seems that the only way around this is by disabling the overscroll behavior
+  // The other option is to give up the sticky scrollbar method and use an absolute position scrollbars
+  // In case scroll bounce needs to be disabled
+  overscroll-behavior: var(--scrollbar-overscroll-behavior, initial);
+
+  &[mobile="true"] {
+    // Viewport overscroll behavior in case of mobile devices
+    overscroll-behavior: var(--scrollbar-mobile-overscroll-behavior, none);
+  }
+}
