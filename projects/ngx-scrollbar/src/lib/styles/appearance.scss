@@ -21,6 +21,11 @@
 }
 
 @mixin SetAppearanceStuff {
+  // Initialize viewport and content paddings to prevent inheriting values
+  --_viewport-padding-block-start: 0;
+  --_viewport-padding-block-end: 0;
+  --_viewport-padding-inline-start: 0;
+  --_viewport-padding-inline-end: 0;
 
   &[appearance="native"] {
     @include selector.VerticalUsed {

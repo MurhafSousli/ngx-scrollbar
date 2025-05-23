@@ -3,6 +3,20 @@
  * When visibility="hover", scrollbars are hidden, only shown when user hover the viewport
  */
 @mixin SetVisibilityStuff() {
+  // Scrollbar thumb display used to hide thumbs when scrollbar is not scrollable
+  --_horizontal-thumb-display: block;
+  --_vertical-thumb-display: block;
+
+  &[isVerticallyScrollable="false"] {
+    // Hide scrollbars thumb when content is not scrollable
+    --_vertical-thumb-display: none;
+  }
+
+  &[isHorizontallyScrollable="false"] {
+    // Hide scrollbars thumb when content is not scrollable
+    --_horizontal-thumb-display: none;
+  }
+
 
   &[visibility="hover"] {
     --_scrollbar-hover-opacity: 0;
