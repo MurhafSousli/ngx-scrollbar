@@ -7,6 +7,7 @@
 @use "../styles/scroll" as scroll;
 @use "../styles/dragging" as dragging;
 @use "../styles/overscroll-behavior" as overscrollBehavior;
+@use "../styles/disable-interaction" as disableInteraction;
 
 :host {
   // CSS variables used to customized the look of the scrollbar component
@@ -28,7 +29,6 @@
   /** Scrollbar private CSS variables **/
 
   --_scrollbar-computed-thickness: calc(var(--_scrollbar-thickness) + var(--_scrollbar-offset) * 2);
-  --_scrollbar-pointer-events: auto;
 
   // Convert margin to px value to avoid repeating calculation when used in multiple times
   --_scrollbar-offset-px: calc(var(--_scrollbar-offset) * 1px);
@@ -37,7 +37,6 @@
 
   // The default value for overflow
   --_viewport-overflow: auto;
-  --_viewport-pointer-events: auto;
 
   // Content display, will switch to block if orientation is set to vertical
   --_scrollbar-content-width: fit-content;
@@ -64,9 +63,6 @@
   // Disable selection when a scrollbar is being dragged
   user-select: var(--_viewport-user-select);
 
-  // Disables scroll when disableInteraction is set to true
-  pointer-events: var(--_viewport-pointer-events);
-
   &[orientation="vertical"] {
     --_viewport-overflow: hidden auto;
     --_scrollbar-content-width: unset;
@@ -74,11 +70,6 @@
 
   &[orientation="horizontal"] {
     --_viewport-overflow: auto hidden;
-  }
-
-  &[disableInteraction="true"] {
-    --_viewport-pointer-events: none;
-    --_scrollbar-pointer-events: none;
   }
 
   @include spacer.SetSpacerStyles();
@@ -90,6 +81,7 @@
   @include scroll.SetScrollingStuff();
   @include dragging.SetDraggingStuff();
   @include overscrollBehavior.SetOverscrollBehaviorStuff();
+  @include disableInteraction.SetDisableInteractionStuff();
 }
 
 @layer default {
