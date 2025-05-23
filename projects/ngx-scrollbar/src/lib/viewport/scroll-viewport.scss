@@ -6,6 +6,7 @@
 @use "../styles/selectors" as selector;
 @use "../styles/scroll" as scroll;
 @use "../styles/dragging" as dragging;
+@use "../styles/overscroll-behavior" as overscrollBehavior;
 
 :host {
   // CSS variables used to customized the look of the scrollbar component
@@ -16,20 +17,13 @@
   // Space between scrollbar track and its surrounding
   --_scrollbar-offset: var(--scrollbar-offset, 0);
 
+  --_computed-thickness: calc(var(--scrollbar-thickness) - var(--scrollbar-offset));
+
   // The minimum size the scrollbar thumb can get
   --_scrollbar-thumb-min-size: var(--scrollbar-thumb-min-size, 20);
 
   // Scrollbar button size
   --_scrollbar-button-size: var(--scrollbar-button-size, 20px);
-
-  // Viewport overscroll behavior
-  // In firefox and safari the scrollbar bounces if viewport is over-scrolled causing the scrollbars to bounce with it
-  // It seems that the only way around this is by disabling the overscroll behavior
-  // The other option is to give up the sticky scrollbar method and use an absolute position scrollbars
-  --_scrollbar-overscroll-behavior: var(--scrollbar-overscroll-behavior, initial);
-
-  // Viewport overscroll behavior in case of mobile devices
-  --_scrollbar-mobile-overscroll-behavior: var(--scrollbar-mobile-overscroll-behavior, none);
 
   /** Scrollbar private CSS variables **/
 
@@ -44,9 +38,6 @@
   // The default value for overflow
   --_viewport-overflow: auto;
   --_viewport-pointer-events: auto;
-
-  // Viewport overscroll behavior
-  --_viewport-overscroll-behavior: var(--_scrollbar-overscroll-behavior);
 
   // Content display, will switch to block if orientation is set to vertical
   --_scrollbar-content-width: fit-content;
@@ -73,9 +64,6 @@
   // Disable selection when a scrollbar is being dragged
   user-select: var(--_viewport-user-select);
 
-  // In case scroll bounce need to be disabled
-  overscroll-behavior: var(--_viewport-overscroll-behavior);
-
   // Disables scroll when disableInteraction is set to true
   pointer-events: var(--_viewport-pointer-events);
 
@@ -93,18 +81,15 @@
     --_scrollbar-pointer-events: none;
   }
 
-  &[mobile="true"] {
-    --_viewport-overscroll-behavior: var(--_scrollbar-mobile-overscroll-behavior);
-  }
-
   @include spacer.SetSpacerStyles();
 
   @include nativeScrollbars.HideNativeScrollbars();
   @include position.SetPositionStuff();
   @include appearance.SetAppearanceStuff();
   @include visibility.SetVisibilityStuff();
-  @include scroll.SetScrollingStyles();
+  @include scroll.SetScrollingStuff();
   @include dragging.SetDraggingStuff();
+  @include overscrollBehavior.SetOverscrollBehaviorStuff();
 }
 
 @layer default {
