@@ -13,7 +13,6 @@ import {
   OutputEmitterRef,
   InputSignalWithTransform
 } from '@angular/core';
-import { Platform } from '@angular/cdk/platform';
 import { Direction, Directionality } from '@angular/cdk/bidi';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {

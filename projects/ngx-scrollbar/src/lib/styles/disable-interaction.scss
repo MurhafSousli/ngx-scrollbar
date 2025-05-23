@@ -1,0 +1,16 @@
+/**
+ * DisableInteraction: 'true' | 'false'
+ * Disables scrollbar interaction like dragging thumb and jumping by track click
+ */
+@mixin SetDisableInteractionStuff() {
+  --_viewport-pointer-events: auto;
+  --_scrollbar-pointer-events: auto;
+
+  // Disables scroll when disableInteraction is set to true
+  pointer-events: var(--_viewport-pointer-events);
+
+  &[disableInteraction="true"] {
+    --_viewport-pointer-events: none;
+    --_scrollbar-pointer-events: none;
+  }
+}
