@@ -41,16 +41,6 @@
   --_scrollbar-thickness-px: calc(var(--_scrollbar-thickness) * 1px);
   --_scrollbar-computed-thickness-px: calc(var(--_scrollbar-computed-thickness) * 1px);
 
-  // Initialize viewport and content paddings
-  --_viewport-padding-block-start: 0;
-  --_viewport-padding-block-end: 0;
-  --_viewport-padding-inline-start: 0;
-  --_viewport-padding-inline-end: 0;
-
-  // Scrollbar thumb display used to hide thumbs when scrollbar is not scrollable
-  --_horizontal-thumb-display: block;
-  --_vertical-thumb-display: block;
-
   // The default value for overflow
   --_viewport-overflow: auto;
   --_viewport-pointer-events: auto;
@@ -89,7 +79,6 @@
   // Disables scroll when disableInteraction is set to true
   pointer-events: var(--_viewport-pointer-events);
 
-
   &[orientation="vertical"] {
     --_viewport-overflow: hidden auto;
     --_scrollbar-content-width: unset;
@@ -102,16 +91,6 @@
   &[disableInteraction="true"] {
     --_viewport-pointer-events: none;
     --_scrollbar-pointer-events: none;
-  }
-
-  &[isVerticallyScrollable="false"] {
-    // Hide scrollbars thumb when content is not scrollable
-    --_vertical-thumb-display: none;
-  }
-
-  &[isHorizontallyScrollable="false"] {
-    // Hide scrollbars thumb when content is not scrollable
-    --_horizontal-thumb-display: none;
   }
 
   &[mobile="true"] {
