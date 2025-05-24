@@ -1,5 +1,3 @@
-@use "selectors" as selector;
-
 @mixin paddingBlockStart() {
   --_viewport-padding-block-start: var(--_scrollbar-computed-thickness-px);
   --_viewport-padding-block-end: 0;
@@ -28,20 +26,20 @@
   --_viewport-padding-inline-end: 0;
 
   &[appearance="native"] {
-    @include selector.VerticalUsed {
+    &[verticalUsed="true"] {
 
       @include paddingInlineEnd();
 
-      @include selector.VerticalInverted {
+      &:is([position="invertY"], [position="invertAll"]) {
         @include paddingInlineStart();
       }
     }
 
-    @include selector.HorizontalUsed {
+    &[horizontalUsed="true"] {
 
       @include paddingBlockEnd();
 
-      @include selector.HorizontalInverted {
+      &:is([position="invertX"], [position="invertAll"]) {
         @include paddingBlockStart();
       }
     }

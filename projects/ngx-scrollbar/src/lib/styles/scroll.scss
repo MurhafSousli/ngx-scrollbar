@@ -1,5 +1,3 @@
-@use "selectors" as selector;
-
 @mixin SetScrollingStuff() {
   --_viewport_scroll-timeline: unset;
   --_animation-timeline-y: unset;
@@ -7,20 +5,23 @@
   --_scrollbar-thumb-transform-from: unset;
   --_scrollbar-thumb-transform-to: unset;
 
-  @include selector.VerticalUsed {
+  &[verticalUsed="true"] {
     --_timeline-scope: --scrollerY;
     --_animation-timeline-y: --scrollerY;
     --_viewport_scroll-timeline: --scrollerY y;
- }
+  }
 
-  @include selector.HorizontalUsed {
+  &[horizontalUsed="true"] {
     --_timeline-scope: --scrollerX;
     --_animation-timeline-x: --scrollerX;
     --_viewport_scroll-timeline: --scrollerX x;
   }
 
-  @include selector.BothUsed {
+  &[verticalUsed="true"][horizontalUsed="true"] {
     --_timeline-scope: --scrollerX, --scrollerY;
     --_viewport_scroll-timeline: --scrollerX x, --scrollerY y;
   }
+
+  // Activate scroll timeline
+  scroll-timeline: var(--_viewport_scroll-timeline);
 }

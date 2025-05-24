@@ -3,7 +3,6 @@
 @use "../styles/position" as position;
 @use "../styles/spacer" as spacer;
 @use "../styles/hide-native-scrollbars" as nativeScrollbars;
-@use "../styles/selectors" as selector;
 @use "../styles/scroll" as scroll;
 @use "../styles/dragging" as dragging;
 @use "../styles/overscroll-behavior" as overscrollBehavior;
@@ -20,13 +19,8 @@
   // Space between scrollbar track and its surrounding
   --_scrollbar-offset: var(--scrollbar-offset, 0);
 
-  --_computed-thickness: calc(var(--scrollbar-thickness) - var(--scrollbar-offset));
-
   // The minimum size the scrollbar thumb can get
   --_scrollbar-thumb-min-size: var(--scrollbar-thumb-min-size, 20);
-
-  // Scrollbar button size
-  --_scrollbar-button-size: var(--scrollbar-button-size, 20px);
 
   /** Scrollbar private CSS variables **/
 
@@ -41,9 +35,6 @@
   // Use !important to enforce relative position to override styles applied by other component such as (mat-select-panel)
   position: relative !important;
 
-  // Required for scroll timeline
-  scroll-timeline: var(--_viewport_scroll-timeline);
-
   // Must have border-box to avoid infinite auto-height scaling
   box-sizing: border-box !important;
 
@@ -52,9 +43,6 @@
 
   // Optimize for scrolling
   will-change: scroll-position;
-
-  // Disable selection when a scrollbar is being dragged
-  user-select: var(--_viewport-user-select);
 
   @include spacer.SetSpacerStyles();
 
