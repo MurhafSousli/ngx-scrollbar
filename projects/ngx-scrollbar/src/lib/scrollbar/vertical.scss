@@ -17,6 +17,10 @@
   --_button-icon-rotate-bottom: 180deg;
 }
 
+.ng-scrollbar-sticky {
+  pointer-events: var(--_scrollbar-y-pointer-events);
+}
+
 .ng-scrollbar-track-wrapper {
   width: var(--_track-y-thickness-px);
   flex-direction: column;

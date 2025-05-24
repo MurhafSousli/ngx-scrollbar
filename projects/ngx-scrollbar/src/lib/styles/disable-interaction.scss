@@ -4,13 +4,24 @@
  */
 @mixin SetDisableInteractionStuff() {
   --_viewport-pointer-events: auto;
-  --_scrollbar-pointer-events: auto;
+  --_scrollbar-y-pointer-events: auto;
+  --_scrollbar-x-pointer-events: auto;
 
   // Disables scroll when disableInteraction is set to true
   pointer-events: var(--_viewport-pointer-events);
 
   &[disableInteraction="true"] {
     --_viewport-pointer-events: none;
-    --_scrollbar-pointer-events: none;
+    --_scrollbar-y-pointer-events: none;
+    --_scrollbar-x-pointer-events: none;
+  }
+
+  // Disable pointer events such as hover effect when scrollbar is not scrollable
+  &[isVerticallyScrollable="false"] {
+    --_scrollbar-y-pointer-events: none;
+  }
+
+  &[isHorizontallyScrollable="false"] {
+    --_scrollbar-x-pointer-events: none;
   }
 }

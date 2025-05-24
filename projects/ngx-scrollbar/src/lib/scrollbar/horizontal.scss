@@ -24,6 +24,10 @@
   }
 }
 
+.ng-scrollbar-sticky {
+  pointer-events: var(--_scrollbar-x-pointer-events);
+}
+
 .ng-scrollbar-track-wrapper {
   height: var(--_track-x-thickness-px);
   flex-direction: row;
