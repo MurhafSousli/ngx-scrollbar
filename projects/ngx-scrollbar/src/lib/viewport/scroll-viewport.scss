@@ -8,6 +8,7 @@
 @use "../styles/dragging" as dragging;
 @use "../styles/overscroll-behavior" as overscrollBehavior;
 @use "../styles/disable-interaction" as disableInteraction;
+@use "../styles/scroll-overflow" as scrollOverflow;
 
 :host {
   // CSS variables used to customized the look of the scrollbar component
@@ -35,18 +36,9 @@
   --_scrollbar-thickness-px: calc(var(--_scrollbar-thickness) * 1px);
   --_scrollbar-computed-thickness-px: calc(var(--_scrollbar-computed-thickness) * 1px);
 
-  // The default value for overflow
-  --_viewport-overflow: auto;
-
-  // Content display, will switch to block if orientation is set to vertical
-  --_scrollbar-content-width: fit-content;
-
   // Must have relative position to make reached triggers moves with the scroll,
   // Use !important to enforce relative position to override styles applied by other component such as (mat-select-panel)
   position: relative !important;
-
-  // Enables scrolling
-  overflow: var(--_viewport-overflow);
 
   // Required for scroll timeline
   scroll-timeline: var(--_viewport_scroll-timeline);
@@ -63,18 +55,10 @@
   // Disable selection when a scrollbar is being dragged
   user-select: var(--_viewport-user-select);
 
-  &[orientation="vertical"] {
-    --_viewport-overflow: hidden auto;
-    --_scrollbar-content-width: unset;
-  }
-
-  &[orientation="horizontal"] {
-    --_viewport-overflow: auto hidden;
-  }
-
   @include spacer.SetSpacerStyles();
 
   @include nativeScrollbars.HideNativeScrollbars();
+  @include scrollOverflow.SetOverflowStuff();
   @include position.SetPositionStuff();
   @include appearance.SetAppearanceStuff();
   @include visibility.SetVisibilityStuff();

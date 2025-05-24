@@ -1,0 +1,19 @@
+@mixin SetOverflowStuff {
+  // The default value for overflow
+  --_viewport-overflow: auto;
+
+  // Content display, will switch to block if orientation is set to vertical
+  --_scrollbar-content-width: fit-content;
+
+  // Enables scrolling
+  overflow: var(--_viewport-overflow);
+
+  &[orientation="vertical"] {
+    --_viewport-overflow: hidden auto;
+    --_scrollbar-content-width: unset;
+  }
+
+  &[orientation="horizontal"] {
+    --_viewport-overflow: auto hidden;
+  }
+}
