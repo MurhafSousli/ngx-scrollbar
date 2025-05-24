@@ -1,30 +1,3 @@
-@mixin Viewport {
-  &.ng-scroll-viewport {
-    //&.ng-scrollbar-external-viewport ::ng-deep .ng-scroll-viewport {
-    @content;
-  }
-}
-
-@mixin ExternalViewport {
-  &.ng-scrollbar-external-viewport ::ng-deep .ng-scroll-viewport {
-    @content;
-  }
-}
-
-@mixin Content {
-  @include Viewport {
-    > .ng-scroll-content {
-      @content;
-    }
-  }
-}
-
-//@mixin Spacer {
-//  .ng-scroll-spacer {
-//    @content;
-//  }
-//}
-
 @mixin BothUsed {
   &[verticalUsed="true"][horizontalUsed="true"] {
     @content;
@@ -51,30 +24,6 @@
 
 @mixin HorizontalInverted {
   &[position="invertX"], &[position="invertAll"] {
-    @content;
-  }
-}
-
-@mixin thumbDragging {
-  &[dragging="x"], &[dragging="y"] {
-    @content;
-  }
-}
-
-@mixin thumbYDragging {
-  &[dragging="y"] {
-    @content;
-  }
-}
-
-@mixin thumbXDragging {
-  &[dragging="x"] {
-    @content;
-  }
-}
-
-@mixin isMobile {
-  &[mobile="true"] {
     @content;
   }
 }

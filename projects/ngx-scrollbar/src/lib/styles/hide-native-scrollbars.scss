@@ -5,10 +5,8 @@
 // So it is better to use it inside an attribute condition than the a CSS variable way
 
 @mixin HideNativeScrollbars() {
-  @include selector.Viewport {
-    scrollbar-width: none !important; /* Firefox 64 */
-    &::-webkit-scrollbar { /** Chrome, Safari, Edge */
-      display: none !important;
-    }
+  scrollbar-width: none !important; /* Firefox 64 */
+  &::-webkit-scrollbar { /** Chrome, Safari, Edge */
+    display: none !important;
   }
 }
