@@ -9,6 +9,7 @@
 @use "../styles/overscroll-behavior" as overscrollBehavior;
 @use "../styles/disable-interaction" as disableInteraction;
 @use "../styles/scroll-overflow" as scrollOverflow;
+@use "../styles/buttons" as buttons;
 
 :host {
   // CSS variables used to customized the look of the scrollbar component
@@ -66,6 +67,7 @@
   @include dragging.SetDraggingStuff();
   @include overscrollBehavior.SetOverscrollBehaviorStuff();
   @include disableInteraction.SetDisableInteractionStuff();
+  @include buttons.SetButtonsStuff();
 }
 
 @layer default {

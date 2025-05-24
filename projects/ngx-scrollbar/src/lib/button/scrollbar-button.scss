@@ -2,12 +2,10 @@
 
 :host {
   // Scrollbar button colors
-  --_scrollbar-button-color: var(--scrollbar-button-color, var(--scrollbar-thumb-color));
   --_scrollbar-button-hover-color: var(--scrollbar-button-hover-color, var(--_scrollbar-button-color));
   --_scrollbar-button-active-color: var(--scrollbar-button-active-color, var(--_scrollbar-button-hover-color));
 
   // Scrollbar button arrow fill
-  --_scrollbar-button-fill: var(--scrollbar-button-fill, white);
   --_scrollbar-button-hover-fill: var(--scrollbar-button-hover-fill, var(--_scrollbar-button-fill));
   --_scrollbar-button-active-fill: var(--scrollbar-button-active-fill, var(--_scrollbar-button-hover-fill));
 
@@ -23,8 +21,6 @@
 
   // Instead of setting the width or height to 100%, we can just use block-size
   block-size: 100%;
-
-  background-color: var(--_scrollbar-button-color);
 
   svg {
     // Must set height and width of SVG so it can render on Safari browsers
@@ -49,6 +45,22 @@
     }
   }
 
+  &:is([scrollbarButton="top"], [scrollbarButton="bottom"]) {
+    background-color: var(--_button-y-color);
+
+    svg {
+      fill: var(--_button-y-fill);
+    }
+  }
+
+  &:is([scrollbarButton="start"], [scrollbarButton="end"]) {
+    background-color: var(--_button-x-color);
+
+    svg {
+      fill: var(--_button-x-fill);
+    }
+  }
+
   &[scrollbarButton="top"] {
     --_button-rotate: var(--_button-icon-rotate-top);
   }
@@ -65,11 +77,11 @@
     --_button-rotate: var(--_button-icon-rotate-end);
   }
 
-  &[scrollbarButton="top"], &[scrollbarButton="start"] {
+  &:is([scrollbarButton="top"], [scrollbarButton="start"]) {
     order: 1;
   }
 
-  &[scrollbarButton="bottom"], &[scrollbarButton="end"] {
+  &:is([scrollbarButton="bottom"], [scrollbarButton="end"]) {
     order: 3;
   }
 }
