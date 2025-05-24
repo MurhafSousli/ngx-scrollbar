@@ -61,7 +61,8 @@ describe('disableInteraction option', () => {
     // This will test the pointer-events for track, thumb and buttons
     const trackXWrapperStyles: CSSStyleDeclaration = getComputedStyle(trackX.nativeElement.parentElement);
     const trackYWrapperStyles: CSSStyleDeclaration = getComputedStyle(trackY.nativeElement.parentElement);
-    expect(componentStyles.getPropertyValue('--_scrollbar-pointer-events')).toBe('auto');
+    expect(componentStyles.getPropertyValue('--_scrollbar-y-pointer-events')).toBe('auto');
+    expect(componentStyles.getPropertyValue('--_scrollbar-x-pointer-events')).toBe('auto');
     expect(componentStyles.getPropertyValue('--_viewport-pointer-events')).toBe('auto');
     expect(componentStyles.pointerEvents).toBe('auto');
     expect(trackXWrapperStyles.pointerEvents).toBe('auto');
@@ -85,7 +86,8 @@ describe('disableInteraction option', () => {
     const componentStyles: CSSStyleDeclaration = getComputedStyle(component.nativeElement);
     const trackXWrapperStyles: CSSStyleDeclaration = getComputedStyle(trackX.nativeElement.parentElement);
     const trackYWrapperStyles: CSSStyleDeclaration = getComputedStyle(trackY.nativeElement.parentElement);
-    expect(componentStyles.getPropertyValue('--_scrollbar-pointer-events')).toBe('none');
+    expect(componentStyles.getPropertyValue('--_scrollbar-y-pointer-events')).toBe('none');
+    expect(componentStyles.getPropertyValue('--_scrollbar-x-pointer-events')).toBe('none');
     expect(componentStyles.getPropertyValue('--_viewport-pointer-events')).toBe('none');
     expect(componentStyles.pointerEvents).toBe('none');
     expect(trackXWrapperStyles.pointerEvents).toBe('none');

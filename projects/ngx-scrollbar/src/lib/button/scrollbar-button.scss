@@ -1,13 +1,9 @@
-@use "../styles/selectors" as selector;
-
 :host {
   // Scrollbar button colors
   --_scrollbar-button-hover-color: var(--scrollbar-button-hover-color, var(--_scrollbar-button-color));
-  --_scrollbar-button-active-color: var(--scrollbar-button-active-color, var(--_scrollbar-button-hover-color));
 
   // Scrollbar button arrow fill
   --_scrollbar-button-hover-fill: var(--scrollbar-button-hover-fill, var(--_scrollbar-button-fill));
-  --_scrollbar-button-active-fill: var(--scrollbar-button-active-fill, var(--_scrollbar-button-hover-fill));
 
   position: relative;
   border: none;
@@ -16,8 +12,8 @@
   border-radius: 0;
   appearance: none;
 
-  // Since the button is used inside a flexbox parent, it can influence the computed size, e.g. size is 20px but computed is 18.32px
-  flex: 0 0 var(--_scrollbar-button-size);
+  // Scrollbar button size
+  flex: 0 0 var(--scrollbar-button-size, var(--_scrollbar-thickness-px));
 
   // Instead of setting the width or height to 100%, we can just use block-size
   block-size: 100%;
@@ -38,10 +34,10 @@
   }
 
   &:active {
-    background: var(--_scrollbar-button-active-color);
+    background: var(--scrollbar-button-active-color, var(--_scrollbar-button-hover-color));
 
     svg {
-      fill: var(--_scrollbar-button-active-fill);
+      fill: var(--scrollbar-button-active-fill, var(--_scrollbar-button-hover-fill));
     }
   }
 

@@ -12,6 +12,9 @@
   --_track-y-thickness-px: var(--_scrollbar-thickness-px);
   --_track-x-thickness-px: var(--_scrollbar-thickness-px);
 
+  // Disable selection when a scrollbar is being dragged
+  user-select: var(--_viewport-user-select);
+
 
   &[dragging="x"], &[dragging="y"] {
     // Disable selection when a scrollbar thumb is being dragged

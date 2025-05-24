@@ -1,5 +1,3 @@
-@use './selectors' as selector;
-
 // Only this part cannot be refactored using CSS variable
 // Because once '::-webkit-scrollbar' has been set, the native scrollbars will not look the same when disabled
 // So it is better to use it inside an attribute condition than the a CSS variable way
