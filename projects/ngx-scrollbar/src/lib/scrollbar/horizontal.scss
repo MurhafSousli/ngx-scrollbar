@@ -1,6 +1,6 @@
 :host {
-  --_scrollbar-wrapper-height: var(--_scrollbar-computed-thickness);
-  --_scrollbar-wrapper-width: var(--viewport-width);
+  --_scrollbar-wrapper-height: var(--_scrollbar-total-thickness-px);
+  --_scrollbar-wrapper-width: calc(var(--viewport-width) * 1px);
 
   --_scrollbar-track-inset-block-start: var(--_horizontal-block-start);
   --_scrollbar-track-inset-block-end: var(--_horizontal-block-end);

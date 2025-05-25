@@ -31,8 +31,8 @@ describe('Appearance [native / compact] styles', () => {
     component = fixture.componentInstance;
     adapter = fixture.debugElement.injector.get(ViewportAdapter);
 
-    component.nativeElement.style.setProperty('--scrollbar-thickness', '5');
-    component.nativeElement.style.setProperty('--scrollbar-offset', '4');
+    component.nativeElement.style.setProperty('--scrollbar-thickness', '5px');
+    component.nativeElement.style.setProperty('--scrollbar-offset', '4px');
   });
 
   it('should set appearance="native" attribute by default and 0px padding', () => {

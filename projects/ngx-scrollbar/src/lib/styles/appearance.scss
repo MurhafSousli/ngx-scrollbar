@@ -1,21 +1,21 @@
 @mixin paddingBlockStart() {
-  --_viewport-padding-block-start: var(--_scrollbar-computed-thickness-px);
+  --_viewport-padding-block-start: var(--_scrollbar-total-thickness-px);
   --_viewport-padding-block-end: 0;
 }
 
 @mixin paddingBlockEnd() {
   --_viewport-padding-block-start: 0;
-  --_viewport-padding-block-end: var(--_scrollbar-computed-thickness-px);
+  --_viewport-padding-block-end: var(--_scrollbar-total-thickness-px);
 }
 
 @mixin paddingInlineStart() {
-  --_viewport-padding-inline-start: var(--_scrollbar-computed-thickness-px);
+  --_viewport-padding-inline-start: var(--_scrollbar-total-thickness-px);
   --_viewport-padding-inline-end: 0;
 }
 
 @mixin paddingInlineEnd() {
   --_viewport-padding-inline-start: 0;
-  --_viewport-padding-inline-end: var(--_scrollbar-computed-thickness-px);
+  --_viewport-padding-inline-end: var(--_scrollbar-total-thickness-px);
 }
 
 @mixin SetAppearanceStuff {

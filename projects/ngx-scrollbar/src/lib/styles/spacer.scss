@@ -1,10 +1,10 @@
 @mixin SetSpacerStyles() {
-  --_spacer-width: var(--spacer-width);
-  --_spacer-height: var(--spacer-height);
+  --_spacer-width: calc(var(--spacer-width) * 1px);
+  --_spacer-height: calc(var(--spacer-height) * 1px);
 
   &[appearance="native"] {
-    --_spacer-width: calc(var(--spacer-width) + var(--_scrollbar-computed-thickness));
-    --_spacer-height: calc(var(--spacer-height) + var(--_scrollbar-computed-thickness));
+    --_spacer-width: calc(var(--spacer-width) + var(--_scrollbar-total-thickness-px));
+    --_spacer-height: calc(var(--spacer-height) + var(--_scrollbar-total-thickness-px));
   }
 
   ::ng-deep > .ng-scroll-spacer {
@@ -12,8 +12,8 @@
     position: absolute;
 
     // In virtual scroll, in vertical mode, the spacer element width should match the content wrapper width and same goes in horizontal mode.
-    width: calc(var(--_spacer-width) * 1px);
-    height: calc(var(--_spacer-height) * 1px);
+    width: var(--_spacer-width, var(--spacer-width));
+    height: var(--_spacer-height, var(--spacer-height));
     min-width: 100%;
     min-height: 100%;
   }

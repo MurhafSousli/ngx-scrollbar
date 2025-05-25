@@ -3,8 +3,8 @@
 }
 
 .ng-scrollbar-sticky {
-  height: calc(var(--_scrollbar-wrapper-height) * 1px);
-  width: calc(var(--_scrollbar-wrapper-width) * 1px);
+  height: var(--_scrollbar-wrapper-height);
+  width: var(--_scrollbar-wrapper-width);
   position: sticky;
   z-index: 100;
   opacity: var(--_scrollbar-hover-opacity);

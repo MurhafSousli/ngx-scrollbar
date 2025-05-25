@@ -4,10 +4,10 @@
   ng-scrollbar {
     color: white;
     border-radius: 4px;
-    --scrollbar-thickness: 12;
+    --scrollbar-thickness: 12px;
+    --scrollbar-offset: 4px;
     --scrollbar-track-color: rgb(0 0 0 / 50%);
     --scrollbar-border-radius: 6px;
-    --scrollbar-offset: 4;
   }
 
   .mat-mdc-card-content {

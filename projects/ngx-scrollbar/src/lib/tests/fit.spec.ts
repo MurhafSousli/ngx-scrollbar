@@ -30,12 +30,12 @@ describe('Fit styles', () => {
     adapter = fixture.debugElement.injector.get(ViewportAdapter);
 
     // Set scrollbar offset value
-    component.nativeElement.style.setProperty('--scrollbar-offset', '4');
+    component.nativeElement.style.setProperty('--scrollbar-offset', '4px');
   });
 
   const scrollbarOffset: number = 8;
 
-  it('should fit both _scrollbars only if both of them are displayed', async () => {
+  it('should fit both scrollbars only if both of them are displayed', async () => {
     setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 500, contentWidth: 500 });
     await firstValueFrom(outputToObservable(adapter.afterInit))
 

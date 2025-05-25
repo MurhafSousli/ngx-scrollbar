@@ -182,7 +182,7 @@
                           (droppedBottom)="onDropped('bottom')">
 <!--                          [disableDropped]="disableDropped">-->
               <div class="inner"
-                   [style.width.px]="(scrollbar.nativeElement.offsetWidth - (appearance === 'native' ? +variables.thickness + (+variables.trackOffset * 2) : 0)) * slider.contentWidth"
+                   [style.width]="slider.contentWidth > 1 ? (scrollbar.nativeElement.clientWidth) * slider.contentWidth + 'px' : '100%'"
                    [innerHTML]="content"></div>
 
               @if (scrollToElementSelected) {
