@@ -1,9 +1,9 @@
 ng-scrollbar {
   --scrollbar-track-color: var(--surface-container-low);
   --scrollbar-thumb-color: var(--color-primary);
-  --scrollbar-thickness: 8;
-  --scrollbar-hover-thickness: 8;
-  --scrollbar-offset: 6;
+  --scrollbar-thickness: 8px;
+  --scrollbar-hover-thickness: 8px;
+  --scrollbar-offset: 6px;
   --scrollbar-border-radius: 7px;
 }
 
@@ -17,9 +17,9 @@ ng-scrollbar {
   .ng-scrollbar.mat-mdc-select-panel {
     --scrollbar-track-color: var(--surface-container-low);
     --scrollbar-thumb-color: var(--color-primary);
-    --scrollbar-thickness: 8;
-    --scrollbar-hover-thickness: 8;
-    --scrollbar-offset: 6;
+    --scrollbar-thickness: 8px;
+    --scrollbar-hover-thickness: 8px;
+    --scrollbar-offset: 6px;
     --scrollbar-border-radius: 7px;
   }
 }

@@ -3,8 +3,8 @@
 }
 
 ng-scrollbar.main-scrollbar {
-  --scrollbar-thickness: 12;
-  --scrollbar-hover-thickness: 18;
+  --scrollbar-thickness: 12px;
+  --scrollbar-hover-thickness: 18px;
   --scrollbar-offset: 0;
   --scrollbar-track-color: rgb(0 0 0 / 30%);
   --scrollbar-border-radius: 0;
@@ -102,6 +102,6 @@ mat-sidenav {
 }
 
 .page-wrapper {
-  --scrollbar-thickness: 12;
-  --scrollbar-hover-thickness: 12;
+  --scrollbar-thickness: 12px;
+  --scrollbar-hover-thickness: 12px;
 }

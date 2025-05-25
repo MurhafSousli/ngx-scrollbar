@@ -10,12 +10,12 @@
     }
   }
 
-  --scrollbar-thickness: 6;
-  --scrollbar-hover-thickness: 10;
+  --scrollbar-thickness: 6px;
+  --scrollbar-hover-thickness: 10px;
   --scrollbar-thumb-color: var(--color-primary);
   --scrollbar-track-color: var(--surface-container-low);
-  --scrollbar-offset: 0;
-  --scrollbar-border-radius: 0;
+  --scrollbar-offset: 0px;
+  --scrollbar-border-radius: 0px;
 }
 
 ag-grid-angular {
