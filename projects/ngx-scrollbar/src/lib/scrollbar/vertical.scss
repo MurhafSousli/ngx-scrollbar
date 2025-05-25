@@ -1,9 +1,4 @@
 :host {
-  // Sticky scrollbar track scrollbars variables
-  --_scrollbar-wrapper-inset-block-start: 0;
-  --_scrollbar-wrapper-inset-inline-start: var(--_scrollbar-wrapper-y-start);
-  --_scrollbar-wrapper-inset-inline-end: var(--_scrollbar-wrapper-y-end);
-
   --_scrollbar-wrapper-height: var(--viewport-height);
   --_scrollbar-wrapper-width: var(--_scrollbar-computed-thickness);
 
@@ -18,6 +13,13 @@
 }
 
 .ng-scrollbar-sticky {
+  grid-area: scrollbar-y;
+
+  inset-block-start: 0;
+  inset-block-end: 0;
+  inset-inline-start: var(--_scrollbar-wrapper-y-start);
+  inset-inline-end: var(--_scrollbar-wrapper-y-end);
+
   pointer-events: var(--_scrollbar-y-pointer-events);
 }
 

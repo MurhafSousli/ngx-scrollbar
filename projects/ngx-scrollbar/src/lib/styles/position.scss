@@ -1,21 +1,16 @@
 @mixin horizontalBlockStart() {
   --_horizontal-block-start: var(--_scrollbar-offset-px);
   --_horizontal-block-end: initial;
-
-  --_scrollbar-wrapper-x-start: 0;
 }
 
 @mixin horizontalBlockEnd() {
   --_horizontal-block-start: initial;
   --_horizontal-block-end: var(--_scrollbar-offset-px);
-
-  --_scrollbar-wrapper-x-start: calc(var(--viewport-height) - var(--_scrollbar-computed-thickness));
 }
 
 @mixin VerticalInlineStart() {
   --_vertical-inset-inline-start: var(--_scrollbar-offset-px);
   --_vertical-inset-inline-end: initial;
-
 }
 
 @mixin VerticalInlineEnd() {
@@ -53,20 +48,59 @@
   --_horizontal-inline-start: var(--_scrollbar-offset-px);
   --_horizontal-inline-end: var(--_scrollbar-offset-px);
 
+  // Default position
+  --_scrollbar-grid-template:
+    ". scrollbar-y" 1fr
+    "scrollbar-x ." auto
+  / 1fr auto;
+
+  --_scrollbar-wrapper-y-start: initial;
+  --_scrollbar-wrapper-y-end: 0;
+
+  --_scrollbar-wrapper-x-top: initial;
+  --_scrollbar-wrapper-x-bottom: 0;
+
+  &[position="invertY"] {
+    // Invert y position
+    --_scrollbar-grid-template:
+      "scrollbar-y ." 1fr
+      ". scrollbar-x" auto
+   / auto 1fr;
+  }
+
+  &[position="invertX"] {
+    // Invert x position
+    --_scrollbar-grid-template:
+      "scrollbar-x ." auto
+      ". scrollbar-y" 1fr
+    / 1fr auto;
+  }
+
+  &[position="invertAll"] {
+    // Invert both position
+    --_scrollbar-grid-template:
+      ". scrollbar-x" auto
+      "scrollbar-y ." 1fr
+    / auto 1fr
+  }
+
   @include horizontalBlockEnd();
 
   &:is([position="invertX"], [position="invertAll"]) {
     @include horizontalBlockStart();
+
+    --_scrollbar-wrapper-x-top: 0;
+    --_scrollbar-wrapper-x-bottom: initial;
   }
 
-  --_scrollbar-wrapper-y-end: initial;
   @include VerticalInlineEnd();
-  --_scrollbar-wrapper-y-start: calc(var(--viewport-width) - var(--_scrollbar-computed-thickness));
 
 
   &:is([position="invertY"], [position="invertAll"]) {
     @include VerticalInlineStart();
+
     --_scrollbar-wrapper-y-start: 0;
+    --_scrollbar-wrapper-y-end: initial;
   }
 
   &[verticalUsed="true"][horizontalUsed="true"] {
