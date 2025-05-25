@@ -1,17 +1,8 @@
 :host {
-  // This is the layer that contains the scrollbar, it must has absolute position to mask the content dimension
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  display: contents;
 }
 
 .ng-scrollbar-sticky {
-  inset-block-start: calc(var(--_scrollbar-wrapper-inset-block-start) * 1px);
-  inset-inline-start: calc(var(--_scrollbar-wrapper-inset-inline-start) * 1px);
-  inset-inline-end: calc(var(--_scrollbar-wrapper-inset-inline-end) * 1px);
   height: calc(var(--_scrollbar-wrapper-height) * 1px);
   width: calc(var(--_scrollbar-wrapper-width) * 1px);
   position: sticky;

@@ -14,9 +14,10 @@ import { ViewportAdapter } from '../viewport/viewport-adapter';
       <scrollbar-x/>
     }
   `,
+  styleUrls: ['scrollbars.scss'],
   styles: [`
     :host {
-      display: contents;
+      /*display: contents;*/
     }
   `]
 })

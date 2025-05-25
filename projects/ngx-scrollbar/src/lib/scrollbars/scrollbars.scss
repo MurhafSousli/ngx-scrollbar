@@ -1,0 +1,13 @@
+:host {
+  // This is the layer that contains the scrollbar,
+  // it must has absolute position to mask the content dimension
+  // it uses grid layout to align the scrollbars properly
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template: var(--_scrollbar-grid-template);
+}
