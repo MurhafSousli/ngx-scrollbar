@@ -1,0 +1,145 @@
+@use 'sass:map';
+
+@mixin ng-scrollbar-overrides($config) {
+  $track-shape: map.get($config, track-shape);
+  $track-thickness: map.get($config, track-thickness);
+  $track-hover-thickness: map.get($config, track-hover-thickness);
+  $track-active-thickness: map.get($config, track-active-thickness);
+  $track-offset: map.get($config, track-offset);
+  $track-color: map.get($config, track-color);
+
+  // Thumb variables
+  $thumb-shape: map.get($config, thumb-shape);
+  $thumb-size: map.get($config, thumb-size);
+  $thumb-min-size: map.get($config, thumb-min-size);
+  $thumb-color: map.get($config, thumb-color);
+  $thumb-hover-color: map.get($config, thumb-hover-color);
+  $thumb-active-color: map.get($config, thumb-active-color);
+
+  // Visibility variables
+  $hover-opacity-transition-enter-duration: map.get($config, hover-opacity-transition-enter-duration);
+  $hover-opacity-transition-leave-duration: map.get($config, hover-opacity-transition-leave-duration);
+  $hover-opacity-transition-leave-delay: map.get($config, hover-opacity-transition-leave-delay);
+
+  $overscroll-behavior: map.get($config, overscroll-behavior);
+  $mobile-overscroll-behavior: map.get($config, mobile-overscroll-behavior);
+
+  $button-shape: map.get($config, button-shape);
+  $button-size: map.get($config, button-size);
+  $button-gap: map.get($config, button-gap);
+  $button-color: map.get($config, button-color);
+  $button-hover-color: map.get($config, button-hover-color);
+  $button-active-color: map.get($config, button-active-color);
+  $button-inactive-color: map.get($config, button-inactive-color);
+  $button-fill-color: map.get($config, button-fill-color);
+  $button-fill-hover-color: map.get($config, button-fill-hover-color);
+  $button-fill-active-color: map.get($config, button-fill-active-color);
+  $button-fill-inactive-color: map.get($config, button-fill-inactive-color);
+
+  @if $track-shape {
+    --scrollbar-shape: #{$track-shape};
+  }
+
+  @if $track-offset {
+    --scrollbar-offset: #{$track-offset};
+  }
+
+  @if $track-thickness {
+    --scrollbar-thickness: #{$track-thickness};
+  }
+
+  @if $track-hover-thickness {
+    --scrollbar-hover-thickness: #{$track-hover-thickness};
+  }
+
+  @if $track-active-thickness {
+    --scrollbar-active-thickness: #{$track-active-thickness};
+  }
+
+  @if $thumb-shape {
+    // Strip the px unit from the size
+    --scrollbar-thumb-shape: #{$thumb-shape};
+  }
+  // TODO: Decide whether you want to ship this feature
+  @if $thumb-size {
+    // Strip the px unit from the size
+    --scrollbar-thumb-size: #{$thumb-size / 1px};
+  }
+
+  @if $thumb-min-size {
+    // Strip the px unit from the size
+    --scrollbar-thumb-min-size: #{$thumb-min-size / 1px};
+  }
+
+  @if $track-color {
+    --scrollbar-track-color: #{$track-color};
+  }
+
+  @if $thumb-color {
+    --scrollbar-thumb-color: #{$thumb-color};
+  }
+
+  @if $thumb-hover-color {
+    --scrollbar-thumb-hover-color: #{$thumb-hover-color};
+  }
+
+  @if $thumb-active-color {
+    --scrollbar-thumb-active-color: #{$thumb-active-color};
+  }
+
+  @if $hover-opacity-transition-enter-duration {
+    --scrollbar-hover-opacity-transition-leave-duration: #{$hover-opacity-transition-enter-duration};
+  }
+
+  @if $hover-opacity-transition-leave-duration {
+    --scrollbar-hover-opacity-transition-leave-duration: #{$hover-opacity-transition-leave-duration};
+  }
+
+  @if $hover-opacity-transition-leave-delay {
+    --scrollbar-hover-opacity-transition-leave-delay: #{$hover-opacity-transition-leave-delay};
+  }
+
+  @if $overscroll-behavior {
+    --scrollbar-overscroll-behavior: #{$overscroll-behavior};
+  }
+
+  @if $mobile-overscroll-behavior {
+    --scrollbar-mobile-overscroll-behavior: #{$mobile-overscroll-behavior};
+  }
+
+  @if $button-shape {
+    --button-shape: #{$button-shape};
+  }
+  @if $button-size {
+    --button-size: #{$button-size};
+  }
+
+  @if $button-gap {
+    --scrollbar-button-gap: #{$button-gap};
+  }
+
+  @if $button-color {
+    --scrollbar-button-color: #{$button-color};
+  }
+  @if $button-hover-color {
+    --scrollbar-button-hover-color: #{$button-hover-color};
+  }
+  @if $button-active-color {
+    --scrollbar-button-active-color: #{$button-active-color};
+  }
+  @if $button-inactive-color {
+    --scrollbar-button-inactive-color: #{$button-inactive-color};
+  }
+  @if $button-fill-color {
+    --scrollbar-button-fill: #{$button-fill-color};
+  }
+  @if $button-fill-hover-color {
+    --scrollbar-button-hover-fill: #{$button-fill-hover-color};
+  }
+  @if $button-fill-active-color {
+    --scrollbar-button-active-fill: #{$button-fill-active-color};
+  }
+  @if $button-fill-inactive-color {
+    --scrollbar-button-inactive-fill: #{$button-fill-inactive-color};
+  }
+}

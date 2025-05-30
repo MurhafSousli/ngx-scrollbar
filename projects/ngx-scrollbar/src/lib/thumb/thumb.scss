@@ -4,7 +4,7 @@
   transition: var(--scrollbar-thumb-transition, none);
 
   // Inherit the border radius from the track
-  border-radius: inherit;
+  border-radius: var(--scrollbar-thumb-shape, inherit);
 
   // Hint the browser to optimize the transform animation
   will-change: transform;

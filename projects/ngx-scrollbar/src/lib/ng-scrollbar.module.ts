@@ -2,22 +2,22 @@ import { Provider, EnvironmentProviders, NgModule, makeEnvironmentProviders } fr
 import { NgScrollbar } from './ng-scrollbar';
 import { NgScrollbarExt } from './ng-scrollbar-ext';
 import { NG_SCROLLBAR_OPTIONS, NG_SCROLLBAR_POLYFILL, NgScrollbarOptions } from './ng-scrollbar.model';
-import { AsyncDetection } from './async-detection';
+import { NgScrollbarAsyncViewport } from './ng-scrollbar-async-viewport';
 import { defaultOptions } from './ng-scrollbar.default';
-import { SyncSpacer } from './sync-spacer';
+import { NgSyncSpacer } from './ng-sync-spacer';
 
 @NgModule({
   imports: [
     NgScrollbar,
     NgScrollbarExt,
-    AsyncDetection,
-    SyncSpacer
+    NgScrollbarAsyncViewport,
+    NgSyncSpacer
   ],
   exports: [
     NgScrollbar,
     NgScrollbarExt,
-    AsyncDetection,
-    SyncSpacer
+    NgScrollbarAsyncViewport,
+    NgSyncSpacer
   ]
 })
 export class NgScrollbarModule {

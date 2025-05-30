@@ -18,8 +18,6 @@
   z-index: -9999;
   user-select: none;
   pointer-events: none;
-  min-width: calc(var(--viewport-width) * 1px);
-  min-height: calc(var(--viewport-height) * 1px);
 
   &[isHorizontallyScrollable="false"] {
     // Should only hide the END trigger when content isn't horizontally scrollable
@@ -52,21 +50,21 @@
   }
 
   &:is([trigger="top"], [trigger="bottom"]) {
-    left: 0;
-    right: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
   }
 
   &:is([trigger="start"], [trigger="end"]) {
-    top: 0;
-    bottom: 0;
+    inset-block-start: 0;
+    inset-block-end: 0;
   }
 
   &[trigger="top"] {
-    top: 0;
+    inset-block-start: 0;
   }
 
   &[trigger="bottom"] {
-    bottom: 0;
+    inset-block-end: 0;
   }
 
   &[trigger="start"] {

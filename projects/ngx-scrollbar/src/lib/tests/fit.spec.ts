@@ -42,8 +42,8 @@ describe('Fit styles', () => {
     const trackYElement: Element = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-track')).nativeElement;
     const trackXElement: Element = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-track')).nativeElement;
 
-    const stickyYElement: Element = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-sticky')).nativeElement;
-    const stickyXElement: Element = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-sticky')).nativeElement;
+    const stickyYElement: Element = fixture.debugElement.query(By.css('scrollbar-y')).nativeElement;
+    const stickyXElement: Element = fixture.debugElement.query(By.css('scrollbar-x')).nativeElement;
 
     expect(trackXElement.clientWidth).toBe(200 - stickyYElement.clientWidth - scrollbarOffset);
     expect(trackYElement.clientHeight).toBe(200 - stickyXElement.clientHeight - scrollbarOffset);

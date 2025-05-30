@@ -15,17 +15,14 @@
     --_button-icon-rotate-start: 90deg;
     --_button-icon-rotate-end: -90deg;
   }
-}
 
-.ng-scrollbar-sticky {
   grid-area: scrollbar-x;
+  pointer-events: var(--_scrollbar-x-pointer-events);
 
   inset-block-start: var(--_scrollbar-wrapper-x-top);
   inset-block-end: var(--_scrollbar-wrapper-x-bottom);
   inset-inline-start: 0;
   inset-inline-end: 0;
-
-  pointer-events: var(--_scrollbar-x-pointer-events);
 }
 
 .ng-scrollbar-track-wrapper {
@@ -33,9 +30,14 @@
   flex-direction: row;
 }
 
-.ng-scrollbar-hover {
-  &:hover, &:active {
+:host.ng-scrollbar-hover, .ng-scrollbar-hover {
+  &:hover {
     --_thumb-x-color: var(--_thumb-hover-color);
     --_track-x-thickness-px: var(--_scrollbar-hover-thickness-px);
+  }
+
+  &:active {
+    --_thumb-x-color: var(--_thumb-active-color);
+    --_track-x-thickness-px: var(--_scrollbar-active-thickness-px);
   }
 }

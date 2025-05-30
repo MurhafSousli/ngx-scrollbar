@@ -29,7 +29,7 @@ class SampleLibComponent {
     <ng-scrollbar [externalViewport]="externalViewport"
                   [externalContentWrapper]="externalContentWrapper"
                   [externalSpacer]="externalSpacer"
-                  [asyncDetection]="asyncDetection"
+                  [asyncViewport]="asyncDetection"
                   (afterInit)="onInit()">
       <sample-lib [show]="showLib" [showContentWrapper]="showContentWrapper"/>
     </ng-scrollbar>
@@ -49,7 +49,7 @@ class TestComponent {
   }
 }
 
-describe('<ng-scrollbar externalViewport asyncDetection>', () => {
+describe('<ng-scrollbar externalViewport asyncViewport>', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
   let scrollbarCmp: NgScrollbarExt;

@@ -3,11 +3,13 @@
 
   --_scrollbar-thumb-color: var(--scrollbar-thumb-color, rgb(0 0 0 / 20%));
   --_thumb-hover-color: var(--scrollbar-thumb-hover-color, var(--_scrollbar-thumb-color));
+  --_thumb-active-color: var(--scrollbar-thumb-active-color, var(--_thumb-hover-color));
 
   --_thumb-y-color: var(--_scrollbar-thumb-color);
   --_thumb-x-color: var(--_scrollbar-thumb-color);
 
   --_scrollbar-hover-thickness-px: var(--scrollbar-hover-thickness, var(--scrollbar-thickness));
+  --_scrollbar-active-thickness-px: var(--scrollbar-active-thickness, var(--_scrollbar-hover-thickness-px));
 
   --_track-y-thickness-px: var(--_scrollbar-thickness-px);
   --_track-x-thickness-px: var(--_scrollbar-thickness-px);
@@ -22,12 +24,12 @@
   }
 
   &[dragging="x"] {
-    --_thumb-x-color: var(--_thumb-hover-color);
-    --_track-x-thickness-px: var(--_scrollbar-hover-thickness-px);
+    --_thumb-x-color: var(--_thumb-active-color);
+    --_track-x-thickness-px: var(--_scrollbar-active-thickness-px);
   }
 
   &[dragging="y"] {
-    --_thumb-y-color: var(--_thumb-hover-color);
-    --_track-y-thickness-px: var(--_scrollbar-hover-thickness-px);
+    --_thumb-y-color: var(--_thumb-active-color);
+    --_track-y-thickness-px: var(--_scrollbar-active-thickness-px);
   }
 }

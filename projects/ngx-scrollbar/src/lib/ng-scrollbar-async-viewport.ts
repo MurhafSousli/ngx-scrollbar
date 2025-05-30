@@ -10,19 +10,18 @@ import { ContentObserver } from '@angular/cdk/observers';
 import { Subscription, throttleTime } from 'rxjs';
 import { NgScrollbarExt } from './ng-scrollbar-ext';
 
-type AsyncDetectionOption = '' | 'auto';
+type AsyncViewportOption = '' | 'auto';
 
-// TODO: Rename the class to ScrollbarAsyncViewport
 @Directive({
-  selector: 'ng-scrollbar[externalViewport][asyncDetection]'
+  selector: 'ng-scrollbar[externalViewport][asyncViewport]'
 })
-export class AsyncDetection {
+export class NgScrollbarAsyncViewport {
 
   private readonly scrollbar: NgScrollbarExt = inject(NgScrollbarExt, { self: true });
 
   private readonly contentObserver: ContentObserver = inject(ContentObserver);
 
-  asyncDetection: InputSignal<AsyncDetectionOption> = input.required<AsyncDetectionOption>();
+  asyncViewport: InputSignal<AsyncViewportOption> = input.required<AsyncViewportOption>();
 
   constructor() {
     this.scrollbar.skipInit = true;
@@ -33,7 +32,7 @@ export class AsyncDetection {
       const externalViewport: string = this.scrollbar.externalViewport();
       const externalContentWrapper: string = this.scrollbar.externalContentWrapper();
       const externalSpacer: string = this.scrollbar.externalSpacer();
-      const asyncDetection: AsyncDetectionOption = this.asyncDetection();
+      const asyncDetection: AsyncViewportOption = this.asyncViewport();
 
       // The content observer should not be throttled using the same function we use for ResizeObserver,
       // It should detect the content change asap to attach the scrollbar

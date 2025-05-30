@@ -1,8 +1,5 @@
 :host {
-  display: contents;
-}
-
-.ng-scrollbar-sticky {
+  display: block;
   height: var(--_scrollbar-wrapper-height);
   width: var(--_scrollbar-wrapper-width);
   position: sticky;
@@ -16,6 +13,9 @@
   touch-action: none;
   // Prevent selecting when pointer is down while dragging on mobile
   user-select: none;
+  // Gap between track and buttons
+  gap: var(--scrollbar-button-gap);
+
   // We use the absolute position for the hover effect
   // Set the proper direction of size transition on hover
   inset-block-start: var(--_scrollbar-track-inset-block-start);

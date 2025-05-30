@@ -1,7 +1,7 @@
 import { Directive, inject } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NgScrollbar, ScrollbarAnywhere, ScrollbarRef } from 'ngx-scrollbar';
+import { NgScrollbar, NgScrollbarAnywhere, ScrollbarRef } from 'ngx-scrollbar';
 
 @Directive({
   selector: 'mat-select[matSelectScrollbar]'
@@ -11,7 +11,7 @@ export class NgScrollbarMatSelect {
 
   private readonly matSelect: MatSelect = inject(MatSelect, { self: true });
 
-  private readonly scrollbarAnywhere: ScrollbarAnywhere = inject(ScrollbarAnywhere);
+  private readonly scrollbarAnywhere: NgScrollbarAnywhere = inject(NgScrollbarAnywhere);
 
   scrollbarRef: ScrollbarRef<NgScrollbar>;
 
