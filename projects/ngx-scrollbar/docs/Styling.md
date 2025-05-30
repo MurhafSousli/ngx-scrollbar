@@ -1,3 +1,35 @@
+
+| Name                                      | Default Value   | Description                                      |
+|-------------------------------------------|-----------------|--------------------------------------------------|
+| `track-shape`                             | null            | Adjust the border radius of the scrollbar track  |
+| `track-thickness`                         | 5px             |                                                  |
+| `track-hover-thickness`                   | track-thickness |                                                  |
+| `track-offset`                            | null            |                                                  |
+| `track-color`                             | transparent     |                                                  |
+| `thumb-size`                              |                 |                                                  |
+| `thumb-min-size`                          |                 |                                                  |
+| `thumb-color`                             |                 |                                                  |
+| `thumb-hover-color`                       |                 |                                                  |
+| `thumb-active-color`                      |                 |                                                  |
+| `hover-opacity-transition-enter-duration` |                 |                                                  |
+| `hover-opacity-transition-leave-duration` |                 |                                                  |
+| `hover-opacity-transition-leave-delay`    |                 |                                                  |
+| `overscroll-behavior`                     |                 |                                                  |
+| `mobile-overscroll-behavior`              |                 |                                                  |
+| `button-gap`                              | null            |                                                  |
+| `button-shape`                            |                 |                                                  |
+| `button-size`                             |                 |                                                  |
+| `button-color`                            |                 |                                                  |
+| `button-hover-color`                      |                 |                                                  |
+| `button-active-color`                     |                 |                                                  |
+| `button-inactive-color`                   |                 |                                                  |
+| `button-fill-color`                       |                 |                                                  |
+| `button-fill-hover-color`                 |                 |                                                  |
+| `button-fill-active-color`                |                 |                                                  |
+| `button-fill-inactive-color`              |                 |                                                  |
+
+
+
 Customize the following CSS variables to tailor the appearance of your scrollbar
 
 

@@ -24,7 +24,7 @@ describe('Visibility styles', () => {
     fixture.componentRef.setInput('visibility', 'hover');
     await firstValueFrom(outputToObservable(adapter.afterInit));
 
-    const stickyDebugElement: DebugElement = fixture.debugElement.query(By.css('.ng-scrollbar-sticky'));
+    const stickyDebugElement: DebugElement = fixture.debugElement.query(By.css('scrollbar-y.ng-scrollbar-sticky'));
 
     const stickyStyles: CSSStyleDeclaration = getComputedStyle(stickyDebugElement.nativeElement);
 
@@ -44,7 +44,7 @@ describe('Visibility styles', () => {
     component.nativeElement.style.setProperty('--scrollbar-hover-opacity-transition-leave-delay', '3s');
     await firstValueFrom(outputToObservable(adapter.afterInit));
 
-    const stickyDebugElement: DebugElement = fixture.debugElement.query(By.css('.ng-scrollbar-sticky'));
+    const stickyDebugElement: DebugElement = fixture.debugElement.query(By.css('scrollbar-y.ng-scrollbar-sticky'));
     const stickyStyles: CSSStyleDeclaration = getComputedStyle(stickyDebugElement.nativeElement);
 
     expect(stickyStyles.transitionDelay).toBe('3s');

@@ -25,8 +25,8 @@ describe('Hover effect', () => {
     fixture.componentRef.setInput('hoverOffset', false);
     await firstValueFrom(outputToObservable(adapter.afterInit))
 
-    const stickyYElement: Element = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-sticky')).nativeElement;
-    const stickyXElement: Element = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-sticky')).nativeElement;
+    const stickyYElement: Element = fixture.debugElement.query(By.css('scrollbar-y')).nativeElement;
+    const stickyXElement: Element = fixture.debugElement.query(By.css('scrollbar-x')).nativeElement;
 
     const trackYElement: Element = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-track-wrapper')).nativeElement;
     const trackXElement: Element = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-track-wrapper')).nativeElement;
@@ -42,8 +42,8 @@ describe('Hover effect', () => {
     fixture.componentRef.setInput('hoverOffset', true);
     await firstValueFrom(outputToObservable(adapter.afterInit))
 
-    const stickyYElement: Element = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-sticky')).nativeElement;
-    const stickyXElement: Element = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-sticky')).nativeElement;
+    const stickyYElement: Element = fixture.debugElement.query(By.css('scrollbar-y')).nativeElement;
+    const stickyXElement: Element = fixture.debugElement.query(By.css('scrollbar-x')).nativeElement;
 
     const trackYElement: Element = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-track-wrapper')).nativeElement;
     const trackXElement: Element = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-track-wrapper')).nativeElement;

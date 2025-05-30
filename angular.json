@@ -40,7 +40,8 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "node_modules/ng-zorro-antd/resizable/style"
+                "node_modules/ng-zorro-antd/resizable/style",
+                "projects"
               ]
             },
             "scripts": [],

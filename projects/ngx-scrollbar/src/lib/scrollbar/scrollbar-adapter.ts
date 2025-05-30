@@ -4,7 +4,12 @@ import { ViewportAdapter } from '../viewport/viewport-adapter';
 
 export const SCROLLBAR_CONTROL: InjectionToken<ScrollbarAdapter> = new InjectionToken<ScrollbarAdapter>('SCROLLBAR_CONTROL');
 
-@Directive()
+@Directive({
+  host: {
+    '[class.ng-scrollbar-sticky]': 'true',
+    '[class.ng-scrollbar-hover]': 'cmp.hoverOffset()'
+  }
+})
 export abstract class ScrollbarAdapter {
 
   abstract readonly rectOffsetProperty: 'left' | 'top';

@@ -10,17 +10,14 @@
   // Button arrow icon direction
   --_button-icon-rotate-top: 0deg;
   --_button-icon-rotate-bottom: 180deg;
-}
 
-.ng-scrollbar-sticky {
   grid-area: scrollbar-y;
+  pointer-events: var(--_scrollbar-y-pointer-events);
 
   inset-block-start: 0;
   inset-block-end: 0;
   inset-inline-start: var(--_scrollbar-wrapper-y-start);
   inset-inline-end: var(--_scrollbar-wrapper-y-end);
-
-  pointer-events: var(--_scrollbar-y-pointer-events);
 }
 
 .ng-scrollbar-track-wrapper {
@@ -28,9 +25,14 @@
   flex-direction: column;
 }
 
-.ng-scrollbar-hover {
-  &:hover, &:active {
+:host.ng-scrollbar-hover, .ng-scrollbar-hover {
+  &:hover {
     --_thumb-y-color: var(--_thumb-hover-color);
     --_track-y-thickness-px: var(--_scrollbar-hover-thickness-px);
+  }
+
+  &:active {
+    --_thumb-y-color: var(--_thumb-active-color);
+    --_track-y-thickness-px: var(--_scrollbar-active-thickness-px);
   }
 }

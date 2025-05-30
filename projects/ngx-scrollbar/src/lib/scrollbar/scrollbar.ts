@@ -9,22 +9,19 @@ import { ScrollbarButton } from '../button/scrollbar-button';
 @Component({
   selector: 'scrollbar-y',
   template: `
-    <div class="ng-scrollbar-sticky"
-         [class.ng-scrollbar-hover]="cmp.hoverOffset()">
-      <div class="ng-scrollbar-track-wrapper"
-           [class.ng-scrollbar-hover]="!cmp.hoverOffset()">
-        <scrollbar-track-y class="ng-scrollbar-track {{ cmp.trackClass() }}">
-          <scrollbar-thumb-y class="ng-scrollbar-thumb {{ cmp.thumbClass() }}"/>
-        </scrollbar-track-y>
-        @if (cmp.buttons()) {
-          <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
-                  scrollbarButton="top"
-                  scrollDirection="backward"></button>
-          <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
-                  scrollbarButton="bottom"
-                  scrollDirection="forward"></button>
-        }
-      </div>
+    <div class="ng-scrollbar-track-wrapper"
+         [class.ng-scrollbar-hover]="!cmp.hoverOffset()">
+      <scrollbar-track-y class="ng-scrollbar-track {{ cmp.trackClass() }}">
+        <scrollbar-thumb-y class="ng-scrollbar-thumb {{ cmp.thumbClass() }}"/>
+      </scrollbar-track-y>
+      @if (cmp.buttons()) {
+        <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
+                scrollbarButton="top"
+                scrollDirection="backward"></button>
+        <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
+                scrollbarButton="bottom"
+                scrollDirection="forward"></button>
+      }
     </div>
   `,
   styleUrls: ['./shared.scss', './vertical.scss'],
@@ -68,22 +65,19 @@ export class ScrollbarY extends ScrollbarAdapter {
 @Component({
   selector: 'scrollbar-x',
   template: `
-    <div class="ng-scrollbar-sticky"
-         [class.ng-scrollbar-hover]="cmp.hoverOffset()">
-      <div class="ng-scrollbar-track-wrapper"
-           [class.ng-scrollbar-hover]="!cmp.hoverOffset()">
-        <scrollbar-track-x class="ng-scrollbar-track {{ cmp.trackClass() }}">
-          <scrollbar-thumb-x class="ng-scrollbar-thumb {{ cmp.thumbClass() }}" [attr.dir]="cmp.direction()"/>
-        </scrollbar-track-x>
-        @if (cmp.buttons()) {
-          <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
-                  scrollbarButton="start"
-                  scrollDirection="backward"></button>
-          <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
-                  scrollbarButton="end"
-                  scrollDirection="forward"></button>
-        }
-      </div>
+    <div class="ng-scrollbar-track-wrapper"
+         [class.ng-scrollbar-hover]="!cmp.hoverOffset()">
+      <scrollbar-track-x class="ng-scrollbar-track {{ cmp.trackClass() }}">
+        <scrollbar-thumb-x class="ng-scrollbar-thumb {{ cmp.thumbClass() }}" [attr.dir]="cmp.direction()"/>
+      </scrollbar-track-x>
+      @if (cmp.buttons()) {
+        <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
+                scrollbarButton="start"
+                scrollDirection="backward"></button>
+        <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
+                scrollbarButton="end"
+                scrollDirection="forward"></button>
+      }
     </div>
   `,
   styleUrls: ['./shared.scss', './horizontal.scss'],

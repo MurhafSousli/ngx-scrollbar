@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ApplicationRef, Component, inject } from '@angular/core';
-import { ScrollbarAnywhere, NgScrollbar, NgScrollbarExt, ScrollbarRef } from 'ngx-scrollbar';
+import { NgScrollbarAnywhere, NgScrollbar, NgScrollbarExt, ScrollbarRef } from 'ngx-scrollbar';
 
 @Component({
   selector: 'sample-lib',
@@ -17,7 +17,7 @@ import { ScrollbarAnywhere, NgScrollbar, NgScrollbarExt, ScrollbarRef } from 'ng
   `
 })
 class SampleLibComponent {
-  anywhere: ScrollbarAnywhere = inject(ScrollbarAnywhere);
+  anywhere: NgScrollbarAnywhere = inject(NgScrollbarAnywhere);
   scrollbarRef: ScrollbarRef<NgScrollbar | NgScrollbarExt>;
 
   createScrollbar(host: string): void {
@@ -39,7 +39,7 @@ class SampleLibComponent {
 }
 
 describe('ScrollbarAnywhere', () => {
-  let service: ScrollbarAnywhere;
+  let service: NgScrollbarAnywhere;
   let appRef: ApplicationRef;
   let fixture: ComponentFixture<SampleLibComponent>;
   let component: SampleLibComponent;
@@ -47,7 +47,7 @@ describe('ScrollbarAnywhere', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SampleLibComponent);
     component = fixture.componentInstance;
-    service = TestBed.inject(ScrollbarAnywhere);
+    service = TestBed.inject(NgScrollbarAnywhere);
     appRef = TestBed.inject(ApplicationRef);
   });
 

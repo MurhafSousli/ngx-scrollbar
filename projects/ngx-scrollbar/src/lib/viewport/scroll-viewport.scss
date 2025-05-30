@@ -14,7 +14,7 @@
   // Scrollbar thickness
   --_scrollbar-thickness-px: var(--scrollbar-thickness, 5px);
 
-  // Space between scrollbar track and its surrounding
+  // Space between scrollbar track and its surrounding (fallback value must be 0px and not 0)
   --_scrollbar-offset-px: var(--scrollbar-offset, 0px);
 
   // Total scrollbar thickness including the offset

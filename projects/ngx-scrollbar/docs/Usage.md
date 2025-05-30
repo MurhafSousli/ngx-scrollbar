@@ -39,14 +39,13 @@ Then, in your component template, you can use the `<ng-scrollbar>` to wrap your 
 | **[orientation]**                     | `auto`        | The scroll axis of the viewport `horizontal`, `vertical`, `auto`.              |
 | **[position]**                        | `native`      | Invert scrollbar position `native`,`invertX`,`invertY`, `invertAll`.           |
 | **[visibility]**                      | `native`      | Scrollbar visibility `native`, `hover`, `always`.                              |
-| **[appearance]**                      | `standard`    | Scrollbar appearance `standard`, `compact`.                                    |
+| **[appearance]**                      | `native`      | Scrollbar appearance `native`, `compact`.                                      |
 | **[trackClass]**                      | *null*        | Add a class to scrollbars' tracks.                                             |
 | **[thumbClass]**                      | *null*        | Add a class to scrollbars' thumbnails.                                         |
 | **[buttonClass]**                     | *null*        | Add a class to scrollbar button elements.                                      |
 | **[buttons]**                         | false         | Show scrollbar buttons.                                                        |
 | **[hoverOffset]**                     | false         | Activate hover effect on the offset area around the scrollbar.                 |
 | **[trackClickDuration]**              | 50            | The smooth scroll step duration when a scrollbar is clicked in ms.             |
-| **[minThumbSize]**                    | 20            | The minimum scrollbar thumb size in px.                                        |
 | **[sensorThrottleTime]**              | 0             | The throttle time used for detecting size changes.                             |
 | **[disableSensor]**                   | false         | Whether `ResizeObserver` is disabled.                                          |
 | **[disableInteraction]**              | false         | Disables scrollbar interaction like dragging thumb and jumping by track click. |
@@ -60,7 +59,7 @@ Then, in your component template, you can use the `<ng-scrollbar>` to wrap your 
 
 ## Advanced usage: select a custom viewport element
 
-The `externalViewport` directve allows you to designate another element as the viewport, you can select an external
+The `externalViewport` directive allows you to designate another element as the viewport; you can select an external
 viewport using the `scrollViewport` directive.
 
 #### Example using `scrollViewport` directive:
@@ -73,7 +72,7 @@ viewport using the `scrollViewport` directive.
 </ng-scrollbar>
 ```
 
-If viewport element is inaccessible from the template, you can pass its selector as the directive value
+If the viewport element is inaccessible from the template, you can pass its selector as the directive value
 `[externalViewport]=".my-custom-viewport"`.
 
 #### Example of passing viewport selector:
@@ -86,7 +85,7 @@ If viewport element is inaccessible from the template, you can pass its selector
 </ng-scrollbar>
 ```
 
-By default a content wrapper element will be created inside the viewport to hold its content. optionally, you can select
+By default, a content wrapper element will be created inside the viewport to hold its content. Optionally, you can select
 a custom content wrapper using the input `[externalContentWrapper]`
 
 #### Example of passing content wrapper selector:
@@ -102,7 +101,7 @@ a custom content wrapper using the input `[externalContentWrapper]`
 </ng-scrollbar>
 ```
 
-This capability enables integration of the scrollbar with 3rd-party libraries where the viewport or content wrapper
+This capability enables integration of the scrollbar with third-party libraries where the viewport or content wrapper
 elements are inaccessible from the template.
 
 ### NgScrollbarExt API
@@ -115,17 +114,29 @@ elements are inaccessible from the template.
 | **[externalContentWrapper]** | *null*        | External content wrapper selector.                                                                                                           |
 | **[externalSpacer]**         | *null*        | External spacer selector used for calculating content dimensions instead of using the content wrapper (useful for virtual scroll libraries). |
 
-### NgScrollbarExt + Async Detection directive
+### NgScrollbarExt + Async Viewport directive
 
-The `AsyncDetection` directive is an addon for the `<ng-scrollbar externalViewport>` component. It is particularly
+The `NgScrollbarAsyncViewport` directive is an addon for the `<ng-scrollbar externalViewport>` component. It is particularly
 useful when integrating with third-party libraries where the viewport and its content may not be rendered at the time
 the scrollbar component is created. This directive detects the viewport and content wrapper, attaching the scrollbar
 as soon as they are rendered.
 
-In contrast, you should use `asyncDetection="auto"` when the target viewport may be destroyed and recreated,
+**Example:**
+
+```html
+<ng-scrollbar externalViewport=".my-viewport" asyncViewport>
+```
+
+In contrast, you should use `asyncViewport="auto"` when the target viewport may be destroyed and recreated,
 such as in the case of a dropdown menu.
+
+**Example:**
+
+```html
+<ng-scrollbar externalViewport=".my-viewport" asyncViewport="auto">
+```
 
 ### NgScrollbarExt + Sync Spacer directive
 
-The syncSpacer directive is an addon for the <ng-scrollbar externalViewport> component. It is particularly useful when
+The syncSpacer directive is an addon for the `<ng-scrollbar externalViewport>` component. It is particularly useful when
 integrating with a virtual scroll component, ensuring that both scrollbars are displayed correctly.

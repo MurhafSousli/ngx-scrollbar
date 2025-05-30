@@ -21,7 +21,7 @@ import { ElementDimension, getThrottledStream } from './utils/common';
     '[style.--spacer-height]': 'spacerDimension().height'
   }
 })
-export class SyncSpacer {
+export class NgSyncSpacer {
 
   private readonly zone: NgZone = inject(NgZone);
 

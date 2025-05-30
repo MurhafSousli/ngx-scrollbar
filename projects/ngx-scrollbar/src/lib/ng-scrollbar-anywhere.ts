@@ -24,7 +24,7 @@ export interface ScrollbarRef<T> {
 @Injectable({
   providedIn: 'root'
 })
-export class ScrollbarAnywhere {
+export class NgScrollbarAnywhere {
 
   private readonly document: Document = inject(DOCUMENT);
   private readonly appRef: ApplicationRef = inject(ApplicationRef);

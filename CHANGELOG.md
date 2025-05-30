@@ -6,16 +6,18 @@
 - feat: Add `matSelectScrollbar` directive that can be used to attach scrollbar on `mat-select` overlay menu.
 - feat: Support integration with CDK virtual scroll used with `cdkVirtualScrollingElement`.
 - feat: `<ng-scrollbar externalViewport>` is now hybrid.
+- feat: Optimize scrollbar thumb size and position calculation without the need to know the track size.
 - refactor: Remove `standalone` from all components.
 - refactor: Move attributes and styles to viewport elements
 - refactor: Use `padding-block` and `padding-inline` properties to set up appearance option styles.
-- refactor: Use `inset-block` and `inset-inline` properties to set up scrollbar positioning styles.
 - refactor: Use `inset-block` and `inset-inline` properties to set up scrollbar positioning styles.
 
 ### Breaking Changes
 
 - `scrollViewport` directive is removed, use the selector on `externalViewport` input instead.
 - When using `externalViewport`, setting the value is now required.
+- The option `minThumbSize` is removed from the component and the global options, use the CSS variable `thumb-min-size` instead.
+- The directive `AsyncDetection` has been renamed to `NgScrollbarAsyncViewport`
 
 ## 18.0.0
 

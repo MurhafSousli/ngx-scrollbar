@@ -3,12 +3,12 @@ import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
-import { NgScrollbarExt, SyncSpacer, ViewportAdapter } from 'ngx-scrollbar';
+import { NgScrollbarExt, NgSyncSpacer, ViewportAdapter } from 'ngx-scrollbar';
 import { afterTimeout } from './common-test.';
 
 @Component({
   selector: 'sample-content',
-  imports: [NgScrollbarExt, SyncSpacer],
+  imports: [NgScrollbarExt, NgSyncSpacer],
   template: `
     <ng-scrollbar externalViewport=".my-custom-viewport"
                   externalContentWrapper=".my-custom-content-wrapper"
@@ -29,7 +29,7 @@ class TestComponent {
   contentWidth: number = 100;
 }
 
-describe('External viewport with [SyncSpacer]', () => {
+describe('External viewport with [NgSyncSpacer]', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
   let scrollbarCmp: NgScrollbarExt;
@@ -44,7 +44,7 @@ describe('External viewport with [SyncSpacer]', () => {
     fixture.detectChanges();
   });
 
-  it('[SyncSpacer] should sync spacer dimension with content dimension',  fakeAsync( async () => {
+  it('[NgSyncSpacer] should sync spacer dimension with content dimension',  fakeAsync( async () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
 
     // Verify that only the vertical scrollbar is shown
