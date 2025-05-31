@@ -7,7 +7,7 @@
 [![Stackblitz](https://img.shields.io/badge/stackblitz-online-orange.svg)](https://stackblitz.com/edit/ngx-scrollbar)
 [![Backers on Open Collective](https://opencollective.com/ngx-scrollbar/tiers/backers/badge.svg?label=Backers&color=brightgreen)](#sponsoring-ngx-scrollbar)
 [![npm](https://img.shields.io/npm/v/ngx-scrollbar.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-scrollbar)
-[![CI Build](https://github.com/MurhafSousli/ngx-scrollbar/workflows/tests/badge.svg)](https://github.com/MurhafSousli/ngx-scrollbar/actions?query=workflow%3Aci-build)
+[![CI Build](https://github.com/MurhafSousli/ngx-scrollbar/actions/workflows/integrate.yml/badge.svg)](https://github.com/MurhafSousli/ngx-scrollbar/actions/workflows/integrate.yml)
 [![codecov](https://codecov.io/gh/MurhafSousli/ngx-scrollbar/graph/badge.svg?token=TO2idZEE1i)](https://codecov.io/gh/MurhafSousli/ngx-scrollbar)
 [![Downloads](https://img.shields.io/npm/dt/ngx-scrollbar.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/ngx-scrollbar)
 [![NPM Downloads](https://img.shields.io/npm/dm/ngx-scrollbar.svg)](https://www.npmjs.com/package/ngx-scrollbar)
@@ -40,27 +40,27 @@ Custom overlay-scrollbars with native scrolling mechanism for Angular, it also p
 
 ### Table of contents
 
-* [Usage](docs/Usage.md)
-* [Styling](docs/Styling.md)
-* [Global Options](docs/Global-options.md)
-* [Smooth Scroll Functions](docs/Smooth-Scroll-Functions.md)
-* [Scroll Timeline Polyfill](docs/Scroll-timeline-polyfill.md)
+* [Usage](projects/ngx-scrollbar/docs/Usage.md)
+* [Styling](projects/ngx-scrollbar/docs/Styling.md)
+* [Global Options](projects/ngx-scrollbar/docs/Global-options.md)
+* [Smooth Scroll Functions](projects/ngx-scrollbar/docs/Smooth-Scroll-Functions.md)
+* [Scroll Timeline Polyfill](projects/ngx-scrollbar/docs/Scroll-timeline-polyfill.md)
 
 ### Addons:
 
-* [Integration Examples](docs/Integration.md)
-  * [Material Select](docs/Integration.md#material-select)
-  * [Material Dialog](docs/Integration.md#material-dialog)
-  * [CDK Virtual Scroll](docs/Integration.md#cdk-virtual-scroll)
-  * [ngx-datatable table](docs/Integration.md#ngx-datatable-table)
-  * [Ag-grid table](docs/Integration.md#ag-grid-table)
-  * [PrimeNG Scroller](docs/Integration.md#primeng-scroller)
-  * [PrimeNG Table](docs/Integration.md#primeng-table)
-  * [PrimeNG Dropdown](docs/Integration.md#primeng-dropdown)
-  * [PrimeNg Dropdown (Virtual Scroll)](docs/Integration.md#primeng-dropdown-virtual-scroll)
-  * [Kendu UI Grid](docs/Integration.md#kendu-ui-grid)
-* [Reached & Dropped Events](docs/Reached-&-Dropped-Events.md)
-* [Smooth Scroll Functions (without NgScrollbar)](docs/Smooth-Scroll.md)
+* [Integration Examples](projects/ngx-scrollbar/docs/Integration.md)
+  * [Material Select](projects/ngx-scrollbar/docs/Integration.md#material-select)
+  * [Material Dialog](projects/ngx-scrollbar/docs/Integration.md#material-dialog)
+  * [CDK Virtual Scroll](projects/ngx-scrollbar/docs/Integration.md#cdk-virtual-scroll)
+  * [ngx-datatable table](projects/ngx-scrollbar/docs/Integration.md#ngx-datatable-table)
+  * [Ag-grid table](projects/ngx-scrollbar/docs/Integration.md#ag-grid-table)
+  * [PrimeNG Scroller](projects/ngx-scrollbar/docs/Integration.md#primeng-scroller)
+  * [PrimeNG Table](projects/ngx-scrollbar/docs/Integration.md#primeng-table)
+  * [PrimeNG Dropdown](projects/ngx-scrollbar/docs/Integration.md#primeng-dropdown)
+  * [PrimeNg Dropdown (Virtual Scroll)](projects/ngx-scrollbar/docs/Integration.md#primeng-dropdown-virtual-scroll)
+  * [Kendu UI Grid](projects/ngx-scrollbar/docs/Integration.md#kendu-ui-grid)
+* [Reached & Dropped Events](projects/ngx-scrollbar/docs/Reached-&-Dropped-Events.md)
+* [Smooth Scroll Functions (without NgScrollbar)](projects/ngx-scrollbar/docs/Smooth-Scroll.md)
 
 ___
 
