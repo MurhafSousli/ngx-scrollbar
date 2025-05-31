@@ -16,7 +16,7 @@ import { NgScrollReachDrop } from 'ngx-scrollbar/reached-event';
                   [droppedBottomOffset]="bottomOffset"
                   [droppedStartOffset]="startOffset"
                   [droppedEndOffset]="endOffset"
-                  [disableReached]="disabled"
+                  [disableDropped]="disableDropped"
                   [dir]="isRtl ? 'rtl' : 'ltr'">
       <div style="width: 300px; height: 300px"></div>
     </ng-scrollbar>
@@ -29,7 +29,7 @@ class TestComponent {
   startOffset: number;
   endOffset: number;
   isRtl: boolean = false;
-  disabled: boolean = false;
+  disableDropped: boolean = false;
 
   onScrollDropped(value: string): void {
     console.log(value);
@@ -123,9 +123,8 @@ describe('Dropped Events Directives', () => {
     expect(onScrollDroppedSpy).toHaveBeenCalledWith('end');
   });
 
-
-  it('[reachDisabled]: should not emit when scroll is dropped destination', async () => {
-    component.disabled = true;
+  it('[disableDropped]: should not emit when scroll is dropped destination', async () => {
+    component.disableDropped = true;
     fixture.detectChanges();
     await adapter.scrollTo({ bottom: 0, duration: 0 });
     await adapter.scrollTo({ bottom: 11, duration: 50 });

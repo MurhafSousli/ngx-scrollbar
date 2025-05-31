@@ -61,7 +61,6 @@ export class ReachDropObserver implements OnDestroy {
                 if ((entryType === 'reached' && entry.isIntersecting) || (entryType === 'dropped' && !entry.isIntersecting)) {
                   // Forward the detected trigger element only after the observer is initialized
                   // Only observe the trigger elements when scrollable
-                  console.log(entry.target.getAttribute('name'))
                   this.zone.run(() => this.events.next(entry.target.getAttribute('name')));
                 }
               });
@@ -82,7 +81,6 @@ export class ReachDropObserver implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // TODO: Check why this is being called when it should not
     this.events?.complete();
     this.intersectionObserver?.disconnect();
     this.intersectionObserver = null;

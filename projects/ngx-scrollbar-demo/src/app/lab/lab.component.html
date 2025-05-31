@@ -179,8 +179,8 @@
                           (droppedTop)="onDropped('top')"
                           (droppedStart)="onDropped('start')"
                           (droppedEnd)="onDropped('end')"
-                          (droppedBottom)="onDropped('bottom')">
-<!--                          [disableDropped]="disableDropped">-->
+                          (droppedBottom)="onDropped('bottom')"
+                          [disableDropped]="disableDropped">
               <div class="inner"
                    [style.width]="slider.contentWidth > 1 ? (scrollbar.nativeElement.clientWidth) * slider.contentWidth + 'px' : '100%'"
                    [innerHTML]="content"></div>
