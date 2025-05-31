@@ -149,7 +149,7 @@ export class LabComponent {
       center: event.center,
       duration: event.duration
     };
-    // This shows effect on play button when scrollTo has reached
+    // This shows the effect on play button when scrollTo has reached
     const onScrollToReached = () => {
       this.scrollReached.set(true);
       setTimeout(() => this.scrollReached.set(false), 600);

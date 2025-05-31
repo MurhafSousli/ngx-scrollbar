@@ -71,9 +71,9 @@ export class NgScrollReachDrop {
     transform: numberAttribute
   });
 
-  disabled: InputSignalWithTransform<boolean, string | boolean> = input<boolean>(false, {
-    alias: 'disableReached'
-  });
+  disableReached: InputSignalWithTransform<boolean, string | boolean> = input<boolean>(false);
+
+  disableDropped: InputSignalWithTransform<boolean, string | boolean> = input<boolean>(false);
 
   @Output() reachedTop: EventEmitter<void> = new EventEmitter<void>();
 
@@ -109,32 +109,36 @@ export class NgScrollReachDrop {
     });
 
     effect((onCleanup: EffectCleanupRegisterFn) => {
-      if (this.disabled() || !this.viewport.initialized()) return;
+      if ((this.disableReached() && this.disableDropped()) || !this.viewport.initialized()) return;
 
-      if (this.reachedTop.observed) {
-        this.events.push({ name: 'reachedTop', trigger: 'top', type: 'reached' });
-      }
-      if (this.reachedBottom.observed) {
-        this.events.push({ name: 'reachedBottom', trigger: 'bottom', type: 'reached' });
-      }
-      if (this.reachedStart.observed) {
-        this.events.push({ name: 'reachedStart', trigger: 'start', type: 'reached' });
-      }
-      if (this.reachedEnd.observed) {
-        this.events.push({ name: 'reachedEnd', trigger: 'end', type: 'reached' });
+      if (!this.disableReached()) {
+        if (this.reachedTop.observed) {
+          this.events.push({ name: 'reachedTop', trigger: 'top', type: 'reached' });
+        }
+        if (this.reachedBottom.observed) {
+          this.events.push({ name: 'reachedBottom', trigger: 'bottom', type: 'reached' });
+        }
+        if (this.reachedStart.observed) {
+          this.events.push({ name: 'reachedStart', trigger: 'start', type: 'reached' });
+        }
+        if (this.reachedEnd.observed) {
+          this.events.push({ name: 'reachedEnd', trigger: 'end', type: 'reached' });
+        }
       }
 
-      if (this.droppedTop.observed) {
-        this.events.push({ name: 'droppedTop', trigger: 'top', type: 'dropped' });
-      }
-      if (this.droppedBottom.observed) {
-        this.events.push({ name: 'droppedBottom', trigger: 'bottom', type: 'dropped' });
-      }
-      if (this.droppedStart.observed) {
-        this.events.push({ name: 'droppedStart', trigger: 'start', type: 'dropped' });
-      }
-      if (this.droppedEnd.observed) {
-        this.events.push({ name: 'droppedEnd', trigger: 'end', type: 'dropped' });
+      if (!this.disableDropped()) {
+        if (this.droppedTop.observed) {
+          this.events.push({ name: 'droppedTop', trigger: 'top', type: 'dropped' });
+        }
+        if (this.droppedBottom.observed) {
+          this.events.push({ name: 'droppedBottom', trigger: 'bottom', type: 'dropped' });
+        }
+        if (this.droppedStart.observed) {
+          this.events.push({ name: 'droppedStart', trigger: 'start', type: 'dropped' });
+        }
+        if (this.droppedEnd.observed) {
+          this.events.push({ name: 'droppedEnd', trigger: 'end', type: 'dropped' });
+        }
       }
 
       this.container = createComponent(ReachDropObserver, {
