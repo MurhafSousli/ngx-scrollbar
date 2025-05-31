@@ -6,21 +6,16 @@ import { ViewportAdapter } from '../viewport/viewport-adapter';
   selector: 'scrollbars',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ScrollbarX, ScrollbarY],
+  styleUrl: 'scrollbars.scss',
   template: `
-    @if (cmp.verticalUsed()) {
+    @if (adapter.verticalUsed()) {
       <scrollbar-y/>
     }
-    @if (cmp.horizontalUsed()) {
+    @if (adapter.horizontalUsed()) {
       <scrollbar-x/>
     }
-  `,
-  styleUrls: ['scrollbars.scss'],
-  styles: [`
-    :host {
-      /*display: contents;*/
-    }
-  `]
+  `
 })
 export class Scrollbars {
-  cmp: ViewportAdapter = inject(ViewportAdapter);
+  adapter: ViewportAdapter = inject(ViewportAdapter);
 }

@@ -1,7 +1,17 @@
-import { Injectable, inject, createComponent, ComponentRef, ApplicationRef, EnvironmentInjector } from '@angular/core';
+import {
+  Injectable,
+  inject,
+  createComponent,
+  Injector,
+  ComponentRef,
+  ApplicationRef,
+  EnvironmentInjector
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { NgScrollbarExt } from './ng-scrollbar-ext';
 import { NgScrollbar } from './ng-scrollbar';
+import { provideScrollbarOptions } from './ng-scrollbar.module';
+import { NgScrollbarOptions } from './ng-scrollbar.model';
 
 /**
  * Parameters for creating an extended scrollbar.
@@ -34,13 +44,13 @@ export class NgScrollbarAnywhere {
    * Generic method to create and attach a scrollbar component.
    * @param host - CSS selector for the host element.
    * @param component - The scrollbar component to create (either NgScrollbar or NgScrollbarExt).
-   * @param projectNodes - Whether to project child nodes of the host element
+   * @param options - Scrollbar options
    * @returns A reference to the created scrollbar component or null if the host is not found.
    */
   private createScrollbarComponent<T>(
     host: string,
     component: new (...args: any[]) => T,
-    projectNodes?: boolean
+    options?: NgScrollbarOptions
   ): ScrollbarRef<T> | null {
     const hostElement: Element = this.document.querySelector(host);
     if (!hostElement) {
@@ -52,10 +62,13 @@ export class NgScrollbarAnywhere {
     let componentRef: ComponentRef<T> = createComponent(component, {
       hostElement,
       environmentInjector: this.environmentInjector,
-      projectableNodes: projectNodes ? [Array.from(hostElement.childNodes)] : []
+      projectableNodes: [Array.from(hostElement.childNodes)],
+      elementInjector: Injector.create({
+        providers: [provideScrollbarOptions(options)]
+      })
     });
 
-    // Attach the component's view to Angular change detection tree
+    // Attach the component's view to the Angular change detection tree
     this.appRef.attachView(componentRef.hostView);
 
     return {
@@ -71,19 +84,21 @@ export class NgScrollbarAnywhere {
   /**
    * Creates a basic scrollbar for a given host element.
    * @param host - CSS selector for the target element.
+   * @param options - Scrollbar options
    * @returns A reference to the created scrollbar component.
    */
-  createScrollbar(host: string): ScrollbarRef<NgScrollbar> | null {
-    return this.createScrollbarComponent(host, NgScrollbar, true);
+  createScrollbar(host: string, options?: NgScrollbarOptions): ScrollbarRef<NgScrollbar> | null {
+    return this.createScrollbarComponent(host, NgScrollbar, options);
   }
 
   /**
    * Creates an extended scrollbar with external viewport and optional configurations.
    * @param params - Configuration options including host, viewport, and optional elements.
+   * @param options - Scrollbar options
    * @returns A reference to the created extended scrollbar component.
    */
-  createScrollbarExt(params: ScrollbarParams): ScrollbarRef<NgScrollbarExt> | null {
-    const scrollbarRef: ScrollbarRef<NgScrollbarExt> = this.createScrollbarComponent(params.host, NgScrollbarExt);
+  createScrollbarExt(params: ScrollbarParams, options?: NgScrollbarOptions): ScrollbarRef<NgScrollbarExt> | null {
+    const scrollbarRef: ScrollbarRef<NgScrollbarExt> = this.createScrollbarComponent(params.host, NgScrollbarExt, options);
 
     if (scrollbarRef) {
       scrollbarRef.componentRef.setInput('externalViewport', params.viewport);

@@ -7,3 +7,4 @@ export * from './lib/ng-sync-spacer';
 export * from './lib/ng-scrollbar-anywhere';
 export * from './lib/scrollbar-document';
 export * from './lib/viewport/viewport-adapter';
+export * from './lib/viewport/scrollbar-input-outputs';
