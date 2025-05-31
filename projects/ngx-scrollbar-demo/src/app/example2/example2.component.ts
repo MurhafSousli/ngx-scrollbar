@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { NgScrollbarExt, NgScrollbarModule } from 'ngx-scrollbar';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 
 @Component({
   host: {
@@ -12,11 +11,9 @@ import { NgScrollbarExt, NgScrollbarModule } from 'ngx-scrollbar';
   templateUrl: './example2.component.html',
   styleUrl: './example2.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, NgScrollbarModule, MatCardModule, MatButtonModule]
+  imports: [NgScrollbarModule, MatCardModule, MatButtonModule]
 })
 export class Example2Component {
-
-  @ViewChild(NgScrollbarExt, { static: true }) scrollbar: NgScrollbarExt;
 
   list = [
     {
@@ -89,7 +86,7 @@ export class Example2Component {
     }
   ];
 
-  addItem() {
+  addItem(): void {
     this.list = [
       ...this.list, ...[
         {
@@ -98,9 +95,5 @@ export class Example2Component {
         }
       ]
     ];
-  }
-
-  onScrollbarUpdate(scrollbarRef: NgScrollbarExt, duration: number = 0): void {
-    // scrollbarRef.scrollTo({ bottom: 0, duration });
   }
 }

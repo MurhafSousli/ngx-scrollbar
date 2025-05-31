@@ -1,7 +1,7 @@
 :host {
   animation-timeline: var(--_animation-timeline-x);
   display: var(--_horizontal-thumb-display);
-  background-color: var(--_thumb-x-color);
+  background: var(--_thumb-x-color);
 
   height: 100%;
   width: calc(var(--thumb-size-percent) * 1%);

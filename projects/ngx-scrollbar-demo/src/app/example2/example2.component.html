@@ -4,19 +4,16 @@
       <div class="sample">
         <header>TODO</header>
         <ng-scrollbar #scrollbarRef="ngScrollbar"
-                      externalViewport=".viewport"
                       appearance="compact"
-                      (afterInit)="onScrollbarUpdate(scrollbarRef)"
-                      (afterUpdate)="onScrollbarUpdate(scrollbarRef, 200)">
-          <div class="viewport">
-            <ul>
-              <li></li>
-              @for (item of list; track item.title) {
-                <li [class.not]="!item.completed" [class.ok]="item.completed">{{ item.title }}</li>
-              }
-              <li></li>
-            </ul>
-          </div>
+                      (afterInit)="scrollbarRef.scrollTo({ bottom: 0 })"
+                      (afterUpdate)="scrollbarRef.scrollTo({ bottom: 0, duration: 200 })">
+          <ul>
+            <li></li>
+            @for (item of list; track $index) {
+              <li [class.not]="!item.completed" [class.ok]="item.completed">{{ item.title }}</li>
+            }
+            <li></li>
+          </ul>
         </ng-scrollbar>
       </div>
     </div>

@@ -1,25 +1,31 @@
+@use 'ngx-scrollbar' as scrollbar;
+
 ng-scrollbar {
-  --scrollbar-track-color: var(--surface-container-low);
-  --scrollbar-thumb-color: var(--color-primary);
-  --scrollbar-thickness: 8px;
-  --scrollbar-hover-thickness: 8px;
-  --scrollbar-offset: 6px;
-  --scrollbar-border-radius: 7px;
+  @include scrollbar.ng-scrollbar-overrides((
+    track-shape: 8px,
+    track-offset: 6px,
+    track-thickness: 8px,
+    track-hover-thickness: 8px,
+    track-color: var(--surface-container-low),
+    thumb-color: var(--color-primary)
+  ));
 }
 
 .mat-mdc-select {
-  --mat-select-enabled-arrow-color: rgb(255 255 255 / 54%);
+  //--mat-select-enabled-arrow-color: rgb(255 255 255 / 54%);
   margin-bottom: 30px !important;
   color: white;
 }
 
 ::ng-deep {
   .ng-scrollbar.mat-mdc-select-panel {
-    --scrollbar-track-color: var(--surface-container-low);
-    --scrollbar-thumb-color: var(--color-primary);
-    --scrollbar-thickness: 8px;
-    --scrollbar-hover-thickness: 8px;
-    --scrollbar-offset: 6px;
-    --scrollbar-border-radius: 7px;
+    @include scrollbar.ng-scrollbar-overrides((
+      track-shape: 8px,
+      track-offset: 6px,
+      track-thickness: 8px,
+      track-hover-thickness: 8px,
+      track-color: var(--surface-container-low),
+      thumb-color: var(--color-primary)
+    ));
   }
 }

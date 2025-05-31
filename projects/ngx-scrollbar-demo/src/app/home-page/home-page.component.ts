@@ -8,7 +8,7 @@ import { Example3Component } from '../example3/example3.component';
 import { Example5Component } from '../example5/example5.component';
 import { LabComponent } from '../lab/lab.component';
 import { HeaderComponent } from '../shared/header/header.component';
-import { AsyncDetection, NgScrollbar, NgScrollbarExt, ScrollbarAnywhere, ScrollbarRef } from 'ngx-scrollbar';
+import { NgScrollbarAsyncViewport, NgScrollbar, NgScrollbarExt, NgScrollbarAnywhere, ScrollbarRef } from 'ngx-scrollbar';
 
 @Component({
   selector: 'app-home-page',
@@ -22,7 +22,7 @@ import { AsyncDetection, NgScrollbar, NgScrollbarExt, ScrollbarAnywhere, Scrollb
     HeaderComponent,
     MatButton,
     NgScrollbarExt,
-    AsyncDetection,
+    NgScrollbarAsyncViewport,
     NgScrollReachDrop,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -36,7 +36,7 @@ export class HomePageComponent {
 
   readonly platform: Platform = inject(Platform);
 
-  readonly anyWhere = inject(ScrollbarAnywhere);
+  readonly anyWhere = inject(NgScrollbarAnywhere);
   readonly scrollbarDocument = inject(ScrollbarDocument);
 
   flag = false;

@@ -1,4 +1,13 @@
+@use 'ngx-scrollbar' as scrollbar;
+
 :host {
+  @include scrollbar.ng-scrollbar-overrides((
+    track-offset: 0px,
+    track-shape: 0px,
+    track-thickness: 6px,
+    track-hover-thickness: 10px
+  ));
+
   ::ng-deep {
     .ag-body-vertical-scroll,
     .ag-body-horizontal-scroll {
@@ -9,13 +18,6 @@
       overflow: hidden;
     }
   }
-
-  --scrollbar-thickness: 6px;
-  --scrollbar-hover-thickness: 10px;
-  --scrollbar-thumb-color: var(--color-primary);
-  --scrollbar-track-color: var(--surface-container-low);
-  --scrollbar-offset: 0px;
-  --scrollbar-border-radius: 0px;
 }
 
 ag-grid-angular {

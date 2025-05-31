@@ -40,15 +40,6 @@
   width: 100%;
 }
 
-ng-scrollbar {
-  --scrollbar-track-color: var(--surface-container-low);
-  --scrollbar-thumb-color: var(--color-primary);
-  --scrollbar-thickness: 10px;
-  --scrollbar-hover-thickness: 10px;
-  --scrollbar-offset: 6px;
-  --scrollbar-border-radius: 7px;
-}
-
 .item {
   display: flex;
   align-items: center;

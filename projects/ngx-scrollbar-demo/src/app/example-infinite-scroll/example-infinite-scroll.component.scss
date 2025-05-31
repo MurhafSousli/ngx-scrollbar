@@ -11,13 +11,6 @@
   }
 
   ng-scrollbar {
-    --scrollbar-track-color: var(--surface-container-low);
-    --scrollbar-thumb-color: var(--color-primary);
-    --scrollbar-thickness: 10px;
-    --scrollbar-hover-thickness: 10px;
-    --scrollbar-offset: 6px;
-    --scrollbar-border-radius: 7px;
-
     ::ng-deep {
       .ng-scroll-viewport {
         border-radius: var(--card-viewport-border-radius);

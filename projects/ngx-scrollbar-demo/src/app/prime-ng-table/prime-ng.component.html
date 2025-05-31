@@ -5,7 +5,7 @@
   <mat-card-content>
     <ng-scrollbar externalViewport=".p-select-list-container"
                   externalContentWrapper=".p-select-list"
-                  asyncDetection="auto">
+                  asyncViewport="auto">
       <p-select [options]="cities"
                 [(ngModel)]="selectedCity"
                 placeholder="Select a City"
@@ -39,7 +39,7 @@
     <ng-scrollbar externalViewport=".p-virtualscroller"
                   externalContentWrapper=".p-virtualscroller-content"
                   externalSpacer=".p-virtualscroller-spacer"
-                  asyncDetection="auto">
+                  asyncViewport="auto">
       <p-select [options]="cars"
                 [(ngModel)]="selectedCar"
                 placeholder="Select Option"

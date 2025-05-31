@@ -1,14 +1,21 @@
+@use 'ngx-scrollbar' as scrollbar;
+
+:host {
+  @include scrollbar.ng-scrollbar-overrides((
+    track-shape: 7px,
+    track-thickness: 7px,
+    track-hover-thickness: 7px,
+    track-offset: 16px,
+    track-color: rgb(0 0 0 / 10%),
+    thumb-color: rgb(0 0 0 / 20%),
+    thumb-hover-color: rgb(0 0 0 / 30%)
+  ));
+}
+
 ng-scrollbar {
-  --scrollbar-thickness: 7px;
-  --scrollbar-hover-thickness: 7px;
-  --scrollbar-offset: 16px;
-  --scrollbar-track-color: rgb(0 0 0 / 10%);
-  --scrollbar-thumb-color: rgb(0 0 0 / 20%);
-  --scrollbar-thumb-hover-color: rgb(0 0 0 / 30%);
-  --scrollbar-border-radius: 7px;
-  width: 100%;
   border: 1px solid rgb(0 0 0 / 25%);
   height: 200px;
+  width: 100%;
 }
 
 .example {

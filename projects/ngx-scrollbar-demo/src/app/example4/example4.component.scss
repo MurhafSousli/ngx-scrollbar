@@ -1,3 +1,15 @@
+@use 'ngx-scrollbar' as scrollbar;
+
+:host {
+  @include scrollbar.ng-scrollbar-overrides((
+    track-shape: 3px,
+    track-thickness: 6px,
+    track-hover-thickness: 6px,
+    track-color: rgb(0 0 0 / 15%),
+    thumb-color: #fff
+  ));
+}
+
 .example4 {
   background-color: #f8f8f8;
   color: #686c6e;
@@ -14,7 +26,7 @@
       --scrollbar-thickness: 6px;
       --scrollbar-track-color: rgb(0 0 0 / 15%);
       --scrollbar-thumb-color: #fff;
-      --scrollbar-border-radius: 3px;
+      --scrollbar-shape: 3px;
       border-radius: 3px;
     }
 

@@ -1,3 +1,14 @@
+@use 'ngx-scrollbar' as scrollbar;
+
+.outer-ng-scrollbar {
+  @include scrollbar.ng-scrollbar-overrides((
+    track-offset: 3px,
+    track-shape: 10px,
+    track-thickness: 10px,
+    track-hover-thickness: 10px,
+  ));
+}
+
 .example {
   overflow: hidden;
 }
@@ -12,14 +23,6 @@
   }
 }
 
-.outer-ng-scrollbar {
-  --scrollbar-thumb-color: var(--color-primary);
-  --scrollbar-track-color: var(--surface-container-low);
-  --scrollbar-offset: 3px;
-  --scrollbar-thickness: 10px;
-  --scrollbar-hover-thickness: 10px;
-  --scrollbar-border-radius: 10px;
-}
 
 .cards {
   display: flex;
@@ -59,6 +62,13 @@
   display: flex;
   flex-direction: column;
 
+  @include scrollbar.ng-scrollbar-overrides((
+    track-offset: 7px,
+    track-shape: 7px,
+    track-thickness: 6px,
+    track-hover-thickness: 10px,
+  ));
+
   color: var(--mat-sidenav-content-text-color);
 
   &:nth-child(odd) {
@@ -71,11 +81,6 @@
 
   ng-scrollbar {
     flex: 1;
-    --scrollbar-offset: 7px;
-    --scrollbar-thickness: 6px;
-    --scrollbar-border-radius: 7px;
-    --scrollbar-thumb-color: var(--color-primary);
-    --scrollbar-track-color: var(--surface-container-low);
 
     ::ng-deep {
       .ng-scroll-viewport {
