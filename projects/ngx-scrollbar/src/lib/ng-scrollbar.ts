@@ -1,5 +1,6 @@
 import {
   Component,
+  inject,
   effect,
   computed,
   untracked,
@@ -8,6 +9,7 @@ import {
   ElementRef,
   ChangeDetectionStrategy
 } from '@angular/core';
+import { SmoothScrollElement, SmoothScrollToElementOptions, SmoothScrollToOptions } from 'ngx-scrollbar/smooth-scroll';
 import { ViewportAdapter, ScrollContent } from './viewport';
 import { NgScrollbarCore } from './ng-scrollbar-core';
 import { Scrollbars } from './scrollbars/scrollbars';
@@ -28,7 +30,7 @@ import { Scrollbars } from './scrollbars/scrollbars';
   styleUrl: 'viewport/scroll-viewport.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [{
-    directive: ViewportAdapter ,
+    directive: ViewportAdapter,
     inputs: [
       'position',
       'buttons',
@@ -49,6 +51,8 @@ import { Scrollbars } from './scrollbars/scrollbars';
 })
 export class NgScrollbar extends NgScrollbarCore {
 
+  private adapter: ViewportAdapter = inject(ViewportAdapter);
+
   private contentWrapper: Signal<ElementRef<HTMLElement>> = viewChild.required(ScrollContent, { read: ElementRef });
 
   contentWrapperElement: Signal<HTMLElement> = computed(() => this.contentWrapper().nativeElement);
@@ -61,5 +65,19 @@ export class NgScrollbar extends NgScrollbarCore {
       });
     });
     super();
+  }
+
+  /**
+   * Smooth scroll functions
+   */
+  scrollTo(options: SmoothScrollToOptions): Promise<void> {
+    return this.adapter.scrollTo(options);
+  }
+
+  /**
+   * Scroll to an element by reference or selector
+   */
+  scrollToElement(target: SmoothScrollElement, options?: SmoothScrollToElementOptions): Promise<void> {
+    return this.adapter.scrollToElement(target, options);
   }
 }

@@ -1,11 +1,15 @@
-ng-scrollbar {
-  --scrollbar-thickness: 6px;
-  --scrollbar-hover-thickness: 10px;
-  --scrollbar-offset: 1px;
-  --scrollbar-border-radius: 0;
-  --scrollbar-thumb-color: var(--color-primary);
-  --scrollbar-track-color: var(--surface-container-low);
+@use 'ngx-scrollbar' as scrollbar;
 
+:host {
+  @include scrollbar.ng-scrollbar-overrides((
+    track-offset: 1px,
+    track-shape: 0px,
+    track-thickness: 6px,
+    track-hover-thickness: 10px
+  ));
+}
+
+ng-scrollbar {
   ::ng-deep {
     .ngx-datatable.material {
       .datatable-body .datatable-body-row .datatable-body-cell,

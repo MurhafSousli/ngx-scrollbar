@@ -11,15 +11,6 @@
     border-radius: var(--card-viewport-border-radius);
   }
 
-  ng-scrollbar {
-    --scrollbar-track-color: var(--surface-container-low);
-    --scrollbar-thumb-color: var(--color-primary);
-    --scrollbar-thickness: 12px;
-    --scrollbar-hover-thickness: 12px;
-    --scrollbar-offset: 6px;
-    --scrollbar-border-radius: 8px;
-  }
-
   .example-item {
     height: 50px;
 

@@ -37,6 +37,9 @@ interface ViewportState {
   isVerticallyScrollable: boolean,
   isHorizontallyScrollable: boolean,
 }
+
+const INITIAL_DIMENSION_VALUE: ElementDimension = { width: 0, height: 0 };
+
 /**
  * Class representing a viewport adapter.
  * Provides methods and properties to interact with a viewport and its content.
@@ -178,10 +181,10 @@ export class ViewportAdapter {
   horizontalUsed: Signal<boolean> = computed(() => this.state().horizontalUsed);
 
   /** Viewport dimension */
-  viewportDimension: WritableSignal<ElementDimension> = signal<ElementDimension>({ width: 0, height: 0 });
+  viewportDimension: WritableSignal<ElementDimension> = signal<ElementDimension>(INITIAL_DIMENSION_VALUE);
 
   /** Content dimension */
-  contentDimension: WritableSignal<ElementDimension> = signal<ElementDimension>({ width: 0, height: 0 });
+  contentDimension: WritableSignal<ElementDimension> = signal<ElementDimension>(INITIAL_DIMENSION_VALUE);
 
   /**
    * Viewport native element

@@ -43,11 +43,11 @@ export class NgScrollbarAsyncViewport {
         })
       ).subscribe(() => {
         // Search for the viewport element
-        this.scrollbar.viewportElement.set(this.scrollbar.getElement(externalViewport))
+        this.scrollbar.viewportElement.set(this.scrollbar._getElement(externalViewport))
         // Search for the content wrapper element
-        this.scrollbar.contentWrapperElement.set(this.scrollbar.getElement(externalContentWrapper));
+        this.scrollbar.contentWrapperElement.set(this.scrollbar._getElement(externalContentWrapper));
         // Search for the spacer element
-        this.scrollbar.spacerElement.set(this.scrollbar.getElement(externalSpacer));
+        this.scrollbar.spacerElement.set(this.scrollbar._getElement(externalSpacer));
 
         const contentWrapperCheck: boolean = externalContentWrapper ? !!this.scrollbar.contentWrapperElement() : true;
         const spacerPassCheck: boolean = externalSpacer ? !!this.scrollbar.spacerElement() : true;
@@ -63,7 +63,7 @@ export class NgScrollbarAsyncViewport {
         } else if (!this.scrollbar.viewportElement() ||
           (externalContentWrapper && !this.scrollbar.contentWrapperElement()) ||
           (externalSpacer && !this.scrollbar.spacerElement())) {
-          this.scrollbar.destroy();
+          this.scrollbar._destroy();
           init = false;
         }
 

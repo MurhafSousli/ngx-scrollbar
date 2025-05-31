@@ -1,18 +1,14 @@
-.example3 {
-  background-color: var(--color-example3);
+@use 'ngx-scrollbar' as scrollbar;
 
-  ng-scrollbar {
-    color: white;
-    border-radius: 4px;
-    --scrollbar-thickness: 12px;
-    --scrollbar-offset: 4px;
-    --scrollbar-track-color: rgb(0 0 0 / 50%);
-    --scrollbar-border-radius: 6px;
-  }
-
-  .mat-mdc-card-content {
-    margin: 32px;
-  }
+:host {
+  @include scrollbar.ng-scrollbar-overrides((
+    track-shape: 6px,
+    track-thickness: 12px,
+    track-hover-thickness: 12px,
+    track-offset: 4px,
+    track-color: rgb(0 0 0 / 50%),
+    thumb-color: linear-gradient(to bottom, var(--color-example3), #EFB436)
+  ));
 
   ::ng-deep {
     .scrollbar-track {
@@ -20,9 +16,21 @@
     }
 
     .scrollbar-thumb {
-      background-image: linear-gradient(to bottom, var(--color-example3), #EFB436);
       box-shadow: inset 0 -1px 0 #f9df91;
     }
+  }
+}
+
+.example3 {
+  background-color: var(--color-example3);
+
+  ng-scrollbar {
+    color: white;
+    border-radius: 4px;
+  }
+
+  .mat-mdc-card-content {
+    margin: 32px;
   }
 }
 

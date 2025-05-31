@@ -17,6 +17,7 @@ import {
   WritableSignal,
   ChangeDetectionStrategy
 } from '@angular/core';
+import { SmoothScrollElement, SmoothScrollToElementOptions, SmoothScrollToOptions } from 'ngx-scrollbar/smooth-scroll';
 import { ScrollViewport, ViewportAdapter } from './viewport';
 
 @Component({
@@ -44,18 +45,15 @@ import { ScrollViewport, ViewportAdapter } from './viewport';
       ],
       outputs: ['afterInit', 'afterUpdate']
     }
-  ],
-  styles: [`
-    /*:host {*/
-    /*  display: contents;*/
-    /*}*/
-  `]
+  ]
 })
 export class NgScrollbarExt implements OnDestroy {
 
   private readonly appRef: ApplicationRef = inject(ApplicationRef);
 
   private readonly injector: Injector = inject(Injector);
+
+  private adapter: ViewportAdapter = inject(ViewportAdapter);
 
   readonly nativeElement: HTMLElement = inject(ElementRef).nativeElement;
 
@@ -82,7 +80,7 @@ export class NgScrollbarExt implements OnDestroy {
   viewportElement: WritableSignal<HTMLElement> = linkedSignal({
     source: this.externalViewport,
     // If viewport selector was defined, query the element
-    computation: (selector: string) => this.getElement(selector)
+    computation: (selector: string) => this._getElement(selector)
   });
 
   viewportError: Signal<string> = computed(() => {
@@ -93,7 +91,7 @@ export class NgScrollbarExt implements OnDestroy {
 
   contentWrapperElement: WritableSignal<HTMLElement> = linkedSignal({
     source: this.externalContentWrapper,
-    computation: (selector: string) => this.getElement(selector)
+    computation: (selector: string) => this._getElement(selector)
   });
 
   contentWrapperError: Signal<string> = computed(() => {
@@ -104,7 +102,7 @@ export class NgScrollbarExt implements OnDestroy {
 
   spacerElement: WritableSignal<HTMLElement> = linkedSignal({
     source: this.externalSpacer,
-    computation: (selector: string) => this.getElement(selector)
+    computation: (selector: string) => this._getElement(selector)
   });
 
   spacerError: Signal<string> = computed(() => {
@@ -145,7 +143,7 @@ export class NgScrollbarExt implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy();
+    this._destroy();
   }
 
   initialize(viewportElement: HTMLElement, contentWrapperElement: HTMLElement, spacerElement: HTMLElement): void {
@@ -161,7 +159,7 @@ export class NgScrollbarExt implements OnDestroy {
     this.appRef.attachView(this.viewportRef.hostView);
   }
 
-  destroy(): void {
+  _destroy(): void {
     if (this.viewportRef) {
       this.appRef.detachView(this.viewportRef.hostView);
       this.viewportRef.destroy();
@@ -169,7 +167,21 @@ export class NgScrollbarExt implements OnDestroy {
     }
   }
 
-  getElement(selector: string): HTMLElement {
+  _getElement(selector: string): HTMLElement {
     return selector ? this.nativeElement.querySelector(selector) as HTMLElement : null;
+  }
+
+  /**
+   * Smooth scroll functions
+   */
+  scrollTo(options: SmoothScrollToOptions): Promise<void> {
+    return this.adapter.scrollTo(options);
+  }
+
+  /**
+   * Scroll to an element by reference or selector
+   */
+  scrollToElement(target: SmoothScrollElement, options?: SmoothScrollToElementOptions): Promise<void> {
+    return this.adapter.scrollToElement(target, options);
   }
 }
