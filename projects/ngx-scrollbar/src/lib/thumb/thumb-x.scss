@@ -4,7 +4,7 @@
   background: var(--_thumb-x-color);
 
   height: 100%;
-  width: calc(var(--thumb-size-percent) * 1%);
+  width: calc(var(--_thumb-size-percent) * 1%);
 
   // Raw thumb percent from scroll ratio
   --_thumb-size-percent-raw: calc(var(--viewport-width) / var(--content-width) * 100);
