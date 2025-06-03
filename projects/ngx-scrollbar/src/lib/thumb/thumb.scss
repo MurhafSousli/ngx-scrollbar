@@ -13,6 +13,12 @@
   animation-duration: 1ms; /* Firefox requires this to apply the animation */
   animation-timing-function: linear;
 
+  // Clamped thumb size
+  --_thumb-size-percent: var(--_fixed-thumb-size-percent, max(var(--_thumb-size-percent-raw), var(--_min-thumb-size-percent)));
+
+  // Effective ratio based on visual thumb size
+  --_effective-thumb-ratio: calc(var(--_thumb-size-percent) / 100);
+
   // Calculate thumb position
   --_scrollbar-thumb-transform-to-value: calc((100 / var(--_effective-thumb-ratio) - 100) * 1%);
 }

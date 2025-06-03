@@ -6,7 +6,6 @@ import { ThumbAdapter } from './thumb-adapter';
   template: '',
   styleUrls: ['./thumb.scss', './thumb-y.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  // TODO: Maybe we don't need to provide ThumbAdapter
   providers: [{ provide: ThumbAdapter, useExisting: ThumbYComponent }]
 })
 export class ThumbYComponent extends ThumbAdapter {
