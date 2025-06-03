@@ -3,7 +3,7 @@
   display: var(--_vertical-thumb-display);
   background: var(--_thumb-y-color);
 
-  height: calc(var(--thumb-size-percent) * 1%);
+  height: calc(var(--_thumb-size-percent) * 1%);
   width: 100%;
 
   // Raw thumb percent from scroll ratio
