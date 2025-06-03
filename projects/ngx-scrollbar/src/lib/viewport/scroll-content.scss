@@ -11,7 +11,7 @@
 
   min-width: 100%;
   min-height: 100%;
-  // TODO: Investigate why we should to use 'contain: content'
+  // For performance optimization on independent components, virtualized lists, or areas of the page that change frequently.
   contain: content;
 
   // Add padding for standard appearance
@@ -27,8 +27,9 @@
     position: relative;
   }
 
-  // Set use display block except if host is table element
+  // Set display if host is table element
   :host:not(table) {
-    display: block;
+    // For containing floats, preventing margin collapse, or ensuring an element creates its own isolated layout context.
+    display: flow-root;
   }
 }

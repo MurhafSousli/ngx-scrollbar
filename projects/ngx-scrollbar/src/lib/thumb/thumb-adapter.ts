@@ -11,7 +11,6 @@ import { ScrollbarManager } from '../utils/scrollbar-manager';
 import { TrackAdapter } from '../track/track-adapter';
 import { PointerEventsAdapter } from '../utils/pointer-events-adapter';
 
-// TODO: Check if we can remove the directive decorator
 @Directive()
 export class ThumbAdapter extends PointerEventsAdapter {
 
