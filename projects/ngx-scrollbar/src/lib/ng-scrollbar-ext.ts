@@ -53,7 +53,7 @@ export class NgScrollbarExt implements OnDestroy {
 
   private readonly injector: Injector = inject(Injector);
 
-  private adapter: ViewportAdapter = inject(ViewportAdapter);
+  readonly adapter: ViewportAdapter = inject(ViewportAdapter);
 
   readonly nativeElement: HTMLElement = inject(ElementRef).nativeElement;
 
