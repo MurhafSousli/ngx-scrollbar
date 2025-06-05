@@ -49,7 +49,7 @@ export class NgScrollbarAnywhere {
    */
   private createScrollbarComponent<T>(
     host: string,
-    component: new (...args: any[]) => T,
+    component: new (...args: unknown[]) => T,
     options?: NgScrollbarOptions
   ): ScrollbarRef<T> | null {
     const hostElement: Element = this.document.querySelector(host);

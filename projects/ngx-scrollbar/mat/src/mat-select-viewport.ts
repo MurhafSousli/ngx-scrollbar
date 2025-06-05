@@ -21,7 +21,7 @@ export class NgScrollbarMatSelectViewport {
           const selected: MatOption | MatOption[] = this.matSelect.selected;
           if (selected) {
             const element: HTMLElement = Array.isArray(selected) ? selected[0]._getHostElement() : selected._getHostElement();
-            const height: number = this.adapter.nativeElement.clientHeight;
+            const height: number = this.adapter.viewportElement.clientHeight;
             this.adapter.scrollYTo(element.offsetTop + element.offsetHeight - height);
           }
         }

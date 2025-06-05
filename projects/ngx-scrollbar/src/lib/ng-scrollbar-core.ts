@@ -18,21 +18,21 @@ import { ScrollbarUpdateReason } from './ng-scrollbar.model';
   host: {
     '[class.ng-scroll-viewport]': 'true',
     '[attr.mobile]': 'isMobile',
-    '[attr.dir]': 'viewport.direction()',
-    '[attr.dragging]': 'viewport.dragging()',
-    '[attr.position]': 'viewport.position()',
-    '[attr.appearance]': 'viewport.appearance()',
-    '[attr.visibility]': 'viewport.visibility()',
-    '[attr.orientation]': 'viewport.orientation()',
-    '[attr.disableInteraction]': 'viewport.disableInteraction()',
-    '[attr.verticalUsed]': 'viewport.verticalUsed()',
-    '[attr.horizontalUsed]': 'viewport.horizontalUsed()',
-    '[attr.isVerticallyScrollable]': 'viewport.isVerticallyScrollable()',
-    '[attr.isHorizontallyScrollable]': 'viewport.isHorizontallyScrollable()',
-    '[style.--content-height]': 'viewport.contentDimension().height',
-    '[style.--content-width]': 'viewport.contentDimension().width',
-    '[style.--viewport-height]': 'viewport.viewportDimension().height',
-    '[style.--viewport-width]': 'viewport.viewportDimension().width'
+    '[attr.dir]': 'adapter.direction()',
+    '[attr.dragging]': 'adapter.dragging()',
+    '[attr.position]': 'adapter.position()',
+    '[attr.appearance]': 'adapter.appearance()',
+    '[attr.visibility]': 'adapter.visibility()',
+    '[attr.orientation]': 'adapter.orientation()',
+    '[attr.disableInteraction]': 'adapter.disableInteraction()',
+    '[attr.verticalUsed]': 'adapter.verticalUsed()',
+    '[attr.horizontalUsed]': 'adapter.horizontalUsed()',
+    '[attr.isVerticallyScrollable]': 'adapter.isVerticallyScrollable()',
+    '[attr.isHorizontallyScrollable]': 'adapter.isHorizontallyScrollable()',
+    '[style.--content-height]': 'adapter.contentDimension().height',
+    '[style.--content-width]': 'adapter.contentDimension().width',
+    '[style.--viewport-height]': 'adapter.viewportDimension().height',
+    '[style.--viewport-width]': 'adapter.viewportDimension().width'
   }
 })
 export class NgScrollbarCore {
@@ -44,7 +44,7 @@ export class NgScrollbarCore {
   private readonly sharedResizeObserver: SharedResizeObserver = inject(SharedResizeObserver);
 
   /** Viewport adapter instance */
-  readonly viewport: ViewportAdapter = inject(ViewportAdapter);
+  readonly adapter: ViewportAdapter = inject(ViewportAdapter);
 
   /** Viewport native element */
   readonly nativeElement: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
@@ -58,9 +58,9 @@ export class NgScrollbarCore {
 
     afterRenderEffect({
       earlyRead: (onCleanup: EffectCleanupRegisterFn): void => {
-        const disableSensor: boolean = this.viewport.disableSensor();
-        const throttleDuration: number = this.viewport.sensorThrottleTime();
-        const viewportInit: boolean = this.viewport.initialized();
+        const disableSensor: boolean = this.adapter.disableSensor();
+        const throttleDuration: number = this.adapter.sensorThrottleTime();
+        const viewportInit: boolean = this.adapter.initialized();
 
         untracked(() => {
           if (viewportInit) {
@@ -72,8 +72,8 @@ export class NgScrollbarCore {
               this.zone.runOutsideAngular(() => {
                 resizeSub$ = getThrottledStream(
                   combineLatest([
-                    this.sharedResizeObserver.observe(this.viewport.nativeElement),
-                    this.sharedResizeObserver.observe(this.viewport.contentWrapperElement)
+                    this.sharedResizeObserver.observe(this.adapter.viewportElement),
+                    this.sharedResizeObserver.observe(this.adapter.contentWrapperElement)
                   ]),
                   throttleDuration
                 ).subscribe(() => {
@@ -83,9 +83,9 @@ export class NgScrollbarCore {
                     this.updateDimensions();
 
                     if (hasInitialized) {
-                      this.viewport.afterUpdate.emit();
+                      this.adapter.afterUpdate.emit();
                     } else {
-                      this.viewport.afterInit.emit();
+                      this.adapter.afterInit.emit();
                     }
                     hasInitialized = true;
                   });
@@ -107,14 +107,14 @@ export class NgScrollbarCore {
     this.updateDimensions();
 
     if (reason === ScrollbarUpdateReason.AfterInit) {
-      this.viewport.afterInit.emit();
+      this.adapter.afterInit.emit();
     } else {
-      this.viewport.afterUpdate.emit();
+      this.adapter.afterUpdate.emit();
     }
   }
 
   private updateDimensions(): void {
-    this.viewport.viewportDimension.set({ width: this.viewport.offsetWidth, height: this.viewport.offsetHeight });
-    this.viewport.contentDimension.set({ width: this.viewport.contentWidth, height: this.viewport.contentHeight });
+    this.adapter.viewportDimension.set({ width: this.adapter.clientWidth, height: this.adapter.clientHeight });
+    this.adapter.contentDimension.set({ width: this.adapter.contentWidth, height: this.adapter.contentHeight });
   }
 }

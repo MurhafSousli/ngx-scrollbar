@@ -93,7 +93,7 @@ export class ViewportAdapter extends ScrollbarInputOutputs {
   /**
    * Viewport native element
    */
-  nativeElement: HTMLElement;
+  viewportElement: HTMLElement;
   /**
    * The element that wraps the content inside the viewport,
    * used to measure the content size and observe its changes.
@@ -106,23 +106,23 @@ export class ViewportAdapter extends ScrollbarInputOutputs {
   initialized: WritableSignal<boolean> = signal(false);
 
   /** Viewport clientHeight */
-  get offsetHeight(): number {
-    return this.nativeElement.clientHeight;
+  get clientHeight(): number {
+    return this.viewportElement.clientHeight;
   }
 
   /** Viewport clientWidth */
-  get offsetWidth(): number {
-    return this.nativeElement.clientWidth;
+  get clientWidth(): number {
+    return this.viewportElement.clientWidth;
   }
 
   /** Viewport scrollTop */
   get scrollTop(): number {
-    return this.nativeElement.scrollTop;
+    return this.viewportElement.scrollTop;
   }
 
   /** Viewport scrollLeft */
   get scrollLeft(): number {
-    return this.nativeElement.scrollLeft;
+    return this.viewportElement.scrollLeft;
   }
 
   /** Content height */
@@ -137,37 +137,34 @@ export class ViewportAdapter extends ScrollbarInputOutputs {
 
   /** The remaining vertical scrollable distance. */
   get scrollMaxX(): number {
-    return this.contentWidth - this.offsetWidth;
+    return this.contentWidth - this.clientWidth;
   }
 
   /** The vertical remaining scrollable distance */
   get scrollMaxY(): number {
-    return this.contentHeight - this.offsetHeight;
+    return this.contentHeight - this.clientHeight;
   }
 
   /**
    * Initialize viewport
    */
   init(viewportElement: HTMLElement, contentElement: HTMLElement, spacerElement?: HTMLElement): void {
-    // Add viewport class
-    viewportElement.classList.add(ViewportClasses.Viewport);
-    this.nativeElement = viewportElement;
+    this.viewportElement = viewportElement;
 
     // When integrating the scrollbar with virtual scroll, the content wrapper will have fake size,
     // and a spacer element will have the real size
     // Therefore, if spaceElement is provided, it will be observed instead of the content wrapper
     if (spacerElement) {
       spacerElement.classList.add(ViewportClasses.Spacer);
-     this.contentWrapperElement = spacerElement;
+      this.contentWrapperElement = spacerElement;
     } else {
-      // If spacer is not provided, set it as the content wrapper
       this.contentWrapperElement = contentElement;
     }
     this.initialized.set(true);
   }
 
   reset(): void {
-    this.nativeElement = null;
+    this.viewportElement = null;
     this.contentWrapperElement = null;
     this.initialized.set(false);
   }
@@ -176,14 +173,14 @@ export class ViewportAdapter extends ScrollbarInputOutputs {
    * Scrolls the viewport vertically to the specified value.
    */
   scrollYTo(value: number): void {
-    this.nativeElement.scrollTop = value;
+    this.viewportElement.scrollTop = value;
   }
 
   /**
    * Scrolls the viewport horizontally to the specified value.
    */
   scrollXTo(value: number): void {
-    this.nativeElement.scrollLeft = value;
+    this.viewportElement.scrollLeft = value;
   }
 
 
@@ -191,14 +188,14 @@ export class ViewportAdapter extends ScrollbarInputOutputs {
    * Smooth scroll functions
    */
   scrollTo(options: SmoothScrollToOptions): Promise<void> {
-    return this.smoothScroll.scrollTo(this.nativeElement, options);
+    return this.smoothScroll.scrollTo(this.viewportElement, options);
   }
 
   /**
    * Scroll to an element by reference or selector
    */
   scrollToElement(target: SmoothScrollElement, options?: SmoothScrollToElementOptions): Promise<void> {
-    return this.smoothScroll.scrollToElement(this.nativeElement, target, options);
+    return this.smoothScroll.scrollToElement(this.viewportElement, target, options);
   }
 
 }

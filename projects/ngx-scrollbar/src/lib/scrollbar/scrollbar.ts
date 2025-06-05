@@ -37,7 +37,7 @@ export class ScrollbarY extends ScrollbarAdapter {
 
   readonly rectSizeProperty: 'width' | 'height' = 'height';
 
-  readonly sizeProperty: 'offsetWidth' | 'offsetHeight' = 'offsetHeight';
+  readonly sizeProperty: 'clientWidth' | 'clientHeight' = 'clientHeight';
 
   readonly clientProperty: 'clientX' | 'clientY' = 'clientY';
 
@@ -98,7 +98,7 @@ export class ScrollbarX extends ScrollbarAdapter {
 
   readonly rectSizeProperty: 'width' | 'height' = 'width';
 
-  readonly sizeProperty: 'offsetWidth' | 'offsetHeight' = 'offsetWidth';
+  readonly sizeProperty: 'clientWidth' | 'clientHeight' = 'clientWidth';
 
   readonly clientProperty: 'clientX' | 'clientY' = 'clientX';
 

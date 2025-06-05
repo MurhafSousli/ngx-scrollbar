@@ -50,8 +50,8 @@ export class NgScrollbarMatSelect extends ScrollbarInputOutputs {
       if (opened) {
         const id: string = `#${ this.matSelect.id }-panel`;
         this.scrollbarRef = this.scrollbarAnywhere.createScrollbar(id, this.computedOptions());
-        afterInit = this.scrollbarRef.componentRef.instance.viewport.afterInit.subscribe(() => this.afterInit.emit());
-        afterUpdate = this.scrollbarRef.componentRef.instance.viewport.afterUpdate.subscribe(() => this.afterUpdate.emit());
+        afterInit = this.scrollbarRef.componentRef.instance.adapter.afterInit.subscribe(() => this.afterInit.emit());
+        afterUpdate = this.scrollbarRef.componentRef.instance.adapter.afterUpdate.subscribe(() => this.afterUpdate.emit());
       } else {
         afterInit?.unsubscribe();
         afterUpdate?.unsubscribe();

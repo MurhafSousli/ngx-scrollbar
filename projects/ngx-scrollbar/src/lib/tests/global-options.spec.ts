@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgScrollbar, provideScrollbarOptions, ViewportAdapter } from 'ngx-scrollbar';
 
 describe('Global options', () => {
-  let component: NgScrollbar;
   let adapter: ViewportAdapter;
   let fixture: ComponentFixture<NgScrollbar>;
 
@@ -17,7 +16,6 @@ describe('Global options', () => {
       ]
     }).compileComponents();
     fixture = TestBed.createComponent(NgScrollbar);
-    component = fixture.componentInstance;
     adapter = fixture.debugElement.injector.get(ViewportAdapter);
   });
 

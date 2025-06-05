@@ -74,23 +74,23 @@ describe('Buttons', () => {
 
     // First click
     await afterTimeout(100 + 16);
-    expect(Math.round(component.viewport.scrollTop)).toBeGreaterThanOrEqual(49);
+    expect(Math.round(component.adapter.scrollTop)).toBeGreaterThanOrEqual(49);
 
     // Ongoing click
     await afterTimeout(130 + 16 + 16);
-    expect(Math.round(component.viewport.scrollTop)).toBeGreaterThanOrEqual(62);
+    expect(Math.round(component.adapter.scrollTop)).toBeGreaterThanOrEqual(62);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollTop)).toBeGreaterThanOrEqual(74);
+    expect(Math.round(component.adapter.scrollTop)).toBeGreaterThanOrEqual(74);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollTop)).toBeGreaterThanOrEqual(86);
+    expect(Math.round(component.adapter.scrollTop)).toBeGreaterThanOrEqual(86);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollTop)).toBeGreaterThanOrEqual(98);
+    expect(Math.round(component.adapter.scrollTop)).toBeGreaterThanOrEqual(98);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollTop)).toBe(100);
+    expect(Math.round(component.adapter.scrollTop)).toBe(100);
   });
 
 
@@ -106,23 +106,23 @@ describe('Buttons', () => {
 
     // First click
     await afterTimeout(100 + 16);
-    expect(Math.round(component.viewport.scrollTop)).toBe(50);
+    expect(Math.round(component.adapter.scrollTop)).toBe(50);
 
     // Ongoing click
     await afterTimeout(130 + 16 + 16);
-    expect(Math.round(component.viewport.scrollTop)).toBeLessThanOrEqual(38);
+    expect(Math.round(component.adapter.scrollTop)).toBeLessThanOrEqual(38);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollTop)).toBeLessThanOrEqual(26);
+    expect(Math.round(component.adapter.scrollTop)).toBeLessThanOrEqual(26);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollTop)).toBeLessThanOrEqual(14);
+    expect(Math.round(component.adapter.scrollTop)).toBeLessThanOrEqual(14);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollTop)).toBeLessThanOrEqual(2);
+    expect(Math.round(component.adapter.scrollTop)).toBeLessThanOrEqual(2);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollTop)).toBe(0);
+    expect(Math.round(component.adapter.scrollTop)).toBe(0);
   });
 
   it('should scroll to right on arrow-right button click', async () => {
@@ -135,23 +135,23 @@ describe('Buttons', () => {
 
     // First click
     await afterTimeout(100 + 16 + 16);
-    expect(Math.round(component.viewport.scrollLeft)).toBe(50);
+    expect(Math.round(component.adapter.scrollLeft)).toBe(50);
 
     // Ongoing click
     await afterTimeout(130 + 16 + 16);
-    expect(Math.round(component.viewport.scrollLeft)).toBeGreaterThanOrEqual(62);
+    expect(Math.round(component.adapter.scrollLeft)).toBeGreaterThanOrEqual(62);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollLeft)).toBeGreaterThanOrEqual(74);
+    expect(Math.round(component.adapter.scrollLeft)).toBeGreaterThanOrEqual(74);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollLeft)).toBeGreaterThanOrEqual(86);
+    expect(Math.round(component.adapter.scrollLeft)).toBeGreaterThanOrEqual(86);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollLeft)).toBeGreaterThanOrEqual(98);
+    expect(Math.round(component.adapter.scrollLeft)).toBeGreaterThanOrEqual(98);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollLeft)).toBe(100);
+    expect(Math.round(component.adapter.scrollLeft)).toBe(100);
   });
 
 
@@ -167,23 +167,23 @@ describe('Buttons', () => {
 
     // First click
     await afterTimeout(100 + 16);
-    expect(Math.round(component.viewport.scrollLeft)).toBe(50);
+    expect(Math.round(component.adapter.scrollLeft)).toBe(50);
 
     // Ongoing click
     await afterTimeout(130 + 16 + 16);
-    expect(Math.round(component.viewport.scrollLeft)).toBeLessThanOrEqual(38);
+    expect(Math.round(component.adapter.scrollLeft)).toBeLessThanOrEqual(38);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollLeft)).toBeLessThanOrEqual(26);
+    expect(Math.round(component.adapter.scrollLeft)).toBeLessThanOrEqual(26);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollLeft)).toBeLessThanOrEqual(14);
+    expect(Math.round(component.adapter.scrollLeft)).toBeLessThanOrEqual(14);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollLeft)).toBeLessThanOrEqual(2);
+    expect(Math.round(component.adapter.scrollLeft)).toBeLessThanOrEqual(2);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollLeft)).toBe(0);
+    expect(Math.round(component.adapter.scrollLeft)).toBe(0);
   });
 
 
@@ -199,23 +199,23 @@ describe('Buttons', () => {
 
     // First click
     await afterTimeout(100 + 16);
-    expect(Math.round(component.viewport.scrollLeft)).toBe(-50);
+    expect(Math.round(component.adapter.scrollLeft)).toBe(-50);
 
     // Ongoing click
     await afterTimeout(130 + 16 + 16);
-    expect(Math.round(component.viewport.scrollLeft)).toBeLessThanOrEqual(-62);
+    expect(Math.round(component.adapter.scrollLeft)).toBeLessThanOrEqual(-62);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollLeft)).toBeLessThanOrEqual(-74);
+    expect(Math.round(component.adapter.scrollLeft)).toBeLessThanOrEqual(-74);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollLeft)).toBeLessThanOrEqual(-86);
+    expect(Math.round(component.adapter.scrollLeft)).toBeLessThanOrEqual(-86);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollLeft)).toBeLessThanOrEqual(-98);
+    expect(Math.round(component.adapter.scrollLeft)).toBeLessThanOrEqual(-98);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollLeft)).toBe(-100);
+    expect(Math.round(component.adapter.scrollLeft)).toBe(-100);
   });
 
   it('[RTL] should scroll to right on arrow-right button click', async () => {
@@ -232,23 +232,23 @@ describe('Buttons', () => {
 
     // First click
     await afterTimeout(100 + 16);
-    expect(Math.round(component.viewport.scrollLeft)).toBe(-50);
+    expect(Math.round(component.adapter.scrollLeft)).toBe(-50);
 
     // Ongoing click
     await afterTimeout(130 + 16 + 16);
-    expect(Math.round(component.viewport.scrollLeft)).toBeGreaterThanOrEqual(-38);
+    expect(Math.round(component.adapter.scrollLeft)).toBeGreaterThanOrEqual(-38);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollLeft)).toBeGreaterThanOrEqual(-26);
+    expect(Math.round(component.adapter.scrollLeft)).toBeGreaterThanOrEqual(-26);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollLeft)).toBeGreaterThanOrEqual(-14);
+    expect(Math.round(component.adapter.scrollLeft)).toBeGreaterThanOrEqual(-14);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollLeft)).toBeGreaterThanOrEqual(-2);
+    expect(Math.round(component.adapter.scrollLeft)).toBeGreaterThanOrEqual(-2);
     // Ongoing click
     await afterTimeout(16);
-    expect(Math.round(component.viewport.scrollLeft)).toBe(0);
+    expect(Math.round(component.adapter.scrollLeft)).toBe(0);
   });
 
 
@@ -262,12 +262,12 @@ describe('Buttons', () => {
 
     // First click
     await afterTimeout(100 + 16);
-    expect(Math.round(component.viewport.scrollTop)).toBe(50);
+    expect(Math.round(component.adapter.scrollTop)).toBe(50);
 
     button.nativeElement.dispatchEvent(new PointerEvent('pointerup'));
 
     await afterTimeout(100);
-    expect(Math.round(component.viewport.scrollTop)).toBe(50);
+    expect(Math.round(component.adapter.scrollTop)).toBe(50);
   });
 
   it('should stop scrolling when pointer leaves the button', async () => {
@@ -281,11 +281,11 @@ describe('Buttons', () => {
 
     // First click
     await afterTimeout(100 + 16 + 16);
-    expect(Math.round(component.viewport.scrollTop)).toBe(50);
+    expect(Math.round(component.adapter.scrollTop)).toBe(50);
 
     button.nativeElement.dispatchEvent(new PointerEvent('pointerleave'));
 
     await afterTimeout(100);
-    expect(Math.round(component.viewport.scrollTop)).toBe(50);
+    expect(Math.round(component.adapter.scrollTop)).toBe(50);
   });
 });

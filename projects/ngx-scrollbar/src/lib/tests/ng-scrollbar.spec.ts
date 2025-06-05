@@ -24,7 +24,7 @@ describe('NgScrollbar Component', () => {
 
   it('should initialize component and viewport', () => {
     expect(component).toBeDefined();
-    expect(component.viewport).toBeDefined();
+    expect(component.adapter).toBeDefined();
   });
 
   it('should emit afterUpdate after update function is called', async () => {
@@ -157,7 +157,7 @@ describe('NgScrollbar Component', () => {
 
     adapter.scrollToElement('.fake-child-element', { top: 100, duration: 500 })
 
-    expect(smoothScrollSpy).toHaveBeenCalledOnceWith(component.viewport.nativeElement, '.fake-child-element', {
+    expect(smoothScrollSpy).toHaveBeenCalledOnceWith(component.adapter.viewportElement, '.fake-child-element', {
       top: 100,
       duration: 500
     });

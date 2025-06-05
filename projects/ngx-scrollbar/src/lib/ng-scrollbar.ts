@@ -1,6 +1,5 @@
 import {
   Component,
-  inject,
   effect,
   computed,
   untracked,
@@ -51,8 +50,6 @@ import { Scrollbars } from './scrollbars/scrollbars';
 })
 export class NgScrollbar extends NgScrollbarCore {
 
-  private adapter: ViewportAdapter = inject(ViewportAdapter);
-
   private contentWrapper: Signal<ElementRef<HTMLElement>> = viewChild.required(ScrollContent, { read: ElementRef });
 
   contentWrapperElement: Signal<HTMLElement> = computed(() => this.contentWrapper().nativeElement);
@@ -61,7 +58,7 @@ export class NgScrollbar extends NgScrollbarCore {
     effect(() => {
       const contentWrapper: HTMLElement = this.contentWrapperElement();
       untracked(() => {
-        this.viewport.init(this.nativeElement, contentWrapper);
+        this.adapter.init(this.nativeElement, contentWrapper);
       });
     });
     super();

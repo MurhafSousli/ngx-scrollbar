@@ -1,19 +1,11 @@
 @mixin SetSpacerStyles() {
-  --_spacer-width: calc(var(--spacer-width) * 1px);
-  --_spacer-height: calc(var(--spacer-height) * 1px);
-
-  &[appearance="native"] {
-    --_spacer-width: calc(var(--spacer-width) + var(--_scrollbar-total-thickness-px));
-    --_spacer-height: calc(var(--spacer-height) + var(--_scrollbar-total-thickness-px));
-  }
-
   ::ng-deep > .ng-scroll-spacer {
     // Set absolute position on the spacer element to enable the functionality of sticky for the scrollbars
     position: absolute;
 
     // In virtual scroll, in vertical mode, the spacer element width should match the content wrapper width and same goes in horizontal mode.
-    width: var(--_spacer-width, var(--spacer-width));
-    height: var(--_spacer-height, var(--spacer-height));
+    width: calc(var(--_spacer-width) * 1px);
+    height: calc(var(--_spacer-height) * 1px);
     min-width: 100%;
     min-height: 100%;
   }

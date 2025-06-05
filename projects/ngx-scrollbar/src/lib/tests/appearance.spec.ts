@@ -37,7 +37,7 @@ describe('Appearance [native / compact] styles', () => {
 
   it('should set appearance="native" attribute by default and 0px padding', () => {
     const appearanceAttr: string = component.nativeElement.getAttribute('appearance');
-    const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
+    const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
     expect(appearanceAttr).toBe('native');
     expect(styles.padding).toBe('0px');
   });
@@ -56,7 +56,7 @@ describe('Appearance [native / compact] styles', () => {
     fixture.componentRef.setInput('appearance', 'native');
     await firstValueFrom(outputToObservable(adapter.afterInit))
 
-    const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
+    const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
     expect(styles.paddingRight).toBe(scrollbarSize);
     expect(styles.paddingBottom).toBe(scrollbarSize);
     expect(styles.paddingTop).toBe('0px');
@@ -68,7 +68,7 @@ describe('Appearance [native / compact] styles', () => {
     fixture.componentRef.setInput('appearance', 'native');
     await firstValueFrom(outputToObservable(adapter.afterInit))
 
-    const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
+    const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
     expect(styles.paddingRight).toBe(scrollbarSize);
     expect(styles.paddingBottom).toBe('0px');
     expect(styles.paddingTop).toBe('0px');
@@ -80,7 +80,7 @@ describe('Appearance [native / compact] styles', () => {
     fixture.componentRef.setInput('appearance', 'native');
     await firstValueFrom(outputToObservable(adapter.afterInit))
 
-    const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
+    const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
     expect(styles.paddingBottom).toBe(scrollbarSize);
     expect(styles.paddingRight).toBe('0px');
     expect(styles.paddingTop).toBe('0px');
@@ -93,7 +93,7 @@ describe('Appearance [native / compact] styles', () => {
     fixture.componentRef.setInput('appearance', 'native');
     await firstValueFrom(outputToObservable(adapter.afterInit))
 
-    const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
+    const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
     expect(styles.paddingTop).toBe(scrollbarSize);
     expect(styles.paddingBottom).toBe('0px');
     expect(styles.paddingRight).toBe('0px');
@@ -106,7 +106,7 @@ describe('Appearance [native / compact] styles', () => {
     fixture.componentRef.setInput('appearance', 'native');
     await firstValueFrom(outputToObservable(adapter.afterInit))
 
-    const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
+    const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
     expect(styles.paddingLeft).toBe(scrollbarSize);
     expect(styles.paddingBottom).toBe('0px');
     expect(styles.paddingRight).toBe('0px');
@@ -119,7 +119,7 @@ describe('Appearance [native / compact] styles', () => {
     fixture.componentRef.setInput('appearance', 'native');
     await firstValueFrom(outputToObservable(adapter.afterInit))
 
-    const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
+    const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
     expect(styles.paddingTop).toBe(scrollbarSize);
     expect(styles.paddingLeft).toBe(scrollbarSize);
     expect(styles.paddingBottom).toBe('0px');
@@ -133,7 +133,7 @@ describe('Appearance [native / compact] styles', () => {
     fixture.componentRef.setInput('appearance', 'native');
     await firstValueFrom(outputToObservable(adapter.afterInit))
 
-    const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
+    const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
     expect(styles.paddingLeft).toBe(scrollbarSize);
     expect(styles.paddingTop).toBe('0px');
     expect(styles.paddingBottom).toBe('0px');
@@ -148,7 +148,7 @@ describe('Appearance [native / compact] styles', () => {
     fixture.componentRef.setInput('position', 'invertY');
     await firstValueFrom(outputToObservable(adapter.afterInit))
 
-    const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
+    const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
     expect(styles.paddingRight).toBe(scrollbarSize);
     expect(styles.paddingLeft).toBe('0px');
     expect(styles.paddingTop).toBe('0px');
@@ -163,7 +163,7 @@ describe('Appearance [native / compact] styles', () => {
     fixture.componentRef.setInput('position', 'invertAll');
     await firstValueFrom(outputToObservable(adapter.afterInit))
 
-    const styles: CSSStyleDeclaration = getComputedStyle(component.viewport.contentWrapperElement);
+    const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
     expect(styles.paddingRight).toBe(scrollbarSize);
     expect(styles.paddingTop).toBe(scrollbarSize);
     expect(styles.paddingBottom).toBe('0px');
