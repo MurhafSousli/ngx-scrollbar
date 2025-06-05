@@ -155,9 +155,24 @@ describe('NgScrollbar Component', () => {
 
     await firstValueFrom(outputToObservable(adapter.afterInit))
 
-    adapter.scrollToElement('.fake-child-element', { top: 100, duration: 500 })
+    component.scrollToElement('.fake-child-element', { top: 100, duration: 500 })
 
     expect(smoothScrollSpy).toHaveBeenCalledOnceWith(component.adapter.viewportElement, '.fake-child-element', {
+      top: 100,
+      duration: 500
+    });
+  });
+
+  it('should forward scrollTo function call to SmoothScrollManager service', async () => {
+    setDimensions(component, { contentHeight: 300, contentWidth: 300 });
+
+    const smoothScrollSpy: jasmine.Spy = spyOn(adapter.smoothScroll, 'scrollTo');
+
+    await firstValueFrom(outputToObservable(adapter.afterInit))
+
+    component.scrollTo({ top: 100, duration: 500 })
+
+    expect(smoothScrollSpy).toHaveBeenCalledOnceWith(adapter.viewportElement, {
       top: 100,
       duration: 500
     });

@@ -181,4 +181,36 @@ describe('<ng-scrollbar externalViewport>', () => {
     fixture.detectChanges();
     expect(consoleSpy).toHaveBeenCalledOnceWith(`[NgScrollbar]: Spacer element not found for the provided selector "${ scrollbarCmp.externalSpacer() }"`);
   });
+
+  it('should forward scrollToElement function call to SmoothScrollManager service', async () => {
+    component.externalViewport = '.my-custom-viewport';
+    component.viewportOnly = true;
+    fixture.detectChanges();
+    const smoothScrollSpy: jasmine.Spy = spyOn(adapter.smoothScroll, 'scrollToElement');
+
+    await firstValueFrom(outputToObservable(adapter.afterInit))
+
+    scrollbarCmp.scrollToElement('.fake-child-element', { top: 100, duration: 500 })
+
+    expect(smoothScrollSpy).toHaveBeenCalledOnceWith(adapter.viewportElement, '.fake-child-element', {
+      top: 100,
+      duration: 500
+    });
+  });
+
+  it('should forward scrollTo function call to SmoothScrollManager service', async () => {
+    component.externalViewport = '.my-custom-viewport';
+    component.viewportOnly = true;
+    fixture.detectChanges();
+    const smoothScrollSpy: jasmine.Spy = spyOn(adapter.smoothScroll, 'scrollTo');
+
+    await firstValueFrom(outputToObservable(adapter.afterInit))
+
+    scrollbarCmp.scrollTo({ top: 100, duration: 500 })
+
+    expect(smoothScrollSpy).toHaveBeenCalledOnceWith(adapter.viewportElement, {
+      top: 100,
+      duration: 500
+    });
+  });
 });
