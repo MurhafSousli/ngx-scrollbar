@@ -17,8 +17,8 @@ import { ElementDimension, getThrottledStream } from './utils/common';
 @Directive({
   selector: 'ng-scrollbar[externalViewport][syncSpacer]',
   host: {
-    '[style.--spacer-width]': 'spacerDimension().width',
-    '[style.--spacer-height]': 'spacerDimension().height'
+    '[style.--_spacer-width]': 'spacerDimension().width',
+    '[style.--_spacer-height]': 'spacerDimension().height'
   }
 })
 export class NgSyncSpacer {

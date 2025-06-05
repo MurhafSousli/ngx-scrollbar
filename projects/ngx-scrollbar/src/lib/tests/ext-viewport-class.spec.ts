@@ -76,7 +76,7 @@ describe('<ng-scrollbar externalViewport>', () => {
 
     expect(adapter.initialized()).toBeTrue();
     // Verify the viewport
-    expect(adapter.nativeElement).toBe(viewportElement);
+    expect(adapter.viewportElement).toBe(viewportElement);
     // Check if the scrollbars component is created
     expect(viewportComponent.scrollbarsRef).toBeDefined();
     const scrollbarsDebugElement: DebugElement = fixture.debugElement.query(By.directive(Scrollbars));

@@ -16,7 +16,7 @@ export function setDimensions(comp: NgScrollbar, d: TestDimension): void {
   comp.nativeElement.style.width = `${ d.cmpWidth }px`;
   comp.nativeElement.style.height = `${ d.cmpHeight }px`;
   // Get a reference to the inner element to be replaced
-  const innerElement: HTMLElement = comp.viewport.contentWrapperElement.querySelector('.inner-element');
+  const innerElement: HTMLElement = comp.adapter.contentWrapperElement.querySelector('.inner-element');
 
   if (innerElement) {
     // Replace the element with the new element
@@ -30,6 +30,6 @@ export function setDimensions(comp: NgScrollbar, d: TestDimension): void {
     newElement.style.width = `${ d.contentWidth }px`;
     newElement.style.height = `${ d.contentHeight }px`;
     // Append the element div to the existing element
-    comp.viewport.contentWrapperElement.appendChild(newElement);
+    comp.adapter.contentWrapperElement.appendChild(newElement);
   }
 }

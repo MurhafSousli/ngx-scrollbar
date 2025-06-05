@@ -60,7 +60,7 @@
     // Strip the px unit from the size
     --scrollbar-thumb-shape: #{$thumb-shape};
   }
-  // TODO: Decide whether you want to ship this feature
+
   @if $thumb-size {
     // Strip the px unit from the size
     --scrollbar-thumb-size: #{$thumb-size / 1px};

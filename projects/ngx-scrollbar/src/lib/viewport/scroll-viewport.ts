@@ -16,9 +16,6 @@ import { ViewportClasses } from '../utils/common';
 import { NgScrollbarCore } from '../ng-scrollbar-core';
 
 @Component({
-  host: {
-    '[class.ng-scroll-external-viewport]': 'true'
-  },
   selector: 'ng-scroll-viewport',
   template: '<ng-content/>',
   styleUrl: 'scroll-viewport.scss',
@@ -54,7 +51,7 @@ export class ScrollViewport extends NgScrollbarCore implements OnDestroy {
         // Attach scrollbars
         this.attachScrollbars(this.spacerElement || this.contentWrapperElement);
         // Initialize viewport
-        this.viewport.init(this.nativeElement, this.contentWrapperElement, this.spacerElement);
+        this.adapter.init(this.nativeElement, this.contentWrapperElement, this.spacerElement);
         // If spaceElement is provided, add the appropriate class
         if (this.spacerElement) {
           this.spacerElement.classList.add(ViewportClasses.Spacer);
@@ -65,7 +62,7 @@ export class ScrollViewport extends NgScrollbarCore implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.viewport.reset();
+    this.adapter.reset();
 
     if (this.scrollbarsRef) {
       this.appRef.detachView(this.scrollbarsRef.hostView);

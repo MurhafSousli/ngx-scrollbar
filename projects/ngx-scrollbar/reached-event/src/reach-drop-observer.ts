@@ -69,7 +69,7 @@ export class ReachDropObserver implements OnDestroy {
               intersectionObserverInit = true;
             }
           }, {
-            root: this.viewport.nativeElement
+            root: this.viewport.viewportElement
           });
 
           this.triggerElements().forEach((el: ElementRef<HTMLElement>) => {

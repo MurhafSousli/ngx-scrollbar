@@ -16,7 +16,7 @@ export abstract class ScrollbarAdapter {
 
   abstract readonly rectSizeProperty: 'width' | 'height';
 
-  abstract readonly sizeProperty: 'offsetWidth' | 'offsetHeight';
+  abstract readonly sizeProperty: 'clientWidth' | 'clientHeight';
 
   // Returns either 'clientX' or 'clientY' coordinate of the pointer relative to the viewport
   abstract readonly clientProperty: 'clientX' | 'clientY';

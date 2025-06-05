@@ -59,11 +59,11 @@ describe('Scrollbar thumb', () => {
 
     // Drag by 240px (thumb size will be 25px)
     document.dispatchEvent(new PointerEvent('pointermove', { clientY: 240 }));
-    expect(component.viewport.scrollTop).toBe(300);
+    expect(component.adapter.scrollTop).toBe(300);
 
     // Drag back to 0
     document.dispatchEvent(new PointerEvent('pointermove', { clientY: 0 }));
-    expect(component.viewport.scrollTop).toBe(0);
+    expect(component.adapter.scrollTop).toBe(0);
 
     document.dispatchEvent(new PointerEvent('pointerup'));
     expect(adapter.dragging()).toBe('none');
@@ -87,13 +87,13 @@ describe('Scrollbar thumb', () => {
 
     // Drag by 240px (thumb size will be 25px)
     document.dispatchEvent(new PointerEvent('pointermove', { clientX: 240 }));
-    expect(component.viewport.scrollLeft).toBe(300);
+    expect(component.adapter.scrollLeft).toBe(300);
 
     // Drag back to 0
     document.dispatchEvent(new PointerEvent('pointermove', { clientX: 0 }));
-    expect(component.viewport.scrollLeft).toBe(0);
+    expect(component.adapter.scrollLeft).toBe(0);
 
-    component.viewport.nativeElement.dispatchEvent(new PointerEvent('pointerup'));
+    component.adapter.viewportElement.dispatchEvent(new PointerEvent('pointerup'));
     expect(adapter.dragging()).toBe('none');
     fixture.detectChanges();
     expect(component.nativeElement.getAttribute('dragging')).toBe('none');
@@ -117,13 +117,13 @@ describe('Scrollbar thumb', () => {
 
     // Drag by 240px (thumb size will be 25px)
     document.dispatchEvent(new PointerEvent('pointermove', { clientX: -240 }));
-    expect(component.viewport.scrollLeft).toBe(-300);
+    expect(component.adapter.scrollLeft).toBe(-300);
 
     // Drag back to 0
     document.dispatchEvent(new PointerEvent('pointermove', { clientX: 0 }));
-    expect(component.viewport.scrollLeft).toBe(0);
+    expect(component.adapter.scrollLeft).toBe(0);
 
-    component.viewport.nativeElement.dispatchEvent(new PointerEvent('pointerup'));
+    component.adapter.viewportElement.dispatchEvent(new PointerEvent('pointerup'));
     expect(adapter.dragging()).toBe('none');
     fixture.detectChanges();
     expect(component.nativeElement.getAttribute('dragging')).toBe('none');
