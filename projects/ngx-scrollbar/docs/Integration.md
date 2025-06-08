@@ -1,24 +1,21 @@
 ## Material Select
 
-When integrating with Material select, it's important to note that unlike other integration examples, you can't simply
+When integrating with Material select, it's important to note that unlike other integration examples, you can't 
 wrap the control and assign an external viewport due to the nature of the dropdown menu being a CDK popup panel, which
 isn't directly nested within the component.
 
 However, you can still achieve the desired functionality by wrapping the content with a scrollbar component and
-utilizing the `matSelectViewport` addon directive. This directive ensures that the selected item is scrolled to as soon
-as the dropdown opens.
+using the `matSelectScrollbar` addon directive. This directive will create the scrollbar component for you inside the popup panel.
+
+All inputs and outputs of the scrollbar are available through the `matSelectScrollbar` directive.
 
 Here's how you can implement it:
 
 ```html
-<mat-select>
-  <ng-scrollbar matSelectViewport>
-    @for (item of items; track item) {
-      <mat-option [value]="item">
-          {{ item }}
-      </mat-option>
-    }
-  </ng-scrollbar>
+<mat-select matSelectScrollbar>
+  @for (item of items; track item) {
+    <mat-option [value]="item">{{ item }}</mat-option>
+  }
 </mat-select>
 ```
 

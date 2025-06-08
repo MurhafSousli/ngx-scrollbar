@@ -2,8 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatOptionModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
-import { NgScrollbar } from 'ngx-scrollbar';
-import { NgScrollbarMatSelect, NgScrollbarMatSelectViewport } from 'ngx-scrollbar/mat';
+import { NgScrollbarMatSelect } from 'ngx-scrollbar/mat';
 import { Chance } from 'chance';
 
 @Component({
@@ -11,9 +10,7 @@ import { Chance } from 'chance';
   imports: [
     MatOptionModule,
     MatSelectModule,
-    NgScrollbar,
     MatCardModule,
-    NgScrollbarMatSelectViewport,
     NgScrollbarMatSelect
   ],
   templateUrl: './example-mat-select.component.html',
