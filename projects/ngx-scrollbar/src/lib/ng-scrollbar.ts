@@ -17,7 +17,7 @@ import { Scrollbars } from './scrollbars/scrollbars';
   host: {
     '[class.ng-scrollbar]': 'true'
   },
-  selector: 'ng-scrollbar:not([externalViewport])',
+  selector: 'ng-scrollbar:not([externalViewport]), [ngScrollbar]',
   exportAs: 'ngScrollbar',
   imports: [Scrollbars, ScrollContent],
   template: `

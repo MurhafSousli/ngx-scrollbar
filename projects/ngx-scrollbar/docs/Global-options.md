@@ -29,7 +29,6 @@ export const appConfig: ApplicationConfig = {
 | **buttons**                 | false           | Show scrollbar buttons.                                              |
 | **hoverOffset**             | false           | Activate hover effect on the offset area around the scrollbar.       |
 | **trackClickDuration**      | 50              | The smooth scroll step duration when a scrollbar is clicked in ms.   |
-| **minThumbSize**            | 20              | The minimum scrollbar thumb size in px.                              |
 | **sensorThrottleTime**      | 0               | The throttle time used for detecting size changes.                   |
 | **disableSensor**           | false           | Whether `ResizeObserver` is disabled.                                |
 | **disableInteraction**      | false           | Disables scrollbar interaction like dragging thumb and jumping by track click.|

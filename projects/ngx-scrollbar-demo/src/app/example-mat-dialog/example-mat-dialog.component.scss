@@ -1,0 +1,15 @@
+@use 'ngx-scrollbar' as scrollbar;
+
+ng-scrollbar, [ngScrollbar] {
+  @include scrollbar.ng-scrollbar-overrides((
+    track-thickness: 12px,
+    track-color: #393b3b,
+    track-hover-thickness: 18px,
+    thumb-color: var(--color-primary),
+    thumb-min-size: 20px,
+    //thumb-size: 12px,
+    button-color: var(--color-primary),
+    button-active-color: #07766d,
+    button-hover-color: #0ebda3,
+  ));
+}
