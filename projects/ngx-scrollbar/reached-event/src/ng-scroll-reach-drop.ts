@@ -22,7 +22,9 @@ import { ReachedEvent } from './reached.model';
 @Directive({
   selector: `
     ng-scrollbar[reachedTop], ng-scrollbar[reachedBottom], ng-scrollbar[reachedStart], ng-scrollbar[reachedEnd],
-    ng-scrollbar[droppedTop], ng-scrollbar[droppedBottom], ng-scrollbar[droppedStart], ng-scrollbar[droppedEnd]
+    ng-scrollbar[droppedTop], ng-scrollbar[droppedBottom], ng-scrollbar[droppedStart], ng-scrollbar[droppedEnd],
+    [ngScrollbar][reachedTop], [ngScrollbar][reachedBottom], [ngScrollbar][reachedStart], [ngScrollbar][reachedEnd],
+    [ngScrollbar][droppedTop], [ngScrollbar][droppedBottom], [ngScrollbar][droppedStart], [ngScrollbar][droppedEnd]
   `
 })
 export class NgScrollReachDrop {
