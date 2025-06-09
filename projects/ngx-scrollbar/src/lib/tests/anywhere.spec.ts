@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ApplicationRef, Component, inject } from '@angular/core';
+import { ApplicationRef, Component, ElementRef, inject, Signal, viewChild } from '@angular/core';
 import { NgScrollbarAnywhere, NgScrollbar, NgScrollbarExt, ScrollbarRef } from 'ngx-scrollbar';
 
 @Component({
   selector: 'sample-lib',
   template: `
-    <div id="target" style="height: 100px">
+    <div #host id="target" style="height: 100px">
       <div class="content" style="height: 500px"></div>
     </div>
 
@@ -20,8 +20,14 @@ class SampleLibComponent {
   anywhere: NgScrollbarAnywhere = inject(NgScrollbarAnywhere);
   scrollbarRef: ScrollbarRef<NgScrollbar | NgScrollbarExt>;
 
+  hostElementRef: Signal<ElementRef> = viewChild('host');
+
   createScrollbar(host: string): void {
     this.scrollbarRef = this.anywhere.createScrollbar(host);
+  }
+
+  createScrollbarViaElementRef(): void {
+    this.scrollbarRef = this.anywhere.createScrollbar(this.hostElementRef());
   }
 
   createScrollbarExt(host: string, viewport: string, contentWrapper?: string, spacer?: string): void {
@@ -55,8 +61,16 @@ describe('ScrollbarAnywhere', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should create a scrollbar component when a valid host is provided', () => {
+  it('should create a scrollbar component via selector', () => {
     component.createScrollbar('#target');
+
+    expect(component.scrollbarRef).toBeTruthy();
+    expect(component.scrollbarRef?.componentRef).toBeTruthy();
+    expect(component.scrollbarRef?.componentRef.instance).toBeInstanceOf(NgScrollbar);
+  });
+
+  it('should create a scrollbar component via ElementRef', () => {
+    component.createScrollbarViaElementRef();
 
     expect(component.scrollbarRef).toBeTruthy();
     expect(component.scrollbarRef?.componentRef).toBeTruthy();
@@ -70,7 +84,7 @@ describe('ScrollbarAnywhere', () => {
 
     expect(component.scrollbarRef).toBeNull();
     expect(console.error).toHaveBeenCalledWith(
-      '[NgScrollbar]: Could not find the host element for selector "#non-existent"'
+      '[NgScrollbar]: Could not find the host element!'
     );
   });
 
@@ -105,7 +119,7 @@ describe('ScrollbarAnywhere', () => {
 
     expect(component.scrollbarRef).toBeNull();
     expect(console.error).toHaveBeenCalledWith(
-      '[NgScrollbar]: Could not find the host element for selector "#non-existent"'
+      '[NgScrollbar]: Could not find the host element!'
     );
   });
 

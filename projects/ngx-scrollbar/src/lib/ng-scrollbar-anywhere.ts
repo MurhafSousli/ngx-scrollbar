@@ -3,11 +3,13 @@ import {
   inject,
   createComponent,
   Injector,
+  ElementRef,
   ComponentRef,
   ApplicationRef,
   EnvironmentInjector
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { coerceElement } from '@angular/cdk/coercion';
 import { NgScrollbarExt } from './ng-scrollbar-ext';
 import { NgScrollbar } from './ng-scrollbar';
 import { provideScrollbarOptions } from './ng-scrollbar.module';
@@ -17,7 +19,7 @@ import { NgScrollbarOptions } from './ng-scrollbar.model';
  * Parameters for creating an extended scrollbar.
  */
 interface ScrollbarParams {
-  host: string;
+  host: string | ElementRef | Element;
   viewport: string;
   contentWrapper?: string;
   spacer?: string;
@@ -48,13 +50,14 @@ export class NgScrollbarAnywhere {
    * @returns A reference to the created scrollbar component or null if the host is not found.
    */
   private createScrollbarComponent<T>(
-    host: string,
+    host: string | ElementRef | Element,
     component: new (...args: unknown[]) => T,
     options?: NgScrollbarOptions
   ): ScrollbarRef<T> | null {
-    const hostElement: Element = this.document.querySelector(host);
+
+    const hostElement: Element = typeof host === 'string' ? this.document.querySelector(host) : coerceElement<Element>(host);
     if (!hostElement) {
-      console.error(`[NgScrollbar]: Could not find the host element for selector "${ host }"`);
+      console.error(`[NgScrollbar]: Could not find the host element!`);
       return null;
     }
 
@@ -87,7 +90,7 @@ export class NgScrollbarAnywhere {
    * @param options - Scrollbar options
    * @returns A reference to the created scrollbar component.
    */
-  createScrollbar(host: string, options?: NgScrollbarOptions): ScrollbarRef<NgScrollbar> | null {
+  createScrollbar(host: string | ElementRef | Element, options?: NgScrollbarOptions): ScrollbarRef<NgScrollbar> | null {
     return this.createScrollbarComponent(host, NgScrollbar, options);
   }
 

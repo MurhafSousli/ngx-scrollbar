@@ -2,11 +2,16 @@
 
 ## 19.0.0 beta
 
-- feat: Add `ScrollbarAnywhere` service which provides `createScrollbar` to attach scrollbar on any host element without having to use `ng-scrollbar` component.
+- feat: Add `NgScrollbarAnywhere` service which provides `createScrollbar` and `createScrollbarExt` functions to attach scrollbar on any host element without having to use `ng-scrollbar` component.
+- feat: Add `NgScrollbarDocument` service which add a custom scrollbar on the document element.
 - feat: Add `matSelectScrollbar` directive that can be used to attach scrollbar on `mat-select` overlay menu.
-- feat: Support integration with CDK virtual scroll used with `cdkVirtualScrollingElement`.
+- feat: Add integration with CDK virtual scroll used with `cdkVirtualScrollingElement`.
 - feat: `<ng-scrollbar externalViewport>` is now hybrid.
 - feat: Optimize scrollbar thumb size and position calculation without the need to know the track size.
+- feat: Reached and dropped directives are merged into one directive, and uses one `IntersectionObserver`.
+- feat: Add `ng-scrollbar-overrides()` SASS function to customize the scrollbar with CSS variables.
+- feat: Add `thumb-size` option to set a fixed scrollbar thumb size.
+- feat: Add more CSS variables for further scrollbar customization.
 - refactor: Remove `standalone` from all components.
 - refactor: Move attributes and styles to viewport elements
 - refactor: Use `padding-block` and `padding-inline` properties to set up appearance option styles.
@@ -18,6 +23,8 @@
 - When using `externalViewport`, setting the value is now required.
 - The option `minThumbSize` is removed from the component and the global options, use the CSS variable `thumb-min-size` instead.
 - The directive `AsyncDetection` has been renamed to `NgScrollbarAsyncViewport`
+- `NgScrollReached` and `NgScrollDropped` has been merged into `NgScrollReachDrop` directive.
+- In `NgScrollReachDrop`, the `[reachedOffset]` and `[droppedOffset]` inputs has been removed. 
 
 ## 18.0.0
 

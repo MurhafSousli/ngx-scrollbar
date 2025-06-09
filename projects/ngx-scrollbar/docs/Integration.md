@@ -23,39 +23,15 @@ Here's how you can implement it:
 
 In a Material dialog, the `mat-dialog-content` component serves as the scrollable element with default padding.
 
-To integrate with `ng-scrollbar`, we ensure it doesn't exceed the `mat-dialog-content` height and remove the padding
-styles. Then, we apply padding to a content wrapper inside our scrollbar component.
+To add the scrollbar component, import `NgScrollbar` and `NgScrollbarMatDialog`, and use the directive `<mat-dialog-content ngScrollbar>`.
 
 ```html
 <h2 mat-dialog-title>Dialog Title</h2>
 
-<mat-dialog-content class="mat-typography">
-  <ng-scrollbar appearance="compact">
-    <div class="content-wrapper">
-      <!-- CONTENT -->
-    </div>
-  <ng-scrollbar>
+<mat-dialog-content ngScrollbar class="mat-typography">
+  <!-- CONTENT -->
 </mat-dialog-content>
 ```
-
-```scss
-mat-dialog-content.mat-mdc-dialog-content {
-  display: flex;
-  flex-direction: column;
-  padding: 0 !important;
-}
-
-.ng-scrollbar {
-  flex: 1;
-}
-
-// Add the padding to the content wrapper inside the scrollbar
-.content-wrapper {
-  padding: var(--mat-dialog-with-actions-content-padding, 20px 24px);
-}
-```
-
-Here is an [integration with material dialog example](https://stackblitz.com/edit/ngx-scrollbar-tkzscf?file=package.json)
 
 ## CDK Virtual Scroll
 
@@ -151,7 +127,7 @@ Here is an [integration with material dialog example](https://stackblitz.com/edi
 
 ## PrimeNg Select
 
-When utilizing the scrollbar with the PrimeNG dropdown, the scrollbar component initializes, but the dropdown menu is
+When using the scrollbar with the PrimeNG dropdown, the scrollbar component initializes, but the dropdown menu is
 generated only upon user interaction (i.e., clicking the dropdown). To ensure the scrollbar correctly detects when the
 dropdown menu is rendered, use the `asyncDetection="auto"` directive.
 
@@ -183,7 +159,7 @@ dropdown menu is rendered, use the `asyncDetection="auto"` directive.
 </ng-scrollbar>
 ```
 
-## PrimeNg Dropdown (works same as select only different class names)
+## PrimeNg Dropdown (works same as 'select' only different class names)
 
 ```html
 <ng-scrollbar externalViewport=".p-dropdown-items-wrapper"
