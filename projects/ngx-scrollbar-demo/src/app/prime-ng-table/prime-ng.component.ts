@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { TableModule } from 'primeng/table';
 import { SelectModule } from 'primeng/select';
-import { NgScrollbarExt, NgScrollbarAsyncViewport, NgScrollbarAnywhere, ScrollbarRef } from 'ngx-scrollbar';
+import { NgScrollbarExt, NgScrollbarAsyncViewport, NgScrollbarAnywhere, NgScrollbarRef } from 'ngx-scrollbar';
 import { Chance } from 'chance';
 
 interface Column {
@@ -41,7 +41,7 @@ export class PrimeNgComponent implements OnInit {
 
   anywhere: NgScrollbarAnywhere = inject(NgScrollbarAnywhere);
 
-  scrollbar: ScrollbarRef<NgScrollbarExt>;
+  scrollbar: NgScrollbarRef<NgScrollbarExt>;
 
   chance = new Chance();
 

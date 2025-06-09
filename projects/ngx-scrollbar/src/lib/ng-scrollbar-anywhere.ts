@@ -28,7 +28,7 @@ interface ScrollbarParams {
 /**
  * Generic scrollbar reference containing the component instance and a destroy function.
  */
-export interface ScrollbarRef<T> {
+export interface NgScrollbarRef<T> {
   componentRef: ComponentRef<T>;
   destroy: () => void;
 }
@@ -53,7 +53,7 @@ export class NgScrollbarAnywhere {
     host: string | ElementRef | Element,
     component: new (...args: unknown[]) => T,
     options?: NgScrollbarOptions
-  ): ScrollbarRef<T> | null {
+  ): NgScrollbarRef<T> | null {
 
     const hostElement: Element = typeof host === 'string' ? this.document.querySelector(host) : coerceElement<Element>(host);
     if (!hostElement) {
@@ -90,7 +90,7 @@ export class NgScrollbarAnywhere {
    * @param options - Scrollbar options
    * @returns A reference to the created scrollbar component.
    */
-  createScrollbar(host: string | ElementRef | Element, options?: NgScrollbarOptions): ScrollbarRef<NgScrollbar> | null {
+  createScrollbar(host: string | ElementRef | Element, options?: NgScrollbarOptions): NgScrollbarRef<NgScrollbar> | null {
     return this.createScrollbarComponent(host, NgScrollbar, options);
   }
 
@@ -100,8 +100,8 @@ export class NgScrollbarAnywhere {
    * @param options - Scrollbar options
    * @returns A reference to the created extended scrollbar component.
    */
-  createScrollbarExt(params: ScrollbarParams, options?: NgScrollbarOptions): ScrollbarRef<NgScrollbarExt> | null {
-    const scrollbarRef: ScrollbarRef<NgScrollbarExt> = this.createScrollbarComponent(params.host, NgScrollbarExt, options);
+  createScrollbarExt(params: ScrollbarParams, options?: NgScrollbarOptions): NgScrollbarRef<NgScrollbarExt> | null {
+    const scrollbarRef: NgScrollbarRef<NgScrollbarExt> = this.createScrollbarComponent(params.host, NgScrollbarExt, options);
 
     if (scrollbarRef) {
       scrollbarRef.componentRef.setInput('externalViewport', params.viewport);

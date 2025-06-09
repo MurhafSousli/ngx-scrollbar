@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ApplicationRef, Component, ElementRef, inject, Signal, viewChild } from '@angular/core';
-import { NgScrollbarAnywhere, NgScrollbar, NgScrollbarExt, ScrollbarRef } from 'ngx-scrollbar';
+import { NgScrollbarAnywhere, NgScrollbar, NgScrollbarExt, NgScrollbarRef } from 'ngx-scrollbar';
 
 @Component({
   selector: 'sample-lib',
@@ -18,7 +18,7 @@ import { NgScrollbarAnywhere, NgScrollbar, NgScrollbarExt, ScrollbarRef } from '
 })
 class SampleLibComponent {
   anywhere: NgScrollbarAnywhere = inject(NgScrollbarAnywhere);
-  scrollbarRef: ScrollbarRef<NgScrollbar | NgScrollbarExt>;
+  scrollbarRef: NgScrollbarRef<NgScrollbar | NgScrollbarExt>;
 
   hostElementRef: Signal<ElementRef> = viewChild('host');
 

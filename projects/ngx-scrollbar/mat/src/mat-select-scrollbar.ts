@@ -3,7 +3,7 @@ import { MatSelect } from '@angular/material/select';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   NgScrollbar,
-  ScrollbarRef,
+  NgScrollbarRef,
   NgScrollbarOptions,
   NgScrollbarAnywhere,
   ScrollbarInputOutputs
@@ -36,7 +36,7 @@ export class NgScrollbarMatSelect extends ScrollbarInputOutputs {
     }
   });
 
-  scrollbarRef: ScrollbarRef<NgScrollbar>;
+  scrollbarRef: NgScrollbarRef<NgScrollbar>;
 
   constructor() {
     super();
