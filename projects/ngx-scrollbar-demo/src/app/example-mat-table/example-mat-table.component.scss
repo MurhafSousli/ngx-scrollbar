@@ -1,0 +1,13 @@
+@use '@angular/material' as mat;
+
+.table-wrapper {
+  overflow: hidden;
+  height: 250px;
+  border-radius: var(--card-viewport-border-radius);
+}
+
+ng-scrollbar {
+  height: 100%;
+}
+
+

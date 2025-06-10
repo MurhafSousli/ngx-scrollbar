@@ -30,6 +30,9 @@
   // Must have border-box to avoid infinite auto-height scaling
   box-sizing: border-box !important;
 
+  // Must not have a padding
+  padding: 0 !important;
+
   // Enables “momentum” (smooth) scrolling
   -webkit-overflow-scrolling: touch;
 
