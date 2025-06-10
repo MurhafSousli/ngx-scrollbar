@@ -1,7 +1,7 @@
 import { Directive, inject } from '@angular/core';
 import { MatAutocomplete } from '@angular/material/autocomplete';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { merge, tap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 import { PopupScrollbar } from './popup-scrollbar';
 
 @Directive({
@@ -14,10 +14,10 @@ export class NgScrollbarMatAutocomplete extends PopupScrollbar {
   constructor() {
     super();
 
-    merge(
-      this.matAutocomplete.opened.pipe(tap(() => this.init(`#${ this.matAutocomplete.id }`))),
-      this.matAutocomplete.closed.pipe(tap(() => this.destroy()))
-    ).pipe(
+    this.matAutocomplete.opened.pipe(
+      tap(() => this.init(`#${ this.matAutocomplete.id }`)),
+      switchMap(() => this.matAutocomplete.closed),
+      tap(() => this.destroy()),
       takeUntilDestroyed()
     ).subscribe();
   }

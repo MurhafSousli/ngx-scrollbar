@@ -10,6 +10,7 @@ import { ExampleVirtualScrollExtComponent } from '../example-virtual-scroll-ext/
 import { ExampleMatDialogComponent } from '../example-mat-dialog/example-mat-dialog.component';
 import { ExampleMatAutocompleteComponent } from '../example-mat-autocomplete/example-mat-autocomplete.component';
 import { ExampleMatTableComponent } from '../example-mat-table/example-mat-table.component';
+import { ExampleMatTimepickerComponent } from '../example-mat-timepicker/example-mat-timepicker.component';
 
 @Component({
   selector: 'app-material-page',
@@ -23,7 +24,8 @@ import { ExampleMatTableComponent } from '../example-mat-table/example-mat-table
     ExampleVirtualScrollExtComponent,
     ExampleNestedVirtualScrollComponent,
     ExampleMatAutocompleteComponent,
-    ExampleMatTableComponent
+    ExampleMatTableComponent,
+    ExampleMatTimepickerComponent
   ],
 })
 export class MaterialPageComponent {

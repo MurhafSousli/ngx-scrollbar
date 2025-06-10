@@ -31,6 +31,14 @@ Use `matAutocompleteScrollbar` directive on the `<mat-autocomplete>` component.
 </mat-autocomplete>
 ```
 
+## Material Timepicker
+
+Use `matTimepickerScrollbar` directive on the `<mat-timepicker>` component.
+
+```html
+<mat-timepicker matTimepickerScrollbar/>
+```
+
 ## Material Table
 
 There is no special addon for Material table, wrap the table inside the scrollbar component.

@@ -1,0 +1,10 @@
+<mat-card class="example example-mat-select mat-elevation-z16">
+  <mat-card-content>
+    <mat-form-field class="example-full-width">
+      <mat-label>Pick a time</mat-label>
+      <input matInput [matTimepicker]="picker">
+      <mat-timepicker-toggle matIconSuffix [for]="picker"/>
+      <mat-timepicker #picker matTimepickerScrollbar/>
+    </mat-form-field>
+  </mat-card-content>
+</mat-card>
