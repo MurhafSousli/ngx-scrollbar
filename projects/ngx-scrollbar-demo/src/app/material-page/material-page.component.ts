@@ -8,6 +8,8 @@ import {
 } from '../example-nested-virtual-scroll/example-nested-virtual-scroll.component';
 import { ExampleVirtualScrollExtComponent } from '../example-virtual-scroll-ext/example-virtual-scroll-ext.component';
 import { ExampleMatDialogComponent } from '../example-mat-dialog/example-mat-dialog.component';
+import { ExampleMatAutocompleteComponent } from '../example-mat-autocomplete/example-mat-autocomplete.component';
+import { ExampleMatTableComponent } from '../example-mat-table/example-mat-table.component';
 
 @Component({
   selector: 'app-material-page',
@@ -19,7 +21,9 @@ import { ExampleMatDialogComponent } from '../example-mat-dialog/example-mat-dia
     ExampleMatSelectComponent,
     ExampleVirtualScrollComponent,
     ExampleVirtualScrollExtComponent,
-    ExampleNestedVirtualScrollComponent
+    ExampleNestedVirtualScrollComponent,
+    ExampleMatAutocompleteComponent,
+    ExampleMatTableComponent
   ],
 })
 export class MaterialPageComponent {

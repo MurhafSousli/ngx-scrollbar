@@ -19,6 +19,28 @@ Here's how you can implement it:
 </mat-select>
 ```
 
+## Material Autocomplete
+
+Use `matAutocompleteScrollbar` directive on the `<mat-autocomplete>` component.
+
+```html
+<mat-autocomplete #auto="matAutocomplete" matAutocompleteScrollbar>
+  @for (option of options; track option) {
+    <mat-option [value]="option">{{option}}</mat-option>
+  }
+</mat-autocomplete>
+```
+
+## Material Table
+
+There is no special addon for Material table, wrap the table inside the scrollbar component.
+
+```html
+<ng-scrollbar style="height: 400px">
+  <mat-table>...</mat-table>
+</ng-scrollbar>
+```
+
 ## Material Dialog
 
 In a Material dialog, the `mat-dialog-content` component serves as the scrollable element with default padding.

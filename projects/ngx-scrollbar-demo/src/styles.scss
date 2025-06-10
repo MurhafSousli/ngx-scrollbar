@@ -121,7 +121,6 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background: var(--color-app-background);
-  //height: 110vh;
 }
 
 * {
@@ -226,19 +225,13 @@ a {
   align-items: center;
 }
 
-.mat-mdc-select-panel {
-  padding: 0 !important;
-  //--mat-minimal-pseudo-checkbox-selected-checkmark-color: var(--color-primary);
-}
-
-
 .p-select-overlay {
   --scrollbar-track-color: var(--surface-container-low);
   --scrollbar-thumb-color: var(--color-primary);
   --scrollbar-thickness: 10px;
   --scrollbar-hover-thickness: 10px;
   --scrollbar-offset: 6px;
-  --scrollbar-border-radius: 7px;
+  --scrollbar-shape: 7px;
 
   overflow: hidden;
 }
