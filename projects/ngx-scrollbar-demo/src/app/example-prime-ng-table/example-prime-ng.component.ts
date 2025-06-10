@@ -24,7 +24,7 @@ interface City {
 }
 
 @Component({
-  selector: 'app-prime-ng-table',
+  selector: 'app-example-prime-ng-table',
   imports: [
     TableModule,
     NgScrollbarExt,
@@ -33,11 +33,11 @@ interface City {
     FormsModule,
     SelectModule
   ],
-  templateUrl: './prime-ng.component.html',
-  styleUrl: './prime-ng.component.scss',
+  templateUrl: './example-prime-ng.component.html',
+  styleUrl: './example-prime-ng.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PrimeNgComponent implements OnInit {
+export class ExamplePrimeNgComponent implements OnInit {
 
   anywhere: NgScrollbarAnywhere = inject(NgScrollbarAnywhere);
 
