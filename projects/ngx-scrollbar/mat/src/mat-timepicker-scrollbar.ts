@@ -20,7 +20,7 @@ export class NgScrollbarMatTimepicker extends PopupScrollbar {
         return outputToObservable(this.matTimepicker.closed);
       }),
       switchMap(() => {
-        if ((this.matTimepicker as any)._animationsDisabled) {
+        if ((this.matTimepicker as unknown as { _animationsDisabled: boolean })._animationsDisabled) {
           return of({});
         }
         // The MatTimepicker overlay has an exit animation by default, destroying the scrollbar before the timepicker; it won't get destroyed properly.
