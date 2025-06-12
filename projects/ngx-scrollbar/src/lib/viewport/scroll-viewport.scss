@@ -8,14 +8,14 @@
 @use "../styles/overscroll-behavior" as overscrollBehavior;
 @use "../styles/disable-interaction" as disableInteraction;
 @use "../styles/scroll-overflow" as scrollOverflow;
-@use "../styles/buttons" as buttons;
+@use "../styles/colors" as buttons;
 
 :host {
   // Scrollbar thickness
-  --_scrollbar-thickness-px: var(--scrollbar-thickness, 5px);
+  --_scrollbar-thickness-px: var(--scrollbar-thickness, 10px);
 
   // Space between scrollbar track and its surrounding (fallback value must be 0px and not 0)
-  --_scrollbar-offset-px: var(--scrollbar-offset, 0px);
+  --_scrollbar-offset-px: var(--scrollbar-offset, 4px);
 
   // Total scrollbar thickness including the offset
   --_scrollbar-total-thickness-px: calc(var(--_scrollbar-thickness-px) + var(--_scrollbar-offset-px) * 2);
@@ -50,7 +50,7 @@
   @include dragging.SetDraggingStuff();
   @include overscrollBehavior.SetOverscrollBehaviorStuff();
   @include disableInteraction.SetDisableInteractionStuff();
-  @include buttons.SetButtonsStuff();
+  @include buttons.SetColorsStuff();
 }
 
 @layer default {

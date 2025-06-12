@@ -1,6 +1,16 @@
 :host {
+  // Clamped thumb size
+  --_thumb-size-percent: var(--_fixed-thumb-size-percent, max(var(--_thumb-size-percent-raw), var(--_min-thumb-size-percent)));
+
+  // Effective ratio based on visual thumb size
+  --_effective-thumb-ratio: calc(var(--_thumb-size-percent) / 100);
+
+  // Calculate thumb position
+  --_scrollbar-thumb-transform-to-value: calc((100 / var(--_effective-thumb-ratio) - 100) * 1%);
+
   box-sizing: border-box;
   position: absolute;
+  background: var(--_scrollbar-thumb-color);
   transition: var(--scrollbar-thumb-transition, none);
 
   // Inherit the border radius from the track
@@ -13,14 +23,13 @@
   animation-duration: 1ms; /* Firefox requires this to apply the animation */
   animation-timing-function: linear;
 
-  // Clamped thumb size
-  --_thumb-size-percent: var(--_fixed-thumb-size-percent, max(var(--_thumb-size-percent-raw), var(--_min-thumb-size-percent)));
+  &:hover {
+    background: var(--_scrollbar-thumb-hover-color);
+  }
 
-  // Effective ratio based on visual thumb size
-  --_effective-thumb-ratio: calc(var(--_thumb-size-percent) / 100);
-
-  // Calculate thumb position
-  --_scrollbar-thumb-transform-to-value: calc((100 / var(--_effective-thumb-ratio) - 100) * 1%);
+  &:active {
+    background: var(--_scrollbar-thumb-active-color);
+  }
 }
 
 @keyframes scrollbarThumbAnimation {

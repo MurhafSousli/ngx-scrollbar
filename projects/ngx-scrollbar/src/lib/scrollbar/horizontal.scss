@@ -32,12 +32,10 @@
 
 :host.ng-scrollbar-hover, .ng-scrollbar-hover {
   &:hover {
-    --_thumb-x-color: var(--_thumb-hover-color);
     --_track-x-thickness-px: var(--_scrollbar-hover-thickness-px);
   }
 
   &:active {
-    --_thumb-x-color: var(--_thumb-active-color);
     --_track-x-thickness-px: var(--_scrollbar-active-thickness-px);
   }
 }

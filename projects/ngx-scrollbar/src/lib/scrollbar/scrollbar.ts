@@ -17,10 +17,12 @@ import { ScrollbarButton } from '../button/scrollbar-button';
       @if (cmp.buttons()) {
         <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
                 scrollbarButton="top"
-                scrollDirection="backward"></button>
+                scrollDirection="backward"
+                [disabled]="!cmp.isVerticallyScrollable()"></button>
         <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
                 scrollbarButton="bottom"
-                scrollDirection="forward"></button>
+                scrollDirection="forward"
+                [disabled]="!cmp.isVerticallyScrollable()"></button>
       }
     </div>
   `,
@@ -73,10 +75,12 @@ export class ScrollbarY extends ScrollbarAdapter {
       @if (cmp.buttons()) {
         <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
                 scrollbarButton="start"
-                scrollDirection="backward"></button>
+                scrollDirection="backward"
+                [disabled]="!cmp.isHorizontallyScrollable()"></button>
         <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
                 scrollbarButton="end"
-                scrollDirection="forward"></button>
+                scrollDirection="forward"
+                [disabled]="!cmp.isHorizontallyScrollable()"></button>
       }
     </div>
   `,

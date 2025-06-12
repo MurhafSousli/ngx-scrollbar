@@ -1,6 +1,7 @@
 @use 'sass:map';
 
 @mixin ng-scrollbar-overrides($config) {
+  $container-color: map.get($config, container-color);
   $track-shape: map.get($config, track-shape);
   $track-thickness: map.get($config, track-thickness);
   $track-hover-thickness: map.get($config, track-hover-thickness);
@@ -35,6 +36,10 @@
   $button-fill-hover-color: map.get($config, button-fill-hover-color);
   $button-fill-active-color: map.get($config, button-fill-active-color);
   $button-fill-inactive-color: map.get($config, button-fill-inactive-color);
+
+  @if $container-color {
+    --scrollbar-container-color: #{$container-color};
+  }
 
   @if $track-shape {
     --scrollbar-shape: #{$track-shape};

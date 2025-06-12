@@ -1,16 +1,11 @@
 :host {
-  // Scrollbar button colors
-  --_scrollbar-button-hover-color: var(--scrollbar-button-hover-color, var(--_scrollbar-button-color));
-
-  // Scrollbar button arrow fill
-  --_scrollbar-button-hover-fill: var(--scrollbar-button-hover-fill, var(--_scrollbar-button-fill));
-
   position: relative;
   border: none;
   margin: 0;
   padding: 0;
   border-radius: 0;
   appearance: none;
+  background: var(--_scrollbar-button-color);
 
   // Scrollbar button size
   flex: 0 0 var(--scrollbar-button-size, var(--_scrollbar-thickness-px));
@@ -23,6 +18,7 @@
     width: 100%;
     height: 100%;
     fill: var(--_scrollbar-button-fill);
+    scale: 2;
   }
 
   &:hover {
@@ -34,26 +30,18 @@
   }
 
   &:active {
-    background: var(--scrollbar-button-active-color, var(--_scrollbar-button-hover-color));
+    background: var(--_scrollbar-button-active-color);
 
     svg {
-      fill: var(--scrollbar-button-active-fill, var(--_scrollbar-button-hover-fill));
+      fill: var(--_scrollbar-button-active-fill);
     }
   }
 
-  &:is([scrollbarButton="top"], [scrollbarButton="bottom"]) {
-    background-color: var(--_button-y-color);
+  &:disabled {
+    background: var(--_scrollbar-button-inactive-color);
 
     svg {
-      fill: var(--_button-y-fill);
-    }
-  }
-
-  &:is([scrollbarButton="start"], [scrollbarButton="end"]) {
-    background-color: var(--_button-x-color);
-
-    svg {
-      fill: var(--_button-x-fill);
+      fill: var(--_scrollbar-button-inactive-fill);
     }
   }
 
