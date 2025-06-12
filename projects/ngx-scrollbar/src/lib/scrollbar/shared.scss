@@ -6,6 +6,7 @@
   z-index: 100;
   opacity: var(--_scrollbar-hover-opacity);
   transition: var(--_scrollbar-opacity-transition);
+  background: var(--scrollbar-container-color, transparent);
 }
 
 .ng-scrollbar-track-wrapper {
@@ -14,7 +15,7 @@
   // Prevent selecting when pointer is down while dragging on mobile
   user-select: none;
   // Gap between track and buttons
-  gap: var(--scrollbar-button-gap);
+  gap: var(--scrollbar-button-gap, 4px);
 
   // We use the absolute position for the hover effect
   // Set the proper direction of size transition on hover

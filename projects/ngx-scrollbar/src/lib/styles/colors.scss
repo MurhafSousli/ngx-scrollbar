@@ -1,0 +1,15 @@
+@mixin SetColorsStuff() {
+  --_scrollbar-thumb-color: var(--scrollbar-thumb-color, light-dark(rgb(0 0 0 / 40%), rgb(255 255 255 / 40%)));
+  --_scrollbar-thumb-hover-color: var(--scrollbar-thumb-hover-color, light-dark(color-mix(in srgb, var(--_scrollbar-thumb-color), #000 40%), color-mix(in srgb, var(--_scrollbar-thumb-color), #fff 40%)));
+  --_scrollbar-thumb-active-color: var(--scrollbar-thumb-active-color, light-dark(color-mix(in srgb, var(--_scrollbar-thumb-color), #000 70%), color-mix(in srgb, var(--_scrollbar-thumb-color), #fff 70%)));
+
+  --_scrollbar-button-color: var(--scrollbar-button-color, transparent);
+  --_scrollbar-button-hover-color: var(--scrollbar-button-hover-color, var(--_scrollbar-button-color));
+  --_scrollbar-button-active-color: var(--scrollbar-button-active-color, var(--_scrollbar-button-hover-color));
+  --_scrollbar-button-inactive-color: var(--scrollbar-button-inactive-color, color-mix(in srgb, var(--_scrollbar-button-color), #000 35%));
+
+  --_scrollbar-button-fill: var(--scrollbar-button-fill, var(--_scrollbar-thumb-color));
+  --_scrollbar-button-hover-fill: var(--scrollbar-button-hover-fill, var(--_scrollbar-thumb-hover-color));
+  --_scrollbar-button-active-fill: var(--scrollbar-button-active-fill, var(--_scrollbar-thumb-active-color));
+  --_scrollbar-button-inactive-fill: var(--scrollbar-button-inactive-fill, color-mix(in srgb, var(--_scrollbar-button-fill), #000 35%));
+}
