@@ -18,8 +18,8 @@ export function stopPropagation(): MonoTypeOperatorFunction<PointerEvent> {
 }
 
 export function getThrottledStream<T>(stream: Observable<T>, duration: number): Observable<T> {
-  return stream.pipe(
-    throttleTime(duration || 0, null, {
+  return !duration ? stream : stream.pipe(
+    throttleTime(duration, null, {
       leading: false,
       trailing: true
     })
