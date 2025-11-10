@@ -4,6 +4,7 @@
   @include scrollbar.ng-scrollbar-overrides((
     track-shape: 3px,
     track-thickness: 6px,
+    track-offset: 0px,
     track-hover-thickness: 6px,
     track-color: rgb(0 0 0 / 15%),
     thumb-color: #fff
@@ -23,10 +24,10 @@
   ::ng-deep {
     ng-scrollbar {
       background-color: #f8f8f8;
-      --scrollbar-thickness: 6px;
+      --scrollbar-track-thickness: 6px;
       --scrollbar-track-color: rgb(0 0 0 / 15%);
       --scrollbar-thumb-color: #fff;
-      --scrollbar-shape: 3px;
+      --scrollbar-container-shape: 3px;
       border-radius: 3px;
     }
 

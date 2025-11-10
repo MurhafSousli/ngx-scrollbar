@@ -43,7 +43,7 @@ Then, in your component template, you can use the `<ng-scrollbar>` to wrap your 
 | **[trackClass]**                      | *null*        | Add a class to scrollbars' tracks.                                             |
 | **[thumbClass]**                      | *null*        | Add a class to scrollbars' thumbnails.                                         |
 | **[buttonClass]**                     | *null*        | Add a class to scrollbar button elements.                                      |
-| **[buttons]**                         | false         | Show scrollbar buttons.                                                        |
+| **[withButtons]**                     | false         | Show scrollbar buttons.                                                        |
 | **[hoverOffset]**                     | false         | Activate hover effect on the offset area around the scrollbar.                 |
 | **[trackClickDuration]**              | 50            | The smooth scroll step duration when a scrollbar is clicked in ms.             |
 | **[sensorThrottleTime]**              | 0             | The throttle time used for detecting size changes.                             |

@@ -2,32 +2,6 @@
   height: 100%;
 }
 
-ng-scrollbar.main-scrollbar {
-  --scrollbar-thickness: 12px;
-  --scrollbar-hover-thickness: 18px;
-  --scrollbar-offset: 0;
-  --scrollbar-track-color: rgb(0 0 0 / 30%);
-  --scrollbar-border-radius: 0;
-
-  --scrollbar-button-color: var(--scrollbar-thumb-color);
-  --scrollbar-button-hover-color: var(--scrollbar-button-color);
-  --scrollbar-button-active-color: var(--scrollbar-button-hover-color);
-
-  // Scrollbar button arrow fill
-  --scrollbar-button-fill: white;
-  --scrollbar-button-hover-fill: var(--scrollbar-button-fill);
-  --scrollbar-button-active-fill: var(--scrollbar-button-hover-fill);
-
-  flex: 1;
-
-  ::ng-deep {
-    .app-scrollbar-thumb {
-      background-image: linear-gradient(to bottom, var(--color-example3), #EFB436);
-      box-shadow: inset 0 -1px 0 #f9df91;
-    }
-  }
-}
-
 app-logo {
   padding: 5px 10px 5px 0;
 }
@@ -64,7 +38,6 @@ mat-sidenav {
 }
 
 .content {
-  background: #2fa3b4;
   height: 600px;
   width: 600px;
 }
@@ -102,6 +75,6 @@ mat-sidenav {
 }
 
 .page-wrapper {
-  --scrollbar-thickness: 12px;
-  --scrollbar-hover-thickness: 12px;
+  --scrollbar-track-thickness: 12px;
+  --scrollbar-track-hover-thickness: 12px;
 }

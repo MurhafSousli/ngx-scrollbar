@@ -73,7 +73,7 @@
             <div class="lab-control">
               <div class="lab-control-label">Buttons</div>
               <mat-button-toggle-group aria-label="Buttons"
-                                       [(value)]="buttons">
+                                       [(value)]="withButtons">
                 <mat-button-toggle [value]="true">True</mat-button-toggle>
                 <mat-button-toggle [value]="false">False</mat-button-toggle>
               </mat-button-toggle-group>
@@ -164,7 +164,7 @@
                           [visibility]="visibility"
                           [position]="position"
                           [style]="cssVariables"
-                          [buttons]="buttons"
+                          [withButtons]="withButtons"
                           [hoverOffset]="hoverOffset"
                           [disableInteraction]="interactionDisabled"
                           [disableSensor]="disableSensor"

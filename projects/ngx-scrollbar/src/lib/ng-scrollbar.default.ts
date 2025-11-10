@@ -12,7 +12,7 @@ export const defaultOptions: NgScrollbarOptions = {
   sensorThrottleTime: 0,
   disableSensor: false,
   disableInteraction: false,
-  buttons: false,
+  withButtons: false,
   hoverOffset: false
 };
 

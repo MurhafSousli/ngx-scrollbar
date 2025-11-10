@@ -32,7 +32,7 @@ import { Scrollbars } from './scrollbars/scrollbars';
     directive: ViewportAdapter,
     inputs: [
       'position',
-      'buttons',
+      'withButtons',
       'appearance',
       'thumbClass',
       'trackClass',

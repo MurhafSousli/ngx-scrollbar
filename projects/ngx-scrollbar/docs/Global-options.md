@@ -17,21 +17,21 @@ export const appConfig: ApplicationConfig = {
 ## NgScrollbarOptions API
 
 
-| Name                        | Default value   | Description                                                          |
-| --------------------------- | --------------- | -------------------------------------------------------------------- |
-| **orientation**             | `auto`          | The scroll axis of the viewport `auto`, `horizontal`, `vertical`.    |
-| **position**                | `native`        | Invert scrollbar position `native`,`invertX`,`invertY`, `invertAll`. |
-| **visibility**              | `native`        | Scrollbar visibility `native`, `hover`, `always`.                    |
-| **appearance**              | `native`        | Scrollbar appearance `native`, `compact`.                            |
-| **trackClass**              | *null*          | Add a class to scrollbar track elements.                             |
-| **thumbClass**              | *null*          | Add a class to scrollbar thumbnail elements.                         |
-| **buttonClass**             | *null*          | Add a class to scrollbar button elements.                            |
-| **buttons**                 | false           | Show scrollbar buttons.                                              |
-| **hoverOffset**             | false           | Activate hover effect on the offset area around the scrollbar.       |
-| **trackClickDuration**      | 50              | The smooth scroll step duration when a scrollbar is clicked in ms.   |
-| **sensorThrottleTime**      | 0               | The throttle time used for detecting size changes.                   |
-| **disableSensor**           | false           | Whether `ResizeObserver` is disabled.                                |
-| **disableInteraction**      | false           | Disables scrollbar interaction like dragging thumb and jumping by track click.|
+| Name                   | Default value   | Description                                                          |
+|------------------------| --------------- | -------------------------------------------------------------------- |
+| **orientation**        | `auto`          | The scroll axis of the viewport `auto`, `horizontal`, `vertical`.    |
+| **position**           | `native`        | Invert scrollbar position `native`,`invertX`,`invertY`, `invertAll`. |
+| **visibility**         | `native`        | Scrollbar visibility `native`, `hover`, `always`.                    |
+| **appearance**         | `native`        | Scrollbar appearance `native`, `compact`.                            |
+| **trackClass**         | *null*          | Add a class to scrollbar track elements.                             |
+| **thumbClass**         | *null*          | Add a class to scrollbar thumbnail elements.                         |
+| **buttonClass**        | *null*          | Add a class to scrollbar button elements.                            |
+| **withButtons**        | false           | Show scrollbar buttons.                                              |
+| **hoverOffset**        | false           | Activate hover effect on the offset area around the scrollbar.       |
+| **trackClickDuration** | 50              | The smooth scroll step duration when a scrollbar is clicked in ms.   |
+| **sensorThrottleTime** | 0               | The throttle time used for detecting size changes.                   |
+| **disableSensor**      | false           | Whether `ResizeObserver` is disabled.                                |
+| **disableInteraction** | false           | Disables scrollbar interaction like dragging thumb and jumping by track click.|
 
 ## Types aliases
 

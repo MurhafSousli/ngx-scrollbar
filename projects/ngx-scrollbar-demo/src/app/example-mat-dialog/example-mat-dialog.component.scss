@@ -3,13 +3,10 @@
 ng-scrollbar, [ngScrollbar] {
   @include scrollbar.ng-scrollbar-overrides((
     track-thickness: 12px,
-    track-color: #393b3b,
+    track-color: rgb(255 255 255 / 10%),
     track-hover-thickness: 18px,
     thumb-color: var(--color-primary),
     thumb-min-size: 20px,
-    //thumb-size: 12px,
-    button-color: var(--color-primary),
-    button-active-color: #07766d,
-    button-hover-color: #0ebda3,
+    track-shape: 0px
   ));
 }

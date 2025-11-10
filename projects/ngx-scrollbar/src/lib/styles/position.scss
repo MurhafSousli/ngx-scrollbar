@@ -1,20 +1,20 @@
 @mixin horizontalBlockStart() {
-  --_horizontal-block-start: var(--_scrollbar-offset-px);
+  --_horizontal-block-start: var(--_scrollbar-container-offset-px);
   --_horizontal-block-end: initial;
 }
 
 @mixin horizontalBlockEnd() {
   --_horizontal-block-start: initial;
-  --_horizontal-block-end: var(--_scrollbar-offset-px);
+  --_horizontal-block-end: var(--_scrollbar-container-offset-px);
 }
 
 @mixin VerticalInlineStart() {
-  --_vertical-inset-inline-start: var(--_scrollbar-offset-px);
+  --_vertical-inset-inline-start: var(--_scrollbar-container-offset-px);
   --_vertical-inset-inline-end: initial;
 }
 
 @mixin VerticalInlineEnd() {
-  --_vertical-inset-inline-end: var(--_scrollbar-offset-px);
+  --_vertical-inset-inline-end: var(--_scrollbar-container-offset-px);
   --_vertical-inset-inline-start: initial;
 }
 
@@ -22,31 +22,31 @@
  * FIT MIXIN: When both scrollbars are shown, show leave a space in the corner
  */
 @mixin verticalFitBlockEnd() {
-  --_vertical-inset-block-start: var(--_scrollbar-offset-px);
+  --_vertical-inset-block-start: var(--_scrollbar-container-offset-px);
   --_vertical-inset-block-end: var(--_scrollbar-thickness-margin-px);
 }
 
 @mixin verticalFitBlockStart() {
   --_vertical-inset-block-start: var(--_scrollbar-thickness-margin-px);
-  --_vertical-inset-block-end: var(--_scrollbar-offset-px);
+  --_vertical-inset-block-end: var(--_scrollbar-container-offset-px);
 }
 
 @mixin horizontalFitInlineStart() {
   --_horizontal-inline-start: var(--_scrollbar-thickness-margin-px);
-  --_horizontal-inline-end: var(--_scrollbar-offset-px);
+  --_horizontal-inline-end: var(--_scrollbar-container-offset-px);
 }
 
 @mixin horizontalFitInlineEnd() {
-  --_horizontal-inline-start: var(--_scrollbar-offset-px);
+  --_horizontal-inline-start: var(--_scrollbar-container-offset-px);
   --_horizontal-inline-end: var(--_scrollbar-thickness-margin-px);
 }
 
 @mixin SetPositionStuff() {
-  --_vertical-inset-block-start: var(--_scrollbar-offset-px);
-  --_vertical-inset-block-end: var(--_scrollbar-offset-px);
+  --_vertical-inset-block-start: var(--_scrollbar-container-offset-px);
+  --_vertical-inset-block-end: var(--_scrollbar-container-offset-px);
 
-  --_horizontal-inline-start: var(--_scrollbar-offset-px);
-  --_horizontal-inline-end: var(--_scrollbar-offset-px);
+  --_horizontal-inline-start: var(--_scrollbar-container-offset-px);
+  --_horizontal-inline-end: var(--_scrollbar-container-offset-px);
 
   // Default position
   --_scrollbar-grid-template:
@@ -104,7 +104,7 @@
   }
 
   &[verticalUsed="true"][horizontalUsed="true"] {
-    --_scrollbar-thickness-margin-px: calc(var(--_scrollbar-thickness-px) + var(--_scrollbar-offset-px) * 3);
+    --_scrollbar-thickness-margin-px: calc(var(--_scrollbar-track-thickness-px) + var(--_scrollbar-container-offset-px) * 3);
   }
 
   &[horizontalUsed="true"] {

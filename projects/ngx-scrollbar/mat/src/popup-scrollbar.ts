@@ -13,7 +13,7 @@ export class PopupScrollbar extends ScrollbarInputOutputs {
 
   private computedOptions: Signal<NgScrollbarOptions> = computed<NgScrollbarOptions>(() => {
     return {
-      buttons: this.buttons(),
+      withButtons: this.withButtons(),
       position: this.position(),
       visibility: this.visibility(),
       appearance: this.appearance(),

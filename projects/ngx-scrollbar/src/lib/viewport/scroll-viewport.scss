@@ -12,13 +12,13 @@
 
 :host {
   // Scrollbar thickness
-  --_scrollbar-thickness-px: var(--scrollbar-thickness, 10px);
+  --_scrollbar-track-thickness-px: var(--scrollbar-track-thickness, 18px);
 
   // Space between scrollbar track and its surrounding (fallback value must be 0px and not 0)
-  --_scrollbar-offset-px: var(--scrollbar-offset, 4px);
+  --_scrollbar-container-offset-px: var(--scrollbar-container-offset, 0px);
 
   // Total scrollbar thickness including the offset
-  --_scrollbar-total-thickness-px: calc(var(--_scrollbar-thickness-px) + var(--_scrollbar-offset-px) * 2);
+  --_scrollbar-total-thickness-px: calc(var(--_scrollbar-track-thickness-px) + var(--_scrollbar-container-offset-px) * 2);
 
   // The minimum size the scrollbar thumb can get
   --_scrollbar-thumb-min-size: var(--scrollbar-thumb-min-size, 20);

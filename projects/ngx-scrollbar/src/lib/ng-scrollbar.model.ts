@@ -72,7 +72,7 @@ export interface NgScrollbarOptions {
   /** Whether ResizeObserver is disabled */
   disableSensor?: boolean;
   /** Show scrollbar buttons */
-  buttons?: boolean;
+  withButtons?: boolean;
   /** A flag used to activate hover effect on the offset area around the scrollbar */
   hoverOffset?: boolean;
 }

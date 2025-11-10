@@ -30,7 +30,7 @@ import { ScrollViewport, ViewportAdapter } from './viewport';
       directive: ViewportAdapter,
       inputs: [
         'position',
-        'buttons',
+        'withButtons',
         'appearance',
         'thumbClass',
         'trackClass',

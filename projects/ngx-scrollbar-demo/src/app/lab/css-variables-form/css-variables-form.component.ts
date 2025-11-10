@@ -1,37 +1,40 @@
-import { Component, output, OnInit, OutputEmitterRef, ChangeDetectionStrategy } from '@angular/core';
-import { FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, output, OnInit, OutputEmitterRef, ChangeDetectionStrategy, inject } from '@angular/core';
+import { FormGroup, FormControl, FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { KeyValuePipe } from '@angular/common';
 import { ColorPickerDirective } from 'ngx-color-picker';
+import { CSS_VARIABLES, CssVariablesControl, CssVariablesDict, CssVariablesModel } from './css-variables.model';
 
 @Component({
   selector: 'app-css-variables-form',
   templateUrl: './css-variables-form.component.html',
   styleUrl: './css-variables-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, ReactiveFormsModule, ColorPickerDirective]
+  imports: [FormsModule, ReactiveFormsModule, ColorPickerDirective, KeyValuePipe]
 })
 export class CssVariablesFormComponent implements OnInit {
-  form: FormGroup;
 
-  value: OutputEmitterRef<any> = output();
+  fb: FormBuilder = inject(FormBuilder);
+
+  form: FormGroup<CssVariablesDict<FormControl<string>>> = this.createCssVariablesForm(CSS_VARIABLES);
+
+  readonly cssVariablesDict: CssVariablesControl = CSS_VARIABLES;
+
+  value: OutputEmitterRef<CssVariablesModel<string>> = output<CssVariablesModel<string>>();
 
   ngOnInit(): void {
-    this.form = new FormGroup({
-      thickness: new FormControl('12px'),
-      hoverThickness: new FormControl('15px'),
-      trackColor: new FormControl('#5b4130'),
-      thumbColor: new FormControl('var(--color-primary)'),
-      thumbHoverColor: new FormControl('var(--color-active-link)'),
-      trackOffset: new FormControl('8px'),
-      borderRadius: new FormControl('8px'),
-      overscrollBehavior: new FormControl('initial'),
-      transitionDuration: new FormControl('400ms'),
-      transitionDelay: new FormControl('800ms')
-    });
-
-    this.form.valueChanges.subscribe((value) => this.value.emit(value));
+    this.form.valueChanges.subscribe((value: CssVariablesDict<string>) => this.value.emit(value as CssVariablesModel<string>));
 
     // Emit first time on init
-    this.value.emit(this.form.value);
+    this.value.emit(this.form.value as CssVariablesModel<string>);
   }
 
+  createCssVariablesForm(dict: CssVariablesControl): FormGroup<CssVariablesDict<FormControl<string>>> {
+    const group: Record<string, any> = {};
+
+    for (const key in dict) {
+      group[key] = [dict[key].defaultValue];
+    }
+
+    return this.fb.group(group);
+  }
 }

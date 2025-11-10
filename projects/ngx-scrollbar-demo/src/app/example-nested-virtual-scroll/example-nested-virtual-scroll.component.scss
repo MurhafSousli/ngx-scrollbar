@@ -2,10 +2,13 @@
 
 .outer-ng-scrollbar {
   @include scrollbar.ng-scrollbar-overrides((
-    track-offset: 3px,
-    track-shape: 10px,
+    container-offset: 3px,
     track-thickness: 10px,
     track-hover-thickness: 10px,
+    thumb-color: var(--color-primary),
+    thumb-hover-color: var(--color-primary),
+    thumb-active-color: var(--color-primary),
+    thumb-min-size: 20px
   ));
 }
 
@@ -44,7 +47,7 @@
     }
 
     .inner-ng-scrollbar {
-      --scrollbar-hover-thickness: 10px;
+      --scrollbar-track-hover-thickness: 10px;
 
       .scrollbar-control {
         background-color: transparent;
@@ -63,10 +66,13 @@
   flex-direction: column;
 
   @include scrollbar.ng-scrollbar-overrides((
-    track-offset: 7px,
-    track-shape: 7px,
+    container-offset: 7px,
     track-thickness: 6px,
-    track-hover-thickness: 10px,
+    track-hover-thickness: 6px,
+    thumb-color: var(--color-primary),
+    thumb-hover-color: var(--color-primary),
+    thumb-active-color: var(--color-primary),
+    thumb-min-size: 20px
   ));
 
   color: var(--mat-sidenav-content-text-color);

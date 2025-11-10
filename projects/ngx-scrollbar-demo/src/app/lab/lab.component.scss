@@ -1,13 +1,11 @@
+@use 'ngx-scrollbar' as scrollbar;
+
 :host {
   ::ng-deep {
     .ng-scroll-content {
       background: #00000014;
     }
   }
-}
-
-ng-scrollbar {
-  --scrollbar-button-color: var(--color-primary);
 }
 
 .lab-container {

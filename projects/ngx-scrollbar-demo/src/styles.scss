@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use 'ngx-scrollbar' as scrollbar;
 
 /* Ngx-datatable core styles and theme */
 @import '../../../node_modules/@swimlane/ngx-datatable/index.css';
@@ -6,6 +7,7 @@
 @import '../../../node_modules/@swimlane/ngx-datatable/assets/icons.css';
 
 :root {
+  color-scheme: light dark;
   --color-primary: #ff8e36;
   --color-app-background: #2f2926;
 
@@ -13,13 +15,10 @@
 
   --color-example-5: var(--color-app-background);
   --color-example-2: var(--color-app-background);
-  //--color-virtual-scroll-example: var(--color-app-background);
-  //--color-infinite-scroll-example: var(--color-app-background);
 
   --color-example3: var(--color-primary);
   --color-example3-inner: var(--color-app-background);
 
-  //--card-bg-color: #{mat.get-theme-color($app-theme, secondary-container)};
   --surface-container-high: var(--color-app-background);
   --surface-container-highest: #3f3834;
   --surface-container-low: #201a17;
@@ -29,8 +28,6 @@
 
   --color-highlight: #93000a;
   --color-highlight-dropped: #8f0045;
-
-  --scrollbar-thumb-color: var(--color-highlight);
 
   --card-viewport-border-radius: 5px;
 
@@ -50,25 +47,12 @@
 
 
   @include mat.toolbar-overrides((
-    //container-background-color: orange,
-    //container-text-color: red,
-  ));
-
-  @include mat.select-overrides((
-    //panel-background-color: orange,
-    //enabled-trigger-text-color: red,
-  ));
-
-  @include mat.slide-toggle-overrides((
-    //track-outline-color: orange,
-    //disabled-unselected-track-outline-color: red,
+    container-background-color: #181210
   ));
 
   @include mat.list-overrides((
-    //active-indicator-color: orange,
-    //list-item-container-color: red,
-    list-item-selected-container-color: #ff8e36,
-    active-indicator-color: #ff8e36
+    list-item-selected-container-color: var(--color-primary),
+    active-indicator-color: var(--color-primary)
   ));
 
   @include mat.sidenav-overrides((
@@ -80,26 +64,18 @@
     container-background-color: #2f2926
   ));
 
-  @include mat.card-overrides((
-    elevated-container-color: #201a17
+  @include mat.table-overrides((
+    background-color: var(--surface-container-high)
   ));
-}
 
-@mixin theme($theme) {
-  --color-primary-container: #{mat.get-theme-color($app-theme, primary-container)};
-  --color-accent: #{mat.get-theme-color($app-theme, secondary, 50)};
-  --color-accent-hover: #{mat.get-theme-color($app-theme, secondary, 60)};
 
-  --color-primary-60: #{mat.get-theme-color($app-theme, primary, 60)};
-
-  --color-app-logo: var(--color-app-background);
-
-  --color-highlight: #{mat.get-theme-color($app-theme, error, 30)};
-  --color-highlight-dropped: #{mat.get-theme-color($app-theme, tertiary, 30)};
-
-  --odd-list-item-color: #{mat.get-theme-color($app-theme, primary, 10)};
-  --even-list-item-color: #{mat.get-theme-color($app-theme, primary, 20)};
-  --list-item-border: 2px solid #{mat.get-theme-color($app-theme, primary, 40)};
+  @include scrollbar.ng-scrollbar-overrides((
+    track-color: rgb(0 0 0 / 30%),
+    track-thickness: 18px,
+    track-hover-thickness: 24px,
+    thumb-min-size: 20px,
+    track-offset: 5px,
+  ));
 }
 
 html {
@@ -228,10 +204,21 @@ a {
 .p-select-overlay {
   --scrollbar-track-color: var(--surface-container-low);
   --scrollbar-thumb-color: var(--color-primary);
-  --scrollbar-thickness: 10px;
-  --scrollbar-hover-thickness: 10px;
-  --scrollbar-offset: 6px;
-  --scrollbar-shape: 7px;
+  --scrollbar-track-thickness: 10px;
+  --scrollbar-track-hover-thickness: 10px;
+  --scrollbar-container-offset: 6px;
+  --scrollbar-container-shape: 7px;
 
   overflow: hidden;
+
+
+  @include scrollbar.ng-scrollbar-overrides((
+    track-color: var(--surface-container-low),
+    thumb-color: var(--color-primary),
+    thumb-hover-color: var(--color-primary),
+    thumb-active-color: var(--color-primary),
+    track-thickness: 8px,
+    track-hover-thickness: 8px,
+    container-offset: 6px,
+  ));
 }

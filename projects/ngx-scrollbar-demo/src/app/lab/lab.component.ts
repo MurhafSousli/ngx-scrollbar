@@ -64,7 +64,7 @@ export class LabComponent {
   stylingPanelExpanded: boolean;
 
   direction: 'ltr' | 'rtl' = 'ltr';
-  buttons: boolean = true;
+  withButtons: boolean = true;
   hoverOffset: boolean = false;
   interactionDisabled: boolean = false;
   disableSensor: boolean = false;
@@ -124,6 +124,7 @@ export class LabComponent {
 
   setStyle(variables: Partial<NgScrollbarCssVariables>): void {
     this.variables = variables;
+    console.log(new CssVariables(variables).value)
     this.cssVariables = this.sanitizer.bypassSecurityTrustStyle(new CssVariables(variables).value);
   }
 
@@ -185,25 +186,19 @@ export interface NgScrollbarCssVariables {
 }
 
 class CssVariables {
-  private readonly keyValues = {
-    trackColor: '--scrollbar-track-color',
-    thumbColor: '--scrollbar-thumb-color',
-    thumbHoverColor: '--scrollbar-thumb-hover-color',
-    thickness: '--scrollbar-thickness',
-    trackOffset: '--scrollbar-offset',
-    hoverThickness: '--scrollbar-hover-thickness',
-    borderRadius: '--scrollbar-border-radius',
-    overscrollBehavior: '--scrollbar-overscroll-behavior',
-    transitionDuration: '--scrollbar-transition-duration',
-    transitionDelay: '--scrollbar-transition-delay'
-  };
 
   constructor(private variables: NgScrollbarCssVariables) {
   }
 
   get value(): string {
     return Object.keys(this.variables)
-      .map((key: string) => `${ [this.keyValues[key]] }: ${ this.variables[key] }`)
+      .filter((key: string) => !!this.variables[key])
+      .map((key: string) => `${ [`--scrollbar-${ toDashCase(key) }`] }: ${ this.variables[key] }`)
       .join(';');
   }
+
+}
+
+function toDashCase(str: string): string {
+  return str.replace(/[A-Z]/g, m => '-' + m.toLowerCase());
 }

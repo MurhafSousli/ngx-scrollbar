@@ -3,12 +3,12 @@
   border: none;
   margin: 0;
   padding: 0;
-  border-radius: 0;
+  border-radius: var(--scrollbar-button-shape);
   appearance: none;
   background: var(--_scrollbar-button-color);
 
   // Scrollbar button size
-  flex: 0 0 var(--scrollbar-button-size, var(--_scrollbar-thickness-px));
+  flex: 0 0 var(--scrollbar-button-size, var(--_scrollbar-track-thickness-px));
 
   // Instead of setting the width or height to 100%, we can just use block-size
   block-size: 100%;
@@ -18,7 +18,7 @@
     width: 100%;
     height: 100%;
     fill: var(--_scrollbar-button-fill);
-    scale: 2;
+    //scale: 2;
   }
 
   &:hover {

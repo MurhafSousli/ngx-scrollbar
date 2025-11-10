@@ -1,5 +1,16 @@
+@use 'ngx-scrollbar' as scrollbar;
+
 :host {
   --p-highlight-focus-background: var(--color-primary);
+
+  @include scrollbar.ng-scrollbar-overrides((
+    container-offset: 6px,
+    track-thickness: 12px,
+    thumb-color: var(--color-primary),
+    thumb-hover-color: var(--color-primary),
+    thumb-active-color: var(--color-primary),
+    thumb-min-size: 20px
+  ));
 
   ::ng-deep {
     .p-frozen-column, .p-datatable-frozen-tbody {
