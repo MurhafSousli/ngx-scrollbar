@@ -12,7 +12,7 @@
   min-width: 100%;
   min-height: 100%;
   // For performance optimization on independent components, virtualized lists, or areas of the page that change frequently.
-  contain: content;
+  //contain: content;
 
   // Add padding for standard appearance
   padding-block-start: var(--_viewport-padding-block-start, 0);

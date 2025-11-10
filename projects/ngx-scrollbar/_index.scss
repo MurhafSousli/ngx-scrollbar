@@ -1,64 +1,204 @@
 @use 'sass:map';
 
 @mixin ng-scrollbar-overrides($config) {
-  $container-color: map.get($config, container-color);
-  $track-shape: map.get($config, track-shape);
-  $track-thickness: map.get($config, track-thickness);
-  $track-hover-thickness: map.get($config, track-hover-thickness);
-  $track-active-thickness: map.get($config, track-active-thickness);
-  $track-offset: map.get($config, track-offset);
-  $track-color: map.get($config, track-color);
+  $container-color: if(
+      map.has-key($config, container-color),
+      map.get($config, container-color),
+      unset
+  );
+  $container-offset: if(
+      map.has-key($config, container-offset),
+      map.get($config, container-offset),
+      0px
+  );
+  $container-shape: if(
+      map.has-key($config, container-shape),
+      map.get($config, container-shape),
+      0px
+  );
+
+  $track-shape: if(
+      map.has-key($config, track-shape),
+      map.get($config, track-shape),
+      unset
+  );
+  $track-thickness: if(
+      map.has-key($config, track-thickness),
+      map.get($config, track-thickness),
+      7px
+  );
+  $track-hover-thickness: if(
+      map.has-key($config, track-hover-thickness),
+      map.get($config, track-hover-thickness),
+      unset
+  );
+  $track-active-thickness: if(
+      map.has-key($config, track-active-thickness),
+      map.get($config, track-active-thickness),
+      unset
+  );
+  $track-offset: if(
+      map.has-key($config, track-offset),
+      map.get($config, track-offset),
+      0px
+  );
+  $track-color: if(
+      map.has-key($config, track-color),
+      map.get($config, track-color),
+      unset
+  );
 
   // Thumb variables
-  $thumb-shape: map.get($config, thumb-shape);
+  $thumb-shape: if(
+      map.has-key($config, thumb-shape),
+      map.get($config, thumb-shape),
+      inherit
+  );
   $thumb-size: map.get($config, thumb-size);
-  $thumb-min-size: map.get($config, thumb-min-size);
-  $thumb-color: map.get($config, thumb-color);
-  $thumb-hover-color: map.get($config, thumb-hover-color);
-  $thumb-active-color: map.get($config, thumb-active-color);
+  //$thumb-size: if(
+  //    map.has-key($config, thumb-size),
+  //    map.get($config, thumb-size),
+  //    initial
+  //);
+  $thumb-min-size: if(
+      map.has-key($config, thumb-min-size),
+      map.get($config, thumb-min-size),
+      20px
+  );
+  $thumb-color: if(
+      map.has-key($config, thumb-color),
+      map.get($config, thumb-color),
+      light-dark(rgb(0 0 0 / 40%), rgb(255 255 255 / 40%))
+  );
+  $thumb-hover-color: if(
+      map.has-key($config, thumb-hover-color),
+      map.get($config, thumb-hover-color),
+      light-dark(color-mix(in srgb, var(--_scrollbar-thumb-color), #000 40%), color-mix(in srgb, var(--_scrollbar-thumb-color), #fff 40%))
+  );
+  $thumb-active-color: if(
+      map.has-key($config, thumb-active-color),
+      map.get($config, thumb-active-color),
+      light-dark(color-mix(in srgb, var(--_scrollbar-thumb-color), #000 70%), color-mix(in srgb, var(--_scrollbar-thumb-color), #fff 70%))
+  );
 
   // Visibility variables
-  $hover-opacity-transition-enter-duration: map.get($config, hover-opacity-transition-enter-duration);
-  $hover-opacity-transition-leave-duration: map.get($config, hover-opacity-transition-leave-duration);
-  $hover-opacity-transition-leave-delay: map.get($config, hover-opacity-transition-leave-delay);
+  $hover-opacity-transition-enter-duration: if(
+      map.has-key($config, hover-opacity-transition-enter-duration),
+      map.get($config, hover-opacity-transition-enter-duration),
+      0
+  );
+  $hover-opacity-transition-leave-duration: if(
+      map.has-key($config, hover-opacity-transition-leave-duration),
+      map.get($config, hover-opacity-transition-leave-duration),
+      0.4s
+  );
+  $hover-opacity-transition-leave-delay: if(
+      map.has-key($config, hover-opacity-transition-leave-delay),
+      map.get($config, hover-opacity-transition-leave-delay),
+      1s
+  );
 
-  $overscroll-behavior: map.get($config, overscroll-behavior);
-  $mobile-overscroll-behavior: map.get($config, mobile-overscroll-behavior);
+  $overscroll-behavior: if(
+      map.has-key($config, overscroll-behavior),
+      map.get($config, overscroll-behavior),
+      initial
+  );
+  $mobile-overscroll-behavior: if(
+      map.has-key($config, mobile-overscroll-behavior),
+      map.get($config, mobile-overscroll-behavior),
+      none
+  );
 
-  $button-shape: map.get($config, button-shape);
-  $button-size: map.get($config, button-size);
-  $button-gap: map.get($config, button-gap);
-  $button-color: map.get($config, button-color);
-  $button-hover-color: map.get($config, button-hover-color);
-  $button-active-color: map.get($config, button-active-color);
-  $button-inactive-color: map.get($config, button-inactive-color);
-  $button-fill-color: map.get($config, button-fill-color);
-  $button-fill-hover-color: map.get($config, button-fill-hover-color);
-  $button-fill-active-color: map.get($config, button-fill-active-color);
-  $button-fill-inactive-color: map.get($config, button-fill-inactive-color);
+  $button-shape: if(
+      map.has-key($config, button-shape),
+      map.get($config, button-shape),
+      0px
+  );
+  $button-size: if(
+      map.has-key($config, button-size),
+      map.get($config, button-size),
+      unset
+  );
+  $button-gap: if(
+      map.has-key($config, button-gap),
+      map.get($config, button-gap),
+      0px
+  );
+  $button-color: if(
+      map.has-key($config, button-color),
+      map.get($config, button-color),
+      transparent
+  );
+  $button-hover-color: if(
+      map.has-key($config, button-hover-color),
+      map.get($config, button-hover-color),
+      unset
+  );
+  $button-active-color: if(
+      map.has-key($config, button-active-color),
+      map.get($config, button-active-color),
+      unset
+  );
+  $button-inactive-color: if(
+      map.has-key($config, button-inactive-color),
+      map.get($config, button-inactive-color),
+      unset
+  );
+  $button-fill-color: if(
+      map.has-key($config, button-fill-color),
+      map.get($config, button-fill-color),
+      unset
+  );
+  $button-fill-hover-color: if(
+      map.has-key($config, button-fill-hover-color),
+      map.get($config, button-fill-hover-color),
+      unset
+  );
+  $button-fill-active-color: if(
+      map.has-key($config, button-fill-active-color),
+      map.get($config, button-fill-active-color),
+      unset
+  );
+  $button-fill-inactive-color: if(
+      map.has-key($config, button-fill-inactive-color),
+      map.get($config, button-fill-inactive-color),
+      unset
+  );
 
   @if $container-color {
     --scrollbar-container-color: #{$container-color};
   }
 
+  @if $container-offset {
+    --scrollbar-container-offset: #{$container-offset};
+  }
+
+  @if $container-shape {
+    --scrollbar-container-shape: #{$container-shape};
+  }
+
   @if $track-shape {
-    --scrollbar-shape: #{$track-shape};
+    --scrollbar-track-shape: #{$track-shape};
   }
 
   @if $track-offset {
-    --scrollbar-offset: #{$track-offset};
+    --scrollbar-track-offset: #{$track-offset};
+  }
+
+  @if $track-color {
+    --scrollbar-track-color: #{$track-color};
   }
 
   @if $track-thickness {
-    --scrollbar-thickness: #{$track-thickness};
+    --scrollbar-track-thickness: #{$track-thickness};
   }
 
   @if $track-hover-thickness {
-    --scrollbar-hover-thickness: #{$track-hover-thickness};
+    --scrollbar-track-hover-thickness: #{$track-hover-thickness};
   }
 
   @if $track-active-thickness {
-    --scrollbar-active-thickness: #{$track-active-thickness};
+    --scrollbar-track-active-thickness: #{$track-active-thickness};
   }
 
   @if $thumb-shape {
@@ -74,10 +214,6 @@
   @if $thumb-min-size {
     // Strip the px unit from the size
     --scrollbar-thumb-min-size: #{$thumb-min-size / 1px};
-  }
-
-  @if $track-color {
-    --scrollbar-track-color: #{$track-color};
   }
 
   @if $thumb-color {
@@ -113,10 +249,11 @@
   }
 
   @if $button-shape {
-    --button-shape: #{$button-shape};
+    --scrollbar-button-shape: #{$button-shape};
   }
+
   @if $button-size {
-    --button-size: #{$button-size};
+    --scrollbar-button-size: #{$button-size};
   }
 
   @if $button-gap {

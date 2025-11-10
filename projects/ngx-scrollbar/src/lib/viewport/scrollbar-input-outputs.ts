@@ -43,7 +43,7 @@ export class ScrollbarInputOutputs {
   visibility: InputSignal<ScrollbarVisibility> = input<ScrollbarVisibility>(this.options.visibility);
 
   /** Show scrollbar buttons */
-  buttons: InputSignalWithTransform<boolean, string | boolean> = input<boolean, string | boolean>(this.options.buttons, {
+  withButtons: InputSignalWithTransform<boolean, string | boolean> = input<boolean, string | boolean>(this.options.withButtons, {
     transform: booleanAttribute
   });
 

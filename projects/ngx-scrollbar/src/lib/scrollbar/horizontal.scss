@@ -25,11 +25,6 @@
   inset-inline-end: 0;
 }
 
-.ng-scrollbar-track-wrapper {
-  height: var(--_track-x-thickness-px);
-  flex-direction: row;
-}
-
 :host.ng-scrollbar-hover, .ng-scrollbar-hover {
   &:hover {
     --_track-x-thickness-px: var(--_scrollbar-hover-thickness-px);
@@ -38,4 +33,16 @@
   &:active {
     --_track-x-thickness-px: var(--_scrollbar-active-thickness-px);
   }
+}
+
+.ng-scrollbar-track-wrapper {
+  height: var(--_track-x-thickness-px);
+  flex-direction: row;
+}
+
+.track-inner {
+  inset-inline-start: 0;
+  inset-inline-end: 0;
+  inset-block-start: var(--scrollbar-track-offset, 4px);
+  inset-block-end: var(--scrollbar-track-offset, 4px);
 }

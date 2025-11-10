@@ -30,7 +30,7 @@ describe('Fit styles', () => {
     adapter = fixture.debugElement.injector.get(ViewportAdapter);
 
     // Set scrollbar offset value
-    component.nativeElement.style.setProperty('--scrollbar-offset', '4px');
+    component.nativeElement.style.setProperty('--scrollbar-container-offset', '4px');
   });
 
   const scrollbarOffset: number = 8;

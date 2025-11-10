@@ -3,7 +3,8 @@
 :host {
   @include scrollbar.ng-scrollbar-overrides((
     track-shape: 5px,
-    track-offset: 10px,
+    container-offset: 10px,
+    track-offset: 0px,
     track-thickness: 10px,
     track-hover-thickness: 10px,
     track-color: #f3f4f8,
@@ -15,7 +16,7 @@
   color: #686c6e;
 
   ::ng-deep {
-    .scrollbar-track {
+    .track-inner {
       box-shadow: inset 0 0 0 1px #e8e8ea;
     }
 

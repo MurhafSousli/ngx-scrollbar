@@ -1,3 +1,5 @@
+@use 'ngx-scrollbar' as scrollbar;
+
 .example-form {
   min-width: 150px;
   max-width: 500px;
@@ -6,4 +8,17 @@
 
 .example-full-width {
   width: 100%;
+}
+
+::ng-deep {
+  .ng-scrollbar.mat-mdc-autocomplete-panel {
+    @include scrollbar.ng-scrollbar-overrides((
+      track-shape: 8px,
+      track-offset: 0px,
+      container-offset: 6px,
+      track-thickness: 8px,
+      track-hover-thickness: 8px,
+      thumb-color: var(--color-primary)
+    ));
+  }
 }

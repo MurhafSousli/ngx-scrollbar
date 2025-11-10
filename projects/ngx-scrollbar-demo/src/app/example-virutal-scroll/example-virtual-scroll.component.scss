@@ -1,3 +1,16 @@
+@use 'ngx-scrollbar' as scrollbar;
+
+:host {
+  @include scrollbar.ng-scrollbar-overrides((
+    container-offset: 6px,
+    track-thickness: 12px,
+    thumb-color: var(--color-primary),
+    thumb-hover-color: var(--color-primary),
+    thumb-active-color: var(--color-primary),
+    thumb-min-size: 20px
+  ));
+}
+
 .example-virtual-scroll {
   overflow: hidden;
   height: 200px;

@@ -5,13 +5,16 @@
     track-shape: 6px,
     track-thickness: 12px,
     track-hover-thickness: 12px,
-    track-offset: 4px,
+    track-offset: 0px,
+    container-offset: 4px,
     track-color: rgb(0 0 0 / 50%),
-    thumb-color: linear-gradient(to bottom, var(--color-example3), #EFB436)
+    thumb-color: linear-gradient(to bottom, var(--color-example3), #EFB436),
+    thumb-hover-color: linear-gradient(to bottom, var(--color-example3), #EFB436),
+    thumb-active-color: linear-gradient(to bottom, var(--color-example3), #EFB436)
   ));
 
   ::ng-deep {
-    .scrollbar-track {
+    .track-inner {
       box-shadow: inset 0 0 0 1px rgb(0 0 0 / 50%);
     }
 

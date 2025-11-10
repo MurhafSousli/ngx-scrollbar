@@ -38,7 +38,7 @@ describe('disableInteraction option', () => {
     fixture.autoDetectChanges();
     component = fixture.componentInstance;
     adapter = fixture.debugElement.injector.get(ViewportAdapter);
-    fixture.componentRef.setInput('buttons', true);
+    fixture.componentRef.setInput('withButtons', true);
     fixture.detectChanges();
   });
 

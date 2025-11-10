@@ -1,16 +1,5 @@
 @use 'ngx-scrollbar' as scrollbar;
 
-ng-scrollbar {
-  @include scrollbar.ng-scrollbar-overrides((
-    track-shape: 8px,
-    track-offset: 6px,
-    track-thickness: 8px,
-    track-hover-thickness: 8px,
-    track-color: var(--surface-container-low),
-    thumb-color: var(--color-primary)
-  ));
-}
-
 .mat-mdc-select {
   //--mat-select-enabled-arrow-color: rgb(255 255 255 / 54%);
   margin-bottom: 30px !important;
@@ -21,10 +10,10 @@ ng-scrollbar {
   .ng-scrollbar.mat-mdc-select-panel {
     @include scrollbar.ng-scrollbar-overrides((
       track-shape: 8px,
-      track-offset: 6px,
+      track-offset: 0px,
+      container-offset: 6px,
       track-thickness: 8px,
       track-hover-thickness: 8px,
-      track-color: var(--surface-container-low),
       thumb-color: var(--color-primary)
     ));
   }

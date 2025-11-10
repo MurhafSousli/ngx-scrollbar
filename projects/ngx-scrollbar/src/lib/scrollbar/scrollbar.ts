@@ -12,9 +12,11 @@ import { ScrollbarButton } from '../button/scrollbar-button';
     <div class="ng-scrollbar-track-wrapper"
          [class.ng-scrollbar-hover]="!cmp.hoverOffset()">
       <scrollbar-track-y class="ng-scrollbar-track {{ cmp.trackClass() }}">
-        <scrollbar-thumb-y class="ng-scrollbar-thumb {{ cmp.thumbClass() }}"/>
+        <div class="track-inner">
+          <scrollbar-thumb-y class="ng-scrollbar-thumb {{ cmp.thumbClass() }}"/>
+        </div>
       </scrollbar-track-y>
-      @if (cmp.buttons()) {
+      @if (cmp.withButtons()) {
         <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
                 scrollbarButton="top"
                 scrollDirection="backward"
@@ -70,9 +72,11 @@ export class ScrollbarY extends ScrollbarAdapter {
     <div class="ng-scrollbar-track-wrapper"
          [class.ng-scrollbar-hover]="!cmp.hoverOffset()">
       <scrollbar-track-x class="ng-scrollbar-track {{ cmp.trackClass() }}">
-        <scrollbar-thumb-x class="ng-scrollbar-thumb {{ cmp.thumbClass() }}" [attr.dir]="cmp.direction()"/>
+        <div class="track-inner">
+          <scrollbar-thumb-x class="ng-scrollbar-thumb {{ cmp.thumbClass() }}" [attr.dir]="cmp.direction()"/>
+        </div>
       </scrollbar-track-x>
-      @if (cmp.buttons()) {
+      @if (cmp.withButtons()) {
         <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
                 scrollbarButton="start"
                 scrollDirection="backward"

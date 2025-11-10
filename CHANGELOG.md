@@ -24,7 +24,8 @@
 - The option `minThumbSize` is removed from the component and the global options, use the CSS variable `thumb-min-size` instead.
 - The directive `AsyncDetection` has been renamed to `NgScrollbarAsyncViewport`
 - `NgScrollReached` and `NgScrollDropped` has been merged into `NgScrollReachDrop` directive.
-- In `NgScrollReachDrop`, the `[reachedOffset]` and `[droppedOffset]` inputs has been removed. 
+- In `NgScrollReachDrop`, the `[reachedOffset]` and `[droppedOffset]` inputs has been removed.
+- The option `buttons` has been renamed to `withButtons`.
 
 ## 18.0.0
 

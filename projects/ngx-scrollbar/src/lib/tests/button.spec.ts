@@ -48,16 +48,16 @@ describe('Buttons', () => {
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 200, contentHeight: 200 });
   });
 
-  it('should not display the scrollbar buttons when [buttons]="false"', async () => {
-    fixture.componentRef.setInput('buttons', false);
+  it('should not display the scrollbar buttons when [withButtons]="false"', async () => {
+    fixture.componentRef.setInput('withButtons', false);
     await firstValueFrom(outputToObservable(adapter.afterInit))
 
     const buttons: DebugElement[] = fixture.debugElement.queryAll(By.directive(ScrollbarButton));
     expect(buttons.length).toBeFalsy();
   });
 
-  it('should display buttons when [buttons]="true"', async () => {
-    fixture.componentRef.setInput('buttons', true);
+  it('should display buttons when [withButtons]="true"', async () => {
+    fixture.componentRef.setInput('withButtons', true);
     await firstValueFrom(outputToObservable(adapter.afterInit))
 
     const buttons: DebugElement[] = fixture.debugElement.queryAll(By.directive(ScrollbarButton));
@@ -65,7 +65,7 @@ describe('Buttons', () => {
   });
 
   it('should scroll to bottom on arrow-down button click', async () => {
-    fixture.componentRef.setInput('buttons', true);
+    fixture.componentRef.setInput('withButtons', true);
     await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
@@ -95,7 +95,7 @@ describe('Buttons', () => {
 
 
   it('should scroll to top on arrow-up button click', async () => {
-    fixture.componentRef.setInput('buttons', true);
+    fixture.componentRef.setInput('withButtons', true);
     await firstValueFrom(outputToObservable(adapter.afterInit));
     TestBed.flushEffects();
 
@@ -126,7 +126,7 @@ describe('Buttons', () => {
   });
 
   it('should scroll to right on arrow-right button click', async () => {
-    fixture.componentRef.setInput('buttons', true);
+    fixture.componentRef.setInput('withButtons', true);
     await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
@@ -156,7 +156,7 @@ describe('Buttons', () => {
 
 
   it('should scroll to left on arrow-left button click', async () => {
-    fixture.componentRef.setInput('buttons', true);
+    fixture.componentRef.setInput('withButtons', true);
     await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
@@ -190,7 +190,7 @@ describe('Buttons', () => {
   it('[RTL] should scroll to left on arrow-left button click', async () => {
     directionalityMock.value = 'rtl';
     directionalityMock.change.next('rtl');
-    fixture.componentRef.setInput('buttons', true);
+    fixture.componentRef.setInput('withButtons', true);
     await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
@@ -221,7 +221,7 @@ describe('Buttons', () => {
   it('[RTL] should scroll to right on arrow-right button click', async () => {
     directionalityMock.value = 'rtl';
     directionalityMock.change.next('rtl');
-    fixture.componentRef.setInput('buttons', true);
+    fixture.componentRef.setInput('withButtons', true);
     await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
@@ -253,7 +253,7 @@ describe('Buttons', () => {
 
 
   it('should stop scrolling when pointer is up', async () => {
-    fixture.componentRef.setInput('buttons', true);
+    fixture.componentRef.setInput('withButtons', true);
     await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 
@@ -271,7 +271,7 @@ describe('Buttons', () => {
   });
 
   it('should stop scrolling when pointer leaves the button', async () => {
-    fixture.componentRef.setInput('buttons', true);
+    fixture.componentRef.setInput('withButtons', true);
     await firstValueFrom(outputToObservable(adapter.afterInit))
     TestBed.flushEffects();
 

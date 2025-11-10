@@ -2,10 +2,13 @@
 
 :host {
   @include scrollbar.ng-scrollbar-overrides((
-    track-offset: 1px,
+    track-offset: 0px,
     track-shape: 0px,
     track-thickness: 6px,
-    track-hover-thickness: 10px
+    track-hover-thickness: 10px,
+    thumb-color: var(--color-primary),
+    thumb-hover-color: var(--color-primary),
+    thumb-active-color: var(--color-primary),
   ));
 }
 
