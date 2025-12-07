@@ -1,5 +1,5 @@
-import { Injectable, inject, ElementRef, NgZone } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Injectable, inject, ElementRef, NgZone, DOCUMENT } from '@angular/core';
+
 import { coerceElement } from '@angular/cdk/coercion';
 import {
   Observable,

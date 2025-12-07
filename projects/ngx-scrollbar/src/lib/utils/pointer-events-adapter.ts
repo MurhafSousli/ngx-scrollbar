@@ -1,5 +1,5 @@
-import { Directive, effect, inject, untracked, ElementRef, NgZone, EffectCleanupRegisterFn } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Directive, effect, inject, untracked, ElementRef, NgZone, EffectCleanupRegisterFn, DOCUMENT } from '@angular/core';
+
 import { Observable, Subscription } from 'rxjs';
 import { SCROLLBAR_CONTROL, ScrollbarAdapter } from '../scrollbar/scrollbar-adapter';
 import { ViewportAdapter } from '../viewport/viewport-adapter';

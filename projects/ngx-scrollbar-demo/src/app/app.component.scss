@@ -1,3 +1,13 @@
+@use '@angular/material' as mat;
+
+:host {
+  @include mat.list-overrides((
+    list-item-label-text-color: white,
+    list-item-focus-label-text-color: white,
+    list-item-hover-label-text-color: white
+  ));
+}
+
 .sidenav-container {
   height: 100%;
 }
@@ -19,10 +29,6 @@ mat-toolbar {
 
 mat-sidenav {
   width: 220px;
-
-  --mdc-list-list-item-label-text-color: white;
-  --mdc-list-list-item-focus-label-text-color: white;
-  --mdc-list-list-item-hover-label-text-color: white;
 }
 
 .active-link {

@@ -1,4 +1,10 @@
+@use '@angular/material' as mat;
+
 :host {
+  @include mat.chips-overrides((
+    label-text-size: 12px
+  ));
+
   display: flex;
   flex-direction: column;
   padding: 1em;
@@ -24,7 +30,6 @@
 .mat-mdc-chip {
   text-align: center;
   transition: background-color ease-out 1s;
-  --mdc-chip-label-text-size: 12px;
   width: 66px;
 
   ::ng-deep {
