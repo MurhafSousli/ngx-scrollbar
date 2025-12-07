@@ -1,5 +1,5 @@
-import { Injectable, inject, signal, WritableSignal, PLATFORM_ID } from '@angular/core';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Injectable, inject, signal, WritableSignal, PLATFORM_ID, DOCUMENT } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { NG_SCROLLBAR_POLYFILL } from '../ng-scrollbar.model';
 import { ScrollTimelineFunc } from './common';
 

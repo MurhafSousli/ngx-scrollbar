@@ -6,9 +6,10 @@ import {
   ElementRef,
   ComponentRef,
   ApplicationRef,
-  EnvironmentInjector
+  EnvironmentInjector,
+  DOCUMENT
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+
 import { coerceElement } from '@angular/cdk/coercion';
 import { NgScrollbarExt } from './ng-scrollbar-ext';
 import { NgScrollbar } from './ng-scrollbar';

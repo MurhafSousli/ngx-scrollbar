@@ -1,5 +1,5 @@
-import { Injectable, inject, createComponent, Injector, ComponentRef, ApplicationRef } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Injectable, inject, createComponent, Injector, ComponentRef, ApplicationRef, DOCUMENT } from '@angular/core';
+
 import { ScrollViewport, ViewportAdapter } from './viewport';
 import { NgScrollbarOptions } from './ng-scrollbar.model';
 import { provideScrollbarOptions } from './ng-scrollbar.module';

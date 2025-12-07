@@ -7,7 +7,7 @@ import {
   WritableSignal,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { MatCardModule } from '@angular/material/card';
@@ -35,7 +35,6 @@ import { SmoothScrollFormComponent, SmoothScrollOptionsForm } from './smooth-scr
 @Component({
   selector: 'app-lab',
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     NgScrollbar,
@@ -50,7 +49,7 @@ import { SmoothScrollFormComponent, SmoothScrollOptionsForm } from './smooth-scr
     ResizeFormComponent,
     ReachedNotifierComponent,
     NgScrollReachDrop
-  ],
+],
   templateUrl: './lab.component.html',
   styleUrl: './lab.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
