@@ -38,7 +38,7 @@ export class ScrollbarInputOutputs {
    *
    * - `native` (default) Scrollbar will be visible when viewport is scrollable like with native scrollbar
    * - `hover` Scrollbars are hidden by default, only visible on scrolling or hovering
-   * - `always` Scrollbars are always shown even if the viewport is not scrollable
+   * - `visible` Scrollbars are always visible even if the viewport is not scrollable
    */
   visibility: InputSignal<ScrollbarVisibility> = input<ScrollbarVisibility>(this.options.visibility);
 
