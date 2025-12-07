@@ -124,7 +124,6 @@ export class LabComponent {
 
   setStyle(variables: Partial<NgScrollbarCssVariables>): void {
     this.variables = variables;
-    console.log(new CssVariables(variables).value)
     this.cssVariables = this.sanitizer.bypassSecurityTrustStyle(new CssVariables(variables).value);
   }
 

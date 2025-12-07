@@ -36,5 +36,5 @@
 .track-inner {
   position: absolute;
   border-radius: var(--scrollbar-track-shape, 10px);
-  background: var(--scrollbar-track-color, transparent);
+  background: var(--scrollbar-track-color, rgb(128 128 128 / 50%));
 }

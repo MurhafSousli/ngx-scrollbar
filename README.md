@@ -71,14 +71,13 @@ If you identify any errors in the library, or have an idea for an improvement, p
 
 ## Author
 
-- Murhaf Sousli [Github](https://github.com/MurhafSousli), [Twitter](https://twitter.com/MurhafSousli)
+- Murhaf Sousli [Github](https://github.com/MurhafSousli), [X](https://x.com/MurhafSousli)
 
 ## More plugins
 
 - [ngx-sharebuttons](https://github.com/MurhafSousli/ngx-sharebuttons)
 - [ngx-gallery](https://github.com/MurhafSousli/ngx-gallery)
 - [ngx-progressbar](https://github.com/MurhafSousli/ngx-progressbar)
-- [ngx-scrollbar](https://github.com/MurhafSousli/ngx-scrollbar)
 - [ngx-bar-rating](https://github.com/MurhafSousli/ngx-bar-rating)
 - [ngx-disqus](https://github.com/MurhafSousli/ngx-disqus)
 - [ngx-highlightjs](https://github.com/MurhafSousli/ngx-highlightjs)

@@ -39,7 +39,7 @@ Then, in your component template, you can use the `<ng-scrollbar>` to wrap your 
 | ------------------------------ | --------------- | ------------------------------------------------------------------- |
 | **[orientation]**              | `auto`          | The scroll axis of the viewport `horizontal`, `vertical`, `auto`.   |
 | **[position]**                 | `native`        | Invert scrollbar position `native`,`invertX`,`invertY`, `invertAll`.|
-| **[visibility]**               | `native`        | Scrollbar visibility `native`, `hover`, `always`.                   |
+| **[visibility]**               | `native`        | Scrollbar visibility `native`, `hover`, `visible`.                   |
 | **[appearance]**               | `standard`      | Scrollbar appearance `standard`, `compact`.                         |
 | **[trackClass]**               | *null*          | Add a class to scrollbars' tracks.                                  |
 | **[thumbClass]**               | *null*          | Add a class to scrollbars' thumbnails.                              |
