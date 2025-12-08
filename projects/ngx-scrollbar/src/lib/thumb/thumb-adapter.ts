@@ -18,7 +18,7 @@ export class ThumbAdapter extends PointerEventsAdapter {
 
   private readonly track: TrackAdapter = inject(TrackAdapter);
 
-  // The animation reference used for enabling the polyfill on Safari and Firefox.
+  // The animation reference used for enabling the polyfill in Firefox.
   _animation: Animation;
 
   // Returns thumb size

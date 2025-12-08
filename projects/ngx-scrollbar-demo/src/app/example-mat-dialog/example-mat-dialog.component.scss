@@ -7,6 +7,7 @@ ng-scrollbar, [ngScrollbar] {
     track-hover-thickness: 18px,
     thumb-color: var(--color-primary),
     thumb-min-size: 20px,
-    track-shape: 0px
+    track-shape: 0px,
+    track-offset: 0px,
   ));
 }

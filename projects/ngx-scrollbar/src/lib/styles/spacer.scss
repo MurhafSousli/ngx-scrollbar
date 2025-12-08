@@ -3,6 +3,10 @@
     // Set absolute position on the spacer element to enable the functionality of sticky for the scrollbars
     position: absolute;
 
+    // Sets the positioning (Usually 3rd party libraries also sets top and left)
+    inset-block-start: 0;
+    inset-inline-start: 0;
+
     // In virtual scroll, in vertical mode, the spacer element width should match the content wrapper width and same goes in horizontal mode.
     width: calc(var(--_spacer-width) * 1px);
     height: calc(var(--_spacer-height) * 1px);

@@ -23,7 +23,8 @@ describe('Hover effect', () => {
   it('Should activate hover effect only when mouse is over the scrollbar in case [hoverOffset]="false"', async () => {
     setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 400, contentWidth: 400 });
     fixture.componentRef.setInput('hoverOffset', false);
-    await firstValueFrom(outputToObservable(adapter.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit));
+    fixture.detectChanges();
 
     const stickyYElement: Element = fixture.debugElement.query(By.css('scrollbar-y')).nativeElement;
     const stickyXElement: Element = fixture.debugElement.query(By.css('scrollbar-x')).nativeElement;
@@ -40,7 +41,8 @@ describe('Hover effect', () => {
   it('Should activate hover effect when mouse is over the offset area in case [hoverOffset]="true"', async () => {
     setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 400, contentWidth: 400 });
     fixture.componentRef.setInput('hoverOffset', true);
-    await firstValueFrom(outputToObservable(adapter.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit));
+    fixture.detectChanges();
 
     const stickyYElement: Element = fixture.debugElement.query(By.css('scrollbar-y')).nativeElement;
     const stickyXElement: Element = fixture.debugElement.query(By.css('scrollbar-x')).nativeElement;

@@ -2,9 +2,10 @@ import { ComponentFixture, TestBed, } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { outputToObservable } from '@angular/core/rxjs-interop';
+import { vi } from 'vitest';
 import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
-import { setDimensions } from './common-test.';
+import { afterTimeout, setDimensions } from './common-test.';
 
 describe('NgScrollbar Component', () => {
   let component: NgScrollbar;
@@ -28,7 +29,7 @@ describe('NgScrollbar Component', () => {
   });
 
   it('should emit afterUpdate after update function is called', async () => {
-    const afterUpdateEmitSpy: jasmine.Spy = spyOn(adapter.afterUpdate, 'emit');
+    const afterUpdateEmitSpy = vi.spyOn(adapter.afterUpdate, 'emit');
     component.update()
     expect(afterUpdateEmitSpy).toHaveBeenCalled();
   });
@@ -40,10 +41,10 @@ describe('NgScrollbar Component', () => {
 
     await firstValueFrom(outputToObservable(adapter.afterInit));
 
-    expect(adapter.verticalUsed()).toBeTrue();
-    expect(adapter.isVerticallyScrollable()).toBeTrue();
-    expect(adapter.horizontalUsed()).toBeFalse();
-    expect(adapter.isHorizontallyScrollable()).toBeFalse();
+    expect(adapter.verticalUsed()).toBe(true);
+    expect(adapter.isVerticallyScrollable()).toBe(true);
+    expect(adapter.horizontalUsed()).toBe(false);
+    expect(adapter.isHorizontallyScrollable()).toBe(false);
   });
 
   it('should show vertical scrollbar if visibility="visible" even if viewport is not scrollable', async () => {
@@ -53,10 +54,10 @@ describe('NgScrollbar Component', () => {
 
     await firstValueFrom(outputToObservable(adapter.afterInit));
 
-    expect(adapter.verticalUsed()).toBeTrue();
-    expect(adapter.isVerticallyScrollable()).toBeFalse();
-    expect(adapter.horizontalUsed()).toBeFalse();
-    expect(adapter.isHorizontallyScrollable()).toBeFalse();
+    expect(adapter.verticalUsed()).toBe(true);
+    expect(adapter.isVerticallyScrollable()).toBe(false);
+    expect(adapter.horizontalUsed()).toBe(false);
+    expect(adapter.isHorizontallyScrollable()).toBe(false);
   });
 
   it('should not show vertical scrollbar when viewport is not scrollable', () => {
@@ -64,10 +65,10 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('visibility', 'native');
     setDimensions(component, { cmpWidth: 1000, cmpHeight: 1000, contentHeight: 300 });
 
-    expect(adapter.verticalUsed()).toBeFalse();
-    expect(adapter.isVerticallyScrollable()).toBeFalse();
-    expect(adapter.horizontalUsed()).toBeFalse();
-    expect(adapter.isHorizontallyScrollable()).toBeFalse();
+    expect(adapter.verticalUsed()).toBe(false);
+    expect(adapter.isVerticallyScrollable()).toBe(false);
+    expect(adapter.horizontalUsed()).toBe(false);
+    expect(adapter.isHorizontallyScrollable()).toBe(false);
   });
 
   it('should show horizontal scrollbar if viewport is horizontally scrollable', async () => {
@@ -77,10 +78,10 @@ describe('NgScrollbar Component', () => {
 
     await firstValueFrom(outputToObservable(adapter.afterInit));
 
-    expect(adapter.horizontalUsed()).toBeTrue();
-    expect(adapter.isHorizontallyScrollable()).toBeTrue();
-    expect(adapter.verticalUsed()).toBeFalse();
-    expect(adapter.isVerticallyScrollable()).toBeFalse();
+    expect(adapter.horizontalUsed()).toBe(true);
+    expect(adapter.isHorizontallyScrollable()).toBe(true);
+    expect(adapter.verticalUsed()).toBe(false);
+    expect(adapter.isVerticallyScrollable()).toBe(false);
   });
 
 
@@ -91,10 +92,10 @@ describe('NgScrollbar Component', () => {
 
     await firstValueFrom(outputToObservable(adapter.afterInit))
 
-    expect(adapter.horizontalUsed()).toBeTrue();
-    expect(adapter.isHorizontallyScrollable()).toBeFalse();
-    expect(adapter.verticalUsed()).toBeFalse();
-    expect(adapter.isVerticallyScrollable()).toBeFalse();
+    expect(adapter.horizontalUsed()).toBe(true);
+    expect(adapter.isHorizontallyScrollable()).toBe(false);
+    expect(adapter.verticalUsed()).toBe(false);
+    expect(adapter.isVerticallyScrollable()).toBe(false);
   });
 
   it('should not show horizontal scrollbar if viewport is not scrollable', () => {
@@ -102,10 +103,10 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('visibility', 'native');
     setDimensions(component, { cmpWidth: 1000, contentHeight: 300, contentWidth: 300 });
 
-    expect(adapter.horizontalUsed()).toBeFalse();
-    expect(adapter.isHorizontallyScrollable()).toBeFalse();
-    expect(adapter.verticalUsed()).toBeFalse();
-    expect(adapter.isVerticallyScrollable()).toBeFalse();
+    expect(adapter.horizontalUsed()).toBe(false);
+    expect(adapter.isHorizontallyScrollable()).toBe(false);
+    expect(adapter.verticalUsed()).toBe(false);
+    expect(adapter.isVerticallyScrollable()).toBe(false);
   });
 
   it('should show all scrollbars if visibility="visible"', async () => {
@@ -113,12 +114,13 @@ describe('NgScrollbar Component', () => {
     fixture.componentRef.setInput('visibility', 'visible');
     setDimensions(component, { cmpWidth: 1000, cmpHeight: 1000, contentHeight: 300, contentWidth: 300 });
 
-    await firstValueFrom(outputToObservable(adapter.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit));
 
-    expect(adapter.horizontalUsed()).toBeTrue();
-    expect(adapter.isHorizontallyScrollable()).toBeFalse();
-    expect(adapter.verticalUsed()).toBeTrue();
-    expect(adapter.isVerticallyScrollable()).toBeFalse();
+    expect(adapter.horizontalUsed()).toBe(true);
+    await afterTimeout(2000)
+    expect(adapter.isHorizontallyScrollable()).toBe(false);
+    expect(adapter.verticalUsed()).toBe(true);
+    expect(adapter.isVerticallyScrollable()).toBe(false);
   });
 
   it('should show all scrollbars if viewport is vertically and horizontally scrollable', async () => {
@@ -128,10 +130,10 @@ describe('NgScrollbar Component', () => {
 
     await firstValueFrom(outputToObservable(adapter.afterInit))
 
-    expect(adapter.horizontalUsed()).toBeTrue();
-    expect(adapter.isHorizontallyScrollable()).toBeTrue();
-    expect(adapter.verticalUsed()).toBeTrue();
-    expect(adapter.isVerticallyScrollable()).toBeTrue();
+    expect(adapter.horizontalUsed()).toBe(true);
+    expect(adapter.isHorizontallyScrollable()).toBe(true);
+    expect(adapter.verticalUsed()).toBe(true);
+    expect(adapter.isVerticallyScrollable()).toBe(true);
   });
 
   it('[Auto-height]: component height and width should match content size by default', () => {
@@ -151,13 +153,13 @@ describe('NgScrollbar Component', () => {
   it('should forward scrollToElement function call to SmoothScrollManager service', async () => {
     setDimensions(component, { contentHeight: 300, contentWidth: 300 });
 
-    const smoothScrollSpy: jasmine.Spy = spyOn(adapter.smoothScroll, 'scrollToElement');
+    const smoothScrollSpy = vi.spyOn(adapter.smoothScroll, 'scrollToElement');
 
     await firstValueFrom(outputToObservable(adapter.afterInit))
 
     component.scrollToElement('.fake-child-element', { top: 100, duration: 500 })
 
-    expect(smoothScrollSpy).toHaveBeenCalledOnceWith(component.adapter.viewportElement, '.fake-child-element', {
+    expect(smoothScrollSpy).toHaveBeenCalledExactlyOnceWith(component.adapter.viewportElement, '.fake-child-element', {
       top: 100,
       duration: 500
     });
@@ -166,13 +168,13 @@ describe('NgScrollbar Component', () => {
   it('should forward scrollTo function call to SmoothScrollManager service', async () => {
     setDimensions(component, { contentHeight: 300, contentWidth: 300 });
 
-    const smoothScrollSpy: jasmine.Spy = spyOn(adapter.smoothScroll, 'scrollTo');
+    const smoothScrollSpy = vi.spyOn(adapter.smoothScroll, 'scrollTo');
 
     await firstValueFrom(outputToObservable(adapter.afterInit))
 
     component.scrollTo({ top: 100, duration: 500 })
 
-    expect(smoothScrollSpy).toHaveBeenCalledOnceWith(adapter.viewportElement, {
+    expect(smoothScrollSpy).toHaveBeenCalledExactlyOnceWith(adapter.viewportElement, {
       top: 100,
       duration: 500
     });

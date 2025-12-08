@@ -15,12 +15,21 @@ export class TrackYComponent extends TrackAdapter {
     return this.adapter.contentHeight;
   }
 
-  protected getCurrPosition(): number {
+  protected getThumbStartPosition(): number {
     return this.control.viewportScrollOffset * this.size / this.contentSize;
   }
 
-  protected getScrollDirection(position: number): 'forward' | 'backward' {
-    return position > this.getCurrPosition() ? 'forward' : 'backward';
+  protected getThumbEndPosition(): number {
+    return (this.control.viewportScrollOffset + this.viewportSize) * this.size / this.contentSize;
+  }
+
+  getScrollDirection(position: number): 'forward' | 'backward' {
+    if (position > this.getThumbEndPosition()) {
+      return 'forward';
+    } else if (position < this.getThumbStartPosition()) {
+      return 'backward';
+    }
+    return null;
   }
 
   protected scrollTo(top: number): Observable<void> {
@@ -49,26 +58,45 @@ export class TrackXComponent extends TrackAdapter {
     return this.adapter.contentWidth;
   }
 
-  getCurrPosition: () => number;
+  getThumbStartPosition: () => number;
+
+  getThumbEndPosition: () => number;
 
   getScrollDirection: (position: number) => 'forward' | 'backward';
 
   constructor() {
     effect(() => {
       if (this.adapter.direction() === 'rtl') {
-        this.getCurrPosition = (): number => {
+        this.getThumbStartPosition = (): number => {
           const offset: number = this.contentSize - this.viewportSize - this.control.viewportScrollOffset;
           return offset * this.size / this.contentSize;
         };
+        this.getThumbEndPosition = (): number => {
+          const offset: number = this.contentSize - this.control.viewportScrollOffset;
+          return offset * this.size / this.contentSize;
+        }
         this.getScrollDirection = (position: number): 'forward' | 'backward' => {
-          return position < this.getCurrPosition() ? 'forward' : 'backward';
+          if (position < this.getThumbStartPosition()) {
+            return 'forward';
+          } else if (position > this.getThumbEndPosition()) {
+            return 'backward';
+          }
+          return null;
         };
       } else {
-        this.getCurrPosition = (): number => {
+        this.getThumbStartPosition = (): number => {
           return this.control.viewportScrollOffset * this.size / this.contentSize;
         };
+        this.getThumbEndPosition = (): number => {
+          return (this.control.viewportScrollOffset + this.viewportSize) * this.size / this.contentSize;
+        }
         this.getScrollDirection = (position: number): 'forward' | 'backward' => {
-          return position > this.getCurrPosition() ? 'forward' : 'backward';
+          if (position > this.getThumbEndPosition()) {
+            return 'forward';
+          } else if (position < this.getThumbStartPosition()) {
+            return 'backward';
+          }
+          return null;
         };
       }
     });

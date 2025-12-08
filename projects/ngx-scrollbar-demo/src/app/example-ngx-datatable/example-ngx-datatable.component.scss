@@ -22,6 +22,10 @@ ng-scrollbar {
         color: var(--mat-sidenav-content-text-color) !important;
       }
 
+      .datatable-body .datatable-body-row {
+        border-bottom: none;
+      }
+
       .datatable-header,
       .datatable-footer,
       .datatable-header .datatable-header-cell {

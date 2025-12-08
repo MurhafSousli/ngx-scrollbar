@@ -37,7 +37,8 @@ describe('Fit styles', () => {
 
   it('should fit both scrollbars only if both of them are displayed', async () => {
     setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 500, contentWidth: 500 });
-    await firstValueFrom(outputToObservable(adapter.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit));
+    fixture.detectChanges();
 
     const trackYElement: Element = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-track')).nativeElement;
     const trackXElement: Element = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-track')).nativeElement;
@@ -51,7 +52,8 @@ describe('Fit styles', () => {
 
   it('should not fit vertical scrollbar if horizontal is not displayed', async () => {
     setDimensions(component, { cmpHeight: 200, contentHeight: 500, cmpWidth: 200, contentWidth: 200 });
-    await firstValueFrom(outputToObservable(adapter.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit));
+    fixture.detectChanges();
 
     const trackYElement: Element = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-track')).nativeElement;
 
@@ -60,7 +62,8 @@ describe('Fit styles', () => {
 
   it('should not fit horizontal scrollbar if vertical is not displayed', async () => {
     setDimensions(component, { cmpWidth: 200, contentWidth: 500, cmpHeight: 200, contentHeight: 200 });
-    await firstValueFrom(outputToObservable(adapter.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit));
+    fixture.detectChanges();
 
     const trackXElement: Element = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-track')).nativeElement;
     expect(trackXElement.clientWidth).toBe(200 - scrollbarOffset);

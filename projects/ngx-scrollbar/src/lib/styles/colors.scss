@@ -1,7 +1,7 @@
 @mixin SetColorsStuff() {
   --_scrollbar-thumb-color: var(--scrollbar-thumb-color, #1e90ff);
   --_scrollbar-thumb-hover-color: var(--scrollbar-thumb-hover-color, var(--_scrollbar-thumb-color));
-  --_scrollbar-thumb-active-color: var(--scrollbar-thumb-active-color, var(--_scrollbar-thumb-color));
+  --_scrollbar-thumb-active-color: var(--scrollbar-thumb-active-color, var(--_scrollbar-thumb-hover-color));
 
   --_scrollbar-button-color: var(--scrollbar-button-color, transparent);
   --_scrollbar-button-hover-color: var(--scrollbar-button-hover-color, var(--_scrollbar-button-color));

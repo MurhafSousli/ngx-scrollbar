@@ -36,8 +36,8 @@
 }
 
 .track-inner {
-  inset-inline-start: var(--scrollbar-track-offset, 4px);
-  inset-inline-end: var(--scrollbar-track-offset, 4px);
+  inset-inline-start: var(--scrollbar-track-offset, 0px);
+  inset-inline-end: var(--scrollbar-track-offset, 0px);
   inset-block-start: 0;
   inset-block-end: 0;
 }

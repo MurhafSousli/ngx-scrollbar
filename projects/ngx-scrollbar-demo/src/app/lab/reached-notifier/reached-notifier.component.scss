@@ -10,8 +10,8 @@
   padding: 1em;
 
   ::ng-deep {
-    .mdc-evolution-chip-set__chips {
-      justify-content: center;
+    .mat-mdc-chip-action {
+      width: 100%;
     }
   }
 }

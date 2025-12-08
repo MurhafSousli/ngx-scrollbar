@@ -47,7 +47,7 @@ describe('Scrollbar thumb', () => {
   it('should set "isDragging" to true and scroll accordingly when vertical scrollbar thumb is being dragged', async () => {
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 100, contentHeight: 400 });
     await firstValueFrom(outputToObservable(adapter.afterInit))
-    TestBed.flushEffects();
+    TestBed.tick();
 
     const thumbY: Element = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-thumb')).nativeElement;
     thumbY.dispatchEvent(new PointerEvent('pointerdown'));
@@ -75,7 +75,7 @@ describe('Scrollbar thumb', () => {
   it('should set "isDragging" to true and scroll accordingly when horizontal scrollbar is being dragged', async () => {
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 400, contentHeight: 100 });
     await firstValueFrom(outputToObservable(adapter.afterInit))
-    TestBed.flushEffects();
+    TestBed.tick();
 
     const thumbX: Element = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-thumb')).nativeElement;
     thumbX.dispatchEvent(new PointerEvent('pointerdown'));
@@ -105,7 +105,7 @@ describe('Scrollbar thumb', () => {
 
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 400, contentHeight: 100 });
     await firstValueFrom(outputToObservable(adapter.afterInit))
-    TestBed.flushEffects();
+    TestBed.tick();
 
     const thumbX: Element = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-thumb')).nativeElement;
     thumbX.dispatchEvent(new PointerEvent('pointerdown'));
@@ -133,7 +133,7 @@ describe('Scrollbar thumb', () => {
   it('should set the animation when polyfill script is loaded', async () => {
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 400, contentHeight: 100 });
     await firstValueFrom(outputToObservable(adapter.afterInit))
-    TestBed.flushEffects();
+    TestBed.tick();
 
     const thumbAdapter: ThumbAdapter = fixture.debugElement.query(By.css('scrollbar-x .ng-scrollbar-thumb')).injector.get(ThumbAdapter);
     expect(thumbAdapter._animation).toBeTruthy();

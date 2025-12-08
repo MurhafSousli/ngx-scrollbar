@@ -1,7 +1,9 @@
 # Changelog
 
-## 19.0.0 beta
+## 19.0.0
 
+- feat: Upgrade to Angular 21.
+- feat: Upgrade test environment from karma to vitest.
 - feat: Add `NgScrollbarAnywhere` service which provides `createScrollbar` and `createScrollbarExt` functions to attach scrollbar on any host element without having to use `ng-scrollbar` component.
 - feat: Add `NgScrollbarDocument` service which add a custom scrollbar on the document element.
 - feat: Add `matSelectScrollbar` directive that can be used to attach scrollbar on `mat-select` overlay menu.
@@ -14,8 +16,11 @@
 - feat: Add more CSS variables for further scrollbar customization.
 - refactor: Remove `standalone` from all components.
 - refactor: Move attributes and styles to viewport elements
-- refactor: Use `padding-block` and `padding-inline` properties to set up appearance option styles.
-- refactor: Use `inset-block` and `inset-inline` properties to set up scrollbar positioning styles.
+- refactor: Use `padding-block` and `padding-inline` properties to set appearance option styles.
+- refactor: Use `inset-block` and `inset-inline` properties to set scrollbar positioning styles.
+- fix: Scrolling via track long click.
+- fix: delay in `updateDimensions` triggered by `ResizeObserver`, closes [#698](https://github.com/MurhafSousli/ngx-scrollbar/issues/698) in [#699](https://github.com/MurhafSousli/ngx-scrollbar/pull/699).
+- fix: Use `inset-block-start` and `inset-inline-start` to set spacer positioning styles.
 
 ### Breaking Changes
 

@@ -17,10 +17,12 @@ import { ScrollbarButton } from '../button/scrollbar-button';
         </div>
       </scrollbar-track-y>
       @if (cmp.withButtons()) {
+        <!-- eslint-disable-next-line @angular-eslint/template/elements-content -->
         <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
                 scrollbarButton="top"
                 scrollDirection="backward"
                 [disabled]="!cmp.isVerticallyScrollable()"></button>
+        <!-- eslint-disable-next-line @angular-eslint/template/elements-content -->
         <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
                 scrollbarButton="bottom"
                 scrollDirection="forward"
@@ -77,10 +79,12 @@ export class ScrollbarY extends ScrollbarAdapter {
         </div>
       </scrollbar-track-x>
       @if (cmp.withButtons()) {
+        <!-- eslint-disable-next-line @angular-eslint/template/elements-content -->
         <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
                 scrollbarButton="start"
                 scrollDirection="backward"
                 [disabled]="!cmp.isHorizontallyScrollable()"></button>
+        <!-- eslint-disable-next-line @angular-eslint/template/elements-content -->
         <button class="ng-scrollbar-button {{ cmp.buttonClass() }}"
                 scrollbarButton="end"
                 scrollDirection="forward"

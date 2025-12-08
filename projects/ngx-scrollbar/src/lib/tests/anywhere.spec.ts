@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ApplicationRef, Component, ElementRef, inject, Signal, viewChild } from '@angular/core';
+import { vi } from 'vitest';
 import { NgScrollbarAnywhere, NgScrollbar, NgScrollbarExt, NgScrollbarRef } from 'ngx-scrollbar';
 
 @Component({
@@ -78,7 +79,7 @@ describe('ScrollbarAnywhere', () => {
   });
 
   it('should return null and log error when an invalid host selector is used', () => {
-    spyOn(console, 'error');
+    vi.spyOn(console, 'error');
 
     component.createScrollbar('#non-existent');
 
@@ -93,15 +94,15 @@ describe('ScrollbarAnywhere', () => {
 
     expect(component.scrollbarRef).toBeTruthy();
 
-    spyOn(component.scrollbarRef, 'destroy').and.callThrough();
-    spyOn(component.scrollbarRef.componentRef, 'destroy').and.callThrough();
-    spyOn(appRef, 'detachView').and.callThrough();
+    const destroyScrollbarRefSpy = vi.spyOn(component.scrollbarRef, 'destroy');
+    const destroyComponentRefSpy = vi.spyOn(component.scrollbarRef.componentRef, 'destroy');
+    const detachSpy = vi.spyOn(appRef, 'detachView');
 
     component.destroyScrollbar();
 
-    expect(appRef.detachView).toHaveBeenCalledWith(component.scrollbarRef.componentRef.hostView);
-    expect(component.scrollbarRef.componentRef.destroy).toHaveBeenCalled();
-    expect(component.scrollbarRef.destroy).toHaveBeenCalled();
+    expect(detachSpy).toHaveBeenCalledWith(component.scrollbarRef.componentRef.hostView);
+    expect(destroyScrollbarRefSpy).toHaveBeenCalled();
+    expect(destroyComponentRefSpy).toHaveBeenCalled();
   });
 
   it('should create an extended scrollbar component', () => {
@@ -113,7 +114,7 @@ describe('ScrollbarAnywhere', () => {
   });
 
   it('should return null and log error for an invalid extended scrollbar host', () => {
-    spyOn(console, 'error');
+    vi.spyOn(console, 'error');
 
     component.createScrollbarExt('#non-existent', '#viewport');
 
@@ -128,14 +129,14 @@ describe('ScrollbarAnywhere', () => {
 
     expect(component.scrollbarRef).toBeTruthy();
 
-    spyOn(component.scrollbarRef, 'destroy').and.callThrough();
-    spyOn(component.scrollbarRef.componentRef, 'destroy').and.callThrough();
-    spyOn(appRef, 'detachView').and.callThrough();
+    const destroyScrollbarRefSpy = vi.spyOn(component.scrollbarRef, 'destroy');
+    const destroyComponentRefSpy = vi.spyOn(component.scrollbarRef.componentRef, 'destroy');
+    const detachSpy = vi.spyOn(appRef, 'detachView');
 
     component.scrollbarRef.destroy();
 
-    expect(appRef.detachView).toHaveBeenCalledWith(component.scrollbarRef.componentRef.hostView);
-    expect(component.scrollbarRef.componentRef.destroy).toHaveBeenCalled();
-    expect(component.scrollbarRef.destroy).toHaveBeenCalled();
+    expect(detachSpy).toHaveBeenCalledWith(component.scrollbarRef.componentRef.hostView);
+    expect(destroyScrollbarRefSpy).toHaveBeenCalled();
+    expect(destroyComponentRefSpy).toHaveBeenCalled();
   });
 });

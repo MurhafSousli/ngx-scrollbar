@@ -1,6 +1,8 @@
-This plugin leverages the new Scroll Timeline feature in CSS to enhance scrollbar performance, surpassing traditional JavaScript implementations. Currently, the Scroll Timeline feature is available in Chrome but not yet in Firefox and Safari ([See compatibility here](https://caniuse.com/mdn-css_properties_animation-timeline_scroll)). Therefore, a polyfill is necessary for cross-browser compatibility.
+This plugin leverages the new Scroll Timeline feature in CSS to enhance scrollbar performance, surpassing traditional JavaScript implementations. Currently, the Scroll Timeline feature is available in all browsers except for Firefox ([See compatibility here](https://caniuse.com/mdn-css_properties_animation-timeline_scroll)). Therefore, a polyfill is necessary for cross-browser compatibility.
 
-By default, the polyfill script is sourced directly from the [flackr/scroll-timeline](https://github.com/flackr/scroll-timeline) repo on Github. Unfortunately, the polyfill is not available on NPM.
+By default, the [polyfill script](https://github.com/flackr/scroll-timeline) is sourced directly from a CDN link. Unfortunately, the polyfill is not available on NPM.
+
+**Recommendation:** Host the polyfill locally to prevent dependency issues if a third-party CDN becomes unavailable.
 
 #### Customizing the Polyfill Path
 

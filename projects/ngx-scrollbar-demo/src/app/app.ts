@@ -21,8 +21,8 @@ import { LogoComponent } from './shared/logo/logo.component';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  templateUrl: './app.html',
+  styleUrl: './app.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterModule,
@@ -37,7 +37,7 @@ import { LogoComponent } from './shared/logo/logo.component';
     LogoComponent
   ]
 })
-export class AppComponent implements OnInit {
+export class App implements OnInit {
 
   private breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
 

@@ -26,8 +26,8 @@
   --color-accent-hover: #ab8a75;
   --surface-container: #241e1b;
 
-  --color-highlight: #93000a;
-  --color-highlight-dropped: #8f0045;
+  --color-highlight: #00938e;
+  --color-highlight-dropped: #008f58;
 
   --card-viewport-border-radius: 5px;
 
@@ -68,13 +68,14 @@
     background-color: var(--surface-container-high)
   ));
 
-
   @include scrollbar.ng-scrollbar-overrides((
     track-color: rgb(0 0 0 / 30%),
+    thumb-color: rgb(255 255 255 / 40%),
     track-thickness: 18px,
     track-hover-thickness: 24px,
+    track-shape: 7px,
     thumb-min-size: 20px,
-    track-offset: 5px,
+    track-offset: 5px
   ));
 }
 
@@ -202,15 +203,8 @@ a {
 }
 
 .p-select-overlay {
-  --scrollbar-track-color: var(--surface-container-low);
-  --scrollbar-thumb-color: var(--color-primary);
-  --scrollbar-track-thickness: 10px;
-  --scrollbar-track-hover-thickness: 10px;
-  --scrollbar-container-offset: 6px;
-  --scrollbar-container-shape: 7px;
 
   overflow: hidden;
-
 
   @include scrollbar.ng-scrollbar-overrides((
     track-color: var(--surface-container-low),
@@ -220,5 +214,7 @@ a {
     track-thickness: 8px,
     track-hover-thickness: 8px,
     container-offset: 6px,
+    track-shape: 7px,
+    track-offset: 0px,
   ));
 }

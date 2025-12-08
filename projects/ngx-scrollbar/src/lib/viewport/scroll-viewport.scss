@@ -12,7 +12,7 @@
 
 :host {
   // Scrollbar thickness
-  --_scrollbar-track-thickness-px: var(--scrollbar-track-thickness, 18px);
+  --_scrollbar-track-thickness-px: var(--scrollbar-track-thickness, 7px);
 
   // Space between scrollbar track and its surrounding (fallback value must be 0px and not 0)
   --_scrollbar-container-offset-px: var(--scrollbar-container-offset, 0px);

@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Component, DebugElement, input, InputSignal } from '@angular/core';
+import { Component, DebugElement, input, InputSignal, signal } from '@angular/core';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 import { NgScrollbarExt, NgScrollbarModule, ViewportAdapter } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
+import { afterTimeout } from './common-test.';
 
 @Component({
   selector: 'sample-lib',
@@ -35,9 +36,9 @@ class SampleLibComponent {
                   [externalContentWrapper]="externalContentWrapper"
                   [externalSpacer]="externalSpacer"
                   [asyncViewport]="asyncDetection">
-      <sample-lib [show]="showViewport"
-                  [showContentWrapper]="showContentWrapper"
-                  [showSpacer]="showSpacer"/>
+      <sample-lib [show]="showViewport()"
+                  [showContentWrapper]="showContentWrapper()"
+                  [showSpacer]="showSpacer()"/>
     </ng-scrollbar>
   `
 })
@@ -47,9 +48,9 @@ class TestComponent {
   externalSpacer: string;
   asyncDetection: '' | 'auto';
 
-  showViewport: boolean = false;
-  showContentWrapper: boolean = true;
-  showSpacer: boolean = true;
+  showViewport = signal(false);
+  showContentWrapper = signal(true);
+  showSpacer = signal(true);
 }
 
 describe('<ng-scrollbar externalViewport asyncViewport>', () => {
@@ -68,13 +69,10 @@ describe('<ng-scrollbar externalViewport asyncViewport>', () => {
 
   it('[externalViewport]', async () => {
     component.externalViewport = '.my-custom-viewport';
-    fixture.detectChanges();
 
-    expect(scrollbarCmp.skipInit).toBeTrue();
+    expect(scrollbarCmp.skipInit).toBe(true);
     expect(scrollbarCmp.viewportRef).toBeUndefined();
-    component.showViewport = true;
-    fixture.detectChanges();
-    await fixture.whenStable();
+    component.showViewport.set(true);
     await firstValueFrom(outputToObservable(adapter.afterInit));
     expect(scrollbarCmp.viewportRef).toBeDefined();
   });
@@ -82,13 +80,10 @@ describe('<ng-scrollbar externalViewport asyncViewport>', () => {
   it('[externalViewport] [externalContentWrapper]', async () => {
     component.externalViewport = '.my-custom-viewport';
     component.externalContentWrapper = '.my-custom-content-wrapper';
-    fixture.detectChanges();
 
-    expect(scrollbarCmp.skipInit).toBeTrue();
+    expect(scrollbarCmp.skipInit).toBe(true);
     expect(scrollbarCmp.viewportRef).toBeUndefined();
-    component.showViewport = true;
-    fixture.detectChanges();
-    await fixture.whenStable();
+    component.showViewport.set(true);
     await firstValueFrom(outputToObservable(adapter.afterInit));
     expect(scrollbarCmp.viewportRef).toBeDefined();
   });
@@ -97,13 +92,10 @@ describe('<ng-scrollbar externalViewport asyncViewport>', () => {
     component.externalViewport = '.my-custom-viewport';
     component.externalContentWrapper = '.my-custom-content-wrapper';
     component.externalSpacer = '.my-custom-spacer';
-    fixture.detectChanges();
 
-    expect(scrollbarCmp.skipInit).toBeTrue();
+    expect(scrollbarCmp.skipInit).toBe(true);
     expect(scrollbarCmp.viewportRef).toBeUndefined();
-    component.showViewport = true;
-    fixture.detectChanges();
-    await fixture.whenStable();
+    component.showViewport.set(true);
     await firstValueFrom(outputToObservable(adapter.afterInit));
     expect(scrollbarCmp.viewportRef).toBeDefined();
   });
@@ -113,20 +105,16 @@ describe('<ng-scrollbar externalViewport asyncViewport>', () => {
     component.externalContentWrapper = '.my-custom-content-wrapper';
     component.externalSpacer = '.my-custom-spacer';
     component.asyncDetection = 'auto';
-    fixture.detectChanges();
 
-    expect(scrollbarCmp.skipInit).toBeTrue();
+    expect(scrollbarCmp.skipInit).toBe(true);
     expect(scrollbarCmp.viewportRef).toBeUndefined();
-    component.showViewport = true;
-    fixture.detectChanges();
-    await fixture.whenStable();
+    component.showViewport.set(true);
     await firstValueFrom(outputToObservable(adapter.afterInit));
     expect(scrollbarCmp.viewportRef).toBeDefined();
 
     // Mock library removes the content (such as dropdown)
-    component.showViewport = false;
-    fixture.detectChanges();
-    await fixture.whenStable();
+    component.showViewport.set(false);
+    await afterTimeout(100);
     expect(scrollbarCmp.viewportRef).toBeNull();
   });
 
@@ -135,20 +123,16 @@ describe('<ng-scrollbar externalViewport asyncViewport>', () => {
     component.externalContentWrapper = '.my-custom-content-wrapper';
     component.externalSpacer = '.my-custom-spacer';
     component.asyncDetection = 'auto';
-    fixture.detectChanges();
 
-    expect(scrollbarCmp.skipInit).toBeTrue();
+    expect(scrollbarCmp.skipInit).toBe(true);
     expect(scrollbarCmp.viewportRef).toBeUndefined();
-    component.showViewport = true;
-    fixture.detectChanges();
-    await fixture.whenStable();
+    component.showViewport.set(true);
     await firstValueFrom(outputToObservable(adapter.afterInit));
     expect(scrollbarCmp.viewportRef).toBeDefined();
 
     // Mock library removes the content (such as dropdown)
-    component.showContentWrapper = false;
-    fixture.detectChanges();
-    await fixture.whenStable();
+    component.showContentWrapper.set(false);
+    await afterTimeout(100);
     expect(scrollbarCmp.viewportRef).toBeNull();
   });
 
@@ -157,20 +141,16 @@ describe('<ng-scrollbar externalViewport asyncViewport>', () => {
     component.externalContentWrapper = '.my-custom-content-wrapper';
     component.externalSpacer = '.my-custom-spacer';
     component.asyncDetection = 'auto';
-    fixture.detectChanges();
 
-    expect(scrollbarCmp.skipInit).toBeTrue();
+    expect(scrollbarCmp.skipInit).toBe(true);
     expect(scrollbarCmp.viewportRef).toBeUndefined();
-    component.showViewport = true;
-    fixture.detectChanges();
-    await fixture.whenStable();
+    component.showViewport.set(true);
     await firstValueFrom(outputToObservable(adapter.afterInit));
     expect(scrollbarCmp.viewportRef).toBeDefined();
 
     // Mock library removes the content (such as dropdown)
-    component.showSpacer = false;
-    fixture.detectChanges();
-    await fixture.whenStable();
+    component.showSpacer.set(false);
+    await afterTimeout(100);
     expect(scrollbarCmp.viewportRef).toBeNull();
   });
 });

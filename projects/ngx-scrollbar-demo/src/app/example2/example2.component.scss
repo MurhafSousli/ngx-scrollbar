@@ -4,8 +4,9 @@
   @include scrollbar.ng-scrollbar-overrides((
     track-shape: 7px,
     track-thickness: 7px,
-    //track-hover-thickness: 7px,
+    track-hover-thickness: 7px,
     container-offset: 18px,
+    track-offset: 0px,
     track-color: rgb(0 0 0 / 10%),
     thumb-color: rgb(0 0 0 / 20%),
     thumb-hover-color: rgb(0 0 0 / 30%)

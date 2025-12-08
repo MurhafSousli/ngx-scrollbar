@@ -1,15 +1,12 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "./dist/out-tsc",
-    "forceConsistentCasingInFileNames": true,
     "strict": false,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true,
     "paths": {
       "ngx-scrollbar": [
         "./projects/ngx-scrollbar/src/public-api"
@@ -27,20 +24,33 @@
         "./projects/ngx-scrollbar/mat/src/public_api"
       ]
     },
-    "esModuleInterop": true,
-    "sourceMap": true,
-    "declaration": false,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
     "experimentalDecorators": true,
-    "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "ES2022",
-    "useDefineForClassFields": false
+    "module": "preserve"
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./projects/ngx-scrollbar-demo/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/ngx-scrollbar-demo/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/ngx-scrollbar/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ngx-scrollbar/tsconfig.spec.json"
+    }
+  ]
 }
