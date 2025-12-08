@@ -1,4 +1,6 @@
 :host {
+  // Since we are adding padding for standard appearance - the padding shouldn't add to the content wrapper size
+  box-sizing: border-box;
   // Set the width of the content wrapper depending on the orientation:
   // - For auto or horizontal orientation, adjust the width to fit the content to allow the horizontal scrollbar to appear if necessary.
   // - For vertical orientation, the width should not be constrained by the content to enable resizing with the window.

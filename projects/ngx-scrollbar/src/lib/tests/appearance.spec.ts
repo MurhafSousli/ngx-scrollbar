@@ -16,8 +16,8 @@ describe('Appearance [native / compact] styles', () => {
     change: new BehaviorSubject<string>('ltr'),
   };
 
-  beforeEach( () => {
-     TestBed.configureTestingModule({
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       providers: [
         { provide: Directionality, useValue: directionalityMock }
       ]
@@ -54,7 +54,8 @@ describe('Appearance [native / compact] styles', () => {
   it('should have "padding-right" and "padding-bottom" when its scrollable in both directions', async () => {
     setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 500, contentWidth: 500 });
     fixture.componentRef.setInput('appearance', 'native');
-    await firstValueFrom(outputToObservable(adapter.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit));
+    fixture.detectChanges();
 
     const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
     expect(styles.paddingRight).toBe(scrollbarSize);
@@ -66,7 +67,8 @@ describe('Appearance [native / compact] styles', () => {
   it('should have "padding-right" when its vertically scrollable', async () => {
     setDimensions(component, { cmpHeight: 300, contentHeight: 1000 });
     fixture.componentRef.setInput('appearance', 'native');
-    await firstValueFrom(outputToObservable(adapter.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit));
+    fixture.detectChanges();
 
     const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
     expect(styles.paddingRight).toBe(scrollbarSize);
@@ -78,7 +80,8 @@ describe('Appearance [native / compact] styles', () => {
   it('should have "padding-bottom" when its horizontally scrollable', async () => {
     setDimensions(component, { cmpHeight: 100, contentHeight: 100, cmpWidth: 300, contentWidth: 1000 });
     fixture.componentRef.setInput('appearance', 'native');
-    await firstValueFrom(outputToObservable(adapter.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit));
+    fixture.detectChanges();
 
     const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
     expect(styles.paddingBottom).toBe(scrollbarSize);
@@ -91,7 +94,8 @@ describe('Appearance [native / compact] styles', () => {
     setDimensions(component, { cmpHeight: 100, contentHeight: 100, cmpWidth: 300, contentWidth: 1000 });
     fixture.componentRef.setInput('position', 'invertX');
     fixture.componentRef.setInput('appearance', 'native');
-    await firstValueFrom(outputToObservable(adapter.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit));
+    fixture.detectChanges();
 
     const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
     expect(styles.paddingTop).toBe(scrollbarSize);
@@ -104,7 +108,8 @@ describe('Appearance [native / compact] styles', () => {
     setDimensions(component, { cmpHeight: 300, contentHeight: 1000 });
     fixture.componentRef.setInput('position', 'invertY');
     fixture.componentRef.setInput('appearance', 'native');
-    await firstValueFrom(outputToObservable(adapter.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit));
+    fixture.detectChanges();
 
     const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
     expect(styles.paddingLeft).toBe(scrollbarSize);
@@ -117,7 +122,8 @@ describe('Appearance [native / compact] styles', () => {
     setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 400, contentWidth: 400 });
     fixture.componentRef.setInput('position', 'invertAll');
     fixture.componentRef.setInput('appearance', 'native');
-    await firstValueFrom(outputToObservable(adapter.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit));
+    fixture.detectChanges();
 
     const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
     expect(styles.paddingTop).toBe(scrollbarSize);
@@ -131,7 +137,8 @@ describe('Appearance [native / compact] styles', () => {
     directionalityMock.value = 'rtl';
     directionalityMock.change.next('rtl');
     fixture.componentRef.setInput('appearance', 'native');
-    await firstValueFrom(outputToObservable(adapter.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit));
+    fixture.detectChanges();
 
     const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
     expect(styles.paddingLeft).toBe(scrollbarSize);
@@ -146,7 +153,8 @@ describe('Appearance [native / compact] styles', () => {
     directionalityMock.change.next('rtl');
     fixture.componentRef.setInput('appearance', 'native');
     fixture.componentRef.setInput('position', 'invertY');
-    await firstValueFrom(outputToObservable(adapter.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit));
+    fixture.detectChanges();
 
     const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
     expect(styles.paddingRight).toBe(scrollbarSize);
@@ -161,7 +169,8 @@ describe('Appearance [native / compact] styles', () => {
     directionalityMock.change.next('rtl');
     fixture.componentRef.setInput('appearance', 'native');
     fixture.componentRef.setInput('position', 'invertAll');
-    await firstValueFrom(outputToObservable(adapter.afterInit))
+    await firstValueFrom(outputToObservable(adapter.afterInit));
+    fixture.detectChanges();
 
     const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
     expect(styles.paddingRight).toBe(scrollbarSize);

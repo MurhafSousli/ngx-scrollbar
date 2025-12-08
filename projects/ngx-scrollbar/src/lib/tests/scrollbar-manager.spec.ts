@@ -17,6 +17,10 @@ describe('ScrollbarManager Service', () => {
     scrollbarManager = TestBed.inject(ScrollbarManager);
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('should be created and initPolyfill', () => {
     expect(scrollbarManager).toBeDefined();
   });
@@ -24,12 +28,8 @@ describe('ScrollbarManager Service', () => {
   it('should load polyfill script and set scrollTimelinePolyfill', async () => {
     // In Chrome, it will not be possible to test if the polyfill sets window.ScrollTimeline
     // Therefore, we will only test the script functionality
-    const scriptMock: jasmine.SpyObj<HTMLScriptElement> = scrollbarManager.document.createElement('script') as jasmine.SpyObj<HTMLScriptElement>;
-    spyOn(scrollbarManager.document, 'createElement').and.returnValue(scriptMock);
-
-    const scrollTimelineFunction: jasmine.Spy = jasmine.createSpy('scrollTimelineFunction');
-    // @ts-expect-error return the Window type after assigning ScrollTimeline to make lint happy
-    spyOnProperty(scrollbarManager.document, 'defaultView').and.returnValue({ ScrollTimeline: scrollTimelineFunction } as Window);
+    const scriptMock: HTMLScriptElement = scrollbarManager.document.createElement('script');
+    vi.spyOn(scrollbarManager.document, 'createElement').mockReturnValue(scriptMock);
 
     await scrollbarManager.initPolyfill();
 
@@ -39,20 +39,20 @@ describe('ScrollbarManager Service', () => {
     expect(scrollbarManager.scrollTimelinePolyfill()).toBe(scrollbarManager.window['ScrollTimeline']);
   });
 
-
   it('should log an error if an error occurs while loading the ScrollTimeline script', async () => {
-    const consoleErrorSpy: jasmine.Spy = spyOn(console, 'error').and.callThrough(); // Use "and.callThrough()" to allow the actual console.error to be called
+    const consoleErrorSpy = vi.spyOn(console, 'error'); // Use "and.callThrough()" to allow the actual console.error to be called
     const errorMessage: string = 'mock_error_message';
-    spyOn(document, 'createElement').and.throwError(new Error(errorMessage)); // Throw an Error object
+    vi.spyOn(document, 'createElement').mockImplementation(() => {
+      throw new Error(errorMessage);
+    });
 
     await scrollbarManager.initPolyfill();
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith('[NgScrollbar]: Error loading ScrollTimeline script:', jasmine.any(Error)); // Adjust expectation to match the Error object
+    expect(consoleErrorSpy).toHaveBeenCalledWith('[NgScrollbar]: Error loading ScrollTimeline script:', expect.any(Error)); // Adjust expectation to match the Error object
   });
 });
 
 describe('Override ScrollTimeline polyfill', () => {
-
   let scrollbarManager: ScrollbarManager;
   const inlineCode: string = `console.log('Fake script');`;
 
@@ -71,7 +71,7 @@ describe('Override ScrollTimeline polyfill', () => {
     // In chrome ScrollTimeline is supported, we need to remove it
     delete window['ScrollTimeline'];
 
-    const consoleErrorSpy: jasmine.Spy = spyOn(console, 'error');
+    const consoleErrorSpy = vi.spyOn(console, 'error');
 
     await scrollbarManager.initPolyfill();
 
@@ -85,33 +85,41 @@ describe('Override ScrollTimeline polyfill', () => {
 
 
 describe('ScrollbarManager: call initPolyfill in constructor based on browser', () => {
-  let initPolyfillSpy: jasmine.Spy;
+  let originalScrollTimeline;
+  let initPolyfillSpy;
 
   beforeEach(() => {
-    initPolyfillSpy = spyOn(ScrollbarManager.prototype, 'initPolyfill');
+    originalScrollTimeline = window['ScrollTimeline'];
+    initPolyfillSpy = vi.spyOn(ScrollbarManager.prototype, 'initPolyfill');
   });
 
-  it('should call initPolyfill if conditions are met (Firefox/Safari)', () => {
-    // Mock Firefox/Safari environment
-    const scrollTimelineBackup = window['ScrollTimeline'];
-    // In chrome ScrollTimeline is supported, we need to remove it
+  afterEach(() => {
+    if (originalScrollTimeline === undefined) {
+      delete window['ScrollTimeline'];
+    } else {
+      window['ScrollTimeline'] = originalScrollTimeline;
+    }
+    vi.restoreAllMocks();
+  });
+
+  it('should call initPolyfill if browser cannot use scrollTimeline (Firefox)', () => {
+    // In Firefox ScrollTimeline isn't supported, we need to remove it
     delete window['ScrollTimeline'];
 
     TestBed.runInInjectionContext(() => {
       new ScrollbarManager();
-      expect(initPolyfillSpy).toHaveBeenCalled();
     });
 
-    // Restore the ScrollTimeline function
-    window['ScrollTimeline'] = scrollTimelineBackup;
+    expect(initPolyfillSpy).toHaveBeenCalled();
   });
 
 
-  it('should call initPolyfill if conditions are not met (Chrome)', () => {
+  it('should not call initPolyfill if browser can use scrollTimeline', () => {
     // Mock Chrome environment
     TestBed.runInInjectionContext(() => {
       new ScrollbarManager();
-      expect(initPolyfillSpy).not.toHaveBeenCalled();
     });
+
+    expect(initPolyfillSpy).not.toHaveBeenCalled();
   });
 });

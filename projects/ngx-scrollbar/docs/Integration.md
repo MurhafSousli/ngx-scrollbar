@@ -79,7 +79,7 @@ To add the scrollbar component, import `NgScrollbar` and `NgScrollbarMatDialog`,
 
 ```html
 <ng-scrollbar externalViewport="datatable-body"
-              externalContentWrapper="datatable-selection">
+              externalContentWrapper="datatable-scroller">
   <ngx-datatable class="material"
                  style="height: 400px"
                  [rows]="rows"

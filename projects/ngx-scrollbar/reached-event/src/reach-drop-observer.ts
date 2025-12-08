@@ -40,11 +40,11 @@ export class ReachDropObserver implements OnDestroy {
   /** The intersection observer reference */
   private intersectionObserver: IntersectionObserver;
 
-  events: Subject<string> = new Subject();
+  events: Subject<string> = new Subject<string>();
 
   selectedEvents: ReachedEvent[];
 
-  triggerElements: Signal<ReadonlyArray<ElementRef>> = viewChildren<ElementRef>('detectElement');
+  triggerElements: Signal<readonly ElementRef[]> = viewChildren<ElementRef>('detectElement');
 
   constructor() {
     afterNextRender({

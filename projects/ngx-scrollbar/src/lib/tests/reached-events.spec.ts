@@ -2,8 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Component } from '@angular/core';
 import { BidiModule } from '@angular/cdk/bidi';
+import { vi } from 'vitest';
 import { NgScrollbar, NgScrollbarModule, ViewportAdapter } from 'ngx-scrollbar';
 import { NgScrollReachDrop } from 'ngx-scrollbar/reached-event';
+import { afterTimeout } from './common-test.';
 
 @Component({
   template: `
@@ -40,19 +42,22 @@ describe('Reached Events Directives', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
   let adapter: ViewportAdapter;
-  let onScrollReachedSpy: jasmine.Spy;
+  let onScrollReachedSpy;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
     adapter = fixture.debugElement.query(By.directive(NgScrollbar)).injector.get(ViewportAdapter);
-    fixture.detectChanges();
-    onScrollReachedSpy = spyOn(component, 'onScrollReached');
+    fixture.autoDetectChanges();
+    onScrollReachedSpy = vi.spyOn(component, 'onScrollReached');
+
+    // After upgrading to vitest - this is needed for some tests
+    // await fixture.whenRenderingDone();
   });
 
   it('[ReachedOffset]: should emit (reachedTop) (reachedBottom) (reachedStart) (reachedEnd)', async () => {
-    fixture.detectChanges();
     const scrollTo: number = 0;
+    await afterTimeout(20);
 
     await adapter.scrollTo({ top: scrollTo, duration: 0 });
     await adapter.scrollTo({ bottom: scrollTo, duration: 50 });
@@ -67,8 +72,8 @@ describe('Reached Events Directives', () => {
 
   it('[ReachedTopEvent]: should emit (reachedTop)', async () => {
     component.topOffset = 10;
-    fixture.detectChanges();
     const scrollTo: number = component.topOffset - 1;
+    await afterTimeout(20);
 
     await adapter.scrollTo({ bottom: 0, duration: 0 });
     await adapter.scrollTo({ top: scrollTo, duration: 50 });
@@ -77,8 +82,8 @@ describe('Reached Events Directives', () => {
 
   it('[ReachedBottomEvent]: should emit (reachedBottom)', async () => {
     component.bottomOffset = 10;
-    fixture.detectChanges();
     const scrollTo: number = component.bottomOffset - 1;
+    await afterTimeout(20);
 
     await adapter.scrollTo({ top: 0, duration: 0 });
     await adapter.scrollTo({ bottom: scrollTo, duration: 50 });
@@ -87,7 +92,6 @@ describe('Reached Events Directives', () => {
 
   it('[ReachedStartEvent]: should emit (reachedStart)', async () => {
     component.startOffset = 10;
-    fixture.detectChanges();
     const scrollTo: number = component.startOffset - 1;
 
     await adapter.scrollTo({ end: 0, duration: 0 });
@@ -97,8 +101,8 @@ describe('Reached Events Directives', () => {
 
   it('[ReachedEndEvent]: should emit (reachedEnd)', async () => {
     component.endOffset = 10;
-    fixture.detectChanges();
     const scrollTo: number = component.endOffset - 1;
+    await afterTimeout(20);
 
     await adapter.scrollTo({ start: 0, duration: 0 });
     await adapter.scrollTo({ end: scrollTo, duration: 50 });
@@ -108,8 +112,8 @@ describe('Reached Events Directives', () => {
   it('[ReachedStartEvent]: should emit (reachedStart) in RTL mode', async () => {
     component.startOffset = 10;
     component.isRtl = true;
-    fixture.detectChanges();
     const scrollTo: number = component.startOffset - 1;
+    await afterTimeout(20);
 
     await adapter.scrollTo({ end: 0, duration: 0 });
     await adapter.scrollTo({ start: scrollTo, duration: 50 });
@@ -119,7 +123,7 @@ describe('Reached Events Directives', () => {
   it('[ReachedEndEvent]: should emit (reachedEnd) in RTL mode', async () => {
     component.endOffset = 10;
     component.isRtl = true;
-    fixture.detectChanges();
+    await afterTimeout(20);
 
     await adapter.scrollTo({ start: 0, duration: 0 });
     await adapter.scrollTo({ end: 10, duration: 50 });
@@ -129,7 +133,7 @@ describe('Reached Events Directives', () => {
 
   it('[disableReached]: should not emit when scroll is reached destination', async () => {
     component.disableReached = true;
-    fixture.detectChanges();
+
     await adapter.scrollTo({ top: 0, duration: 0 });
     await adapter.scrollTo({ bottom: 0, duration: 50 });
     expect(onScrollReachedSpy).not.toHaveBeenCalledWith('bottom');

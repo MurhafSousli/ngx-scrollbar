@@ -11,11 +11,7 @@ ng-scrollbar {
   height: 100%;
 
   @include scrollbar.ng-scrollbar-overrides((
-    track-thickness: 12px,
-    track-hover-thickness: 12px,
     track-color: rgb(255 255 255 / 10%),
-    thumb-color: var(--color-primary),
-    thumb-min-size: 20px,
     track-shape: 0px
   ));
 }

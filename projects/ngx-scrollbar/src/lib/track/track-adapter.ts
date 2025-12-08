@@ -2,21 +2,21 @@ import { Directive } from '@angular/core';
 import {
   Observable,
   tap,
-  map,
-  merge,
   delay,
+  filter,
   fromEvent,
   startWith,
   switchMap,
   takeUntil,
-  takeWhile,
-  EMPTY
+  takeWhile
 } from 'rxjs';
 import { enableSelection, preventSelection, stopPropagation } from '../utils/common';
 import { PointerEventsAdapter } from '../utils/pointer-events-adapter';
 
 @Directive()
 export abstract class TrackAdapter extends PointerEventsAdapter {
+
+  private pointerOut$: Observable<PointerEvent> = fromEvent<PointerEvent>(this.nativeElement, 'pointerout', { passive: true });
 
   // The current position of the mouse during track dragging
   private currMousePosition: number;
@@ -39,15 +39,6 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
   protected get clientRect(): DOMRect {
     return this.nativeElement.getBoundingClientRect();
   }
-
-  // Returns the scroll position relative to the track
-  protected abstract getCurrPosition(): number;
-
-  // Returns the dragging direction forward or backward
-  protected abstract getScrollDirection(position: number): 'forward' | 'backward';
-
-  // Function that scrolls to the given position
-  protected abstract scrollTo(position: number): Observable<void>;
 
   // Scrollbar track offset
   get offset(): number {
@@ -72,20 +63,15 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
       enableSelection(this.document)
     );
 
-    const pointerEnter$: Observable<boolean> = fromEvent<PointerEvent>(this.nativeElement, 'pointerover', { passive: true }).pipe(
+    const pointerOver$: Observable<PointerEvent> = fromEvent<PointerEvent>(this.nativeElement, 'pointerover', { passive: true }).pipe(
       // When the mouse is out and enters again, must set the current position first
-      tap((e: PointerEvent) => this.currMousePosition = e[this.control.offsetProperty]),
-      map(() => true)
+      tap((e: PointerEvent) => this.currMousePosition = this.getPointerPosition(e)),
+      startWith({} as PointerEvent),
     );
-    const pointerLeave$: Observable<boolean> = fromEvent<PointerEvent>(this.nativeElement, 'pointerout', { passive: true }).pipe(
-      map(() => false)
-    );
-
-    const pointerOver$: Observable<boolean> = merge(pointerEnter$, pointerLeave$).pipe(startWith(true));
 
     // Keep track of the current mouse location while dragging
     const pointerMove$: Observable<PointerEvent> = fromEvent<PointerEvent>(this.nativeElement, 'pointermove', { passive: true }).pipe(
-      tap((e: PointerEvent) => this.currMousePosition = e[this.control.offsetProperty])
+      tap((e: PointerEvent) => this.currMousePosition = this.getPointerPosition(e))
     );
 
     return pointerDown$.pipe(
@@ -98,12 +84,8 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
           switchMap(() => {
             // Otherwise, activate pointermove and pointerout events and switch to ongoing scroll calls
             return pointerOver$.pipe(
-              switchMap((over: boolean) => {
-                const currDirection: 'forward' | 'backward' = this.getScrollDirection(this.currMousePosition);
-                const sameDirection: boolean = this.scrollDirection === currDirection;
-                // If mouse is out the track pause the scroll calls, otherwise keep going
-                return (over && sameDirection) ? this.onTrackOngoingMousedown() : EMPTY;
-              }),
+              filter(() => this.scrollDirection === this.getScrollDirection(this.currMousePosition)),
+              switchMap(() => this.onTrackOngoingMousedown())
             ) as Observable<PointerEvent>;
           }),
           takeUntil(pointerUp$),
@@ -116,16 +98,30 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
     super();
   }
 
+  // Returns the dragging direction forward or backward
+  abstract getScrollDirection(position: number): 'forward' | 'backward';
+
+  // Function that scrolls to the given position
+  protected abstract scrollTo(position: number): Observable<void>;
+
   protected abstract getScrollForwardStep(): number;
 
   protected abstract getScrollBackwardStep(): number;
+
+  protected abstract getThumbStartPosition(): number;
+
+  protected abstract getThumbEndPosition(): number;
+
+  private getPointerPosition(e: PointerEvent): number {
+    return e[this.control.clientProperty] - this.offset;
+  }
 
   /**
    *  Callback when mouse is first clicked on the track
    */
   onTrackFirstClick(e: PointerEvent): Observable<void> {
     // Initialize variables and determine scroll direction
-    this.currMousePosition = e[this.control.offsetProperty];
+    this.currMousePosition = this.getPointerPosition(e);
     this.scrollDirection = this.getScrollDirection(this.currMousePosition);
     this.scrollMax = this.control.viewportScrollMax;
     return this.scrollTo(this.nextStep());
@@ -159,6 +155,9 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
   onTrackOngoingMousedown(): Observable<unknown> {
     const position: number = this.nextStep();
     return this.scrollTo(position).pipe(
+      // If mouse left the track, terminate the stream
+      takeUntil(this.pointerOut$),
+      // Keep scrolling until target position is reached
       takeWhile(() => !this.isReached(position)),
       switchMap(() => this.onTrackOngoingMousedown())
     );

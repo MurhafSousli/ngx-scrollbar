@@ -43,6 +43,6 @@
 .track-inner {
   inset-inline-start: 0;
   inset-inline-end: 0;
-  inset-block-start: var(--scrollbar-track-offset, 4px);
-  inset-block-end: var(--scrollbar-track-offset, 4px);
+  inset-block-start: var(--scrollbar-track-offset, 0px);
+  inset-block-end: var(--scrollbar-track-offset, 0px);
 }

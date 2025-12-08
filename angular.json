@@ -1,6 +1,9 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
+  "cli": {
+    "packageManager": "npm"
+  },
   "newProjectRoot": "projects",
   "projects": {
     "ngx-scrollbar-demo": {
@@ -17,11 +20,6 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "allowedCommonJsDependencies": [
-              "chance"
-            ],
-            "outputPath": "dist/ngx-scrollbar-demo",
-            "index": "projects/ngx-scrollbar-demo/src/index.html",
             "browser": "projects/ngx-scrollbar-demo/src/main.ts",
             "tsConfig": "projects/ngx-scrollbar-demo/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -41,9 +39,8 @@
                 "projects"
               ]
             },
-            "scripts": [],
             "server": "projects/ngx-scrollbar-demo/src/main.server.ts",
-            "prerender": true,
+            "outputMode": "server",
             "ssr": {
               "entry": "projects/ngx-scrollbar-demo/src/server.ts"
             }
@@ -53,13 +50,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "3mb"
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "15kb",
-                  "maximumError": "15kb"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -84,28 +81,8 @@
           },
           "defaultConfiguration": "development"
         },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n",
-          "options": {
-            "buildTarget": "ngx-scrollbar-demo:build"
-          }
-        },
         "test": {
-          "builder": "@angular/build:karma",
-          "options": {
-            "tsConfig": "projects/ngx-scrollbar-demo/tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "projects/ngx-scrollbar-demo/public"
-              }
-            ],
-            "styles": [
-              "projects/ngx-scrollbar-demo/src/styles.scss"
-            ],
-            "scripts": []
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     },
@@ -117,9 +94,6 @@
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",
-          "options": {
-            "project": "projects/ngx-scrollbar/ng-package.json"
-          },
           "configurations": {
             "production": {
               "tsConfig": "projects/ngx-scrollbar/tsconfig.lib.prod.json"
@@ -131,10 +105,17 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "projects/ngx-scrollbar/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-scrollbar/karma.conf.js"
+            "browsers": [
+              "ChromiumHeadless"
+            ],
+            "coverage": true,
+            "coverageReporters": ["text", "json", "html", "cobertura"],
+            "coverageExclude": [
+              "projects/ngx-scrollbar/smooth-scroll"
+            ]
           }
         },
         "lint": {
@@ -143,41 +124,11 @@
             "lintFilePatterns": [
               "projects/ngx-scrollbar/**/*.ts",
               "projects/ngx-scrollbar/**/*.html"
-            ]
+            ],
+            "eslintConfig": "projects/ngx-scrollbar/eslint.config.js"
           }
         }
       }
-    }
-  },
-  "cli": {
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ]
-  },
-  "schematics": {
-    "@schematics/angular:component": {
-      "type": "component"
-    },
-    "@schematics/angular:directive": {
-      "type": "directive"
-    },
-    "@schematics/angular:service": {
-      "type": "service"
-    },
-    "@schematics/angular:guard": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:interceptor": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:module": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:pipe": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:resolver": {
-      "typeSeparator": "."
     }
   }
 }

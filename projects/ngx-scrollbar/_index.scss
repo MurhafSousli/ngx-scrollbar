@@ -4,48 +4,48 @@
   $container-color: if(
       map.has-key($config, container-color),
       map.get($config, container-color),
-      unset
+      inherit
   );
   $container-offset: if(
       map.has-key($config, container-offset),
       map.get($config, container-offset),
-      0px
+      inherit
   );
   $container-shape: if(
       map.has-key($config, container-shape),
       map.get($config, container-shape),
-      0px
+      inherit
   );
 
   $track-shape: if(
       map.has-key($config, track-shape),
       map.get($config, track-shape),
-      unset
+      inherit
   );
   $track-thickness: if(
       map.has-key($config, track-thickness),
       map.get($config, track-thickness),
-      7px
+      inherit
   );
   $track-hover-thickness: if(
       map.has-key($config, track-hover-thickness),
       map.get($config, track-hover-thickness),
-      unset
+      inherit
   );
   $track-active-thickness: if(
       map.has-key($config, track-active-thickness),
       map.get($config, track-active-thickness),
-      unset
+      inherit
   );
   $track-offset: if(
       map.has-key($config, track-offset),
       map.get($config, track-offset),
-      0px
+      inherit
   );
   $track-color: if(
       map.has-key($config, track-color),
       map.get($config, track-color),
-      unset
+      inherit
   );
 
   // Thumb variables
@@ -58,7 +58,7 @@
   //$thumb-size: if(
   //    map.has-key($config, thumb-size),
   //    map.get($config, thumb-size),
-  //    initial
+  //    inherit
   //);
   $thumb-min-size: if(
       map.has-key($config, thumb-min-size),
@@ -68,101 +68,101 @@
   $thumb-color: if(
       map.has-key($config, thumb-color),
       map.get($config, thumb-color),
-      light-dark(rgb(0 0 0 / 40%), rgb(255 255 255 / 40%))
+      inherit
   );
   $thumb-hover-color: if(
       map.has-key($config, thumb-hover-color),
       map.get($config, thumb-hover-color),
-      light-dark(color-mix(in srgb, var(--_scrollbar-thumb-color), #000 40%), color-mix(in srgb, var(--_scrollbar-thumb-color), #fff 40%))
+      inherit
   );
   $thumb-active-color: if(
       map.has-key($config, thumb-active-color),
       map.get($config, thumb-active-color),
-      light-dark(color-mix(in srgb, var(--_scrollbar-thumb-color), #000 70%), color-mix(in srgb, var(--_scrollbar-thumb-color), #fff 70%))
+     inherit
   );
 
   // Visibility variables
   $hover-opacity-transition-enter-duration: if(
       map.has-key($config, hover-opacity-transition-enter-duration),
       map.get($config, hover-opacity-transition-enter-duration),
-      0
+      inherit
   );
   $hover-opacity-transition-leave-duration: if(
       map.has-key($config, hover-opacity-transition-leave-duration),
       map.get($config, hover-opacity-transition-leave-duration),
-      0.4s
+      inherit
   );
   $hover-opacity-transition-leave-delay: if(
       map.has-key($config, hover-opacity-transition-leave-delay),
       map.get($config, hover-opacity-transition-leave-delay),
-      1s
+      inherit
   );
 
   $overscroll-behavior: if(
       map.has-key($config, overscroll-behavior),
       map.get($config, overscroll-behavior),
-      initial
+      inherit
   );
   $mobile-overscroll-behavior: if(
       map.has-key($config, mobile-overscroll-behavior),
       map.get($config, mobile-overscroll-behavior),
-      none
+      inherit
   );
 
   $button-shape: if(
       map.has-key($config, button-shape),
       map.get($config, button-shape),
-      0px
+      inherit
   );
   $button-size: if(
       map.has-key($config, button-size),
       map.get($config, button-size),
-      unset
+      inherit
   );
   $button-gap: if(
       map.has-key($config, button-gap),
       map.get($config, button-gap),
-      0px
+      inherit
   );
   $button-color: if(
       map.has-key($config, button-color),
       map.get($config, button-color),
-      transparent
+      inherit
   );
   $button-hover-color: if(
       map.has-key($config, button-hover-color),
       map.get($config, button-hover-color),
-      unset
+      inherit
   );
   $button-active-color: if(
       map.has-key($config, button-active-color),
       map.get($config, button-active-color),
-      unset
+      inherit
   );
   $button-inactive-color: if(
       map.has-key($config, button-inactive-color),
       map.get($config, button-inactive-color),
-      unset
+      inherit
   );
   $button-fill-color: if(
       map.has-key($config, button-fill-color),
       map.get($config, button-fill-color),
-      unset
+      inherit
   );
   $button-fill-hover-color: if(
       map.has-key($config, button-fill-hover-color),
       map.get($config, button-fill-hover-color),
-      unset
+      inherit
   );
   $button-fill-active-color: if(
       map.has-key($config, button-fill-active-color),
       map.get($config, button-fill-active-color),
-      unset
+      inherit
   );
   $button-fill-inactive-color: if(
       map.has-key($config, button-fill-inactive-color),
       map.get($config, button-fill-inactive-color),
-      unset
+      inherit
   );
 
   @if $container-color {
