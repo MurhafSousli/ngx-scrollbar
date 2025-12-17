@@ -17,4 +17,4 @@ export const defaultOptions: NgScrollbarOptions = {
 };
 
 // This CDN link for a modified version of the polyfill to fix firefox bug https://github.com/MurhafSousli/ngx-scrollbar/issues/615
-export const defaultScrollTimelinePolyfill: string = 'https://cdn.statically.io/gist/MurhafSousli/c852b6a672069396953f06ddd4b64620/raw/ef55db72e2abb7bc002ed79f4ad4cf408bfdb72f/scroll-timeline-lite.js';
+export const defaultScrollTimelinePolyfill: string = 'https://cdn.statically.io/gh/MurhafSousli/ngx-scrollbar@refs/heads/master/projects/ngx-scrollbar/src/assets/scroll-timeline-polyfill.js';
