@@ -13,7 +13,9 @@ export const defaultOptions: NgScrollbarOptions = {
   disableSensor: false,
   disableInteraction: false,
   withButtons: false,
-  hoverOffset: false
+  hoverOffset: false,
+  scrollHideDelay: 400,
+  scrollThrottleTime: 200
 };
 
 // This CDN link for a modified version of the polyfill to fix firefox bug https://github.com/MurhafSousli/ngx-scrollbar/issues/615

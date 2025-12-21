@@ -1,5 +1,9 @@
 # Changelog
 
+## 19.1.0
+
+- feat: Add `visibleOnScroll` directive to force scrollbar visibility during keyboard/programmatic scrolling when `visibility="hover"` is used, closes [#684](https://github.com/MurhafSousli/ngx-scrollbar/issues/684).
+
 ## 19.0.1
 
 - fix: `thumb-active-color` doesn't work in Firefox, closes [#709](https://github.com/MurhafSousli/ngx-scrollbar/issues/709).

@@ -75,4 +75,8 @@ export interface NgScrollbarOptions {
   withButtons?: boolean;
   /** A flag used to activate hover effect on the offset area around the scrollbar */
   hoverOffset?: boolean;
+  /** Time in ms to wait after scrolling stops before hiding the scrollbar (this option is only meant for visibility="hover") */
+  scrollHideDelay?: number;
+  /** Throttle time to prevent excessive updates during active scrolling (this option is only meant for visibility="hover")  */
+  scrollThrottleTime?: number;
 }

@@ -48,6 +48,7 @@ Custom overlay-scrollbars with native scrolling mechanism for Angular, it also p
 
 ### Addons:
 
+* [Hover Visibility Addon](projects/ngx-scrollbar/docs/Visibility.md)
 * [Integration Examples](projects/ngx-scrollbar/docs/Integration.md)
   * [Material Select](projects/ngx-scrollbar/docs/Integration.md#material-select)
   * [Material Dialog](projects/ngx-scrollbar/docs/Integration.md#material-dialog)

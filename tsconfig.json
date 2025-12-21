@@ -22,6 +22,9 @@
       ],
       "ngx-scrollbar/mat": [
         "./projects/ngx-scrollbar/mat/src/public_api"
+      ],
+      "ngx-scrollbar/addons": [
+        "./projects/ngx-scrollbar/addons/src/public_api"
       ]
     },
     "noFallthroughCasesInSwitch": true,
