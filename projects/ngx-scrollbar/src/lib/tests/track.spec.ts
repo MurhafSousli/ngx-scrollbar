@@ -45,13 +45,13 @@ describe('Scrollbar track', () => {
 
     fixture.componentRef.setInput('appearance', 'compact');
 
-    TestBed.tick();
+    fixture.detectChanges();
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 500, contentHeight: 500 });
   });
 
   it('[Vertical] should scroll to bottom progressively when mousedown on the bottom edge of the track', async () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
-    TestBed.tick();
+    fixture.detectChanges();
 
     const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYComponent));
     const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYComponent));
@@ -80,7 +80,7 @@ describe('Scrollbar track', () => {
 
   it('[Vertical] should scroll to top progressively when mousedown on the top edge of the track', async () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
-    TestBed.tick();
+    fixture.detectChanges();
 
     await adapter.scrollTo({ bottom: 0, duration: 0 });
 
@@ -109,12 +109,13 @@ describe('Scrollbar track', () => {
     expect(adapter.scrollTop).toBe(0);
   });
 
+  // TODO: This is disabled because it fails Github CI only - but works locally!
   // it('[RTL Vertical] should scroll to bottom progressively when mousedown on the bottom edge of the track', async () => {
   //   directionalityMock.value = 'rtl';
   //   directionalityMock.change.next('rtl');
   //
   //   await firstValueFrom(outputToObservable(adapter.afterInit));
-  //   TestBed.tick();
+  //   fixture.detectChanges();
   //
   //   const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYComponent));
   //   const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYComponent));
@@ -146,7 +147,7 @@ describe('Scrollbar track', () => {
   //   directionalityMock.change.next('rtl');
   //
   //   await firstValueFrom(outputToObservable(adapter.afterInit));
-  //   TestBed.tick();
+  //   fixture.detectChanges();
   //
   //   await adapter.scrollTo({ bottom: 0, duration: 0 });
   //
@@ -177,7 +178,7 @@ describe('Scrollbar track', () => {
 
   it('[Horizontal] should scroll to end progressively when mousedown on the right edge of the track', async () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
-    TestBed.tick();
+    fixture.detectChanges();
 
     const trackXDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackXComponent));
     const thumbXDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbXComponent));
@@ -206,7 +207,7 @@ describe('Scrollbar track', () => {
 
   it('[Horizontal] should scroll to start progressively when mousedown on the left edge of the track', async () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
-    TestBed.tick();
+    fixture.detectChanges();
 
     await adapter.scrollTo({ end: 0, duration: 0 });
 
@@ -239,7 +240,7 @@ describe('Scrollbar track', () => {
     directionalityMock.change.next('rtl');
 
     await firstValueFrom(outputToObservable(adapter.afterInit));
-    TestBed.tick();
+    fixture.detectChanges();
 
     await adapter.scrollTo({ start: 0, duration: 0 });
 
@@ -272,7 +273,7 @@ describe('Scrollbar track', () => {
     directionalityMock.change.next('rtl');
 
     await firstValueFrom(outputToObservable(adapter.afterInit));
-    TestBed.tick();
+    fixture.detectChanges();
 
     await adapter.scrollTo({ end: 0, duration: 0 });
 
@@ -303,7 +304,7 @@ describe('Scrollbar track', () => {
 
   it('should scroll to bottom with one step on first click if incremental position exceeds scroll maximum', async () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
-    TestBed.tick();
+    fixture.detectChanges();
 
     // Make the current scroll position close to bottom, so it triggers only one scroll to the end
     await adapter.scrollTo({ bottom: 90, duration: 50 });
@@ -326,7 +327,7 @@ describe('Scrollbar track', () => {
 
   it('should scroll to top with one step on first click if incremental position exceeds scroll maximum', async () => {
     await firstValueFrom(outputToObservable(adapter.afterInit))
-    TestBed.tick();
+    fixture.detectChanges();
 
     // Make the current scroll position close to top, so it triggers only one scroll step to finish
     await adapter.scrollTo({ top: 50, duration: 0 });
@@ -348,7 +349,7 @@ describe('Scrollbar track', () => {
 
   it('should not scroll when mouse is down and moves away', async () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
-    TestBed.tick();
+    fixture.detectChanges();
 
     const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYComponent));
 
@@ -389,7 +390,7 @@ describe('Scrollbar track', () => {
 
   it('should scroll only once one if destination is one step below the thumb position', async () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
-    TestBed.tick();
+    fixture.detectChanges();
 
     const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackYComponent));
     const thumbYDebugElement: DebugElement = fixture.debugElement.query(By.directive(ThumbYComponent));
@@ -410,7 +411,7 @@ describe('Scrollbar track', () => {
   it('[Horizontal] should return null when the mouse position is inside the thumb boundaries (neutral)', async () => {
     // This test is to cover the 'getScrollDirection' null value
     await firstValueFrom(outputToObservable(adapter.afterInit));
-    TestBed.tick();
+    fixture.detectChanges();
 
     const trackYDebugElement: DebugElement = fixture.debugElement.query(By.directive(TrackXComponent));
     vi.spyOn(trackYDebugElement.componentInstance, 'getThumbStartPosition').mockReturnValue(20);
@@ -420,7 +421,7 @@ describe('Scrollbar track', () => {
     // Do the same for RTL function
     directionalityMock.value = 'rtl';
     directionalityMock.change.next('rtl');
-    TestBed.tick();
+    fixture.detectChanges();
 
     vi.spyOn(trackYDebugElement.componentInstance, 'getThumbStartPosition').mockReturnValue(20);
     vi.spyOn(trackYDebugElement.componentInstance, 'getThumbEndPosition').mockReturnValue(80);

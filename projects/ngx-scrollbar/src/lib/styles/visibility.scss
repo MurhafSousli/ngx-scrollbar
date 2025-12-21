@@ -22,6 +22,7 @@
     --_scrollbar-hover-opacity: 0;
     --_scrollbar-opacity-transition: opacity var(--scrollbar-hover-opacity-transition-leave-duration, 0.4s) var(--scrollbar-hover-opacity-transition-leave-delay, 1s);
 
+    &[scrolling="true"],
     &:hover,
     &:active,
     &:focus {

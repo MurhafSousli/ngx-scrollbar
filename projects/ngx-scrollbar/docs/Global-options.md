@@ -67,6 +67,8 @@ Determines when to show the scrollbar.
  - `hover`: Scrollbars are hidden by default and become visible on scrolling or hovering.
  - `visible`: Scrollbars are always visible, even if the viewport is not scrollable.
 
+For the `hover` visibility, take a look at this [Addon directive](Visibility.md).
+
 Defaults to 'native'.
 
 ```ts

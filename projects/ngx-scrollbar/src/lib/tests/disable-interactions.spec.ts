@@ -98,7 +98,7 @@ describe('disableInteraction option', () => {
   it('should disable interactions for track and thumb', async () => {
     setDimensions(component, { cmpHeight: 100, cmpWidth: 100, contentHeight: 300, contentWidth: 300 });
     await firstValueFrom(outputToObservable(adapter.afterInit))
-    TestBed.tick();
+    fixture.detectChanges();
 
     trackY = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-track')).injector.get(TrackAdapter);
     thumbY = fixture.debugElement.query(By.css('scrollbar-y .ng-scrollbar-thumb')).injector.get(ThumbAdapter);

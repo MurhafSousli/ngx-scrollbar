@@ -22,6 +22,7 @@ import {
   ScrollbarOrientation
 } from 'ngx-scrollbar';
 import { NgScrollReachDrop } from 'ngx-scrollbar/reached-event';
+import { NgScrollHoverVisibility } from 'ngx-scrollbar/addons';
 import { NzResizableModule, NzResizeDirection, NzResizeEvent } from 'ng-zorro-antd/resizable';
 
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -48,8 +49,9 @@ import { SmoothScrollFormComponent, SmoothScrollOptionsForm } from './smooth-scr
     SmoothScrollFormComponent,
     ResizeFormComponent,
     ReachedNotifierComponent,
-    NgScrollReachDrop
-],
+    NgScrollReachDrop,
+    NgScrollHoverVisibility
+  ],
   templateUrl: './lab.component.html',
   styleUrl: './lab.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
