@@ -23,6 +23,9 @@
   animation-duration: 1ms; /* Firefox requires this to apply the animation */
   animation-timing-function: linear;
 
+  // Better to keep for dragging the thumb even if it works without it
+  user-select: none;
+
   &:hover {
     background: var(--_scrollbar-thumb-hover-color);
   }

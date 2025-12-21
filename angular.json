@@ -27,7 +27,8 @@
               {
                 "glob": "**/*",
                 "input": "projects/ngx-scrollbar-demo/public"
-              }
+              },
+              "projects/ngx-scrollbar-demo/src/_redirects"
             ],
             "styles": [
               "projects/ngx-scrollbar-demo/src/styles.scss",
@@ -68,6 +69,12 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "netlify-spa": {
+              "ssr": false,
+              "prerender": false,
+              "outputMode": "static",
+              "server": false
             }
           },
           "defaultConfiguration": "production"

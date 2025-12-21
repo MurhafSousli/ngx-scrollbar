@@ -4,14 +4,15 @@
   "scripts": {
     "start": "ng serve",
     "start-mobile": "ng serve --host 0.0.0.0",
-    "build": "ng build ngx-scrollbar-demo --ssr=false --prerender=false",
+    "build": "ng build ngx-scrollbar-demo -c netlify-spa",
     "build-ssr": "ng build ngx-scrollbar-demo",
     "watch": "ng build --watch --configuration development",
     "build-lib": "ng build ngx-scrollbar",
     "lint-lib": "ng lint ngx-scrollbar",
     "test-lib": "ng test ngx-scrollbar --browsers=chromium",
     "test-lib-headless": "ng test ngx-scrollbar --no-watch",
-    "serve:ssr:ngx-scrollbar-demo": "node dist/ngx-scrollbar-demo/server/server.mjs"
+    "serve:ssr:ngx-scrollbar-demo": "node dist/ngx-scrollbar-demo/server/server.mjs",
+    "serve:netlify:ngx-scrollbar-demo": "netlify dev --dir dist/ngx-scrollbar-demo/browser"
   },
   "prettier": {
     "printWidth": 100,

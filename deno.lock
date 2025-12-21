@@ -1,0 +1,58 @@
+{
+  "version": "5",
+  "remote": {
+    "https://edge.netlify.com/": "fd941d61d88673d5f28aab283fb86fcc50f08a3bc80ee5470498fcfa88c65cfb",
+    "https://edge.netlify.com/bootstrap/config.ts": "6a2ce0e544e15e8f8883a5c18da5948e37fd0f2619f68cb31f3af53c51817025",
+    "https://edge.netlify.com/bootstrap/context.ts": "e97240232121e2f369f6546ce961490f34d961ea1ea54be3ff09633e3f08373f",
+    "https://edge.netlify.com/bootstrap/cookie.ts": "8b0baae708989ca183c6f3b4ab3d029e6abcbc2e43f93edeb0ff447b3bbc3a05",
+    "https://edge.netlify.com/bootstrap/edge_function.ts": "b8253e86aa83c67341f5cfedeba5049d77fbf84dcab7eceff7566b7728ae9b39",
+    "https://edge.netlify.com/bootstrap/globals/types.ts": "eaa6148ded3121d8dee62dd91c86e7fe76601df0f3ca8d7962243a30f4c8935f"
+  },
+  "workspace": {
+    "packageJson": {
+      "dependencies": [
+        "npm:@angular/build@^21.0.3",
+        "npm:@angular/cdk@^21.0.3",
+        "npm:@angular/cli@^21.0.3",
+        "npm:@angular/common@^21.0.5",
+        "npm:@angular/compiler-cli@^21.0.5",
+        "npm:@angular/compiler@^21.0.5",
+        "npm:@angular/core@^21.0.5",
+        "npm:@angular/forms@^21.0.5",
+        "npm:@angular/material@^21.0.3",
+        "npm:@angular/platform-browser@^21.0.5",
+        "npm:@angular/platform-server@^21.0.5",
+        "npm:@angular/router@^21.0.5",
+        "npm:@angular/ssr@^21.0.3",
+        "npm:@ctrl/tinycolor@^4.2.0",
+        "npm:@playwright/test@^1.57.0",
+        "npm:@primeng/themes@^21.0.1",
+        "npm:@swimlane/ngx-datatable@22",
+        "npm:@types/express@^5.0.1",
+        "npm:@types/node@^20.17.19",
+        "npm:@vitest/browser-playwright@^4.0.15",
+        "npm:@vitest/coverage-v8@^4.0.15",
+        "npm:ag-grid-angular@35",
+        "npm:ag-grid-community@35",
+        "npm:angular-eslint@21.1.0",
+        "npm:chance@^1.1.13",
+        "npm:eslint@^9.39.1",
+        "npm:express@^5.1.0",
+        "npm:jsdom@^27.3.0",
+        "npm:ng-packagr@21",
+        "npm:ng-zorro-antd@^21.0.0-next.1",
+        "npm:ngx-color-picker@^20.1.1",
+        "npm:ngx-infinite-scroll@21",
+        "npm:npm@^11.7.0",
+        "npm:playwright@^1.57.0",
+        "npm:primeng@^21.0.1",
+        "npm:rxjs@7.8",
+        "npm:tslib@^2.3.0",
+        "npm:typescript-eslint@8.47.0",
+        "npm:typescript@~5.9.2",
+        "npm:uninstall@^0.0.0",
+        "npm:vitest@^4.0.15"
+      ]
+    }
+  }
+}
