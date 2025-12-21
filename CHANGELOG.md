@@ -1,5 +1,9 @@
 # Changelog
 
+## 19.0.1
+
+- fix: `thumb-active-color` doesn't work in Firefox, closes [#709](https://github.com/MurhafSousli/ngx-scrollbar/issues/709).
+
 ## 19.0.0
 
 - feat: Upgrade to Angular 21.

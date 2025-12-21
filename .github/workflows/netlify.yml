@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build demo
-        run: npm run build-ssr
+        run: npm run build
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@master
         with:
