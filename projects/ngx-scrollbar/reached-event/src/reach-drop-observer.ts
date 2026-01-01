@@ -1,16 +1,19 @@
 import {
   Component,
   inject,
+  input,
+  output,
   viewChildren,
   afterNextRender,
   Signal,
   NgZone,
   OnDestroy,
   ElementRef,
+  InputSignal,
+  OutputEmitterRef,
   ChangeDetectionStrategy
 } from '@angular/core';
 import { ViewportAdapter } from 'ngx-scrollbar';
-import { Subject } from 'rxjs';
 import { ReachedEvent } from './reached.model';
 
 @Component({
@@ -20,7 +23,7 @@ import { ReachedEvent } from './reached.model';
   },
   selector: 'scroll-reached',
   template: `
-    @for (event of selectedEvents; track $index) {
+    @for (event of selectedEvents(); track $index) {
       <div #detectElement
            class="scroll-trigger-element"
            [attr.name]="event.name"
@@ -40,9 +43,9 @@ export class ReachDropObserver implements OnDestroy {
   /** The intersection observer reference */
   private intersectionObserver: IntersectionObserver;
 
-  events: Subject<string> = new Subject<string>();
+  events: OutputEmitterRef<string> = output<string>();
 
-  selectedEvents: ReachedEvent[];
+  selectedEvents: InputSignal<ReachedEvent[]> = input<ReachedEvent[]>();
 
   triggerElements: Signal<readonly ElementRef[]> = viewChildren<ElementRef>('detectElement');
 
@@ -61,7 +64,7 @@ export class ReachDropObserver implements OnDestroy {
                 if ((entryType === 'reached' && entry.isIntersecting) || (entryType === 'dropped' && !entry.isIntersecting)) {
                   // Forward the detected trigger element only after the observer is initialized
                   // Only observe the trigger elements when scrollable
-                  this.zone.run(() => this.events.next(entry.target.getAttribute('name')));
+                  this.zone.run(() => this.events.emit(entry.target.getAttribute('name')));
                 }
               });
             } else {
@@ -81,7 +84,6 @@ export class ReachDropObserver implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.events?.complete();
     this.intersectionObserver?.disconnect();
     this.intersectionObserver = null;
   }

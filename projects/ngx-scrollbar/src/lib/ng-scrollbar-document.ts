@@ -1,4 +1,13 @@
-import { Injectable, inject, createComponent, Injector, ComponentRef, ApplicationRef, DOCUMENT } from '@angular/core';
+import {
+  Injectable,
+  inject,
+  inputBinding,
+  createComponent,
+  Injector,
+  ComponentRef,
+  ApplicationRef,
+  DOCUMENT
+} from '@angular/core';
 
 import { ScrollViewport, ViewportAdapter } from './viewport';
 import { NgScrollbarOptions } from './ng-scrollbar.model';
@@ -27,9 +36,11 @@ export class NgScrollbarDocument {
           ViewportAdapter,
           provideScrollbarOptions(options)
         ]
-      })
+      }),
+      bindings: [
+        inputBinding('contentWrapperElement', () => contentWrapper)
+      ]
     });
-    scrollbarRef.instance.contentWrapperElement = contentWrapper;
     this.appRef.attachView(scrollbarRef.hostView);
 
     return scrollbarRef;

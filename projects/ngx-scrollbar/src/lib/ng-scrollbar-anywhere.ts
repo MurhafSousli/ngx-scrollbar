@@ -1,6 +1,7 @@
 import {
   Injectable,
   inject,
+  inputBinding,
   createComponent,
   Injector,
   ElementRef,
@@ -53,7 +54,8 @@ export class NgScrollbarAnywhere {
   private createScrollbarComponent<T>(
     host: string | ElementRef | Element,
     component: new (...args: unknown[]) => T,
-    options?: NgScrollbarOptions
+    options: NgScrollbarOptions,
+    params?: ScrollbarParams
   ): NgScrollbarRef<T> | null {
 
     const hostElement: Element = typeof host === 'string' ? this.document.querySelector(host) : coerceElement<Element>(host);
@@ -69,7 +71,12 @@ export class NgScrollbarAnywhere {
       projectableNodes: [Array.from(hostElement.childNodes)],
       elementInjector: Injector.create({
         providers: [provideScrollbarOptions(options)]
-      })
+      }),
+      bindings: params ? [
+        inputBinding('externalViewport', () => params.viewport),
+        inputBinding('externalContentWrapper', () => params.contentWrapper),
+        inputBinding('externalSpacer', () => params.spacer),
+      ] : null
     });
 
     // Attach the component's view to the Angular change detection tree
@@ -102,14 +109,6 @@ export class NgScrollbarAnywhere {
    * @returns A reference to the created extended scrollbar component.
    */
   createScrollbarExt(params: ScrollbarParams, options?: NgScrollbarOptions): NgScrollbarRef<NgScrollbarExt> | null {
-    const scrollbarRef: NgScrollbarRef<NgScrollbarExt> = this.createScrollbarComponent(params.host, NgScrollbarExt, options);
-
-    if (scrollbarRef) {
-      scrollbarRef.componentRef.setInput('externalViewport', params.viewport);
-      scrollbarRef.componentRef.setInput('externalContentWrapper', params.contentWrapper);
-      scrollbarRef.componentRef.setInput('externalSpacer', params.spacer);
-    }
-
-    return scrollbarRef;
+    return this.createScrollbarComponent(params.host, NgScrollbarExt, options, params);
   }
 }

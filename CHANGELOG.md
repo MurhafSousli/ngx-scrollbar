@@ -1,5 +1,11 @@
 # Changelog
 
+## 19.1.1
+
+- fix: Invisible horizontal track on hover when `ng-scrollbar-overrides` isn't used, closes [#704](https://github.com/MurhafSousli/ngx-scrollbar/issues/704)
+- refactor: Use `bindings` parameter to pass variables in `createComponent()`.
+- refactor: Switch the default polyfill source URL to a new CDN.
+
 ## 19.1.0
 
 - feat: Add `visibleOnScroll` directive to force scrollbar visibility during keyboard/programmatic scrolling when `visibility="hover"` is used, closes [#684](https://github.com/MurhafSousli/ngx-scrollbar/issues/684).

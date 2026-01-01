@@ -64,6 +64,7 @@ describe('ScrollbarAnywhere', () => {
 
   it('should create a scrollbar component via selector', () => {
     component.createScrollbar('#target');
+    fixture.detectChanges();
 
     expect(component.scrollbarRef).toBeTruthy();
     expect(component.scrollbarRef?.componentRef).toBeTruthy();
@@ -72,6 +73,7 @@ describe('ScrollbarAnywhere', () => {
 
   it('should create a scrollbar component via ElementRef', () => {
     component.createScrollbarViaElementRef();
+    fixture.detectChanges();
 
     expect(component.scrollbarRef).toBeTruthy();
     expect(component.scrollbarRef?.componentRef).toBeTruthy();
@@ -82,6 +84,7 @@ describe('ScrollbarAnywhere', () => {
     vi.spyOn(console, 'error');
 
     component.createScrollbar('#non-existent');
+    fixture.detectChanges();
 
     expect(component.scrollbarRef).toBeNull();
     expect(console.error).toHaveBeenCalledWith(
@@ -91,6 +94,7 @@ describe('ScrollbarAnywhere', () => {
 
   it('should properly destroy the scrollbar component', () => {
     component.createScrollbar('#target');
+    fixture.detectChanges();
 
     expect(component.scrollbarRef).toBeTruthy();
 
@@ -107,16 +111,23 @@ describe('ScrollbarAnywhere', () => {
 
   it('should create an extended scrollbar component', () => {
     component.createScrollbarExt('#target-x', '#viewport', '#content');
+    fixture.detectChanges();
 
     expect(component.scrollbarRef).toBeTruthy();
     expect(component.scrollbarRef?.componentRef).toBeTruthy();
     expect(component.scrollbarRef?.componentRef.instance).toBeInstanceOf(NgScrollbarExt);
+
+    const extScrollbarRef: NgScrollbarExt = component.scrollbarRef.componentRef.instance as NgScrollbarExt;
+    expect(extScrollbarRef.externalViewport()).toBe('#viewport');
+    expect(extScrollbarRef.externalContentWrapper()).toBe( '#content');
+    expect(extScrollbarRef.externalSpacer()).toBe(undefined);
   });
 
   it('should return null and log error for an invalid extended scrollbar host', () => {
     vi.spyOn(console, 'error');
 
     component.createScrollbarExt('#non-existent', '#viewport');
+    fixture.detectChanges();
 
     expect(component.scrollbarRef).toBeNull();
     expect(console.error).toHaveBeenCalledWith(
@@ -126,6 +137,7 @@ describe('ScrollbarAnywhere', () => {
 
   it('should properly destroy the extended scrollbar component', () => {
     component.createScrollbarExt('#target-x', '#viewport');
+    fixture.detectChanges();
 
     expect(component.scrollbarRef).toBeTruthy();
 

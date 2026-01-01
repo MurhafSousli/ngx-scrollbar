@@ -2,18 +2,20 @@ import {
   Directive,
   inject,
   effect,
+  input,
   Output,
+  EventEmitter,
+  inputBinding,
+  outputBinding,
   createComponent,
   numberAttribute,
-  input,
-  EventEmitter,
   Injector,
   Renderer2,
+  ElementRef,
   ComponentRef,
   ApplicationRef,
   EffectCleanupRegisterFn,
-  InputSignalWithTransform,
-  ElementRef
+  InputSignalWithTransform
 } from '@angular/core';
 import { ViewportAdapter } from 'ngx-scrollbar';
 import { ReachDropObserver } from './reach-drop-observer';
@@ -111,7 +113,7 @@ export class NgScrollReachDrop {
     });
 
     effect((onCleanup: EffectCleanupRegisterFn) => {
-      if ((this.disableReached() && this.disableDropped()) || !this.viewport.initialized()) return;
+      if (!this.viewport.initialized()) return;
 
       if (!this.disableReached()) {
         if (this.reachedTop.observed) {
@@ -145,15 +147,13 @@ export class NgScrollReachDrop {
 
       this.container = createComponent(ReachDropObserver, {
         elementInjector: this.injector,
-        environmentInjector: this.appRef.injector
-      });
-
-      // Forward the observed outputs
-      this.container.instance.selectedEvents = this.events;
-
-      // Forward the events to the appropriate output
-      this.container.instance.events.subscribe((trigger: string) => {
-        (this[trigger] as EventEmitter<void>).emit();
+        environmentInjector: this.appRef.injector,
+        bindings: [
+          // Forward the observed outputs
+          inputBinding('selectedEvents', () => this.events),
+          // Forward the events to the appropriate output
+          outputBinding('events', (trigger: string) => (this[trigger] as EventEmitter<void>).emit()),
+        ]
       });
 
       this.renderer.appendChild(this.viewport.contentWrapperElement, this.container.location.nativeElement);

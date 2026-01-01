@@ -76,7 +76,7 @@ describe('Override ScrollTimeline polyfill', () => {
     await scrollbarManager.initPolyfill();
 
     expect(scrollbarManager.scrollTimelinePolyfill()).toBeFalsy();
-    expect(consoleErrorSpy).toHaveBeenCalledWith('[NgScrollbar]: ScrollTimeline is not attached to the window object.');
+    expect(consoleErrorSpy).toHaveBeenCalledWith('[NgScrollbar]: Polyfill script loaded but ScrollTimeline not found.');
 
     // Restore the ScrollTimeline function
     window['ScrollTimeline'] = scrollTimelineBackup;
@@ -109,6 +109,7 @@ describe('ScrollbarManager: call initPolyfill in constructor based on browser', 
     TestBed.runInInjectionContext(() => {
       new ScrollbarManager();
     });
+    TestBed.tick();
 
     expect(initPolyfillSpy).toHaveBeenCalled();
   });
