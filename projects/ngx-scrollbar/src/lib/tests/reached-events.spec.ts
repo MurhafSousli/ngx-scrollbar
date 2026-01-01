@@ -144,9 +144,19 @@ describe('Reached Events Directives', () => {
     expect(onScrollReachedSpy).toHaveBeenCalledWith('end');
   });
 
-
   it('[disableReached]: should not emit when scroll is reached destination', async () => {
     component.disableReached.set(true);
+
+    await firstValueFrom(outputToObservable(adapter.afterInit));
+    fixture.detectChanges();
+
+    await adapter.scrollTo({ top: 0, duration: 0 });
+    await adapter.scrollTo({ bottom: 0, duration: 50 });
+    expect(onScrollReachedSpy).not.toHaveBeenCalledWith('bottom');
+  });
+
+  it('should not do anything if viewport isn\'t initialized', async () => {
+    adapter.initialized.set(false);
 
     await firstValueFrom(outputToObservable(adapter.afterInit));
     fixture.detectChanges();

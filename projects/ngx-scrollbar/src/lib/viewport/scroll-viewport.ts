@@ -1,5 +1,6 @@
 import {
   Component,
+  Input,
   inject,
   createComponent,
   afterNextRender,
@@ -36,12 +37,12 @@ export class ScrollViewport extends NgScrollbarCore implements OnDestroy {
   /**
    * The element that wraps the content inside the viewport.
    */
-  contentWrapperElement: HTMLElement | undefined;
+  @Input() contentWrapperElement: HTMLElement;
 
   /**
    * The spacer element used by virtual scroll component.
    */
-  spacerElement: HTMLElement | undefined;
+  @Input() spacerElement: HTMLElement;
 
   constructor() {
     afterNextRender({
@@ -53,9 +54,7 @@ export class ScrollViewport extends NgScrollbarCore implements OnDestroy {
         // Initialize viewport
         this.adapter.init(this.nativeElement, this.contentWrapperElement, this.spacerElement);
         // If spaceElement is provided, add the appropriate class
-        if (this.spacerElement) {
-          this.spacerElement.classList.add(ViewportClasses.Spacer);
-        }
+        this.spacerElement?.classList.add(ViewportClasses.Spacer);
       }
     });
     super();
@@ -92,7 +91,7 @@ export class ScrollViewport extends NgScrollbarCore implements OnDestroy {
         environmentInjector: this.appRef.injector,
         projectableNodes: [Array.from(this.nativeElement.childNodes)]
       });
-      this.contentWrapperElement = this.contentWrapperRef.location.nativeElement;
+      this.contentWrapperElement = this.contentWrapperRef.location.nativeElement as HTMLElement;
       this.renderer.appendChild(this.nativeElement, this.contentWrapperElement);
     }
     this.appRef.attachView(this.contentWrapperRef.hostView);

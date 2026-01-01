@@ -1,12 +1,9 @@
-import { Injectable, inject, signal, WritableSignal, PLATFORM_ID, DOCUMENT } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Injectable, inject, signal, afterNextRender, WritableSignal, DOCUMENT } from '@angular/core';
 import { NG_SCROLLBAR_POLYFILL } from '../ng-scrollbar.model';
 import { ScrollTimelineFunc } from './common';
 
 @Injectable({ providedIn: 'root' })
 export class ScrollbarManager {
-
-  private readonly isBrowser: boolean = isPlatformBrowser(inject(PLATFORM_ID));
 
   readonly _polyfillUrl: string = inject(NG_SCROLLBAR_POLYFILL);
 
@@ -17,9 +14,13 @@ export class ScrollbarManager {
   readonly scrollTimelinePolyfill: WritableSignal<ScrollTimelineFunc> = signal(null);
 
   constructor() {
-    if (this.isBrowser && (!this.window['ScrollTimeline'] || !CSS.supports('animation-timeline', 'scroll()'))) {
-      this.initPolyfill();
-    }
+    afterNextRender({
+      earlyRead: () => {
+        if (!this.window['ScrollTimeline'] || !CSS.supports('animation-timeline', 'scroll()')) {
+          this.initPolyfill();
+        }
+      }
+    });
   }
 
   async initPolyfill(): Promise<void> {
@@ -27,6 +28,7 @@ export class ScrollbarManager {
       // Create a script element
       const script: HTMLScriptElement = this.document.createElement('script');
       script.src = this._polyfillUrl;
+      script.async = true;
 
       // Wait for the script to load
       await new Promise<Event>((resolve, reject) => {
@@ -39,7 +41,7 @@ export class ScrollbarManager {
       if (this.window['ScrollTimeline']) {
         this.scrollTimelinePolyfill.set(this.window['ScrollTimeline']);
       } else {
-        console.error('[NgScrollbar]: ScrollTimeline is not attached to the window object.');
+        console.error('[NgScrollbar]: Polyfill script loaded but ScrollTimeline not found.');
       }
     } catch (error) {
       console.error('[NgScrollbar]: Error loading ScrollTimeline script:', error);

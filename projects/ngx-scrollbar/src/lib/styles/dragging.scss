@@ -1,7 +1,7 @@
 @mixin SetDraggingStuff {
   // It's important to set the CSS variables here, so nested scrollbar don't inherit dragging effects
 
-  --_scrollbar-hover-thickness-px: var(--scrollbar-track-hover-thickness, var(--scrollbar-track-thickness));
+  --_scrollbar-hover-thickness-px: var(--scrollbar-track-hover-thickness, var(--_scrollbar-track-thickness-px));
   --_scrollbar-active-thickness-px: var(--scrollbar-track-active-thickness, var(--_scrollbar-hover-thickness-px));
 
   --_track-y-thickness-px: var(--_scrollbar-track-thickness-px);

@@ -1,12 +1,13 @@
 import {
   Component,
+  input,
   inject,
   computed,
   untracked,
   linkedSignal,
+  inputBinding,
   createComponent,
   afterNextRender,
-  input,
   Signal,
   InputSignal,
   Injector,
@@ -151,11 +152,13 @@ export class NgScrollbarExt implements OnDestroy {
       hostElement: viewportElement,
       projectableNodes: [Array.from(viewportElement.childNodes)],
       environmentInjector: this.appRef.injector,
-      elementInjector: this.injector
+      elementInjector: this.injector,
+      bindings: [
+        inputBinding('contentWrapperElement', () => contentWrapperElement),
+        inputBinding('spacerElement', () => spacerElement)
+      ]
     });
 
-    this.viewportRef.instance.contentWrapperElement = contentWrapperElement;
-    this.viewportRef.instance.spacerElement = spacerElement;
     this.appRef.attachView(this.viewportRef.hostView);
   }
 
