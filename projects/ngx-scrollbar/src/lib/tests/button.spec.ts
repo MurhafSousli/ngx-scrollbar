@@ -3,10 +3,10 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { Directionality } from '@angular/cdk/bidi';
 import { outputToObservable } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
 import { provideSmoothScrollOptions } from 'ngx-scrollbar/smooth-scroll';
-import { afterTimeout, setDimensions } from './common-test.';
+import { afterTimeout, DirectionalityMock, setDimensions } from './common-test.';
 import { ScrollbarButton } from '../button/scrollbar-button';
 
 describe('Buttons', () => {
@@ -14,15 +14,10 @@ describe('Buttons', () => {
   let adapter: ViewportAdapter;
   let fixture: ComponentFixture<NgScrollbar>;
 
-  const directionalityMock = {
-    value: 'ltr',
-    change: new BehaviorSubject<string>('ltr'),
-  };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: Directionality, useValue: directionalityMock },
+        { provide: Directionality, useValue: DirectionalityMock },
         provideSmoothScrollOptions({
           easing: {
             x1: 0,
@@ -34,8 +29,7 @@ describe('Buttons', () => {
       ],
     }).compileComponents();
 
-    directionalityMock.value = 'ltr';
-    directionalityMock.change.next('ltr');
+    DirectionalityMock.valueSignal.set('ltr');
 
     fixture = TestBed.createComponent(NgScrollbar);
     fixture.autoDetectChanges();
@@ -190,8 +184,7 @@ describe('Buttons', () => {
 
 
   it('[RTL] should scroll to left on arrow-left button click', async () => {
-    directionalityMock.value = 'rtl';
-    directionalityMock.change.next('rtl');
+    DirectionalityMock.valueSignal.set('rtl');
     fixture.componentRef.setInput('withButtons', true);
     await firstValueFrom(outputToObservable(adapter.afterInit));
     fixture.detectChanges();
@@ -221,8 +214,7 @@ describe('Buttons', () => {
   });
 
   it('[RTL] should scroll to right on arrow-right button click', async () => {
-    directionalityMock.value = 'rtl';
-    directionalityMock.change.next('rtl');
+    DirectionalityMock.valueSignal.set('rtl');
     fixture.componentRef.setInput('withButtons', true);
     await firstValueFrom(outputToObservable(adapter.afterInit));
     fixture.detectChanges();

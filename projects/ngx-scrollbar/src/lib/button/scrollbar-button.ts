@@ -83,7 +83,7 @@ export class ScrollbarButton extends PointerEventsAdapter {
   constructor() {
     effect(() => {
       const scrollDirection: 'forward' | 'backward' = this.scrollDirection();
-      const dir: Direction = this.adapter.direction();
+      const dir: Direction = this.adapter.dir.valueSignal();
 
       untracked(() => {
         // Get the canScroll function according to the scroll direction (forward/backward)

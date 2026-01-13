@@ -66,7 +66,7 @@ export class TrackXComponent extends TrackAdapter {
 
   constructor() {
     effect(() => {
-      if (this.adapter.direction() === 'rtl') {
+      if (this.adapter.dir.valueSignal() === 'rtl') {
         this.getThumbStartPosition = (): number => {
           const offset: number = this.contentSize - this.viewportSize - this.control.viewportScrollOffset;
           return offset * this.size / this.contentSize;
