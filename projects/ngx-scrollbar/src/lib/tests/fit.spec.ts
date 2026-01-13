@@ -2,28 +2,22 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Directionality } from '@angular/cdk/bidi';
 import { By } from '@angular/platform-browser';
 import { outputToObservable } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
-import { setDimensions } from './common-test.';
+import { DirectionalityMock, setDimensions } from './common-test.';
 
 describe('Fit styles', () => {
   let component: NgScrollbar;
   let adapter: ViewportAdapter;
   let fixture: ComponentFixture<NgScrollbar>;
 
-  const directionalityMock = {
-    value: 'ltr',
-    change: new BehaviorSubject<string>('ltr'),
-  };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: Directionality, useValue: directionalityMock }
+        { provide: Directionality, useValue: DirectionalityMock }
       ]
     }).compileComponents();
-    directionalityMock.value = 'ltr';
-    directionalityMock.change.next('ltr');
+    DirectionalityMock.valueSignal.set('ltr');
     fixture = TestBed.createComponent(NgScrollbar);
     fixture.autoDetectChanges();
     component = fixture.componentInstance;

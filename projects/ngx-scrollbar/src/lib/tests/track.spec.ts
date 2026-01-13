@@ -5,8 +5,8 @@ import { Directionality } from '@angular/cdk/bidi';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
 import { provideSmoothScrollOptions } from 'ngx-scrollbar/smooth-scroll';
-import { BehaviorSubject, firstValueFrom } from 'rxjs';
-import { afterTimeout, setDimensions } from './common-test.';
+import { firstValueFrom } from 'rxjs';
+import { afterTimeout, DirectionalityMock, setDimensions } from './common-test.';
 import { TrackXComponent, TrackYComponent } from '../track/track';
 import { ThumbXComponent, ThumbYComponent } from '../thumb/thumb';
 
@@ -15,15 +15,10 @@ describe('Scrollbar track', () => {
   let adapter: ViewportAdapter;
   let fixture: ComponentFixture<NgScrollbar>;
 
-  const directionalityMock = {
-    value: 'ltr',
-    change: new BehaviorSubject<string>('ltr'),
-  };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: Directionality, useValue: directionalityMock },
+        { provide: Directionality, useValue: DirectionalityMock },
         provideSmoothScrollOptions({
           easing: {
             x1: 0,
@@ -35,8 +30,7 @@ describe('Scrollbar track', () => {
       ],
     }).compileComponents();
 
-    directionalityMock.value = 'ltr';
-    directionalityMock.change.next('ltr');
+    DirectionalityMock.valueSignal.set('ltr');
 
     fixture = TestBed.createComponent(NgScrollbar);
     fixture.autoDetectChanges();
@@ -236,8 +230,7 @@ describe('Scrollbar track', () => {
   })
 
   it('[RTL Horizontal] should scroll to end progressively when mousedown on the left edge of the track in RTL', async () => {
-    directionalityMock.value = 'rtl';
-    directionalityMock.change.next('rtl');
+    DirectionalityMock.valueSignal.set('rtl');
 
     await firstValueFrom(outputToObservable(adapter.afterInit));
     fixture.detectChanges();
@@ -269,8 +262,7 @@ describe('Scrollbar track', () => {
   });
 
   it('[RTL Horizontal] should scroll to start progressively when mousedown on the right edge of the track in RTL', async () => {
-    directionalityMock.value = 'rtl';
-    directionalityMock.change.next('rtl');
+    DirectionalityMock.valueSignal.set('rtl');
 
     await firstValueFrom(outputToObservable(adapter.afterInit));
     fixture.detectChanges();
@@ -419,8 +411,7 @@ describe('Scrollbar track', () => {
     expect(trackYDebugElement.componentInstance.getScrollDirection(50)).toBeNull();
 
     // Do the same for RTL function
-    directionalityMock.value = 'rtl';
-    directionalityMock.change.next('rtl');
+    DirectionalityMock.valueSignal.set('rtl');
     fixture.detectChanges();
 
     vi.spyOn(trackYDebugElement.componentInstance, 'getThumbStartPosition').mockReturnValue(20);

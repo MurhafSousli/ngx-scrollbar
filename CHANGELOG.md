@@ -1,5 +1,10 @@
 # Changelog
 
+## 19.1.3
+
+- fix: scss can't find the ngx scrollbar entry point for using the styling mixins, closes [#714](https://github.com/MurhafSousli/ngx-scrollbar/issues/714).
+- refactor: Use `Directionality` valueSignal directly.
+
 ## 19.1.1
 
 - fix: Invisible horizontal track on hover when `ng-scrollbar-overrides` isn't used, closes [#704](https://github.com/MurhafSousli/ngx-scrollbar/issues/704)

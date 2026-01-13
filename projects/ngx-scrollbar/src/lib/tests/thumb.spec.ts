@@ -3,21 +3,16 @@ import { signal } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { Directionality } from '@angular/cdk/bidi';
 import { outputToObservable } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
 import { ThumbAdapter } from '../thumb/thumb-adapter';
 import { ScrollbarManager } from '../utils/scrollbar-manager';
-import { setDimensions } from './common-test.';
+import { DirectionalityMock, setDimensions } from './common-test.';
 
 describe('Scrollbar thumb', () => {
   let component: NgScrollbar;
   let adapter: ViewportAdapter;
   let fixture: ComponentFixture<NgScrollbar>;
-
-  const directionalityMock = {
-    value: 'ltr',
-    change: new BehaviorSubject<string>('ltr'),
-  };
 
   const scrollbarManagerMock = {
     scrollTimelinePolyfill: signal(window['ScrollTimeline'])
@@ -26,13 +21,12 @@ describe('Scrollbar thumb', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: Directionality, useValue: directionalityMock },
+        { provide: Directionality, useValue: DirectionalityMock },
         { provide: ScrollbarManager, useValue: scrollbarManagerMock }
       ]
     }).compileComponents();
 
-    directionalityMock.value = 'ltr';
-    directionalityMock.change.next('ltr');
+    DirectionalityMock.valueSignal.set('ltr');
 
     fixture = TestBed.createComponent(NgScrollbar);
     fixture.autoDetectChanges();
@@ -100,8 +94,7 @@ describe('Scrollbar thumb', () => {
   });
 
   it('[RTL] should set "isDragging" to true and scroll accordingly when horizontal scrollbar is being dragged', async () => {
-    directionalityMock.value = 'rtl';
-    directionalityMock.change.next('rtl');
+    DirectionalityMock.valueSignal.set('rtl');
 
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 400, contentHeight: 100 });
     await firstValueFrom(outputToObservable(adapter.afterInit))

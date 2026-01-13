@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Directionality } from '@angular/cdk/bidi';
 import { outputToObservable } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
-import { setDimensions } from './common-test.';
+import { DirectionalityMock, setDimensions } from './common-test.';
 
 describe('Appearance [native / compact] styles', () => {
   let component: NgScrollbar;
@@ -11,20 +11,14 @@ describe('Appearance [native / compact] styles', () => {
   let fixture: ComponentFixture<NgScrollbar>;
   const scrollbarSize: string = '13px';
 
-  const directionalityMock = {
-    value: 'ltr',
-    change: new BehaviorSubject<string>('ltr'),
-  };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: Directionality, useValue: directionalityMock }
+        { provide: Directionality, useValue: DirectionalityMock }
       ]
     }).compileComponents();
 
-    directionalityMock.value = 'ltr';
-    directionalityMock.change.next('ltr');
+    DirectionalityMock.valueSignal.set('ltr');
 
     fixture = TestBed.createComponent(NgScrollbar);
     fixture.autoDetectChanges();
@@ -134,8 +128,7 @@ describe('Appearance [native / compact] styles', () => {
 
   it('should have "padding-left" when its vertically scrollable and [dir="rtl"]', async () => {
     setDimensions(component, { cmpHeight: 300, contentHeight: 1000, cmpWidth: 100, contentWidth: 100 });
-    directionalityMock.value = 'rtl';
-    directionalityMock.change.next('rtl');
+    DirectionalityMock.valueSignal.set('rtl');
     fixture.componentRef.setInput('appearance', 'native');
     await firstValueFrom(outputToObservable(adapter.afterInit));
     fixture.detectChanges();
@@ -149,8 +142,7 @@ describe('Appearance [native / compact] styles', () => {
 
   it('should have "padding-right" when its vertically scrollable, [dir="rtl"] and [position]="invertY"', async () => {
     setDimensions(component, { cmpHeight: 300, contentHeight: 1000 });
-    directionalityMock.value = 'rtl';
-    directionalityMock.change.next('rtl');
+    DirectionalityMock.valueSignal.set('rtl');
     fixture.componentRef.setInput('appearance', 'native');
     fixture.componentRef.setInput('position', 'invertY');
     await firstValueFrom(outputToObservable(adapter.afterInit));
@@ -165,8 +157,7 @@ describe('Appearance [native / compact] styles', () => {
 
   it('should have "padding-right" and "padding-top" when its scrollable in both directions, [dir="rtl"] and [position]="invertAll"', async () => {
     setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 400, contentWidth: 400 });
-    directionalityMock.value = 'rtl';
-    directionalityMock.change.next('rtl');
+    DirectionalityMock.valueSignal.set('rtl');
     fixture.componentRef.setInput('appearance', 'native');
     fixture.componentRef.setInput('position', 'invertAll');
     await firstValueFrom(outputToObservable(adapter.afterInit));

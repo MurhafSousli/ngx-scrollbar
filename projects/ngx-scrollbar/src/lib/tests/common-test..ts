@@ -1,4 +1,6 @@
 import { NgScrollbar } from 'ngx-scrollbar';
+import { EventEmitter, signal } from '@angular/core';
+import { Direction } from '@angular/cdk/bidi';
 
 export interface TestDimension {
   cmpWidth?: number,
@@ -32,4 +34,10 @@ export function setDimensions(comp: NgScrollbar, d: TestDimension): void {
     // Append the element div to the existing element
     comp.adapter.contentWrapperElement.appendChild(newElement);
   }
+}
+
+export const DirectionalityMock = {
+  value: 'ltr',
+  change: new EventEmitter<Direction>(),
+  valueSignal: signal<Direction>('ltr')
 }

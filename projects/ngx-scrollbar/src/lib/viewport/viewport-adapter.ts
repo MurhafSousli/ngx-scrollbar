@@ -6,8 +6,7 @@ import {
   Signal,
   WritableSignal
 } from '@angular/core';
-import { Direction, Directionality } from '@angular/cdk/bidi';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Directionality } from '@angular/cdk/bidi';
 import {
   SmoothScrollElement,
   SmoothScrollManager,
@@ -36,12 +35,10 @@ export class ViewportAdapter extends ScrollbarInputOutputs {
 
   readonly smoothScroll: SmoothScrollManager = inject(SmoothScrollManager);
 
-  readonly dir: Directionality = inject(Directionality);
-
   /**
    * Indicates if the direction is 'ltr' or 'rtl'
    */
-  direction: Signal<Direction> = toSignal<Direction, Direction>(this.dir.change, { initialValue: this.dir.value });
+  readonly dir: Directionality = inject(Directionality);
 
   /**
    * Indicates when scrollbar thumb is being dragged

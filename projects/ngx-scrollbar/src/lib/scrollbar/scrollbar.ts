@@ -75,7 +75,7 @@ export class ScrollbarY extends ScrollbarAdapter {
          [class.ng-scrollbar-hover]="!cmp.hoverOffset()">
       <scrollbar-track-x class="ng-scrollbar-track {{ cmp.trackClass() }}">
         <div class="track-inner">
-          <scrollbar-thumb-x class="ng-scrollbar-thumb {{ cmp.thumbClass() }}" [attr.dir]="cmp.direction()"/>
+          <scrollbar-thumb-x class="ng-scrollbar-thumb {{ cmp.thumbClass() }}" [attr.dir]="cmp.dir.valueSignal()"/>
         </div>
       </scrollbar-track-x>
       @if (cmp.withButtons()) {
@@ -98,7 +98,7 @@ export class ScrollbarY extends ScrollbarAdapter {
     { provide: SCROLLBAR_CONTROL, useExisting: ScrollbarX }
   ],
   host: {
-    '[attr.dir]': 'cmp.direction()'
+    '[attr.dir]': 'cmp.dir.valueSignal()'
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -132,7 +132,7 @@ export class ScrollbarX extends ScrollbarAdapter {
 
   constructor() {
     effect(() => {
-      if (this.cmp.direction() === 'rtl') {
+      if (this.cmp.dir.valueSignal() === 'rtl') {
         this.handlePosition = (position: number, scrollMax: number): number => -(scrollMax - position);
       } else {
         this.handlePosition = (position: number): number => position;

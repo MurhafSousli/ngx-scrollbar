@@ -18,7 +18,7 @@ import { ScrollbarUpdateReason } from './ng-scrollbar.model';
   host: {
     '[class.ng-scroll-viewport]': 'true',
     '[attr.mobile]': 'isMobile',
-    '[attr.dir]': 'adapter.direction()',
+    '[attr.dir]': 'adapter.dir.valueSignal()',
     '[attr.dragging]': 'adapter.dragging()',
     '[attr.position]': 'adapter.position()',
     '[attr.appearance]': 'adapter.appearance()',
