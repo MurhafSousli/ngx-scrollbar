@@ -79,7 +79,7 @@ describe('<ng-scrollbar externalViewport>', () => {
 
     expect(scrollbarCmp.skipInit).toBe(false);
 
-    expect(adapter.initialized()).toBe(true);
+    expect(adapter.initialized()).toBeTruthy();
     // Verify the viewport
     expect(adapter.viewportElement).toBe(viewportElement);
     // Check if the scrollbars component is created

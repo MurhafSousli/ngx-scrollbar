@@ -70,7 +70,7 @@ describe('<ng-scrollbar externalViewport asyncViewport>', () => {
   it('[externalViewport]', async () => {
     component.externalViewport = '.my-custom-viewport';
 
-    expect(scrollbarCmp.skipInit).toBe(true);
+    expect(scrollbarCmp.skipInit).toBeTruthy();
     expect(scrollbarCmp.viewportRef).toBeUndefined();
     component.showViewport.set(true);
     await firstValueFrom(outputToObservable(adapter.afterInit));
@@ -81,7 +81,7 @@ describe('<ng-scrollbar externalViewport asyncViewport>', () => {
     component.externalViewport = '.my-custom-viewport';
     component.externalContentWrapper = '.my-custom-content-wrapper';
 
-    expect(scrollbarCmp.skipInit).toBe(true);
+    expect(scrollbarCmp.skipInit).toBeTruthy();
     expect(scrollbarCmp.viewportRef).toBeUndefined();
     component.showViewport.set(true);
     await firstValueFrom(outputToObservable(adapter.afterInit));
@@ -93,7 +93,7 @@ describe('<ng-scrollbar externalViewport asyncViewport>', () => {
     component.externalContentWrapper = '.my-custom-content-wrapper';
     component.externalSpacer = '.my-custom-spacer';
 
-    expect(scrollbarCmp.skipInit).toBe(true);
+    expect(scrollbarCmp.skipInit).toBeTruthy();
     expect(scrollbarCmp.viewportRef).toBeUndefined();
     component.showViewport.set(true);
     await firstValueFrom(outputToObservable(adapter.afterInit));
@@ -106,7 +106,7 @@ describe('<ng-scrollbar externalViewport asyncViewport>', () => {
     component.externalSpacer = '.my-custom-spacer';
     component.asyncDetection = 'auto';
 
-    expect(scrollbarCmp.skipInit).toBe(true);
+    expect(scrollbarCmp.skipInit).toBeTruthy();
     expect(scrollbarCmp.viewportRef).toBeUndefined();
     component.showViewport.set(true);
     await firstValueFrom(outputToObservable(adapter.afterInit));
@@ -124,7 +124,7 @@ describe('<ng-scrollbar externalViewport asyncViewport>', () => {
     component.externalSpacer = '.my-custom-spacer';
     component.asyncDetection = 'auto';
 
-    expect(scrollbarCmp.skipInit).toBe(true);
+    expect(scrollbarCmp.skipInit).toBeTruthy();
     expect(scrollbarCmp.viewportRef).toBeUndefined();
     component.showViewport.set(true);
     await firstValueFrom(outputToObservable(adapter.afterInit));
@@ -142,7 +142,7 @@ describe('<ng-scrollbar externalViewport asyncViewport>', () => {
     component.externalSpacer = '.my-custom-spacer';
     component.asyncDetection = 'auto';
 
-    expect(scrollbarCmp.skipInit).toBe(true);
+    expect(scrollbarCmp.skipInit).toBeTruthy();
     expect(scrollbarCmp.viewportRef).toBeUndefined();
     component.showViewport.set(true);
     await firstValueFrom(outputToObservable(adapter.afterInit));

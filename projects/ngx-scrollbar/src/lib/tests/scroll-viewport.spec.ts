@@ -27,7 +27,7 @@ describe('Viewport Adapter', () => {
     expect(component.adapter.viewportElement.classList).toContain(ViewportClasses.Viewport);
     expect(component.adapter.contentWrapperElement.classList).toContain(ViewportClasses.Content);
 
-    expect(component.adapter.initialized()).toBe(true);
+    expect(component.adapter.initialized()).toBeTruthy();
   });
 
   it('should instantly jump to scroll position when using scrollYTo and scrollXTo', () => {

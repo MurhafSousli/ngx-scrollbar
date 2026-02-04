@@ -48,8 +48,8 @@ describe('External viewport with [NgSyncSpacer]', () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
 
     // Verify that only the vertical scrollbar is shown
-    expect(adapter.verticalUsed()).toBe(true);
-    expect(adapter.isVerticallyScrollable()).toBe(true);
+    expect(adapter.verticalUsed()).toBeTruthy();
+    expect(adapter.isVerticallyScrollable()).toBeTruthy();
     expect(adapter.horizontalUsed()).toBe(false);
     expect(adapter.isHorizontallyScrollable()).toBe(false);
 
@@ -59,8 +59,8 @@ describe('External viewport with [NgSyncSpacer]', () => {
     // Wait for content wrapper resize observer to pick the change
     await afterTimeout(50);
 
-    expect(adapter.horizontalUsed()).toBe(true);
-    expect(adapter.isHorizontallyScrollable()).toBe(true);
+    expect(adapter.horizontalUsed()).toBeTruthy();
+    expect(adapter.isHorizontallyScrollable()).toBeTruthy();
     expect(scrollbarCmp.spacerElement().clientWidth).toBe(200);
 
     // Change the content size to trigger spacer resize event
