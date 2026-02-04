@@ -229,7 +229,7 @@
   }
 
   @if $hover-opacity-transition-enter-duration {
-    --scrollbar-hover-opacity-transition-leave-duration: #{$hover-opacity-transition-enter-duration};
+    --scrollbar-hover-opacity-transition-enter-duration: #{$hover-opacity-transition-enter-duration};
   }
 
   @if $hover-opacity-transition-leave-duration {

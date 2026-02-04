@@ -1,5 +1,10 @@
 # Changelog
 
+## 19.1.4
+
+- fix: Storybook error `node_modules/ngx-scrollbar/index.scss' does not provide an export named 'NgScrollbarModule'`, closes [#719](https://github.com/MurhafSousli/ngx-scrollbar/discussions/719).
+- fix: Setting `hover-opacity-transition-enter-duration` has no effect, closes [#718](https://github.com/MurhafSousli/ngx-scrollbar/issues/718).
+
 ## 19.1.3
 
 - fix: scss can't find the ngx scrollbar entry point for using the styling mixins, closes [#714](https://github.com/MurhafSousli/ngx-scrollbar/issues/714).

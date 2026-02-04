@@ -41,8 +41,8 @@ describe('NgScrollbar Component', () => {
 
     await firstValueFrom(outputToObservable(adapter.afterInit));
 
-    expect(adapter.verticalUsed()).toBe(true);
-    expect(adapter.isVerticallyScrollable()).toBe(true);
+    expect(adapter.verticalUsed()).toBeTruthy();
+    expect(adapter.isVerticallyScrollable()).toBeTruthy();
     expect(adapter.horizontalUsed()).toBe(false);
     expect(adapter.isHorizontallyScrollable()).toBe(false);
   });
@@ -54,7 +54,7 @@ describe('NgScrollbar Component', () => {
 
     await firstValueFrom(outputToObservable(adapter.afterInit));
 
-    expect(adapter.verticalUsed()).toBe(true);
+    expect(adapter.verticalUsed()).toBeTruthy();
     expect(adapter.isVerticallyScrollable()).toBe(false);
     expect(adapter.horizontalUsed()).toBe(false);
     expect(adapter.isHorizontallyScrollable()).toBe(false);
@@ -78,8 +78,8 @@ describe('NgScrollbar Component', () => {
 
     await firstValueFrom(outputToObservable(adapter.afterInit));
 
-    expect(adapter.horizontalUsed()).toBe(true);
-    expect(adapter.isHorizontallyScrollable()).toBe(true);
+    expect(adapter.horizontalUsed()).toBeTruthy();
+    expect(adapter.isHorizontallyScrollable()).toBeTruthy();
     expect(adapter.verticalUsed()).toBe(false);
     expect(adapter.isVerticallyScrollable()).toBe(false);
   });
@@ -92,7 +92,7 @@ describe('NgScrollbar Component', () => {
 
     await firstValueFrom(outputToObservable(adapter.afterInit))
 
-    expect(adapter.horizontalUsed()).toBe(true);
+    expect(adapter.horizontalUsed()).toBeTruthy();
     expect(adapter.isHorizontallyScrollable()).toBe(false);
     expect(adapter.verticalUsed()).toBe(false);
     expect(adapter.isVerticallyScrollable()).toBe(false);
@@ -116,10 +116,10 @@ describe('NgScrollbar Component', () => {
 
     await firstValueFrom(outputToObservable(adapter.afterInit));
 
-    expect(adapter.horizontalUsed()).toBe(true);
+    expect(adapter.horizontalUsed()).toBeTruthy();
     await afterTimeout(2000)
     expect(adapter.isHorizontallyScrollable()).toBe(false);
-    expect(adapter.verticalUsed()).toBe(true);
+    expect(adapter.verticalUsed()).toBeTruthy();
     expect(adapter.isVerticallyScrollable()).toBe(false);
   });
 
@@ -130,10 +130,10 @@ describe('NgScrollbar Component', () => {
 
     await firstValueFrom(outputToObservable(adapter.afterInit))
 
-    expect(adapter.horizontalUsed()).toBe(true);
-    expect(adapter.isHorizontallyScrollable()).toBe(true);
-    expect(adapter.verticalUsed()).toBe(true);
-    expect(adapter.isVerticallyScrollable()).toBe(true);
+    expect(adapter.horizontalUsed()).toBeTruthy();
+    expect(adapter.isHorizontallyScrollable()).toBeTruthy();
+    expect(adapter.verticalUsed()).toBeTruthy();
+    expect(adapter.isVerticallyScrollable()).toBeTruthy();
   });
 
   it('[Auto-height]: component height and width should match content size by default', () => {

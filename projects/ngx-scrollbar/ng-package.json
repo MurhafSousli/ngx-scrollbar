@@ -8,7 +8,7 @@
       "output": "assets"
     },
     "docs/*.md",
-    "index.scss"
+    "_index.scss"
   ],
   "lib": {
     "entryFile": "src/public-api.ts"

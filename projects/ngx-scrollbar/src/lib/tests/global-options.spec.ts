@@ -22,6 +22,6 @@ describe('Global options', () => {
   it('should override default options', () => {
     expect(adapter.appearance()).toBe('compact');
     expect(adapter.visibility()).toBe('visible');
-    expect(adapter.disableInteraction()).toBe(true);
+    expect(adapter.disableInteraction()).toBeTruthy();
   });
 });

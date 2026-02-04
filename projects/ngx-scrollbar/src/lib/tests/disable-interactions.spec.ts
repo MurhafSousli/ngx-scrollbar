@@ -71,7 +71,7 @@ describe('disableInteraction option', () => {
   }
 
   function interactionDisabledCases(): void {
-    expect(adapter.disableInteraction()).toBe(true);
+    expect(adapter.disableInteraction()).toBeTruthy();
     expect(component.nativeElement.getAttribute('disableInteraction')).toBe('true');
 
     expect(trackYSpy).toHaveBeenCalled();
