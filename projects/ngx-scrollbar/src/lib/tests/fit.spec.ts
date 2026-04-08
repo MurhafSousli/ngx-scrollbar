@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
 import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
-import { DirectionalityMock, setDimensions } from './common-test.';
+import { DirectionalityMock, setDimensions } from './common-test';
 
 describe('Fit styles', () => {
   let component: NgScrollbar;

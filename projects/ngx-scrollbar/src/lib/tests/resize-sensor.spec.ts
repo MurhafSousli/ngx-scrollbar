@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
 import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
-import { afterTimeout, setDimensions } from './common-test.';
+import { afterTimeout, setDimensions } from './common-test';
 
 
 describe('Resize Sensor', () => {

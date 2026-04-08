@@ -31,19 +31,6 @@ export type SmoothScrollToOptions = Partial<Pick<_XAxis, keyof _XAxis> & Pick<_Y
  */
 export type SmoothScrollToElementOptions = SmoothScrollToOptions & { center?: boolean };
 
-export interface SmoothScrollStep {
-  scrollable: Element;
-  startTime: number;
-  startX: number;
-  startY: number;
-  x: number;
-  y: number;
-  duration: number;
-  easing: (k: number) => number;
-  currentX?: number;
-  currentY?: number;
-}
-
 export interface SmoothScrollOptions {
   duration?: number;
   easing?: BezierEasingOptions;

@@ -3,7 +3,7 @@ import { Directionality } from '@angular/cdk/bidi';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
 import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
-import { DirectionalityMock, setDimensions } from './common-test.';
+import { DirectionalityMock, setDimensions } from './common-test';
 
 describe('Appearance [native / compact] styles', () => {
   let component: NgScrollbar;
@@ -30,19 +30,15 @@ describe('Appearance [native / compact] styles', () => {
   });
 
   it('should set appearance="native" attribute by default and 0px padding', () => {
-    const appearanceAttr: string = component.nativeElement.getAttribute('appearance');
-    const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
-    expect(appearanceAttr).toBe('native');
-    expect(styles.padding).toBe('0px');
+    expect(component.nativeElement).toHaveAttribute('appearance', 'native');
+    expect(component.adapter.contentWrapperElement).toHaveStyle({ padding: '0px' }  );
   });
 
   it('should set appearance="compact" attribute when [appearance]="compact"', () => {
     setDimensions(component, { cmpHeight: 200, cmpWidth: 200, contentHeight: 500, contentWidth: 500 });
     fixture.componentRef.setInput('appearance', 'compact');
     fixture.detectChanges();
-
-    const appearanceAttr: string = component.nativeElement.getAttribute('appearance');
-    expect(appearanceAttr).toBe('compact');
+    expect(component.nativeElement).toHaveAttribute('appearance', 'compact');
   });
 
   it('should have "padding-right" and "padding-bottom" when its scrollable in both directions', async () => {
@@ -51,11 +47,6 @@ describe('Appearance [native / compact] styles', () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
     fixture.detectChanges();
 
-    const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
-    expect(styles.paddingRight).toBe(scrollbarSize);
-    expect(styles.paddingBottom).toBe(scrollbarSize);
-    expect(styles.paddingTop).toBe('0px');
-    expect(styles.paddingLeft).toBe('0px');
   });
 
   it('should have "padding-right" when its vertically scrollable', async () => {
@@ -64,11 +55,11 @@ describe('Appearance [native / compact] styles', () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
     fixture.detectChanges();
 
-    const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
-    expect(styles.paddingRight).toBe(scrollbarSize);
-    expect(styles.paddingBottom).toBe('0px');
-    expect(styles.paddingTop).toBe('0px');
-    expect(styles.paddingLeft).toBe('0px');
+    expect(component.adapter.contentWrapperElement).toHaveStyle({
+      paddingRight: scrollbarSize,
+      paddingTop: '0px',
+      paddingLeft: '0px'
+    });
   });
 
   it('should have "padding-bottom" when its horizontally scrollable', async () => {
@@ -77,11 +68,12 @@ describe('Appearance [native / compact] styles', () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
     fixture.detectChanges();
 
-    const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
-    expect(styles.paddingBottom).toBe(scrollbarSize);
-    expect(styles.paddingRight).toBe('0px');
-    expect(styles.paddingTop).toBe('0px');
-    expect(styles.paddingLeft).toBe('0px');
+    expect(component.adapter.contentWrapperElement).toHaveStyle({
+      paddingBottom: scrollbarSize,
+      paddingRight: '0px',
+      paddingTop: '0px',
+      paddingLeft: '0px'
+    });
   });
 
   it('should have "padding-top" when its horizontally scrollable and [position]="invertX"', async () => {
@@ -91,11 +83,12 @@ describe('Appearance [native / compact] styles', () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
     fixture.detectChanges();
 
-    const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
-    expect(styles.paddingTop).toBe(scrollbarSize);
-    expect(styles.paddingBottom).toBe('0px');
-    expect(styles.paddingRight).toBe('0px');
-    expect(styles.paddingLeft).toBe('0px');
+    expect(component.adapter.contentWrapperElement).toHaveStyle({
+      paddingTop: scrollbarSize,
+      paddingBottom: '0px',
+      paddingRight: '0px',
+      paddingLeft: '0px'
+    });
   });
 
   it('should have "padding-left" when its vertically scrollable and [position="invertY"]', async () => {
@@ -105,11 +98,12 @@ describe('Appearance [native / compact] styles', () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
     fixture.detectChanges();
 
-    const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
-    expect(styles.paddingLeft).toBe(scrollbarSize);
-    expect(styles.paddingBottom).toBe('0px');
-    expect(styles.paddingRight).toBe('0px');
-    expect(styles.paddingTop).toBe('0px');
+    expect(component.adapter.contentWrapperElement).toHaveStyle({
+      paddingLeft: scrollbarSize,
+      paddingBottom: '0px',
+      paddingRight: '0px',
+      paddingTop: '0px'
+    });
   });
 
   it('should have "padding-left" and "padding-top" when its scrollbar in both directions and [position="invertAll"]', async () => {
@@ -119,11 +113,12 @@ describe('Appearance [native / compact] styles', () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
     fixture.detectChanges();
 
-    const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
-    expect(styles.paddingTop).toBe(scrollbarSize);
-    expect(styles.paddingLeft).toBe(scrollbarSize);
-    expect(styles.paddingBottom).toBe('0px');
-    expect(styles.paddingRight).toBe('0px');
+    expect(component.adapter.contentWrapperElement).toHaveStyle({
+      paddingTop: scrollbarSize,
+      paddingLeft: scrollbarSize,
+      paddingBottom: '0px',
+      paddingRight: '0px'
+    });
   });
 
   it('should have "padding-left" when its vertically scrollable and [dir="rtl"]', async () => {
@@ -133,11 +128,12 @@ describe('Appearance [native / compact] styles', () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
     fixture.detectChanges();
 
-    const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
-    expect(styles.paddingLeft).toBe(scrollbarSize);
-    expect(styles.paddingTop).toBe('0px');
-    expect(styles.paddingBottom).toBe('0px');
-    expect(styles.paddingRight).toBe('0px');
+    expect(component.adapter.contentWrapperElement).toHaveStyle({
+      paddingLeft: scrollbarSize,
+      paddingTop: '0px',
+      paddingBottom: '0px',
+      paddingRight: '0px'
+    });
   });
 
   it('should have "padding-right" when its vertically scrollable, [dir="rtl"] and [position]="invertY"', async () => {
@@ -148,11 +144,12 @@ describe('Appearance [native / compact] styles', () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
     fixture.detectChanges();
 
-    const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
-    expect(styles.paddingRight).toBe(scrollbarSize);
-    expect(styles.paddingLeft).toBe('0px');
-    expect(styles.paddingTop).toBe('0px');
-    expect(styles.paddingBottom).toBe('0px');
+    expect(component.adapter.contentWrapperElement).toHaveStyle({
+      paddingRight: scrollbarSize,
+      paddingLeft: '0px',
+      paddingTop: '0px',
+      paddingBottom: '0px'
+    });
   });
 
   it('should have "padding-right" and "padding-top" when its scrollable in both directions, [dir="rtl"] and [position]="invertAll"', async () => {
@@ -163,11 +160,12 @@ describe('Appearance [native / compact] styles', () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
     fixture.detectChanges();
 
-    const styles: CSSStyleDeclaration = getComputedStyle(component.adapter.contentWrapperElement);
-    expect(styles.paddingRight).toBe(scrollbarSize);
-    expect(styles.paddingTop).toBe(scrollbarSize);
-    expect(styles.paddingBottom).toBe('0px');
-    expect(styles.paddingLeft).toBe('0px');
+    expect(component.adapter.contentWrapperElement).toHaveStyle({
+      paddingRight: scrollbarSize,
+      paddingTop: scrollbarSize,
+      paddingBottom: '0px',
+      paddingLeft: '0px'
+    });
   });
 });
 

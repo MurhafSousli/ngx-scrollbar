@@ -6,7 +6,6 @@ import {
   viewChildren,
   afterNextRender,
   Signal,
-  NgZone,
   OnDestroy,
   ElementRef,
   InputSignal,
@@ -36,8 +35,6 @@ import { ReachedEvent } from './reached.model';
 })
 export class ReachDropObserver implements OnDestroy {
 
-  private zone: NgZone = inject(NgZone);
-
   viewport: ViewportAdapter = inject(ViewportAdapter);
 
   /** The intersection observer reference */
@@ -47,37 +44,37 @@ export class ReachDropObserver implements OnDestroy {
 
   selectedEvents: InputSignal<ReachedEvent[]> = input<ReachedEvent[]>();
 
+  /* v8 ignore start */
   triggerElements: Signal<readonly ElementRef[]> = viewChildren<ElementRef>('detectElement');
+  /* v8 ignore stop */
 
   constructor() {
     afterNextRender({
       earlyRead: () => {
-        this.zone.runOutsideAngular(() => {
-          // The first time the observer is triggered as soon as the element is observed,
-          // This flag is used to ignore this first trigger
-          let intersectionObserverInit: boolean = false;
+        // The first time the observer is triggered as soon as the element is observed,
+        // This flag is used to ignore this first trigger
+        let intersectionObserverInit: boolean = false;
 
-          this.intersectionObserver = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
-            if (intersectionObserverInit) {
-              entries.forEach((entry: IntersectionObserverEntry) => {
-                const entryType: string = entry.target.getAttribute('event');
-                if ((entryType === 'reached' && entry.isIntersecting) || (entryType === 'dropped' && !entry.isIntersecting)) {
-                  // Forward the detected trigger element only after the observer is initialized
-                  // Only observe the trigger elements when scrollable
-                  this.zone.run(() => this.events.emit(entry.target.getAttribute('name')));
-                }
-              });
-            } else {
-              // Once the initial element is detected, set a flag to true
-              intersectionObserverInit = true;
-            }
-          }, {
-            root: this.viewport.viewportElement
-          });
+        this.intersectionObserver = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
+          if (intersectionObserverInit) {
+            entries.forEach((entry: IntersectionObserverEntry) => {
+              const entryType: string = entry.target.getAttribute('event');
+              if ((entryType === 'reached' && entry.isIntersecting) || (entryType === 'dropped' && !entry.isIntersecting)) {
+                // Forward the detected trigger element only after the observer is initialized
+                // Only observe the trigger elements when scrollable
+                this.events.emit(entry.target.getAttribute('name'));
+              }
+            });
+          } else {
+            // Once the initial element is detected, set a flag to true
+            intersectionObserverInit = true;
+          }
+        }, {
+          root: this.viewport.viewportElement
+        });
 
-          this.triggerElements().forEach((el: ElementRef<HTMLElement>) => {
-            this.intersectionObserver.observe(el.nativeElement);
-          });
+        this.triggerElements().forEach((el: ElementRef<HTMLElement>) => {
+          this.intersectionObserver.observe(el.nativeElement);
         });
       }
     });

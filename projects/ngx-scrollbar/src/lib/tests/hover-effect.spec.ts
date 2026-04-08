@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
 import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
-import { setDimensions } from './common-test.';
+import { setDimensions } from './common-test';
 
 describe('Hover effect', () => {
   let component: NgScrollbar;

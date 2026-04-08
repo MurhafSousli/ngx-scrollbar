@@ -6,7 +6,7 @@ import { outputToObservable } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
 import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
 import { provideSmoothScrollOptions } from 'ngx-scrollbar/smooth-scroll';
-import { afterTimeout, DirectionalityMock, setDimensions } from './common-test.';
+import { afterTimeout, DirectionalityMock, setDimensions } from './common-test';
 import { ScrollbarButton } from '../button/scrollbar-button';
 
 describe('Buttons', () => {
@@ -69,8 +69,7 @@ describe('Buttons', () => {
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
 
     // First click
-    await afterTimeout(100 + 16);
-    expect(Math.round(component.adapter.scrollTop)).toBeGreaterThanOrEqual(49);
+    await vi.waitFor(() => expect(Math.round(component.adapter.scrollTop)).toBe(50));
 
     // Ongoing click
     await afterTimeout(130 + 16 + 16);
@@ -101,8 +100,7 @@ describe('Buttons', () => {
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
 
     // First click
-    await afterTimeout(100 + 16);
-    expect(Math.round(component.adapter.scrollTop)).toBe(50);
+    await vi.waitFor(() => expect(Math.round(component.adapter.scrollTop)).toBe(50));
 
     // Ongoing click
     await afterTimeout(130 + 16 + 16);
@@ -130,8 +128,7 @@ describe('Buttons', () => {
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
 
     // First click
-    await afterTimeout(100 + 16 + 16);
-    expect(Math.round(component.adapter.scrollLeft)).toBe(50);
+    await vi.waitFor(() => expect(Math.round(component.adapter.scrollLeft)).toBe(50));
 
     // Ongoing click
     await afterTimeout(130 + 16 + 16);
@@ -162,8 +159,7 @@ describe('Buttons', () => {
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
 
     // First click
-    await afterTimeout(100 + 16);
-    expect(Math.round(component.adapter.scrollLeft)).toBe(50);
+    await vi.waitFor(() => expect(Math.round(component.adapter.scrollLeft)).toBe(50));
 
     // Ongoing click
     await afterTimeout(130 + 16 + 16);
@@ -193,8 +189,7 @@ describe('Buttons', () => {
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
 
     // First click
-    await afterTimeout(100 + 16);
-    expect(Math.round(component.adapter.scrollLeft)).toBe(-50);
+    await vi.waitFor(() => expect(Math.round(component.adapter.scrollLeft)).toBe(-50));
 
     // Ongoing click
     await afterTimeout(130 + 16 + 16);
@@ -225,8 +220,7 @@ describe('Buttons', () => {
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
 
     // First click
-    await afterTimeout(100 + 16);
-    expect(Math.round(component.adapter.scrollLeft)).toBe(-50);
+    await vi.waitFor(() => expect(Math.round(component.adapter.scrollLeft)).toBe(-50));
 
     // Ongoing click
     await afterTimeout(130 + 16 + 16);
@@ -255,8 +249,7 @@ describe('Buttons', () => {
     button.nativeElement.dispatchEvent(new PointerEvent('pointerdown'));
 
     // First click
-    await afterTimeout(100 + 16);
-    expect(Math.round(component.adapter.scrollTop)).toBe(50);
+    await vi.waitFor(() => expect(Math.round(component.adapter.scrollTop)).toBe(50));
 
     button.nativeElement.dispatchEvent(new PointerEvent('pointerup'));
 
@@ -274,8 +267,7 @@ describe('Buttons', () => {
 
 
     // First click
-    await afterTimeout(100 + 16 + 16);
-    expect(Math.round(component.adapter.scrollTop)).toBe(50);
+    await vi.waitFor(() => expect(Math.round(component.adapter.scrollTop)).toBe(50));
 
     button.nativeElement.dispatchEvent(new PointerEvent('pointerleave'));
 

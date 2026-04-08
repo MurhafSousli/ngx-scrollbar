@@ -1,12 +1,6 @@
 import { Directive, inject, untracked, afterRenderEffect } from '@angular/core';
 import { Observable, of, fromEvent, map, takeUntil, tap, switchMap } from 'rxjs';
-import {
-  ScrollbarDragging,
-  ScrollTimelineFunc,
-  stopPropagation,
-  enableSelection,
-  preventSelection
-} from '../utils/common';
+import { ScrollTimelineFunc, stopPropagation, enableSelection, preventSelection } from '../utils/common';
 import { ScrollbarManager } from '../utils/scrollbar-manager';
 import { TrackAdapter } from '../track/track-adapter';
 import { PointerEventsAdapter } from '../utils/pointer-events-adapter';
@@ -48,7 +42,7 @@ export class ThumbAdapter extends PointerEventsAdapter {
             // Capture scrollMax and trackMax once
             startTrackMax = this.trackMax;
             startScrollMax = this.control.viewportScrollMax;
-            this.setDragging(this.control.axis);
+            this.adapter.dragging.set(this.control.axis)
           }),
         );
 
@@ -57,7 +51,7 @@ export class ThumbAdapter extends PointerEventsAdapter {
         const dragEnd: Observable<PointerEvent> = fromEvent<PointerEvent>(this.document, 'pointerup', { capture: true }).pipe(
           stopPropagation(),
           enableSelection(this.document),
-          tap(() => this.setDragging('none'))
+          tap(() => this.adapter.dragging.set(null))
         );
 
         return dragStart.pipe(
@@ -87,10 +81,6 @@ export class ThumbAdapter extends PointerEventsAdapter {
       }
     });
     super();
-  }
-
-  private setDragging(value: ScrollbarDragging): void {
-    this.zone.run(() => this.adapter.dragging.set(value));
   }
 }
 

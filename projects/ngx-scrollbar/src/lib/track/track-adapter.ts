@@ -158,18 +158,18 @@ export abstract class TrackAdapter extends PointerEventsAdapter {
       // If mouse left the track, terminate the stream
       takeUntil(this.pointerOut$),
       // Keep scrolling until target position is reached
-      takeWhile(() => !this.isReached(position)),
+      takeWhile(() => !this.isReachedByOffset()),
       switchMap(() => this.onTrackOngoingMousedown())
     );
   }
 
   /**
-   * Returns a flag that determines whether the scroll from the given position is the final step or not
+   * Returns a flag that determines whether the viewport has reached the end boundary
    */
-  private isReached(position: number): boolean {
+  private isReachedByOffset(): boolean {
     if (this.scrollDirection === 'forward') {
-      return position >= this.scrollMax;
+      return this.control.viewportScrollOffset >= this.scrollMax;
     }
-    return position <= 0;
+    return this.control.viewportScrollOffset <= 0;
   }
 }

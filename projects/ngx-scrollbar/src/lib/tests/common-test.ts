@@ -1,5 +1,5 @@
 import { NgScrollbar } from 'ngx-scrollbar';
-import { EventEmitter, signal } from '@angular/core';
+import { signal } from '@angular/core';
 import { Direction } from '@angular/cdk/bidi';
 
 export interface TestDimension {
@@ -37,7 +37,5 @@ export function setDimensions(comp: NgScrollbar, d: TestDimension): void {
 }
 
 export const DirectionalityMock = {
-  value: 'ltr',
-  change: new EventEmitter<Direction>(),
   valueSignal: signal<Direction>('ltr')
 }

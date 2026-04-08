@@ -4,7 +4,6 @@ import {
   signal,
   effect,
   untracked,
-  NgZone,
   WritableSignal,
   EffectCleanupRegisterFn
 } from '@angular/core';
@@ -22,8 +21,6 @@ import { ElementDimension, getThrottledStream } from './utils/common';
   }
 })
 export class NgSyncSpacer {
-
-  private readonly zone: NgZone = inject(NgZone);
 
   private readonly sharedResizeObserver: SharedResizeObserver = inject(SharedResizeObserver);
 
@@ -48,16 +45,12 @@ export class NgSyncSpacer {
       untracked(() => {
         if (!disableSensor && contentWrapperElement && spacerElement) {
           // Sync spacer dimension with content wrapper dimensions to allow both scrollbars to be displayed
-          this.zone.runOutsideAngular(() => {
-            resizeSub$ = getThrottledStream(this.sharedResizeObserver.observe(contentWrapperElement), throttleDuration).subscribe(() => {
-              this.zone.run(() => {
-                // Use animation frame to avoid "ResizeObserver loop completed with undelivered notifications." error
-                requestAnimationFrame(() => {
-                  this.spacerDimension.set({
-                    width: contentWrapperElement.offsetWidth,
-                    height: contentWrapperElement.offsetHeight
-                  });
-                })
+          resizeSub$ = getThrottledStream(this.sharedResizeObserver.observe(contentWrapperElement), throttleDuration).subscribe(() => {
+            // Use animation frame to avoid "ResizeObserver loop completed with undelivered notifications." error
+            requestAnimationFrame(() => {
+              this.spacerDimension.set({
+                width: contentWrapperElement.offsetWidth,
+                height: contentWrapperElement.offsetHeight
               });
             });
           });

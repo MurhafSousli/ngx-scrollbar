@@ -4,7 +4,7 @@ import { Component, DebugElement, input, InputSignal, signal } from '@angular/co
 import { outputToObservable } from '@angular/core/rxjs-interop';
 import { NgScrollbarExt, NgScrollbarModule, ViewportAdapter } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
-import { afterTimeout } from './common-test.';
+import { afterTimeout } from './common-test';
 
 @Component({
   selector: 'sample-lib',

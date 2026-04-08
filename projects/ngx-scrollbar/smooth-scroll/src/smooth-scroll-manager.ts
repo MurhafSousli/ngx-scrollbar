@@ -1,23 +1,8 @@
-import { Injectable, inject, ElementRef, NgZone, DOCUMENT } from '@angular/core';
-
+import { Injectable, inject, ElementRef, DOCUMENT } from '@angular/core';
 import { coerceElement } from '@angular/cdk/coercion';
-import {
-  Observable,
-  Subscriber,
-  Subject,
-  take,
-  merge,
-  finalize,
-  fromEvent,
-  switchMap,
-  takeUntil,
-  takeWhile
-} from 'rxjs';
-import BezierEasing from './bezier-easing';
 import {
   SMOOTH_SCROLL_OPTIONS,
   SmoothScrollElement,
-  SmoothScrollStep,
   SmoothScrollToElementOptions,
   SmoothScrollOptions,
   SmoothScrollToOptions
@@ -27,34 +12,12 @@ import {
   providedIn: 'root'
 })
 export class SmoothScrollManager {
+  private readonly document = inject(DOCUMENT);
 
-  private document: Document = inject(DOCUMENT);
-
-  private zone: NgZone = inject(NgZone);
-
-  // Default options
   private readonly _defaultOptions: SmoothScrollOptions = inject(SMOOTH_SCROLL_OPTIONS);
 
-  // Keeps track of the ongoing SmoothScroll functions, so they can be handled in case of duplication.
-  // Each scrolled element gets a destroyer stream which gets deleted immediately after it completes.
-  // Purpose: If user called a scroll function again on the same element before the scrolls completes,
-  // it cancels the ongoing scroll and starts a new one
-  private onGoingScrolls: Map<Element, Subject<void>> = new Map<Element, Subject<void>>();
-
-  /**
-   * Timing method
-   */
-  private get now(): () => number {
-    return this.document.defaultView.performance?.now?.bind(this.document.defaultView.performance) || Date.now;
-  }
-
-  /**
-   * changes scroll position inside an element
-   */
-  private scrollElement(el: Element, x: number, y: number): void {
-    el.scrollLeft = x;
-    el.scrollTop = y;
-  }
+  private onGoingAnimations = new Map<Element, Animation>();
+  private abortControllers = new Map<Element, AbortController>();
 
   /**
    * Handles a given parameter of type HTMLElement, ElementRef or selector
@@ -66,115 +29,91 @@ export class SmoothScrollManager {
     return coerceElement<Element>(el);
   }
 
-  /**
-   * Initializes a destroyer stream, re-initializes it if the element is already being scrolled
-   */
-  private getScrollDestroyerRef(el: Element): Subject<void> {
-    if (this.onGoingScrolls.has(el)) {
-      this.onGoingScrolls.get(el).next();
+  private cancelOngoingAnimation(el: Element): void {
+    const existingAnimation = this.onGoingAnimations.get(el);
+    if (existingAnimation) {
+      existingAnimation.cancel();
     }
-    return this.onGoingScrolls.set(el, new Subject<void>()).get(el);
+    this.cleanup(el);
   }
 
-  /**
-   * A function called recursively that, given a context, steps through scrolling
-   */
-  private step(context: SmoothScrollStep): Observable<void> {
-    return new Observable((subscriber: Subscriber<void>) => {
-      let elapsed: number = (this.now() - context.startTime) / context.duration;
-
-      // avoid elapsed times higher than one
-      elapsed = elapsed > 1 ? 1 : elapsed;
-
-      // apply easing to elapsed time
-      const value: number = context.easing(elapsed);
-
-      context.currentX = context.startX + (context.x - context.startX) * value;
-      context.currentY = context.startY + (context.y - context.startY) * value;
-
-      this.scrollElement(context.scrollable, context.currentX, context.currentY);
-      // Proceed to the step
-      requestAnimationFrame(() => {
-        subscriber.next();
-        subscriber.complete();
-      });
-    });
-  }
-
-  /**
-   * Checks if smooth scroll has reached, cleans up the smooth scroll stream
-   */
-  private isReached(context: SmoothScrollStep, destroyed: Subject<void>): boolean {
-    if (context.currentX === context.x && context.currentY === context.y) {
-      // IMPORTANT: Destroy the stream when scroll is reached ASAP!
-      destroyed.next();
-      return true;
+  private cleanup(el: Element): void {
+    const controller = this.abortControllers.get(el);
+    if (controller) {
+      controller.abort();
+      this.abortControllers.delete(el);
     }
-    return false;
-  }
-
-  /**
-   * Scroll recursively until coordinates are reached
-   * @param context
-   * @param destroyed
-   */
-  scrolling(context: SmoothScrollStep, destroyed: Subject<void>): Observable<void> {
-    return this.step(context).pipe(
-      // Continue while target coordinates hasn't reached yet
-      takeWhile(() => !this.isReached(context, destroyed)),
-      switchMap(() => this.scrolling(context, destroyed))
-    );
-  }
-
-  /**
-   * Deletes the destroyer function, runs if the smooth scroll has finished or interrupted
-   */
-  private onScrollReached(el: Element, resolve: () => void, destroyed: Subject<void>): void {
-    destroyed.complete();
-    this.onGoingScrolls.delete(el);
-    this.zone.run(() => resolve());
-  }
-
-  /**
-   * Terminates an ongoing smooth scroll
-   */
-  private interrupted(el: Element, destroyed: Subject<void>): Observable<Event | void> {
-    return merge(
-      fromEvent(el, 'wheel', { passive: true, capture: true }),
-      fromEvent(el, 'touchmove', { passive: true, capture: true }),
-      destroyed
-    ).pipe(take(1));
+    this.onGoingAnimations.delete(el);
   }
 
   private applyScrollToOptions(el: Element, options: SmoothScrollToOptions): Promise<void> {
+    this.cancelOngoingAnimation(el);
+
     if (!options.duration) {
-      this.scrollElement(el, options.left, options.top);
-      return Promise.resolve();
+      el.scrollLeft = options.left ?? el.scrollLeft;
+      el.scrollTop = options.top ?? el.scrollTop;
+
+      // Ensure the browser performs a paint before resolving
+      return new Promise(resolve => requestAnimationFrame(() => resolve()));
     }
 
-    return new Promise((resolve: () => void) => {
-      this.zone.runOutsideAngular(() => {
-        // Initialize a destroyer stream, reinitialize it if the element is already being scrolled
-        const destroyed: Subject<void> = this.getScrollDestroyerRef(el);
+    return new Promise((resolve) => {
+      const startX = el.scrollLeft;
+      const startY = el.scrollTop;
+      const endX = options.left ?? startX;
+      const endY = options.top ?? startY;
 
-        const context: SmoothScrollStep = {
-          scrollable: el,
-          startTime: this.now(),
-          startX: el.scrollLeft,
-          startY: el.scrollTop,
-          x: options.left == null ? el.scrollLeft : ~~options.left,
-          y: options.top == null ? el.scrollTop : ~~options.top,
-          duration: options.duration,
-          easing: BezierEasing(options.easing.x1, options.easing.y1, options.easing.x2, options.easing.y2)
-        };
+      // Convert Bezier options to CSS string
+      const easingStr = `cubic-bezier(${options.easing.x1}, ${options.easing.y1}, ${options.easing.x2}, ${options.easing.y2})`;
 
-        this.scrolling(context, destroyed).pipe(
-          // Continue until interrupted by another scroll (new smooth scroll / wheel / touchmove)
-          takeUntil(this.interrupted(el, destroyed)),
-          // Once finished, clean up the destroyer stream and resolve the promise
-          finalize(() => this.onScrollReached(el, resolve, destroyed)),
-        ).subscribe();
+      // Create dummy WAAPI animation to drive the timing
+      const animation = el.animate([], {
+        duration: options.duration,
+        easing: easingStr
       });
+
+      this.onGoingAnimations.set(el, animation);
+
+      const controller = new AbortController();
+      this.abortControllers.set(el, controller);
+
+      const interrupt = () => controller.abort();
+      el.addEventListener('wheel', interrupt, { passive: true, capture: true, signal: controller.signal });
+      el.addEventListener('touchmove', interrupt, { passive: true, capture: true, signal: controller.signal });
+
+      const update = () => {
+        if (animation.playState !== 'running' || controller.signal.aborted) return;
+
+        // Get the eased progress directly from the browser's WAAPI engine or fallback to 1 if finished
+        const progress = (animation.effect?.getComputedTiming().progress as number) ?? 1;
+
+        el.scrollLeft = startX + (endX - startX) * progress;
+        el.scrollTop = startY + (endY - startY) * progress;
+
+        requestAnimationFrame(update);
+      };
+
+      requestAnimationFrame(update);
+
+      animation.onfinish = () => {
+        if (!controller.signal.aborted) {
+          el.scrollLeft = endX;
+          el.scrollTop = endY;
+        }
+        this.cleanup(el);
+
+        // Wait for the next frame to ensure the DOM layout is updated before resolving
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => resolve());
+        });
+      };
+
+      animation.oncancel = () => {
+        this.cleanup(el);
+        resolve();
+      };
+
+      controller.signal.addEventListener('abort', () => animation.cancel(), { once: true });
     });
   }
 
@@ -284,7 +223,7 @@ export class SmoothScrollManager {
       left: options.left,
       easing: options.easing,
       duration: options.duration
-    }
+    };
 
     return this.applyScrollToOptions(scrollableEl, computedOptions);
   }

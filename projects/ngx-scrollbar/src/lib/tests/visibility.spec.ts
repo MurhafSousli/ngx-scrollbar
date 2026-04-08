@@ -4,7 +4,7 @@ import { DebugElement } from '@angular/core';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
-import { setDimensions } from './common-test.';
+import { setDimensions } from './common-test';
 
 describe('Visibility styles', () => {
   let component: NgScrollbar;
@@ -26,14 +26,15 @@ describe('Visibility styles', () => {
 
     const stickyDebugElement: DebugElement = fixture.debugElement.query(By.css('scrollbar-y.ng-scrollbar-sticky'));
 
-    const stickyStyles: CSSStyleDeclaration = getComputedStyle(stickyDebugElement.nativeElement);
+    expect(component.nativeElement).toHaveAttribute('visibility', 'hover');
 
-    expect(component.nativeElement.getAttribute('visibility')).toBe('hover');
-    expect(stickyStyles.opacity).toBe('0');
-    expect(stickyStyles.transitionDelay).toBe('1s');
-    expect(stickyStyles.transitionDuration).toBe('0.4s');
-    expect(stickyStyles.transitionTimingFunction).toBe('ease');
-    expect(stickyStyles.transitionProperty).toBe('opacity');
+    expect(stickyDebugElement.nativeElement).toHaveStyle({
+      opacity: '0',
+      transitionDelay: '1s',
+      transitionDuration: '0.4s',
+      transitionProperty: 'opacity',
+      transitionTimingFunction: 'ease'
+    });
   });
 
   it('[Visibility] should be able to override styles related to sticky container using CSS variables', async () => {
@@ -48,12 +49,13 @@ describe('Visibility styles', () => {
     fixture.detectChanges();
 
     const stickyDebugElement: DebugElement = fixture.debugElement.query(By.css('scrollbar-y.ng-scrollbar-sticky'));
-    const stickyStyles: CSSStyleDeclaration = getComputedStyle(stickyDebugElement.nativeElement);
 
-    expect(stickyStyles.transitionDelay).toBe('3s');
-    expect(stickyStyles.transitionDuration).toBe('0.5s');
-    expect(stickyStyles.transitionTimingFunction).toBe('ease');
-    expect(stickyStyles.transitionProperty).toBe('opacity');
+    expect(stickyDebugElement.nativeElement).toHaveStyle({
+      transitionDelay: '3s',
+      transitionDuration: '0.5s',
+      transitionProperty: 'opacity',
+      transitionTimingFunction: 'ease'
+    });
   });
 
   it('[Visibility] should be able to override styles related to scrollbar track using CSS variables', async () => {
@@ -63,9 +65,10 @@ describe('Visibility styles', () => {
     fixture.detectChanges();
 
     const trackDebugElement: DebugElement = fixture.debugElement.query(By.css('.track-inner'));
-    const trackStyles: CSSStyleDeclaration = getComputedStyle(trackDebugElement.nativeElement);
 
-    expect(trackStyles.backgroundColor).toBe('rgb(255, 0, 0)');
+    expect(trackDebugElement.nativeElement).toHaveStyle({
+      backgroundColor: 'rgb(255, 0, 0)'
+    });
   });
 
 });
