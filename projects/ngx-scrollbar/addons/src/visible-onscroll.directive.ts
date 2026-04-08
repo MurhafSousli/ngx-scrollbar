@@ -4,7 +4,6 @@ import {
   effect,
   input,
   numberAttribute,
-  NgZone,
   EffectCleanupRegisterFn,
   InputSignalWithTransform
 } from '@angular/core';
@@ -18,8 +17,6 @@ export class NgScrollHoverVisibility {
 
   /** Global options */
   private readonly options: NgScrollbarOptions = inject(NG_SCROLLBAR_OPTIONS);
-
-  private zone: NgZone = inject(NgZone);
 
   private viewport: ViewportAdapter = inject(ViewportAdapter);
 
@@ -42,25 +39,23 @@ export class NgScrollHoverVisibility {
       if (this.viewport.initialized() && this.viewport.visibility() === 'hover') {
         const el: HTMLElement = this.viewport.viewportElement;
 
-        this.zone.runOutsideAngular(() => {
-          sub$ = fromEvent(el, 'scroll', { passive: true }).pipe(
-            throttleTime(this.scrollThrottleTime(), animationFrameScheduler, {
-              leading: true,
-              trailing: false
-            }),
-            tap(() => {
-              if (el.getAttribute('scrolling') !== 'true') {
-                el.setAttribute('scrolling', 'true');
-              }
-            }),
-            debounceTime(this.scrollHideDelay()),
-            tap(() => {
-              if (el.getAttribute('scrolling') !== 'false') {
-                el.setAttribute('scrolling', 'false');
-              }
-            })
-          ).subscribe();
-        });
+        sub$ = fromEvent(el, 'scroll', { passive: true }).pipe(
+          throttleTime(this.scrollThrottleTime(), animationFrameScheduler, {
+            leading: true,
+            trailing: false
+          }),
+          tap(() => {
+            if (el.getAttribute('scrolling') !== 'true') {
+              el.setAttribute('scrolling', 'true');
+            }
+          }),
+          debounceTime(this.scrollHideDelay()),
+          tap(() => {
+            if (el.getAttribute('scrolling') !== 'false') {
+              el.setAttribute('scrolling', 'false');
+            }
+          })
+        ).subscribe();
       }
 
       onCleanup(() => sub$?.unsubscribe());

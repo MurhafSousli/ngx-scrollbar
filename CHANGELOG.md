@@ -1,5 +1,10 @@
 # Changelog
 
+## 19.1.5
+
+- fix: Remove the legacy `-webkit-scrollbar` styles that cannot be reverted after set to `display: none`, closes [#722](https://github.com/MurhafSousli/ngx-scrollbar/issues/722).
+- refactor: Remove `NgZone` code.
+
 ## 19.1.4
 
 - fix: Storybook error `node_modules/ngx-scrollbar/index.scss' does not provide an export named 'NgScrollbarModule'`, closes [#719](https://github.com/MurhafSousli/ngx-scrollbar/discussions/719).

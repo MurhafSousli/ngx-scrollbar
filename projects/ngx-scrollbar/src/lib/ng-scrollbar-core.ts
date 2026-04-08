@@ -1,12 +1,4 @@
-import {
-  Directive,
-  inject,
-  untracked,
-  afterRenderEffect,
-  NgZone,
-  ElementRef,
-  EffectCleanupRegisterFn
-} from '@angular/core';
+import { Directive, inject, untracked, afterRenderEffect, ElementRef, EffectCleanupRegisterFn } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
 import { SharedResizeObserver } from '@angular/cdk/observers/private';
 import { combineLatest, SubscriptionLike } from 'rxjs';
@@ -36,8 +28,6 @@ import { ScrollbarUpdateReason } from './ng-scrollbar.model';
   }
 })
 export class NgScrollbarCore {
-
-  private readonly zone: NgZone = inject(NgZone);
 
   private readonly platform: Platform = inject(Platform);
 
@@ -69,27 +59,23 @@ export class NgScrollbarCore {
               requestAnimationFrame(() => this.update(ScrollbarUpdateReason.AfterInit));
             } else {
               // Observe size changes for viewport and content wrapper
-              this.zone.runOutsideAngular(() => {
-                resizeSub$ = getThrottledStream(
-                  combineLatest([
-                    this.sharedResizeObserver.observe(this.adapter.viewportElement),
-                    this.sharedResizeObserver.observe(this.adapter.contentWrapperElement)
-                  ]),
-                  throttleDuration
-                ).subscribe(() => {
-                  // After deep investigation, it appears that setting the dimension directly from the element properties
-                  // is much faster than to set them from resize callback values
-                  this.zone.run(() => {
-                    this.updateDimensions();
+              resizeSub$ = getThrottledStream(
+                combineLatest([
+                  this.sharedResizeObserver.observe(this.adapter.viewportElement),
+                  this.sharedResizeObserver.observe(this.adapter.contentWrapperElement)
+                ]),
+                throttleDuration
+              ).subscribe(() => {
+                // After deep investigation, it appears that setting the dimension directly from the element properties
+                // is much faster than to set them from resize callback values
+                this.updateDimensions();
 
-                    if (hasInitialized) {
-                      this.adapter.afterUpdate.emit();
-                    } else {
-                      this.adapter.afterInit.emit();
-                    }
-                    hasInitialized = true;
-                  });
-                });
+                if (hasInitialized) {
+                  this.adapter.afterUpdate.emit();
+                } else {
+                  this.adapter.afterInit.emit();
+                }
+                hasInitialized = true;
               });
             }
           }

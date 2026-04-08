@@ -54,7 +54,7 @@ export interface ElementDimension {
   height?: number;
 }
 
-export type ScrollbarDragging = 'x' | 'y' | 'none';
+export type ScrollbarDragging = 'x' | 'y';
 
 export enum ViewportClasses {
   Viewport = 'ng-scroll-viewport',

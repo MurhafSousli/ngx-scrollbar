@@ -2,7 +2,6 @@
 @use "../styles/appearance" as appearance;
 @use "../styles/position" as position;
 @use "../styles/spacer" as spacer;
-@use "../styles/hide-native-scrollbars" as nativeScrollbars;
 @use "../styles/scroll" as scroll;
 @use "../styles/dragging" as dragging;
 @use "../styles/overscroll-behavior" as overscrollBehavior;
@@ -39,9 +38,11 @@
   // Optimize for scrolling
   will-change: scroll-position;
 
+  // Hide native scrollbars
+  scrollbar-width: none !important;
+
   @include spacer.SetSpacerStyles();
 
-  @include nativeScrollbars.HideNativeScrollbars();
   @include scrollOverflow.SetOverflowStuff();
   @include position.SetPositionStuff();
   @include appearance.SetAppearanceStuff();

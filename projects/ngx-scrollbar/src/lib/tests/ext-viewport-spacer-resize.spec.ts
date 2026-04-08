@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
 import { NgScrollbarExt, NgSyncSpacer, ViewportAdapter } from 'ngx-scrollbar';
-import { afterTimeout } from './common-test.';
+import { afterTimeout } from './common-test';
 
 @Component({
   selector: 'sample-content',

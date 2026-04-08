@@ -5,7 +5,7 @@ import { outputToObservable } from '@angular/core/rxjs-interop';
 import { vi } from 'vitest';
 import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
-import { afterTimeout, setDimensions } from './common-test.';
+import { afterTimeout, setDimensions } from './common-test';
 
 describe('NgScrollbar Component', () => {
   let component: NgScrollbar;
@@ -147,7 +147,7 @@ describe('NgScrollbar Component', () => {
     expect(adapter.verticalUsed()).toBeFalsy();
     expect(scrollbarX).toBeFalsy();
     expect(adapter.horizontalUsed()).toBeFalsy();
-    expect(getComputedStyle(component.nativeElement).height).toBe('300px');
+    expect(component.nativeElement).toHaveStyle('height: 300px');
   });
 
   it('should forward scrollToElement function call to SmoothScrollManager service', async () => {

@@ -50,7 +50,9 @@ import { Scrollbars } from './scrollbars/scrollbars';
 })
 export class NgScrollbar extends NgScrollbarCore {
 
+  /* v8 ignore start */
   private contentWrapper: Signal<ElementRef<HTMLElement>> = viewChild.required(ScrollContent, { read: ElementRef });
+  /* v8 ignore stop */
 
   contentWrapperElement: Signal<HTMLElement> = computed(() => this.contentWrapper().nativeElement);
 

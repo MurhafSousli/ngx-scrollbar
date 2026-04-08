@@ -13,14 +13,14 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: Use Node.js 20
+      - name: Use Node.js 24
         uses: actions/setup-node@master
         with:
-          node-version: 20
+          node-version: 24
 
       # Cache Playwright browsers (important for speed)
       - name: Cache Playwright browsers
-        uses: actions/cache@v4
+        uses: actions/cache@master
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}

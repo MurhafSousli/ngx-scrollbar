@@ -4,7 +4,7 @@ import { outputToObservable } from '@angular/core/rxjs-interop';
 import { vi } from 'vitest';
 import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
 import { firstValueFrom } from 'rxjs';
-import { setDimensions } from './common-test.';
+import { setDimensions } from './common-test';
 import { ScrollbarButton } from '../button/scrollbar-button';
 import { TrackAdapter } from '../track/track-adapter';
 import { ThumbAdapter } from '../thumb/thumb-adapter';
@@ -45,7 +45,7 @@ describe('disableInteraction option', () => {
 
   function interactionEnabledCases(): void {
     expect(adapter.disableInteraction()).toBe(false);
-    expect(component.nativeElement.getAttribute('disableInteraction')).toBe('false');
+    expect(component.nativeElement).toHaveAttribute('disableInteraction', 'false');
 
     expect(trackY._pointerEventsSub.closed).toBe(false);
     expect(thumbY._pointerEventsSub.closed).toBe(false);
@@ -57,22 +57,24 @@ describe('disableInteraction option', () => {
     expect(buttonXStart._pointerEventsSub.closed).toBe(false);
     expect(buttonXEnd._pointerEventsSub.closed).toBe(false);
 
-    const componentStyles: CSSStyleDeclaration = getComputedStyle(component.nativeElement);
-    // Get the styles of the parent element of the track
-    // This will test the pointer-events for track, thumb and buttons
-    const trackXWrapperStyles: CSSStyleDeclaration = getComputedStyle(trackX.nativeElement.parentElement);
-    const trackYWrapperStyles: CSSStyleDeclaration = getComputedStyle(trackY.nativeElement.parentElement);
-    expect(componentStyles.getPropertyValue('--_scrollbar-y-pointer-events')).toBe('auto');
-    expect(componentStyles.getPropertyValue('--_scrollbar-x-pointer-events')).toBe('auto');
-    expect(componentStyles.getPropertyValue('--_viewport-pointer-events')).toBe('auto');
-    expect(componentStyles.pointerEvents).toBe('auto');
-    expect(trackXWrapperStyles.pointerEvents).toBe('auto');
-    expect(trackYWrapperStyles.pointerEvents).toBe('auto');
+    expect(component.nativeElement).toHaveStyle({
+      '--_scrollbar-y-pointer-events': 'auto',
+      '--_scrollbar-x-pointer-events': 'auto',
+      '--_viewport-pointer-events': 'auto',
+      pointerEvents: 'auto'
+    } as Record<string, string>);
+
+    expect(trackX.nativeElement.parentElement).toHaveStyle({
+      pointerEvents: 'auto'
+    });
+    expect(trackY.nativeElement.parentElement).toHaveStyle({
+      pointerEvents: 'auto'
+    });
   }
 
   function interactionDisabledCases(): void {
     expect(adapter.disableInteraction()).toBeTruthy();
-    expect(component.nativeElement.getAttribute('disableInteraction')).toBe('true');
+    expect(component.nativeElement).toHaveAttribute('disableInteraction', 'true');
 
     expect(trackYSpy).toHaveBeenCalled();
     expect(thumbYSpy).toHaveBeenCalled();
@@ -84,15 +86,15 @@ describe('disableInteraction option', () => {
     expect(buttonXStartSpy).toHaveBeenCalled();
     expect(buttonXEndSpy).toHaveBeenCalled();
 
-    const componentStyles: CSSStyleDeclaration = getComputedStyle(component.nativeElement);
-    const trackXWrapperStyles: CSSStyleDeclaration = getComputedStyle(trackX.nativeElement.parentElement);
-    const trackYWrapperStyles: CSSStyleDeclaration = getComputedStyle(trackY.nativeElement.parentElement);
-    expect(componentStyles.getPropertyValue('--_scrollbar-y-pointer-events')).toBe('none');
-    expect(componentStyles.getPropertyValue('--_scrollbar-x-pointer-events')).toBe('none');
-    expect(componentStyles.getPropertyValue('--_viewport-pointer-events')).toBe('none');
-    expect(componentStyles.pointerEvents).toBe('none');
-    expect(trackXWrapperStyles.pointerEvents).toBe('none');
-    expect(trackYWrapperStyles.pointerEvents).toBe('none');
+    expect(component.nativeElement).toHaveStyle({
+      '--_scrollbar-y-pointer-events': 'none',
+      '--_scrollbar-x-pointer-events': 'none',
+      '--_viewport-pointer-events': 'none',
+      pointerEvents: 'none'
+    } as Record<string, string>);
+
+    expect(trackX.nativeElement.parentElement).toHaveStyle({ pointerEvents: 'none' });
+    expect(trackY.nativeElement.parentElement).toHaveStyle({ pointerEvents: 'none' });
   }
 
   it('should disable interactions for track and thumb', async () => {

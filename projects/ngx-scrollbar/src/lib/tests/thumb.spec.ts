@@ -7,7 +7,7 @@ import { firstValueFrom } from 'rxjs';
 import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
 import { ThumbAdapter } from '../thumb/thumb-adapter';
 import { ScrollbarManager } from '../utils/scrollbar-manager';
-import { DirectionalityMock, setDimensions } from './common-test.';
+import { DirectionalityMock, setDimensions } from './common-test';
 
 describe('Scrollbar thumb', () => {
   let component: NgScrollbar;
@@ -49,7 +49,7 @@ describe('Scrollbar thumb', () => {
     // Verify dragging signal and attribute is set to 'Y'
     expect(adapter.dragging()).toBe('y');
     fixture.detectChanges();
-    expect(component.nativeElement.getAttribute('dragging')).toBe('y');
+    expect(component.nativeElement).toHaveAttribute('dragging', 'y');
 
     // Drag by 240px (thumb size will be 25px)
     document.dispatchEvent(new PointerEvent('pointermove', { clientY: 240 }));
@@ -60,9 +60,9 @@ describe('Scrollbar thumb', () => {
     expect(component.adapter.scrollTop).toBe(0);
 
     document.dispatchEvent(new PointerEvent('pointerup'));
-    expect(adapter.dragging()).toBe('none');
+    expect(adapter.dragging()).toBeNull();
     fixture.detectChanges();
-    expect(component.nativeElement.getAttribute('dragging')).toBe('none');
+    expect(component.nativeElement).not.toHaveAttribute('dragging');
   });
 
 
@@ -77,7 +77,7 @@ describe('Scrollbar thumb', () => {
     // Verify dragging signal and attribute is set to 'X'
     expect(adapter.dragging()).toBe('x');
     fixture.detectChanges();
-    expect(component.nativeElement.getAttribute('dragging')).toBe('x');
+    expect(component.nativeElement).toHaveAttribute('dragging', 'x');
 
     // Drag by 240px (thumb size will be 25px)
     document.dispatchEvent(new PointerEvent('pointermove', { clientX: 240 }));
@@ -88,9 +88,9 @@ describe('Scrollbar thumb', () => {
     expect(component.adapter.scrollLeft).toBe(0);
 
     component.adapter.viewportElement.dispatchEvent(new PointerEvent('pointerup'));
-    expect(adapter.dragging()).toBe('none');
+    expect(adapter.dragging()).toBeNull();
     fixture.detectChanges();
-    expect(component.nativeElement.getAttribute('dragging')).toBe('none');
+    expect(component.nativeElement).not.toHaveAttribute('dragging');
   });
 
   it('[RTL] should set "isDragging" to true and scroll accordingly when horizontal scrollbar is being dragged', async () => {
@@ -106,7 +106,7 @@ describe('Scrollbar thumb', () => {
     // Verify dragging signal and attribute is set to 'X'
     expect(adapter.dragging()).toBe('x');
     fixture.detectChanges();
-    expect(component.nativeElement.getAttribute('dragging')).toBe('x');
+    expect(component.nativeElement).toHaveAttribute('dragging', 'x');
 
     // Drag by 240px (thumb size will be 25px)
     document.dispatchEvent(new PointerEvent('pointermove', { clientX: -240 }));
@@ -117,9 +117,9 @@ describe('Scrollbar thumb', () => {
     expect(component.adapter.scrollLeft).toBe(0);
 
     component.adapter.viewportElement.dispatchEvent(new PointerEvent('pointerup'));
-    expect(adapter.dragging()).toBe('none');
+    expect(adapter.dragging()).toBeNull();
     fixture.detectChanges();
-    expect(component.nativeElement.getAttribute('dragging')).toBe('none');
+    expect(component.nativeElement).not.toHaveAttribute('dragging');
   });
 
 

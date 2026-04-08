@@ -2,14 +2,14 @@ import {
   Component,
   inject,
   signal,
-  AfterViewInit,
+  afterNextRender,
   OnDestroy,
   WritableSignal,
   ChangeDetectionStrategy
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, tap } from 'rxjs';
-import { NgScrollbar, ViewportAdapter } from 'ngx-scrollbar';
+import { ViewportAdapter } from 'ngx-scrollbar';
 import { AnchorLinkComponent } from '../anchor-link/anchor-link.component';
 import { ScrollContent } from '../scroll-content.directive';
 
@@ -22,7 +22,7 @@ import { ScrollContent } from '../scroll-content.directive';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AnchorLinkComponent]
 })
-export class OverviewContentComponent implements AfterViewInit, OnDestroy {
+export class OverviewContentComponent implements OnDestroy {
 
   private fragmentSub$: Subscription;
 
@@ -38,10 +38,14 @@ export class OverviewContentComponent implements AfterViewInit, OnDestroy {
     this.scrollbar.scrollToElement(`#${ id }`, { top: -75, duration: 700 });
   }
 
-  ngAfterViewInit(): void {
-    this.fragmentSub$ = this.activatedRoute.fragment.pipe(
-      tap((fragment: string) => this.goToAnchor(fragment))
-    ).subscribe();
+  constructor() {
+    afterNextRender({
+      earlyRead: () => {
+        this.fragmentSub$ = this.activatedRoute.fragment.pipe(
+          tap((fragment: string) => this.goToAnchor(fragment))
+        ).subscribe();
+      }
+    })
   }
 
   ngOnDestroy(): void {

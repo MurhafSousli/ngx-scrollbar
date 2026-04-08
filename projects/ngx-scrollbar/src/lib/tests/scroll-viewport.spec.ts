@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { ViewportClasses } from '../utils/common';
-import { setDimensions } from './common-test.';
+import { setDimensions } from './common-test';
 
 describe('Viewport Adapter', () => {
   let component: NgScrollbar;

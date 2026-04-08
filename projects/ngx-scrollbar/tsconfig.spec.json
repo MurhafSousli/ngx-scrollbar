@@ -5,7 +5,8 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
     "types": [
-      "vitest/globals"
+      "vitest/globals",
+      "@vitest/browser"
     ]
   },
   "include": [

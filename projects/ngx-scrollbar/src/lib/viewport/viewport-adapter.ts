@@ -43,7 +43,7 @@ export class ViewportAdapter extends ScrollbarInputOutputs {
   /**
    * Indicates when scrollbar thumb is being dragged
    */
-  dragging: WritableSignal<ScrollbarDragging> = signal('none');
+  dragging: WritableSignal<ScrollbarDragging> = signal(null);
 
   private state: Signal<ViewportState> = computed(() => {
     let verticalUsed: boolean = false;

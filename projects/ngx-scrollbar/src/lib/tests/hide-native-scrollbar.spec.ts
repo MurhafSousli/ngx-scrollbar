@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgScrollbar } from 'ngx-scrollbar';
-import { setDimensions } from './common-test.';
+import { setDimensions } from './common-test';
 
 describe('Native scrollbars', () => {
   let component: NgScrollbar;
@@ -15,9 +15,8 @@ describe('Native scrollbars', () => {
   it('should hide the native scrollbars by default', () => {
     setDimensions(component, { cmpWidth: 100, cmpHeight: 100, contentWidth: 200, contentHeight: 200 });
 
-    const pseudoStyle: CSSStyleDeclaration = getComputedStyle(component.adapter.viewportElement, '::-webkit-scrollbar');
-    const scrollbarDisplay: string = pseudoStyle.getPropertyValue('display');
-
-    expect(scrollbarDisplay).toBe('none');
+    expect(component.nativeElement).toHaveStyle({
+      scrollbarWidth: 'none'
+    });
   });
 });

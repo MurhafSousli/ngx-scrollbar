@@ -46,7 +46,7 @@ describe('NgScrollHoverVisibility Directive', () => {
 
   it('should not have scrolling attribute on init', async () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
-    expect(viewportEl.getAttribute('scrolling')).toBeNull();
+    expect(viewportEl).not.toHaveAttribute('scrolling');
   });
 
   it('should set scrolling="true" when scroll event is fired', async () => {
@@ -54,7 +54,7 @@ describe('NgScrollHoverVisibility Directive', () => {
 
     // Dispatch scroll event
     viewportEl.dispatchEvent(new Event('scroll'));
-    expect(viewportEl.getAttribute('scrolling')).toBe('true');
+    expect(viewportEl).toHaveAttribute('scrolling', 'true');
   });
 
   it('should set scrolling="false" after idle delay', async () => {
@@ -62,15 +62,15 @@ describe('NgScrollHoverVisibility Directive', () => {
 
     // Trigger scroll and move past throttle
     viewportEl.dispatchEvent(new Event('scroll'));
-    expect(viewportEl.getAttribute('scrolling')).toBe('true');
+    expect(viewportEl).toHaveAttribute('scrolling', 'true');
 
     // Advance by the debounce/idle delay
     vi.advanceTimersByTime(component.scrollHideDelay());
 
-    expect(viewportEl.getAttribute('scrolling')).toBe('false');
+    expect(viewportEl).toHaveAttribute('scrolling', 'false');
   });
 
-  it('should reset the hide timer if scrolling continues',async () => {
+  it('should reset the hide timer if scrolling continues', async () => {
     await firstValueFrom(outputToObservable(adapter.afterInit));
 
     // Initial scroll
@@ -84,11 +84,11 @@ describe('NgScrollHoverVisibility Directive', () => {
 
     // Advance another 200ms (we are now at 532ms total, but only 216ms since last scroll)
     vi.advanceTimersByTime(200);
-    expect(viewportEl.getAttribute('scrolling')).toBe('true');
+    expect(viewportEl).toHaveAttribute('scrolling', 'true');
 
     // Advance final 200ms to hit the 400ms threshold from the last event
     vi.advanceTimersByTime(200);
-    expect(viewportEl.getAttribute('scrolling')).toBe('false');
+    expect(viewportEl).toHaveAttribute('scrolling', 'false');
   });
 
   it('should handle dynamic timing changes', async () => {
@@ -101,10 +101,10 @@ describe('NgScrollHoverVisibility Directive', () => {
 
     // Should still be true at the old 400ms threshold
     vi.advanceTimersByTime(400);
-    expect(viewportEl.getAttribute('scrolling')).toBe('true');
+    expect(viewportEl).toHaveAttribute('scrolling', 'true');
 
     // Should hide at the new 1000ms threshold
     vi.advanceTimersByTime(600);
-    expect(viewportEl.getAttribute('scrolling')).toBe('false');
+    expect(viewportEl).toHaveAttribute('scrolling', 'false');
   });
 });
