@@ -3,6 +3,8 @@
 ## 19.1.5
 
 - fix: Remove the legacy `-webkit-scrollbar` styles that cannot be reverted after set to `display: none`, closes [#722](https://github.com/MurhafSousli/ngx-scrollbar/issues/722).
+- refactor: Smooth scroll manager uses Web Animation API instead of `rxjs`.
+- refactor: Remove `dragging="none` attribute when it's not dragging.
 - refactor: Remove `NgZone` code.
 
 ## 19.1.4
