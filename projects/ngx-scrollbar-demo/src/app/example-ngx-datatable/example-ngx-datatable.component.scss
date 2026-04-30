@@ -14,6 +14,10 @@
 
 ng-scrollbar {
   ::ng-deep {
+    .datatable-scroll {
+      min-width: 100% !important;
+    }
+
     .ngx-datatable.material {
       .datatable-body .datatable-body-row .datatable-body-cell,
       .datatable-footer,
