@@ -16,6 +16,11 @@
       map.get($config, container-shape),
       inherit
   );
+  $z-index: if(
+      map.has-key($config, z-index),
+      map.get($config, z-index),
+      inherit
+  );
 
   $track-shape: if(
       map.has-key($config, track-shape),
@@ -175,6 +180,10 @@
 
   @if $container-shape {
     --scrollbar-container-shape: #{$container-shape};
+  }
+
+  @if $z-index {
+    --scrollbar-z-index: #{$z-index};
   }
 
   @if $track-shape {

@@ -24,6 +24,7 @@ The recommended way to apply these overrides globally is by using the @include s
 | `container-color`                         |                   | Set the scrollbar container color                        |
 | `container-offset`                        | 0px               | Set the gutter between the outer container and the edge  |
 | `container-shape`                         | 0px               | Set the border radius of the scrollbar track container   |
+| `z-index`                                 | 200               | Stacking order of the scrollbar host (raised above @angular/cdk sticky table cells, which can reach 102) |
 | `track-shape`                             | 10px              | Adjust the border radius of the scrollbar track          |
 | `track-thickness`                         | 7px               | Track thickness                                          |
 | `track-hover-thickness`                   |                   | Track hover thickness                                    |
