@@ -3,7 +3,11 @@
   height: var(--_scrollbar-wrapper-height);
   width: var(--_scrollbar-wrapper-width);
   position: sticky;
-  z-index: 100;
+  // Default raised above @angular/cdk's StickyStyler max combo (footer 10 + start/end 1 + 1 = 12,
+  // header 100 + start/end 1 + 1 = 102) so the scrollbar always sits above sticky table cells.
+  // Override via the SCSS `z-index` config key or directly with the `--scrollbar-z-index` custom
+  // property when host content uses higher z-indexes.
+  z-index: var(--scrollbar-z-index, 200);
   opacity: var(--_scrollbar-hover-opacity);
   transition: var(--_scrollbar-opacity-transition);
   background: var(--scrollbar-container-color, transparent);
